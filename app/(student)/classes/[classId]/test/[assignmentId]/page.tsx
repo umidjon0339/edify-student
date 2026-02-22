@@ -512,9 +512,9 @@ const getTodayAndYesterday = () => {
       if (userAns === q.answer) {
         correctCount++;
         const diff = (q.difficulty || 'easy').toLowerCase();
-        if (diff === 'hard') earnedBaseXP += 20;
-        else if (diff === 'medium') earnedBaseXP += 15;
-        else earnedBaseXP += 10; 
+        if (diff === 'hard') earnedBaseXP += 4;
+        else if (diff === 'medium') earnedBaseXP += 3;
+        else earnedBaseXP += 2; 
       }
     });
 
@@ -555,8 +555,8 @@ const getTodayAndYesterday = () => {
            // Case B: User played yesterday -> Increment
            currentStreak += 1;
            // Milestones
-           if (currentStreak === 7) { streakBonus = 100; streakMessage = "7 Day Streak!"; }
-           if (currentStreak === 30) { streakBonus = 500; streakMessage = "30 Day Streak!"; }
+           if (currentStreak === 7) { streakBonus = 30; streakMessage = "7 Day Streak!"; }
+           if (currentStreak === 30) { streakBonus = 200; streakMessage = "30 Day Streak!"; }
         } else {
            // Case C: Missed a day OR First time ever -> Reset
            currentStreak = 1;
@@ -569,12 +569,12 @@ const getTodayAndYesterday = () => {
         if (!isRetake) {
           xpToAward = earnedBaseXP;
           breakdown.push(`Base Score: +${earnedBaseXP}`);
-          if (scorePercentage > 80) { xpToAward += 20; breakdown.push("Perfectionist: +20"); }
+          if (scorePercentage > 80) { xpToAward += 5; breakdown.push("Perfectionist: +5"); }
           if (timeLimitSeconds > 0 && scorePercentage > 80 && durationSeconds < (timeLimitSeconds * 0.5)) {
-            xpToAward += 10; breakdown.push("Speed Demon: +10");
+            xpToAward += 5; breakdown.push("Speed Demon: +5");
           }
         } else {
-          if (scorePercentage > 60) { xpToAward = 10; breakdown.push("Practice Reward: +10"); }
+          if (scorePercentage > 60) { xpToAward = 5; breakdown.push("Practice Reward: +5"); }
           else { xpToAward = 0; breakdown.push("Retake ≤ 60%: +0"); }
         }
 
