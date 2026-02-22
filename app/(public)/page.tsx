@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState, useEffect, useContext } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
-  Rocket, BookOpen, Calculator, Globe, Brain, Palette, Zap, Star, 
-  Users, Shield, BarChart3, Eye, Layout, GraduationCap,
-  Maximize2, X, ChevronLeft, ChevronRight, CheckCircle2, 
-  MapPin, Mail, Phone, Github, Linkedin, Send, FlaskConical 
+  Rocket, BookOpen, Calculator, Globe, Brain, Palette, Zap, 
+  Users, Shield, BarChart3, ChevronRight, MapPin, Mail, Phone, 
+  Github, Linkedin, Send, FlaskConical, Play, Presentation, 
+  GraduationCap, Smartphone 
 } from 'lucide-react';
 import Link from 'next/link';
-import { LanguageContext } from './layout'; // 🟢 Importing Context from Layout
+import { LanguageContext } from './layout';
 
 // --- 1. TRANSLATION DATA ---
 
@@ -24,15 +24,15 @@ const TRANSLATIONS = {
       btnStart: "Boshlash",
       btnLogin: "Kirish"
     },
-    teacherSection: {
-      badge: "O'qituvchilar Uchun",
-      title: "O'qitishni kuchaytiruvchi vositalar.",
-      desc: "AI yordamida test yaratishdan tortib chuqur tahlilgacha — o'qituvchilarga vaqtni tejash va o'quvchilar natijalarini yaxshilash uchun super kuchlarni bering."
-    },
-    studentSection: {
-      badge: "O'quvchilar Uchun",
-      title: "Qiziqarli o'quv jarayoni.",
-      desc: "O'quvchilarga diqqatni jamlashga, o'sishni kuzatishga va natijalar bo'yicha tezkor fikr-mulohaza olishga yordam beradigan chalg'ituvchilarsiz muhit."
+    appShowcase: {
+      title: "Edify har doim yoningizda",
+      desc: "Maxsus mahalliy Android ilovalarimiz orqali platformamizning to'liq imkoniyatlaridan yo'l-yo'lakay foydalaning.",
+      teacherTitle: "EdifyTeacher",
+      teacherDesc: "Ixtiyoriy testlar yarating, o'quvchilar o'sishini real vaqtda kuzating va sinflaringizni to'g'ridan-to'g'ri cho'ntagingizdan boshqaring.",
+      studentTitle: "EdifyStudent",
+      studentDesc: "Testlarni xavfsiz ishlang, XP yig'ing, baholaringizni kuzating va istalgan vaqtda, istalgan joyda peshqadamlar ro'yxatida ko'tariling.",
+      getItOn: "Yuklab oling",
+      googlePlay: "Google Play"
     },
     benefits: {
       title: "Nega Edify ni tanlash kerak?",
@@ -51,23 +51,6 @@ const TRANSLATIONS = {
       { title: "San'at & Tarix", desc: "Gumanitar fanlar uchun vizual identifikatsiya viktorinalari va xronologik baholashlar." },
       { title: "Kimyo", desc: "Interaktiv davriy jadvallar, reaksiyalarni tenglashtirish va molekulyar tuzilmalar." }
     ],
-    teacherData: [
-      { title: "O'qituvchi Paneli", desc: "Sinfingiz uchun boshqaruv markazi. Faol testlar va statistikani bir qarashda ko'ring." },
-      { title: "AI Test Yaratish", desc: "AI yordamida soniyalar ichida murakkab testlar tuzing. LaTeX va ochiq savollarni qo'llab-quvvatlaydi." },
-      { title: "Aqlli Jurnal", desc: "Avtomatlashtirilgan baholash. Hisobotlarni eksport qiling va sinf ko'rsatkichlarini tahlil qiling." },
-      { title: "Resurslar Kutubxonasi", desc: "Savollar bankini boshqaring, eski materiallardan qayta foydalaning va fanlar bo'yicha tartiblang." },
-      { title: "Chop Etish Studiyasi", desc: "Raqamli testlarni oflayn imtihonlar uchun mukammal formatdagi PDF-larga aylantiring." },
-      { title: "Sinf Sozlamalari", desc: "O'quvchilar ro'yxati, ruxsatnomalar va imtihon xavfsizligi konfiguratsiyalarini boshqaring." }
-    ],
-    studentData: [
-      { title: "O'quvchi Portali", desc: "Shaxsiy ta'lim markazi. Kelgusi vazifalar, XP va kunlik faollikni kuzating." },
-      { title: "Mening Sinflarim", desc: "Barcha yozilgan fanlar va kutilayotgan vazifalarning tartibli ko'rinishi." },
-      { title: "Faol Imtihon", desc: "Kalkulyator va ma'lumotnomalar kabi o'rnatilgan vositalar bilan chalg'itmaydigan test muhiti." },
-      { title: "Tezkor Natijalar", desc: "Batafsil yechim tushuntirishlari bilan natijalar bo'yicha darhol fikr-mulohaza." },
-      { title: "O'quvchi Profili", desc: "Akademik o'sish, yutuqlar va to'plangan nishonlarni kuzatib boring." }
-    ],
-    experienceTitle: "Platformani His Qiling",
-    experienceDesc: "Ta'limning har ikki tomoni uchun moslashtirilgan vositalar.",
     footer: {
       desc: "Wasp-2 AI tomonidan quvvatlanadi. Maktablar va undan tashqari uchun keyingi avlod baholash vositalarini yaratish.",
       platform: "Platforma",
@@ -85,15 +68,15 @@ const TRANSLATIONS = {
       btnStart: "Get Started",
       btnLogin: "Log In"
     },
-    teacherSection: {
-      badge: "For Educators",
-      title: "Tools that empower teaching.",
-      desc: "From AI-assisted test creation to deep analytics, give your faculty the superpowers they need to save time and improve student outcomes."
-    },
-    studentSection: {
-      badge: "For Students",
-      title: "Learning made engaging.",
-      desc: "A distraction-free environment that helps students focus, track their growth, and receive instant feedback on their performance."
+    appShowcase: {
+      title: "Take Edify Anywhere",
+      desc: "Experience the full power of our platform on the go with our dedicated, native Android applications.",
+      teacherTitle: "EdifyTeacher",
+      teacherDesc: "Create custom assessments, monitor student progress in real-time, and manage your classrooms right from your pocket.",
+      studentTitle: "EdifyStudent",
+      studentDesc: "Take tests securely, earn XP, track your grades, and climb the leaderboard anytime, anywhere.",
+      getItOn: "Get it on",
+      googlePlay: "Google Play"
     },
     benefits: {
       title: "Why Choose Edify?",
@@ -112,23 +95,6 @@ const TRANSLATIONS = {
       { title: "Arts & History", desc: "Visual identification quizzes and timeline-based assessments." },
       { title: "Chemistry", desc: "Interactive periodic tables, reaction balancing, and molecular structures." }
     ],
-    teacherData: [
-      { title: "Teacher Dashboard", desc: "A command center for your classroom. View active tests, recent activity, and quick stats at a glance." },
-      { title: "AI Test Creation", desc: "Generate complex quizzes in seconds using AI. Supports LaTeX, multiple choice, and open-ended questions." },
-      { title: "Smart Gradebook", desc: "Automated grading and score tracking. Export reports and analyze class performance trends." },
-      { title: "Resource Library", desc: "Manage your question banks, reuse past materials, and organize content by subject." },
-      { title: "Print Studio", desc: "Convert digital tests into perfectly formatted PDFs for offline exams with answer keys." },
-      { title: "Class Settings", desc: "Manage student rosters, permissions, and exam security configurations." }
-    ],
-    studentData: [
-      { title: "Student Portal", desc: "Your personal learning hub. Track upcoming assignments, XP, and daily streaks." },
-      { title: "My Classes", desc: "Organized view of all enrolled subjects and pending tasks." },
-      { title: "Active Exam Interface", desc: "A distraction-free testing environment with built-in tools like calculators and reference sheets." },
-      { title: "Instant Results", desc: "Immediate feedback on performance with detailed solution explanations." },
-      { title: "Student Profile", desc: "Track your academic growth, achievements, and badge collection." }
-    ],
-    experienceTitle: "Experience the Platform",
-    experienceDesc: "Tailored tools for every side of the classroom.",
     footer: {
       desc: "Powered by Wasp-2 AI. Creating the next generation of assessment tools for Schools and beyond.",
       platform: "Platform",
@@ -146,15 +112,15 @@ const TRANSLATIONS = {
       btnStart: "Начать",
       btnLogin: "Войти"
     },
-    teacherSection: {
-      badge: "Для Учителей",
-      title: "Инструменты для эффективного обучения.",
-      desc: "От создания тестов с ИИ до глубокой аналитики — дайте преподавателям суперсилы для экономии времени и улучшения результатов."
-    },
-    studentSection: {
-      badge: "Для Учеников",
-      title: "Увлекательное обучение.",
-      desc: "Среда без отвлекающих факторов, помогающая ученикам сосредоточиться, отслеживать рост и получать мгновенную обратную связь."
+    appShowcase: {
+      title: "Edify всегда с вами",
+      desc: "Испытайте всю мощь нашей платформы в любое время и в любом месте с помощью наших нативных приложений для Android.",
+      teacherTitle: "EdifyTeacher",
+      teacherDesc: "Создавайте тесты, следите за прогрессом учеников в реальном времени и управляйте классами прямо с вашего телефона.",
+      studentTitle: "EdifyStudent",
+      studentDesc: "Безопасно проходите тесты, зарабатывайте XP, следите за оценками и поднимайтесь в таблице лидеров где угодно.",
+      getItOn: "Загрузите в",
+      googlePlay: "Google Play"
     },
     benefits: {
       title: "Почему выбирают Edify?",
@@ -173,23 +139,6 @@ const TRANSLATIONS = {
       { title: "Искусство и История", desc: "Викторины с визуальной идентификацией и хронологические оценки." },
       { title: "Химия", desc: "Интерактивные таблицы Менделеева, балансировка реакций и молекулярные структуры." }
     ],
-    teacherData: [
-      { title: "Панель Учителя", desc: "Командный центр вашего класса. Активные тесты и статистика с первого взгляда." },
-      { title: "Создание Тестов с ИИ", desc: "Создавайте сложные тесты за секунды. Поддержка LaTeX и открытых вопросов." },
-      { title: "Умный Журнал", desc: "Автоматическое оценивание. Экспорт отчетов и анализ успеваемости." },
-      { title: "Библиотека Ресурсов", desc: "Управляйте банком вопросов и организуйте контент по предметам." },
-      { title: "Студия Печати", desc: "Конвертация цифровых тестов в PDF для офлайн-экзаменов." },
-      { title: "Настройки Класса", desc: "Управление списками учеников, правами доступа и безопасностью." }
-    ],
-    studentData: [
-      { title: "Портал Ученика", desc: "Личный учебный центр. Предстоящие задания, XP и ежедневная активность." },
-      { title: "Мои Классы", desc: "Организованный вид всех предметов и ожидающих задач." },
-      { title: "Активный Экзамен", desc: "Среда тестирования без отвлечений с калькуляторами и справочниками." },
-      { title: "Мгновенные Результаты", desc: "Моментальная обратная связь с подробным объяснением решений." },
-      { title: "Профиль Ученика", desc: "Отслеживайте академический рост, достижения и коллекцию бейджей." }
-    ],
-    experienceTitle: "Опыт Платформы",
-    experienceDesc: "Инструменты, адаптированные для обеих сторон учебного процесса.",
     footer: {
       desc: "При поддержке Wasp-2 AI. Создание инструментов оценки следующего поколения.",
       platform: "Платформа",
@@ -200,23 +149,6 @@ const TRANSLATIONS = {
 };
 
 // --- 2. STATIC ASSETS & CONFIG ---
-
-const teacherImages = [
-  "/previews/teacher_dashboard.png",
-  "/previews/teacher_create_test.png",
-  "/previews/teacher_gradebook.png",
-  "/previews/teacher_library.png",
-  "/previews/teacher_print_studio.png",
-  "/previews/teacher_setting.png"
-];
-
-const studentImages = [
-  "/previews/student_dashboard.png",
-  "/previews/student_class.png",
-  "/previews/student_inside_class.png",
-  "/previews/student_test_result.png",
-  "/previews/student_profile.png"
-];
 
 const featureConfig = [
   { icon: Calculator, gradient: "from-blue-500 to-cyan-500", delay: 0.1 },
@@ -234,207 +166,18 @@ const benefitConfig = [
   { icon: Zap }
 ];
 
-// --- 3. COMPONENTS ---
-
-// Full Screen Modal
-const FullScreenModal = ({ isOpen, onClose, images, startIndex }: { isOpen: boolean, onClose: () => void, images: any[], startIndex: number }) => {
-  const [index, setIndex] = useState(startIndex);
-
-  useEffect(() => { if (isOpen) setIndex(startIndex); }, [isOpen, startIndex]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen) return;
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight') setIndex((prev) => (prev + 1) % images.length);
-      if (e.key === 'ArrowLeft') setIndex((prev) => (prev - 1 + images.length) % images.length);
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, images.length, onClose]);
-
-  if (!isOpen) return null;
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col"
-    >
-      <div className="flex items-center justify-between px-6 py-4 bg-black/40 border-b border-white/10 shrink-0">
-        <div className="flex items-center gap-3">
-            <span className="text-white font-bold text-lg">{images[index].title}</span>
-            <span className="text-slate-400 text-sm bg-white/10 px-2 py-0.5 rounded-full">{index + 1} / {images.length}</span>
-        </div>
-        <button onClick={onClose} className="p-2 bg-white/10 hover:bg-red-500/20 hover:text-red-400 rounded-full text-slate-300 transition-all">
-          <X size={24} />
-        </button>
-      </div>
-
-      <div className="flex-1 relative flex items-center justify-center p-4 overflow-hidden" onClick={onClose}>
-        <button 
-          onClick={(e) => { e.stopPropagation(); setIndex((prev) => (prev - 1 + images.length) % images.length); }}
-          className="absolute left-4 p-4 hover:bg-white/10 rounded-full text-white/50 hover:text-white transition z-50 hidden md:block"
-        >
-          <ChevronLeft size={48} />
-        </button>
-
-        <button 
-          onClick={(e) => { e.stopPropagation(); setIndex((prev) => (prev + 1) % images.length); }}
-          className="absolute right-4 p-4 hover:bg-white/10 rounded-full text-white/50 hover:text-white transition z-50 hidden md:block"
-        >
-          <ChevronRight size={48} />
-        </button>
-
-        <div className="relative w-full h-full flex flex-col items-center justify-center gap-4" onClick={(e) => e.stopPropagation()}>
-            <AnimatePresence mode='wait'>
-            <motion.img
-                key={index}
-                src={images[index].src}
-                alt={images[index].title}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-                className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
-            />
-            </AnimatePresence>
-            <p className="text-slate-300 text-base max-w-2xl text-center bg-black/50 px-4 py-2 rounded-xl backdrop-blur-sm">
-                {images[index].desc}
-            </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-// Interactive Showcase Row
-const ShowcaseRow = ({ title, description, role, data, badgeText }: { title: string, description: string, role: 'teacher' | 'student', data: any[], badgeText: string }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [autoPlay, setAutoPlay] = useState(true);
-
-  useEffect(() => {
-    if (!autoPlay) return;
-    const interval = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % data.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [autoPlay, data.length]);
-
-  const handleManualSwitch = (idx: number) => {
-    setAutoPlay(false);
-    setActiveTab(idx);
-  };
-
-  const themeColor = role === 'teacher' ? 'cyan' : 'purple';
-  const gradient = role === 'teacher' ? 'from-cyan-500 to-blue-600' : 'from-purple-500 to-pink-600';
-  const logoSrc = role === 'teacher' ? '/previews/teacher_logo.jpg' : '/previews/student_logo.png';
-  const reverse = role === 'student';
-
-  return (
-    <div className={`flex flex-col gap-8 lg:gap-16 items-start lg:items-center py-20 ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}>
-      
-      <div className="flex-1 w-full lg:w-1/2 px-4 flex flex-col justify-center h-full">
-        <div className="flex items-center gap-3 mb-6">
-            <div className={`p-2 rounded-xl bg-${themeColor}-500/10 border border-${themeColor}-500/20`}>
-                <img src={logoSrc} alt={`${role} logo`} className="w-8 h-8 object-contain" />
-            </div>
-            <span className={`text-${themeColor}-400 font-bold uppercase tracking-widest text-sm`}>
-                {badgeText}
-            </span>
-        </div>
-
-        <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">{title}</h2>
-        <p className="text-xl text-slate-300 mb-10 leading-relaxed">{description}</p>
-
-        <div className="space-y-3">
-          {data.map((item, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleManualSwitch(idx)}
-              className={`w-full text-left p-4 rounded-xl transition-all duration-300 border flex items-center justify-between group ${
-                activeTab === idx 
-                  ? `bg-gradient-to-r ${gradient} border-transparent shadow-lg transform scale-[1.02]` 
-                  : 'bg-slate-800/30 border-slate-700/50 hover:bg-slate-800 hover:border-slate-600'
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold ${activeTab === idx ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-400'}`}>
-                  {idx + 1}
-                </div>
-                <div>
-                  <h4 className={`font-bold ${activeTab === idx ? 'text-white' : 'text-slate-300'}`}>{item.title}</h4>
-                  {activeTab === idx && <p className="text-xs text-white/80 mt-1 hidden sm:block animate-in fade-in">{item.desc}</p>}
-                </div>
-              </div>
-              {activeTab === idx && <ChevronRight className="text-white" size={20} />}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex-1 w-full lg:w-1/2 px-4 relative flex items-center">
-         <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br ${gradient} opacity-20 blur-3xl -z-10`} />
-         
-         <motion.div 
-           whileHover={{ scale: 1.02 }}
-           className="relative cursor-zoom-in group w-full"
-           onClick={() => setIsModalOpen(true)}
-         >
-            <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">
-               <Maximize2 size={14} /> Full Screen
-            </div>
-
-            <div className="bg-slate-900 rounded-t-2xl border-[8px] border-slate-800 border-b-0 shadow-2xl overflow-hidden aspect-[16/10] relative w-full">
-               <AnimatePresence mode='wait'>
-                  <motion.img 
-                    key={activeTab}
-                    src={data[activeTab].src} 
-                    alt={data[activeTab].title}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.4 }}
-                    className="w-full h-full object-cover object-top"
-                  />
-               </AnimatePresence>
-            </div>
-            <div className="h-4 bg-slate-800 rounded-b-2xl shadow-xl relative w-full">
-               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1.5 bg-slate-700 rounded-b-lg"></div>
-            </div>
-         </motion.div>
-      </div>
-
-      <FullScreenModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        images={data} 
-        startIndex={activeTab} 
-      />
-    </div>
-  );
-};
-
-
 // --- 3. MAIN PAGE ---
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
-  // 🟢 CONSUME CONTEXT from Layout
-  // We explicitly cast the context type for simplicity here
+  // 🟢 CONSUME CONTEXT
   const { lang } = useContext(LanguageContext) as { lang: 'uz'|'en'|'ru' }; 
-  
-  // Get current translation
   const t = TRANSLATIONS[lang];
 
   // Merge static config with translated text
   const currentFeatures = featureConfig.map((f, i) => ({ ...f, ...t.features[i] }));
   const currentBenefits = benefitConfig.map((b, i) => ({ ...b, ...t.benefits.items[i] }));
-  
-  // Merge image paths with translated text for Showcase
-  const currentTeacherData = teacherImages.map((src, i) => ({ src, ...t.teacherData[i] }));
-  const currentStudentData = studentImages.map((src, i) => ({ src, ...t.studentData[i] }));
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -448,7 +191,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative">
       
       {/* BACKGROUND EFFECTS */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" />
         <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse animation-delay-2000" />
         <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse animation-delay-4000" />
@@ -516,33 +259,95 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* PLATFORM SHOWCASE (ZIG-ZAG) */}
-        <section className="max-w-7xl mx-auto px-4 lg:px-6 py-20 relative">
-           
-           <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-black mb-4">{t.experienceTitle}</h2>
-              <p className="text-slate-400 text-xl">{t.experienceDesc}</p>
-           </div>
+        {/* PREMIUM APP DOWNLOAD SECTION */}
+        <section className="max-w-7xl mx-auto px-4 lg:px-6 py-24 relative">
+          
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 blur-[100px] rounded-full pointer-events-none" />
 
-           {/* Teacher Row */}
-           <ShowcaseRow 
-             role="teacher"
-             title={t.teacherSection.title}
-             description={t.teacherSection.desc}
-             badgeText={t.teacherSection.badge}
-             data={currentTeacherData}
-           />
+          <div className="text-center mb-16 relative z-10">
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">{t.appShowcase.title}</h2>
+            <p className="text-slate-400 text-xl max-w-2xl mx-auto">
+              {t.appShowcase.desc}
+            </p>
+          </div>
 
-           <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent my-10" />
+          <div className="grid md:grid-cols-2 gap-8 relative z-10">
+            
+            {/* 👨‍🏫 TEACHER APP CARD */}
+            <div className="group relative bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-[2rem] p-8 md:p-10 hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all duration-500 overflow-hidden flex flex-col justify-between">
+              
+              <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/10 blur-3xl rounded-full transition-all group-hover:bg-indigo-500/20" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="w-16 h-16 bg-indigo-500/10 text-indigo-400 rounded-2xl flex items-center justify-center border border-indigo-500/20 shadow-inner">
+                    <Presentation size={32} />
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-slate-900/50 border border-slate-700 rounded-full px-3 py-1 text-xs font-bold text-slate-300">
+                    <Smartphone size={14} /> Android
+                  </div>
+                </div>
+                
+                <h3 className="text-3xl font-black text-white mb-3">{t.appShowcase.teacherTitle}</h3>
+                <p className="text-slate-400 text-lg mb-10 leading-relaxed">
+                  {t.appShowcase.teacherDesc}
+                </p>
+              </div>
 
-           {/* Student Row */}
-           <ShowcaseRow 
-             role="student"
-             title={t.studentSection.title}
-             description={t.studentSection.desc}
-             badgeText={t.studentSection.badge}
-             data={currentStudentData}
-           />
+              <a 
+                href="https://play.google.com/store/apps/details?id=uz.wasp2ai.edifyteachers&pcampaignid=web_share" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="relative z-10 flex items-center gap-4 bg-black hover:bg-zinc-900 text-white p-2 pr-6 rounded-2xl border border-zinc-800 hover:border-zinc-700 transition-all active:scale-[0.98] w-fit"
+              >
+                <div className="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center">
+                  <Play size={24} fill="currentColor" className="text-emerald-400 translate-x-0.5" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">{t.appShowcase.getItOn}</span>
+                  <span className="text-lg font-black leading-none mt-0.5">{t.appShowcase.googlePlay}</span>
+                </div>
+              </a>
+            </div>
+
+            {/* 🎓 STUDENT APP CARD */}
+            <div className="group relative bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-[2rem] p-8 md:p-10 hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all duration-500 overflow-hidden flex flex-col justify-between">
+              
+              <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full transition-all group-hover:bg-cyan-500/20" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="w-16 h-16 bg-cyan-500/10 text-cyan-400 rounded-2xl flex items-center justify-center border border-cyan-500/20 shadow-inner">
+                    <GraduationCap size={32} />
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-slate-900/50 border border-slate-700 rounded-full px-3 py-1 text-xs font-bold text-slate-300">
+                    <Smartphone size={14} /> Android
+                  </div>
+                </div>
+                
+                <h3 className="text-3xl font-black text-white mb-3">{t.appShowcase.studentTitle}</h3>
+                <p className="text-slate-400 text-lg mb-10 leading-relaxed">
+                  {t.appShowcase.studentDesc}
+                </p>
+              </div>
+
+              <a 
+                href="https://play.google.com/store/apps/details?id=uz.wasp2ai.edifystudent&pcampaignid=web_share" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="relative z-10 flex items-center gap-4 bg-black hover:bg-zinc-900 text-white p-2 pr-6 rounded-2xl border border-zinc-800 hover:border-zinc-700 transition-all active:scale-[0.98] w-fit"
+              >
+                <div className="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center">
+                  <Play size={24} fill="currentColor" className="text-cyan-400 translate-x-0.5" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">{t.appShowcase.getItOn}</span>
+                  <span className="text-lg font-black leading-none mt-0.5">{t.appShowcase.googlePlay}</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
         </section>
 
         {/* BENEFITS SECTION */}
@@ -595,6 +400,7 @@ export default function LandingPage() {
                 </motion.a>
                 <motion.a 
                   href="https://www.linkedin.com/company/wasp-2-ai" 
+                  target="_blank"
                   className="w-12 h-12 rounded-xl bg-slate-800/70 flex items-center justify-center text-slate-400 hover:text-blue-400 hover:bg-gradient-to-br hover:from-blue-600 hover:to-cyan-500 transition-all border border-slate-700/50"
                   whileHover={{ y: -4, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -602,7 +408,8 @@ export default function LandingPage() {
                   <Linkedin className="w-6 h-6" />
                 </motion.a>
                 <motion.a 
-                  href="https://t.me/u_m_i_d_j_o_n_006" 
+                  href="https://t.me/umidjon0339" 
+                  target="_blank"
                   className="w-12 h-12 rounded-xl bg-slate-800/70 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:bg-gradient-to-br hover:from-cyan-600 hover:to-teal-500 transition-all border border-slate-700/50"
                   whileHover={{ y: -4, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
