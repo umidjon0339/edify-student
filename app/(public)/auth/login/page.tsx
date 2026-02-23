@@ -232,7 +232,7 @@ export default function LoginPage() {
         </div>
 
         {/* 1. GOOGLE BUTTON */}
-        <button
+        {/* <button
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
@@ -251,14 +251,14 @@ export default function LoginPage() {
               {t.googleBtn}
             </>
           )}
-        </button>
+        </button> */}
 
         {/* 2. DIVIDER */}
-        <div className="flex items-center gap-3 mb-6">
+        {/* <div className="flex items-center gap-3 mb-6">
           <div className="flex-1 h-px bg-slate-700"></div>
           <span className="text-xs text-slate-500 font-bold uppercase">{t.divider}</span>
           <div className="flex-1 h-px bg-slate-700"></div>
-        </div>
+        </div> */}
 
         {/* 3. LOGIN FORM */}
         <form onSubmit={handleLogin} className="space-y-5">

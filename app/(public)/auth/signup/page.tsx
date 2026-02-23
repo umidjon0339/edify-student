@@ -611,7 +611,7 @@ export default function SignupPage() {
             {step === 1 && (
               <div className="space-y-4 animate-in fade-in slide-in-from-right">
                 
-                <button
+                {/* <button
                   type="button"
                   onClick={handleGoogleSignIn}
                   disabled={loading}
@@ -630,13 +630,13 @@ export default function SignupPage() {
                       {t.buttons.google}
                     </>
                   )}
-                </button>
+                </button> */}
 
-                <div className="flex items-center gap-3">
+                {/* <div className="flex items-center gap-3">
                   <div className="flex-1 h-px bg-slate-700"></div>
                   <span className="text-xs text-slate-500 font-bold uppercase">Or manually</span>
                   <div className="flex-1 h-px bg-slate-700"></div>
-                </div>
+                </div> */}
 
                 <div className="relative group">
                   <Mail className="absolute left-4 top-3.5 text-slate-500 group-focus-within:text-cyan-400 transition-colors" size={20} />
