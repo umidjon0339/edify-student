@@ -161,7 +161,7 @@ export default function LoginPage() {
       if (userDoc.exists()) {
         const profile = userDoc.data();
         // 🟢 Translated Success
-        toast.success(t.welcomeBack.replace("{name}", profile.displayName || "User"));
+        toast.success(t.welcomeBack.replace("{name}", profile.displayName || "User"),{ duration: 4000 });
         
         if (profile.role === "teacher") {
           router.push("/teacher/dashboard");

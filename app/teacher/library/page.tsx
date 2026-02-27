@@ -2,56 +2,41 @@
 
 import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
-import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, limit } from 'firebase/firestore'; // 🟢 Added limit
 import { useAuth } from '@/lib/AuthContext';
-import { FolderOpen, Archive, Loader2, Search, Library, Sparkles } from 'lucide-react';
+import { FolderOpen, Archive, Loader2, Search, Library, Sparkles, ChevronDown } from 'lucide-react'; // 🟢 Added ChevronDown
 import TestCard from './_components/TestCard';
 import EditTestModal from './_components/EditTestModal';
-import { useTeacherLanguage } from '@/app/teacher/layout'; // 🟢 Import Hook
+import { useTeacherLanguage } from '@/app/teacher/layout';
 
 // --- 1. TRANSLATION DICTIONARY ---
 const LIBRARY_TRANSLATIONS = {
   uz: {
     title: "Mening Kutubxonam",
     subtitle: "Yaratilgan testlaringizni boshqaring va kuzatib boring.",
-    filters: {
-      active: "Faol Testlar",
-      archived: "Arxivlangan"
-    },
+    filters: { active: "Faol Testlar", archived: "Arxivlangan" },
     search: "Nom yoki kirish kodi bo'yicha qidirish...",
-    empty: {
-      title: "testlar topilmadi.",
-      desc: "Boshlash uchun yangi test yarating."
-    },
-    noFilter: "Hech qanday"
+    empty: { title: "testlar topilmadi.", desc: "Boshlash uchun yangi test yarating." },
+    noFilter: "Hech qanday",
+    loadMore: "Yana 10 ta yuklash" // 🟢 Added Translation
   },
   en: {
     title: "My Library",
     subtitle: "Manage and monitor your created assessments.",
-    filters: {
-      active: "Active Tests",
-      archived: "Archived"
-    },
+    filters: { active: "Active Tests", archived: "Archived" },
     search: "Search by Title or Access Code...",
-    empty: {
-      title: "tests found.",
-      desc: "Create a new test to get started."
-    },
-    noFilter: "No"
+    empty: { title: "tests found.", desc: "Create a new test to get started." },
+    noFilter: "No",
+    loadMore: "Load Next 10" // 🟢 Added Translation
   },
   ru: {
     title: "Моя Библиотека",
     subtitle: "Управляйте и следите за созданными тестами.",
-    filters: {
-      active: "Активные",
-      archived: "Архив"
-    },
+    filters: { active: "Активные", archived: "Архив" },
     search: "Поиск по названию или коду...",
-    empty: {
-      title: "тестов не найдено.",
-      desc: "Создайте новый тест, чтобы начать."
-    },
-    noFilter: "Нет"
+    empty: { title: "тестов не найдено.", desc: "Создайте новый тест, чтобы начать." },
+    noFilter: "Нет",
+    loadMore: "Загрузить еще 10" // 🟢 Added Translation
   }
 };
 
@@ -66,18 +51,24 @@ export default function LibraryPage() {
   const [filter, setFilter] = useState<'active' | 'archived'>('active');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // 🟢 Pagination State
+  const [fetchLimit, setFetchLimit] = useState(10);
+  const [hasMore, setHasMore] = useState(true);
+
   // Modal State
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  // Fetch Tests Real-time
+  // Fetch Tests Real-time (Optimized)
   useEffect(() => {
     if (!user) return;
 
+    // 🟢 Added limit() to the query
     const q = query(
       collection(db, 'custom_tests'),
       where('teacherId', '==', user.uid),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'desc'),
+      limit(fetchLimit) 
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -86,11 +77,14 @@ export default function LibraryPage() {
         ...doc.data()
       }));
       setTests(data);
+      
+      // 🟢 Check if there are more documents to load
+      setHasMore(snapshot.docs.length >= fetchLimit);
       setIsLoadingData(false);
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, fetchLimit]); // 🟢 Re-run listener when limit changes
 
   // Filtering Logic
   const filteredTests = tests.filter(test => {
@@ -105,7 +99,7 @@ export default function LibraryPage() {
     setIsEditOpen(true);
   };
 
-  if (loading || isLoadingData) {
+  if (loading || (isLoadingData && tests.length === 0)) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <Loader2 className="animate-spin text-indigo-600" size={32}/>
@@ -118,7 +112,6 @@ export default function LibraryPage() {
       
       {/* 1. HERO HEADER */}
       <div className="bg-white border-b border-slate-200 pt-8 pb-12 px-6 md:px-10 relative overflow-hidden">
-        {/* Decorative Blobs */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-50 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
 
@@ -171,7 +164,7 @@ export default function LibraryPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTests.length > 0 ? (
             filteredTests.map((test, idx) => (
-              <div key={test.id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'backwards' }}>
+              <div key={test.id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${(idx % 10) * 50}ms`, animationFillMode: 'backwards' }}>
                 <TestCard 
                   test={test} 
                   onManage={() => handleManage(test)} 
@@ -191,7 +184,19 @@ export default function LibraryPage() {
           )}
         </div>
 
-       {/* 4. Edit Modal */}
+        {/* 🟢 4. LOAD MORE BUTTON */}
+        {hasMore && !searchQuery && (
+          <div className="flex justify-center pt-4 pb-8">
+            <button 
+              onClick={() => setFetchLimit(prev => prev + 10)}
+              className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 font-bold py-3 px-8 rounded-xl shadow-sm transition-all active:scale-95"
+            >
+              {t.loadMore} <ChevronDown size={18} />
+            </button>
+          </div>
+        )}
+
+       {/* Edit Modal */}
        {selectedTest && (
           <EditTestModal 
             key={selectedTest.id} 

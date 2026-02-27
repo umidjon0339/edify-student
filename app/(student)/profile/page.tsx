@@ -378,10 +378,10 @@ const AboutModal = ({
               </h3>
 
               <ContactCard
-                href="https://t.me/U_m_i_d_j_o_n_006"
+                href="https://t.me/Umidjon0339" // 🟢 Trigger Telegram
                 colorClass="from-blue-400 to-blue-600"
                 title={t.telegram}
-                value="@U_m_i_d_j_o_n_006"
+                value="@Umidjon0339"
                 icon={<Send size={20} />} 
               />
 

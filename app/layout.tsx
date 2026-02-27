@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css'; // Your Tailwind CSS
-import { AuthProvider } from '@/lib/AuthContext'; // 👈 Connects Firebase Auth
-import { Toaster } from 'react-hot-toast'; // 👈 Global Notifications
+import './globals.css'; 
+import { AuthProvider } from '@/lib/AuthContext'; 
+import { Toaster } from 'react-hot-toast'; 
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-white text-slate-900`}>
-        {/* Wrap everything in AuthProvider so we can access 'user' anywhere */}
+        
         <AuthProvider>
           {children}
           <Toaster position="top-center" toastOptions={{ duration: 3000 }}/>

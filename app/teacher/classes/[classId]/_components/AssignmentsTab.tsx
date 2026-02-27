@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
-import { collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, deleteDoc, doc, limit } from 'firebase/firestore'; // 🟢 Added limit
 import { 
   FileText, Calendar, Clock, Trash2, Users, Edit2, Plus, 
-  Copy, AlertTriangle, AlertCircle, Search, X 
+  Copy, AlertTriangle, AlertCircle, Search, X, ChevronDown // 🟢 Added ChevronDown
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useTeacherLanguage } from '@/app/teacher/layout'; // 🟢 Import Hook
@@ -15,6 +15,7 @@ const ASSIGN_TAB_TRANSLATIONS = {
   uz: {
     emptyTitle: "Hozircha topshiriqlar yo'q",
     createBtn: "Topshiriq Yaratish",
+    loadMore: "Yana 10 ta yuklash", // 🟢 Added
     status: {
       scheduled: "Rejalashtirilgan",
       active: "Faol",
@@ -46,6 +47,7 @@ const ASSIGN_TAB_TRANSLATIONS = {
   en: {
     emptyTitle: "No assignments yet",
     createBtn: "Create Assignment",
+    loadMore: "Load Next 10", // 🟢 Added
     status: {
       scheduled: "Scheduled",
       active: "Active",
@@ -77,6 +79,7 @@ const ASSIGN_TAB_TRANSLATIONS = {
   ru: {
     emptyTitle: "Заданий пока нет",
     createBtn: "Создать Задание",
+    loadMore: "Загрузить еще 10", // 🟢 Added
     status: {
       scheduled: "Запланировано",
       active: "Активно",
@@ -122,13 +125,26 @@ export default function AssignmentsTab({ classId, roster = [], onEdit, onAdd }: 
   const [deleteData, setDeleteData] = useState<any>(null);
   const [progressData, setProgressData] = useState<any>(null);
 
+  // 🟢 Pagination State
+  const [fetchLimit, setFetchLimit] = useState(10);
+  const [hasMore, setHasMore] = useState(true);
+
+  // 🟢 Optimized useEffect with dynamic limits
   useEffect(() => {
-    const qAssign = query(collection(db, 'classes', classId, 'assignments'), orderBy('createdAt', 'desc'));
+    const qAssign = query(
+      collection(db, 'classes', classId, 'assignments'), 
+      orderBy('createdAt', 'desc'),
+      limit(fetchLimit)
+    );
+    
     const unsubscribe = onSnapshot(qAssign, (snap) => {
       setAssignments(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      // Determine if there are more assignments to load
+      setHasMore(snap.docs.length >= fetchLimit);
     });
+    
     return () => unsubscribe();
-  }, [classId]);
+  }, [classId, fetchLimit]);
 
   const handleDeleteConfirm = async () => {
     if (!deleteData) return;
@@ -255,6 +271,18 @@ export default function AssignmentsTab({ classId, roster = [], onEdit, onAdd }: 
             )
           })}
         </div>
+        
+        {/* 🟢 LOAD MORE BUTTON */}
+        {hasMore && assignments.length > 0 && (
+          <div className="flex justify-center pt-4 pb-2">
+            <button 
+              onClick={() => setFetchLimit(prev => prev + 10)}
+              className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 font-bold py-3 px-8 rounded-xl shadow-sm transition-all active:scale-95"
+            >
+              {t.loadMore} <ChevronDown size={18} />
+            </button>
+          </div>
+        )}
       </div>
 
       {deleteData && (

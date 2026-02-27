@@ -1007,13 +1007,13 @@ export default function SettingsPage() {
                         <span className="w-1 h-4 bg-indigo-500 rounded-full"></span> {t.about.support}
                     </h3>
                     
-                    <a href="https://t.me/U_m_i_d_j_o_n_006" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-300">
+                    <a href="https://t.me/Umidjon0339" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-300">
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-sm text-white bg-gradient-to-br from-blue-400 to-blue-600 group-hover:scale-110 transition-transform duration-300">
                           <Send size={24} />
                         </div>
                         <div>
                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Telegram</p>
-                          <p className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors">@U_m_i_d_j_o_n_006</p>
+                          <p className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors">@Umidjon0339</p>
                         </div>
                     </a>
 
