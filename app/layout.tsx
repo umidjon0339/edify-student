@@ -22,7 +22,7 @@ export default function RootLayout({
         
         <AuthProvider>
           {children}
-          <Toaster position="top-center" toastOptions={{ duration: 3000 }}/>
+          <Toaster position="top-center" toastOptions={{ duration: 1500 }}/>
         </AuthProvider>
       </body>
     </html>

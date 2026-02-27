@@ -316,7 +316,8 @@ export default function SignupPage() {
 
       if (userDoc.exists()) {
         const existingData = userDoc.data();
-        toast.success(`Welcome back, ${existingData.displayName || "User"}!`);
+        toast.success(`Welcome back, ${existingData.displayName || "User"}!`,{ duration: 4000 });
+
         if (existingData.role === "teacher") {
           router.push("/teacher/dashboard");
         } else {
@@ -460,7 +461,7 @@ export default function SignupPage() {
       batch.set(doc(db, "usernames", formData.username.toLowerCase()), { uid: user.uid });
 
       await batch.commit();
-      toast.success(t.validation.welcome.replace("{role}", role === "teacher" ? "Professor" : "Student"));
+      toast.success(t.validation.welcome.replace("{role}", role === "teacher" ? "Professor" : "Student"),{ duration: 4000 });
       if (role === "teacher") router.push("/teacher/dashboard");
       else router.push("/dashboard");
     } catch (error: any) {
