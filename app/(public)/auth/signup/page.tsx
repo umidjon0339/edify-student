@@ -18,7 +18,7 @@ import {
   Loader2, ArrowRight, ArrowLeft, CheckCircle, XCircle, GraduationCap,
   School, User, Mail, Lock, MapPin, Building2, Eye, EyeOff,
 } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { LanguageContext } from "@/app/(public)/layout"; // 🟢 Import Context
 
@@ -480,7 +480,6 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-slate-900">
-      <Toaster position="top-center" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}

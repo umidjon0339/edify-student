@@ -13,7 +13,7 @@ import {
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { Loader2, Mail, Lock, LogIn, ChevronRight, Eye, EyeOff } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { LanguageContext } from "@/app/(public)/layout"; // 🟢 Import Context from your layout
 
@@ -213,7 +213,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center p-4 bg-slate-900 pt-20">
-      <Toaster position="top-center" />
       
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
