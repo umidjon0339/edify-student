@@ -569,15 +569,42 @@ const getTodayAndYesterday = () => {
         if (!isRetake) {
           xpToAward = earnedBaseXP;
           breakdown.push(`Base Score: +${earnedBaseXP}`);
-          if (scorePercentage > 80) { xpToAward += 5; breakdown.push("Perfectionist: +5"); }
-          if (timeLimitSeconds > 0 && scorePercentage > 80 && durationSeconds < (timeLimitSeconds * 0.5)) {
-            xpToAward += 5; breakdown.push("Speed Demon: +5");
+          
+          // 🟢 TAB-SWITCH JARIMASI (1-urinish uchun)
+          // Agar o'quvchi umuman boshqa oynaga o'tmagan bo'lsagina bonuslar beriladi
+          if (state.tabSwitchCount === 0) {
+            if (scorePercentage > 80) { 
+              xpToAward += 5; 
+              breakdown.push("Perfectionist: +5"); 
+            }
+            if (timeLimitSeconds > 0 && scorePercentage > 80 && durationSeconds < (timeLimitSeconds * 0.5)) {
+              xpToAward += 5; 
+              breakdown.push("Speed Demon: +5");
+            }
+          } else {
+            // Agar boshqa oynaga o'tgan bo'lsa, bonuslar bekor qilinadi
+            breakdown.push(`No Bonus (Focus Lost ${state.tabSwitchCount}x)`);
           }
         } else {
-          if (scorePercentage > 60) { xpToAward = 5; breakdown.push("Practice Reward: +5"); }
-          else { xpToAward = 0; breakdown.push("Retake ≤ 60%: +0"); }
+          // 🟢 YANGILANGAN RETAKE (Qayta ishlash) QOIDALARI
+          // Shartlar: 60% dan baland + Savollar soni 5 tadan ko'p + Tab switch 2 martadan kam bo'lishi kerak
+          if (scorePercentage > 60 && state.questions.length > 5 && state.tabSwitchCount < 2) { 
+            xpToAward = 5; 
+            breakdown.push("Practice Reward: +5"); 
+          } else { 
+            xpToAward = 0; 
+            // Nega XP berilmaganini Breakdown'da aniq ko'rsatamiz:
+            if (state.questions.length <= 5) {
+              breakdown.push("Short Test (<6 Qs): +0");
+            } else if (state.tabSwitchCount >= 2) {
+              breakdown.push("Cheating Penalty: +0");
+            } else {
+              breakdown.push("Retake ≤ 60%: +0"); 
+            }
+          }
         }
 
+        // Streak bonusi (bu o'zgarmaydi)
         if (streakBonus > 0) {
           xpToAward += streakBonus;
           breakdown.push(`${streakMessage}: +${streakBonus}`);
@@ -630,7 +657,14 @@ const getTodayAndYesterday = () => {
         };
         transaction.set(attemptRef, attemptData, { merge: true });
 
-        return { xpToAward, breakdown, currentStreak };
+        return { 
+          xpToAward, 
+          breakdown, 
+          currentStreak,
+          // 🟢 Grab the latest name and avatar from Firestore directly
+          latestName: userData.displayName || user.displayName || 'Student',
+          latestAvatar: userData.photoURL || user.photoURL || null 
+        };
       });
 
       // 3. WRITE FAN-OUT (Leaderboards)
@@ -640,8 +674,8 @@ const getTodayAndYesterday = () => {
         
         const leaderboardData = {
           uid: userId,
-          displayName: user.displayName || 'Student',
-          avatar: user.photoURL || null,
+          displayName: result.latestName, // 🟢 Now uses guaranteed latest name
+          avatar: result.latestAvatar,    // 🟢 Now uses guaranteed latest avatar
           classId: classId,
           xp: increment(result.xpToAward), 
           lastActive: serverTimestamp()
