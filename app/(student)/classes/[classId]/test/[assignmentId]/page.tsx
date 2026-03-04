@@ -534,31 +534,33 @@ const getTodayAndYesterday = () => {
         const userDoc = await transaction.get(userRef);
         
         const isRetake = attemptDoc.exists();
+        // 🟢 1. Safely read previous attempts for the XP Cap
+        const attemptDataDB = isRetake ? attemptDoc.data() : {};
+        const previousAttempts = attemptDataDB?.attemptsTaken || 0;
+
         const userData = userDoc.exists() ? userDoc.data() : {};
+
+        // 🟢 2. Safely read existing recent activity (ensure it's an array to prevent spread crashes)
+        const existingHistory = Array.isArray(userData?.recentActivity) ? userData.recentActivity : [];
 
         // --- ROBUST STREAK CALCULATION ---
         const { todayStr, yesterdayStr } = getTodayAndYesterday();
         
         // Sanitize DB Data (Handle missing fields)
-        const lastActive = userData.lastActiveDate || "";
-        let currentStreak = userData.currentStreak || 0;
+        const lastActive = userData?.lastActiveDate || "";
+        let currentStreak = userData?.currentStreak || 0;
         
         let streakBonus = 0;
         let streakMessage = "";
 
         // 🟢 LOGIC MAP:
         if (lastActive === todayStr) {
-           // Case A: User already played today.
-           // FIX: Ensure streak is at least 1 (Self-Healing)
            if (currentStreak === 0) currentStreak = 1;
         } else if (lastActive === yesterdayStr) {
-           // Case B: User played yesterday -> Increment
            currentStreak += 1;
-           // Milestones
            if (currentStreak === 7) { streakBonus = 30; streakMessage = "7 Day Streak!"; }
            if (currentStreak === 30) { streakBonus = 200; streakMessage = "30 Day Streak!"; }
         } else {
-           // Case C: Missed a day OR First time ever -> Reset
            currentStreak = 1;
         }
 
@@ -566,12 +568,15 @@ const getTodayAndYesterday = () => {
         let xpToAward = 0;
         let breakdown: string[] = [];
 
-        if (!isRetake) {
+        // 🟢 3. ADDED MAX RETAKE CAP (Matches Android)
+        if (previousAttempts >= 10) {
+          xpToAward = 0;
+          breakdown.push("Max retakes reached: +0");
+        }
+        else if (!isRetake) {
           xpToAward = earnedBaseXP;
           breakdown.push(`Base Score: +${earnedBaseXP}`);
           
-          // 🟢 TAB-SWITCH JARIMASI (1-urinish uchun)
-          // Agar o'quvchi umuman boshqa oynaga o'tmagan bo'lsagina bonuslar beriladi
           if (state.tabSwitchCount === 0) {
             if (scorePercentage > 80) { 
               xpToAward += 5; 
@@ -582,18 +587,14 @@ const getTodayAndYesterday = () => {
               breakdown.push("Speed Demon: +5");
             }
           } else {
-            // Agar boshqa oynaga o'tgan bo'lsa, bonuslar bekor qilinadi
             breakdown.push(`No Bonus (Focus Lost ${state.tabSwitchCount}x)`);
           }
         } else {
-          // 🟢 YANGILANGAN RETAKE (Qayta ishlash) QOIDALARI
-          // Shartlar: 60% dan baland + Savollar soni 5 tadan ko'p + Tab switch 2 martadan kam bo'lishi kerak
           if (scorePercentage > 60 && state.questions.length > 5 && state.tabSwitchCount < 2) { 
             xpToAward = 5; 
             breakdown.push("Practice Reward: +5"); 
           } else { 
             xpToAward = 0; 
-            // Nega XP berilmaganini Breakdown'da aniq ko'rsatamiz:
             if (state.questions.length <= 5) {
               breakdown.push("Short Test (<6 Qs): +0");
             } else if (state.tabSwitchCount >= 2) {
@@ -604,20 +605,17 @@ const getTodayAndYesterday = () => {
           }
         }
 
-        // Streak bonusi (bu o'zgarmaydi)
         if (streakBonus > 0) {
           xpToAward += streakBonus;
           breakdown.push(`${streakMessage}: +${streakBonus}`);
         }
 
         // --- DAILY HISTORY LOGIC (30 Days) ---
-        let dailyHistory = userData.dailyHistory || {};
+        let dailyHistory = userData?.dailyHistory || {};
         
-        // 1. Add XP to Today
         const currentDailyXP = dailyHistory[todayStr] || 0;
         dailyHistory[todayStr] = currentDailyXP + xpToAward;
 
-        // 2. Prune Old Dates
         const sortedDates = Object.keys(dailyHistory).sort(); 
         if (sortedDates.length > 30) {
           const newHistory: Record<string, number> = {};
@@ -626,21 +624,34 @@ const getTodayAndYesterday = () => {
           dailyHistory = newHistory;
         }
 
+        // 🟢 4. ADDED RECENT ACTIVITY TRACKING (Matches Android)
+        const newActivityEntry = {
+          id: attemptDocId,
+          testTitle: state.test.title,
+          score: correctCount,
+          totalQuestions: state.questions.length,
+          submittedAt: Date.now() // Use epoch time for array objects to prevent Firebase FieldValue errors
+        };
+        
+        // Prepend the new entry and keep only the latest 5
+        const updatedHistory = [newActivityEntry, ...existingHistory].slice(0, 5);
+
         // B. WRITE DATA
 
         // 1. Update User Profile
         transaction.set(userRef, {
           totalXP: increment(xpToAward), 
-          currentStreak: currentStreak, // Saved Correctly
+          currentStreak: currentStreak, 
           dailyHistory: dailyHistory,
           lastActiveDate: todayStr,
           displayName: user.displayName, 
           email: user.email,
-          lastActiveTimestamp: serverTimestamp()
+          lastActiveTimestamp: serverTimestamp(),
+          recentActivity: updatedHistory // 🟢 Write the new array to Firestore
         }, { merge: true });
 
         // 2. Update Attempt
-        const attemptData = {
+        const attemptDataToSave = {
           userId,
           userName: user.displayName,
           classId,
@@ -655,15 +666,14 @@ const getTodayAndYesterday = () => {
           attemptsTaken: isRetake ? increment(1) : 1,
           xpEarned: xpToAward 
         };
-        transaction.set(attemptRef, attemptData, { merge: true });
+        transaction.set(attemptRef, attemptDataToSave, { merge: true });
 
         return { 
           xpToAward, 
           breakdown, 
           currentStreak,
-          // 🟢 Grab the latest name and avatar from Firestore directly
-          latestName: userData.displayName || user.displayName || 'Student',
-          latestAvatar: userData.photoURL || user.photoURL || null 
+          latestName: userData?.displayName || user.displayName || 'Student',
+          latestAvatar: userData?.photoURL || user.photoURL || null 
         };
       });
 

@@ -7,7 +7,8 @@ import { db } from '@/lib/firebase';
 import { doc, getDoc, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { 
   Trophy, Flame, Target, ArrowRight, Star, 
-  CheckCircle, Activity, Sparkles, Clock, School
+  CheckCircle, Activity, Sparkles, Clock, School,
+  Smartphone, DownloadCloud // 🟢 Added these two
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStudentLanguage } from '../layout'; 
@@ -53,6 +54,11 @@ const DASHBOARD_TRANSLATIONS = {
         Serious: "Jiddiy",
         Insane: "Dahshat"
       }
+    },
+    appPromo: {
+      title: "Mobil ilovani yuklab oling!",
+      desc: "Yangi imkoniyatlar uchun Play Store'dan yangilang yoki yuklab oling.",
+      button: "Play Store'dan yuklash"
     }
   },
   en: {
@@ -94,6 +100,11 @@ const DASHBOARD_TRANSLATIONS = {
         Serious: "Serious",
         Insane: "Insane"
       }
+    },
+    appPromo: {
+      title: "Get the Mobile App!",
+      desc: "Update or download from the Play Store for anti-cheat features and the best experience.",
+      button: "Get it on Play Store"
     }
   },
   ru: {
@@ -135,6 +146,11 @@ const DASHBOARD_TRANSLATIONS = {
         Serious: "Серьезный",
         Insane: "Безумный"
       }
+    },
+    appPromo: {
+      title: "Скачайте мобильное приложение!",
+      desc: "Обновите или скачайте с Play Store для защиты от списывания и новых функций.",
+      button: "Скачать с Play Store"
     }
   }
 };
@@ -360,6 +376,43 @@ export default function StudentDashboard() {
             </motion.button>
           </div>
         </motion.div>
+
+        {/* 🟢 NEW: APP PROMO BANNER 🟢 */}
+        <motion.div
+          className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 md:p-8 shadow-2xl shadow-emerald-500/20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-400/30"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+        >
+          {/* Animated background decoration */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-teal-900 opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div className="relative z-10 flex items-center gap-5 w-full md:w-auto">
+            <div className="p-4 bg-white/20 rounded-2xl backdrop-blur-md text-white shrink-0 shadow-inner border border-white/20">
+              <Smartphone size={36} />
+            </div>
+            <div>
+              <h3 className="text-2xl font-black text-white tracking-tight">{t.appPromo.title}</h3>
+              <p className="text-emerald-50 font-medium mt-1 max-w-md text-sm md:text-base leading-relaxed">
+                {t.appPromo.desc}
+              </p>
+            </div>
+          </div>
+
+          <motion.a
+            href="https://play.google.com/store/apps/details?id=uz.wasp2ai.edifystudent"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative z-10 w-full md:w-auto px-8 py-4 bg-white text-emerald-700 font-black rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all shrink-0"
+          >
+            <DownloadCloud size={24} />
+            {t.appPromo.button}
+          </motion.a>
+        </motion.div>
+        {/* 🟢 END OF APP PROMO BANNER 🟢 */}
 
         {/* STATS GRID */}
         <motion.div 
