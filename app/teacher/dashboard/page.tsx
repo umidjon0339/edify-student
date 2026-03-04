@@ -8,7 +8,8 @@ import {
   Plus, Users, FileText, Activity, 
   Layout, Bell, Settings, BookOpen, 
   ChevronRight, Clock, Star, Zap,
-  BarChart2, Calendar, Sparkles
+  BarChart2, Calendar, Sparkles,
+  Smartphone, DownloadCloud // 🟢 Added these two
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTeacherLanguage } from '@/app/teacher/layout';
@@ -45,6 +46,11 @@ const DASHBOARD_TRANSLATIONS = {
       empty: "Hozircha faoliyat yo'q",
       submitted: "testni ishladi",
       score: "Ball"
+    },
+    appPromo: {
+      title: "Mobil ilovani yuklab oling!",
+      desc: "Sinflaringizni boshqaring, natijalarni ko'ring va o'quvchilarni telefoningizdan kuzating.",
+      button: "Play Store'dan yuklash"
     }
   },
   en: {
@@ -77,6 +83,11 @@ const DASHBOARD_TRANSLATIONS = {
       empty: "No recent activity",
       submitted: "completed",
       score: "Score"
+    },
+    appPromo: {
+      title: "Get the Mobile App!",
+      desc: "Manage classes, view analytics, and monitor your students directly from your phone.",
+      button: "Get it on Play Store"
     }
   },
   ru: {
@@ -109,6 +120,11 @@ const DASHBOARD_TRANSLATIONS = {
       empty: "Активности пока нет",
       submitted: "завершил(а)",
       score: "Балл"
+    },
+    appPromo: {
+      title: "Скачайте мобильное приложение!",
+      desc: "Управляйте классами, смотрите аналитику и следите за учениками прямо с телефона.",
+      button: "Скачать с Play Store"
     }
   }
 };
@@ -228,6 +244,35 @@ export default function TeacherDashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 -mt-8 space-y-8">
+        {/* 🟢 NEW: APP PROMO BANNER 🟢 */}
+        <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-[2rem] p-6 md:p-8 shadow-2xl shadow-emerald-500/20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-400/30 animate-in fade-in slide-in-from-bottom-4 duration-500 relative z-10">
+          {/* Animated background decoration */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-teal-900 opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div className="relative z-10 flex items-center gap-5 w-full md:w-auto">
+            <div className="p-4 bg-white/20 rounded-2xl backdrop-blur-md text-white shrink-0 shadow-inner border border-white/20">
+              <Smartphone size={36} />
+            </div>
+            <div>
+              <h3 className="text-2xl font-black text-white tracking-tight">{t.appPromo.title}</h3>
+              <p className="text-emerald-50 font-medium mt-1 max-w-md text-sm md:text-base leading-relaxed">
+                {t.appPromo.desc}
+              </p>
+            </div>
+          </div>
+
+          <a
+            href="https://play.google.com/store/apps/details?id=uz.wasp2ai.edifyteachers"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative z-10 w-full md:w-auto px-8 py-4 bg-white text-emerald-700 font-black rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex items-center justify-center gap-3 hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all duration-300 shrink-0"
+          >
+            <DownloadCloud size={24} />
+            {t.appPromo.button}
+          </a>
+        </div>
+        {/* 🟢 END OF APP PROMO BANNER 🟢 */}
         
         {/* 2. STATS GRID (Gradient Cards like Analytics) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
