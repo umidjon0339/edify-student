@@ -39,7 +39,7 @@ const SIDEBAR_TRANSLATIONS = {
       overview: "Umumiy",
       library: "Kutubxona",
       classes: "Sinflar",
-      analytics: "Tahlillar",
+      analytics: "AI Tahlilchi",
       profile: "Profil"
     },
     create: "Yangi Test Yaratish",
@@ -52,7 +52,7 @@ const SIDEBAR_TRANSLATIONS = {
       overview: "Overview",
       library: "My Library",
       classes: "My Classes",
-      analytics: "Analytics",
+      analytics: "AI Analytics",
       profile: "Profile"
     },
     create: "Create New Test",
@@ -65,7 +65,7 @@ const SIDEBAR_TRANSLATIONS = {
       overview: "Обзор",
       library: "Библиотека",
       classes: "Классы",
-      analytics: "Аналитика",
+      analytics: "ИИ Аналитика",
       profile: "Профиль"
     },
     create: "Создать Тест",
@@ -201,7 +201,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
     { name: t.menu.overview, href: '/teacher/dashboard', icon: LayoutDashboard },
     { name: t.menu.library, href: '/teacher/library', icon: FolderOpen },
     { name: t.menu.classes, href: '/teacher/classes', icon: Users }, 
-    { name: t.menu.analytics, href: '/teacher/analytics', icon: BarChart3 },
+    { name: t.menu.analytics, href: '/teacher/analytics', icon: Sparkles },
     { name: t.menu.profile, href: '/teacher/profile', icon: User },
   ];
 
@@ -314,12 +314,27 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
                 <div className="flex items-center gap-3">
                   <item.icon size={20} className={`shrink-0 ${isActive ? 'text-indigo-400' : 'text-slate-500 group-hover:text-white'}`} /> 
                   {!collapsed && (
-                    <span className="whitespace-nowrap animate-in fade-in duration-200">
+                    <span className="whitespace-nowrap animate-in fade-in duration-200 flex items-center gap-2">
                       {item.name}
+                      
+                      {/* 🟢 ADD THIS: Small AI Badge for the Analytics item */}
+                      {item.href === '/teacher/analytics' && (
+                        <span className="bg-indigo-500/20 text-indigo-400 text-[10px] px-1.5 py-0.5 rounded-md border border-indigo-500/30 uppercase tracking-tighter">
+                          AI
+                        </span>
+                      )}
                     </span>
                   )}
                 </div>
-                {isActive && !collapsed && <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.6)]"></div>}
+            
+                {/* 🟢 UPDATE THIS: Show the AI Sparkle dot instead of a plain dot for Analytics */}
+                {isActive && !collapsed && (
+                  item.href === '/teacher/analytics' ? (
+                    <Sparkles size={12} className="text-indigo-400 animate-pulse" />
+                  ) : (
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.6)]"></div>
+                  )
+                )}
                 
                 {/* Active Dot for Collapsed Mode */}
                 {isActive && collapsed && (
