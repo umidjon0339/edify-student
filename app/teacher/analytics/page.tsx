@@ -28,7 +28,8 @@ const AI_ANALYTICS_TRANSLATIONS = {
     chipA1: "Yordamga muhtojlarga xabar", chipA2: "Eng ko'p qilingan xato?", chipA3: "Isinish mashqi",
     chipS1: "Ota-onalar uchun xulosa", chipS2: "Tezlik yoki aniqlik?", chipS3: "Uyga vazifa tavsiyasi",
     loadMore: "Yana yuklash", backToChat: "Tahlilga qaytish",
-    playVoice: "Ovozli eshitish", stopVoice: "To'xtatish"
+    playVoice: "Ovozli eshitish", stopVoice: "To'xtatish",
+    modeHistory: "Tarix", // 🟢 ADD THIS HERE
   },
   en: {
     title: "AI Analyst", subtitle: "Get deep insights into your classroom performance.",
@@ -42,6 +43,7 @@ const AI_ANALYTICS_TRANSLATIONS = {
     chipA1: "Message struggling students", chipA2: "Common mistake?", chipA3: "Warm-up activity",
     chipS1: "Parent update", chipS2: "Speed or accuracy?", chipS3: "Homework suggestion",
     loadMore: "Load More", backToChat: "Back to Analysis",
+    modeHistory: "History",
     playVoice: "Listen Aloud", stopVoice: "Stop"
   },
   ru: {
@@ -56,6 +58,7 @@ const AI_ANALYTICS_TRANSLATIONS = {
     chipA1: "Сообщение отстающим", chipA2: "Частая ошибка?", chipA3: "Разминка",
     chipS1: "Отчет для родителей", chipS2: "Скорость или точность?", chipS3: "Рекомендация по домашке",
     loadMore: "Загрузить еще", backToChat: "Назад к анализу",
+    modeHistory: "История",
     playVoice: "Прослушать", stopVoice: "Остановить"
   }
 };
