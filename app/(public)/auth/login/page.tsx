@@ -108,46 +108,59 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
 
-  // 1. MANUAL LOGIN LOGIC
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+ // 1. MANUAL LOGIN LOGIC
+ const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      
-      if (!userDoc.exists()) {
-        throw new Error("Profile not found");
-      }
-
-      const profile = userDoc.data();
-
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    // 🟢 1. CHECK FOR SUPER ADMIN CLAIM FIRST
+    const tokenResult = await user.getIdTokenResult(true);
+    if (tokenResult.claims.super_admin) {
       toast.dismiss();
-      // 🟢 Translated Welcome Message
-      toast.success(t.welcomeBack.replace("{name}", profile.displayName || "User"), { duration: 4000 });
-
-      if (profile.role === "teacher") {
-        router.push("/teacher/dashboard");
-      } else {
-        router.push("/dashboard");
-      }
-      
-    } catch (error: any) {
-      console.error(error);
-      setLoading(false); 
-
-      // 🟢 Translated Error Messages
-      if (error.code === "auth/invalid-credential") {
-        toast.error(t.invalidCred);
-      } else if (error.code === "auth/user-not-found") {
-        toast.error(t.noUser);
-      } else {
-        toast.error(t.loginFail);
-      }
+      toast.success("Welcome to the Admin Console", { duration: 4000 });
+      router.push("/admin"); // Send them to the protected admin folder
+      return; // Stop running the rest of the function!
     }
-  };
+
+    // 🟢 2. IF NOT ADMIN, PROCEED AS NORMAL
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    
+    if (!userDoc.exists()) {
+      throw new Error("Profile not found");
+    }
+
+    const profile = userDoc.data();
+
+    toast.dismiss();
+    // Translated Welcome Message
+    toast.success(t.welcomeBack.replace("{name}", profile.displayName || "User"), { duration: 4000 });
+
+    if (profile.role === "teacher") {
+      router.push("/teacher/dashboard");
+    } else {
+      router.push("/dashboard");
+    }
+    
+  } catch (error: any) {
+    console.error(error);
+    setLoading(false); 
+
+    // Translated Error Messages
+    if (error.code === "auth/invalid-credential") {
+      toast.error(t.invalidCred);
+    } else if (error.code === "auth/user-not-found") {
+      toast.error(t.noUser);
+    } else if (error.message === "Profile not found") {
+      toast.error(t.accNotFound);
+    } else {
+      toast.error(t.loginFail);
+    }
+  }
+};
 
   // 2. GOOGLE LOGIN LOGIC
   const handleGoogleLogin = async () => {
