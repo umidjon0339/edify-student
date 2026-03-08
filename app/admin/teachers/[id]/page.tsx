@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { doc, getDoc, collection, query, where, getDocs, orderBy, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -9,10 +9,11 @@ import {
   ArrowLeft, Mail, Phone, MapPin, Building2, BookOpen, 
   Award, Briefcase, Calendar, ShieldCheck, ShieldAlert, Loader2, 
   Users, School, Lock, Unlock, FileText, Clock, Trash2, LayoutList,
-  Eye, X, Settings, ListChecks
+  Eye, X, Settings, ListChecks, CreditCard
 } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import MembershipTab from "./_components/MembershipTab"; // 🟢 IMPORTED COMPONENT
 
 export default function TeacherDetailPage() {
   const params = useParams();
@@ -27,46 +28,51 @@ export default function TeacherDetailPage() {
   const [loading, setLoading] = useState(true);
   const [loadingSubData, setLoadingSubData] = useState(true);
   
-  // 🟢 Tab & Modal State
-  const [activeTab, setActiveTab] = useState<'overview' | 'classes' | 'tests'>('overview');
-  const [selectedTestToView, setSelectedTestToView] = useState<any | null>(null); // 🟢 NEW
+  // 🟢 Tab & Modal State (Added 'membership')
+  const [activeTab, setActiveTab] = useState<'overview' | 'classes' | 'tests' | 'membership'>('overview');
+  const [selectedTestToView, setSelectedTestToView] = useState<any | null>(null);
+
+  // 🟢 Extracted Fetch Logic (So we can refresh data after editing membership)
+  const fetchTeacherData = useCallback(async () => {
+    setLoadingSubData(true);
+    try {
+      // 1. Fetch Teacher Profile
+      const docRef = doc(db, "users", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists() && docSnap.data().role === "teacher") {
+        setTeacher({ id: docSnap.id, ...docSnap.data() } as TeacherUser);
+      } else {
+        setTeacher(null); 
+      }
+
+      // 2. Fetch Classes
+      const qClasses = query(collection(db, "classes"), where("teacherId", "==", id));
+      const classSnap = await getDocs(qClasses);
+      setClasses(classSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+      // 3. Fetch Tests
+      const qTests = query(
+        collection(db, "custom_tests"), 
+        where("teacherId", "==", id),
+        orderBy("createdAt", "desc")
+      );
+      const testSnap = await getDocs(qTests);
+      setTests(testSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+      setLoadingSubData(false);
+    }
+  }, [id]);
 
   useEffect(() => {
-    if (!id) return;
-
-    const fetchTeacherData = async () => {
-      try {
-        const docRef = doc(db, "users", id);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists() && docSnap.data().role === "teacher") {
-          setTeacher({ id: docSnap.id, ...docSnap.data() } as TeacherUser);
-        } else {
-          setTeacher(null); 
-        }
-
-        const qClasses = query(collection(db, "classes"), where("teacherId", "==", id));
-        const classSnap = await getDocs(qClasses);
-        setClasses(classSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-        const qTests = query(
-          collection(db, "custom_tests"), 
-          where("teacherId", "==", id),
-          orderBy("createdAt", "desc")
-        );
-        const testSnap = await getDocs(qTests);
-        setTests(testSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-        setLoadingSubData(false);
-      }
-    };
-
-    fetchTeacherData();
-  }, [id]);
+    if (id) {
+      fetchTeacherData();
+    }
+  }, [id, fetchTeacherData]);
 
   // --- ADMIN ACTIONS ---
   const handleDeleteTest = async (testId: string, testTitle: string) => {
@@ -99,7 +105,7 @@ export default function TeacherDetailPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       
-      {/* 🟢 NEW: AUDIT TEST MODAL */}
+      {/* AUDIT TEST MODAL */}
       {selectedTestToView && (
         <AdminTestModal 
           test={selectedTestToView} 
@@ -140,11 +146,19 @@ export default function TeacherDetailPage() {
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#334155] text-white">
               Joined {teacher.createdAt ? new Date(teacher.createdAt).toLocaleDateString() : 'Unknown'}
             </span>
+            {/* 🟢 Status Badge */}
+            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+              teacher.planId === 'pro' ? 'bg-amber-500/10 text-amber-400' : 
+              teacher.subscriptionStatus === 'trialing' ? 'bg-[#3B82F6]/10 text-[#3B82F6]' : 
+              'bg-slate-500/10 text-slate-400'
+            }`}>
+              {teacher.planId === 'pro' ? 'PRO' : teacher.subscriptionStatus === 'trialing' ? 'TRIAL' : 'FREE'}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* TABS NAVIGATION */}
+      {/* 🟢 TABS NAVIGATION */}
       <div className="flex gap-4 border-b border-[#334155] overflow-x-auto hide-scrollbar">
         <button onClick={() => setActiveTab('overview')} className={`pb-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 whitespace-nowrap ${activeTab === 'overview' ? 'border-[#3B82F6] text-[#3B82F6]' : 'border-transparent text-[#94A3B8] hover:text-white'}`}>Overview</button>
         <button onClick={() => setActiveTab('classes')} className={`pb-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 whitespace-nowrap ${activeTab === 'classes' ? 'border-[#3B82F6] text-[#3B82F6]' : 'border-transparent text-[#94A3B8] hover:text-white'}`}>
@@ -152,6 +166,10 @@ export default function TeacherDetailPage() {
         </button>
         <button onClick={() => setActiveTab('tests')} className={`pb-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 whitespace-nowrap ${activeTab === 'tests' ? 'border-[#3B82F6] text-[#3B82F6]' : 'border-transparent text-[#94A3B8] hover:text-white'}`}>
           Tests Library <span className="bg-[#334155] text-white px-2 py-0.5 rounded-full text-xs">{tests.length}</span>
+        </button>
+        {/* NEW MEMBERSHIP TAB */}
+        <button onClick={() => setActiveTab('membership')} className={`pb-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 whitespace-nowrap ${activeTab === 'membership' ? 'border-[#3B82F6] text-[#3B82F6]' : 'border-transparent text-[#94A3B8] hover:text-white'}`}>
+          <CreditCard size={16} className={activeTab === 'membership' ? 'text-[#3B82F6]' : 'text-[#94A3B8]'}/> Membership
         </button>
       </div>
 
@@ -185,7 +203,6 @@ export default function TeacherDetailPage() {
                 <InfoBlock icon={<Award/>} label="Qualification" value={teacher.qualification} />
                 <InfoBlock icon={<BookOpen/>} label="Education" value={teacher.education} />
               </div>
-              
               {teacher.bio && (
                 <div className="mt-6 p-4 bg-[#0F172A] rounded-xl border border-[#334155]">
                   <p className="text-xs text-[#94A3B8] font-bold uppercase mb-2">Biography</p>
@@ -292,7 +309,6 @@ export default function TeacherDetailPage() {
                         {test.createdAt ? new Date(test.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown'}
                       </td>
                       <td className="p-4 text-right space-x-2">
-                        {/* 🟢 VIEW TEST BUTTON */}
                         <button 
                           onClick={() => setSelectedTestToView(test)}
                           className="px-3 py-1.5 bg-[#3B82F6]/10 text-[#3B82F6] text-xs font-bold rounded-lg hover:bg-[#3B82F6]/20 transition inline-flex items-center gap-1"
@@ -314,11 +330,23 @@ export default function TeacherDetailPage() {
           </div>
         </div>
       )}
+
+      {/* 🟢 TAB CONTENT: MEMBERSHIP */}
+      {activeTab === 'membership' && (
+        <MembershipTab 
+          teacher={teacher} 
+          onUpdated={fetchTeacherData} 
+        />
+      )}
+
     </div>
   );
 }
 
-// 🟢 NEW COMPONENT: Admin Test Inspection Modal
+// ----------------------------------------------------------------------
+// SUB-COMPONENTS
+// ----------------------------------------------------------------------
+
 function AdminTestModal({ test, onClose, onDelete }: { test: any, onClose: () => void, onDelete: () => void }) {
   const [tab, setTab] = useState<'settings' | 'questions'>('questions');
   const questions = test.questions || [];
@@ -372,12 +400,9 @@ function AdminTestModal({ test, onClose, onDelete }: { test: any, onClose: () =>
                           {idx + 1}
                         </span>
                         <div>
-                           {/* Render Text Safely based on how it was saved */}
                            <p className="text-white font-medium text-sm leading-relaxed mb-3">
                              {q.text || (typeof q.question === 'object' ? q.question.uz : q.question) || "Question Text"}
                            </p>
-                           
-                           {/* Question Meta Badge */}
                            <span className={`px-2 py-1 text-[10px] font-bold rounded-md uppercase tracking-wider ${
                              q.uiDifficulty === 'Easy' ? 'bg-emerald-500/10 text-emerald-400' :
                              q.uiDifficulty === 'Medium' ? 'bg-amber-500/10 text-amber-400' :
@@ -417,7 +442,6 @@ function AdminTestModal({ test, onClose, onDelete }: { test: any, onClose: () =>
   );
 }
 
-// 🟢 Reusable UI Components
 function InfoBlock({ icon, label, value, className = "" }: { icon: React.ReactNode, label: string, value: string | null | undefined, className?: string }) {
   return (
     <div className="flex items-start gap-3 p-3 rounded-xl bg-[#0F172A] border border-[#334155]">
