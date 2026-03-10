@@ -5,17 +5,18 @@ import { useParams, useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { 
   doc, collection, query, where, orderBy, updateDoc, 
-  arrayRemove, limit, onSnapshot // 🟢 Added limit and onSnapshot
+  arrayRemove, limit, onSnapshot 
 } from 'firebase/firestore';
 import { useAuth } from '@/lib/AuthContext';
 import { 
   ChevronLeft, FileText, BarChart2, Info, LogOut, 
-  BookOpen, User, Hash, Calendar
+  BookOpen, User, Hash, Calendar, Folder
 } from 'lucide-react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import AssignmentsTab from './_components/AssignmentsTab';
+import MaterialsTab from './_components/MaterialsTab'; // 🟢 IMPORT THE NEW TAB
 import { useStudentLanguage } from '@/app/(student)/layout';
 
 // --- 1. TRANSLATION DICTIONARY ---
@@ -24,7 +25,7 @@ const CLASS_TRANSLATIONS = {
     back: "Sinflarimga qaytish",
     welcome: "Sinfingiz ish maydoniga xush kelibsiz.",
     instructor: "O'qituvchi",
-    tabs: { assignments: "Topshiriqlar", grades: "Baholarim", info: "Sinf haqida" },
+    tabs: { assignments: "Topshiriqlar", grades: "Baholarim", materials: "Materiallar", info: "Sinf haqida" },
     grades: { assignment: "Topshiriq", submitted: "Topshirildi", tries: "Urinishlar", score: "Joriy Ball", action: "Amal", noGrades: "Hali baholar yo'q.", justNow: "Hozirgina", view: "Natijani ko'rish" },
     info: { title: "Sinf Tafsilotlari", teacher: "O'qituvchi", code: "Kirish Kodi", created: "Yaratilgan", danger: "Xavfli Hudud", leaveDesc: "Sinfdan chiqish sizni ro'yxatdan o'chiradi. Barcha topshiriqlarga kirish imkoniyatini yo'qotasiz.", leaveBtn: "Sinfni Tark Etish", confirmLeave: "Haqiqatan ham tark etmoqchimisiz?" },
     toasts: { notFound: "Sinf topilmadi", accessDenied: "Kirish rad etildi", leftSuccess: "Sinfdan muvaffaqiyatli chiqdingiz", leftFail: "Chiqishda xatolik yuz berdi" }
@@ -33,7 +34,7 @@ const CLASS_TRANSLATIONS = {
     back: "Back to My Classes",
     welcome: "Welcome to your class workspace.",
     instructor: "Instructor",
-    tabs: { assignments: "Assignments", grades: "My Grades", info: "Class Info" },
+    tabs: { assignments: "Assignments", grades: "My Grades", materials: "Materials", info: "Class Info" },
     grades: { assignment: "Assignment", submitted: "Last Submitted", tries: "Tries", score: "Current Score", action: "Action", noGrades: "No grades recorded yet.", justNow: "Just now", view: "View Result" },
     info: { title: "Class Details", teacher: "Teacher", code: "Join Code", created: "Created", danger: "Danger Zone", leaveDesc: "Leaving this class will remove you from the student list. You will lose access to all assignments.", leaveBtn: "Leave Class", confirmLeave: "Are you sure you want to leave?" },
     toasts: { notFound: "Class not found", accessDenied: "Access Denied", leftSuccess: "Left class successfully", leftFail: "Failed to leave" }
@@ -42,51 +43,21 @@ const CLASS_TRANSLATIONS = {
     back: "Назад к моим классам",
     welcome: "Добро пожаловать в рабочее пространство класса.",
     instructor: "Преподаватель",
-    tabs: { assignments: "Задания", grades: "Мои Оценки", info: "Информация" },
+    tabs: { assignments: "Задания", grades: "Мои Оценки", materials: "Материалы", info: "Информация" },
     grades: { assignment: "Задание", submitted: "Сдано", tries: "Попытки", score: "Текущий Балл", action: "Действие", noGrades: "Оценок пока нет.", justNow: "Только что", view: "Смотреть" },
     info: { title: "Детали Класса", teacher: "Учитель", code: "Код Входа", created: "Создан", danger: "Опасная Зона", leaveDesc: "Выход из класса удалит вас из списка студентов. Вы потеряете доступ ко всем заданиям.", leaveBtn: "Покинуть Класс", confirmLeave: "Вы уверены, что хотите выйти?" },
     toasts: { notFound: "Класс не найден", accessDenied: "Доступ запрещен", leftSuccess: "Вы успешно покинули класс", leftFail: "Не удалось выйти" }
   }
 };
 
-// Floating Particles Background
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 2,
-    duration: Math.random() * 20 + 10,
-    delay: Math.random() * 5,
-    opacity: Math.random() * 0.6 + 0.2,
-  }));
-
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
-          style={{ left: `${particle.x}%`, top: `${particle.y}%`, width: `${particle.size}px`, height: `${particle.size}px`, opacity: particle.opacity }}
-          animate={{ y: [0, -100, 0], x: [0, Math.sin(particle.id) * 50, 0], opacity: [particle.opacity, particle.opacity * 0.1, particle.opacity] }}
-          transition={{ duration: particle.duration, delay: particle.delay, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
-    </div>
-  );
+  const particles = Array.from({ length: 30 }, (_, i) => ({ id: i, x: Math.random() * 100, y: Math.random() * 100, size: Math.random() * 4 + 2, duration: Math.random() * 20 + 10, delay: Math.random() * 5, opacity: Math.random() * 0.6 + 0.2 }));
+  return (<div className="fixed inset-0 overflow-hidden pointer-events-none z-0">{particles.map((particle) => (<motion.div key={particle.id} className="absolute rounded-full bg-gradient-to-r from-blue-400 to-purple-400" style={{ left: `${particle.x}%`, top: `${particle.y}%`, width: `${particle.size}px`, height: `${particle.size}px`, opacity: particle.opacity }} animate={{ y: [0, -100, 0], x: [0, Math.sin(particle.id) * 50, 0], opacity: [particle.opacity, particle.opacity * 0.1, particle.opacity] }} transition={{ duration: particle.duration, delay: particle.delay, repeat: Infinity, ease: "easeInOut" }} />))}</div>);
 };
 
 interface GlowingOrbProps { color: string; size: number; position: { x: string; y: string }; }
-  
 const GlowingOrb = ({ color, size, position }: GlowingOrbProps) => {
-    return (
-      <motion.div
-        className={`absolute rounded-full ${color} blur-3xl opacity-20 pointer-events-none`}
-        style={{ width: `${size}px`, height: `${size}px`, left: position.x, top: position.y }}
-        animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-    );
+  return (<motion.div className={`absolute rounded-full ${color} blur-3xl opacity-20 pointer-events-none`} style={{ width: `${size}px`, height: `${size}px`, left: position.x, top: position.y }} animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />);
 };
 
 export default function StudentClassPage() {
@@ -107,8 +78,6 @@ export default function StudentClassPage() {
     if (!user) return; 
     
     const userId = user.uid;
-    
-    // 🟢 Unsubscribe functions to clean up listeners when component unmounts
     let unsubscribeClass: () => void;
     let unsubscribeAssign: () => void;
     let unsubscribeAttempt: () => void;
@@ -116,69 +85,39 @@ export default function StudentClassPage() {
     setLoading(true);
 
     const classRef = doc(db, 'classes', classId);
-    
-    // 🟢 Applied limit(10) to cap costs even if there are 500 assignments
-    const assignQuery = query(
-      collection(db, 'classes', classId, 'assignments'), 
-      where('status', '==', 'active'),
-      orderBy('createdAt', 'desc'),
-      limit(10) 
-    );
-    
-    // 🟢 Applied limit(10) to cap costs for attempts history
-    const attemptQuery = query(
-      collection(db, 'attempts'), 
-      where('classId', '==', classId),
-      where('userId', '==', userId),
-      limit(10)
-    );
+    const assignQuery = query(collection(db, 'classes', classId, 'assignments'), where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(10));
+    const attemptQuery = query(collection(db, 'attempts'), where('classId', '==', classId), where('userId', '==', userId), limit(10));
 
-    // 🟢 CONCURRENT FETCHING: We wrap onSnapshot in Promises to run them at the exact same time
     const fetchClass = new Promise<void>((resolve, reject) => {
       unsubscribeClass = onSnapshot(classRef, (snap) => {
-        if (!snap.exists()) {
-          toast.error(t.toasts.notFound);
-          router.push('/classes');
-          reject(new Error("Class not found"));
-          return;
-        }
-        setClassData({ id: snap.id, ...snap.data() });
-        resolve();
+        if (!snap.exists()) { toast.error(t.toasts.notFound); router.push('/classes'); reject(new Error("Not found")); return; }
+        setClassData({ id: snap.id, ...snap.data() }); resolve();
       }, reject);
     });
 
     const fetchAssignments = new Promise<void>((resolve, reject) => {
       unsubscribeAssign = onSnapshot(assignQuery, (snap) => {
         const allAssignments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const myAssignments = allAssignments.filter((a: any) => 
-          a.assignedTo === 'all' || 
-          (Array.isArray(a.assignedTo) && a.assignedTo.includes(userId))
-        );
-        setAssignments(myAssignments);
-        resolve();
+        const myAssignments = allAssignments.filter((a: any) => a.assignedTo === 'all' || (Array.isArray(a.assignedTo) && a.assignedTo.includes(userId)));
+        setAssignments(myAssignments); resolve();
       }, reject);
     });
 
     const fetchAttempts = new Promise<void>((resolve, reject) => {
       unsubscribeAttempt = onSnapshot(attemptQuery, (snap) => {
-        setMyAttempts(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-        resolve();
+        setMyAttempts(snap.docs.map(d => ({ id: d.id, ...d.data() }))); resolve();
       }, reject);
     });
 
-    // 🟢 Execute all 3 listeners concurrently. It only stops loading when all 3 are ready.
-    Promise.all([fetchClass, fetchAssignments, fetchAttempts])
+    // 🟢 ONLY fetch class info, assignments, and grades on load. Materials fetch is deferred!
+    Promise.all([fetchClass, fetchAssignments, fetchAttempts]) 
       .then(() => setLoading(false))
       .catch((e: any) => {
         console.error(e);
-        if (e.code === 'permission-denied') {
-          toast.error(t.toasts.accessDenied);
-          router.push('/classes');
-        }
+        if (e.code === 'permission-denied') { toast.error(t.toasts.accessDenied); router.push('/classes'); }
         setLoading(false);
       });
 
-    // Cleanup listeners on unmount
     return () => {
       if (unsubscribeClass) unsubscribeClass();
       if (unsubscribeAssign) unsubscribeAssign();
@@ -190,16 +129,13 @@ export default function StudentClassPage() {
     if(!confirm(t.info.confirmLeave)) return;
     try {
       await updateDoc(doc(db, 'classes', classId), { studentIds: arrayRemove(user?.uid) });
-      toast.success(t.toasts.leftSuccess);
-      router.push('/classes');
+      toast.success(t.toasts.leftSuccess); router.push('/classes');
     } catch(e) { toast.error(t.toasts.leftFail); }
   };
 
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 relative overflow-hidden">
       <FloatingParticles />
-      <GlowingOrb color="bg-blue-500" size={300} position={{ x: '10%', y: '20%' }} />
-      <GlowingOrb color="bg-purple-500" size={400} position={{ x: '85%', y: '15%' }} />
       <div className="max-w-4xl mx-auto p-6 space-y-8 relative z-10 pt-16 md:pt-8">
          <div className="h-4 w-32 bg-slate-700 rounded"></div>
          <div className="space-y-4"><div className="h-10 w-3/4 bg-slate-700 rounded-lg"></div><div className="h-4 w-1/2 bg-slate-700 rounded"></div></div>
@@ -247,17 +183,19 @@ export default function StudentClassPage() {
           </div>
         </div>
 
-        {/* TABS */}
+        {/* TABS NAV */}
         <div className="flex p-1 bg-slate-800/50 rounded-xl mb-8 w-full overflow-x-auto scrollbar-hide">
           {[
             { id: 'assignments', label: t.tabs.assignments, icon: FileText },
             { id: 'grades', label: t.tabs.grades, icon: BarChart2 },
+            { id: 'materials', label: t.tabs.materials, icon: Folder },
             { id: 'info', label: t.tabs.info, icon: Info },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
-               <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex-1 md:flex-none px-4 md:px-6 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-200 whitespace-nowrap ${isActive ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'}`}>
+               <button key={tab.id} onClick={() => setActiveTab(tab.id)} 
+                 className={`flex-1 md:flex-none px-4 md:px-6 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-200 whitespace-nowrap ${isActive ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'}`}>
                  <Icon size={16} strokeWidth={2.5} /> {tab.label}
                </button>
             )
@@ -267,15 +205,12 @@ export default function StudentClassPage() {
         {/* CONTENT AREA */}
         <div className="min-h-[400px]">
           
-          {/* A. ASSIGNMENTS TAB */}
           {activeTab === 'assignments' && (
             <AssignmentsTab assignments={assignments} myAttempts={myAttempts} classId={classId} />
           )}
 
-          {/* B. GRADES TAB */}
           {activeTab === 'grades' && (
-            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-2xl border border-slate-700 overflow-hidden shadow-lg">
-               {/* 🟢 Protected Table Wrapper for Mobile Saftey */}
+             <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-2xl border border-slate-700 overflow-hidden shadow-lg">
                <div className="w-full overflow-x-auto">
                  <table className="w-full text-sm text-left min-w-[600px]">
                    <thead className="bg-slate-800/50 text-slate-400 font-bold border-b border-slate-700 uppercase tracking-wider text-[11px]">
@@ -292,7 +227,6 @@ export default function StudentClassPage() {
                        <tr><td colSpan={5} className="p-8 text-center text-slate-400 font-medium">{t.grades.noGrades}</td></tr>
                      ) : (
                        myAttempts.map((attempt) => {
-                         // 🟢 Fallback to 0 to prevent NaN crash
                          const percentage = Math.round((attempt.score / attempt.totalQuestions) * 100) || 0;
                          let badgeColor = 'bg-slate-700 text-slate-300 border-slate-600';
                          if (percentage >= 80) badgeColor = 'bg-green-500/20 text-green-400 border-green-500/30';
@@ -305,18 +239,14 @@ export default function StudentClassPage() {
                              <td className="p-4 text-slate-400 font-medium">
                                {attempt.submittedAt?.seconds ? new Date(attempt.submittedAt.seconds * 1000).toLocaleDateString() : t.grades.justNow}
                              </td>
-                             <td className="p-4 text-center">
-                                <span className="bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs font-bold">{attempt.attemptsTaken || 1}x</span>
-                             </td>
+                             <td className="p-4 text-center"><span className="bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs font-bold">{attempt.attemptsTaken || 1}x</span></td>
                              <td className="p-4 text-center">
                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold border text-xs ${badgeColor}`}>
                                   {percentage}% <span className="opacity-40">|</span> {attempt.score}/{attempt.totalQuestions}
                                 </span>
                              </td>
                              <td className="p-4 pr-5 text-right">
-                                <Link href={`/classes/${classId}/test/${attempt.assignmentId}/results`} className="text-blue-400 font-bold hover:text-blue-300 text-xs">
-                                  {t.grades.view}
-                                </Link>
+                                <Link href={`/classes/${classId}/test/${attempt.assignmentId}/results`} className="text-blue-400 font-bold hover:text-blue-300 text-xs">{t.grades.view}</Link>
                              </td>
                            </tr>
                          );
@@ -328,7 +258,11 @@ export default function StudentClassPage() {
             </div>
           )}
 
-          {/* C. INFO TAB */}
+          {/* 🟢 DEFERRED RENDER: MaterialsTab only mounts and fetches when clicked! */}
+          {activeTab === 'materials' && (
+            <MaterialsTab classId={classId} />
+          )}
+
           {activeTab === 'info' && (
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-slate-700 shadow-lg space-y-6">

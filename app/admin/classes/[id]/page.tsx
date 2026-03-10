@@ -40,7 +40,7 @@ export default function AdminClassDetailPage() {
           return;
         }
 
-        const cls = { id: classSnap.id, ...classSnap.data() };
+        const cls = { id: classSnap.id, ...classSnap.data() } as any;
         setClassData(cls);
 
         // 2. Fetch Enrolled Students safely

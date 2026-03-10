@@ -36,4 +36,6 @@ export interface UserLocation {
     // Cloud Function Generated Fields (Optional because they might not exist until a class is created)
     activeClassCount?: number;
     totalStudents?: number;
+    planId?: string;
+  subscriptionStatus?: string;
   }

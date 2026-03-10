@@ -133,9 +133,9 @@ export default function TeacherDetailPage() {
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-black text-white">{teacher.displayName}</h1>
             {teacher.verifiedTeacher ? (
-              <ShieldCheck className="text-emerald-400" size={28} title="Verified Teacher" />
+              <span title="Verified Teacher"><ShieldCheck className="text-emerald-400" size={28} /></span>
             ) : (
-              <ShieldAlert className="text-amber-400" size={28} title="Unverified" />
+              <span title="Unverified"><ShieldAlert className="text-amber-400" size={28} /></span>
             )}
           </div>
           <p className="text-[#3B82F6] font-medium text-lg">@{teacher.username}</p>

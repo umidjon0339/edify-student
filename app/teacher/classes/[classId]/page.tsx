@@ -4,16 +4,20 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { doc, onSnapshot, getDoc, collection, query } from 'firebase/firestore';
-import { Users, UserPlus, Hash, ChevronLeft, Inbox, FileText } from 'lucide-react';
+import { Users, UserPlus, Hash, ChevronLeft, Inbox, FileText, UploadCloud, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
+
+// Extracted Tabs and Modals
 import RosterTab from './_components/RosterTab';
 import RequestsTab from './_components/RequestsTab';
 import AddStudentModal from './_components/AddStudentModal';
 import AssignTestModal from './_components/AssignTestModal';
 import AssignmentsTab from './_components/AssignmentsTab';
-import { useTeacherLanguage } from '@/app/teacher/layout'; // 🟢 Import Hook
+import MaterialsTab from './_components/MaterialsTab'; // 🟢 NEW
+import UploadMaterialModal from './_components/UploadMaterialModal'; // 🟢 NEW
+import { useTeacherLanguage } from '@/app/teacher/layout';
 
-// --- 1. TRANSLATION DICTIONARY ---
+// --- 1. TRANSLATION DICTIONARY (Updated) ---
 const DETAILS_TRANSLATIONS = {
   uz: {
     back: "Sinflarga qaytish",
@@ -22,12 +26,14 @@ const DETAILS_TRANSLATIONS = {
     studentsCount: "O'quvchi",
     buttons: {
       add: "O'quvchi Qo'shish",
-      assign: "Test Biriktirish"
+      assign: "Test Biriktirish",
+      upload: "Material Yuklash" // 🟢 NEW
     },
     tabs: {
       students: "O'quvchilar",
       assignments: "Topshiriqlar",
-      requests: "So'rovlar"
+      requests: "So'rovlar",
+      materials: "Materiallar" // 🟢 NEW
     },
     loading: "Sinf yuklanmoqda...",
     unknown: "Noma'lum Foydalanuvchi"
@@ -39,12 +45,14 @@ const DETAILS_TRANSLATIONS = {
     studentsCount: "Students",
     buttons: {
       add: "Add Student",
-      assign: "Assign Test"
+      assign: "Assign Test",
+      upload: "Upload Material" // 🟢 NEW
     },
     tabs: {
       students: "Students",
       assignments: "Assignments",
-      requests: "Requests"
+      requests: "Requests",
+      materials: "Materials" // 🟢 NEW
     },
     loading: "Loading Class...",
     unknown: "Unknown User"
@@ -56,12 +64,14 @@ const DETAILS_TRANSLATIONS = {
     studentsCount: "Учеников",
     buttons: {
       add: "Добавить Ученика",
-      assign: "Назначить Тест"
+      assign: "Назначить Тест",
+      upload: "Загрузить Материал" // 🟢 NEW
     },
     tabs: {
       students: "Ученики",
       assignments: "Задания",
-      requests: "Запросы"
+      requests: "Запросы",
+      materials: "Материалы" // 🟢 NEW
     },
     loading: "Загрузка класса...",
     unknown: "Неизвестный пользователь"
@@ -70,8 +80,6 @@ const DETAILS_TRANSLATIONS = {
 
 export default function ClassDetailsPage() {
   const { classId } = useParams() as { classId: string };
-  
-  // 🟢 Use Language Hook
   const { lang } = useTeacherLanguage();
   const t = DETAILS_TRANSLATIONS[lang];
 
@@ -80,10 +88,11 @@ export default function ClassDetailsPage() {
   const [rosterData, setRosterData] = useState<any[]>([]);
   const [requestCount, setRequestCount] = useState(0);
   
-  // UI State
-  const [activeTab, setActiveTab] = useState<'students' | 'assignments' | 'requests'>('students');
+  // UI State (Added 'materials')
+  const [activeTab, setActiveTab] = useState<'students' | 'assignments' | 'requests' | 'materials'>('students');
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
+  const [isUploadOpen, setIsUploadOpen] = useState(false); // 🟢 NEW
   const [assignmentToEdit, setAssignmentToEdit] = useState<any>(null); 
 
   // --- LISTENERS ---
@@ -97,19 +106,15 @@ export default function ClassDetailsPage() {
     return () => unsubscribe();
   }, [classId]);
 
-  // NEW LISTENER: Count the requests in real-time
   useEffect(() => {
     if (!classId) return;
     const q = query(collection(db, 'classes', classId, 'requests'));
-    
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setRequestCount(snapshot.size);
     });
-    
     return () => unsubscribe();
   }, [classId]);
 
-  // Standard Method: Fetch Student Profiles one by one
   useEffect(() => {
     const fetchRoster = async () => {
       if (!classData?.studentIds || classData.studentIds.length === 0) {
@@ -155,6 +160,12 @@ export default function ClassDetailsPage() {
         editData={assignmentToEdit} 
       />
 
+      <UploadMaterialModal 
+        classId={classId} 
+        isOpen={isUploadOpen} 
+        onClose={() => setIsUploadOpen(false)} 
+      />
+
       {/* --- HEADER --- */}
       <div>
         <Link href="/teacher/classes" className="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1 mb-2 transition-colors">
@@ -181,15 +192,21 @@ export default function ClassDetailsPage() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
             <button 
               onClick={() => setIsAddOpen(true)}
-              className="flex justify-center items-center gap-2 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-5 py-2.5 rounded-xl font-bold transition-all text-sm active:scale-95"
+              className="flex justify-center items-center gap-2 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-4 py-2.5 rounded-xl font-bold transition-all text-sm active:scale-95"
             >
-              <UserPlus size={18} /> {t.buttons.add}
+              <UserPlus size={18} /> <span className="hidden sm:inline">{t.buttons.add}</span>
             </button>
             <button 
               onClick={handleCreateAssignment}
-              className="flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-indigo-200 active:scale-95 text-sm"
+              className="flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-indigo-200 active:scale-95 text-sm"
             >
-              <FileText size={18} /> {t.buttons.assign}
+              <FileText size={18} /> <span className="hidden sm:inline">{t.buttons.assign}</span>
+            </button>
+            <button 
+              onClick={() => setIsUploadOpen(true)}
+              className="flex justify-center items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-slate-200 active:scale-95 text-sm"
+            >
+              <UploadCloud size={18} /> <span className="hidden sm:inline">{t.buttons.upload}</span>
             </button>
           </div>
         </div>
@@ -198,51 +215,27 @@ export default function ClassDetailsPage() {
       {/* --- TABS --- */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div className="flex border-b border-slate-100 overflow-x-auto scrollbar-hide">
-          <button 
-            onClick={() => setActiveTab('students')}
-            className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'students' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}
-          >
+          <button onClick={() => setActiveTab('students')} className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'students' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}>
             <Users size={16} /> {t.tabs.students}
           </button>
-          <button 
-            onClick={() => setActiveTab('assignments')}
-            className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'assignments' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}
-          >
+          <button onClick={() => setActiveTab('assignments')} className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'assignments' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}>
             <FileText size={16} /> {t.tabs.assignments}
           </button>
-          
-          <button 
-            onClick={() => setActiveTab('requests')}
-            className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'requests' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}
-          >
+          <button onClick={() => setActiveTab('materials')} className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'materials' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}>
+            <FolderOpen size={16} /> {t.tabs.materials}
+          </button>
+          <button onClick={() => setActiveTab('requests')} className={`flex-1 min-w-[120px] py-4 text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-colors ${activeTab === 'requests' ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-slate-500 hover:bg-slate-50'}`}>
             <Inbox size={16} /> {t.tabs.requests}
-            {requestCount > 0 && (
-              <span className="ml-1 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm animate-pulse">
-                {requestCount}
-              </span>
-            )}
+            {requestCount > 0 && <span className="ml-1 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm animate-pulse">{requestCount}</span>}
           </button>
         </div>
 
         {/* --- CONTENT AREA --- */}
         <div className="p-4 md:p-6 bg-slate-50/30 min-h-[400px]">
-          
-          {activeTab === 'students' && (
-            <RosterTab classId={classId} studentIds={classData.studentIds || []} />
-          )}
-
-          {activeTab === 'assignments' && (
-            <AssignmentsTab 
-              classId={classId}
-              roster={rosterData} 
-              onEdit={handleEditAssignment} 
-              onAdd={handleCreateAssignment} 
-            />
-          )}
-          
-          {activeTab === 'requests' && (
-            <RequestsTab classId={classId} />
-          )}
+          {activeTab === 'students' && <RosterTab classId={classId} studentIds={classData.studentIds || []} />}
+          {activeTab === 'assignments' && <AssignmentsTab classId={classId} roster={rosterData} onEdit={handleEditAssignment} onAdd={handleCreateAssignment} />}
+          {activeTab === 'materials' && <MaterialsTab classId={classId} />}
+          {activeTab === 'requests' && <RequestsTab classId={classId} />}
         </div>
       </div>
     </div>
