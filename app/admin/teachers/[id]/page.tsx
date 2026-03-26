@@ -173,6 +173,8 @@ export default function TeacherDetailPage() {
         </button>
       </div>
 
+      
+
       {/* TAB CONTENT: OVERVIEW */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-300">
@@ -462,3 +464,5 @@ function StatRow({ label, value }: { label: string, value: number | string | Rea
     </div>
   );
 }
+
+

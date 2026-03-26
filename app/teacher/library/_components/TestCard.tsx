@@ -1,7 +1,7 @@
 'use client';
 
 import { FileText, Clock, Users, ArrowRight } from 'lucide-react';
-import PrintLauncher from '@/components/PrintLauncher'; // 👈 Import it
+import PrintLauncher from '@/app/teacher/create/_components/PrintLauncher'; // 👈 Import it
 
 interface Props {
   test: any;
