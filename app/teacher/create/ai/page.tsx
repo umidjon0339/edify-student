@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, CheckCircle2, Wand2, BookOpen, Trash2, Layers, EyeOff, Eye, FileText } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, CheckCircle2, Wand2, BookOpen, Trash2, Layers, EyeOff, Eye, FileText, Menu, X } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -67,7 +67,7 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
   const [showExplanation, setShowExplanation] = useState(true);
 
   return (
-    <div className="bg-white p-5 rounded-2xl border border-violet-100/50 shadow-[0_4px_20px_-4px_rgba(139,92,246,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(139,92,246,0.12)] transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 relative group">
+    <div className="bg-white p-4 md:p-5 rounded-2xl border border-violet-100/50 shadow-[0_4px_20px_-4px_rgba(139,92,246,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(139,92,246,0.12)] transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 relative group">
       
       {/* CARD HEADER */}
       <div className="flex justify-between items-start mb-4 pb-3 border-b border-slate-50">
@@ -83,7 +83,7 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
           </span>
         </div>
 
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button onClick={() => setShowOptions(!showOptions)} className="text-slate-400 hover:text-violet-600 hover:bg-violet-50 p-1.5 rounded-lg transition-colors" title="Toggle Options">
             {showOptions ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -98,19 +98,19 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
       </div>
       
       {/* QUESTION TEXT (LaTeX Rendered) */}
-      <p className="font-semibold text-[15px] text-slate-800 mb-5 leading-relaxed">
+      <p className="font-semibold text-[14px] md:text-[15px] text-slate-800 mb-5 leading-relaxed">
         <FormattedText text={q.question.uz} />
       </p>
       
-      {/* OPTIONS GRID (2-Column & Toggleable) */}
+      {/* OPTIONS GRID (2-Column on Desktop, 1-Column on Mobile & Toggleable) */}
       {showOptions && (
-        <div className="grid grid-cols-2 gap-2.5 mb-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-2">
           {Object.entries(q.options).map(([key, value]) => (
             <div key={key} className={`flex items-start p-2.5 rounded-xl border transition-colors ${q.answer === key ? 'bg-emerald-50/50 border-emerald-200' : 'bg-slate-50/50 border-slate-100 hover:border-slate-200'}`}>
               <div className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-black mr-3 shrink-0 mt-0.5 ${q.answer === key ? 'bg-emerald-500 text-white shadow-sm shadow-emerald-500/20' : 'bg-white border border-slate-200 text-slate-400'}`}>
                 {key}
               </div>
-              <div className={`text-sm font-medium pt-0.5 ${q.answer === key ? 'text-emerald-900' : 'text-slate-700'}`}>
+              <div className={`text-sm font-medium pt-0.5 break-words overflow-hidden ${q.answer === key ? 'text-emerald-900' : 'text-slate-700'}`}>
                 <FormattedText text={value.uz} />
               </div>
             </div>
@@ -124,7 +124,7 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
           <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
             <BookOpen size={12} /> AI Solution Logic
           </p>
-          <p className="text-sm text-amber-900/80 leading-relaxed font-medium">
+          <p className="text-[13px] md:text-sm text-amber-900/80 leading-relaxed font-medium">
              <FormattedText text={q.explanation.uz} />
           </p>
         </div>
@@ -146,6 +146,9 @@ export default function AIGeneratorPage() {
   const [generatedQuestions, setGeneratedQuestions] = useState<AIQuestion[]>([]);
   const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  
+  // 🟢 NEW: Mobile Sidebar Toggle State
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (generatedQuestions.length > 0 && !isGenerating) {
@@ -159,6 +162,8 @@ export default function AIGeneratorPage() {
     if (count < 1 || count > 10) return toast.error("Please choose between 1 and 10 questions.");
 
     setIsGenerating(true);
+    // 🟢 Close the sidebar on mobile when generation starts so they can see the magic!
+    setIsSidebarOpen(false);
 
     try {
       const response = await fetch("/teacher/create/ai/api", {
@@ -293,21 +298,35 @@ export default function AIGeneratorPage() {
         isSaving={isPublishing}
       />
 
-      {/* 🟢 SIDEBAR (Compact, non-scrollable focus) */}
-      <aside className="w-[340px] bg-white border-r border-slate-200 p-5 flex flex-col h-full z-10 shadow-lg shrink-0">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4 shrink-0">
-          <button onClick={() => router.push('/teacher/create')} className="p-1.5 -ml-1.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all">
-            <ArrowLeft size={18} />
-          </button>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white rounded-md flex items-center justify-center shadow-sm">
-              <Sparkles size={14} />
+      {/* 🟢 Mobile Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* 🟢 SIDEBAR (Responsive slide-over on mobile, fixed on desktop) */}
+      <aside className={`absolute lg:relative w-[340px] bg-white border-r border-slate-200 p-5 flex flex-col h-full z-50 shrink-0 transition-transform duration-300 ease-in-out ${isSidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full lg:translate-x-0 lg:shadow-lg"}`}>
+        <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-4 shrink-0">
+          <div className="flex items-center gap-3">
+            <button onClick={() => router.push('/teacher/create')} className="p-1.5 -ml-1.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all">
+              <ArrowLeft size={18} />
+            </button>
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white rounded-md flex items-center justify-center shadow-sm">
+                <Sparkles size={14} />
+              </div>
+              <h2 className="font-black text-[15px] text-slate-800 tracking-tight">AI Studio</h2>
             </div>
-            <h2 className="font-black text-[15px] text-slate-800 tracking-tight">AI Studio</h2>
           </div>
+          {/* Mobile Close Button inside sidebar */}
+          <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-800 rounded-full transition-colors">
+            <X size={18} />
+          </button>
         </div>
         
-        {/* Document Title Input (Rounded Card Style) */}
+        {/* Document Title Input */}
         <div className="group mb-6 shrink-0">
           <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1 group-focus-within:text-violet-600 transition-colors ml-1">
             Document Title <span className="text-red-400">*</span>
@@ -321,7 +340,7 @@ export default function AIGeneratorPage() {
           />
         </div>
 
-        {/* Syllabus Selector Container (Flex-1 allows internal scrolling if needed, but keeps sidebar static) */}
+        {/* Syllabus Selector Container */}
         <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 -mr-2 space-y-4">
           <div className="bg-violet-50/50 p-3.5 rounded-2xl border border-violet-100">
              <label className="text-[11px] font-bold text-violet-600 uppercase tracking-widest mb-2 flex items-center gap-1.5">
@@ -360,13 +379,22 @@ export default function AIGeneratorPage() {
       </aside>
 
       {/* MAIN BUILDER AREA */}
-      <main className="flex-1 overflow-y-auto custom-scrollbar relative bg-slate-50/50">
+      <main className="flex-1 overflow-y-auto custom-scrollbar relative bg-slate-50/50 w-full">
         
-        {/* 🟢 SLIM TOP BAR */}
-        <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-6 py-2.5 flex justify-between items-center shadow-sm">
-          <div>
-            <h1 className="text-lg font-black text-slate-900 tracking-tight">Curated Test</h1>
-            <p className="text-[11px] text-slate-500 font-medium">Review and publish your generated questions.</p>
+        {/* 🟢 SLIM TOP BAR (Now includes Hamburger Menu) */}
+        <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-6 py-2.5 flex justify-between items-center shadow-sm">
+          <div className="flex items-center gap-3">
+            {/* Hamburger button visible only on mobile/tablet */}
+            <button 
+              onClick={() => setIsSidebarOpen(true)} 
+              className="lg:hidden p-2 -ml-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 rounded-lg transition-colors"
+            >
+              <Menu size={20} />
+            </button>
+            <div>
+              <h1 className="text-lg font-black text-slate-900 tracking-tight">Curated Test</h1>
+              <p className="text-[11px] text-slate-500 font-medium hidden sm:block">Review and publish your generated questions.</p>
+            </div>
           </div>
           
           <div className="flex items-center gap-4">
@@ -377,21 +405,29 @@ export default function AIGeneratorPage() {
             <button 
               onClick={handleInitiatePublish} 
               disabled={isPublishing || isGenerating || generatedQuestions.length === 0}
-              className="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-lg font-bold shadow-md shadow-slate-900/10 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 text-sm"
+              className="bg-slate-900 hover:bg-slate-800 text-white px-4 md:px-5 py-2 rounded-lg font-bold shadow-md shadow-slate-900/10 transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 text-sm"
             >
-              <CheckCircle2 size={16} /> Publish
+              <CheckCircle2 size={16} /> <span className="hidden sm:inline">Publish</span>
             </button>
           </div>
         </div>
 
         <div className="max-w-[800px] mx-auto p-4 md:p-6 space-y-5">
           {generatedQuestions.length === 0 && !isGenerating ? (
-            <div className="h-[60vh] flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-3xl bg-white/50 animate-in zoom-in-95 duration-500 mt-6">
+            <div className="h-[60vh] flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-3xl bg-white/50 animate-in zoom-in-95 duration-500 mt-6 p-6 text-center">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
                 <Sparkles size={28} className="text-slate-300" />
               </div>
               <p className="font-bold text-slate-500 text-lg">Your canvas is empty.</p>
               <p className="text-sm text-slate-400 mt-1">Configure topics on the left and hit generate.</p>
+              
+              {/* Mobile helper button to open sidebar if canvas is empty */}
+              <button 
+                onClick={() => setIsSidebarOpen(true)}
+                className="lg:hidden mt-6 px-6 py-2 bg-violet-100 text-violet-700 font-bold rounded-full text-sm hover:bg-violet-200 transition-colors"
+              >
+                Open Generator
+              </button>
             </div>
           ) : (
             <div className="space-y-5">
@@ -407,22 +443,28 @@ export default function AIGeneratorPage() {
                     <div className="w-32 h-5 bg-slate-100 rounded-full" />
                   </div>
                   <div className="w-3/4 h-5 bg-slate-100 rounded-lg mb-6" />
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[1, 2, 3, 4].map(i => <div key={i} className="w-full h-10 bg-slate-50 rounded-xl" />)}
                   </div>
                 </div>
               )}
               
-              {/* 🟢 NEW: Bottom Helper Prompt */}
+              {/* Bottom Helper Prompt */}
               {!isGenerating && generatedQuestions.length > 0 && (
                 <div className="py-8 flex flex-col items-center justify-center text-center animate-in fade-in duration-700">
                   <div className="w-12 h-12 bg-slate-100 text-slate-300 rounded-full flex items-center justify-center mb-3">
                     <Layers size={20} />
                   </div>
                   <p className="text-sm font-bold text-slate-500">Want to mix in more topics?</p>
-                  <p className="text-xs text-slate-400 mt-1 max-w-[250px]">
-                    Change the syllabus on the left and click "Generate Magic" to append more questions to this test.
+                  <p className="text-xs text-slate-400 mt-1 max-w-[250px] mb-4">
+                    Change the syllabus and append more questions to this test.
                   </p>
+                  <button 
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="lg:hidden px-5 py-2 bg-slate-200 text-slate-600 font-bold rounded-full text-xs hover:bg-slate-300 transition-colors"
+                  >
+                    Open Generator
+                  </button>
                 </div>
               )}
 
