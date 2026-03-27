@@ -8,8 +8,8 @@ import { useAuth } from '@/lib/AuthContext';
 import { getUserProfile } from '@/services/userService';
 import { 
   LogOut, LayoutDashboard, Users, GraduationCap, Menu, X, 
-  FilePlus, FolderOpen, BarChart3, BookOpen, 
-  User, PanelLeftClose, ChevronDown, Check, Sparkles 
+  FilePlus, FolderOpen, BookOpen, 
+  User, ChevronDown, Check, Sparkles, ChevronLeft
 } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -42,9 +42,15 @@ const SIDEBAR_TRANSLATIONS = {
       analytics: "AI Tahlilchi",
       profile: "Profil"
     },
-    create: "Yangi Test Yaratish",
+    create: "Yangi Test",
     signOut: "Chiqish",
-    settings: "Sozlamalar"
+    settings: "Sozlamalar",
+    logoutConfirm: {
+      title: "Tizimdan chiqish",
+      desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?",
+      cancel: "Bekor qilish",
+      confirm: "Ha, chiqish"
+    }
   },
   en: {
     brandSubtitle: "INSTRUCTOR PORTAL",
@@ -55,9 +61,15 @@ const SIDEBAR_TRANSLATIONS = {
       analytics: "AI Analytics",
       profile: "Profile"
     },
-    create: "Create New Test",
+    create: "New Test",
     signOut: "Sign Out",
-    settings: "Settings"
+    settings: "Settings",
+    logoutConfirm: {
+      title: "Sign Out",
+      desc: "Are you sure you want to sign out of your account?",
+      cancel: "Cancel",
+      confirm: "Yes, Sign Out"
+    }
   },
   ru: {
     brandSubtitle: "ПОРТАЛ УЧИТЕЛЯ",
@@ -68,78 +80,76 @@ const SIDEBAR_TRANSLATIONS = {
       analytics: "ИИ Аналитика",
       profile: "Профиль"
     },
-    create: "Создать Тест",
+    create: "Новый Тест",
     signOut: "Выйти",
-    settings: "Настройки"
+    settings: "Настройки",
+    logoutConfirm: {
+      title: "Выход",
+      desc: "Вы уверены, что хотите выйти из аккаунта?",
+      cancel: "Отмена",
+      confirm: "Да, выйти"
+    }
   }
 };
 
 // --- 3. LANGUAGE SELECTOR COMPONENT ---
-const LanguageSelector = ({ lang, setLang }: { lang: LangType, setLang: (l: LangType) => void }) => {
+const LanguageSelector = ({ lang, setLang, collapsed }: { lang: LangType, setLang: (l: LangType) => void, collapsed?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setIsOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const languages: { code: LangType; label: string }[] = [
-    { code: 'uz', label: "O'zbek" },
-    { code: 'en', label: "English" },
-    { code: 'ru', label: "Русский" },
+    { code: 'uz', label: "O'zbek" }, { code: 'en', label: "English" }, { code: 'ru', label: "Русский" },
   ];
 
   const currentLabel = languages.find(l => l.code === lang)?.label || lang.toUpperCase();
 
   return (
-    <div className="relative w-full" ref={dropdownRef}>
+    <div className={`relative ${collapsed ? 'w-10' : 'w-full'}`} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all border text-xs font-bold uppercase tracking-wide ${
-          isOpen 
-            ? 'bg-slate-700 border-slate-600 text-white' 
-            : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600'
-        }`}
+        className={`flex items-center justify-center transition-all border text-xs font-bold uppercase tracking-wide
+          ${collapsed ? 'w-10 h-10 rounded-xl' : 'w-full px-3 py-2.5 rounded-xl justify-between'}
+          ${isOpen ? 'bg-slate-100 border-slate-200 text-slate-900' : 'bg-white border-slate-200/80 text-slate-600 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50'}
+        `}
       >
-        <span className="flex items-center gap-2">
-           <span className="w-5 h-5 rounded bg-slate-700 flex items-center justify-center text-[9px] border border-slate-600">
-             {lang.toUpperCase()}
-           </span>
-           <span className="truncate">{currentLabel}</span>
-        </span>
-        <ChevronDown size={14} className={`transition-transform duration-200 text-slate-500 ${isOpen ? 'rotate-180 text-white' : ''}`} />
+        {collapsed ? (
+           <span className="text-[10px]">{lang}</span>
+        ) : (
+          <>
+            <span className="flex items-center gap-2">
+              <span className="w-5 h-5 rounded bg-slate-100 flex items-center justify-center text-[9px] border border-slate-200 text-slate-700">
+                {lang}
+              </span>
+              <span className="truncate">{currentLabel}</span>
+            </span>
+            <ChevronDown size={14} className={`transition-transform duration-200 text-slate-400 ${isOpen ? 'rotate-180 text-slate-800' : ''}`} />
+          </>
+        )}
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 5, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 5, scale: 0.95 }}
-            transition={{ duration: 0.15 }}
-            className="absolute top-full mt-2 left-0 right-0 bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden p-1 z-50"
+            initial={{ opacity: 0, y: 5, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 5, scale: 0.95 }} transition={{ duration: 0.15 }}
+            className={`absolute mt-2 bg-white border border-slate-100 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] overflow-hidden p-1.5 z-50
+              ${collapsed ? 'left-full ml-4 top-0 w-36' : 'top-full left-0 right-0'}
+            `}
           >
             {languages.map((item) => (
               <button
-                key={item.code}
-                onClick={() => {
-                  setLang(item.code);
-                  setIsOpen(false);
-                }}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
-                  lang === item.code
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
-                }`}
+                key={item.code} onClick={() => { setLang(item.code); setIsOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold transition-colors ${lang === item.code ? 'bg-indigo-50/80 text-indigo-700' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}
               >
                 <span>{item.label}</span>
-                {lang === item.code && <Check size={12} />}
+                {lang === item.code && <Check size={14} className="text-indigo-600" />}
               </button>
             ))}
           </motion.div>
@@ -154,54 +164,47 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const isFullScreenPage = pathname.includes('/teacher/create');
   
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false); // 🟢 LOGOUT MODAL STATE
   
-  // 🟢 Language State
   const [lang, setLang] = useState<LangType>('uz');
   const t = SIDEBAR_TRANSLATIONS[lang];
 
-  // --- PROTECTION LOGIC ---
   useEffect(() => {
     async function checkRole() {
       if (!loading) {
-        if (!user) {
-          router.push('/auth/login');
-        } else {
+        if (!user) router.push('/auth/login');
+        else {
           const profile = await getUserProfile(user.uid);
-          if (profile?.role !== 'teacher') {
-            router.push('/dashboard');
-          } else {
-            setIsAuthorized(true);
-          }
+          if (profile?.role !== 'teacher') router.push('/dashboard');
+          else setIsAuthorized(true);
         }
       }
     }
     checkRole();
   }, [user, loading, router]);
 
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMobileMenuOpen(false); }, [pathname]);
 
   if (loading || !isAuthorized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full"></div>
-          <p className="text-slate-400 text-sm font-bold animate-pulse">Loading EdifyTeacher...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
+        <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full"></div>
       </div>
     );
   }
 
+  // 🟢 FIXED: Create Test is now standard with AI badge
   const navItems = [
     { name: t.menu.overview, href: '/teacher/dashboard', icon: LayoutDashboard },
+    { name: t.create, href: '/teacher/create', icon: FilePlus, isAI: true }, // Added isAI: true
     { name: t.menu.library, href: '/teacher/library', icon: FolderOpen },
     { name: t.menu.classes, href: '/teacher/classes', icon: Users }, 
-    { name: t.menu.analytics, href: '/teacher/analytics', icon: Sparkles },
+    { name: t.menu.analytics, href: '/teacher/analytics', icon: Sparkles, isAI: true },
     { name: t.menu.profile, href: '/teacher/profile', icon: User },
   ];
 
@@ -210,90 +213,42 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
     const collapsed = mobile ? false : isCollapsed;
 
     return (
-      <div className="flex flex-col h-full relative transition-all duration-300">
+      <div className="flex flex-col h-full relative transition-all duration-300 bg-white">
         
-        {/* HEADER & CONTROLS SECTION */}
-        <div className={`p-5 flex flex-col gap-5 border-b border-slate-800 bg-slate-900 shrink-0`}>
-          
-          {/* 1. LOGO ROW */}
-          <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
-             
-             {/* Mobile Close */}
+        {/* HEADER SECTION */}
+        <div className={`p-5 flex flex-col gap-5 border-b border-slate-100 shrink-0 ${collapsed ? 'items-center' : ''}`}>
+          <div className={`flex items-center w-full ${collapsed ? 'justify-center' : 'justify-between'}`}>
              {mobile && (
-                <button onClick={() => setMobileMenuOpen(false)} className="p-2 -ml-2 text-slate-400 hover:text-white rounded-lg">
-                  <X size={24} />
+                <button onClick={() => setMobileMenuOpen(false)} className="p-2 -ml-2 text-slate-400 hover:text-slate-900 bg-slate-50 rounded-lg">
+                  <X size={20} />
                 </button>
              )}
-
-             {/* Brand */}
              <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-900/40 text-white shrink-0">
-                  <BookOpen size={20} />
+                <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center shadow-sm text-white shrink-0">
+                  <BookOpen size={18} />
                 </div>
                 {!collapsed && (
-                  <div>
-                    <h1 className="font-black text-lg tracking-tight text-white leading-none whitespace-nowrap">
-                      Edify<span className="text-indigo-400">Teacher</span>
-                    </h1>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1 whitespace-nowrap">
-                      {t.brandSubtitle}
-                    </p>
+                  <div className="animate-in fade-in slide-in-from-left-2 duration-300">
+                    <h1 className="font-black text-[17px] text-slate-900 leading-none">Edify<span className="text-indigo-600">Teacher</span></h1>
+                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">{t.brandSubtitle}</p>
                   </div>
                 )}
              </div>
-
-             {/* Collapse Toggle (Desktop Only) */}
-             {!mobile && !collapsed && (
-                <button onClick={() => setIsCollapsed(true)} className="p-2 text-slate-500 hover:text-white transition-colors">
-                   <PanelLeftClose size={20} />
-                </button>
-             )}
           </div>
 
-          {/* 2. CONTROLS ROW (Lang + Bell) */}
           {!collapsed && (
-             <div className="flex items-center gap-2">
-                <div className="flex-1 min-w-0">
-                   <LanguageSelector lang={lang} setLang={setLang} />
-                </div>
-                <div className="w-[42px] h-[42px] flex items-center justify-center rounded-xl bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:border-slate-600 transition-all cursor-pointer shadow-sm shrink-0">
+             <div className={`flex ${collapsed ? 'flex-col' : 'items-center'} gap-2 w-full`}>
+                <LanguageSelector lang={lang} setLang={setLang} collapsed={collapsed} />
+                <div className={`flex items-center justify-center rounded-xl bg-white border border-slate-200/80 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all cursor-pointer shadow-sm shrink-0 ${collapsed ? 'w-10 h-10' : 'w-[42px] h-[42px]'}`}>
                    <NotificationBell />
                 </div>
              </div>
           )}
-
-          {/* Collapsed Mode Button */}
-          {collapsed && !mobile && (
-             <button onClick={() => setIsCollapsed(false)} className="w-10 h-10 mx-auto bg-slate-800 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-colors">
-                <Menu size={20} />
-             </button>
-          )}
-        </div>
-
-        {/* CREATE BUTTON */}
-        <div className="px-4 mt-6 mb-2">
-          <Link 
-            href="/teacher/create" 
-            className={`
-              flex items-center gap-2 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-900/20 transition-all hover:bg-indigo-500 active:scale-95 group overflow-hidden border border-indigo-500/50
-              ${collapsed ? 'justify-center py-3 w-10 mx-auto' : 'justify-center py-3.5 w-full'}
-            `}
-            title={t.create}
-          >
-            <FilePlus size={18} className="group-hover:scale-110 transition-transform shrink-0" /> 
-            {!collapsed && (
-              <span className="whitespace-nowrap animate-in fade-in duration-200">
-                {t.create}
-              </span>
-            )}
-          </Link>
         </div>
 
         {/* NAV LINKS */}
-        <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
-          {!collapsed && (
-             <p className="px-3 text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 mt-4 animate-in fade-in duration-300">Menu</p>
-          )}
+        <nav className="flex-1 px-3 space-y-1.5 overflow-y-auto custom-scrollbar mt-4 pb-4">
+          {!collapsed && <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Menu</p>}
           
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/teacher/dashboard' && pathname.startsWith(item.href));
@@ -303,77 +258,60 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
                 key={item.href}
                 href={item.href} 
                 className={`
-                  group flex items-center px-3 py-3 rounded-xl font-bold text-sm transition-all relative
-                  ${isActive 
-                    ? 'bg-slate-800 text-white shadow-md' 
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'}
+                  group flex items-center px-3 py-2.5 rounded-xl font-bold text-[14px] transition-all relative
+                  ${isActive ? 'bg-slate-50 text-indigo-600' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'}
                   ${collapsed ? 'justify-center' : 'justify-between'}
                 `}
                 title={collapsed ? item.name : ''}
               >
+                {isActive && !collapsed && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-indigo-600 rounded-r-full" />}
+
                 <div className="flex items-center gap-3">
-                  <item.icon size={20} className={`shrink-0 ${isActive ? 'text-indigo-400' : 'text-slate-500 group-hover:text-white'}`} /> 
+                  <item.icon size={18} className={`shrink-0 ${isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-700'}`} /> 
                   {!collapsed && (
-                    <span className="whitespace-nowrap animate-in fade-in duration-200 flex items-center gap-2">
+                    <span className="whitespace-nowrap flex items-center gap-2">
                       {item.name}
-                      
-                      {/* 🟢 ADD THIS: Small AI Badge for the Analytics item */}
-                      {item.href === '/teacher/analytics' && (
-                        <span className="bg-indigo-500/20 text-indigo-400 text-[10px] px-1.5 py-0.5 rounded-md border border-indigo-500/30 uppercase tracking-tighter">
-                          AI
-                        </span>
+                      {item.isAI && (
+                        <span className="bg-indigo-100 text-indigo-600 text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-tighter">AI</span>
                       )}
                     </span>
                   )}
                 </div>
-            
-                {/* 🟢 UPDATE THIS: Show the AI Sparkle dot instead of a plain dot for Analytics */}
-                {isActive && !collapsed && (
-                  item.href === '/teacher/analytics' ? (
-                    <Sparkles size={12} className="text-indigo-400 animate-pulse" />
-                  ) : (
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.6)]"></div>
-                  )
-                )}
-                
-                {/* Active Dot for Collapsed Mode */}
-                {isActive && collapsed && (
-                   <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-indigo-500 ring-2 ring-slate-900"></div>
-                )}
+                {isActive && collapsed && <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-indigo-600 ring-2 ring-white" />}
               </Link>
             );
           })}
         </nav>
 
-        {/* USER FOOTER */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/50">
-          <div className={`flex items-center gap-2 ${collapsed ? 'justify-center flex-col' : 'justify-between'}`}>
+        {/* 🟢 FIXED: BOTTOM USER FOOTER */}
+        <div className="p-4 border-t border-slate-100 bg-white">
+          <div className={`flex items-center gap-3 ${collapsed ? 'justify-center flex-col' : 'justify-between'}`}>
             
-            <Link href="/teacher/settings" className={`flex items-center gap-3 flex-1 group rounded-lg p-2 transition-colors ${!collapsed && '-ml-2 hover:bg-slate-800'}`}>
-              <div className="relative">
-                <div className="w-9 h-9 bg-slate-700 rounded-full flex items-center justify-center text-slate-300 shrink-0 border border-slate-600 group-hover:border-indigo-500 transition-colors">
+            <Link href="/teacher/settings" className={`flex items-center gap-3 flex-1 group rounded-xl p-2 transition-colors ${!collapsed && '-ml-2 hover:bg-slate-50'}`}>
+              <div className="relative shrink-0">
+                <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 border border-slate-200 group-hover:border-indigo-300 transition-colors shadow-sm">
                    {user?.photoURL ? (
                      <img src={user.photoURL} alt="Me" className="w-full h-full rounded-full object-cover" />
                    ) : (
-                     <GraduationCap size={18} />
+                     <GraduationCap size={20} />
                    )}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 border-2 border-slate-900 rounded-full"></div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
               </div>
               
               {!collapsed && (
-                <div className="overflow-hidden text-left animate-in fade-in duration-200">
-                  <p className="text-sm font-bold text-white truncate group-hover:text-indigo-400 transition-colors">
-                    {user?.displayName || 'Professor'}
+                <div className="overflow-hidden text-left">
+                  <p className="text-[14px] font-bold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">
+                    {user?.displayName || 'Umidjon'}
                   </p>
-                  <p className="text-xs text-slate-500 truncate">{t.settings}</p>
+                  <p className="text-[12px] font-medium text-slate-500 truncate">{t.settings}</p>
                 </div>
               )}
             </Link>
 
             <button 
-              onClick={() => signOut(auth)}
-              className={`text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded-lg transition-colors ${collapsed ? 'p-2 mt-2 bg-slate-800' : 'p-2'}`}
+              onClick={() => setShowLogoutModal(true)}
+              className={`text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors ${collapsed ? 'p-2 mt-2 bg-slate-50 border border-slate-100' : 'p-2.5'}`}
               title={t.signOut}
             >
               <LogOut size={18} />
@@ -385,44 +323,63 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
   };
 
   return (
-    // 🟢 Wrap in Language Provider
     <TeacherLanguageContext.Provider value={{ lang, setLang }}>
-      <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
+      {/* 🟢 1. O'ZGARISH: flex md:flex-row olib tashlandi. Bu fixed menyu bilan ziddiyat yarataoytgan edi. */}
+      <div className="min-h-[100dvh] bg-[#FAFAFA] font-sans selection:bg-indigo-100 selection:text-indigo-900">
         
+        {/* 🟢 LOGOUT MODAL (O'zgarishsiz qoladi) */}
+        <AnimatePresence>
+          {showLogoutModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+                onClick={() => setShowLogoutModal(false)}
+              />
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative bg-white rounded-3xl p-6 md:p-8 w-full max-w-sm shadow-2xl border border-slate-100 z-10 text-center"
+              >
+                <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <LogOut size={28} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-2">{t.logoutConfirm.title}</h3>
+                <p className="text-slate-500 text-[15px] mb-8 font-medium">{t.logoutConfirm.desc}</p>
+                
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <button onClick={() => setShowLogoutModal(false)} className="w-full px-5 py-3 rounded-xl text-slate-600 font-bold bg-slate-100 hover:bg-slate-200 transition-colors">
+                    {t.logoutConfirm.cancel}
+                  </button>
+                  <button onClick={() => { signOut(auth); setShowLogoutModal(false); }} className="w-full px-5 py-3 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition-colors shadow-sm">
+                    {t.logoutConfirm.confirm}
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
         {/* 📱 MOBILE HEADER */}
-        <header className="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between sticky top-0 z-30 border-b border-slate-800 shadow-xl">
+        <header className="md:hidden bg-white/80 backdrop-blur-md text-slate-900 p-3.5 flex items-center justify-between sticky top-0 z-30 border-b border-slate-200/80 shadow-sm">
           <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setMobileMenuOpen(true)}
-              className="p-2 -ml-2 hover:bg-slate-800 rounded-lg transition"
-            >
-              <Menu size={24} />
+            <button onClick={() => setMobileMenuOpen(true)} className="p-2 -ml-2 text-slate-500 hover:bg-slate-100 rounded-lg">
+              <Menu size={22} />
             </button>
-            
-            <div className="flex items-center gap-2 font-black text-lg">
-              <BookOpen size={20} className="text-indigo-500"/>
-              Edify<span className="text-indigo-400">Teacher</span>
+            <div className="flex items-center gap-2 font-black text-[16px]">
+              <div className="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center text-white"><BookOpen size={14} /></div>
+              <span>Edify<span className="text-indigo-600">Teacher</span></span>
             </div>
           </div>
-          
-          <div className="flex items-center gap-3">
-             <div className="w-[70px]">
-                <LanguageSelector lang={lang} setLang={setLang} />
-             </div>
-             <div className="text-slate-300">
-                <NotificationBell />
-             </div>
+          <div className="flex items-center gap-2">
+             <div className="text-slate-500 flex items-center justify-center p-1"><NotificationBell /></div>
           </div>
         </header>
 
         {/* 📱 MOBILE SIDEBAR OVERLAY */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 z-50 md:hidden flex">
-            <div 
-              className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200"
-              onClick={() => setMobileMenuOpen(false)}
-            ></div>
-            <aside className="relative w-72 bg-slate-900 text-white h-full shadow-2xl animate-in slide-in-from-left duration-300 border-r border-slate-800">
+          <div className="fixed inset-0 z-40 md:hidden flex">
+            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}></div>
+            <aside className="relative w-[280px] bg-white h-full shadow-2xl animate-in slide-in-from-left duration-300 border-r border-slate-200">
               <SidebarContent mobile={true} />
             </aside>
           </div>
@@ -431,25 +388,37 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
         {/* 🖥️ DESKTOP SIDEBAR */}
         <aside 
           className={`
-            hidden md:block fixed h-full bg-slate-900 text-white z-20 border-r border-slate-800 shadow-2xl transition-all duration-300 ease-in-out
-            ${isCollapsed ? 'w-20' : 'w-72'}
+            hidden md:block fixed top-0 left-0 h-full bg-white z-20 border-r border-slate-200 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.05)] transition-all duration-300 ease-in-out
+            ${isCollapsed ? 'w-20' : 'w-[280px]'}
           `}
         >
           <SidebarContent />
+          
+          <button 
+            onClick={() => setIsCollapsed(!isCollapsed)} 
+            className="absolute -right-3.5 top-8 bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:shadow-md hover:scale-110 rounded-full p-1.5 shadow-sm transition-all z-50 flex items-center justify-center"
+          >
+            <ChevronLeft size={16} className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />
+          </button>
         </aside>
 
-        {/* MAIN CONTENT AREA */}
-        <main 
-          className={`
-            flex-1 p-4 md:p-8 overflow-y-auto h-screen bg-slate-50 transition-all duration-300 ease-in-out
-            ${isCollapsed ? 'md:ml-20' : 'md:ml-72'}
-          `}
-        >
-          <div className="max-w-7xl mx-auto">
-             {children}
-          </div>
-        </main>
+        {/* 🟢 2. O'ZGARISH: Margin-left (ml) o'rniga Padding-left (pl) ishlatildi. */}
+        {/* Bu brauzerga sahifaning haqiqiy kengligini aniq hisoblash imkonini beradi. */}
+        <div className={`transition-all duration-300 ease-in-out ${isCollapsed ? 'md:pl-20' : 'md:pl-[280px]'}`}>
+          
+          {/* MAIN CONTENT AREA */}
+          <main className={`min-h-screen w-full ${isFullScreenPage ? 'p-0' : 'p-6 md:p-10'}`}>
+            
+            {/* 🟢 3. O'ZGARISH: max-w-7xl ni max-w-6xl ga o'zgartirdik, noutbuklarda ham ikki yonda chiroyli bo'sh joy (gap) qolishi uchun. */}
+            <div className={isFullScreenPage ? 'w-full h-full' : 'max-w-6xl mx-auto'}>
+               {children}
+            </div>
+
+          </main>
+        </div>
+
       </div>
     </TeacherLanguageContext.Provider>
   );
+
 }

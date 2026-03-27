@@ -11,71 +11,40 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "GEMINI_API_KEY is missing in .env.local" }, { status: 500 });
     }
 
-    // 🟢 2. DYNAMIC PERSONAS: Define how the AI should act based on the topic
+    // 🟢 2. DYNAMIC PERSONAS (Minified)
     const categoryPersonas: Record<string, string> = {
-      "5_sinf": `
-        TARGET AUDIENCE: 5th-grade students (10-11 years old). 
-        TONE: Simple and clear. 
-        MATH RULES: Do not use negative numbers, complex fractions, or advanced algebra unless explicitly stated in the context.`,
-      "algebra": `
-        TARGET AUDIENCE: High school graduates and university applicants (Abituriyentlar). 
-        TONE: Academic and rigorous. 
-        MATH RULES: Use advanced algebraic notation, complex multi-step equations, and university-entrance level difficulty.`,
-      "geometriya": `
-        TARGET AUDIENCE: High school graduates and university applicants (Abituriyentlar). 
-        TONE: Academic and rigorous. 
-        MATH RULES: Focus on advanced theorems, complex spatial reasoning, and proofs.`
+      "5_sinf": `Target: 5th-grade (10-11yo). Tone: Simple. Math Rule: NO negative numbers, complex fractions, or advanced algebra unless in context.`,
+      "algebra": `Target: High school/University applicants (Abituriyentlar). Tone: Academic. Math Rule: Advanced algebra, multi-step equations, university-entrance difficulty.`,
+      "geometriya": `Target: High school/University applicants (Abituriyentlar). Tone: Academic. Math Rule: Advanced theorems, complex spatial reasoning, proofs.`
     };
 
-    // Grab the specific persona, or default to general math if not found
-    const activePersona = categoryPersonas[topic] || `TARGET AUDIENCE: General math students. Adjust difficulty based on the subtopic.`;
+    const activePersona = categoryPersonas[topic] || `Target: General math students. Adjust difficulty by subtopic.`;
 
-    // 🟢 3. BUILD THE BASE PROMPT (Stacking the instructions)
-    let systemPrompt = `You are an expert Math Teacher in Uzbekistan. Generate exactly ${count} multiple-choice questions.
-    
-Context Parameters:
-- Language: ${language}
-- Difficulty: ${difficulty}
-- Topic Category: ${topic}
-- Chapter: ${chapter}
-- Specific Subtopic: ${subtopic}
-
+    // 🟢 3. BUILD THE BASE PROMPT (Compressed Structure)
+    let systemPrompt = `Act as an expert Uzbekistan Math Teacher. Generate exactly ${count} multiple-choice questions.
+Params: Lang:${language}, Diff:${difficulty}, Topic:${topic}, Chapter:${chapter}, Subtopic:${subtopic}.
 ${activePersona}`;
 
-    // 🟢 4. STRICT VS CREATIVE CONTEXT INJECTION
+    // 🟢 4. STRICT VS CREATIVE (Minified)
     if (context && context.trim() !== "") {
-      systemPrompt += `\n\nCRITICAL CURRICULUM RULE (STRICT MODE):
-You MUST base your questions STRICTLY on the following curriculum text. Mimic the exact teaching style and scope shown here. Do not introduce concepts outside of this text:
-"${context}"`;
+      systemPrompt += `\nSTRICT CONTEXT: Base questions ONLY on this text. Mimic its exact style/scope. Do not invent outside concepts. Text: "${context}"`;
     } else {
-      systemPrompt += `\n\nGENERAL CURRICULUM RULE (CREATIVE MODE):
-We do not have a specific text snippet for this lesson. Use standard Uzbekistan national curriculum rules for this specific category and subtopic.`;
+      systemPrompt += `\nCREATIVE MODE: Use standard Uzbekistan national curriculum for this subtopic.`;
     }
 
-    // 🟢 5. APPEND YOUR EXISTING MATH AND JSON RULES
-    systemPrompt += `\n\nCRITICAL MATH & FORMATTING RULES:
-1. Accuracy: The correct answer MUST be mathematically flawless.
-2. Distractors: The 3 wrong options MUST be common student mistakes.
-3. Randomize Answer: The correct 'answer' key must be randomly distributed.
-4. Brevity: The 'explanation' must be extremely concise. Max 2 sentences.
-5. THE DOLLAR SIGN RULE: You MUST wrap ALL mathematical formulas, variables, and numbers in single dollar signs $. 
-   - GOOD: "Tenglamani yeching: $\\begin{cases} x=2 \\\\ y=3 \\end{cases}$"
-   - BAD: "Tenglamani yeching: \\begin{cases} x=2 \\\\ y=3 \\end{cases}"
-6. THE DOUBLE BACKSLASH RULE (ZERO TOLERANCE): Because your output is JSON, you MUST double-escape every single LaTeX command. Single backslashes will crash the JSON parser.
-   - You MUST write $\\\\frac{1}{2}$, NEVER $\\frac{1}{2}$.
-   - You MUST write $\\\\pi$, NEVER $\\pi$.
-   - You MUST write $\\\\sin x$, NEVER $\\sin x$.
-   - You MUST write $\\\\begin{cases} ... \\\\end{cases}$
-Output a RAW JSON array. No markdown. No greetings.
+    // 🟢 5. MATH & JSON RULES (Highly Compressed)
+    systemPrompt += `
+RULES:
+1. Accuracy: Correct answer must be mathematically flawless.
+2. Distractors: The 3 wrong options must be common student mistakes.
+3. Randomize: The 'answer' key (A, B, C, D) must be randomized.
+4. Brevity: 'explanation' max 2 sentences.
+5. Dollar Signs: Wrap ALL math, variables, and numbers in single $. (e.g., $x=2$).
+6. JSON LATEX ESCAPING (CRITICAL): MUST double-escape all LaTeX to prevent JSON parsing crashes. Use \\\\frac, \\\\pi, \\\\sin x, \\\\begin{cases}. NEVER use single backslashes.
+
+Output RAW JSON array only. No markdown.
 Schema:
-[
-  {
-    "question": "...",
-    "options": { "A": "...", "B": "...", "C": "...", "D": "..." },
-    "answer": "A", 
-    "explanation": "..."
-  }
-]`;
+[{"question":"...","options":{"A":"...","B":"...","C":"...","D":"..."},"answer":"A","explanation":"..."}]`;
 
     // 🟢 6. FETCH FROM GEMINI (Your existing robust setup)
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {

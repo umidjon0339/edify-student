@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Rocket, Menu, X, ChevronRight, Globe, ChevronDown, Check } from 'lucide-react';
+import { BookOpen, Menu, X, ChevronRight, Globe, ChevronDown, Check } from 'lucide-react';
 import { useState, createContext, useContext, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -25,9 +25,9 @@ export function useLanguage() {
 
 // --- 2. TRANSLATIONS ---
 const NAV_TRANSLATIONS = {
-  uz: { login: "Kirish", start: "Boshlash", langName: "O'zbek" },
-  en: { login: "Log in", start: "Get Started", langName: "English" },
-  ru: { login: "Войти", start: "Начать", langName: "Русский" }
+  uz: { login: "Kirish", start: "Ro'yxatdan o'tish", langName: "O'zbek" },
+  en: { login: "Log in", start: "Sign Up", langName: "English" },
+  ru: { login: "Войти", start: "Регистрация", langName: "Русский" }
 };
 
 // --- 3. LANGUAGE DROPDOWN COMPONENT (Desktop) ---
@@ -57,15 +57,15 @@ const LanguageDropdown = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all border ${
+        className={`flex items-center gap-2 px-3 py-2 rounded-xl transition-all border text-[13px] font-bold ${
           isOpen 
-            ? 'bg-slate-800 border-cyan-500/50 text-white' 
-            : 'bg-slate-800/50 border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800'
+            ? 'bg-blue-50 border-blue-200 text-blue-700' 
+            : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
         }`}
       >
-        <Globe size={16} className={isOpen ? "text-cyan-400" : "text-slate-400"} />
-        <span className="text-xs font-bold uppercase w-5">{lang}</span>
-        <ChevronDown size={14} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <Globe size={16} className={isOpen ? "text-blue-600" : "text-slate-400"} />
+        <span className="uppercase w-5 text-center">{lang}</span>
+        <ChevronDown size={14} className={`text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180 text-blue-500' : ''}`} />
       </button>
 
       <AnimatePresence>
@@ -75,7 +75,7 @@ const LanguageDropdown = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full right-0 mt-2 w-40 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl overflow-hidden p-1.5 z-50"
+            className="absolute top-full right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] overflow-hidden p-1.5 z-50"
           >
             {languages.map((item) => (
               <button
@@ -84,14 +84,14 @@ const LanguageDropdown = () => {
                   setLang(item.code);
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[13px] font-bold transition-colors ${
                   lang === item.code
-                    ? 'bg-cyan-500/10 text-cyan-400'
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                    ? 'bg-blue-50/80 text-blue-700'
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                 }`}
               >
                 <span>{item.label}</span>
-                {lang === item.code && <Check size={14} />}
+                {lang === item.code && <Check size={14} className="text-blue-600" />}
               </button>
             ))}
           </motion.div>
@@ -101,26 +101,26 @@ const LanguageDropdown = () => {
   );
 };
 
-// --- 4. NAVBAR COMPONENT (Consumes Context) ---
+// --- 4. NAVBAR COMPONENT (Light Theme) ---
 const Navbar = () => {
   const pathname = usePathname();
   const isAuthPage = pathname.includes('/auth/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { lang, setLang } = useLanguage();
   
-  const t = NAV_TRANSLATIONS[lang]; // Get current text
+  const t = NAV_TRANSLATIONS[lang];
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/50 h-16 transition-all">
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 h-full flex items-center justify-between">
+    <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80 h-[72px] transition-all">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 h-full flex items-center justify-between">
         
         {/* Logo Area */}
         <Link href="/" className="flex items-center gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="w-9 h-9 bg-gradient-to-br from-purple-600 via-cyan-600 to-pink-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-500/20 group-hover:scale-105 transition-transform">
-            <Rocket size={18} className="fill-white/20" />
+          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-blue-600/20 group-hover:-translate-y-0.5 transition-transform duration-300">
+            <BookOpen size={20} />
           </div>
-          <span className="font-black text-xl tracking-tight text-white">
-            Edify<span className="text-cyan-400">.</span>
+          <span className="font-black text-[22px] tracking-tight text-slate-900">
+            Edify<span className="text-blue-600">.</span>
           </span>
         </Link>
 
@@ -128,41 +128,39 @@ const Navbar = () => {
         {!isAuthPage && (
           <div className="hidden md:flex items-center gap-6">
             
-            {/* 🟢 Modern Language Dropdown */}
             <LanguageDropdown />
 
-            <div className="h-6 w-px bg-slate-700/50"></div>
+            <div className="h-6 w-px bg-slate-200"></div>
 
             <Link 
               href="/auth/login" 
-              className="text-sm font-bold text-slate-300 hover:text-white transition-colors flex items-center gap-2"
+              className="text-[15px] font-bold text-slate-600 hover:text-blue-600 transition-colors"
             >
               {t.login}
             </Link>
+            
             <Link 
               href="/auth/signup" 
-              className="group relative overflow-hidden bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all active:scale-95 flex items-center gap-2"
+              className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-[14px] font-bold shadow-sm hover:shadow-md hover:bg-black hover:-translate-y-0.5 transition-all flex items-center gap-2"
             >
-              <span className="relative z-10">{t.start}</span>
-              <ChevronRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform"/>
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              {t.start}
             </Link>
           </div>
         )}
 
         {/* Mobile Menu Toggle */}
         {!isAuthPage && (
-          <div className="flex items-center gap-4 md:hidden">
-            {/* Mobile Lang Indicator (Small) */}
-            <div className="text-xs font-bold uppercase text-cyan-400 bg-cyan-950/30 border border-cyan-900 px-2 py-1 rounded">
+          <div className="flex items-center gap-3 md:hidden">
+            {/* Mobile Lang Indicator */}
+            <div className="text-[11px] font-bold uppercase text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded-lg">
                 {lang}
             </div>
 
             <button 
-              className="p-2 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X size={24} className="text-cyan-400" /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         )}
@@ -176,18 +174,18 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-16 inset-x-0 bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/50 p-4 flex flex-col gap-3 shadow-2xl md:hidden z-40"
+            className="absolute top-[72px] inset-x-0 bg-white/95 backdrop-blur-xl border-b border-slate-200 p-5 flex flex-col gap-4 shadow-2xl md:hidden z-40"
           >
             {/* 🟢 LANGUAGE SWITCHER (Mobile Segmented Control) */}
-            <div className="flex bg-slate-800/50 rounded-xl p-1 border border-slate-700 mb-2">
+            <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/60 mb-2">
               {(['uz', 'en', 'ru'] as const).map((l) => (
                 <button
                   key={l}
                   onClick={() => setLang(l)}
-                  className={`flex-1 py-2.5 text-xs font-bold uppercase rounded-lg transition-all ${
+                  className={`flex-1 py-3 text-[13px] font-bold uppercase rounded-lg transition-all ${
                     lang === l 
-                      ? 'bg-cyan-600 text-white shadow-sm' 
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-white text-blue-600 shadow-sm border border-slate-200/50' 
+                      : 'text-slate-500 hover:text-slate-900'
                   }`}
                 >
                   {l}
@@ -198,14 +196,14 @@ const Navbar = () => {
             <Link 
               href="/auth/login" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-3.5 font-bold text-slate-300 bg-slate-800/50 rounded-xl hover:bg-slate-700/50 transition-colors border border-slate-700"
+              className="w-full text-center py-3.5 font-bold text-slate-700 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200"
             >
               {t.login}
             </Link>
             <Link 
               href="/auth/signup" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-3.5 font-bold text-white bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl hover:shadow-lg hover:shadow-cyan-500/20 transition-all"
+              className="w-full text-center py-3.5 font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 transition-all"
             >
               {t.start}
             </Link>
@@ -216,13 +214,14 @@ const Navbar = () => {
   );
 };
 
-// --- 5. MAIN LAYOUT (Provider Wrapper) ---
+// --- 5. MAIN LAYOUT (Light Theme Wrapper) ---
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<LangType>('uz');
 
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
-      <div className="min-h-screen bg-slate-900 flex flex-col font-sans text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
+      {/* 🟢 CHANGED: bg-slate-900 to bg-[#FAFAFA], text-slate-100 to text-slate-900 */}
+      <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
         <Navbar />
         <main className="flex-1">
           {children}

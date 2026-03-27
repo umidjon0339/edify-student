@@ -7,7 +7,12 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      // 🟢 Asosiy shrift oilasini Jakarta ga almashtiramiz
+      fontFamily: {
+        sans: ['var(--font-jakarta)', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };

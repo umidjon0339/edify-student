@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { X, Clock, Shuffle, Eye, Lock, CheckCircle, Shield, CalendarClock, EyeOff } from 'lucide-react';
-import { useTeacherLanguage } from '@/app/teacher/layout'; // 🟢 Import Hook
+import { useTeacherLanguage } from '@/app/teacher/layout'; 
+import { motion, AnimatePresence } from 'framer-motion'; // 🟢 Added for smooth animations
 
 // --- 1. TRANSLATION DICTIONARY ---
 const CONFIG_TRANSLATIONS = {
   uz: {
     title: "Yakunlash va Nashr Qilish",
-    subtitle: "\"{title}\" uchun xavfsizlik sozlamalari.",
+    subtitle: "\"{title}\" uchun sozlamalar",
     timeLimit: {
       title: "Vaqt Cheklovi",
       noLimit: "Cheklovsiz",
@@ -23,18 +24,18 @@ const CONFIG_TRANSLATIONS = {
       title: "Javoblar Xavfsizligi",
       afterDue: {
         title: "Muddatdan keyin ko'rsatish",
-        desc: "O'quvchilar javoblarni faqat muddat tugagandan so'ng ko'rishadi."
+        desc: "O'quvchilar javoblarni faqat muddat tugagandan so'ng ko'radi."
       },
       never: {
         title: "Hech qachon ko'rsatilmasin",
-        desc: "Qat'iy rejim. O'quvchilar faqat yakuniy ballni ko'rishadi."
+        desc: "Qat'iy rejim. Faqat yakuniy ball ko'rinadi."
       },
       always: {
         title: "Darhol ko'rsatish",
         desc: "Javoblar topshirilgandan so'ng darhol ochiladi."
       }
     },
-    accessCode: "Kirish Kodi",
+    accessCode: "Maxfiy Kirish Kodi",
     buttons: {
       cancel: "Bekor qilish",
       publishing: "Nashr qilinmoqda...",
@@ -43,7 +44,7 @@ const CONFIG_TRANSLATIONS = {
   },
   en: {
     title: "Finalize & Publish",
-    subtitle: "Configure security for \"{title}\".",
+    subtitle: "Settings for \"{title}\"",
     timeLimit: {
       title: "Time Limit",
       noLimit: "No Limit",
@@ -58,7 +59,7 @@ const CONFIG_TRANSLATIONS = {
       title: "Answer Key Security",
       afterDue: {
         title: "Show After Deadline",
-        desc: "Students see answers only after the due date passes."
+        desc: "Students see answers only after the due date."
       },
       never: {
         title: "Never Show Answers",
@@ -69,7 +70,7 @@ const CONFIG_TRANSLATIONS = {
         desc: "Answers revealed right after submission."
       }
     },
-    accessCode: "Access Code",
+    accessCode: "Secret Access Code",
     buttons: {
       cancel: "Cancel",
       publishing: "Publishing...",
@@ -78,7 +79,7 @@ const CONFIG_TRANSLATIONS = {
   },
   ru: {
     title: "Завершить и Опубликовать",
-    subtitle: "Настройки безопасности для \"{title}\".",
+    subtitle: "Настройки для \"{title}\"",
     timeLimit: {
       title: "Ограничение времени",
       noLimit: "Без лимита",
@@ -93,18 +94,18 @@ const CONFIG_TRANSLATIONS = {
       title: "Безопасность ответов",
       afterDue: {
         title: "Показать после срока",
-        desc: "Ученики увидят ответы только после истечения срока сдачи."
+        desc: "Ответы открываются после истечения срока."
       },
       never: {
         title: "Никогда не показывать",
-        desc: "Строгий режим. Ученики видят только итоговый балл."
+        desc: "Строгий режим. Виден только итоговый балл."
       },
       always: {
         title: "Показать сразу",
         desc: "Ответы открываются сразу после сдачи."
       }
     },
-    accessCode: "Код Доступа",
+    accessCode: "Секретный Код Доступа",
     buttons: {
       cancel: "Отмена",
       publishing: "Публикация...",
@@ -113,7 +114,7 @@ const CONFIG_TRANSLATIONS = {
   }
 };
 
-// --- UPDATED INTERFACE ---
+// --- INTERFACE ---
 interface TestSettings {
   duration: number; 
   shuffleQuestions: boolean;
@@ -134,7 +135,6 @@ export default function TestConfigurationModal({
   isOpen, onClose, onConfirm, questionCount, testTitle, isSaving 
 }: Props) {
   
-  // 🟢 Use Language Hook
   const { lang } = useTeacherLanguage();
   const t = CONFIG_TRANSLATIONS[lang];
 
@@ -150,8 +150,6 @@ export default function TestConfigurationModal({
     return code;
   });
 
-  if (!isOpen) return null;
-
   const handlePublish = () => {
     onConfirm({
       duration: isTimeLimited ? duration : 0,
@@ -162,137 +160,191 @@ export default function TestConfigurationModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}></div>
-
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
-        
-        {/* HEADER */}
-        <div className="bg-slate-50 border-b border-slate-100 p-6 flex justify-between items-start">
-          <div>
-            <h2 className="text-xl font-black text-slate-900">{t.title}</h2>
-            <p className="text-sm text-slate-500 mt-1">
-              {t.subtitle.replace("{title}", testTitle)}
-            </p>
-          </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors"><X size={24} /></button>
-        </div>
-
-        <div className="p-6 space-y-6">
+    <AnimatePresence>
+      {isOpen && (
+        // 🟢 FIXED Z-INDEX: Added z-[9999] to ensure it covers the sidebar perfectly
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
           
-          {/* 1. TIME LIMIT */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
-              <Clock size={16} className="text-indigo-600" /> {t.timeLimit.title}
-            </div>
-            <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="radio" checked={!isTimeLimited} onChange={() => setIsTimeLimited(false)} className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"/>
-                <span className="text-sm font-medium text-slate-700">{t.timeLimit.noLimit}</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="radio" checked={isTimeLimited} onChange={() => setIsTimeLimited(true)} className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"/>
-                <span className="text-sm font-medium text-slate-700">{t.timeLimit.fixed}</span>
-              </label>
-              {isTimeLimited && (
-                <div className="flex items-center gap-2 ml-auto animate-in fade-in">
-                  <input type="number" min="5" max="180" value={duration} onChange={(e) => setDuration(Number(e.target.value))} className="w-16 px-2 py-1 text-center font-bold border border-slate-300 rounded-lg text-sm focus:border-indigo-500 outline-none"/>
-                  <span className="text-xs font-bold text-slate-400">{t.timeLimit.mins}</span>
-                </div>
-              )}
-            </div>
-          </div>
+          {/* BACKGROUND BLUR */}
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" 
+            onClick={onClose}
+          />
 
-          {/* 2. SHUFFLE */}
-          <div 
-            className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${shuffle ? 'bg-indigo-50 border-indigo-200' : 'bg-white border-slate-200'}`}
-            onClick={() => setShuffle(!shuffle)}
+          {/* 🟢 UPGRADED MODAL CARD */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 10 }} 
+            animate={{ opacity: 1, scale: 1, y: 0 }} 
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            className="relative bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] w-full max-w-xl overflow-hidden border border-slate-100 flex flex-col max-h-[90vh]"
           >
-            <div>
-              <p className={`text-sm font-bold ${shuffle ? 'text-indigo-900' : 'text-slate-700'}`}>{t.shuffle.title}</p>
-              <p className="text-xs text-slate-500">{t.shuffle.desc}</p>
+            
+            {/* HEADER */}
+            <div className="bg-white border-b border-slate-100 p-6 flex justify-between items-start shrink-0">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center shadow-sm">
+                  <Shield size={24} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-black text-slate-900 tracking-tight">{t.title}</h2>
+                  <p className="text-[13px] font-medium text-slate-500 mt-0.5 max-w-[280px] truncate">
+                    {t.subtitle.replace("{title}", testTitle)}
+                  </p>
+                </div>
+              </div>
+              <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors">
+                <X size={20} />
+              </button>
             </div>
-            <div className={`p-2 rounded-full ${shuffle ? 'bg-indigo-200 text-indigo-700' : 'bg-slate-100 text-slate-400'}`}>
-              <Shuffle size={18} />
-            </div>
-          </div>
 
-          {/* 3. ANSWER VISIBILITY */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
-              <Shield size={16} className="text-indigo-600" /> {t.security.title}
-            </div>
-            <div className="grid grid-cols-1 gap-2">
+            {/* SCROLLABLE CONTENT */}
+            <div className="p-6 space-y-8 overflow-y-auto custom-scrollbar">
               
-              {/* Option A: After Deadline */}
-              <div 
-                onClick={() => setVisibility('after_due')}
-                className={`p-3 rounded-xl border-2 cursor-pointer flex items-center gap-3 transition-all ${visibility === 'after_due' ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-slate-300'}`}
-              >
-                <div className={`p-2 rounded-full ${visibility === 'after_due' ? 'bg-emerald-200 text-emerald-700' : 'bg-slate-100 text-slate-400'}`}>
-                  <CalendarClock size={18} />
+              {/* 1. TIME LIMIT */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-[13px] font-bold text-slate-400 uppercase tracking-widest">
+                  <Clock size={14} className="text-indigo-500" /> {t.timeLimit.title}
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-slate-800">{t.security.afterDue.title}</p>
-                  <p className="text-xs text-slate-500">{t.security.afterDue.desc}</p>
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 p-1.5 bg-slate-100/80 rounded-2xl border border-slate-200/60">
+                  <button 
+                    onClick={() => setIsTimeLimited(false)} 
+                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${!isTimeLimited ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  >
+                    {t.timeLimit.noLimit}
+                  </button>
+                  <button 
+                    onClick={() => setIsTimeLimited(true)} 
+                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${isTimeLimited ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  >
+                    {t.timeLimit.fixed}
+                  </button>
+                  {isTimeLimited && (
+                    <motion.div initial={{ opacity: 0, width: 0 }} animate={{ opacity: 1, width: 'auto' }} className="flex items-center gap-2 pr-2 overflow-hidden">
+                      <input 
+                        type="number" min="5" max="180" 
+                        value={duration} 
+                        onChange={(e) => setDuration(Number(e.target.value))} 
+                        className="w-16 px-2 py-2 text-center font-black text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all"
+                      />
+                      <span className="text-[11px] font-black text-slate-400">{t.timeLimit.mins}</span>
+                    </motion.div>
+                  )}
                 </div>
-                {visibility === 'after_due' && <CheckCircle size={18} className="text-emerald-500 ml-auto" />}
               </div>
 
-              {/* Option B: Never */}
+              {/* 2. SHUFFLE */}
               <div 
-                onClick={() => setVisibility('never')}
-                className={`p-3 rounded-xl border-2 cursor-pointer flex items-center gap-3 transition-all ${visibility === 'never' ? 'border-slate-600 bg-slate-100' : 'border-slate-200 hover:border-slate-300'}`}
+                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between group ${shuffle ? 'bg-indigo-50/50 border-indigo-500 shadow-sm' : 'bg-white border-slate-200 hover:border-indigo-200'}`}
+                onClick={() => setShuffle(!shuffle)}
               >
-                <div className={`p-2 rounded-full ${visibility === 'never' ? 'bg-slate-300 text-slate-700' : 'bg-slate-100 text-slate-400'}`}>
-                  <EyeOff size={18} />
+                <div className="flex items-center gap-4">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${shuffle ? 'bg-indigo-500 text-white' : 'bg-slate-100 text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-400'}`}>
+                    <Shuffle size={18} />
+                  </div>
+                  <div>
+                    <p className={`text-[15px] font-bold ${shuffle ? 'text-indigo-900' : 'text-slate-700'}`}>{t.shuffle.title}</p>
+                    <p className="text-[13px] font-medium text-slate-500 mt-0.5">{t.shuffle.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-slate-800">{t.security.never.title}</p>
-                  <p className="text-xs text-slate-500">{t.security.never.desc}</p>
-                </div>
-                {visibility === 'never' && <CheckCircle size={18} className="text-slate-600 ml-auto" />}
+                {shuffle && <CheckCircle size={20} className="text-indigo-500 mr-2" />}
               </div>
 
-              {/* Option C: Always */}
-              <div 
-                onClick={() => setVisibility('always')}
-                className={`p-3 rounded-xl border-2 cursor-pointer flex items-center gap-3 transition-all ${visibility === 'always' ? 'border-amber-400 bg-amber-50' : 'border-slate-200 hover:border-slate-300'}`}
-              >
-                <div className={`p-2 rounded-full ${visibility === 'always' ? 'bg-amber-200 text-amber-700' : 'bg-slate-100 text-slate-400'}`}>
-                  <Eye size={18} />
+              {/* 3. ANSWER VISIBILITY */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-[13px] font-bold text-slate-400 uppercase tracking-widest">
+                  <Shield size={14} className="text-indigo-500" /> {t.security.title}
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-slate-800">{t.security.always.title}</p>
-                  <p className="text-xs text-slate-500">{t.security.always.desc}</p>
+                <div className="grid grid-cols-1 gap-3">
+                  
+                  {/* Option A: After Deadline */}
+                  <div 
+                    onClick={() => setVisibility('after_due')}
+                    className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center gap-4 transition-all ${visibility === 'after_due' ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${visibility === 'after_due' ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                      <CalendarClock size={18} />
+                    </div>
+                    <div>
+                      <p className={`text-[15px] font-bold ${visibility === 'after_due' ? 'text-emerald-900' : 'text-slate-700'}`}>{t.security.afterDue.title}</p>
+                      <p className="text-[13px] font-medium text-slate-500 mt-0.5 leading-relaxed">{t.security.afterDue.desc}</p>
+                    </div>
+                    {visibility === 'after_due' && <CheckCircle size={20} className="text-emerald-500 ml-auto shrink-0" />}
+                  </div>
+
+                  {/* Option B: Never */}
+                  <div 
+                    onClick={() => setVisibility('never')}
+                    className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center gap-4 transition-all ${visibility === 'never' ? 'border-slate-800 bg-slate-50 shadow-sm' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${visibility === 'never' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                      <EyeOff size={18} />
+                    </div>
+                    <div>
+                      <p className={`text-[15px] font-bold ${visibility === 'never' ? 'text-slate-900' : 'text-slate-700'}`}>{t.security.never.title}</p>
+                      <p className="text-[13px] font-medium text-slate-500 mt-0.5 leading-relaxed">{t.security.never.desc}</p>
+                    </div>
+                    {visibility === 'never' && <CheckCircle size={20} className="text-slate-800 ml-auto shrink-0" />}
+                  </div>
+
+                  {/* Option C: Always */}
+                  <div 
+                    onClick={() => setVisibility('always')}
+                    className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center gap-4 transition-all ${visibility === 'always' ? 'border-amber-400 bg-amber-50/50 shadow-sm' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${visibility === 'always' ? 'bg-amber-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                      <Eye size={18} />
+                    </div>
+                    <div>
+                      <p className={`text-[15px] font-bold ${visibility === 'always' ? 'text-amber-900' : 'text-slate-700'}`}>{t.security.always.title}</p>
+                      <p className="text-[13px] font-medium text-slate-500 mt-0.5 leading-relaxed">{t.security.always.desc}</p>
+                    </div>
+                    {visibility === 'always' && <CheckCircle size={20} className="text-amber-500 ml-auto shrink-0" />}
+                  </div>
+
                 </div>
-                {visibility === 'always' && <CheckCircle size={18} className="text-amber-500 ml-auto" />}
+              </div>
+
+              {/* 4. ACCESS CODE (Premium Style) */}
+              <div className="bg-slate-900 rounded-2xl p-5 flex items-center justify-between shadow-inner relative overflow-hidden">
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-indigo-500/20 rounded-full blur-xl pointer-events-none"></div>
+                <div className="relative z-10">
+                  <p className="text-[11px] text-indigo-300 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                    <Lock size={12} /> {t.accessCode}
+                  </p>
+                  <p className="text-3xl font-mono font-black tracking-[0.2em] text-white">
+                    {accessCode}
+                  </p>
+                </div>
               </div>
 
             </div>
-          </div>
 
-          {/* 4. ACCESS CODE */}
-          <div className="bg-slate-900 text-white p-4 rounded-xl flex items-center justify-between">
-            <div>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">{t.accessCode}</p>
-              <p className="text-2xl font-mono font-black tracking-widest text-indigo-400">{accessCode}</p>
+            {/* FOOTER */}
+            <div className="p-5 border-t border-slate-100 bg-slate-50 flex flex-col-reverse sm:flex-row justify-end gap-3 shrink-0">
+              <button 
+                onClick={onClose} 
+                className="w-full sm:w-auto px-6 py-3.5 font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                {t.buttons.cancel}
+              </button>
+              <button 
+                onClick={handlePublish} 
+                disabled={isSaving} 
+                className="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isSaving ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <CheckCircle size={20} />
+                )}
+                {isSaving ? t.buttons.publishing : t.buttons.confirm}
+              </button>
             </div>
-            <Lock size={24} className="text-slate-600" />
-          </div>
 
+          </motion.div>
         </div>
-
-        {/* FOOTER */}
-        <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-          <button onClick={onClose} className="px-5 py-3 font-bold text-slate-600 hover:bg-slate-200 rounded-xl transition-colors">{t.buttons.cancel}</button>
-          <button onClick={handlePublish} disabled={isSaving} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
-            {isSaving ? t.buttons.publishing : t.buttons.confirm}
-            {!isSaving && <CheckCircle size={18} />}
-          </button>
-        </div>
-
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 }

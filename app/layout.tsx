@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google'; // 🟢 1. Yangi shriftni import qildik
 import './globals.css'; 
 import { AuthProvider } from '@/lib/AuthContext'; 
 import { Toaster } from 'react-hot-toast'; 
 
-const inter = Inter({ subsets: ['latin'] });
+// 🟢 2. Shriftni sozlaymiz (FIXED: 'cyrillic' changed to 'cyrillic-ext')
+const jakarta = Plus_Jakarta_Sans({ 
+  subsets: ['latin', 'cyrillic-ext'],
+  variable: '--font-jakarta', // Tailwind ga ulash uchun maxsus o'zgaruvchi yaratamiz
+});
 
 export const metadata: Metadata = {
-  title: 'EdifyStudent | Teacher',
-  description: 'Master Algebra, Geometry, and more with gamified lessons.',
+  title: 'Edify | O\'qituvchi Portali',
+  description: 'Zamonaviy ta\'lim platformasi orqali darslarni avtomatlashtiring.',
 };
 
 export default function RootLayout({
@@ -17,8 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-white text-slate-900`}>
+    // 🟢 3. Shrift o'zgaruvchisini <html> ga beramiz
+    <html lang="uz" className={`${jakarta.variable}`}>
+      {/* 🟢 4. antialiased va font-sans klasslarini qo'shdik */}
+      <body className="font-sans antialiased bg-white text-slate-900">
         
         <AuthProvider>
           {children}
