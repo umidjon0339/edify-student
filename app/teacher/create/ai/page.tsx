@@ -115,21 +115,45 @@ interface AIQuestion {
   subtopic: string;
   difficultyId: number;
 }
-
 const FormattedText = ({ text }: { text: string }) => {
   if (!text) return null;
-  const parts = text.split('$');
+
+  // This regex splits the text by block math ($$...$$) and inline math ($...$)
+  // keeping the delimiters so we know exactly how to render it.
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+
   return (
-    <span>
+    <span className="break-words">
       {parts.map((part, index) => {
-        if (index % 2 === 1) { 
+        // Handle Display Math ($$ ... $$)
+        if (part.startsWith('$$') && part.endsWith('$$')) {
+          const math = part.slice(2, -2); // Remove the $$ delimiters
           try {
-            const html = katex.renderToString(part, { throwOnError: false, displayMode: false });
-            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-1" />;
+            const html = katex.renderToString(math, { 
+              displayMode: true, 
+              throwOnError: false 
+            });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-2 text-center overflow-x-auto" />;
           } catch (e) {
-            return <span key={index} className="text-red-500">{part}</span>;
+            return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>;
           }
         }
+        
+        // Handle Inline Math ($ ... $)
+        if (part.startsWith('$') && part.endsWith('$')) {
+          const math = part.slice(1, -1); // Remove the $ delimiters
+          try {
+            const html = katex.renderToString(math, { 
+              displayMode: false, 
+              throwOnError: false 
+            });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-0.5 inline-block" />;
+          } catch (e) {
+             return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>;
+          }
+        }
+
+        // Standard Text
         return <span key={index}>{part}</span>;
       })}
     </span>
@@ -142,18 +166,30 @@ const AIQuestionCard = ({ q, idx, onRemove, t }: { q: AIQuestion, idx: number, o
 
   return (
     <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 relative group">
-      <div className="flex justify-between items-start mb-5 pb-4 border-b border-slate-100">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest flex items-center gap-1.5 border border-indigo-100/50">
+      {/* 🟢 FIXED: Added gap-4, flex-1, min-w-0, and strict truncations */}
+      <div className="flex justify-between items-start gap-4 mb-5 pb-4 border-b border-slate-100">
+        
+        {/* LEFT SIDE: Tags (Flex-1 and min-w-0 forces it to stay inside bounds) */}
+        <div className="flex items-center flex-wrap gap-2 flex-1 min-w-0">
+          
+          <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest flex items-center gap-1.5 border border-indigo-100/50 shrink-0">
             <Sparkles size={12} className="text-indigo-500" /> Q{idx + 1}
           </span>
-          <span className="bg-slate-50 text-slate-600 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest flex items-center gap-1 border border-slate-200/60 truncate max-w-[200px] sm:max-w-none">
-             <Layers size={10} className="shrink-0" /> <span className="truncate">{q.chapter}</span> <span className="text-slate-300 mx-1">/</span> <span className="truncate">{q.subtopic}</span>
+          
+          {/* Syllabus Tag with Strict Truncation */}
+          <span className="bg-slate-50 text-slate-600 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest flex items-center border border-slate-200/60 max-w-full min-w-0">
+             <Layers size={10} className="shrink-0 mr-1.5" /> 
+             <span className="truncate">{q.chapter}</span> 
+             <span className="text-slate-300 mx-1.5 shrink-0">/</span> 
+             <span className="truncate">{q.subtopic}</span>
           </span>
-          <span className="bg-slate-800 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest shadow-sm">
+          
+          <span className="bg-slate-800 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest shadow-sm shrink-0">
             {q.uiDifficulty}
           </span>
         </div>
+
+        {/* RIGHT SIDE: Action Buttons (shrink-0 protects them from being crushed) */}
         <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shrink-0">
           <button onClick={() => setShowOptions(!showOptions)} className="text-slate-400 hover:text-slate-900 hover:bg-slate-100 p-1.5 rounded-md transition-colors"><Eye size={16} /></button>
           <button onClick={() => setShowExplanation(!showExplanation)} className="text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition-colors"><BookOpen size={16} /></button>

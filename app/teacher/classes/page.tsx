@@ -4,51 +4,31 @@ import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { useAuth } from '@/lib/AuthContext';
-import { Users, Plus, Loader2 } from 'lucide-react';
+import { Users, Plus, Loader2, BookOpen, Sparkles } from 'lucide-react';
 import ClassCard from './_components/ClassCard';
 import CreateClassModal from './_components/CreateClassModal';
-import { useTeacherLanguage } from '@/app/teacher/layout'; // 🟢 Import Hook
+import { useTeacherLanguage } from '@/app/teacher/layout'; 
 
-// --- 1. TRANSLATION DICTIONARY ---
+// --- TRANSLATION DICTIONARY ---
 const CLASSES_TRANSLATIONS = {
   uz: {
-    title: "Mening Sinflarim",
-    subtitle: "O'quvchilar, ro'yxatlar va so'rovlarni boshqaring.",
-    createBtn: "Yangi Sinf Yaratish",
-    empty: {
-      title: "Sinflar topilmadi.",
-      desc: "O'quvchilarni taklif qilish uchun birinchi sinfingizni yarating.",
-      btn: "Sinf Yaratish"
-    }
+    title: "Mening Sinflarim", subtitle: "O'quvchilar, ro'yxatlar va so'rovlarni boshqaring.", createBtn: "Yangi Sinf Yaratish",
+    empty: { title: "Sinflar topilmadi.", desc: "O'quvchilarni taklif qilish uchun birinchi sinfingizni yarating.", btn: "Sinf Yaratish" }
   },
   en: {
-    title: "My Classes",
-    subtitle: "Manage students, rosters, and join requests.",
-    createBtn: "Create New Class",
-    empty: {
-      title: "No classes found.",
-      desc: "Create your first class to invite students.",
-      btn: "Create Class"
-    }
+    title: "My Classes", subtitle: "Manage students, rosters, and join requests.", createBtn: "Create New Class",
+    empty: { title: "No classes found.", desc: "Create your first class to invite students.", btn: "Create Class" }
   },
   ru: {
-    title: "Мои Классы",
-    subtitle: "Управление учениками, списками и запросами.",
-    createBtn: "Создать Класс",
-    empty: {
-      title: "Классы не найдены.",
-      desc: "Создайте свой первый класс, чтобы пригласить учеников.",
-      btn: "Создать Класс"
-    }
+    title: "Мои Классы", subtitle: "Управление учениками, списками и запросами.", createBtn: "Создать Класс",
+    empty: { title: "Классы не найдены.", desc: "Создайте свой первый класс, чтобы пригласить учеников.", btn: "Создать Класс" }
   }
 };
 
 export default function ClassesPage() {
   const { user, loading } = useAuth();
-  
-  // 🟢 Use Language Hook
   const { lang } = useTeacherLanguage();
-  const t = CLASSES_TRANSLATIONS[lang];
+  const t = CLASSES_TRANSLATIONS[lang] || CLASSES_TRANSLATIONS['en'];
 
   const [classes, setClasses] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -56,77 +36,87 @@ export default function ClassesPage() {
 
   useEffect(() => {
     if (!user) return;
-
-    // Listen to classes where teacherId == me
     const q = query(
       collection(db, 'classes'),
       where('teacherId', '==', user.uid),
       orderBy('createdAt', 'desc')
     );
-
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setClasses(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setIsLoadingData(false);
     });
-
     return () => unsubscribe();
   }, [user]);
 
   if (loading || isLoadingData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 flex items-center justify-center">
-        <Loader2 className="animate-spin text-indigo-500" size={32}/>
+      <div className="min-h-[100dvh] bg-[#FAFAFA] flex items-center justify-center">
+        <Loader2 className="animate-spin text-indigo-600" size={32}/>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50">
-      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 md:px-6 py-6 md:py-8">
+    <div className="min-h-[100dvh] bg-[#FAFAFA] font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-20">
+      
+      {/* Create Modal */}
+      <CreateClassModal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-10 space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-black text-slate-900">{t.title}</h1>
-            <p className="text-sm md:text-base text-slate-600 mt-1">{t.subtitle}</p>
+        {/* 🟢 PREMIUM HEADER */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="w-12 h-12 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
+               <Users size={24} strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{t.title}</h1>
+              <p className="text-[13px] md:text-[14px] font-medium text-slate-500 mt-0.5">{t.subtitle}</p>
+            </div>
           </div>
+
           <button 
             onClick={() => setIsCreateOpen(true)}
-            className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-bold shadow-lg shadow-indigo-200/50 transition-all active:scale-95 hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-xl font-bold shadow-sm transition-all active:scale-95 w-full sm:w-auto text-[14px]"
           >
-            <Plus size={20} /> 
+            <Plus size={18} strokeWidth={2.5} /> 
             <span>{t.createBtn}</span>
           </button>
         </div>
 
-        {/* Class Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        {/* 🟢 CLASS GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {classes.length > 0 ? (
-            classes.map((cls) => (
-              <ClassCard key={cls.id} cls={cls} />
+            classes.map((cls, idx) => (
+              <div key={cls.id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${(idx % 10) * 40}ms`, animationFillMode: 'both' }}>
+                <ClassCard cls={cls} />
+              </div>
             ))
           ) : (
-            <div className="col-span-full py-16 md:py-20 text-center flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-300 rounded-3xl bg-white/50 backdrop-blur-sm shadow-md">
-              <div className="p-4 bg-indigo-50 rounded-full mb-4">
-                <Users size={48} className="text-indigo-200" />
+            
+            <div className="col-span-full py-16 md:py-24 text-center flex flex-col items-center justify-center bg-white border-2 border-dashed border-slate-200 rounded-[2rem] shadow-sm relative overflow-hidden group">
+              {/* 🟢 PREMIUM EMPTY STATE */}
+              
+              {/* Subtle Background Glow */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-50/80 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
+              
+              <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mb-5 shadow-sm relative z-10">
+                <BookOpen size={28} className="text-slate-300" />
               </div>
-              <p className="font-bold text-base md:text-lg text-slate-700">{t.empty.title}</p>
-              <p className="text-xs md:text-sm mt-1 mb-6 text-slate-500">{t.empty.desc}</p>
+              
+              <h3 className="text-[18px] font-black text-slate-800 tracking-tight relative z-10">{t.empty.title}</h3>
+              <p className="text-[14px] font-medium text-slate-500 mt-1.5 mb-8 max-w-sm relative z-10">{t.empty.desc}</p>
+              
               <button 
                 onClick={() => setIsCreateOpen(true)}
-                className="text-sm font-bold text-indigo-600 bg-white border-2 border-indigo-200 px-6 py-2.5 rounded-xl hover:bg-indigo-50 hover:border-indigo-300 transition-all hover:shadow-lg hover:-translate-y-0.5 active:scale-95 flex items-center gap-2"
+                className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 text-[14px] relative z-10"
               >
-                <Plus size={16} /> {t.empty.btn}
+                <Sparkles size={16} /> {t.empty.btn}
               </button>
             </div>
           )}
         </div>
-
-        {/* Create Modal */}
-        <CreateClassModal 
-          isOpen={isCreateOpen} 
-          onClose={() => setIsCreateOpen(false)} 
-        />
 
       </div>
     </div>

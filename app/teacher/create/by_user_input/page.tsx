@@ -99,26 +99,69 @@ const PAGE_TRANSLATIONS = {
   }
 };
 
-// --- 2. LATEX FORMATTER ---
+// --- 2. SMART LATEX FORMATTER ---
 const FormattedText = ({ text }: { text: string }) => {
   if (!text) return null;
-  const parts = text.split('$');
+
+  // FIX 1: The "Forgot $" Catcher
+  // If the AI forgot to use $ signs, but the text clearly contains math commands, 
+  // we force the entire string to be treated as inline math.
+  let processedText = text;
+  const hasMathCommands = /\\frac|\\pi|\\sin|\\cos|\\tan|\\ge|\\le|\\cup|\\cap|\\in|\\begin|\\sqrt|\\empty/.test(processedText);
+  
+  if (!processedText.includes('$') && hasMathCommands) {
+    processedText = `$${processedText}$`;
+  }
+
+  // Robust tokenizer that splits text by block math ($$...$$) and inline math ($...$)
+  const parts = processedText.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+  
   return (
-    <span>
+    <span className="leading-relaxed break-words">
       {parts.map((part, index) => {
-        if (index % 2 === 1) { 
+        // Handle Display Math ($$ ... $$)
+        if (part.startsWith('$$') && part.endsWith('$$')) {
+          const math = part.slice(2, -2); 
           try {
-            const html = katex.renderToString(part, { throwOnError: false, displayMode: false });
-            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-1" />;
+            const cleanMath = math
+              .replace(/\\\\\\\\/g, '\\\\')      
+              .replace(/\\\\([a-zA-Z]+)/g, '\\$1'); 
+              
+            const html = katex.renderToString(cleanMath, { 
+              displayMode: true, 
+              throwOnError: false 
+            });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-2 text-center overflow-x-auto" />;
           } catch (e) {
-            return <span key={index} className="text-red-500">{part}</span>;
+            return <span key={index} className="text-red-500 font-mono text-[13px]">{part}</span>;
           }
         }
+        
+        // Handle Inline Math ($ ... $)
+        if (part.startsWith('$') && part.endsWith('$')) {
+          const math = part.slice(1, -1); 
+          try {
+            const cleanMath = math
+              .replace(/\\\\\\\\/g, '\\\\')      
+              .replace(/\\\\([a-zA-Z]+)/g, '\\$1'); 
+              
+            const html = katex.renderToString(cleanMath, { 
+              displayMode: false, 
+              throwOnError: false 
+            });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-1 inline-block" />;
+          } catch (e) {
+             return <span key={index} className="text-red-500 font-mono text-[13px]">{part}</span>;
+          }
+        }
+
+        // Standard Text
         return <span key={index}>{part}</span>;
       })}
     </span>
   );
 };
+
 
 // --- 3. QUESTION CARD COMPONENT ---
 const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove: (id: string) => void, t: any }) => {

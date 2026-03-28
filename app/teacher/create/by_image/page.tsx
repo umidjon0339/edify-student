@@ -92,18 +92,42 @@ const PAGE_TRANSLATIONS = {
 
 const FormattedText = ({ text }: { text: string }) => {
   if (!text) return null;
-  const parts = text.split('$');
+
+  // Robust tokenizer that splits text by block math ($$...$$) and inline math ($...$)
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+
   return (
-    <span>
+    <span className="break-words">
       {parts.map((part, index) => {
-        if (index % 2 === 1) { 
+        // Handle Display Math ($$ ... $$)
+        if (part.startsWith('$$') && part.endsWith('$$')) {
+          const math = part.slice(2, -2); // Remove the $$ delimiters
           try {
-            const html = katex.renderToString(part, { throwOnError: false, displayMode: false });
-            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-1" />;
+            const html = katex.renderToString(math, { 
+              displayMode: true, 
+              throwOnError: false 
+            });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-2 text-center overflow-x-auto" />;
           } catch (e) {
-            return <span key={index} className="text-red-500">{part}</span>;
+            return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>;
           }
         }
+        
+        // Handle Inline Math ($ ... $)
+        if (part.startsWith('$') && part.endsWith('$')) {
+          const math = part.slice(1, -1); // Remove the $ delimiters
+          try {
+            const html = katex.renderToString(math, { 
+              displayMode: false, 
+              throwOnError: false 
+            });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-0.5 inline-block" />;
+          } catch (e) {
+             return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>;
+          }
+        }
+
+        // Standard Text
         return <span key={index}>{part}</span>;
       })}
     </span>

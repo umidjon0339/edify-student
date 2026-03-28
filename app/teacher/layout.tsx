@@ -9,7 +9,7 @@ import { getUserProfile } from '@/services/userService';
 import { 
   LogOut, LayoutDashboard, Users, GraduationCap, Menu, X, 
   FilePlus, FolderOpen, BookOpen, 
-  User, ChevronDown, Check, Sparkles, ChevronLeft
+  User, ChevronDown, Check, Sparkles, ChevronLeft, Settings // 🟢 Added Settings
 } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -173,6 +173,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
   
   const [lang, setLang] = useState<LangType>('uz');
   const t = SIDEBAR_TRANSLATIONS[lang];
+  const [avatarError, setAvatarError] = useState(false);
 
   useEffect(() => {
     async function checkRole() {
@@ -206,6 +207,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
     { name: t.menu.classes, href: '/teacher/classes', icon: Users }, 
     { name: t.menu.analytics, href: '/teacher/analytics', icon: Sparkles, isAI: true },
     { name: t.menu.profile, href: '/teacher/profile', icon: User },
+    { name: t.settings, href: '/teacher/settings', icon: Settings },
   ];
 
   // --- SIDEBAR CONTENT ---
@@ -287,16 +289,23 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
         <div className="p-4 border-t border-slate-100 bg-white">
           <div className={`flex items-center gap-3 ${collapsed ? 'justify-center flex-col' : 'justify-between'}`}>
             
-            <Link href="/teacher/settings" className={`flex items-center gap-3 flex-1 group rounded-xl p-2 transition-colors ${!collapsed && '-ml-2 hover:bg-slate-50'}`}>
+            {/* 🟢 CHANGED: Now links to /teacher/profile */}
+            <Link href="/teacher/profile" className={`flex items-center gap-3 flex-1 group rounded-xl p-2 transition-colors ${!collapsed && '-ml-2 hover:bg-slate-50'}`}>
               <div className="relative shrink-0">
-                <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 border border-slate-200 group-hover:border-indigo-300 transition-colors shadow-sm">
-                   {user?.photoURL ? (
-                     <img src={user.photoURL} alt="Me" className="w-full h-full rounded-full object-cover" />
-                   ) : (
-                     <GraduationCap size={20} />
-                   )}
+                {/* 🟢 UPGRADED: Premium Gradient Avatar with Initial */}
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-[16px] shadow-sm border-2 border-white group-hover:border-indigo-100 transition-colors bg-gradient-to-tr from-indigo-600 to-violet-500 overflow-hidden">
+                  {user?.photoURL && !avatarError ? (
+                    <img 
+                      src={user.photoURL} 
+                      alt={user?.displayName || "User"} 
+                      className="w-full h-full object-cover" 
+                      onError={() => setAvatarError(true)} // 🟢 Catches the broken image!
+                    />
+                  ) : (
+                    <span>{user?.displayName?.[0]?.toUpperCase() || 'U'}</span>
+                  )}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></div>
               </div>
               
               {!collapsed && (
@@ -304,7 +313,8 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
                   <p className="text-[14px] font-bold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">
                     {user?.displayName || 'Umidjon'}
                   </p>
-                  <p className="text-[12px] font-medium text-slate-500 truncate">{t.settings}</p>
+                  {/* 🟢 CHANGED: Now says "Profile" instead of "Settings" */}
+                  <p className="text-[12px] font-medium text-slate-500 truncate">{t.menu.profile}</p>
                 </div>
               )}
             </Link>
@@ -402,18 +412,14 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
           </button>
         </aside>
 
-        {/* 🟢 2. O'ZGARISH: Margin-left (ml) o'rniga Padding-left (pl) ishlatildi. */}
-        {/* Bu brauzerga sahifaning haqiqiy kengligini aniq hisoblash imkonini beradi. */}
+        {/* 🟢 FIXED: Margin-left (ml) o'rniga Padding-left (pl) ishlatildi. */}
         <div className={`transition-all duration-300 ease-in-out ${isCollapsed ? 'md:pl-20' : 'md:pl-[280px]'}`}>
           
-          {/* MAIN CONTENT AREA */}
-          <main className={`min-h-screen w-full ${isFullScreenPage ? 'p-0' : 'p-6 md:p-10'}`}>
-            
-            {/* 🟢 3. O'ZGARISH: max-w-7xl ni max-w-6xl ga o'zgartirdik, noutbuklarda ham ikki yonda chiroyli bo'sh joy (gap) qolishi uchun. */}
-            <div className={isFullScreenPage ? 'w-full h-full' : 'max-w-6xl mx-auto'}>
+          {/* 🟢 FIXED: Removed conditional padding. All pages are now full-screen by default. */}
+          <main className="min-h-[100dvh] w-full">
+            <div className="w-full h-full">
                {children}
             </div>
-
           </main>
         </div>
 

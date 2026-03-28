@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase';
-import { collection, query, where, orderBy, onSnapshot, limit } from 'firebase/firestore'; // 🟢 Added limit
+import { collection, query, where, orderBy, onSnapshot, limit } from 'firebase/firestore'; 
 import { useAuth } from '@/lib/AuthContext';
-import { FolderOpen, Archive, Loader2, Search, Library, Sparkles, ChevronDown } from 'lucide-react'; // 🟢 Added ChevronDown
+import { FolderOpen, Archive, Loader2, Search, Library, Sparkles, ChevronDown, Plus } from 'lucide-react'; 
 import TestCard from './_components/TestCard';
 import EditTestModal from './_components/EditTestModal';
 import { useTeacherLanguage } from '@/app/teacher/layout';
@@ -13,37 +14,38 @@ import { useTeacherLanguage } from '@/app/teacher/layout';
 const LIBRARY_TRANSLATIONS = {
   uz: {
     title: "Mening Kutubxonam",
-    subtitle: "Yaratilgan testlaringizni boshqaring va kuzatib boring.",
     filters: { active: "Faol Testlar", archived: "Arxivlangan" },
-    search: "Nom yoki kirish kodi bo'yicha qidirish...",
-    empty: { title: "testlar topilmadi.", desc: "Boshlash uchun yangi test yarating." },
-    noFilter: "Hech qanday",
-    loadMore: "Yana 10 ta yuklash" // 🟢 Added Translation
+    search: "Qidirish...",
+    empty: { title: "Testlar topilmadi", desc: "Boshlash uchun yangi test yarating." },
+    loadMore: "Yana 10 ta yuklash",
+    items: "Ta",
+    createTest: "Yangi Test Yaratish"
   },
   en: {
     title: "My Library",
-    subtitle: "Manage and monitor your created assessments.",
     filters: { active: "Active Tests", archived: "Archived" },
-    search: "Search by Title or Access Code...",
-    empty: { title: "tests found.", desc: "Create a new test to get started." },
-    noFilter: "No",
-    loadMore: "Load Next 10" // 🟢 Added Translation
+    search: "Search tests...",
+    empty: { title: "No tests found", desc: "Create a new test to get started." },
+    loadMore: "Load Next 10",
+    items: "Items",
+    createTest: "Create New Test"
   },
   ru: {
     title: "Моя Библиотека",
-    subtitle: "Управляйте и следите за созданными тестами.",
     filters: { active: "Активные", archived: "Архив" },
-    search: "Поиск по названию или коду...",
-    empty: { title: "тестов не найдено.", desc: "Создайте новый тест, чтобы начать." },
-    noFilter: "Нет",
-    loadMore: "Загрузить еще 10" // 🟢 Added Translation
+    search: "Поиск...",
+    empty: { title: "Тесты не найдены", desc: "Создайте новый тест, чтобы начать." },
+    loadMore: "Загрузить еще 10",
+    items: "Шт",
+    createTest: "Создать Тест"
   }
 };
 
 export default function LibraryPage() {
+  const router = useRouter();
   const { user, loading } = useAuth();
   const { lang } = useTeacherLanguage();
-  const t = LIBRARY_TRANSLATIONS[lang];
+  const t = LIBRARY_TRANSLATIONS[lang] || LIBRARY_TRANSLATIONS['en'];
 
   // State
   const [tests, setTests] = useState<any[]>([]);
@@ -51,7 +53,7 @@ export default function LibraryPage() {
   const [filter, setFilter] = useState<'active' | 'archived'>('active');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 🟢 Pagination State
+  // Pagination State
   const [fetchLimit, setFetchLimit] = useState(10);
   const [hasMore, setHasMore] = useState(true);
 
@@ -63,7 +65,7 @@ export default function LibraryPage() {
   useEffect(() => {
     if (!user) return;
 
-    // 🟢 Added limit() to the query
+    // 🟢 Keeps your cost-saving pagination logic intact
     const q = query(
       collection(db, 'custom_tests'),
       where('teacherId', '==', user.uid),
@@ -72,25 +74,20 @@ export default function LibraryPage() {
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setTests(data);
-      
-      // 🟢 Check if there are more documents to load
       setHasMore(snapshot.docs.length >= fetchLimit);
       setIsLoadingData(false);
     });
 
     return () => unsubscribe();
-  }, [user, fetchLimit]); // 🟢 Re-run listener when limit changes
+  }, [user, fetchLimit]); 
 
   // Filtering Logic
   const filteredTests = tests.filter(test => {
     const matchesStatus = (test.status || 'active') === filter;
     const matchesSearch = test.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          test.accessCode.toLowerCase().includes(searchQuery.toLowerCase());
+                          (test.accessCode && test.accessCode.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesStatus && matchesSearch;
   });
 
@@ -101,112 +98,111 @@ export default function LibraryPage() {
 
   if (loading || (isLoadingData && tests.length === 0)) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="flex h-[100dvh] bg-[#FAFAFA] items-center justify-center">
         <Loader2 className="animate-spin text-indigo-600" size={32}/>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-20">
+    <div className="flex h-[100dvh] bg-[#FAFAFA] overflow-hidden font-sans selection:bg-indigo-100 selection:text-indigo-900">
       
-      {/* 1. HERO HEADER */}
-      <div className="bg-white border-b border-slate-200 pt-8 pb-12 px-6 md:px-10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-50 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
+      {/* Edit Modal */}
+      {selectedTest && (
+        <EditTestModal key={selectedTest.id} isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} test={selectedTest} />
+      )}
 
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
-          <div>
-            <div className="flex items-center gap-2 text-indigo-600 font-bold mb-2 text-xs uppercase tracking-widest">
-               <Library size={16} /> {t.title}
-            </div>
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-2">
-              {t.title}
-            </h1>
-            <p className="text-slate-500 font-medium text-sm md:text-base max-w-lg">{t.subtitle}</p>
-          </div>
-
-          {/* TABS */}
-          <div className="flex bg-slate-100 p-1.5 rounded-2xl">
-             <button 
-               onClick={() => setFilter('active')}
-               className={`px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all duration-300 ${filter === 'active' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
-             >
-               <FolderOpen size={18}/> 
-               <span>{t.filters.active}</span>
-             </button>
-             <button 
-               onClick={() => setFilter('archived')}
-               className={`px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all duration-300 ${filter === 'archived' ? 'bg-white text-slate-800 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
-             >
-               <Archive size={18}/> 
-               <span>{t.filters.archived}</span>
-             </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 md:px-6 -mt-6 space-y-8">
+      {/* MAIN CONTENT AREA */}
+      <main className="flex-1 overflow-y-auto custom-scrollbar relative w-full pb-20">
         
-        {/* 2. SEARCH BAR */}
-        <div className="relative max-w-2xl mx-auto shadow-lg shadow-slate-200/50 rounded-2xl">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-          <input 
-            type="text" 
-            placeholder={t.search} 
-            className="w-full pl-14 pr-6 py-4 bg-white border-none rounded-2xl font-medium text-slate-700 placeholder:text-slate-400 focus:ring-4 focus:ring-indigo-100 transition-all outline-none"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        {/* 🟢 1. UNIFIED STICKY TOP BAR (Vercel Style) */}
+        <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+          
+          {/* Left: Title & Count Badge */}
+          <div className="flex items-center gap-4">
+            <h1 className="text-[16px] md:text-[18px] font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              <Library size={18} className="text-indigo-500" /> {t.title}
+            </h1>
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-full border border-slate-200/60 animate-in fade-in">
+              <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${filter === 'active' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
+              <span className="text-[11px] font-bold text-slate-600 tracking-wide uppercase">{filteredTests.length} {t.items}</span>
+            </div>
+          </div>
+          
+          {/* Right: Compact Search Bar */}
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <input 
+              type="text" 
+              placeholder={t.search} 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-slate-100/80 border border-slate-200/60 rounded-lg text-[13px] font-medium text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all"
+            />
+          </div>
         </div>
 
-        {/* 3. GRID LIST */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTests.length > 0 ? (
-            filteredTests.map((test, idx) => (
-              <div key={test.id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${(idx % 10) * 50}ms`, animationFillMode: 'backwards' }}>
-                <TestCard 
-                  test={test} 
-                  onManage={() => handleManage(test)} 
-                />
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 mt-6">
+          
+          {/* 🟢 2. APPLE-STYLE SEGMENTED TABS */}
+          <div className="flex justify-center sm:justify-start mb-8">
+            <div className="flex items-center bg-slate-200/50 p-1 rounded-xl border border-slate-200/60 shadow-inner">
+              <button 
+                onClick={() => setFilter('active')}
+                className={`flex items-center gap-2 px-5 py-2 text-[13px] font-bold rounded-lg transition-all ${filter === 'active' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                <FolderOpen size={16} className={filter === 'active' ? 'text-emerald-500' : ''} /> {t.filters.active}
+              </button>
+              <button 
+                onClick={() => setFilter('archived')}
+                className={`flex items-center gap-2 px-5 py-2 text-[13px] font-bold rounded-lg transition-all ${filter === 'archived' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                <Archive size={16} className={filter === 'archived' ? 'text-slate-500' : ''} /> {t.filters.archived}
+              </button>
+            </div>
+          </div>
+
+          {/* 🟢 3. EDGE-TO-EDGE GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredTests.length > 0 ? (
+              filteredTests.map((test, idx) => (
+                <div key={test.id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${(idx % 10) * 40}ms`, animationFillMode: 'both' }}>
+                  <TestCard test={test} onManage={() => handleManage(test)} />
+                </div>
+              ))
+            ) : (
+              
+              /* 🟢 4. FUNCTIONAL EMPTY STATE */
+              <div className="col-span-full py-16 flex flex-col items-center justify-center text-center bg-white border-2 border-dashed border-slate-200 rounded-3xl animate-in zoom-in-95 duration-500 shadow-sm">
+                <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mb-5 shadow-sm">
+                  <Sparkles size={28} className="text-slate-300" />
+                </div>
+                <h3 className="text-[18px] font-black text-slate-800 tracking-tight">{t.empty.title}</h3>
+                <p className="text-slate-400 text-[14px] mt-1 font-medium mb-6 max-w-sm">{t.empty.desc}</p>
+                
+                {filter === 'active' && !searchQuery && (
+                  <button onClick={() => router.push('/teacher/create')} className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 text-[14px]">
+                    <Plus size={16} /> {t.createTest}
+                  </button>
+                )}
               </div>
-            ))
-          ) : (
-            <div className="col-span-full py-20 text-center flex flex-col items-center justify-center bg-white border border-slate-100 rounded-[2rem] shadow-sm">
-              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-                <Sparkles size={40} className="text-slate-300" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-800">
-                {t.noFilter} {t.filters[filter].toLowerCase()} {t.empty.title}
-              </h3>
-              <p className="text-slate-400 text-sm mt-1 max-w-xs mx-auto">{t.empty.desc}</p>
+            )}
+          </div>
+
+          {/* 🟢 5. LOAD MORE BUTTON (Cost-Saving Logic) */}
+{hasMore && !searchQuery && tests.length >= fetchLimit && (
+            <div className="flex justify-center pt-8 pb-4">
+              <button 
+                onClick={() => setFetchLimit(prev => prev + 10)}
+                className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 font-bold py-2.5 px-6 rounded-xl shadow-sm transition-all active:scale-95 text-[13px]"
+              >
+                {t.loadMore} <ChevronDown size={16} />
+              </button>
             </div>
           )}
+
         </div>
-
-        {/* 🟢 4. LOAD MORE BUTTON */}
-        {hasMore && !searchQuery && (
-          <div className="flex justify-center pt-4 pb-8">
-            <button 
-              onClick={() => setFetchLimit(prev => prev + 10)}
-              className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 font-bold py-3 px-8 rounded-xl shadow-sm transition-all active:scale-95"
-            >
-              {t.loadMore} <ChevronDown size={18} />
-            </button>
-          </div>
-        )}
-
-       {/* Edit Modal */}
-       {selectedTest && (
-          <EditTestModal 
-            key={selectedTest.id} 
-            isOpen={isEditOpen} 
-            onClose={() => setIsEditOpen(false)} 
-            test={selectedTest} 
-          />
-        )}
-
-      </div>
+      </main>
     </div>
   );
 }
