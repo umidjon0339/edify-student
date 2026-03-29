@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const { topic, chapter, subtopic, difficulty, count, language = "uz", context } = await req.json();
+    const { subject, topic, chapter, subtopic, difficulty, count, language = "uz", context } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -10,36 +10,40 @@ export async function POST(req: Request) {
     }
 
     const categoryPersonas: Record<string, string> = {
-      "5_sinf": `Target: 5th-grade. Use simple integer math. No complex algebra.`,
-      "algebra": `Target: High school/University applicants. Use advanced equations.`,
+      "5-sinf": `Target: 5th-grade. Use simple integer math. No complex algebra.`,
+      "Abiturient": `Target: High school graduates/University applicants. Use advanced logic and DTM standards.`,
+      "algebra": `Target: Advanced equations and functions.`,
       "geometriya": `Target: Geometry students. Use theorems and spatial proofs.`
     };
 
-    const activePersona = categoryPersonas[topic] || `Target: General math students.`;
+    const activePersona = categoryPersonas[topic] || categoryPersonas[subject] || `Target: General students. Ensure strict logical accuracy.`;
 
-    // PROMPT FIX: Added Quality & Logic rules for solvable questions, 
-    // unpredictable distractors, and short explanations.
-    let systemPrompt = `Act as an expert Uzbekistan Math Teacher. Generate exactly ${count} multiple-choice questions.
-Params: Lang:${language}, Diff:${difficulty}, Topic:${topic}, Chapter:${chapter}, Subtopic:${subtopic}.
+    let systemPrompt = `Act as an expert Uzbekistan Examiner. Generate exactly ${count} multiple-choice questions.
+Params: Lang:${language}, Diff:${difficulty}, Subject:${subject}, Topic:${topic}, Chapter:${chapter}, Subtopic:${subtopic}.
 ${activePersona}
 
 STRICT MATH & JSON RULES:
-1. Wrap EVERY math symbol, variable, or formula in $ signs for inline math (e.g., $x=2$) or $$ for display math.
-2. Because you are outputting JSON, you MUST double-escape all LaTeX backslashes. 
-   - Write \\\\frac instead of \\frac
-   - Write \\\\sqrt instead of \\sqrt
-   - Write \\\\infty instead of \\infty
-3. The 'answer' must match exactly one of the options (A, B, C, or D).
+1. Wrap ALL math symbols, variables, numbers, and formulas in $ signs (e.g., $x=2$).
+2. JSON ESCAPING: You MUST double-escape all LaTeX backslashes inside the JSON string. Write \\\\frac instead of \\frac.
 
 QUALITY & LOGIC RULES:
-1. Solvability: Every question MUST be 100% mathematically correct, logically sound, and definitively solvable. There must be exactly one correct answer.
-2. Unpredictable Options: Wrong options (distractors) MUST NOT be random. They must represent common student errors (e.g., missed signs, partial steps). Avoid obvious outliers so the answer isn't guessable.
-3. Concise Explanation: The 'explanation' field MUST be extremely concise, strictly under 30 words.
+1. Solvability: Questions MUST be 100% mathematically correct and solvable.
+2. Unpredictable Options: Wrong options MUST be common student errors, not random numbers.
 
-Output RAW JSON array only.
-Schema:
-[{"question":"...","options":{"A":"...","B":"...","C":"...","D":"..."},"answer":"A","explanation":"..."}]`;
-
+OUTPUT FORMAT: You MUST return a RAW JSON array matching this exact structure (Notice the $ signs and \\\\ double backslashes!):
+[
+  {
+    "question": "Tengsizlikni yeching: $ \\\\sin x \\\\ge \\\\cos x $",
+    "options": {
+      "A": "$ [ \\\\frac{\\\\pi}{4} + \\\\pi k; \\\\frac{3\\\\pi}{4} + \\\\pi k ], k \\\\in Z $",
+      "B": "$ x = 5 $",
+      "C": "$ y = \\\\sqrt{2} $",
+      "D": "$ 0 $"
+    },
+    "answer": "A",
+    "explanation": "Kiritilgan burchak qiymatlari tekshirildi."
+  }
+]`;
     if (context && context.trim() !== "") {
       systemPrompt += `\nSTRICT CONTEXT: Base questions ONLY on this text: "${context}"`;
     }
@@ -70,7 +74,14 @@ Schema:
       rawAiQuestions = JSON.parse(cleaned);
     }
 
-    const diffVal = difficulty.toLowerCase() === "easy" ? 1 : difficulty.toLowerCase() === "medium" ? 2 : 3;
+    // 🟢 THE FIX: Safely map all 4 levels of difficulty here!
+    let diffVal = 2; // Default to medium just in case
+    const lowerDiff = difficulty ? difficulty.toLowerCase() : "medium";
+    
+    if (lowerDiff === "easy") diffVal = 1;
+    else if (lowerDiff === "medium") diffVal = 2;
+    else if (lowerDiff === "hard") diffVal = 3;
+    else if (lowerDiff === "olympiad") diffVal = 4;
 
     const formattedQuestions = rawAiQuestions.map((q: any) => ({
       id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
@@ -83,7 +94,8 @@ Schema:
         D: { uz: q.options?.D || "", ru: "", en: "" }
       },
       answer: q.answer || "A",
-      explanation: { uz: q.explanation || "", ru: "", en: "" }
+      explanation: { uz: q.explanation || "", ru: "", en: "" },
+      difficultyId: diffVal // 🟢 Perfectly assigned 1, 2, 3, or 4
     }));
 
     return NextResponse.json({ questions: formattedQuestions });

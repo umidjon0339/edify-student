@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import LatexRenderer from '@/components/LatexRenderer';
 import { useTeacherLanguage } from '@/app/teacher/layout';
+import DownloadPdfButton from '@/app/teacher/print/_components/DownloadPdfButton';
 
 // --- 1. TRANSLATION DICTIONARY ---
 const PRINT_TRANSLATIONS = {
@@ -182,10 +183,20 @@ export default function PrintStudioPage() {
 
         </div>
 
-        <div className="p-5 border-t border-slate-200/80 bg-white sticky bottom-0 space-y-2 z-10">
+        <div className="p-5 border-t border-slate-200/80 bg-white sticky bottom-0 space-y-3 z-10">
+          
+          {/* NEW: Standalone PDF Download Component */}
+          <DownloadPdfButton 
+            targetRef={printRootRef as any} 
+            fileName={`${originalData?.title || 'Test'}_Edify.pdf`}
+            buttonText={lang === 'uz' ? "PDF Yuklab Olish" : lang === 'ru' ? "Скачать PDF" : "Download PDF"}
+          />
+
+          {/* EXISTING: Native Print Button (Untouched) */}
           <button onClick={handleNativePrint} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-black rounded-xl shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2 transition-all active:scale-95">
             <Printer size={18} /> {t.print}
           </button>
+          
         </div>
       </div>
 
@@ -205,7 +216,7 @@ export default function PrintStudioPage() {
           <div 
             id="print-root" 
             ref={printRootRef}
-            className="bg-white shadow-2xl transition-transform duration-200 origin-top print:shadow-none print:w-full print:scale-100 print:transform-none"
+            className="bg-white shadow-2xl transition-transform duration-200 origin-top print:shadow-none print:w-full print:scale-100 print:transform-none font-serif tracking-tight"
             style={{
               transform: `scale(${previewZoom})`,
               width: '210mm',
@@ -239,6 +250,9 @@ export default function PrintStudioPage() {
                 
                 .avoid-break { break-inside: avoid-column; page-break-inside: avoid; }
                 .break-before { page-break-before: always; }
+
+                .katex { line-height: normal !important; }
+                .katex-html { padding-top: 0.2em; padding-bottom: 0.2em; }
               }
             `}} />
 
@@ -293,12 +307,17 @@ export default function PrintStudioPage() {
                 return (
                   <div 
                     key={q.id || idx} 
-                    className="mb-4 avoid-break" 
-                    style={{ breakInside: 'avoid-column', display: 'inline-block', width: '100%' }}
+                    className="mb-6 avoid-break" 
+                    style={{ breakInside: 'avoid-column', display: 'inline-block', width: '100%', paddingTop: '0.2rem' }}
                   >
-                    <div className="flex gap-2 mb-1.5">
-                      <span className="font-black text-black shrink-0 text-[1.1em]">{idx + 1}.</span>
-                      <div className="font-medium text-black leading-relaxed text-[1em]">
+                    
+                    <div className="flex items-start gap-2 mb-2.5">
+                      {/* 🟢 CHANGED: font-black -> font-bold */}
+                      <span className="font-bold text-black shrink-0 text-[1.1em] mt-[0.1em]">
+                        {idx + 1}.
+                      </span>
+                      {/* 🟢 CHANGED: Removed font-medium so it reads cleanly */}
+                      <div className="text-black leading-relaxed text-[1em] py-1">
                         <LatexRenderer latex={getContentText(q.question)} />
                       </div>
                     </div>
@@ -306,18 +325,28 @@ export default function PrintStudioPage() {
                     <div style={{
                         display: 'grid',
                         gridTemplateColumns: columns === 3 ? '1fr' : 'repeat(2, 1fr)',
-                        gap: '0.25rem 0.5rem',
+                        gap: '0.75rem 1rem', 
                         marginLeft: '1.5rem'
                     }}>
                       {sortedOptions.map(([key, val]: any) => {
                         const isCorrect = key === q.answer;
                         const showCorrect = (showAnswers === 'inline' && isCorrect);
+                        
+                        const rawText = getContentText(val);
+                        const safeInlineText = rawText ? rawText.replace(/\$\$/g, '$') : "";
+
                         return (
-                          <div key={key} className={`flex items-start gap-2 ${showCorrect ? 'font-bold text-black' : 'text-slate-800'}`}>
-                            <span className={`w-4 h-4 rounded-full border flex items-center justify-center text-[0.7em] font-black shrink-0 mt-0.5 ${showCorrect ? 'border-black bg-slate-200' : 'border-slate-400'}`}>
-                              {key}
+                          <div key={key} className={`flex items-start gap-1.5 ${showCorrect ? 'font-bold text-black' : 'text-slate-900'}`}>
+                            
+                            {/* 🟢 CHANGED: font-black -> font-bold */}
+                            <span className={`font-bold shrink-0 mt-[0.15em] text-[0.95em] ${showCorrect ? 'text-black' : 'text-slate-900'}`}>
+                              {key}.
                             </span>
-                            <span className="text-[0.95em] leading-snug"><LatexRenderer latex={getContentText(val)} /></span>
+                            
+                            <span className="text-[0.95em] leading-relaxed break-words py-0.5">
+                              <LatexRenderer latex={safeInlineText} />
+                            </span>
+                            
                           </div>
                         );
                       })}

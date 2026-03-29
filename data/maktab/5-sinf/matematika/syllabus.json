@@ -1,0 +1,151 @@
+[
+  {
+    "category": "5-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Natural sonlar",
+        "index": 1,
+        "subtopics": [
+          { "name": "1 milliongacha bo'lgan sonlar", "index": 1 },
+          { "name": "10 milliongacha bo'lgan sonlar", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Sonlar ustida to'rt amal",
+        "index": 2,
+        "subtopics": [
+          { "name": "Sonni 10, 100 va 1000 ga ko'paytirish", "index": 1 },
+          { "name": "Sonni o'nlik, yuzlik va mingliklarga ko'paytirish", "index": 2 },
+          { "name": "Sonni 10, 100 va 1000 ga bo'lish", "index": 3 },
+          { "name": "Sonni o'nlik, yuzlik va mingliklarga bo'lish", "index": 4 },
+          { "name": "Qavssiz ifodalarda amallarni bajarish tartibi", "index": 5 },
+          { "name": "Qavsli ifodalarda amallarni bajarish tartibi", "index": 6 },
+          { "name": "Matnli masalalar", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Oddiy kasrlar",
+        "index": 3,
+        "subtopics": [
+          { "name": "Sonlarni bo'lishni kasr ko'rinishida ifodalash", "index": 1 },
+          { "name": "Oddiy kasrni o'nli kasrga aylantirish", "index": 2 },
+          { "name": "Aralash sonlarni qo'shish va ayirish", "index": 3 },
+          { "name": "To'g'ri kasrni natural songa ko'paytirish", "index": 4 },
+          { "name": "Noto'g'ri kasrni natural songa ko'paytirish", "index": 5 },
+          { "name": "Ikkita to'g'ri kasrni ko'paytirish", "index": 6 },
+          { "name": "To'g'ri va noto'g'ri kasrlarni ko'paytirish", "index": 7 },
+          { "name": "Ikkita noto'g'ri kasrni ko'paytirish", "index": 8 },
+          { "name": "Aralash sonlarni natural songa ko'paytirish", "index": 9 },
+          { "name": "Qolgan qismning qismi", "index": 10 },
+          { "name": "Matnli masalalar", "index": 11 }
+        ]
+      },
+      {
+        "chapter": "Uchburchakning yuzi",
+        "index": 4,
+        "subtopics": [
+          { "name": "Uchburchakning asosi va balandligi", "index": 1 },
+          { "name": "Uchburchakning yuzini topish", "index": 2 },
+          { "name": "To'g'ri to'rtburchak va uchburchaklardan tuzilgan murakkab shakllarning yuzi", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Hajm",
+        "index": 5,
+        "subtopics": [
+          { "name": "Fazoviy jismlarning hajmi", "index": 1 },
+          { "name": "Uch o'lchamli panjarada fazoviy jismlarni chizish", "index": 2 },
+          { "name": "Kvadratli panjarada fazoviy jismlarning turli ko'rinishlarini chizish", "index": 3 },
+          { "name": "Hajmni santimetr kub va metr kubda o'lchash", "index": 4 },
+          { "name": "Kuboid va kubning hajmini topish", "index": 5 },
+          { "name": "Suyuqlik hajmini santimetr kub va metr kubda o'lchash", "index": 6 },
+          { "name": "Matnli masalalar", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Nisbatlar",
+        "index": 6,
+        "subtopics": [
+          { "name": "Nisbat tushunchasi", "index": 1 },
+          { "name": "Teng kuchli nisbatlar", "index": 2 },
+          { "name": "Berilgan miqdor va nisbatga ko'ra boshqa miqdorni topish", "index": 3 },
+          { "name": "Berilgan jami miqdor va nisbatga ko'ra uning qismlarini topish", "index": 4 },
+          { "name": "Ikkita miqdorning nisbatiga doir matnli masalalar", "index": 5 },
+          { "name": "Uchta miqdorning nisbati", "index": 6 },
+          { "name": "Uchta miqdorning nisbatiga doir matnli masalalar", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "O'nli kasrlar",
+        "index": 7,
+        "subtopics": [
+          { "name": "O'nli kasrni 10, 100 va 1000 ga ko'paytirish", "index": 1 },
+          { "name": "O'nli kasrni o'nlik, yuzlik va mingliklarga ko'paytirish", "index": 2 },
+          { "name": "O'nli kasrni 10, 100 va 1000 ga bo'lish", "index": 3 },
+          { "name": "O'nli kasrni o'nliklar, yuzliklar va mingliklarga bo'lish", "index": 4 },
+          { "name": "O'lchov birliklarini almashtirish", "index": 5 },
+          { "name": "Matnli masalalar", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Me'yor",
+        "index": 8,
+        "subtopics": [
+          { "name": "Me'yorni topish", "index": 1 },
+          { "name": "Me'yorga ko'ra umumiy miqdorni topish", "index": 2 },
+          { "name": "Birliklar sonini topish", "index": 3 },
+          { "name": "Matnli masalalar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Foizlar",
+        "index": 9,
+        "subtopics": [
+          { "name": "Foiz tushunchasi", "index": 1 },
+          { "name": "Oddiy kasr, o'nli kasr va foizlar orasidagi munosabatlar", "index": 2 },
+          { "name": "Miqdorning foizi", "index": 3 },
+          { "name": "Matnli masalalar (Miqdorning foizi)", "index": 4 },
+          { "name": "QQS (qo'shilgan qiymat solig'i), chegirma va omonat foizi", "index": 5 },
+          { "name": "Matnli masalalar (QQS va chegirma)", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "O'rtacha qiymat",
+        "index": 10,
+        "subtopics": [
+          { "name": "O'rtacha qiymat tushunchasi", "index": 1 },
+          { "name": "Miqdorlarning o'rtacha va jami qiymati hamda soni", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Burchaklar",
+        "index": 11,
+        "subtopics": [
+          { "name": "To'g'ri chiziqdagi burchaklar", "index": 1 },
+          { "name": "Vertikal burchaklar", "index": 2 },
+          { "name": "Nuqta atrofidagi burchaklar", "index": 3 },
+          { "name": "Noma'lum burchaklarni topish", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Uchburchakning xossalari",
+        "index": 12,
+        "subtopics": [
+          { "name": "Uchburchakning turlari", "index": 1 },
+          { "name": "Uchburchaklarni chizish", "index": 2 },
+          { "name": "Uchburchakning burchaklari", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Parallelogramm, romb va trapetsiya",
+        "index": 13,
+        "subtopics": [
+          { "name": "Parallelogramm, romb va trapetsiyaning xossalari", "index": 1 },
+          { "name": "To'rtburchaklarni chizish", "index": 2 },
+          { "name": "To'rtburchakning noma'lum burchaklarini topish", "index": 3 }
+        ]
+      }
+    ]
+  }
+]

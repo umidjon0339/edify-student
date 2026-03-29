@@ -1,0 +1,109 @@
+[
+  {
+    "category": "6-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Algebra",
+        "index": 1,
+        "subtopics": [
+          { "name": "Algebraik ifodalar", "index": 1 },
+          { "name": "Algebraik ifodalarni soddalashtirish", "index": 2 },
+          { "name": "Algebraik ifodalarning qiymatini topish", "index": 3 },
+          { "name": "Tenglamalarni yechish", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Oddiy kasrlar",
+        "index": 2,
+        "subtopics": [
+          { "name": "To'g'ri kasrni natural songa bo'lish", "index": 1 },
+          { "name": "Natural sonni to'g'ri kasrga bo'lish", "index": 2 },
+          { "name": "To'g'ri kasrni to'g'ri kasrga bo'lish", "index": 3 },
+          { "name": "Matnli masalalar", "index": 4 },
+          { "name": "I takrorlash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Nisbatlar",
+        "index": 3,
+        "subtopics": [
+          { "name": "Nisbat va kasr", "index": 1 },
+          { "name": "Matnli masalalar", "index": 2 },
+          { "name": "Uch miqdor nisbati", "index": 3 },
+          { "name": "O'zgaruvchan nisbatlar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Foizlar",
+        "index": 4,
+        "subtopics": [
+          { "name": "Foizi va qismiga ko'ra sonning o'zini topish", "index": 1 },
+          { "name": "O'sish foizi va kamayish foizini topish", "index": 2 },
+          { "name": "Matnli masalalar", "index": 3 },
+          { "name": "II takrorlash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Geometrik shakllardagi burchaklar",
+        "index": 5,
+        "subtopics": [
+          { "name": "Geometrik shakllardagi noma'lum burchaklarni topish", "index": 1 }
+        ]
+      },
+      {
+        "chapter": "Doira va aylana",
+        "index": 6,
+        "subtopics": [
+          { "name": "Doira va aylana elementlari", "index": 1 },
+          { "name": "Aylananing uzunligi", "index": 2 },
+          { "name": "Yarim va chorak doira perimetri", "index": 3 },
+          { "name": "Doiraning yuzi", "index": 4 },
+          { "name": "Yarim va chorak doira yuzi", "index": 5 },
+          { "name": "Murakkab shakllarning yuzi va perimetri", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Tezlik",
+        "index": 7,
+        "subtopics": [
+          { "name": "Tezlik", "index": 1 },
+          { "name": "Tezlik, bosib o'tilgan masofa va vaqtni topish", "index": 2 },
+          { "name": "Ikki xil tezlikdagi harakatga doir matnli masalalar", "index": 3 },
+          { "name": "O'rtacha tezlik", "index": 4 },
+          { "name": "Ikkita jism harakatiga doir matnli masalalar", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Hajm",
+        "index": 8,
+        "subtopics": [
+          { "name": "Kuboidning qirrasini topish", "index": 1 },
+          { "name": "Kubning qirrasini topish", "index": 2 },
+          { "name": "Kuboid va kubning bir yog'i yuzini topish", "index": 3 },
+          { "name": "Matnli masalalar", "index": 4 },
+          { "name": "I takrorlash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Doiraviy diagrammalar",
+        "index": 9,
+        "subtopics": [
+          { "name": "Doiraviy diagrammada ma'lumotlarni taqdim etish", "index": 1 },
+          { "name": "Doiraviy diagrammalardagi ma'lumotlarni o'qish va talqin qilish", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Fazoviy jismlar va ularning yoyilmalari",
+        "index": 10,
+        "subtopics": [
+          { "name": "Konus, silindr, prizma va piramida", "index": 1 },
+          { "name": "Uch o'lchamli panjarada fazoviy jismlarni chizish", "index": 2 },
+          { "name": "Fazoviy jismlarning yoyilmasi", "index": 3 },
+          { "name": "II takrorlash", "index": 4 },
+          { "name": "Umumiy takrorlash", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

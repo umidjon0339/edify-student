@@ -1,0 +1,171 @@
+[
+    {
+      "category": "Geometriya",
+      "index": 2,
+      "chapters": [
+        {
+          "chapter": "Burchak. Masofa. To'g'ri chiziqlar",
+          "index": 1,
+          "subtopics": [
+            {"name": "Qo'shni va vertikal burchaklar. Parallel va kesishuvchi to'g'ri chiziqlar orasidagi burchaklar", "index": 1},
+            {"name": "Kesmaga doir masalalar", "index": 2}
+          ]
+        },
+        {
+          "chapter": "Uchburchaklar",
+          "index": 2,
+          "subtopics": [
+            {"name": "Uchburchakning perimetri, medianasi, bissetktrisasi, balandligi, o'rta chizig'i", "index": 1},
+            {"name": "Uchburchak tengsizligi", "index": 2},
+            {"name": "Uchburchakning burchaklari yig'indisi. Uchburchakning tashqi burchaklari", "index": 3},
+            {"name": "Teng yonli uchburchak", "index": 4},
+            {"name": "Teng tomonli uchburchak", "index": 5},
+            {"name": "To'g'ri burchakli uchburchak. Pifagor teoremasi", "index": 6},
+            {"name": "To'g'ri burchakdan tushirilgan balandik, katetlarning gipotenuzadagi proyeksiyalari", "index": 7},
+            {"name": "Sinuslar teoremasi", "index": 8},
+            {"name": "Kosinuslar teoremasi", "index": 9},
+            {"name": "Uchburchak bisektrisalarining xossasi", "index": 10},
+            {"name": "Uchburchak medianasining xossalari", "index": 11},
+            {"name": "Uchburchak balandligining xossalari", "index": 12},
+            {"name": "Uchburchak turlari", "index": 13},
+            {"name": "Uchburchak yuzasi", "index": 14},
+            {"name": "O'xshash uchburchaklar", "index": 15},
+            {"name": "O'xshash uchburchaklarning yuzalari. Yuzalar nisbati", "index": 16},
+            {"name": "Aralash bo'lim", "index": 17},
+            {"name": "Uchburchakning tenglik xossalari", "index": 18}
+          ]
+        },
+        {
+          "chapter": "To'rtburchaklar",
+          "index": 3,
+          "subtopics": [
+            {"name": "To'rtburchak xossalari", "index": 1},
+            {"name": "Kvadrat, kvadrat xossasi", "index": 2},
+            {"name": "Kvadrat yuzasi", "index": 3},
+            {"name": "To'g'ri to'rtburchak, perimetri, xossalari", "index": 4},
+            {"name": "To'g'ri to'rtburchak yuzi", "index": 5},
+            {"name": "Parallelogramm va uning xossasi", "index": 6},
+            {"name": "Parallelogramm yuzi", "index": 7},
+            {"name": "Romb. Romb xossasi", "index": 8},
+            {"name": "Romb yuzi", "index": 9},
+            {"name": "Qavariq ko'pburchak", "index": 10},
+            {"name": "Qavariq ko'pburchak xossalari", "index": 11},
+            {"name": "Trapetsiya va uning xossalari", "index": 12},
+            {"name": "Trapetsiya yuzi", "index": 13},
+            {"name": "Ko'pburchak yuzasi. O'xshash ko'pburchaklarning yuzalari", "index": 14}
+          ]
+        },
+        {
+          "chapter": "Aylana va doira",
+          "index": 4,
+          "subtopics": [
+            {"name": "Aylana, doira, radius, diametr, vatar", "index": 1},
+            {"name": "Aylanaga o'tkazilgan urinma", "index": 2},
+            {"name": "Aylana va kesuvchi", "index": 3},
+            {"name": "Aylana uzunligi", "index": 4},
+            {"name": "Aylana yoyi uzunligi", "index": 5},
+            {"name": "Ichki chizilgan burchaklar", "index": 6},
+            {"name": "Kesuvchi va urinma. Ular orasidagi burchak", "index": 7},
+            {"name": "Doira yuzi", "index": 8},
+            {"name": "Sektor yuzi", "index": 9},
+            {"name": "Segment yuzi", "index": 10},
+            {"name": "Aylana tenglamasi", "index": 11}
+          ]
+        },
+        {
+          "chapter": "Aylana va ko'pburchak",
+          "index": 5,
+          "subtopics": [
+            {"name": "Uchburchakka ichki chizilgan aylana", "index": 1},
+            {"name": "Uchburchakka tashqi chizilgan aylana", "index": 2},
+            {"name": "Kvadratga ichki chizilgan aylana. To'rtburchak va aylana", "index": 3},
+            {"name": "To'g'ri to'rtburchakka tashqi chizilgan aylana", "index": 4},
+            {"name": "Aylana va romb", "index": 5},
+            {"name": "Trapesiyaga tashqi chizilgan aylana. Trapesiyaga ichki chizilgan aylana", "index": 6},
+            {"name": "Aylanaga ichki chizilgan ko'pburchak", "index": 7},
+            {"name": "Aylanaga tashqi chizilgan ko'pburchak", "index": 8}
+          ]
+        },
+        {
+          "chapter": "Koordinatalar sistemasi",
+          "index": 6,
+          "subtopics": [
+            {"name": "Nuqta koordinatasi, kesma o'rtasi koordinatasi", "index": 1},
+            {"name": "Nuqtalar orasidagi masofa. Medianalar kesishish nuqtalarining koordinatalari", "index": 2},
+            {"name": "Nuqtaga, to'g'ri chiziqqa nisbatan simmetriya", "index": 3}
+          ]
+        },
+        {
+          "chapter": "Vektorlar",
+          "index": 7,
+          "subtopics": [
+            {"name": "Vektor haqida tushuncha. Vektor koordinatasi", "index": 1},
+            {"name": "Koordinatalari bilan berilgan vektorlar ustida amallar", "index": 2},
+            {"name": "Vektor uzunligi va moduli", "index": 3},
+            {"name": "Vektorlarning skalyar ko'paytmasi", "index": 4},
+            {"name": "Vektorlar orasidagi burchak", "index": 5},
+            {"name": "Kolliniyar vektorlar", "index": 6}
+          ]
+        },
+        {
+          "chapter": "Fazoda to'g'ri chiziq va tekisliklar",
+          "index": 8,
+          "subtopics": [
+            {"name": "Perpendikulyar, og'ma, og'maning tekislikdagi proyeksiyasi", "index": 1},
+            {"name": "Fazoda to'g'ri chiziqlar va tekisliklar", "index": 2},
+            {"name": "Tekisliklar orasidagi burchak. Ikkiyoqli va uchyoqli burchaklar. Tekislik tenglamasi", "index": 3},
+            {"name": "Nuqtadan tekislikkacha bo'lgan masofa", "index": 4}
+          ]
+        },
+        {
+          "chapter": "Ko'p yoqlar",
+          "index": 9,
+          "subtopics": [
+            {"name": "Kub va uning xossalari", "index": 1},
+            {"name": "Kub sirtining yuzi", "index": 2},
+            {"name": "Kub hajmi", "index": 3},
+            {"name": "Parallelepiped va uning xossasi", "index": 4},
+            {"name": "Parallelepiped sirtlarining yuzi", "index": 5},
+            {"name": "Parallelepiped hajmi", "index": 6},
+            {"name": "Prizma va uning xossasi. Prizma sirtlarining yuzalari", "index": 7},
+            {"name": "Prizma hajmi", "index": 8},
+            {"name": "Piramida va uning elementlari", "index": 9},
+            {"name": "Piramida sirtlarining yuzi", "index": 10},
+            {"name": "Piramida hajmi", "index": 11},
+            {"name": "Kesik piramida", "index": 12}
+          ]
+        },
+        {
+          "chapter": "Aylanish jismlari",
+          "index": 10,
+          "subtopics": [
+            {"name": "Silindr sirtlarining yuzi", "index": 1},
+            {"name": "Silindr hajmi", "index": 2},
+            {"name": "Konus sirtining yuzi", "index": 3},
+            {"name": "Konus hajmi", "index": 4},
+            {"name": "Kesik konus sirtlarining yuzi", "index": 5},
+            {"name": "Kesik konus hajmi", "index": 6},
+            {"name": "Sfera. Sfera sirti. Sfera tenglamasi", "index": 7},
+            {"name": "Shar. Shar hajmi. Sfera", "index": 8}
+          ]
+        },
+        {
+          "chapter": "Jismlar kombinatsiyasi",
+          "index": 11,
+          "subtopics": [
+            {"name": "Shar segmenti. Shar segmentining hajmi", "index": 1},
+            {"name": "Prizmaga ichki chizilgan shar. Prizmaga tashqi chizilgan shar. Piramida va shar", "index": 2},
+            {"name": "Silindrga ichki chizilgan shar. Silindrga tashqi chizilgan shar", "index": 3},
+            {"name": "Konusga ichki chizilgan shar. Konus prizma", "index": 4},
+            {"name": "Konusga tashqi chizilgan shar", "index": 5},
+            {"name": "Kub va konus. Kub va shar", "index": 6},
+            {"name": "Prizma va silindr", "index": 7},
+            {"name": "Silindr va konus", "index": 8},
+            {"name": "Ko'pyoqlar kombinatsiyalari", "index": 9}
+          ]
+        }
+      ]
+    }
+  
+    
+  ]
