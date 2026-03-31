@@ -21,6 +21,12 @@ export async function consumeAiCredits(userId: string, requestedAmount: number =
     let currentUsed = Number(userData?.aiQuestionUsedToday) || 0; 
     const lastReset = userData?.aiQuestionLastResetDate || "2000-01-01"; 
 
+    // 🟢 ADD THIS AUTO-UPGRADE HACK:
+    // If their database document says 50, force it to 100.
+    // if (currentLimit === 50) {
+    //   currentLimit = 100;
+    // }
+
     // 2. Lazy Reset
     if (lastReset !== today) {
       currentUsed = 0; 

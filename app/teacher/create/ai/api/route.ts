@@ -47,6 +47,7 @@ CRITICAL FORMATTING & LATEX RULES:
 3. Systems of equations MUST use: $$ \\\\begin{cases} x+y=2 \\\\\\\\ x-y=0 \\\\end{cases} $$
 4. JSON ESCAPING: You MUST double-escape all LaTeX backslashes so the JSON does not break. (e.g., write \\\\frac instead of \\frac, write \\\\alpha instead of \\alpha).
 5. Solvability: Questions MUST be 100% mathematically/factually correct and solvable. Randomize 'answer' (A-D).
+6. EXPLANATION LENGTH: The 'explanation' field MUST be extremely concise, strictly UNDER 30 WORDS more than 15. Provide only the core logic or formula used.
 
 Output RAW JSON array ONLY. No markdown.
 Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
