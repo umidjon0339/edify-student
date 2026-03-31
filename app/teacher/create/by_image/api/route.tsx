@@ -1,34 +1,55 @@
 import { NextResponse } from 'next/server';
 import { jsonrepair } from 'jsonrepair';
 
+// 🟢 AI LIMIT BLOCK START
+import { consumeAiCredits } from "@/lib/ai/aiLimitsHelper"; 
+// 🔴 AI LIMIT BLOCK END
+
 export async function POST(req: Request) {
   try {
-    const { images, promptText, difficulty, count, language = "uz" } = await req.json();
+    const { userId, images, promptText, difficulty, count, language = "uz" } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "GEMINI_API_KEY is missing" }, { status: 500 });
     }
 
+    // =========================================================================
+    // 🟢 AI LIMIT BLOCK START: Step 1 - GATEKEEPER CHECK (Do NOT deduct yet)
+    // =========================================================================
+    if (!userId) {
+      return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
+    }
+    
+    // Notice the 'false' parameter here! It means "just check the math, don't update Firebase yet"
+    const limitCheck = await consumeAiCredits(userId, count, false); 
+    
+    if (!limitCheck.allowed) {
+      return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
+    }
+    // 🔴 AI LIMIT BLOCK END
+    // =========================================================================
+
+
     if (!images || images.length === 0) {
       return NextResponse.json({ error: "No images provided" }, { status: 400 });
     }
 
-    // 🟢 HIGHLY COMPRESSED PROMPT: Added support for $$ and strict JSON escaping rules
-    const systemPrompt = `Role: Expert Math Teacher. Generate exactly ${count} multiple-choice questions.
-Lang: ${language}. Diff: ${difficulty}.
+    const systemPrompt = `Role: Expert Academic Examiner. Generate exactly ${count} multiple-choice questions based on the image content.
+Lang: ${language}. Diff: ${difficulty}. Instruction: "${promptText || 'Extract main concepts'}".
 
 CRITICAL RULES:
-1. GUARDRAIL: If image lacks math/graphs/education content, output EXACTLY: {"error": "invalid_image"}
-2. SELF-CONTAINED: NEVER reference the image (e.g., "Rasmdagi", "shown above"). Questions must be pure standalone text.
-3. FORMATTING: 
-   - NO newlines. Do NOT use \\n. Write continuous strings.
-   - Use single quotes ('') inside text, NEVER double quotes ("").
-4. MATH LATEX & JSON: 
-   - Wrap ALL math/variables in single $ for inline math or $$ for display math.
-   - Systems of equations MUST use \\\\begin{cases} ... \\\\end{cases}. NEVER use a plain '{'.
-   - Because you are outputting JSON, you MUST double-escape all LaTeX commands (e.g., \\\\frac, \\\\pi, \\\\sin).
-5. CONTENT: Extract concepts from image. Apply instruction: "${promptText}". Flawless correct answer. 3 common-mistake distractors. Randomize 'answer' (A-D). Max 2 sentence 'explanation'.
+1. GUARDRAIL: If image is NOT educational, academic, or text-based, output EXACTLY: {"error": "invalid_image"}
+2. STANDALONE: NEVER say "Rasmdagi" or "In the image". Questions must make sense without seeing the photo.
+3. FORMATTING: No newlines (\\n). Use single quotes ('') inside text.
+4. STRICT MATH LATEX RULES (CRITICAL): 
+   - Wrap ALL math/numbers/variables in $ (for inline) or $$ (for display/blocks).
+   - NEVER use \\( \\) or \\[ \\].
+   - Systems of equations MUST use: $$ \\\\begin{cases} x+y=2 \\\\\\\\ x-y=0 \\\\end{cases} $$
+   - Matrices MUST use: $$ \\\\begin{pmatrix} 1 & 2 \\\\\\\\ 3 & 4 \\\\end{pmatrix} $$
+   - Integrals/Limits MUST use: $ \\\\int_{0}^{1} x dx $ or $ \\\\lim_{x \\\\to \\\\infty} $
+5. JSON ESCAPING: You MUST double-escape all LaTeX backslashes so the JSON does not break. (e.g., write \\\\frac instead of \\frac, write \\\\alpha instead of \\alpha).
+6. CONTENT: 1 correct answer, 3 plausible distractors. Randomize 'answer' (A-D). Max 2 sentence 'explanation'.
 
 Output RAW JSON array ONLY. No markdown.
 Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
@@ -61,8 +82,6 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     let generatedText = data.candidates[0].content.parts[0].text;
     let parsedJSON;
 
-    // 🟢 PARSING LOGIC: Try native parse first to preserve backslashes. 
-    // Only apply regex/repair if native parse fails.
     try {
       parsedJSON = JSON.parse(generatedText);
     } catch (initialParseError) {
@@ -81,12 +100,12 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       }
     }
 
-    // Handle Image Guardrail
+    // 🟢 If the AI says the image is invalid, the code stops here! 
+    // The credits are NEVER deducted, which is exactly what we want.
     if (parsedJSON.error === "invalid_image") {
       return NextResponse.json({ error: "invalid_image" }, { status: 400 });
     }
 
-    // 🟢 ROBUST ARRAY HANDLER
     let rawAiQuestions = [];
     if (Array.isArray(parsedJSON)) {
       rawAiQuestions = parsedJSON;
@@ -110,9 +129,21 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       explanation: { uz: q.explanation || "", ru: "", en: "" }
     }));
 
+    // =========================================================================
+    // 🟢 AI LIMIT BLOCK START: Step 2 - SUCCESS! DEDUCT THE CREDITS NOW
+    // =========================================================================
+    // By the time we reach this line, we know the JSON is valid, the image was good, 
+    // and the questions are formatted perfectly. Now we actually deduct the count!
+    // Notice the 'true' parameter here!
+    await consumeAiCredits(userId, count, true);
+    // 🔴 AI LIMIT BLOCK END
+    // =========================================================================
+
     return NextResponse.json({ questions: formattedQuestions });
 
   } catch (error: any) {
+    // 🟢 If the Gemini API crashes or times out, the code jumps here.
+    // The bottom consumeAiCredits(..., true) is skipped, and credits are saved!
     console.error("AI Image Generation Error:", error);
     return NextResponse.json({ error: error.message || "Failed to generate questions" }, { status: 500 });
   }

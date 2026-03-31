@@ -1,0 +1,231 @@
+[
+    {
+      "category": "Algebra",
+      "index": 1,
+      "chapters": [
+        {
+          "chapter": "Natural va butun sonlar",
+          "index": 1,
+          "subtopics": [
+            {"name": "Sonlar ustida amallarning xossalari", "index": 1},
+            {"name": "Tub va murakkab sonlar. O'zaro tub sonlar", "index": 2},
+            {"name": "Sonlarning bo'linish belgilari", "index": 3},
+            {"name": "Sonlarning umumiy bo'luvchisi", "index": 4},
+            {"name": "Qoldiqli bo'lish", "index": 5},
+            {"name": "Taqqoslama", "index": 6},
+            {"name": "EKUB va EKUK. Sonning natural bo'luvchilari. Sonning natural bo'luvchilari yig'indisi", "index": 7},
+            {"name": "Sonning oxirgi raqami", "index": 8},
+            {"name": "Butun sonlar ko'paytmasida nollar sonini topish", "index": 9}
+          ]
+        },
+        {
+          "chapter": "Butun va ratsional sonlar",
+          "index": 2,
+          "subtopics": [
+            {"name": "Butun sonlar ustida amallar", "index": 1},
+            {"name": "Oddiy kasrlar ustida amallar", "index": 2},
+            {"name": "Kasrli ifodalar", "index": 3},
+            {"name": "Sonning natural va butun ko'rsatkichli darajasi. Daraja xossalari", "index": 4},
+            {"name": "Aralash kasrlar va ular ustida amallar", "index": 5},
+            {"name": "O'nli kasrlar va ular ustida amallar", "index": 6},
+            {"name": "Cheksiz davriy o'nli kasrlar", "index": 7},
+            {"name": "Kompleks sonlar va ular ustida amallar", "index": 8}
+          ]
+        },
+        {
+          "chapter": "Algebraik ifodalar",
+          "index": 3,
+          "subtopics": [
+            {"name": "Ko'phadning standart ko'rinishi. Ko'phadlar ayirmasi va yig'indisi. Ko'phadlar ustida amallar", "index": 1},
+            {"name": "Qisqa ko'paytirish formulalari", "index": 2},
+            {"name": "Ko'phadlarni ko'paytuvchilarga ajratish. Kvadrat uchhadni chiziqli ko'paytuvchilarga ajratish", "index": 3},
+            {"name": "Algebraik kasrlar ustida amallar", "index": 4},
+            {"name": "Ifodalarni soddalashtirish", "index": 5}
+          ]
+        },
+        {
+          "chapter": "Haqiqiy sonlar",
+          "index": 4,
+          "subtopics": [
+            {"name": "Arifmetik kvadrat ildiz. Ildizlarning xossalari", "index": 1},
+            {"name": "Kvadrat ildiz. Hisoblashga doir misollar", "index": 2},
+            {"name": "Kvadrat ildiz qatnashgan ifodalarni soddalashtirish", "index": 3},
+            {"name": "Ratsional ko'rsatkichli daraja va uning xossalari", "index": 4},
+            {"name": "Daraja qatnashgan ifodalarni soddalashtirish", "index": 5}
+          ]
+        },
+        {
+          "chapter": "Tenglama",
+          "index": 5,
+          "subtopics": [
+            {"name": "Chiziqli tenglama. Ayniyat", "index": 1},
+            {"name": "Proportsiya. Proportsiyaning nomalum hadini topish. Proportsiya xossasi", "index": 2},
+            {"name": "Kvadrat tenglama", "index": 3},
+            {"name": "Viyet teoremasi. Viyet teoremasini qo'llash", "index": 4},
+            {"name": "Bikvadrat tenglama. Kvadrat tenglamaga keltiriladigan tenglamalar", "index": 5},
+            {"name": "Ratsional tenglama", "index": 6},
+            {"name": "Parametrli chiziqli tenglamalar", "index": 7},
+            {"name": "Parametrli kvadrat tenglamalar", "index": 8}
+          ]
+        },
+        {
+          "chapter": "Tenglamalar sistemasi",
+          "index": 6,
+          "subtopics": [
+            {"name": "Chiziqli tenglamalar sistemasi", "index": 1},
+            {"name": "I va II darajali tenglamalar sistemasi", "index": 2},
+            {"name": "Yuqori darajali tenglamalar sistemasi", "index": 3},
+            {"name": "Parametrli tenglamalar sistemasi", "index": 4}
+          ]
+        },
+        {
+          "chapter": "Tengsizliklar",
+          "index": 7,
+          "subtopics": [
+            {"name": "Bir nomalumli chiziqli tengsizliklar", "index": 1},
+            {"name": "Qo'sh tengsizlik", "index": 2},
+            {"name": "Intervallar usuli. Ratsional tengsizlik", "index": 3},
+            {"name": "Parametrli tengsizliklar. Tengsizliklar sistemasi", "index": 4},
+            {"name": "Tengsizliklarni isbotlash", "index": 5}
+          ]
+        },
+        {
+          "chapter": "Irratsional tenglama va tengsizliklar",
+          "index": 8,
+          "subtopics": [
+            {"name": "Irratsional tenglamalar", "index": 1},
+            {"name": "Irratsional tenglamalar sistemasi", "index": 2},
+            {"name": "Irratsional tengsizliklar. Irratsional tengsizliklar sistemasi", "index": 3}
+          ]
+        },
+        {
+          "chapter": "Progressiya",
+          "index": 9,
+          "subtopics": [
+            {"name": "Arifmetik progressiya. Arifmetik progressiyaning n-hadi", "index": 1},
+            {"name": "Arifmetik progressiya xossalari", "index": 2},
+            {"name": "Arifmetik progressiyaning dastlabki n ta hadi yig'indisi", "index": 3},
+            {"name": "Geometrik progressiya. Geometrik progressiyaning n-hadi", "index": 4},
+            {"name": "Geometrik progressiyaning xossalari", "index": 5},
+            {"name": "Geometrik progressiyaning dastlabki n ta hadi yig'indisi", "index": 6},
+            {"name": "Cheksiz kamayuvchi geometrik progressiya", "index": 7}
+          ]
+        },
+        {
+          "chapter": "Matnli masalalar",
+          "index": 10,
+          "subtopics": [
+            {"name": "Sodda mushohada", "index": 1},
+            {"name": "Qismlarga doir masalalar", "index": 2},
+            {"name": "To'g'ri va teskari proporsionallikka doir masalalar", "index": 3},
+            {"name": "Masshtabga doir masalalar. To'plamga oid", "index": 4},
+            {"name": "Tenglamalar va tenglamalar sistemasi yordamida yechiladigan masalalar", "index": 5},
+            {"name": "Ishga oid masalalar", "index": 6},
+            {"name": "Protsentlarga doir masalalar", "index": 7},
+            {"name": "Harakatga doir masalalar", "index": 8},
+            {"name": "Aralashmaga doir masalalar", "index": 9}
+          ]
+        },
+        {
+          "chapter": "Funksiyalar",
+          "index": 11,
+          "subtopics": [
+            {"name": "Funksiya argumenti va aniqlanish sohasi", "index": 1},
+            {"name": "Funksiyaning juft va toqligi", "index": 2},
+            {"name": "Funksiya grafigi, eng katta qiymati, qiymatlar sohasi", "index": 3},
+            {"name": "Chiziqli funksiya va uning xossalari. Funksiyaning berilish usullari. Nuqtadan to'g'ri chiziqqacha bo'lgan masofa", "index": 4},
+            {"name": "Kvadrat funksiya va uning xossalari", "index": 5},
+            {"name": "Funksiyani tekshirish. Teskari funksiya", "index": 6},
+            {"name": "Murakkab funksiya. Aralash bo'lim", "index": 7}
+          ]
+        },
+        {
+          "chapter": "Ko'rsatkichli va logarifmik funksiyalar",
+          "index": 12,
+          "subtopics": [
+            {"name": "Ko'rsatkichli funksiya va uning xossalari", "index": 1},
+            {"name": "Ko'rsatkichli tenglamalar", "index": 2},
+            {"name": "Ko'rsatkichli tenglamalar sistemasi", "index": 3},
+            {"name": "Ko'rsatkichli tengsizliklar. Tengsizliklar sistemasi", "index": 4},
+            {"name": "Logarifmik funksiya va uning xossalari", "index": 5},
+            {"name": "Logarifmik funksiyaning aniqlanish sohasi. Logarifmik funksiyaning qiymatlar sohasi", "index": 6},
+            {"name": "Sonning logarifmi va uning xossalari, logarifmik ifodalarni shakl almashtirish", "index": 7},
+            {"name": "Logarifmik tenglamalar", "index": 8},
+            {"name": "Logarifmik tengsizliklar", "index": 9}
+          ]
+        },
+        {
+          "chapter": "Trigonometriya",
+          "index": 13,
+          "subtopics": [
+            {"name": "Burchakning gradus va radian o'lchovi. Nuqtani burish", "index": 1},
+            {"name": "Trigonometrik funksiyalarning juft va toqligi. Choraklardagi ishoralari", "index": 2},
+            {"name": "Asosiy trigonometrik ayniyatlar", "index": 3},
+            {"name": "Keltrish formulalari", "index": 4},
+            {"name": "Qo'shish formulalari", "index": 5},
+            {"name": "Yarim burchak formulalari", "index": 6},
+            {"name": "Ikkilangan burchak formulalari. Uchlangan burchak formulalari", "index": 7},
+            {"name": "Trigonometrik funksiyalar yig'indisi va ayirmasi uchun formulalar", "index": 8},
+            {"name": "Trigonometrik funksiyalar ko'paytmasi uchun formulalar", "index": 9},
+            {"name": "Trigonometrik formulalar, funksiyalarning qiymatlar to'plami", "index": 10},
+            {"name": "Arksinus, arkkosinus, arktangens va arkkotangens. Xossalari. Teskari trigonometrik funksiyalarga doir tenglama va tengsizliklar", "index": 11},
+            {"name": "Trigonometrik tenglamalar. Trigonometrik tenglamalar sistemasi", "index": 12},
+            {"name": "Trigonometrik tengsizliklar. Tengsizliklar sistemasi", "index": 13},
+            {"name": "Trigonometrik funksiyalar xossalari. Davri. O'sish va kamayish oralig'i. Aniqlanish sohasi", "index": 14}
+          ]
+        },
+        {
+          "chapter": "Modul",
+          "index": 14,
+          "subtopics": [
+            {"name": "Sonning moduli, modul xossasi. Modulli ifodalar", "index": 1},
+            {"name": "Modul qatnashgan tenglamalar. Modul qatnashgan parametrli tenglamalar", "index": 2},
+            {"name": "Modul qatnashgan tengsizliklar", "index": 3},
+            {"name": "Modul qatnashgan tenglamalar sistemasi", "index": 4},
+            {"name": "Modulli funksiyaning grafigi, qiymatlar sohasi", "index": 5}
+          ]
+        },
+        {
+          "chapter": "Hosila",
+          "index": 15,
+          "subtopics": [
+            {"name": "Funksiya hosilasi. Differensiallash formulalari va ularni qo'llash", "index": 1},
+            {"name": "Yig'indi, ayirma, ko'paytma va bo'linmaning hosilasi", "index": 2},
+            {"name": "Murakkab funksiya hosilasi", "index": 3},
+            {"name": "Funksiyaning o'sish va kamayish oraliqlari", "index": 4},
+            {"name": "Funksiyaning eng katta va eng kichik qiymati. Funksiyaning kritik nuqtalari, maksimum va minimumlar", "index": 5},
+            {"name": "Urinmaning burchak koeffitsiyenti", "index": 6},
+            {"name": "Urinma tenglamasi", "index": 7},
+            {"name": "Hosilaning geometrik va mexanik manosi", "index": 8}
+          ]
+        },
+        {
+          "chapter": "Boshlang'ich funksiya va integral",
+          "index": 16,
+          "subtopics": [
+            {"name": "Boshlang'ich funksiya tushunchasi. Uning xossalari. Boshlang'ich funksiyani topish jadvali", "index": 1},
+            {"name": "Boshlang'ich funksiyani topish qoidalari", "index": 2},
+            {"name": "Aniq integral", "index": 3},
+            {"name": "Egri chiziqli trapetsiya yuzi", "index": 4}
+          ]
+        },
+        {
+          "chapter": "Nostandart masalalar",
+          "index": 17,
+          "subtopics": [
+            {"name": "Nostandart masalalar. Matritsalar. Binom", "index": 1},
+            {"name": "Mantiqiy ifodalar", "index": 2}
+          ]
+        },
+        {
+          "chapter": "Kombinatorika. Ehtimollar nazariyasi. To'plam",
+          "index": 18,
+          "subtopics": [
+            {"name": "Kombinatorika", "index": 1},
+            {"name": "Ehtimollar nazariyasi", "index": 2},
+            {"name": "To'plamlar", "index": 3}
+          ]
+        }
+      ]
+    }  
+  ]

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, CheckCircle2, Wand2, BookOpen, Trash2, Layers, EyeOff, Eye, Menu, X, Minus, Plus, ChevronRight, BookMarked, Search } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, CheckCircle2, Wand2, BookOpen, Trash2, Layers, EyeOff, Eye, Menu, X, Minus, Plus, ChevronRight, BookMarked, Search, Bot, Zap } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -12,50 +12,137 @@ import 'katex/dist/katex.min.css';
 import { motion, AnimatePresence } from "framer-motion";
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
 
+// 🟢 AI LIMIT BLOCK START
+import { useAiLimits } from "@/hooks/useAiLimits";
+import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
+// 🔴 AI LIMIT BLOCK END
+
 // 🟢 INSTANT LOAD: The Master Map for Maktab
 import structureMap from "@/data/maktab/structure.json";
 
 // --- TYPES ---
-interface AIQuestion {
-  id: string;
-  uiDifficulty: string;
-  question: { uz: string; ru: string; en: string };
-  options: { A: { uz: string; ru: string; en: string }; B: { uz: string; ru: string; en: string }; C: { uz: string; ru: string; en: string }; D: { uz: string; ru: string; en: string }; };
-  answer: string;
-  explanation: { uz: string; ru: string; en: string };
-  topicId: string;
-  chapterId: string;
-  subtopicId: string;
-  subject: string;
-  topic: string;
-  chapter: string;
-  subtopic: string;
-  difficultyId: number;
+interface AIQuestion { 
+  id: string; 
+  uiDifficulty: string; 
+  question: { uz: string; ru: string; en: string }; 
+  options: { A: { uz: string; ru: string; en: string }; B: { uz: string; ru: string; en: string }; C: { uz: string; ru: string; en: string }; D: { uz: string; ru: string; en: string }; }; 
+  answer: string; 
+  explanation: { uz: string; ru: string; en: string }; 
+  // 🟢 IDs REMOVED! Only keeping the clean text fields and difficultyId
+  subject: string; 
+  topic: string; 
+  chapter: string; 
+  subtopic: string; 
+  difficultyId: number; 
 }
 
-// --- COMPONENTS ---
-const FormattedText = ({ text }: { text: string }) => {
-  if (!text) return null;
-  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+// 🟢 THE HELPER FUNCTION
+const formatSubjectName = (rawSubject: string) => {
+  if (!rawSubject) return "";
+  const cleanedStr = rawSubject.replace(/-/g, " ");
+  return cleanedStr.charAt(0).toUpperCase() + cleanedStr.slice(1).toLowerCase();
+};
+
+// ==========================================
+// 🟢 AI THINKING MODAL (INDIGO THEME)
+// ==========================================
+const AiThinkingModal = ({ isVisible }: { isVisible: boolean }) => {
+  const phrases = [
+    "Mavzu tahlil qilinmoqda...",
+    "Maktab dasturi tekshirilmoqda...",
+    "Konteks o'qilmoqda...",
+    "Qiyinlik darajasi moslashtirilmoqda...",
+    "Savollar va javoblar yozilmoqda...",
+    "Formula va chizmalar tekshirilmoqda..."
+  ];
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    const interval = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % phrases.length);
+    }, 2500); 
+    return () => clearInterval(interval);
+  }, [isVisible, phrases.length]);
 
   return (
-    <span className="break-words">
+    <AnimatePresence>
+      {isVisible && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
+          <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="relative w-full max-w-md bg-white/90 backdrop-blur-2xl rounded-3xl border border-indigo-100/50 shadow-2xl p-8 flex flex-col items-center justify-center overflow-hidden">
+            <div className="absolute top-[-30%] left-[-20%] w-[80%] h-[80%] bg-indigo-500/20 rounded-full blur-[80px] animate-pulse"></div>
+            <div className="absolute bottom-[-30%] right-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: "1s" }}></div>
+            <div className="relative mb-8 mt-4">
+              <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-blue-400 rounded-full blur-xl opacity-40" />
+              <div className="relative w-24 h-24 bg-white/80 backdrop-blur-md rounded-3xl border border-white flex items-center justify-center shadow-xl">
+                <Bot size={44} className="text-indigo-600 animate-bounce" style={{ animationDuration: "2s" }} />
+                <Sparkles size={20} className="absolute -top-3 -right-3 text-amber-400 animate-pulse" />
+              </div>
+            </div>
+            <h3 className="text-xl font-black text-slate-800 mb-2 relative z-10 tracking-tight text-center">AI Studiya ishlamoqda</h3>
+            <div className="h-6 relative z-10 overflow-hidden flex items-center justify-center w-full">
+              <motion.p key={phraseIndex} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="text-[14px] font-medium text-slate-500 absolute text-center w-full">{phrases[phraseIndex]}</motion.p>
+            </div>
+            <div className="w-[80%] h-1.5 bg-slate-200/50 rounded-full mt-8 overflow-hidden relative z-10">
+              <motion.div className="h-full bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-500 rounded-full w-[200%]" animate={{ x: ["-50%", "0%"] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+// ==========================================
+
+// --- BULLETPROOF LATEX FORMATTER ---
+const FormattedText = ({ text }: { text: any }) => {
+  if (!text) return null;
+
+  let content = typeof text === 'string' ? text : JSON.stringify(text);
+
+  const hasMathCommands = /\\frac|\\pi|\\sin|\\cos|\\tan|\\ge|\\le|\\cup|\\cap|\\in|\\begin|\\sqrt|\\empty/.test(content);
+  if (!content.includes('$') && hasMathCommands) {
+    content = `$${content}$`;
+  }
+
+  content = content
+    .replace(/\\\((.*?)\\\)/g, '$$$1$$')
+    .replace(/\\\[(.*?)\\\]/g, '$$$$$1$$$$')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\\\\/g, '\\');
+
+  const parts = content.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+
+  return (
+    <span className="break-words leading-relaxed">
       {parts.map((part, index) => {
         if (part.startsWith('$$') && part.endsWith('$$')) {
-          const math = part.slice(2, -2);
+          const math = part.slice(2, -2).trim();
           try {
-            const html = katex.renderToString(math, { displayMode: true, throwOnError: false });
-            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-2 text-center overflow-x-auto" />;
-          } catch (e) { return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>; }
+            const html = katex.renderToString(math, { displayMode: true, throwOnError: false, strict: false });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-3 text-center overflow-x-auto custom-scrollbar" />;
+          } catch (e) { return <span key={index} className="text-rose-500 font-mono text-[13px] bg-rose-50 px-1 rounded">{part}</span>; }
         }
+        
         if (part.startsWith('$') && part.endsWith('$')) {
-          const math = part.slice(1, -1);
+          const math = part.slice(1, -1).trim();
           try {
-            const html = katex.renderToString(math, { displayMode: false, throwOnError: false });
+            const html = katex.renderToString(math, { displayMode: false, throwOnError: false, strict: false });
             return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-0.5 inline-block" />;
-          } catch (e) { return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>; }
+          } catch (e) { return <span key={index} className="text-rose-500 font-mono text-[13px] bg-rose-50 px-1 rounded">{part}</span>; }
         }
-        return <span key={index}>{part}</span>;
+        
+        return (
+          <span key={index}>
+            {part.split('\n').map((line, i, arr) => (
+              <span key={i}>
+                {line}
+                {i < arr.length - 1 && <br />}
+              </span>
+            ))}
+          </span>
+        );
       })}
     </span>
   );
@@ -64,6 +151,14 @@ const FormattedText = ({ text }: { text: string }) => {
 const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRemove: (id: string) => void }) => {
   const [showOptions, setShowOptions] = useState(true);
   const [showExplanation, setShowExplanation] = useState(false);
+
+  const getText = (field: any): string => {
+    if (!field) return "";
+    if (typeof field === "string") return field;
+    if (field.uz && typeof field.uz === "string") return field.uz;
+    if (field.uz && field.uz.uz) return field.uz.uz; 
+    return JSON.stringify(field); 
+  };
 
   return (
     <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 relative group">
@@ -91,7 +186,7 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
         </div>
       </div>
       
-      <p className="font-semibold text-[15px] text-slate-900 mb-6 leading-relaxed"><FormattedText text={q.question.uz} /></p>
+      <p className="font-semibold text-[15px] text-slate-900 mb-6 leading-relaxed"><FormattedText text={getText(q.question)} /></p>
       
       {showOptions && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
@@ -100,23 +195,24 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
             return (
               <div key={key} className={`flex items-start p-3 rounded-xl border-2 transition-all ${isCorrect ? 'bg-indigo-50/40 border-indigo-500/30' : 'bg-white border-slate-100 hover:border-slate-200'}`}>
                 <div className={`w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-black mr-3 shrink-0 mt-0.5 transition-colors ${isCorrect ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20' : 'bg-slate-100 text-slate-500'}`}>{key}</div>
-                <div className={`text-sm font-medium pt-0.5 break-words overflow-hidden ${isCorrect ? 'text-indigo-950' : 'text-slate-700'}`}><FormattedText text={value.uz} /></div>
+                <div className={`text-sm font-medium pt-0.5 break-words overflow-hidden ${isCorrect ? 'text-indigo-950' : 'text-slate-700'}`}><FormattedText text={getText(value)} /></div>
               </div>
             );
           })}
         </div>
       )}
       
-      <div className="mt-2 pt-4 border-t border-slate-50">
-        <button onClick={() => setShowExplanation(!showExplanation)} className="text-[13px] font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1.5 transition-colors">
-          {showExplanation ? <EyeOff size={14} /> : <Eye size={14} />} {showExplanation ? "Yechimni yashirish" : "Yechimni ko'rish"}
+      <div className="mt-2 pt-4 border-t border-slate-50 flex justify-start">
+        <button onClick={() => setShowExplanation(!showExplanation)} className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12.5px] font-bold transition-all duration-300 ${showExplanation ? 'bg-indigo-100 text-indigo-700 shadow-inner' : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:shadow-sm'}`}>
+          <Sparkles size={16} className={showExplanation ? "text-indigo-500" : "text-indigo-400"} />
+          {showExplanation ? "Yechimni yashirish" : "AI Yechimni ko'rish"}
         </button>
       </div>
 
       {showExplanation && (
         <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl mt-4 animate-in fade-in slide-in-from-top-2">
           <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1.5"><Sparkles size={14} className="text-indigo-400" /> AI Yechim Mantiqi</p>
-          <p className="text-[13.5px] text-slate-700 leading-relaxed font-medium"><FormattedText text={q.explanation.uz} /></p>
+          <p className="text-[13.5px] text-slate-700 leading-relaxed font-medium"><FormattedText text={getText(q.explanation)} /></p>
         </div>
       )}
     </div>
@@ -130,13 +226,15 @@ export default function MaktabGeneratorPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // 🟢 AI LIMIT BLOCK START
+  const aiData = useAiLimits(); 
+  // 🔴 AI LIMIT BLOCK END
 
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [syllabusData, setSyllabusData] = useState<any>(null);
   const [isLoadingSyllabus, setIsLoadingSyllabus] = useState(false);
 
-  // 🟢 DERIVE DYNAMIC CLASSES & SUBJECTS FROM JSON MAP
   const availableClasses = Object.keys(structureMap).sort((a, b) => parseInt(a) - parseInt(b));
   // @ts-ignore
   const availableSubjects = selectedClass ? (structureMap[selectedClass] || []) : [];
@@ -146,7 +244,6 @@ export default function MaktabGeneratorPage() {
     { id: "medium", label: "O'rtacha", color: "hover:border-blue-400 hover:bg-blue-50", active: "border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-500/20" },
     { id: "hard", label: "Qiyin", color: "hover:border-indigo-400 hover:bg-indigo-50", active: "border-indigo-500 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-500/20" },
   ];
-
   
   const [selectedChapterIndex, setSelectedChapterIndex] = useState("");
   const [selectedSubtopicIndex, setSelectedSubtopicIndex] = useState("");
@@ -162,6 +259,10 @@ export default function MaktabGeneratorPage() {
   const [isPublishing, setIsPublishing] = useState(false);
   const [testTitle, setTestTitle] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
+
+  // 🟢 AI LIMIT BLOCK START: State for the upgrade modal
+  const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  // 🔴 AI LIMIT BLOCK END
 
   useEffect(() => {
     if (selectedClass && selectedSubject) {
@@ -190,6 +291,14 @@ export default function MaktabGeneratorPage() {
 
   const handleGenerate = async () => {
     if (!isReadyToGenerate) return toast.error("Iltimos, barcha maydonlarni tanlang.");
+
+    // 🟢 AI LIMIT BLOCK START: Intercept the click if out of credits!
+    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+      setIsLimitModalOpen(true);
+      return; 
+    }
+    // 🔴 AI LIMIT BLOCK END
+
     setIsGenerating(true);
     if (window.innerWidth < 1024) setIsSidebarOpen(false);
 
@@ -198,6 +307,7 @@ export default function MaktabGeneratorPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          userId: user?.uid, 
           topic: selectedClass,       
           subject: selectedSubject,   
           chapter: activeChapter.chapter,
@@ -215,18 +325,15 @@ export default function MaktabGeneratorPage() {
       const diffVal = difficulty === "easy" ? 1 : difficulty === "medium" ? 2 : 3;
 
       const enrichedQuestions: AIQuestion[] = data.questions.map((q: any) => ({
+        ...q,
         id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
-        question: { uz: q.question || "", ru: "", en: "" },
-        options: { A: { uz: q.options?.A || "", ru: "", en: "" }, B: { uz: q.options?.B || "", ru: "", en: "" }, C: { uz: q.options?.C || "", ru: "", en: "" }, D: { uz: q.options?.D || "", ru: "", en: "" } },
-        answer: q.answer || "A",
-        explanation: { uz: q.explanation || "", ru: "", en: "" },
-        topicId: selectedClass, 
-        chapterId: activeChapter.index.toString().padStart(2, '0'),
-        subtopicId: activeSubtopic.index.toString().padStart(2, '0'),
-        subject: selectedSubject,
-        topic: selectedClass,
+        
+        // 🟢 TEXT-FIRST: Using pure strings from state and syllabus.json
+        subject: formatSubjectName(selectedSubject), // e.g. "Matematika"
+        topic: syllabusData.category,                // e.g. "5-sinf"
         chapter: activeChapter.chapter,
         subtopic: activeSubtopic.name,
+        
         difficultyId: diffVal,
         uiDifficulty: difficulty
       }));
@@ -259,11 +366,10 @@ export default function MaktabGeneratorPage() {
     const batch = writeBatch(db);
     const finalQuestionsToSave = [];
 
-    const SUBJECT_MAP: Record<string, string> = { "matematika": "01", "fizika": "02", "ona-tili": "03", "ingliz-tili": "04", "algebra": "05", "geometriya": "06" };
-    const currentSubjectId = SUBJECT_MAP[selectedSubject.toLowerCase()] || "99";
-    const currentTopicId = selectedClass.toLowerCase().replace("-sinf", "").trim(); 
-    const formattedSubject = selectedSubject.charAt(0).toUpperCase() + selectedSubject.slice(1).toLowerCase().replace("-", " ");
-    const formattedTopic = selectedClass.toLowerCase(); 
+    // 🟢 TEXT-FIRST: Grab clean names directly. No Maps, no IDs!
+    const formattedTopic = syllabusData.category;                // e.g., "5-sinf"
+    const formattedSubject = formatSubjectName(selectedSubject); // e.g., "Matematika"
+    
     const currentTimestampString = new Date().toISOString();
 
     for (const q of generatedQuestions) {
@@ -273,16 +379,15 @@ export default function MaktabGeneratorPage() {
         id: `tq_${secureFirebaseId}`, 
         creatorId: user.uid, 
         number: "", 
-        subjectId: currentSubjectId,  
-        topicId: currentTopicId,      
-        chapterId: q.chapterId,       
-        subtopicId: q.subtopicId,     
-        difficultyId: q.difficultyId, 
+        
+        // 🟢 Database is now completely human-readable
         subject: formattedSubject,           
         topic: formattedTopic,               
         chapter: q.chapter,           
         subtopic: q.subtopic,         
         difficulty: q.uiDifficulty.toLowerCase(),
+        difficultyId: q.difficultyId, 
+        
         tags: ["maktab_ai", q.subtopic.toLowerCase(), q.chapter.toLowerCase()],
         language: ["uz"],
         solutions: [], 
@@ -296,7 +401,13 @@ export default function MaktabGeneratorPage() {
     batch.set(doc(collection(db, "custom_tests")), {
       teacherId: user.uid,
       title: testTitle,
-      topicId: currentTopicId, 
+      
+      // 🟢 Save the container cleanly
+      subjectName: formattedSubject,
+      topicName: formattedTopic,
+      chapterName: generatedQuestions[0]?.chapter || "Aralash",
+      subtopicName: generatedQuestions[0]?.subtopic || "Aralash",
+      
       questions: finalQuestionsToSave, 
       duration: testSettings.duration,
       shuffle: testSettings.shuffleQuestions,
@@ -321,6 +432,59 @@ export default function MaktabGeneratorPage() {
   return (
     <div className="flex h-[100dvh] bg-[#FAFAFA] overflow-hidden font-sans selection:bg-indigo-100 selection:text-indigo-900">
       
+      {/* 🟢 NEW: AI THINKING FULL-SCREEN MODAL */}
+      <AiThinkingModal isVisible={isGenerating} />
+
+      {/* ========================================================= */}
+      {/* 🟢 AI LIMIT BLOCK START: The Limit Reached / Upgrade Modal */}
+      {/* ========================================================= */}
+      <AnimatePresence>
+        {isLimitModalOpen && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
+            
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-3xl p-6 md:p-8 w-full max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
+              
+              <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
+                <X size={20} />
+              </button>
+
+              <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mb-5 border border-rose-100 shadow-inner">
+                <Zap size={28} className="text-rose-500" />
+              </div>
+
+              <h3 className="text-xl font-black text-slate-900 mb-2">
+                {aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}
+              </h3>
+              
+              <p className="text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {aiData?.isLimitReached 
+                  ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." 
+                  : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi. Iltimos, so'ralayotgan miqdorni kamaytiring yoki limitni oshiring.`}
+              </p>
+
+              <div className="w-full flex flex-col gap-3">
+                <button 
+                  onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} 
+                  className="w-full py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                >
+                  Limitni oshirish
+                </button>
+                
+                <button 
+                  onClick={() => setIsLimitModalOpen(false)} 
+                  className="w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-colors active:scale-[0.98]"
+                >
+                  Orqaga qaytish
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* 🔴 AI LIMIT BLOCK END */}
+      {/* ========================================================= */}
+      
       {/* --- SYLLABUS SELECTION MODAL --- */}
       <AnimatePresence>
         {isSyllabusModalOpen && syllabusData && (
@@ -332,12 +496,12 @@ export default function MaktabGeneratorPage() {
                 <div className="flex justify-between items-center">
                   <div>
                     <h3 className="text-2xl font-black text-slate-900">Mavzuni tanlang</h3>
-                    <p className="text-slate-500 text-sm mt-1">{selectedClass} • {selectedSubject.charAt(0).toUpperCase() + selectedSubject.slice(1)}</p>
+                    {/* 🟢 THE FIX: Format the Subject nicely in the title */}
+                    <p className="text-slate-500 text-sm mt-1">{selectedClass} • {formatSubjectName(selectedSubject)}</p>
                   </div>
                   <button onClick={() => { setIsSyllabusModalOpen(false); setSearchQuery(""); }} className="p-2 bg-white border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={20}/></button>
                 </div>
                 
-                {/* 🟢 THE NEW SEARCH BAR */}
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input 
@@ -352,7 +516,6 @@ export default function MaktabGeneratorPage() {
 
               <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-[#FAFAFA]">
                 {syllabusData.chapters.map((chapter: any) => {
-                  // 🟢 FILTERING LOGIC
                   const filteredSubtopics = chapter.subtopics.filter((sub: any) => 
                     sub.name.toLowerCase().includes(searchQuery.toLowerCase())
                   );
@@ -388,7 +551,6 @@ export default function MaktabGeneratorPage() {
                   );
                 })}
 
-                {/* Empty State when search matches nothing */}
                 {syllabusData.chapters.every((c: any) => c.subtopics.filter((s: any) => s.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0) && (
                   <div className="flex flex-col items-center justify-center py-12 text-slate-400">
                     <Search size={32} className="mb-3 opacity-50" />
@@ -469,9 +631,10 @@ export default function MaktabGeneratorPage() {
                   <button 
                     key={s} 
                     onClick={() => setSelectedSubject(s)}
-                    className={`px-3 py-1.5 rounded-lg text-[13px] font-bold border transition-all capitalize ${selectedSubject === s ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:bg-indigo-50'}`}
+                    className={`px-3 py-1.5 rounded-lg text-[13px] font-bold border transition-all ${selectedSubject === s ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:bg-indigo-50'}`}
                   >
-                    {s.replace("-", " ")}
+                    {/* 🟢 THE FIX: Safely render formatted Subject Name */}
+                    {formatSubjectName(s)}
                   </button>
                 ))}
               </div>
@@ -532,11 +695,35 @@ export default function MaktabGeneratorPage() {
                   <span className="text-[15px] font-black text-slate-800 leading-none">{count}</span>
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Savol</span>
                 </div>
-                <button onClick={() => setCount(prev => Math.min(15, prev + 1))} className="w-10 h-full flex items-center justify-center rounded-lg text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-sm transition-all disabled:opacity-40" disabled={count >= 15}><Plus size={16} strokeWidth={2.5} /></button>
+                
+                {/* 🟢 AI LIMIT BLOCK START: Limit Plus Button */}
+                <button 
+                  onClick={() => setCount(prev => Math.min(15, aiData?.remaining ?? 15, prev + 1))} 
+                  className="w-10 h-full flex items-center justify-center rounded-lg text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-sm transition-all disabled:opacity-40" 
+                  disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}
+                >
+                  <Plus size={16} strokeWidth={2.5} />
+                </button>
+                {/* 🔴 AI LIMIT BLOCK END */}
+
               </div>
             </div>
 
-            <button onClick={handleGenerate} disabled={isGenerating || !isReadyToGenerate} className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-sm text-[14px]">
+            {/* 🟢 AI LIMIT BLOCK START: Contextual Helper Text */}
+            {aiData && !aiData.isLimitReached && aiData.remaining < 15 && (
+              <p className="text-[11px] font-medium text-amber-600 mb-3 px-1 text-center">
+                Sizda faqat <span className="font-bold">{aiData.remaining} ta</span> savol yaratish limiti qoldi.
+              </p>
+            )}
+            {/* 🔴 AI LIMIT BLOCK END */}
+
+            <button 
+              onClick={handleGenerate} 
+              // 🟢 AI LIMIT BLOCK START: Removed limit lock from disabled 
+              disabled={isGenerating || !isReadyToGenerate} 
+              // 🔴 AI LIMIT BLOCK END
+              className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-sm text-[14px]"
+            >
               {isGenerating ? <Loader2 className="animate-spin" size={18} /> : <Wand2 size={18} />} {isGenerating ? "Yaratilmoqda..." : "Yaratish"}
             </button>
         </div>
@@ -560,6 +747,10 @@ export default function MaktabGeneratorPage() {
           </div>
           
           <div className="flex items-center gap-3">
+            {/* 🟢 AI LIMIT BLOCK START */}
+            <AiLimitCard aiData={aiData} />
+            {/* 🔴 AI LIMIT BLOCK END */}
+
             <button onClick={handleInitiatePublish} disabled={isPublishing || isGenerating || generatedQuestions.length === 0} className="bg-slate-900 hover:bg-slate-800 text-white px-4 md:px-5 py-2 rounded-lg font-bold shadow-sm transition-all flex items-center gap-2 active:scale-95 disabled:opacity-50 text-[13px] md:text-[14px]">
                <CheckCircle2 size={16} /> <span className="hidden sm:inline">Nashr qilish</span>
             </button>

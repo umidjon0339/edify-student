@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, DragEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, Wand2, CheckCircle2, Trash2, EyeOff, Eye, BookOpen, Layers, Minus, Plus, UploadCloud, Image as ImageIcon, X } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, Wand2, CheckCircle2, Trash2, EyeOff, Eye, BookOpen, Layers, Minus, Plus, UploadCloud, Image as ImageIcon, X, Bot, Zap } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -13,6 +13,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { useTeacherLanguage } from "@/app/teacher/layout"; 
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
+
+// 🟢 AI LIMIT BLOCK START
+import { useAiLimits } from "@/hooks/useAiLimits";
+import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
+// 🔴 AI LIMIT BLOCK END
 
 // --- TRANSLATION DICTIONARY ---
 const PAGE_TRANSLATIONS = {
@@ -90,45 +95,102 @@ const PAGE_TRANSLATIONS = {
   }
 };
 
-const FormattedText = ({ text }: { text: string }) => {
-  if (!text) return null;
+// 🟢 TEXT-FIRST: Clean Interface without arbitrary IDs
+interface AIQuestion { 
+  id: string; 
+  uiDifficulty: string; 
+  question: { uz: string; ru: string; en: string }; 
+  options: { A: { uz: string; ru: string; en: string }; B: { uz: string; ru: string; en: string }; C: { uz: string; ru: string; en: string }; D: { uz: string; ru: string; en: string }; }; 
+  answer: string; 
+  explanation: { uz: string; ru: string; en: string }; 
+  subject: string; 
+  topic: string; 
+  chapter: string; 
+  subtopic: string; 
+  difficultyId: number; 
+}
 
-  // Robust tokenizer that splits text by block math ($$...$$) and inline math ($...$)
-  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+// ==========================================
+// 🟢 AI THINKING MODAL (INTERNAL COMPONENT)
+// ==========================================
+const AiThinkingModal = ({ isVisible }: { isVisible: boolean }) => {
+  const phrases = [
+    "Rasmlar o'qilmoqda...",
+    "Konteks tahlil qilinmoqda...",
+    "Formula va chizmalar aniqlanmoqda...",
+    "Savollar va javoblar tuzilmoqda...",
+    "Qiyinlik darajasi moslashtirilmoqda..."
+  ];
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    const interval = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % phrases.length);
+    }, 2500); 
+    return () => clearInterval(interval);
+  }, [isVisible, phrases.length]);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
+          <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="relative w-full max-w-md bg-white/90 backdrop-blur-2xl rounded-3xl border border-indigo-100/50 shadow-2xl p-8 flex flex-col items-center justify-center overflow-hidden">
+            <div className="absolute top-[-30%] left-[-20%] w-[80%] h-[80%] bg-indigo-500/20 rounded-full blur-[80px] animate-pulse"></div>
+            <div className="absolute bottom-[-30%] right-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: "1s" }}></div>
+            <div className="relative mb-8 mt-4">
+              <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-blue-400 rounded-full blur-xl opacity-40" />
+              <div className="relative w-24 h-24 bg-white/80 backdrop-blur-md rounded-3xl border border-white flex items-center justify-center shadow-xl">
+                <Bot size={44} className="text-indigo-600 animate-bounce" style={{ animationDuration: "2s" }} />
+                <Sparkles size={20} className="absolute -top-3 -right-3 text-amber-400 animate-pulse" />
+              </div>
+            </div>
+            <h3 className="text-xl font-black text-slate-800 mb-2 relative z-10 tracking-tight text-center">AI Studiya ishlamoqda</h3>
+            <div className="h-6 relative z-10 overflow-hidden flex items-center justify-center w-full">
+              <motion.p key={phraseIndex} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="text-[14px] font-medium text-slate-500 absolute text-center w-full">{phrases[phraseIndex]}</motion.p>
+            </div>
+            <div className="w-[80%] h-1.5 bg-slate-200/50 rounded-full mt-8 overflow-hidden relative z-10">
+              <motion.div className="h-full bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-500 rounded-full w-[200%]" animate={{ x: ["-50%", "0%"] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+// ==========================================
+
+const FormattedText = ({ text }: { text: any }) => {
+  if (!text) return null;
+  let content = typeof text === 'string' ? text : JSON.stringify(text);
+
+  content = content
+    .replace(/\\\((.*?)\\\)/g, '$$$1$$')    
+    .replace(/\\\[(.*?)\\\]/g, '$$$$$1$$$$') 
+    .replace(/&nbsp;/g, ' ')                 
+    .replace(/\\\\/g, '\\');                 
+
+  const parts = content.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
 
   return (
     <span className="break-words">
       {parts.map((part, index) => {
-        // Handle Display Math ($$ ... $$)
         if (part.startsWith('$$') && part.endsWith('$$')) {
-          const math = part.slice(2, -2); // Remove the $$ delimiters
+          const math = part.slice(2, -2).trim();
           try {
-            const html = katex.renderToString(math, { 
-              displayMode: true, 
-              throwOnError: false 
-            });
-            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-2 text-center overflow-x-auto" />;
-          } catch (e) {
-            return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>;
-          }
+            const html = katex.renderToString(math, { displayMode: true, throwOnError: false, strict: false });
+            return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="block my-3 text-center overflow-x-auto custom-scrollbar" />;
+          } catch (e) { return <span key={index} className="text-rose-500 font-mono text-[13px] bg-rose-50 px-1 rounded">{part}</span>; }
         }
-        
-        // Handle Inline Math ($ ... $)
         if (part.startsWith('$') && part.endsWith('$')) {
-          const math = part.slice(1, -1); // Remove the $ delimiters
+          const math = part.slice(1, -1).trim();
           try {
-            const html = katex.renderToString(math, { 
-              displayMode: false, 
-              throwOnError: false 
-            });
+            const html = katex.renderToString(math, { displayMode: false, throwOnError: false, strict: false });
             return <span key={index} dangerouslySetInnerHTML={{ __html: html }} className="px-0.5 inline-block" />;
-          } catch (e) {
-             return <span key={index} className="text-red-500 font-mono text-sm">{part}</span>;
-          }
+          } catch (e) { return <span key={index} className="text-rose-500 font-mono text-[13px] bg-rose-50 px-1 rounded">{part}</span>; }
         }
-
-        // Standard Text
-        return <span key={index}>{part}</span>;
+        return <span key={index}>{part.split('\n').map((line, i, arr) => (<span key={i}>{line}{i < arr.length - 1 && <br />}</span>))}</span>;
       })}
     </span>
   );
@@ -183,21 +245,24 @@ export default function AIImageInputPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // States
+  // 🟢 AI LIMIT BLOCK START
+  const aiData = useAiLimits(); 
+  // 🔴 AI LIMIT BLOCK END
+
   const [testTitle, setTestTitle] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
   const [count, setCount] = useState(5);
   const [difficulty, setDifficulty] = useState<"Easy" | "Medium" | "Hard">("Medium");
   
-  // Image Upload States
   const [images, setImages] = useState<{ id: string, base64: string }[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedQuestions, setGeneratedQuestions] = useState<any[]>([]);
+  const [generatedQuestions, setGeneratedQuestions] = useState<AIQuestion[]>([]);
   const [isTitleModalOpen, setIsTitleModalOpen] = useState(false);
   const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
 
   useEffect(() => {
     if (generatedQuestions.length > 0 && !isGenerating) bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -217,7 +282,7 @@ export default function AIImageInputPage() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) Array.from(e.target.files).forEach(processFile);
-    if (fileInputRef.current) fileInputRef.current.value = ""; // Reset input
+    if (fileInputRef.current) fileInputRef.current.value = ""; 
   };
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
@@ -233,6 +298,11 @@ export default function AIImageInputPage() {
   // --- GENERATE API CALL ---
   const handleGenerate = async () => {
     if (images.length === 0) return toast.error("Please upload at least 1 image.");
+
+    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+      setIsLimitModalOpen(true);
+      return; 
+    }
     setIsGenerating(true);
 
     try {
@@ -240,6 +310,7 @@ export default function AIImageInputPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          userId: user?.uid, 
           images: images.map(img => img.base64),
           promptText: userPrompt,
           difficulty: difficulty,
@@ -250,7 +321,6 @@ export default function AIImageInputPage() {
 
       const data = await response.json();
       
-      // Handle the strict invalid image guardrail
       if (response.status === 400 && data.error === "invalid_image") {
         setIsGenerating(false);
         return toast.error(t.invalidImageError, { duration: 4000, style: { fontWeight: 'bold' } });
@@ -260,23 +330,22 @@ export default function AIImageInputPage() {
 
       const diffVal = difficulty === "Easy" ? 1 : difficulty === "Medium" ? 2 : 3;
 
-      // 🟢 Force Database Standard Constraints
-      const enrichedQuestions = data.questions.map((q: any) => ({
+      // 🟢 TEXT-FIRST: Hardcoding to 'by_image' 
+      const enrichedQuestions: AIQuestion[] = data.questions.map((q: any) => ({
         ...q,
-        topicId: "0",
-        chapterId: "0",
-        subtopicId: "0",
-        subject: "Matematika",
+        id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+        subject: "by_image",
         topic: "by_image",
         chapter: "by_image",
         subtopic: "by_image",
         difficultyId: diffVal,
+        uiDifficulty: difficulty
       }));
 
       setGeneratedQuestions(prev => [...prev, ...enrichedQuestions]);
       toast.success(`${count} questions generated successfully!`);
-      setImages([]); // Clear images after successful generation
-      setUserPrompt(""); // Clear prompt
+      setImages([]); 
+      setUserPrompt(""); 
       
     } catch (error: any) {
       console.error(error);
@@ -302,6 +371,7 @@ export default function AIImageInputPage() {
     
     const batch = writeBatch(db);
     const finalQuestionsToSave = [];
+    const currentTimestampString = new Date().toISOString();
 
     for (const q of generatedQuestions) {
       const secureFirebaseId = doc(collection(db, "teacher_questions")).id;
@@ -311,20 +381,22 @@ export default function AIImageInputPage() {
         id: `tq_${secureFirebaseId}`, 
         creatorId: user.uid, 
         number: "", 
-        subjectId: "01",
-        topicId: "0",
-        chapterId: "0",
-        subtopicId: "0",
-        difficultyId: q.difficultyId, 
-        subject: "Matematika",
+        
+        // 🟢 The explicit differentiator for NoSQL Routing
+        track: "by_image",
+
+        // 🟢 Text-First database structure
+        subject: "by_image",
         topic: "by_image",
         chapter: "by_image",
         subtopic: "by_image",
         difficulty: q.uiDifficulty.toLowerCase(),
+        difficultyId: q.difficultyId, 
+        
         tags: ["ai_generated", "by_image"],
         language: ["uz", "ru", "en"],
         solutions: [], 
-        uploadedAt: new Date().toISOString(), 
+        uploadedAt: currentTimestampString, 
       };
       
       finalQuestionsToSave.push(finalQ);
@@ -335,13 +407,16 @@ export default function AIImageInputPage() {
       teacherId: user.uid,
       teacherName: user.displayName || "Teacher",
       title: testTitle,
-      subjectId: "01",
-      topicId: "0", 
-      chapterId: "0",
-      subtopicId: "0",
+      
+      // 🟢 The explicit differentiator
+      track: "by_image",
+
+      // 🟢 Save the container cleanly
+      subjectName: "by_image",
       topicName: "by_image",
       chapterName: "by_image",
       subtopicName: "by_image",
+      
       questions: finalQuestionsToSave, 
       duration: testSettings.duration,
       shuffle: testSettings.shuffleQuestions,
@@ -367,6 +442,28 @@ export default function AIImageInputPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans pb-24">
       
+      <AiThinkingModal isVisible={isGenerating} />
+
+      <AnimatePresence>
+        {isLimitModalOpen && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-3xl p-6 md:p-8 w-full max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
+              <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
+              <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mb-5 border border-rose-100 shadow-inner"><Zap size={28} className="text-rose-500" /></div>
+              <h3 className="text-xl font-black text-slate-900 mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
+              <p className="text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi. Iltimos, so'ralayotgan miqdorni kamaytiring yoki limitni oshiring.`}
+              </p>
+              <div className="w-full flex flex-col gap-3">
+                <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">Limitni oshirish</button>
+                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition-colors active:scale-[0.98]">Orqaga qaytish</button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {isTitleModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -392,25 +489,25 @@ export default function AIImageInputPage() {
             <button onClick={() => router.push('/teacher/create')} className="p-2 -ml-2 text-slate-400 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors"><ArrowLeft size={18} /></button>
             <h1 className="text-[15px] md:text-[16px] font-bold text-slate-900 tracking-tight flex items-center gap-2"><ImageIcon size={16} className="text-indigo-500" /> {t.headerTitle}</h1>
           </div>
-          <button onClick={handleInitiatePublish} disabled={isPublishing || isGenerating || generatedQuestions.length === 0} className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-bold shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 text-[13px]"><CheckCircle2 size={16} /> <span className="hidden sm:inline">{t.publishBtn}</span></button>
+          
+          <div className="flex items-center gap-3">
+            <AiLimitCard aiData={aiData} />
+            <button onClick={handleInitiatePublish} disabled={isPublishing || isGenerating || generatedQuestions.length === 0} className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-bold shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 text-[13px]"><CheckCircle2 size={16} /> <span className="hidden sm:inline">{t.publishBtn}</span></button>
+          </div>
         </div>
       </div>
 
-     {/* 🟢 max-w-5xl ga o'zgartirildi (kengroq) va mt-8 dan mt-4 ga qisqartirildi */}
 <div className="max-w-5xl mx-auto px-4 mt-4">
   <div className="bg-white rounded-3xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 mb-8 relative">
        
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6 pb-6 border-b border-slate-100">
-  {/* Left: Titles */}
   <div className="max-w-md">
     <h2 className="text-[18px] font-black text-slate-900 tracking-tight">{t.uploadTitle}</h2>
     <p className="text-[13px] font-medium text-slate-500 mt-1">{t.uploadDesc}</p>
   </div>
 
-  {/* Right: Controls with Explicit Labels */}
   <div className="flex flex-wrap items-end gap-4 sm:gap-6">
     
-    {/* 1. Question Count Control */}
     <div className="flex flex-col gap-2">
       <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-1">
         Savollar soni
@@ -426,19 +523,20 @@ export default function AIImageInputPage() {
         <div className="w-12 text-center flex items-center justify-center">
           <span className="text-[15px] font-black text-slate-800 leading-none">{count}</span>
         </div>
+        
         <button 
-          onClick={() => setCount(prev => Math.min(15, prev + 1))} 
+          onClick={() => setCount(prev => Math.min(15, aiData?.remaining ?? 15, prev + 1))} 
           className="w-9 h-full flex items-center justify-center rounded-lg text-slate-500 hover:bg-white hover:shadow-sm transition-all disabled:opacity-40" 
-          disabled={count >= 15}
+          disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}
         >
           <Plus size={16} strokeWidth={2.5} />
         </button>
+
       </div>
     </div>
 
     <div className="hidden sm:block w-px h-10 bg-slate-200 mb-1"></div>
 
-    {/* 2. Difficulty Level Control */}
     <div className="flex flex-col gap-2">
       <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest pl-1">
         Qiyinlik darajasi
@@ -468,7 +566,6 @@ export default function AIImageInputPage() {
   </div>
 </div>
 
-          {/* DRAG & DROP UPLOAD ZONE */}
           <div 
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={() => setIsDragging(false)}
@@ -503,15 +600,27 @@ export default function AIImageInputPage() {
             <textarea value={userPrompt} onChange={e => setUserPrompt(e.target.value)} placeholder={t.placeholder} className="w-full h-24 p-4 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-medium outline-none focus:bg-white focus:border-indigo-400 resize-none transition-all placeholder:text-slate-400" />
           </div>
 
-          <div className="flex justify-end border-t border-slate-100 pt-5 mt-2">
-            <button onClick={handleGenerate} disabled={isGenerating || images.length === 0} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all flex items-center gap-2 disabled:opacity-50">
+          <div className="flex justify-between items-center border-t border-slate-100 pt-5 mt-2">
+            
+            <div className="flex-1">
+              {aiData && !aiData.isLimitReached && aiData.remaining < 15 && (
+                <p className="text-[12px] font-medium text-amber-600 px-1">
+                  Sizda <span className="font-bold">{aiData.remaining} ta</span> savol yaratish limiti qoldi.
+                </p>
+              )}
+            </div>
+
+            <button 
+              onClick={handleGenerate} 
+              disabled={isGenerating || images.length === 0} 
+              className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all flex items-center gap-2 disabled:opacity-50"
+            >
               {isGenerating ? <Loader2 className="animate-spin" size={18} /> : <Wand2 size={18} />}
               {isGenerating ? t.generating : t.generateBtn}
             </button>
           </div>
         </div>
 
-        {/* RESULTS SECTION */}
         {generatedQuestions.length > 0 && (
           <div className="space-y-5 pb-12">
             <div className="flex items-center justify-between px-2 mb-4">

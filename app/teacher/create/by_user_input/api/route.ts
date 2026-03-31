@@ -1,39 +1,62 @@
 import { NextResponse } from 'next/server';
 import { jsonrepair } from 'jsonrepair';
 
+// 🟢 AI LIMIT BLOCK START
+import { consumeAiCredits } from "@/lib/ai/aiLimitsHelper"; 
+// 🔴 AI LIMIT BLOCK END
+
 export async function POST(req: Request) {
   try {
-    const { promptText, difficulty, count, language = "uz" } = await req.json();
+    const { userId, promptText, difficulty, count, language = "uz" } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "GEMINI_API_KEY is missing in .env.local" }, { status: 500 });
     }
 
+    // =========================================================================
+    // 🟢 AI LIMIT BLOCK START: Step 1 - GATEKEEPER CHECK (Do NOT deduct yet)
+    // =========================================================================
+    if (!userId) {
+      return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
+    }
+    
+    // deduct: false -> "Just check if they have enough, don't update Firebase yet"
+    const limitCheck = await consumeAiCredits(userId, count, false); 
+    
+    if (!limitCheck.allowed) {
+      return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
+    }
+    // 🔴 AI LIMIT BLOCK END
+    // =========================================================================
+
+    // 🟢 UNIVERSAL DIFFICULTY DEFINITIONS: Works for Math, History, Biology, etc.
     const difficultyDefinitions: Record<string, string> = {
-      "Easy": "Single-step problems. Direct application of basic formulas. Use simple integers.",
-      "Medium": "Two-step problems. Requires standard algebraic manipulation. Standard high-school level.",
-      "Hard": "Highly complex, multi-step problems. University entrance exam or Olympiad level. Combine multiple concepts. Use fractions, roots, or logarithms."
+      "Easy": "Fundamental concepts, basic definitions, and single-step recall. Clear and direct.",
+      "Medium": "Intermediate level. Requires analysis, application of rules, or multi-step reasoning. Standard high-school level.",
+      "Hard": "Highly complex, advanced analysis. University entrance exam or Olympiad level. Synthesize multiple concepts to find the answer."
     };
 
     const activeDifficultyInstruction = difficultyDefinitions[difficulty] || difficultyDefinitions["Medium"];
 
-    // 🟢 1. REFINED PROMPT: Added $$ support and strict JSON escaping rules
-    const systemPrompt = `Act as an expert Uzbekistan Math Teacher. Generate exactly ${count} multiple-choice questions.
+    // 🟢 REFINED UNIVERSAL PROMPT: Subject-agnostic, with conditional strict LaTeX rules
+    const systemPrompt = `Role: Expert Academic Examiner. Generate exactly ${count} multiple-choice questions.
 Language: ${language}. Difficulty: ${difficulty.toUpperCase()}.
 
 CRITICAL DIFFICULTY RULE: ${activeDifficultyInstruction}
-USER INSTRUCTION: "${promptText}"
+USER INSTRUCTION (Topic/Context): "${promptText}"
 
 RULES:
-1. Accuracy: Correct answer must be mathematically flawless.
-2. Distractors: The 3 wrong options must be common student mistakes.
+1. Accuracy: Correct answer must be factually and/or mathematically flawless.
+2. Distractors: The 3 wrong options must be common student mistakes or plausible misconceptions.
 3. Randomize: The 'answer' key (A, B, C, D) must be randomized.
-4. MATH FORMATTING & JSON: 
-   - Wrap ALL math/variables in single $ for inline math or $$ for display math.
-   - Systems of equations MUST use \\\\begin{cases} ... \\\\end{cases}. NEVER use a plain '{'.
-   - Because you are outputting JSON, you MUST double-escape all LaTeX commands (e.g., \\\\frac, \\\\pi, \\\\sin).
-5. NO NEWLINES: Do not use \\n. Write explanations as a single continuous line. Max 2 sentences.
+4. STRICT MATH/SCIENCE FORMATTING (If applicable): 
+   - If the questions involve math, physics, or chemistry, wrap ALL formulas, numbers, and variables in $ (for inline) or $$ (for display/blocks). NEVER use \\( \\) or \\[ \\].
+   - Systems of equations MUST use: $$ \\\\begin{cases} x+y=2 \\\\\\\\ x-y=0 \\\\end{cases} $$
+   - Matrices MUST use: $$ \\\\begin{pmatrix} 1 & 2 \\\\\\\\ 3 & 4 \\\\end{pmatrix} $$
+   - Integrals/Limits MUST use: $ \\\\int_{0}^{1} x dx $ or $ \\\\lim_{x \\\\to \\\\infty} $
+5. JSON ESCAPING (CRITICAL): You MUST double-escape all LaTeX commands (e.g., write \\\\frac instead of \\frac).
+6. NO NEWLINES: Do not use \\n. Write explanations as a single continuous line. Max 2 sentences.
 
 Output RAW JSON array only. No markdown.
 Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
@@ -56,7 +79,6 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     let generatedText = data.candidates[0].content.parts[0].text;
     let parsedJSON;
 
-    // 🟢 2. PARSE & REPAIR: Try native parse first to preserve backslashes.
     try {
       parsedJSON = JSON.parse(generatedText);
     } catch (initialParseError) {
@@ -80,7 +102,6 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       }
     }
 
-    // 🟢 3. BULLETPROOF ARRAY WRAPPER
     let rawAiQuestions = [];
     if (Array.isArray(parsedJSON)) {
       rawAiQuestions = parsedJSON;
@@ -104,9 +125,18 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       explanation: { uz: q.explanation || "", ru: "", en: "" }
     }));
 
+    // =========================================================================
+    // 🟢 AI LIMIT BLOCK START: Step 2 - SUCCESS! DEDUCT THE CREDITS NOW
+    // =========================================================================
+    // deduct: true -> We know it succeeded, so actually deduct the credits!
+    await consumeAiCredits(userId, count, true);
+    // 🔴 AI LIMIT BLOCK END
+    // =========================================================================
+
     return NextResponse.json({ questions: formattedQuestions });
 
   } catch (error: any) {
+    // If Gemini crashes, the code jumps here. Credits are NOT deducted!
     console.error("AI Generation Error:", error);
     return NextResponse.json({ error: error.message || "Failed to generate questions" }, { status: 500 });
   }

@@ -1,13 +1,32 @@
 import { NextResponse } from 'next/server';
+import { jsonrepair } from 'jsonrepair';
+
+// 🟢 AI LIMIT BLOCK START
+import { consumeAiCredits } from "@/lib/ai/aiLimitsHelper"; 
+// 🔴 AI LIMIT BLOCK END
 
 export async function POST(req: Request) {
   try {
-    const { subject, topic, chapter, subtopic, difficulty, count, language = "uz", context } = await req.json();
+    const { userId, subject, topic, chapter, subtopic, difficulty, count, language = "uz", context } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "GEMINI_API_KEY is missing in .env.local" }, { status: 500 });
     }
+
+    // ==========================================
+    // 🟢 AI LIMIT BLOCK START: Step 1 - Check only
+    // ==========================================
+    if (!userId) {
+      return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
+    }
+
+    const limitCheck = await consumeAiCredits(userId, count, false); // false = check only
+    if (!limitCheck.allowed) {
+      return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
+    }
+    // 🔴 AI LIMIT BLOCK END
+    // ==========================================
 
     const categoryPersonas: Record<string, string> = {
       "5-sinf": `Target: 5th-grade. Use simple integer math. No complex algebra.`,
@@ -18,32 +37,20 @@ export async function POST(req: Request) {
 
     const activePersona = categoryPersonas[topic] || categoryPersonas[subject] || `Target: General students. Ensure strict logical accuracy.`;
 
-    let systemPrompt = `Act as an expert Uzbekistan Examiner. Generate exactly ${count} multiple-choice questions.
+    let systemPrompt = `Role: Expert Uzbekistan Academic Examiner. Generate exactly ${count} multiple-choice questions.
 Params: Lang:${language}, Diff:${difficulty}, Subject:${subject}, Topic:${topic}, Chapter:${chapter}, Subtopic:${subtopic}.
 ${activePersona}
 
-STRICT MATH & JSON RULES:
-1. Wrap ALL math symbols, variables, numbers, and formulas in $ signs (e.g., $x=2$).
-2. JSON ESCAPING: You MUST double-escape all LaTeX backslashes inside the JSON string. Write \\\\frac instead of \\frac.
+CRITICAL FORMATTING & LATEX RULES:
+1. No newlines (\\n). Use single quotes ('') inside text.
+2. Wrap ALL math, numbers, variables, and formulas in $ (for inline) or $$ (for display/blocks). NEVER use \\( \\) or \\[ \\].
+3. Systems of equations MUST use: $$ \\\\begin{cases} x+y=2 \\\\\\\\ x-y=0 \\\\end{cases} $$
+4. JSON ESCAPING: You MUST double-escape all LaTeX backslashes so the JSON does not break. (e.g., write \\\\frac instead of \\frac, write \\\\alpha instead of \\alpha).
+5. Solvability: Questions MUST be 100% mathematically/factually correct and solvable. Randomize 'answer' (A-D).
 
-QUALITY & LOGIC RULES:
-1. Solvability: Questions MUST be 100% mathematically correct and solvable.
-2. Unpredictable Options: Wrong options MUST be common student errors, not random numbers.
+Output RAW JSON array ONLY. No markdown.
+Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
 
-OUTPUT FORMAT: You MUST return a RAW JSON array matching this exact structure (Notice the $ signs and \\\\ double backslashes!):
-[
-  {
-    "question": "Tengsizlikni yeching: $ \\\\sin x \\\\ge \\\\cos x $",
-    "options": {
-      "A": "$ [ \\\\frac{\\\\pi}{4} + \\\\pi k; \\\\frac{3\\\\pi}{4} + \\\\pi k ], k \\\\in Z $",
-      "B": "$ x = 5 $",
-      "C": "$ y = \\\\sqrt{2} $",
-      "D": "$ 0 $"
-    },
-    "answer": "A",
-    "explanation": "Kiritilgan burchak qiymatlari tekshirildi."
-  }
-]`;
     if (context && context.trim() !== "") {
       systemPrompt += `\nSTRICT CONTEXT: Base questions ONLY on this text: "${context}"`;
     }
@@ -54,7 +61,7 @@ OUTPUT FORMAT: You MUST return a RAW JSON array matching this exact structure (N
       body: JSON.stringify({
         contents: [{ parts: [{ text: systemPrompt }] }],
         generationConfig: {
-          temperature: 0.3, // Kept low to ensure logical math generation
+          temperature: 0.3, 
           responseMimeType: "application/json", 
         }
       })
@@ -71,11 +78,20 @@ OUTPUT FORMAT: You MUST return a RAW JSON array matching this exact structure (N
     } catch (parseError) {
       console.error("Failed to parse JSON directly. Attempting cleanup.", parseError);
       const cleaned = generatedText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      rawAiQuestions = JSON.parse(cleaned);
+      
+      try {
+        rawAiQuestions = JSON.parse(cleaned);
+      } catch (repairError) {
+        try {
+          const repairedJson = jsonrepair(cleaned);
+          rawAiQuestions = JSON.parse(repairedJson);
+        } catch (finalError) {
+           throw new Error("AI output was too corrupted to repair.");
+        }
+      }
     }
 
-    // 🟢 THE FIX: Safely map all 4 levels of difficulty here!
-    let diffVal = 2; // Default to medium just in case
+    let diffVal = 2; 
     const lowerDiff = difficulty ? difficulty.toLowerCase() : "medium";
     
     if (lowerDiff === "easy") diffVal = 1;
@@ -95,8 +111,15 @@ OUTPUT FORMAT: You MUST return a RAW JSON array matching this exact structure (N
       },
       answer: q.answer || "A",
       explanation: { uz: q.explanation || "", ru: "", en: "" },
-      difficultyId: diffVal // 🟢 Perfectly assigned 1, 2, 3, or 4
+      difficultyId: diffVal
     }));
+
+    // ==========================================
+    // 🟢 AI LIMIT BLOCK START: Step 2 - Deduct!
+    // ==========================================
+    await consumeAiCredits(userId, count, true); // true = deduct credits
+    // 🔴 AI LIMIT BLOCK END
+    // ==========================================
 
     return NextResponse.json({ questions: formattedQuestions });
 
