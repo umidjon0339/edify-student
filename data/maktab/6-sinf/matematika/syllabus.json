@@ -1,3 +1,4 @@
+
 [
   {
     "category": "6-sinf",
@@ -7,101 +8,265 @@
         "chapter": "Algebra",
         "index": 1,
         "subtopics": [
-          { "name": "Algebraik ifodalar", "index": 1 },
-          { "name": "Algebraik ifodalarni soddalashtirish", "index": 2 },
-          { "name": "Algebraik ifodalarning qiymatini topish", "index": 3 },
-          { "name": "Tenglamalarni yechish", "index": 4 }
+          {
+            "name": "Algebraik ifodalar",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: Noma'lum miqdorlarni ifodalash uchun lotin harflaridan (x,a,b,q) foydalaniladi. Algebraik ifodalar sonlar, o'zgaruvchilar va arifmetik amallar yordamida tuziladi. Ko'paytirish amali bajarilganda son harfdan oldin yoziladi va ko'paytirish belgisi tushirib qoldiriladi (masalan, 5×q=5q). Bir sonini harfga ko'paytirganda faqat harfning o'zi yoziladi (1×q=q). Bo'lish amali bo'linma yoki kasr shaklida ifodalanishi mumkin (masalan, y÷6 yoki y/6). MASHQLAR USLUBI: 1. Berilgan matematik jumlani algebraik ifoda ko'rinishida yozish (masalan: '32 dan s ga kam' uchun 32−s). 2. Kundalik hayotiy vaziyatlarni ifodalash (masalan: 'p so'm to'lab, 2000 so'm qaytim olindi' uchun p−2000). 3. Geometrik shakllar parametrlarini o'zgaruvchi orqali ifodalash (masalan: yuzi y va eni 10 bo'lgan to'g'ri to'rtburchakning bo'yini topish uchun y/10). CHEKLOVLAR: Faqat bitta o'zgaruvchili va natural sonli sodda amallar (qo'shish, ayirish, ko'paytirish, bo'lish) qo'llansin. Manfiy sonlar, darajaga ko'tarish, kvadrat ildizlar, qavsli murakkab amallar va tenglamalar yechish taqiqlanadi. Grafik tasvirlar, rasmlar va diagrammalardan foydalanilmasin."
+          },
+          {
+            "name": "Algebraik ifodalarni soddalashtirish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Bir xil harfli o'zgaruvchilarni (o'xshash hadlarni) koeffitsiyentlarini qo'shish va ayirish orqali soddalashtirish mumkin (masalan, 6y + 3y = 9y). 2. O'xshash bo'lmagan hadlarni (harf va o'zgarmas sonlarni) o'zaro biriktirib bo'lmaydi. 3. Ifodalarni soddalashtirishda bir xil harflarni o'zaro, o'zgarmas sonlarni esa o'zaro guruhlab hisoblash kerak. MASHQLAR USLUBI: 1. O'xshash hadlarni ixchamlash (Masalan: 8m + 11m = 19m, f+f+f = 3f). 2. Harfli va sonli qismlar aralashgan ifodalarni soddalashtirish (Masalan: 5q + 3 - 2q + 2 = 3q + 5). 3. Tushirib qoldirilgan son yoki harfni topib tenglikni tiklash (Masalan: 12q = 10q + ___ ). CHEKLOVLAR: Matndagi ismlar, voqealar va buyumlar (Jamila, Davron, qisqichlar) kabi hikoyaviy elementlarni testga qo'shmang. Rasmlar, chizmalar yoki vizual modellar (kublar, tugmachalar) dan foydalanish qat'iyan taqiqlanadi. Faqat musbat butun sonlar va birinchi darajali o'zgaruvchilar ishtirokidagi qo'shish va ayirish amallari ishlatilsin. Manfiy sonlar, kasrlar, darajalar, ildizlar, qavslar hamda o'zgaruvchilarni o'zaro ko'paytirish yoki bo'lish taqiqlanadi."
+          },
+          {
+            "name": "Algebraik ifodalarning qiymatini topish",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Algebraik ifodalar harflar (o'zgaruvchilar), sonlar va arifmetik amallardan tashkil topadi. 2. Ifodaning son qiymatini topish uchun harf o'rniga berilgan son qiymati qo'yiladi va amallar bajarish tartibiga rioya qilingan holda hisoblanadi. 3. Bir xil harfli o'xshash hadlarni ixchamlash mumkin (masalan, x + 3x = 4x). MASHQLAR USLUBI: 1. To'g'ridan-to'g'ri o'rniga qo'yish: O'zgaruvchining berilgan qiymatini o'rniga qo'yib hisoblash (Masalan: agar m=3 bo'lsa, 8m+5 ni toping). 2. Matnli masalalar: Hayotiy vaziyatlar (yosh, pul, narsalar soni) asosida ifoda tuzish va uni hisoblash. 3. Geometrik ifodalar: Shakllarning yuzi yoki perimetrini harf orqali ifodalash va berilgan son qiymatida hisoblash (Masalan: tomonlari 5 va w bo'lgan to'g'ri to'rtburchak yuzini toping). CHEKLOVLAR: Matnli masalalarda mantiqqa aloqador bo'lmagan murakkab tarixiy, geografik yoki fizik voqealarni qo'shmang. Rasm, chizma yoki grafiklar ishlatish qat'iyan man etiladi. Faqat sodda chiziqli (birinchi darajali) ifodalardan foydalaning. Kvadrat ildiz, daraja, manfiy sonlar ustida amallar, va murakkab tenglamalar tizimi kabi yuqori sinf mavzularini kiritish taqiqlanadi. Hisoblashlar asosan natural sonlar va sodda kasrlar doirasida bo'lishi shart."
+          },
+          {
+            "name": "Tenglamalarni yechish",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Noma'lum miqdorni harf (x, p, k, j) bilan belgilab, masala shartiga ko'ra algebraik tenglama tuziladi. 2. Tenglamani yechish noma'lumning qiymatini topishni anglatadi va bunda arifmetik amallarning (qo'shish, ayirish, ko'paytirish, bo'lish) o'zaro bog'liqlik xossalaridan foydalaniladi. MASHQLAR USLUBI: 1. Qismlarga ajratish va marta ko'p/kam munosabatiga oid matnli masalalar. Misol: Ikki son yig'indisi 50, biri ikkinchisidan 4 marta katta (p + 4p = 50). 2. Yig'indiga asoslangan ketma-ketlik masalalari. Misol: Uchta son yig'indisi 66, keyingisi oldingisidan 1 ga ortiq (3m = 66 - 3). CHEKLOVLAR: Faqat butun sonlar va bir noma'lumli sodda chiziqli tenglamalar ishlating. Manfiy sonlar, kasrlar, kvadrat tenglamalar, ildiz yoki ikki noma'lumli tenglamalar tizimidan foydalanish qat'iyan taqiqlanadi. Rasmlar va grafiklar qo'shmang. Masalalar faqat kundalik maishiy holatlarga (yosh, pul, vazn, narsalar soni) asoslanishi kerak, murakkab geografik yoki fizik atamalar ishlash taqiqlanadi."
+          }
         ]
       },
       {
         "chapter": "Oddiy kasrlar",
         "index": 2,
         "subtopics": [
-          { "name": "To'g'ri kasrni natural songa bo'lish", "index": 1 },
-          { "name": "Natural sonni to'g'ri kasrga bo'lish", "index": 2 },
-          { "name": "To'g'ri kasrni to'g'ri kasrga bo'lish", "index": 3 },
-          { "name": "Matnli masalalar", "index": 4 },
-          { "name": "I takrorlash", "index": 5 }
+          {
+            "name": "To'g'ri kasrni natural songa bo'lish",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. To'g'ri kasrni natural songa bo'lish uchun kasrni o'z holicha qoldirib, bo'lish amalini ko'paytirishga almashtirish va sonni uning teskarisiga (1/n) aylantirish kerak. 2. Umumiy formula: (a/b) : n = a/(b*n). 3. Hisoblash natijasida hosil bo'lgan kasrni har doim qisqarmas ko'rinishga keltirish zarur. MASHQLAR USLUBI: 1. Berilgan bo'lish amallarini bajarish (masalan: 5/9 : 5 = 1/9). 2. Bo'lish amalini ko'paytirish ifodasi bilan solishtirish (masalan: 3/4 : 2 va 3/4 * 1/2 ifodalari o'zaro tengligini tekshirish). 3. Amaliy masalalarni yechish: uzunlik, og'irlik yoki hajm kabi miqdorlarni teng bo'laklarga taqsimlash (masalan: 9/10 m tasmani 6 bo'lakka bo'lganda har bir bo'lak uzunligini topish). CHEKLOVLAR: Faqat to'g'ri kasrlar va natural sonlar bilan cheklanilsin. Noto'g'ri kasrlar, aralash sonlar, o'nli kasrlar va manfiy sonlar qo'llanilmasin. Algebraik o'zgaruvchilar (x, y) va murakkab qavsli ifodalar taqiqlanadi. Har qanday turdagi rasmlar, doiraviy diagrammalar va grafik elementlar ishlatilmasin."
+          },
+          {
+            "name": "Natural sonni to'g'ri kasrga bo'lish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Natural sonni to'g'ri kasrga bo'lish uchun natural sonni o'z holida qoldirish, bo'lish belgisini ko'paytirish bilan almashtirish va ikkinchi sonning, ya'ni kasrning teskarisini yozib ko'paytirish kerak. 2. Qisqa qoida: o'z holida qoldiring, belgini almashtiring, teskarisini yozing (Masalan: 2 ÷ 2/3 = 2 × 3/2 = 3). MASHQLAR USLUBI: 1. To'g'ridan-to'g'ri hisoblash: Natural sonni to'g'ri kasrga bo'lish ifodalarini yechish (Masalan: 12 ÷ 3/4). 2. Matnli masalalar: Butun miqdorlarni ma'lum bir kasr hajmda teng qismlarga ajratish va qismlar sonini aniqlash (Masalan: 5 m arqon 5/8 m lik qismlarga bo'lindi, nechta qism hosil bo'ldi?). CHEKLOVLAR: Rasmlar, chizmalar va vizual modellardan foydalanish qat'iyan taqiqlanadi. Matnli masalalarda murakkab atamalar, geografiya yoki fizika hikoyalarini qo'shmang; faqat shokolad, arqon, suv kabi oddiy obyektlardan foydalaning. Faqat natural sonlarni to'g'ri kasrlarga bo'lishni so'rang. Manfiy sonlar, o'nli kasrlar, aralash sonlar, harfli o'zgaruvchilar (x, y), daraja va ildizlarni ishlatish qat'iyan man etiladi."
+          },
+          {
+            "name": "To'g'ri kasrni to'g'ri kasrga bo'lish",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. To'g'ri kasrni to'g'ri kasrga bo'lish uchun birinchi kasr o'z holicha qoldiriladi. 2. Bo'lish amali (÷) ko'paytirish amali (×) bilan almashtiriladi. 3. Ikkinchi kasrning teskarisi yoziladi (surat va maxrajining o'rni almashtiriladi) va oddiy kasrlarni ko'paytirish qoidasiga ko'ra hisoblanadi (a/b ÷ c/d = a/b × d/c). MASHQLAR USLUBI: 1. To'g'ridan-to'g'ri bo'lish: Berilgan ikkita to'g'ri kasrning bo'linmasini topish (Masalan: 5/6 ÷ 1/3). 2. Matnli masalalar: Umumiy miqdorni (massa, vaqt, hajm) kichikroq kasr ulushlarga taqsimlashga doir sodda hayotiy masalalar (Masalan: 3/4 stakan unni 1/8 stakandan porsiyalarga ajratish). CHEKLOVLAR: Matnli masalalarda fizika, geografiya yoki tarix kabi mantiqqa aloqador bo'lmagan chalg'ituvchi mavzulardan foydalanmang. Rasm, doiraviy diagramma yoki grafiklar ishlatish qat'iyan man etiladi. Faqat musbat to'g'ri kasrlar qatnashgan misollar tuzing. Manfiy sonlar, o'nli kasrlar, foizlar, noma'lum qatnashgan harfiy ifodalar, ildiz va murakkab tenglamalar kiritish qat'iyan taqiqlanadi."
+          },
+          {
+            "name": "Matnli masalalar",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Matnli masalalarda jami miqdor (butun) 1 ga teng deb olinadi. 2. Sonning ma'lum bir qismini topish uchun son shu qismni ifodalovchi kasrga ko'paytiriladi. 3. Qismiga ko'ra butun sonni topish uchun berilgan miqdor mos kasrga bo'linadi. 4. Kasrlar va aralash sonlar ustida to'rt amal (qo'shish, ayirish, ko'paytirish, bo'lish) bajariladi. MASHQLAR USLUBI: 1. Qismlar va qoldiqqa oid masalalar. Misol: Pulning 1/4 qismi, so'ngra qolganining 2/3 qismi sarflandi, jami pulni toping. 2. Butunni qismlarga bo'lish. Misol: 12 m arqon 3/4 m lik bo'laklarga bo'lindi, nechta bo'lak hosil bo'ldi? 3. Kasrlar qatnashgan geometrik/amaliy hisoblashlar. Misol: Tomoni 2 4/5 cm bo'lgan kvadratning yuzini toping. CHEKLOVLAR: Faqat musbat butun sonlar, oddiy va noto'g'ri kasrlar hamda aralash sonlardan foydalaning. Manfiy sonlar, o'nli kasrlar, foizlar, kvadrat ildizlar yoki x, y kabi o'zgaruvchilar qatnashgan algebraik tenglamalar tuzish qat'iyan taqiqlanadi. Masalalar faqat kundalik hayotga (savdo, ulushlar, o'lchovlar, sig'im) oid bo'lishi shart, murakkab ilmiy, fizik yoki geografik atamalar ishlatilmasin. Hech qanday rasm, diagramma yoki grafiklar qo'shilmang."
+          },
+          {
+            "name": "I takrorlash",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. O'xshash hadlarni ixchamlash va algebraik ifodalarni soddalashtirish. 2. O'zgaruvchining berilgan qiymati asosida algebraik ifodaning sonli qiymatini hisoblash. 3. O'rta arifmetikni topish qoidasi: barcha miqdorlar yig'indisini ularning soniga bo'lish. 4. Oddiy kasrlarni butun songa bo'lish va butun sonni kasrga bo'lish amallari. 5. Sonning qismini topish va berilgan qismiga ko'ra sonning o'zini aniqlash. MASHQLAR USLUBI: 1. Algebraik ifodalarni soddalashtirish (masalan: 6p+13−2p). 2. Matnli masalalarni o'zgaruvchilar yordamida ifodalash (masalan: yosh yoki pul miqdorini m orqali yozish). 3. Kasrlar ustida bo'lish amallarini bajarish (2/5÷2). 4. Geometrik shakllar (to'g'ri to'rtburchak) yuzi va perimetri uchun harfiy ifodalar tuzish. 5. Amaliy masalalar: mahsulotlarni teng bo'laklarga bo'lish yoki qadoqlash. CHEKLOVLAR: Faqat natural sonlar, oddiy kasrlar va birinchi darajali bir noma'lumli ifodalar qo'llansin. Manfiy sonlar, darajalar, kvadrat ildizlar va murakkab tenglamalar tizimi taqiqlanadi. Hech qanday rasm, chizma yoki geometrik shakl tasvirlaridan foydalanilmasin."
+          }
         ]
       },
       {
         "chapter": "Nisbatlar",
         "index": 3,
         "subtopics": [
-          { "name": "Nisbat va kasr", "index": 1 },
-          { "name": "Matnli masalalar", "index": 2 },
-          { "name": "Uch miqdor nisbati", "index": 3 },
-          { "name": "O'zgaruvchan nisbatlar", "index": 4 }
+          {
+            "name": "Nisbat va kasr",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Nisbat va kasr o'zaro bog'liq bo'lib, bir miqdor ikkinchisining a/b qismini tashkil qilsa, ularning nisbati a:b kabi yoziladi. 2. Nisbat hadlarining o'rnini almashtirish orqali teskari munosabat hosil qilinadi (masalan, A ning B ga nisbati 3:8 bo'lsa, B ning A ga nisbati 8:3). 3. Qismning jami miqdorga nisbatini topish uchun qismlar yig'indisi hisoblanadi (Masalan, 2:3 nisbatda jami 5 qism bor, ular 2/5 va 3/5 qismlarni tashkil qiladi). MASHQLAR USLUBI: 1. Berilgan kasr munosabatidan ikki miqdor nisbatini topish (Masalan: A miqdor B ning 4/5 qismi bo'lsa, A:B=4:5). 2. Berilgan nisbatdan foydalanib, miqdorning jami miqdorga qanday qism bo'lishini (kasr ko'rinishida) aniqlash. 3. Ikki obyektdan iborat (mevalar, stikerlar va h.k.) miqdorlarni taqqoslashga doir sodda matnli masalalar tuzish. CHEKLOVLAR: Rasmlar, jadvallar va chizmalardan umuman foydalanilmasin. Matnli masalalarda faqat sodda kundalik obyektlar ishlatilsin. Manfiy sonlar, o'nli kasrlar, aralash sonlar, foizlar, harfli ifodalar (o'zgaruvchilar) va geometrik yuzalarni topish qat'iyan man etiladi. Faqat natural sonlar bilan ifodalanuvchi oddiy kasrlar va qisqarmas nisbatlar qatnashsin."
+          },
+          {
+            "name": "Matnli masalalar",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Matnli masalalarda miqdorlar o'rtasidagi munosabatlar kasrlar yoki nisbatlar orqali ifodalanadi. 2. Masalani yechish uchun butun miqdor teng bo'laklarga ajratiladi va bitta bo'lakning qiymati topiladi. 3. Ikki miqdorning bir-biriga nisbati ularga mos keluvchi bo'laklar (qismlar) soni nisbatiga teng. MASHQLAR USLUBI: 1. Nisbat va noma'lum miqdorni topish: Bir miqdor ikkinchisining ma'lum kasr qismini tashkil qilsa, nisbatni va jami miqdorni topish (Masalan: A ning qalamlari B ning 3/7 qismi, A da 21 ta bo'lsa, B da nechta?). 2. Farq orqali topish: Qismlar farqi va kasr munosabati berilganda noma'lumni topish (Masalan: A ning massasi B dan 5/4 qism bo'lib, 5.5 kg og'ir. B ni toping). 3. Qismlarni tenglashtirish: A ning 2/3 qismi B ning 1/4 qismiga teng bo'lgan munosabatli masalalar yechish. CHEKLOVLAR: Faqat kasr va nisbatlarga doir sodda hayotiy masalalar tuzing (yosh, pul, narsalar). Chalg'ituvchi murakkab tarixiy, fizik voqealarni qo'shmang. Chizma, rasm yoki grafiklar ishlatish qat'iyan man etiladi. Manfiy sonlar, kvadrat ildiz, daraja va murakkab algebraik tenglamalar tizimi taqiqlanadi. Yechimlar faqat natural sonlar va sodda kasrlar doirasida bo'lishi hamda masalalar 'bo'laklarga ajratish' (arifmetik) usulida yechilishiga moslashtirilishi shart."
+          },
+          {
+            "name": "Uch miqdor nisbati",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Uch miqdor nisbatini (A:B:C) topish uchun ikkita alohida nisbatdagi (A:B va B:C) umumiy miqdorning (B ning) eng kichik umumiy karralisi (EKUK) topiladi. 2. Umumiy miqdor qismlari soni tenglashtirilgach, qolgan miqdorlar ham mos ravishda o'zgartirilib, uchta miqdorning yagona nisbati tuziladi. MASHQLAR USLUBI: 1. Sonli nisbatlarni birlashtirish. Misol: A:B=3:1 va B:C=2:5 bo'lsa, A:B:C ni toping. 2. Qism va nisbat aralashgan matnli masalalar. Misol: Anoraning stikerlari Barnoniki bilan 3:1 nisbatda, Charosning qismi qoida asosida berilganda jami stikerlarni topish. 3. Geometrik o'lchamlar nisbati. Misol: Uchburchak tomonlari 3:5:7 nisbatda bo'lsa, berilgan shartga ko'ra perimetrni hisoblash. CHEKLOVLAR: Faqat musbat butun sonlar va nisbatni ifodalovchi oddiy kasrlardan foydalaning. Manfiy sonlar, kvadrat ildiz, ko'rsatkichli tenglamalar, foizlar yoki murakkab algebraik o'zgaruvchilar (x^2, y^2) tizimi qat'iyan taqiqlanadi. Hech qanday rasm, diagramma, chizma yoki grafiklar qo'shmang (faqat matn orqali tasvirlang). Masalalar faqat kundalik maishiy holatlarga (odamlar, pullar, stikerlar, oddiy shakllar yuzasi) oid bo'lishi shart."
+          },
+          {
+            "name": "O'zgaruvchan nisbatlar",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. O'zgaruvchan nisbatlarga oid masalalarda o'zgarmas parametrni (yagona miqdor, yig'indi yoki ayirma) aniqlash va bo'laklar (unitlar) sonini tenglashtirish asosiy qoida hisoblanadi. 2. Nisbatlarni o'zgarmas qism bo'yicha umumiy karralliga keltirish orqali qayta ifodalash lozim. 3. 1 ta bo'lakning qiymati berilgan sonli o'zgarishni mos bo'laklar farqiga bo'lish orqali topiladi. MASHQLAR USLUBI: 1. Yagona miqdor o'zgarmasligi: Bir qism qo'shilganda o'zgarmay qolgan qismni tenglashtirish orqali jami miqdorni topish (masalan: 2:3 nisbat 4:9 ga o'zgardi). 2. O'zgarmas yig'indi: Bir shaxsdan boshqasiga o'tganda umumiy miqdor o'zgarmasligidan foydalanib yechish (masalan: 5:7 nisbat 1:3 ga almashdi). 3. O'zgarmas ayirma: Ikkala qismga bir xil miqdor qo'shilganda oradagi farqni tenglash (masalan: 5:7 nisbat 3:4 ga o'zgardi). CHEKLOVLAR: Faqat natural sonlar va butun bo'linadigan natijalar qo'llansin. Rasmlar, blok-modellar va grafik elementlardan foydalanish taqiqlanadi. Manfiy sonlar, o'nli kasrlar, foizlar va o'zgaruvchili murakkab tenglamalar (x/y tizimi) kiritilmasin. Faqat matnli mantiqiy masalalar generatsiya qilinsin."
+          }
         ]
       },
       {
         "chapter": "Foizlar",
         "index": 4,
         "subtopics": [
-          { "name": "Foizi va qismiga ko'ra sonning o'zini topish", "index": 1 },
-          { "name": "O'sish foizi va kamayish foizini topish", "index": 2 },
-          { "name": "Matnli masalalar", "index": 3 },
-          { "name": "II takrorlash", "index": 4 }
+          {
+            "name": "Foizi va qismiga ko'ra sonning o'zini topish",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Sonning ma'lum foiziga ko'ra o'zini (100% ni) topish uchun berilgan qiymatni foiziga bo'lib 1% ni topish va natijani 100 ga ko'paytirish kerak. 2. Jami miqdor doimo 100% deb olinadi. Agar chegirma yoki sarflangan qism berilsa, qolgan foizni (100% - x%) topish orqali hisoblash bajariladi. 3. Kasr qismlarni hisoblash uchun ularni avval foizga o'tkazish (masalan, 3/5 = 60%) tavsiya etiladi. MASHQLAR USLUBI: 1. To'g'ridan-to'g'ri: 25 foizi 120 ga teng bo'lgan sonni toping. 2. Chegirma va qoldiq masalalari: 20% chegirma bilan 6000 so'm bo'lgan buyumning asl narxini toping. 3. Kasr va foiz aralash masalalar: 3/5 qismi va 28% i ma'lum, qolgan qismi 36 ga teng bo'lsa, jami miqdorni toping. CHEKLOVLAR: Matnli masalalarda faqat kundalik tushunchalar (pul, xarid, o'quvchilar soni) ishlating. Chizmalar, rasmlar yoki jadvallardan foydalanish qat'iyan taqiqlanadi. Manfiy sonlar, murakkab algebraik tenglamalar, x va y kabi harfli o'zgaruvchilar, daraja hamda ildiz tushunchalarini umuman qo'shmang. Faqat natural sonlar, o'nli kasrlar va oddiy kasrlar yordamida yechiladigan sof arifmetik masalalar tuzing."
+          },
+          {
+            "name": "O'sish foizi va kamayish foizini topish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. O'sish foizini topish formulasi: O'sish foizi = (o'sish miqdori / dastlabki miqdor) * 100%. 2. Kamayish foizini topish formulasi: Kamayish foizi = (kamayish miqdori / dastlabki miqdor) * 100%. 3. Foiz o'zgarishlari har doim dastlabki qiymatga nisbatan hisoblanadi. MASHQLAR USLUBI: 1. O'sish yoki kamayish foizini hisoblash: Ikkita berilgan miqdor (dastlabki va keyingi) orasidagi o'zgarishni foizda ifodalash (Masalan: Mahsulot narxi 16000 so'mdan 13500 so'mga tushdi, narx necha foizga kamaydi?). 2. Mantiqiy foiz o'zgarishlari: Jami miqdor o'zgarganda qolgan qismlarning foizi qanday o'zgarishini mantiqan topish (Masalan: Savatdagi mevalarning 40% i olma, olmalarning yarmi sotilsa, savatda qolgan mevalar ichida nokning foizi qanday o'zgaradi?). CHEKLOVLAR: Matnli masalalarda chalg'ituvchi va matematika faniga aloqador bo'lmagan murakkab tarixiy, geografik yoki fizik ma'lumotlardan foydalanmang. Rasm, jadval, diagramma va chiziqli grafiklarni ishlatish qat'iyan man etiladi (barcha shartlar faqat matn orqali ifodalanishi shart). Bank murakkab foizlari, manfiy sonlar, o'zgaruvchilar, daraja, ildiz yoki murakkab tenglamalar tizimi kiritilishi qat'iyan taqiqlanadi. Zarurat bo'lganda javoblarni o'ndan bir yoki yuzdan bir xonasigacha yaxlitlashni so'rash mumkin."
+          },
+          {
+            "name": "Matnli masalalar",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Jami miqdor doim 100% deb olinadi. 2. Miqdor ma'lum foizga ortganda yoki kamayganda, yangi miqdor mos ravishda 100% + x% yoki 100% - x% deb olinadi. 3. Sonning foizini topish uchun u 100 ga bo'linib, kerakli foizga ko'paytiriladi. MASHQLAR USLUBI: 1. Narxning chegirmasi yoki oshishini topish. Misol: 100 000 so'mlik mahsulot 15% chegirma bilan sotilsa, narxi qancha bo'ladi? 2. Foiziga ko'ra butunni topish. Misol: Jami qalamlarning 40% i ko'k, qolgani qizil. Qizil qalamlar 24 ta bo'lsa, jami qalamlar nechta? 3. Miqdorlar o'zgarganda yangi foiz ulushini hisoblashga oid matnli masalalar. CHEKLOVLAR: Faqat musbat butun yoki sodda o'nli sonlar va foiz tushunchasidan foydalaning. Manfiy sonlar, kvadrat ildiz, ko'rsatkichli tenglamalar, murakkab algebraik o'zgaruvchilar yoki kimyoviy eritmalar konsentratsiyasiga doir masalalar taqiqlanadi. Masalalar faqat kundalik maishiy holatlarga (chegirma, xarid, ish haqi, to'plamdagi narsalar soni) oid bo'lishi shart. Hech qanday rasm, chizma, diagramma yoki grafiklar qo'shmang."
+          },
+          {
+            "name": "II takrorlash",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Proportsiyaning noma'lum hadini topish va nisbatlarni soddalashtirish. 2. Umumiy had orqali bir nechta nisbatni birlashtirish (masalan, A:B va B:C nisbatlardan A:B:C hosil qilish). 3. Sonning qismini nisbat ko'rinishida ifodalash (a/b qism = a:b nisbat). 4. Foiz hisoblari: sonning foizini topish, foiziga ko'ra sonning o'zini topish va foizli o'zgarishlarni (ortish/kamayish) hisoblash. 5. Iqtisodiy tushunchalar: maoshning foizga oshishi va QQS (qo'shilgan qiymat solig'i) miqdorini aniqlash. MASHQLAR USLUBI: 1. Nisbatlar zanjiridagi noma'lum sonni aniqlash (masalan: 12:4 = x:1). 2. Matnli taqsimot masalalari: miqdorlarni berilgan nisbatda bo'lish (masalan: pullarni 4:7 nisbatda taqsimlash). 3. Murakkab nisbatli masalalar: bir shaxsdan ikkinchisiga miqdor o'tganda nisbatning o'zgarishi. 4. Foizga doir amaliy masalalar: idishning to'lish foizi yoki narxning 12% li QQS bilan hisoblanishi. CHEKLOVLAR: Har qanday turdagi chizmalar, grafiklar yoki geometrik tasvirlardan foydalanish qat'iyan taqiqlanadi. Murakkab algebraik tenglamalar, manfiy sonlar, darajalar va ildizlar ishlatilmasin. Faqat natural sonlar, oddiy va o'nli kasrlar bilan cheklanilsin. Fizika yoki kimyo fanlariga oid maxsus qonuniyatlar kiritilmasin."
+          }
         ]
       },
       {
         "chapter": "Geometrik shakllardagi burchaklar",
         "index": 5,
         "subtopics": [
-          { "name": "Geometrik shakllardagi noma'lum burchaklarni topish", "index": 1 }
+          {
+            "name": "Geometrik shakllardagi noma'lum burchaklarni topish",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Uchburchakning ichki burchaklar yig'indisi 180° ga teng. 2. To'g'ri chiziqdagi (yoyiq) burchaklar yig'indisi 180°. 3. Nuqta atrofidagi burchaklar yig'indisi 360°. 4. Vertikal burchaklar o'zaro teng. 5. Parallelogramm va rombning qarama-qarshi burchaklari teng, bitta tomonga yopishgan burchaklari yig'indisi 180°. 6. Teng yonli uchburchakning asosidagi burchaklari teng. Teng tomonli uchburchakda barcha burchaklar 60°. Kvadrat va to'g'ri to'rtburchakda 90°. MASHQLAR USLUBI: 1. Oddiy shakllarda burchak topish: Berilgan ko'pburchakning ma'lum burchaklariga asoslanib noma'lum burchagini topish (Masalan: ABCD rombning A burchagi 50° bo'lsa, B burchagini toping). 2. Aralash shakllar: Ikki tutash shakl (masalan, to'g'ri to'rtburchak va uning ichidagi teng yonli uchburchak) xossalaridan foydalanib burchak hisoblash matnli masalalari. CHEKLOVLAR: Rasmlar, chizmalar yoki grafiklardan foydalanish qat'iyan taqiqlanadi; masalalar to'liq va tushunarli matn orqali ifodalanishi shart. Trigonometriya (sinus, kosinus, tangens), radianlar, aylana yoylari va uch o'lchamli (3D) shakllarni umuman ishlatmang. Fizika, geografiya yoki hikoyaviy elementlarni qo'shmang. Faqat daraja (°) o'lchovidagi musbat butun sonlar hamda asosiy tekislik (2D) shakllari doirasida qoling."
+          }
         ]
       },
       {
         "chapter": "Doira va aylana",
         "index": 6,
         "subtopics": [
-          { "name": "Doira va aylana elementlari", "index": 1 },
-          { "name": "Aylananing uzunligi", "index": 2 },
-          { "name": "Yarim va chorak doira perimetri", "index": 3 },
-          { "name": "Doiraning yuzi", "index": 4 },
-          { "name": "Yarim va chorak doira yuzi", "index": 5 },
-          { "name": "Murakkab shakllarning yuzi va perimetri", "index": 6 }
+          {
+            "name": "Doira va aylana elementlari",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Aylana markazidan uning ixtiyoriy nuqtasini tutashtiruvchi kesma radius deb ataladi. 2. Markazdan o'tib, aylanadagi ikkita nuqtani tutashtiruvchi kesma diametr deb ataladi. 3. Doiraning barcha radiuslari o'zaro teng. 4. Diametr radiusdan ikki marta uzun, ya'ni Diametr = 2 * radius, va Radius = diametr / 2. MASHQLAR USLUBI: 1. Radiusdan diametrni topish: Radius berilganda uni 2 ga ko'paytirib diametrni hisoblash (Masalan: Radius 6 cm bo'lsa, diametrni toping). 2. Diametrdan radiusni topish: Diametr berilganda uni 2 ga bo'lib radiusni hisoblash (Masalan: Diametr 24 cm bo'lsa, radiusni toping). 3. Hayotiy masalalar: G'ildirak yoki halqa kabi kundalik jismlarning o'lchamlaridan radius va diametrni aniqlash. CHEKLOVLAR: Masalalarda chalg'ituvchi va matematika faniga aloqador bo'lmagan murakkab ma'lumotlardan foydalanmang. Rasm, chizma yoki grafiklar ishlatish qat'iyan man etiladi, hamma narsa matn orqali berilishi shart. Pi (π) soni, doira yuzi, aylana uzunligi, vatar, urinma, kesuvchi, yoy va burchak kabi ushbu matnda yo'q bo'lgan yuqori sinf tushunchalarini kiritish qat'iyan taqiqlanadi. Barcha hisoblashlar faqat 2 ga ko'paytirish yoki bo'lishdan iborat sodda arifmetik amallar doirasida bo'lishi kerak."
+          },
+          {
+            "name": "Aylananing uzunligi",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. To'g'ri burchakli parallelepiped hajmi uning uchta o'lchami (bo'yi, eni, balandligi) ko'paytmasiga teng: V = a * b * c. 2. Parallelepipedning sirt yuzi uning barcha 6 ta to'g'ri to'rtburchak shaklidagi yoqlari yuzalari yig'indisiga teng: S = 2 * (ab + bc + ac). 3. Murakkab jism hajmi uni tashkil etuvchi oddiy parallelepipedlar hajmlari yig'indisiga teng. MASHQLAR USLUBI: 1. Oddiy shakl hajmi yoki noma'lum tomonini topish. Misol: O'lchamlari 4 cm, 5 cm va 6 cm bo'lgan shakl hajmini toping. 2. Sirt yuzini hisoblash. Misol: O'lchamlari 2 m, 3 m va 4 m bo'lgan quti sirt yuzini toping. 3. Murakkab shakl hajmi. Misol: Ikkita ustma-ust qo'yilgan parallelepipeddan iborat shakl hajmini hisoblash. CHEKLOVLAR: Faqat to'g'ri burchakli parallelepiped va kubga doir masalalar tuzing. Silindr, konus, shar, ko'pburchakli prizmalar, kasr ko'rsatkichli darajalar, manfiy sonlar, kvadrat ildiz va murakkab algebraik ifodalar qat'iyan taqiqlanadi. Rasm, chizma yoki grafiklar umuman ishlatilmasin. Jismning o'lchamlari va shakli faqat so'z orqali to'liq va aniq tasvirlanishi shart."
+          },
+          {
+            "name": "Yarim va chorak doira perimetri",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Yarim aylana yoyi uzunligi formulasi: L=1/2×πd yoki L=πr. 2. Chorak aylana yoyi uzunligi formulasi: L=1/4×πd yoki L=1/2×πr. 3. Yarim doira perimetri yoy uzunligi va diametr yig'indisiga teng. 4. Chorak doira perimetri yoy uzunligi va ikkita radius yig'indisiga teng. 5. Doira aylanasining 3/4 qismi yoyi: L=3/4×2πr. 6. Hisoblashlarda π≈3,14 yoki π≈22/7 qiymatlaridan foydalaniladi. MASHQLAR USLUBI: 1. Berilgan radius yoki diametr bo'yicha yarim/chorak doira perimetrini topish (Masalan: r=7 sm bo'lsa, chorak doira perimetrini hisoblang). 2. Bir nechta yarim va chorak doiralardan tashkil topgan murakkab shakllarning umumiy chegarasi (perimetri) uzunligini hisoblash. 3. Natijalarni yuzdan birlar xonasigacha yaxlitlash. CHEKLOVLAR: Doira yuzasini (S) hisoblash taqiqlanadi. Faqat perimetr va yoy uzunligi bilan cheklaning. Grafik tasvirlar yoki rasmlar ishlatilmasin, shakllar matn orqali tavsiflanishi shart. O'zgaruvchilar, manfiy sonlar, kvadrat ildizlar va trigonometrik formulalar kiritilmasin."
+          },
+          {
+            "name": "Doiraning yuzi",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Doira yuzi S=πr^2 formulasi orqali hisoblanadi. 2. Doira diametri va radiusi o'rtasidagi bog'liqlik: d=2r. 3. Hisoblashlarda π o'zgarmasining 3.14 yoki 22/7 qiymatlaridan foydalaniladi. 4. Doira yuzasini chamalashda u radiusi r bo'lgan kichik kvadrat yuzasidan (2r^2 ) katta va katta kvadrat yuzasidan (4r^2 ) kichik bo'ladi. MASHQLAR USLUBI: 1. Berilgan radius yoki diametr qiymatlari asosida doira yuzini hisoblash (masalan: d=6 cm bo'lsa, S ni toping). 2. π ning maxsus qiymatlari (22/7) yordamida kasrli hisoblashlar bajarish. 3. Ikki doira orasidagi bo'yalgan soha (halqa) yuzasini topish (S katta​ −Skichik​ ). 4. Kvadrat ichiga chizilgan doira yuzasini kvadrat tomoni orqali aniqlash. 5. Olingan natijalarni birlar xonasigacha yaxlitlash. CHEKLOVLAR: Savollarda rasmlar va grafik chizmalardan foydalanilmasin. Geografik yoki fizik trivia ma'lumotlar qo'shilmasin. Manfiy sonlar, kvadrat ildizlar, o'zgaruvchili algebraik ifodalar va trigonometrik funksiyalar taqiqlanadi. Faqat tekislikdagi shakllar (doira va kvadrat) bilan cheklanib, hajmiy (3D) shakllar ishlatilmasin."
+          },
+          {
+            "name": "Yarim va chorak doira yuzi",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Doira yuzi formulasi: S=πr^2. 2. Yarim doira yuzi butun doira yuzining yarmi hisoblanadi: S=1/2×πr^2. 3. Chorak doira yuzi butun doira yuzining to'rtdan bir qismidir: S=1/4×πr^2 . 4. Diametr berilganda radiusni topish: r=d/2. 5. Hisoblashlarda π=3,14 yoki π=22/7 dan foydalaniladi. MASHQLAR USLUBI: 1. Oddiy shakllar yuzini hisoblash (Masalan: Radiusi 12 sm bo'lgan yarim doira yuzini toping). 2. Murakkab kombinatsiyalangan shakllar (Masalan: Katta yarim doira ichidan ikki kichik yarim doira kesib olingan bo'yalgan soha yuzini topish). 3. Bir nechta bir xil qismlardan iborat shakllar (Masalan: 4 ta bir xil chorak doira yig'indisi bitta butun doirani hosil qilishini tushunib yuzani hisoblash). CHEKLOVLAR: Faqat doira yuzasiga doir masalalar tuzilsin, perimetr yoki yoy uzunligi so'ralmasin. Rasmlar ishlatilmasin, shakllar matn bilan aniq tavsiflansin. Manfiy sonlar, kvadrat ildizlar va harfli ifodalar (x, y kabi o'zgaruvchilar) taqiqlanadi. Fizika yoki boshqa fanlarga oid trivia ma'lumotlar qo'shilmasin."
+          },
+          {
+            "name": "Murakkab shakllarning yuzi va perimetri",
+            "index": 6,
+            "context": "MAVZU QOIDALARI: 1. Murakkab shakllar yuzi va perimetri ularni tashkil etgan sodda shakllar (kvadrat, to'g'ri to'rtburchak, uchburchak, doira qismlari) yuzalarini qo'shish yoki ayirish orqali hisoblanadi. 2. Doira yuzi S=πr^2, aylana uzunligi L=2πr (yoki L=πd). 3. Chorak doira yuzi 1/4 πr^2 , yarim doira yuzi esa  1/2​πr^2  ga teng. 4. Hisoblashlarda π uchun 22/7 yoki 3.14 qiymatlari qo'llaniladi. 5. Murakkab shakl perimetri uning tashqi chegarasini tashkil etuvchi barcha yoylar va kesmalar uzunliklari yig'indisidir. MASHQLAR USLUBI: 1. Kvadrat ichiga chizilgan doira qismlari orasidagi bo'yalgan soha yuzini topish (Masalan: kvadrat yuzidan chorak doira yuzini ayirish). 2. Yoylar va to'g'ri chiziqlardan iborat shakllarning umumiy perimetrini hisoblash. 3. Bir nechta yarim doiralarni birlashtirib, butun doira hosil qilish orqali yuzani aniqlash. 4. Amaliy masalalarda (yo'lak yuzi, bog' maydoni) o'lchamlar asosida hisoblash va natijani yaxlitlash. CHEKLOVLAR: Har qanday turdagi tasvirlar yoki chizmalardan foydalanish qat'iyan taqiqlanadi. Fizika, geografiya yoki boshqa fanlarga oid kontekstlar chiqarib tashlansin. Manfiy sonlar, o'zgaruvchili algebraik ifodalar, murakkab trigonometriya va 3D shakllar (hajm) ishlatilmasin."
+          }
         ]
       },
       {
         "chapter": "Tezlik",
         "index": 7,
         "subtopics": [
-          { "name": "Tezlik", "index": 1 },
-          { "name": "Tezlik, bosib o'tilgan masofa va vaqtni topish", "index": 2 },
-          { "name": "Ikki xil tezlikdagi harakatga doir matnli masalalar", "index": 3 },
-          { "name": "O'rtacha tezlik", "index": 4 },
-          { "name": "Ikkita jism harakatiga doir matnli masalalar", "index": 5 }
+          {
+            "name": "Tezlik",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: Tezlik — vaqt birligi (1 soat, 1 minut yoki 1 sekund) davomida bosib o'tilgan masofadir. Asosiy o'lchov birliklari sifatida km/h, m/min, m/s va cm/s ishlatiladi. Agar jism 1 soatda ma'lum masofani bossa, o'sha masofa uning soatiga necha kilometr tezlikda harakatlanayotganini ko'rsatadi (Masalan: 1 soatda 70 km yo'l = 70 km/h). MASHQLAR USLUBI: 1. Berilgan masofa va vaqt asosida jismning tezligini aniqlash (Masalan: 'Suzuvchi 1 minutda 100 m suzdi, uning tezligi qancha?'). 2. Tezlik qiymatining ma'nosini so'z bilan izohlash (Masalan: '30 m/min tezlik nimani bildiradi?'). 3. Turli tezliklarni o'zaro taqqoslash va qaysi jism tezroq harakatlanayotganini aniqlash. 4. Harakat tavsifiga ko'ra jadvalni mos qiymatlar bilan to'ldirish. CHEKLOVLAR: Faqat natural sonlar ishlatilsin. O'zgaruvchilar (x, y), harfli formulalar, manfiy sonlar yoki murakkab kasrlar kiritilmasin. Bir o'lchov birligidan boshqasiga o'tkazish (masalan, km/h dan m/s ga) va tezlanish kabi fizik tushunchalar taqiqlanadi. Rasmlar, grafiklar yoki tashqi geografik ma'lumotlardan foydalanmang."
+          },
+          {
+            "name": "Tezlik, bosib o'tilgan masofa va vaqtni topish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: Harakatning uchta o'zaro bog'liq komponenti mavjud: tezlik (v), masofa (s) va vaqt (t). Asosiy formulalar: 1. Tezlik = masofa ÷ vaqt. 2. Masofa = tezlik × vaqt. 3. Vaqt = masofa ÷ tezlik. O'lchov birliklari sifatida km/soat, m/sekund, m/minut va cm/sekunddan foydalaniladi. Masofani o'lchashda km, m, cm; vaqtda esa soat (h), minut (min) va sekund (s) ishlatiladi. MASHQLAR USLUBI: 1. Tezlikni topish: masofa va vaqt berilganda bo'lish amali orqali tezlikni hisoblash (Masalan: 165 km ni 3 soatda bosib o'tgan mashina tezligi). 2. Masofani topish: tezlikni vaqtga ko'paytirish (Masalan: 65 km/soat tezlikda 8 soat yurgan poyezd yo'li). 3. Vaqtni topish: masofani tezlikka bo'lish (Masalan: 140 km ni 70 km/soat tezlikda bosib o'tish uchun ketgan vaqt). 4. Jadval ko'rinishidagi solishtirma masalalar. CHEKLOVLAR: Faqat chiziqli tekis harakatga oid masalalar tuzilsin. Tezlanish, oqim bo'ylab harakat, qarama-qarshi yoki ketma-ket harakat kabi murakkab ssenariylar taqiqlanadi. Rasmlar, grafiklar va koordinata o'qlaridan foydalanilmasin. Manfiy sonlar, kvadrat ildizlar va murakkab algebraik o'zgaruvchilardan foydalanish mumkin emas. O'lchov birliklarini almashtirishda faqat butun yoki sodda o'nli sonlar (masalan: 2.5 soat yoki 13.5 km) ishlatilsin."
+          },
+          {
+            "name": "Ikki xil tezlikdagi harakatga doir matnli masalalar",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: Harakatga doir masalalarda asosiy formulalar: masofa S=v⋅t, tezlik v=S:t, vaqt t=S:v. Murakkab harakatda umumiy masofa (S jami ​ =S 1 ​ +S 2 ​ ) va umumiy vaqt (t jami ​ =t 1 ​ +t 2 ​ ) qismlar yig'indisidan iborat. Masofaning bir qismi kasr ko'rinishida berilsa (masalan, 3/7 qismi), qolgan qismini topish uchun butun birdan ayiriladi (1−3/7=4/7). MASHQLAR USLUBI: 1. Berilgan ikki xil tezlik va vaqt asosida umumiy masofani hisoblash (masalan: 27 km/h da 1/3 soat va 25 km/h da 3/5 soat yurilgan masofa). 2. Masofaning bir qismi va qolgan qismi (km da) berilganda, umumiy masofani va o'rtacha bo'lmagan har bir qismdagi tezlikni topish. 3. Borish va qaytishdagi turli tezliklar orqali sarflangan vaqtni hisoblash. CHEKLOVLAR: Masalalarda faqat natural sonlar va oddiy kasrlardan foydalanilsin. O'zgaruvchilar (x, y), manfiy sonlar, o'nli kasrlar, kvadrat ildizlar va tezlanish kabi fizik tushunchalarni qo'llash qat'iyan taqiqlanadi. Masalalar faqat matnli ko'rinishda bo'lishi shart, chizma yoki grafiklardan foydalanilmasin."
+          },
+          {
+            "name": "O'rtacha tezlik",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. O'rtacha tezlikni topish uchun jami bosib o'tilgan masofani jami sarflangan vaqtga bo'lish kerak: O ′ rtachatezlik=Jamimasofa/Jamivaqt. 2. Harakatning har bir qismi uchun masofa (S), vaqt (t) va tezlik (v) bog'liqligi: S=v∗t va t=S/v formulalari orqali aniqlanadi. 3. Jami vaqt va jami masofa barcha alohida bo'laklarning yig'indisidan iborat. MASHQLAR USLUBI: 1. Bir necha bo'lakli harakatda umumiy o'rtacha tezlikni hisoblash (Masalan: 4 m ni 2 s da va 7 m ni 3 s da o'tsa, v avg ​  ni toping). 2. Masofaning bir qismi tezlik orqali, ikkinchi qismi esa masofa orqali berilganda umumiy vaqtni va tezlikni topish. 3. Masofaning kasr qismlari (masalan, yo'lning 1/3 qismi) ishtirok etgan murakkabroq masalalarni yechish. 4. Berilgan o'rtacha tezlik asosida noma'lum vaqt oralig'ini hisoblash. CHEKLOVLAR: Faqat musbat butun sonlar, o'nli kasrlar va aralash sonlardan foydalanilsin. Manfiy sonlar, harfiy ifodalar (o'zgaruvchilar), kvadrat ildizlar va trigonometriya taqiqlanadi. Grafik yoki chizmalar talab qilinmasin. Tezlanish yoki kuch kabi murakkab fizik tushunchalar kiritilmasin."
+          },
+          {
+            "name": "Ikkita jism harakatiga doir matnli masalalar",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Ikkita jism qarama-qarshi yo'nalishda harakat qilganda, ular orasidagi masofa har bir jism bosib o'tgan masofalar yig'indisiga teng: S umumiy ​ =S 1 ​ +S 2 ​ . 2. Bir-biriga qarab harakatlanayotgan jismlarning yaqinlashish tezligi ularning tezliklari yig'indisiga teng: v yaqinlashish ​ =v 1 ​ +v 2 ​ . 3. Uchrashish vaqti umumiy masofani yaqinlashish tezligiga bo'lish orqali topiladi: t=S÷(v 1 ​ +v 2 ​ ). 4. Bir jism ikkinchisini quvib yetganda, uchrashgan nuqtada ularning bosib o'tgan masofalari (agar bir nuqtadan boshlangan bo'lsa) yoki bosib o'tilgan vaqtga nisbatan masofa tahlili o'tkaziladi. MASHQLAR USLUBI: 1. Qarama-qarshi harakatda bir jismning tezligini topish (Masalan: 2 soatdan keyin masofa 300 km bo'lsa va birining tezligi 70 km/h bo'lsa, ikkinchisiniki qancha?). 2. Uchrashish vaqti va uchrashguncha bosib o'tilgan masofani hisoblash (Masalan: 56 km masofadan bir-biriga qarab kelayotgan ikki kishi necha soatda uchrashadi?). 3. Quvib yetish vaqtini va quvib yetgan jism tezligini aniqlash. CHEKLOVLAR: Faqat arifmetik yechim usullaridan foydalanilsin, algebraik tenglamalar (x o'zgaruvchisi) taqiqlanadi. Tasvirlar, chizmalar va grafiklar qo'llanilmasin. Faqat natural sonlar va matnda berilgan oddiy kasrlar (1/2,2/3) ishlatilsin. Manfiy sonlar, kvadrat ildizlar va fizikaviy tezlanish tushunchalari kiritilmasin."
+          }
         ]
       },
       {
         "chapter": "Hajm",
         "index": 8,
         "subtopics": [
-          { "name": "Kuboidning qirrasini topish", "index": 1 },
-          { "name": "Kubning qirrasini topish", "index": 2 },
-          { "name": "Kuboid va kubning bir yog'i yuzini topish", "index": 3 },
-          { "name": "Matnli masalalar", "index": 4 },
-          { "name": "I takrorlash", "index": 5 }
+          {
+            "name": "Kuboidning qirrasini topish",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: Kuboidning hajmi uning uchta oʻlchami (boʻyi, eni va balandligi) koʻpaytmasiga teng: Hajm=boʻyi×eni×balandlik. Nomaʼlum qirrani topish uchun hajmni maʼlum boʻlgan ikki qirra koʻpaytmasiga boʻlish kerak. Masalan: Balandlik=Hajm÷(boʻyi×eni). Shuningdek, kuboid hajmi uning biror yogʻi yuzi va unga perpendikulyar qirrasi koʻpaytmasiga ham teng: Hajm=Yuzi×qirra. Bundan, Nomaʼlum qirra=Hajm÷Yuzi. MASHQLAR USLUBI: 1. Ikki qirra va hajm berilganda uchinchi qirrani hisoblash (Masalan: V=432,h=6,e=8⇒ boʻyi?). 2. Hajm va asosining (yoki yon yogʻining) yuzi berilganda balandlikni topish (Masalan: V=750,S=125⇒ balandlik?). 3. Oʻlchamlar jadvalini mantiqiy toʻldirish. CHEKLOVLAR: Faqat toʻgʻri burchakli parallelepiped (kuboid) shakllari bilan cheklaning. Toʻliq sirt yuzasini hisoblash, diagonallar yoki hajmni litrlarda ifodalash kabi murakkab tushunchalarni kiritmang. Rasmlar va grafiklardan foydalanmang. Salbiy sonlar, oʻzgaruvchili tenglamalar va kvadrat ildizlar taqiqlanadi. Faqat butun sonlar va oddiy oʻnli kasrlar (masalan, 8.5) ishlatilsin."
+          },
+          {
+            "name": "Kubning qirrasini topish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: Kubning hajmi uning qirrasi uzunligini uch marta o'zaro ko'paytirishga teng: V=a⋅a⋅a=a 3 . Kubning bir yog'i kvadrat shaklida bo'lib, uning yuzi S=a⋅a=a 2  formulasi bilan hisoblanadi. Agar kubning hajmi berilgan bo'lsa, uning qirrasini topish uchun kub ildiz chiqariladi (a= 3   V ​ ). Agar kub yog'ining yuzi berilgan bo'lsa, qirrani topish uchun kvadrat ildizdan foydalaniladi (a= S ​ ). MASHQLAR USLUBI: 1. Berilgan hajm qiymatidan kub qirrasini hisoblash (masalan: V=216 cm 3 →a=6 cm). 2. Kub yog'ining yuzi orqali qirra uzunligini aniqlash (masalan: S=49 m 2 →a=7 m). 3. Kvadrat va kub ildiz ostidagi sonlarning qiymatini topish (masalan:  289 ​  yoki  3   1331 ​ ). 4. Kvadratlarga bo'lingan shakllarning umumiy yuzasidan kichik qismlar o'lchamini topish. CHEKLOVLAR: Faqat natijasi butun son chiqadigan musbat ildizlardan foydalanilsin. Irratsional sonlar, manfiy sonlar va o'zgaruvchili (x, y) ifodalar taqiqlanadi. Har qanday turdagi rasm, grafik yoki chizmalardan foydalanish mumkin emas. Fizikaga oid (massa, zichlik) yoki boshqa fanlarga bog'liq bo'lmagan matnli masalalar chiqarib tashlansin."
+          },
+          {
+            "name": "Kuboid va kubning bir yog'i yuzini topish",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Kuboidning bir yog'i yuzini topish uchun uning hajmini shu yuzaga perpendikulyar bo'lgan qirra uzunligiga bo'lish kerak: Yuzi=Hajm/Qirra. 2. Kuboidning hajmi va bir yog'ining yuzi ma'lum bo'lsa, noma'lum qirra uzunligi Qirra=Hajm/Yuzi formulasi bilan topiladi. 3. Kubning bir yog'i yuzini topish uchun avval uning hajmi orqali qirrasi (a= 3   V ​ ), so'ngra qirra kvadratini (S=a 2 ) hisoblash lozim. MASHQLAR USLUBI: 1. Hajm va bitta o'lcham (bo'yi, eni yoki balandligi) berilganda ma'lum bir yog'ning yuzini hisoblash (Masalan: Hajmi 168 cm 3 , balandligi 3 cm bo'lgan kuboidning asos yuzini toping). 2. Hajm va yog' yuzi berilganda uchinchi noma'lum qirrani topish. 3. Kub hajmi asosida uning bir yog'i yuzini ikki bosqichda aniqlash. CHEKLOVLAR: Geometrik chizmalar va rasmlardan foydalanish qat'iyan taqiqlanadi. Faqat musbat va natijasi butun son chiqadigan qiymatlardan foydalanilsin. Kubning to'la sirti yuzi, diagonali yoki boshqa murakkab stereometrik tushunchalar kiritilmasin. Murakkab algebraik o'zgaruvchilar va irratsional sonlar ishlatilmasin."
+          },
+          {
+            "name": "Matnli masalalar",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Kuboid hajmi formula: V=a⋅b⋅h yoki V=S asos ​ ⋅h. 2. Kub hajmi: V=a 3 , bu yerda a - kub qirrasi. 3. Suyuqlik sathi balandligi: h suv ​ =V suv ​ ÷S asos ​ . 4. O'lchov birliklari: 1l=1000cm 3  va 1m 3 =1000l. 5. Idish asosining yuzi kvadrat bo'lsa, tomoni a= S asos ​  ​  kabi topiladi. MASHQLAR USLUBI: 1. Berilgan hajm va balandlik orqali asos yuzi yoki tomonini topish (Masalan: Hajmi 250m 3 , balandligi 10m bo'lgan kuboid asosining tomonini toping). 2. Suyuqlik hajmi o'zgarganda yangi sath balandligini hisoblash (Masalan: Akvariumdan 5472cm 3  suv olinsa, sath qanchaga pasayadi?). 3. Idishning ma'lum qismi to'lgandagi suyuqlik miqdorini litrda aniqlash. 4. Suvning oqish tezligi (l/min) orqali vaqtni yoki sath o'zgarishini topish. CHEKLOVLAR: Faqat kub va to'g'ri burchakli parallelepiped (kuboid) shakllari ishlatilsin. Silindr, konus yoki boshqa murakkab figuralar taqiqlanadi. Rasmlar va grafiklardan foydalanilmasin. Manfiy sonlar va irratsional sonlar (ildiz ostidan chiqmaydigan) ishlatilmasin. Trigonometriya va murakkab funksiyalar kiritilmasin."
+          },
+          {
+            "name": "I takrorlash",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Harakat komponentlari o'rtasidagi bog'liqlik: masofa (s), tezlik (v) va vaqt (t) uchun s = v * t, v = s / t, t = s / v formulalari amal qiladi. 2. O'rtacha tezlik: jami bosib o'tilgan masofani jami sarflangan vaqtga bo'lish orqali topiladi. 3. Birgalikdagi harakat: qarama-qarshi yo'nalishdagi harakatda tezliklar qo'shiladi. 4. Hajm: kuboid hajmi V = a * b * c yoki V = S_asos * h. 5. O'lchov birliklari bog'liqligi: 1 litr = 1 dm³ = 1000 cm³. MASHQLAR USLUBI: 1. Harakat: berilgan vaqt va masofa asosida tezlikni hisoblash (Masalan: 3/4 soatda 9 km yugurgan kishi tezligi). 2. Murakkab harakat: quvib yetish yoki aylanma yo'l bo'ylab harakat tezligini topish (Masalan: 48 minutda 6 km aylana yo'lni bosgan kishining minutlik tezligi). 3. Hajm va sath: idishga oqayotgan suyuqlik hajmi orqali sath balandligini aniqlash (Masalan: 12 l/min tezlikda 9 minutda suv sathi necha sm ko'tarilishi). 4. Qoldiq hajm: shakldan qismlar qirqib olingandan keyingi o'lchamlarni topish. CHEKLOVLAR: Grafik, rasm va geometrik chizmalardan foydalanish taqiqlanadi. Faqat chiziqli harakat va to'g'ri burchakli parallelepiped hajmi bilan cheklaning. Manfiy sonlar, murakkab o'zgaruvchilar va kvadrat ildizlar kiritilmasin. Fizik yoki geografik hikoyalarsiz, sof matematik mantiqqa tayaning."
+          }
         ]
       },
       {
         "chapter": "Doiraviy diagrammalar",
         "index": 9,
         "subtopics": [
-          { "name": "Doiraviy diagrammada ma'lumotlarni taqdim etish", "index": 1 },
-          { "name": "Doiraviy diagrammalardagi ma'lumotlarni o'qish va talqin qilish", "index": 2 }
+          {
+            "name": "Doiraviy diagrammada ma'lumotlarni taqdim etish",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: Doiraviy diagramma ma'lumotlarning butun ob'ektdagi ulushini vizual ifodalash uchun xizmat qiladi. Doira 1 butunni yoki 100% ni ifodalaydi. Ulushlar sonlar, oddiy kasrlar yoki foizlar ko'rinishida berilishi mumkin. Barcha qismlarning yig'indisi har doim 1 ga (1/4+1/4+1/2=1) yoki 100% ga (40+20+40=100%) teng bo'lishi shart. MASHQLAR USLUBI: 1. Berilgan jadvaldagi sonli ma'lumotlarga mos keladigan diagrammani tanlash (masalan: 10, 8, 14, 8 sonlariga mos sektorlarni aniqlash). 2. Ma'lumotlarni kasr yoki foiz ko'rinishiga o'tkazish (masalan: 160 tadan 60 tasi 60/160=3/8 qism yoki 37.5%). 3. Diagrammaning noma'lum qismini topish (masalan: jami 100% dan berilgan 40% va 20% ni ayirib, qolgan 40% ni aniqlash). CHEKLOVLAR: Test savollarida hech qanday rasm, diagramma yoki grafik tasvirlar qo'llanilmasin; diagrammalar matnli tavsif orqali ifodalansin. O'zgaruvchilar (x, y), manfiy sonlar, o'nli kasrlar va murakkab geometrik hisob-kitoblar (gradus o'lchovlari) taqiqlanadi. Faqat oddiy kasrlar va butun foizlar bilan cheklanilsin."
+          },
+          {
+            "name": "Doiraviy diagrammalardagi ma'lumotlarni o'qish va talqin qilish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Doiraviy diagramma ma'lumotlarni butun va uning qismlari o'rtasidagi nisbat sifatida ifodalaydi. 2. Diagrammaning barcha qismlari yig'indisi doimo butunni (1 qism yoki 100%) tashkil qiladi. 3. Diagrammadagi to'g'ri burchakli sektor butunning 1/4 qismini yoki 25% ni anglatadi. 4. Qismlar oddiy kasrlar, foizlar yoki aniq sonli qiymatlar ko'rinishida berilishi mumkin. MASHQLAR USLUBI: 1. Berilgan ulush (kasr yoki foiz) bo'yicha jismoniy miqdorni hisoblash (Masalan: 80 o'quvchining 1/4 qismi fantastika ko'rsa, ularning soni necha kishi?). 2. Eng katta va eng kichik sektorlarni aniqlash orqali taqqoslash. 3. Yetishmayotgan ulushni qolgan qismlar yig'indisini 1 dan ayirish orqali topish. 4. Diagramma ma'lumotlarini ustunli diagramma yoki jadvallar bilan solishtirish. CHEKLOVLAR: Geometrik burchak graduslarini (360 ∘  tahlili) hisoblash so'ralmasin. Tasvirlar yoki grafiklar yaratish taqiqlanadi. Ehtimollar nazariyasi, o'rta arifmetik qiymat va murakkab statistik tahlillar kiritilmasin. Faqat natural sonlar, oddiy kasrlar va foizlar bilan cheklanilsin. O'zgaruvchili (x) algebraik ifodalar ishlatilmasin."
+          }
         ]
       },
       {
         "chapter": "Fazoviy jismlar va ularning yoyilmalari",
         "index": 10,
         "subtopics": [
-          { "name": "Konus, silindr, prizma va piramida", "index": 1 },
-          { "name": "Uch o'lchamli panjarada fazoviy jismlarni chizish", "index": 2 },
-          { "name": "Fazoviy jismlarning yoyilmasi", "index": 3 },
-          { "name": "II takrorlash", "index": 4 },
-          { "name": "Umumiy takrorlash", "index": 5 }
+          {
+            "name": "Konus, silindr, prizma va piramida",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Konus – bitta yassi asos va bitta egri yon sirtdan iborat shakl. 2. Silindr – ikkita parallel yassi asos va bitta egri yon sirtdan iborat shakl. 3. Prizma – ikkita o'zaro teng ko'pburchak asos va yassi yon yoqlardan iborat jism. Kub va kuboid ham prizma turiga kiradi. 4. Piramida – bitta ko'pburchak asos va umumiy uchga ega bo'lgan uchburchak shaklidagi yon yoqlardan iborat jism. MASHQLAR USLUBI: 1. Shakllarni tavsiflash: Berilgan xususiyatlar asosida jism nomini aniqlash (Masalan: Ikkita yassi asosi va egri yon sirti bor jism nima?). 2. Elementlarni sanash: Jismning asoslari shakli va sonini aniqlash (Masalan: Piramidaning asosi qanday shakllarda bo'lishi mumkin?). 3. Taqqoslash: Ikki fazoviy jismning o'xshashlik va farqlarini topish. CHEKLOVLAR: Hajm (V) va sirt yuzasini (S) hisoblashga doir formulalarni kiritmang. Rasmlar, chizmalar va grafiklardan foydalanish qat'iyan man etiladi; shakllarni faqat matnli tavsif orqali bering. Geografik trivia (Misr piramidalari) va oziq-ovqat mahsulotlari (sutli shokolad) haqidagi ma'lumotlarni filtrlang. Murakkab stereometrik isbotlar, trigonometriya va o'zgaruvchili tenglamalarni ishlatmang."
+          },
+          {
+            "name": "Uch o'lchamli panjarada fazoviy jismlarni chizish",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Fazoviy jismlar (kub, kuboid, prizma, piramida, silindr, konus) uch o'lchamli nuqtali (izometrik) panjarada tasvirlanadi. 2. Jismlarning o'lchamlari (uzunligi, eni, balandligi) birliklar (nuqtalar orasidagi masofa) hisobida aniqlanadi. 3. Har bir shaklning o'ziga xos ko'rinishi panjaradagi nuqtalarni to'g'ri chiziqlar yoki yoylar orqali birlashtirish orqali hosil qilinadi. MASHQLAR USLUBI: 1. Berilgan o'lchamlar asosida shaklni panjarada chizish (Masalan: balandligi 4 birlik bo'lgan piramida chizish). 2. Chala qoldirilgan fazoviy jism chizmasini nuqtalar bo'ylab yakunlash. 3. Kundalik hayotdagi buyumlarni geometrik shakl turiga qarab guruhlash (Masalan: chodir - konus yoki piramida). CHEKLOVLAR: Test savollarida rasm yoki grafik tasvirlardan foydalanilmasin (faqat matnli tavsif). Luvr muzeyi yoki Hindlar chodiri kabi tarixiy va geografik ma'lumotlar (trivia) chiqarib tashlansin. Fazoviy jismlarning hajmi yoki sirt yuzasini hisoblash, o'zgaruvchilar (x, y) va murakkab formulalar taqiqlanadi. Faqat vizual tasvirlash va shakllarni aniqlashga e'tibor qaratilsin."
+          },
+          {
+            "name": "Fazoviy jismlarning yoyilmasi",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. O'rtacha tezlikni topish uchun bosib o'tilgan jami masofani shu masofani bosib o'tishga sarflangan jami vaqtga bo'lish kerak: v o ′ rtacha ​ =S jami ​ /t jami ​ . 2. Jami masofa bosib o'tilgan barcha yo'l bo'laklari yig'indisiga teng (S 1 ​ +S 2 ​ +...). 3. Jami vaqt barcha harakat vaqtlari (shu jumladan, agar masalada berilsa, to'xtash vaqtlari) yig'indisidan iborat (t 1 ​ +t 2 ​ +...). 4. Agar yo'lning biror qismida vaqt berilmagan bo'lsa, u t=S/v formulasi orqali hisoblanadi. MASHQLAR USLUBI: 1. Berilgan bir nechta masofa va vaqtlar orqali o'rtacha tezlikni topish (Masalan: 4 m ni 2 s da va 3 m ni 2 s da o'tgan jismning o'rtacha tezligini toping). 2. Yo'lning bir qismi masofasi va vaqti, ikkinchi qismi esa masofasi va tezligi berilganda jami o'rtacha tezlikni hisoblash. 3. Yo'lning ulushlari (masalan, 1/3 qismi) va ma'lum tezliklar orqali jami masofani aniqlash. 4. O'rtacha tezlik va jami masofa berilganda, sarflangan jami vaqtni topish. CHEKLOVLAR: Topshiriqlarni shakllantirishda chizmalar va grafiklardan foydalanish taqiqlanadi. Murakkab nisbiy tezlik (qarama-qarshi yoki bir xil yo'nalishda uchrashish), tezlanish va fizik kuchlar (ishqalanish, og'irlik) tushunchalari kiritilmasin. Natijalar faqat butun son yoki oddiy kasr ko'rinishida bo'lsin; irratsional sonlar va murakkab algebraik o'zgaruvchilar ishlatilmasin."
+          },
+          {
+            "name": "II takrorlash",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Doiraviy diagramma butun miqdor va uning qismlari (foiz, oddiy kasr yoki chorak) o'rtasidagi munosabatni ko'rsatadi. 2. Fazoviy jismlar (kub, kuboid, piramida, prizma) sirtlari ma'lum tartibdagi tekislik shakllaridan ya'ni yoyilmalardan iborat. 3. Kub yoyilmasi 6 ta teng kvadratdan, kuboidniki esa juft-juft bo'lib teng bo'lgan 6 ta to'g'ri to'rtburchakdan tashkil topadi. MASHQLAR USLUBI: 1. Diagrammadagi foiz yoki ulushga ko'ra miqdorni hisoblash (Masalan: 'Jami 400 kishining 30% i ayollar bo'lsa, ularning sonini toping'). 2. Berilgan yoyilma tavsifiga ko'ra u qaysi fazoviy jismni hosil qilishini aniqlash (Masalan: '4 ta uchburchak va 1 ta kvadratdan iborat yoyilma qaysi jismniki?'). 3. Yoyilmaning yetishmayotgan qismini yoki noto'g'ri joylashgan yoqlarini mantiqan topish. 4. Diagramma qismlari orasidagi nisbatni aniqlash. CHEKLOVLAR: Geometrik figuralarni tasvirlashda rasm yoki grafik ishlatish qat'iyan taqiqlanadi (faqat matnli tavsif bering). Hajm va sirt yuzi hisoblash formulalari, irratsional sonlar va algebraik o'zgaruvchilar (x,y) ishlatilmasin. Shar, silindr va konus kabi matnda bo'lmagan murakkab fazoviy jismlarni kiritmang. Faqat natural sonlar, foizlar va oddiy kasrlar bilan cheklaning."
+          },
+          {
+            "name": "Umumiy takrorlash",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Sonning darajasi bir xil ko'paytuvchilarning ko'paytmasini ifodalaydi: a n =a⋅a⋅...⋅a (n marta). 2. a - daraja asosi, n - daraja ko'rsatkichi. 3. a 2  sonning kvadrati, a 3  esa sonning kubi deb ataladi. 4. Amallar tartibi: birinchi bo'lib qavs ichidagi amallar, so'ngra darajaga ko'tarish, keyin ko'paytirish va bo'lish, oxirida qo'shish va ayirish bajariladi. MASHQLAR USLUBI: 1. Sonning darajasini hisoblash (Masalan: 7 3 =343). 2. Daraja qatnashgan ifodalar qiymatini topish (Masalan: 5 2 +12 2 ). 3. Darajalarni solishtirish (Masalan: 2 6  va 6 2 ). 4. Amallar tartibiga rioya qilgan holda qavsli ifodalarni yechish (Masalan: (12−9) 3 ⋅2). CHEKLOVLAR: Grafik va rasmlardan foydalanish taqiqlanadi. Faqat natural sonlar va ularning natural darajalari ishlatilsin. Manfiy sonlar, kasrlar, o'zgaruvchilar (harfiy ifodalar) va ildizlar kiritilmasin. Astronomik masofalar yoki aholi soni kabi mavzuga aloqador bo'lmagan matnli ma'lumotlar (trivia) filtrlanishi shart. Faqat 5-sinf darajasidagi uchinchi tartibli amallar bilan cheklanilsin."
+          }
         ]
       }
     ]

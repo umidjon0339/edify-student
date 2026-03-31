@@ -1,0 +1,228 @@
+[{
+  "category": "9-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "Takrorlash",
+      "index": 1,
+      "subtopics": [
+        {
+          "name": "Uchburchaklar va to'rtburchaklar",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Uchburchak ichki burchaklari yig'indisi 180°, to'rtburchakniki esa 360°. 2. To'g'ri burchakli uchburchakda o'tkir burchaklar yig'indisi 90°. 3. Ikki parallel to'g'ri chiziqni uchinchi chiziq kesib o'tganda hosil bo'lgan ichki bir tomonli burchaklar yig'indisi 180°. 4. Parallelogrammning qarama-qarshi burchaklari teng, bir tomonga yopishgan burchaklari yig'indisi 180°. 5. Uchburchak o'rta chizig'i asosga parallel va uning yarmiga teng. 6. To'g'ri to'rtburchak yuzi $S=ab$ formula bilan topiladi. MASHQLAR USLUBI: 1. Berilgan ikki burchak orqali uchburchakning uchinchi burchagi va tashqi burchaklarini topish (Masalan: A=47°, C=83° bo'lsa, B ni toping). 2. Parallelogramm balandliklari yoki bissektrisalari orasidagi burchakni hisoblash. 3. To'rtburchak tomonlari o'rtalarini tutashtirishdan hosil bo'lgan yangi shakl turini aniqlash va isbotlash. 4. Bissektrisa to'g'ri to'rtburchak tomonini bo'laklarga ajratganda uning perimetri va yuzasini hisoblash. CHEKLOVLAR: Faqat planimetriya elementlari ishlatilsin. Rasmlar va chizmalardan foydalanish man etiladi. Trigonometrik funksiyalar va fazoviy geometriya tushunchalari kiritilmasin."
+        },
+        {
+          "name": "Pifagor teoremasi va uning tatbiqlari",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. To'g'ri burchakli uchburchakda gipotenuza kvadrati katetlar kvadratlari yig'indisiga teng: $c^2 = a^2 + b^2$. 2. Teskari Pifagor teoremasi: agar uchburchak tomonlari uchun $c^2 = a^2 + b^2$ o'rinli bo'lsa, u to'g'ri burchakli hisoblanadi. 3. 30° burchak qarshisidagi katet gipotenuzaning yarmiga teng. 4. To'g'ri burchakli uchburchak yuzi katetlar ko'paytmasining yarmiga teng: $S=0.5ab$. MASHQLAR USLUBI: 1. Berilgan ikki tomon orqali uchinchi tomonni topish. 2. Uchburchak tomonlari berilganda uning to'g'ri burchakli ekanini tekshirish (m: 8, 15, 17 tomonli uchburchak). 3. Geometrik shakllar (romb diagonali, teng yonli uchburchak balandligi) ichida noma'lum kesmani topish. 4. Amaliy masalalar: ikki nuqta orasidagi masofani Pifagor orqali hisoblash. CHEKLOVLAR: Chizmalardan foydalanish taqiqlanadi. Faqat matnli masalalar tuzilsin. Trigonometrik funksiyalar kiritilmasin. Faqat kvadrat ildiz va ratsional sonlar ishlatilsin."
+        },
+        {
+          "name": "Geometrik shakllarning perimetri va yuzini hisoblashga doir masalalar",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Kvadrat: $P=4a, S=a^2$. 2. To‘g‘ri to‘rtburchak: $P=2(a+b), S=ab$. 3. Uchburchak yuzi: $S=1/2ah$. 4. Parallelogramm: $S=ah$. 5. Trapetsiya: $S=(a+b)/2 \\cdot h$. 6. Doira: uzunligi $l=2\\pi r$, yuzi $S=\\pi r^2$. MASHQLAR USLUBI: 1. Berilgan tomonlar asosida ko‘pburchaklar perimetrini topish. 2. Murakkab kompozit shakllarning yuzasini qismlarga bo‘lib hisoblash. 3. Aylana va yarim aylanadan tashkil topgan shakllar chegarasi uzunligini aniqlash. 4. Berilgan yuzadan noma’lum tomonni topish. CHEKLOVLAR: Masalalarda chizmalardan foydalanish taqiqlanadi. Uch o‘lchamli (3D) hajmlar, sinus/kosinuslar teoremasi, koordinatalar metodini qo‘llamang. Faqat tekislikdagi yassi shakllar bilan cheklaning."
+        },
+        {
+          "name": "3D-geometriya - fazoviy jismlarda planimetriya masalalari",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Fazoviy jismlar (prizma, piramida, silindr, konus, shar) va ularning elementlari. 2. To'g'ri burchakli parallelepiped diagonali uchun fazoviy Pifagor teoremasi: $d^2 = a^2 + b^2 + c^2$. 3. Aylanish jismlari sirt yuzasi formulalari: Silindr ($S_{yon}=2\\pi rh, S_{to'la}=2\\pi r^2+2\\pi rh$), Konus ($S_{yon}=\\pi rl, S_{to'la}=\\pi r^2+\\pi rl$), Shar ($S=4\\pi r^2$). 4. Prizma va piramidalar asosining shakliga ko'ra nomlanadi. MASHQLAR USLUBI: 1. Berilgan chiziqli o'lchamlar asosida jism diagonalini yoki qirrasini topish. 2. Sirt yuzasi va material sarfini hisoblash. 3. Aylanish jismlari elementlarini aniqlash (m: balandligi 90 mm va diametri 73 mm bo'lgan finjondagi qoshiq uzunligi). CHEKLOVLAR: Rasmlar va grafiklardan foydalanish taqiqlanadi. Fizika (bosim, massa) va geografiyaga oid ortiqcha ma'lumotlar qo'shilmasin. Integrallar yoki vektorlar ishlatilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Geometrik almashtirishlar va o'xshashlik",
+      "index": 2,
+      "subtopics": [
+        {
+          "name": "Ko'pburchaklarning o'xshashligi",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Ikki ko'pburchakning mos burchaklari o'zaro teng, mos tomonlari esa o'zaro proporsional bo'lsa, o'xshash deyiladi. 2. O'xshash ko'pburchaklar mos tomonlari nisbatiga o'xshashlik koeffitsiyenti $k$ deyiladi. 3. O'xshashlik belgisi $\\sim$ simvoli bilan ko'rsatiladi. MASHQLAR USLUBI: 1. Noma'lum tomon uzunligini o'xshashlik proporsiyasi orqali topish. 2. Berilgan burchaklar va tomonlar nisbati asosida o'xshashlikni aniqlash. 3. Mos tomonlar uzunliklari berilganda $k$ ni hisoblash. CHEKLOVLAR: Hech qanday chizma foydalanilmasin. Yuzalar nisbati, sinus/kosinus amallari, kvadrat ildizlar ishlatilmasin. Faqat chiziqli o'lchamlar va butun/o'nli kasrli proporsiyalar bilan cheklanilsin."
+        },
+        {
+          "name": "O'xshash uchburchaklar va ularning xossalari",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Ikkita o'xshash uchburchak perimetrlarining nisbati: $P_1/P_2 = k$. 2. Ikkita o'xshash uchburchak yuzlarining nisbati: $S_1/S_2 = k^2$. 3. O'xshash uchburchaklarning mos chiziqli elementlari (balandlik, mediana, bissektrisa) nisbati $k$ ga teng. MASHQLAR USLUBI: 1. Yuzlar nisbati orqali $k$ ni aniqlash. 2. Berilgan yuzlar va birinchi uchburchak tomoni orqali ikkinchi uchburchak mos tomonini topish. 3. Perimetr va tomonlar bog'liqligini hisoblash. CHEKLOVLAR: Geometrik chizmalarni ishlatish taqiqlanadi. Trigonometrik funksiyalar, vektorlar yoki koordinatalar sistemasini kiritmang."
+        },
+        {
+          "name": "Uchburchaklar o'xshashligining birinchi alomati",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. BB (Burchak-Burchak) alomati: agar bir uchburchakning ikkita burchagi ikkinchi uchburchakning ikkita burchagiga teng bo'lsa, ular o'xshashdir. 2. O'xshash uchburchaklarning mos tomonlari proporsional bo'ladi. 3. Uchburchakning bir tomoniga parallel to'g'ri chiziq undan o'xshash uchburchak ajratadi. MASHQLAR USLUBI: 1. Burchaklar asosida o'xshashlikni aniqlash. 2. Tomonlar nisbatidan noma'lum $x$ ni topish (m: $4/x = 3/12$). 3. Trapetsiya yoki parallelogramm ichidagi o'xshash uchburchaklar yordamida kesmalarni hisoblash. CHEKLOVLAR: Faqat BB alomatini qo'llang; TBT va TTT taqiqlanadi. Rasmlardan foydalanmang."
+        },
+        {
+          "name": "Uchburchaklar o'xshashligining ikkinchi alomati",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. TBT alomati: Agar ikki tomoni proporsional va ular orasidagi burchaklar teng bo‘lsa, uchburchaklar o‘xshashdir. 2. O'xshashlik koeffitsiyenti $k = AB/A_1B_1 = AC/A_1C_1$. 3. Yuzlar nisbati $S_1/S_2 = k^2$, perimetrlar nisbati $k$ ga teng. MASHQLAR USLUBI: 1. Chiziqli o'lchamlar asosida o'xshashlikni isbotlash va $k$ ni topish. 2. Yuzalar nisbatini hisoblash. 3. Proporsiya va tomonlar ayirmasi orqali noma'lum tomonni topish. CHEKLOVLAR: Chizmalar va grafik tasvirlar taqiqlanadi. Sinuslar/kosinuslar teoremalari kiritilmasin."
+        },
+        {
+          "name": "Uchburchaklar o'xshashligining uchinchi alomati",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. TTT alomati: agar uchta tomoni ikkinchi uchburchakning uchta tomoniga proporsional bo'lsa, o'xshash bo'ladi. 2. Proporsiya: $AB/A_1B_1 = BC/B_1C_1 = CA/C_1A_1 = k$. 3. Perimetrlar nisbati $k$, yuzalar nisbati $k^2$. MASHQLAR USLUBI: 1. Uchta tomon o'lchovlariga ko'ra o'xshashlikni tekshirish. 2. $k$ va yuzalar nisbati orqali noma'lum tomonni topish. 3. Ob'ektning soyasi va balandligi proporsiyasi masalalari. CHEKLOVLAR: Tarixiy va badiiy ma'lumotlar filtrlanishi kerak. Savollarda chizma va tasvirlardan foydalanish taqiqlanadi."
+        },
+        {
+          "name": "To'g'ri burchakli uchburchaklarning o'xshashlik alomatlari",
+          "index": 6,
+          "context": "MAVZU QOIDALARI: 1. Alomatlar: o'tkir burchak tengligi, ikki katet mutanosibligi, gipotenuza va katet mutanosibligi. 2. Mos tomonlar nisbati $k$, yuzlar nisbati $k^2$ ga teng. MASHQLAR USLUBI: 1. Proporsiya orqali noma'lum tomonni topish. 2. Yuzlar nisbati berilganda tomonlarni aniqlash. 3. Daraxt va soya nisbati kabi hayotiy masalalar. 4. Uchburchak ichiga chizilgan kvadrat yoki romb elementlarini hisoblash. CHEKLOVLAR: Chizmalardan foydalanish taqiqlanadi. Trigonometrik funksiyalar ($sin, cos, tg$) ishlatilmasin."
+        },
+        {
+          "name": "O'xshashlik alomatlarining isbotlashga doir masalalarga tatbiqlari",
+          "index": 7,
+          "context": "MAVZU QOIDALARI: 1. Uchburchak bissektrisasi o‘zi tushgan tomonni qolgan ikki tomonga proporsional kesmalarga ajratadi ($AB/BD = AC/DC$). 2. Medianalar kesishish nuqtasi uchburchakni $1/3$ nisbatdagi yuzalarga ajratadi (masalan, $\triangle GAB$ yuzi umumiy yuzaning $1/3$ qismiga teng). 3. Bir xil yoyga tiralgan ichki chizilgan burchaklar tengligi. 4. Trapetsiya diagonallari kesishishidan hosil bo‘lgan uchburchaklar o‘xshashligi. MASHQLAR USLUBI: 1. Bissektrisa xossasiga ko‘ra noma’lum kesmani topish. 2. Medianalar va yuzalar bog‘liqligini hisoblash. 3. Aylana ichidagi o‘xshash uchburchaklar elementlarini aniqlash. CHEKLOVLAR: Rasmlardan foydalanmang, barcha shartlarni matnli ifodalang. Murakkab trigonometriyani taqiqlang."
+        },
+        {
+          "name": "Tekislikda geometrik almashtirishlar. Harakat va parallel ko'chirish",
+          "index": 8,
+          "context": "MAVZU QOIDALARI: 1. Harakat — masofani saqlaydigan shakl almashtirishdir ($XY=X_1Y_1$). 2. Parallel ko‘chirish — nuqtalarni $\\vec{a}(a;b)$ vektor bo‘ylab siljitishdir. 3. Formulalar: $x_1=x+a$ va $y_1=y+b$. 4. To‘g‘ri chiziq to‘g‘ri chiziqqa, kesma o‘ziga teng kesmaga o‘tadi. MASHQLAR USLUBI: 1. Nuqtani vektor bo‘ylab ko‘chirish. 2. Ikki nuqta orqali ko‘chirish vektorini aniqlash. 3. Koordinata boshi qaysi nuqtaga o‘tishini hisoblash. CHEKLOVLAR: Grafik tasvirlar va chizmalar taqiqlanadi. Faqat 2D tekislik koordinatalari bilan cheklanilsin."
+        },
+        {
+          "name": "O'qqa nisbatan simmetriya",
+          "index": 9,
+          "context": "MAVZU QOIDALARI: 1. Nuqtalar o'qqa nisbatan simmetrik bo'lishi uchun o'q ularni birlashtiruvchi kesmaga perpendikulyar va o'rtasidan o'tishi kerak. 2. $A(x; y)$ nuqta $Ox$ o'qiga nisbatan $A_1(x; -y)$ ga, $Oy$ o'qiga nisbatan $A_2(-x; y)$ ga o'tadi. 3. O'qqa nisbatan simmetriya harakatdir. MASHQLAR USLUBI: 1. Nuqta koordinatalarini akslantirish. 2. Nuqta va uning obrazi asosida simmetriya o'qini aniqlash. 3. Shakllarning simmetriya o'qlari sonini topish. CHEKLOVLAR: Tasvir va chizmalardan foydalanish taqiqlanadi. Markaziy simmetriya yoki burish kiritilmasin. Faqat $Ox$ va $Oy$ o'qlari bilan cheklanilsin."
+        },
+        {
+          "name": "Markaziy simmetriya va burish",
+          "index": 10,
+          "context": "MAVZU QOIDALARI: 1. Markaziy simmetriya: $O$ nuqta $AA_1$ kesmaning o'rtasi bo'lishi kerak. 2. Burish: shaklni $O$ nuqta atrofida burchakka siljitish. 3. 180° ga burish — markaziy simmetriya. 4. Koordinata boshiga nisbatan simmetriyada $A(x; y) \to A_1(-x; -y)$. MASHQLAR USLUBI: 1. Simmetriya markazi va nuqta orqali obrazni topish. 2. Shakllarning simmetriya markazi mavjudligini aniqlash. 3. Kvadratni 90° ga burish natijasini hisoblash. CHEKLOVLAR: Geometrik chizmalardan foydalanish taqiqlanadi. Trigonometrik hisob-kitoblar ($sin, cos$) kiritilmasin."
+        },
+        {
+          "name": "Geometrik shakllarning o'xshashligi",
+          "index": 11,
+          "context": "MAVZU QOIDALARI: 1. O‘xshashlik almashtirishi – masofalarning $k$ marta o‘zgarishi ($X^*Y^* = k \\cdot XY$). 2. $k$ – o‘xshashlik koeffitsiyenti. 3. Burchaklar kattaligi o‘zgarmaydi. 4. Perimetrlar nisbati $k$ ga teng ($P^* = k \\cdot P$). MASHQLAR USLUBI: 1. Masshtabga oid masalalar (m: 1:50000 masshtab). 2. $k$ yordamida yangi shakl perimetrini topish. 3. Tomonlar nisbati asosida o‘xshash to‘g‘ri to‘rtburchaklar juftligini aniqlash. CHEKLOVLAR: Tasvirlar va chizmalardan foydalanmang. Yuzalar nisbati ($k^2$) va 3D shakllarni qo‘llamang."
+        },
+        {
+          "name": "O'xshash ko'pburchaklarning xossalari",
+          "index": 12,
+          "context": "MAVZU QOIDALARI: 1. Perimetrlar nisbati $P_2/P_1 = k$. 2. Yuzlar nisbati $S_2/S_1 = k^2$. 3. O‘xshash ko‘pburchaklarni bir xil sondagi o‘xshash uchburchaklarga ajratish mumkin. 4. $k$ mos tomonlar nisbatiga teng. MASHQLAR USLUBI: 1. Perimetrlar nisbati orqali yuzalar nisbatini topish. 2. Masshtab yordamida haqiqiy yuzani hisoblash (m: 1:1000 masshtabdagi 12 $cm^2$). 3. Yuzalar yig‘indisi berilganda har bir yuzani alohida topish. CHEKLOVLAR: Chizmalardan foydalanish taqiqlanadi. Trigonometriya va fazoviy jismlar kiritilmasin."
+        },
+        {
+          "name": "Gomotetiya va o'xshashlik",
+          "index": 13,
+          "context": "MAVZU QOIDALARI: 1. Gomotetiya — $OX_1 = k \\cdot OX$ tenglikни qanoatlantiruvchi almashtirish. 2. Gomotetiya o'xshashlik almashtirishi bo'lib, $X_1Y_1 = k \\cdot XY$ o'rinli. 3. $0 < k < 1$ bo'lganda shakl siqiladi, $k > 1$ bo'lganda cho'ziladi. 4. Ixtiyoriy ikki aylana o'zaro gomotetikdir. MASHQLAR USLUBI: 1. $k$ koeffitsiyent asosida o'zgargan perimetrни hisoblash. 2. Nuqtalar va obrazlar orqali $k$ ни aniqlash. 3. Aylanalar gomotetiklik xossalarни hisoblash. CHEKLOVLAR: Chizmalardan foydalanish taqiqlanadi. Faqat musbat $k > 0$ ishlatilsin. Vektorlar va fazoviy geometriya taqiqlanadi."
+        },
+        {
+          "name": "O'xshash ko'pburchaklarni yasash",
+          "index": 14,
+          "context": "MAVZU QOIDALARI: 1. O'xshash ko'pburchaklar gomotetiya usulida yasaladi. 2. Gomotetiya markazi shaklning istalgan joyida bo'lishi mumkin. 3. Mos tomonlar proporsional ($OA_1 = k \/cdot OA$), burchaklar teng. 4. Perimetrlar nisbati $k$, yuzlar nisbati $k^2$ ga teng. MASHQLAR USLUBI: 1. Perimetr, yuz va $k$ orasidagi bog'liqlik. 2. Berilgan $P_1, P_2, S_1, k$ qiymatlaridan noma'lumni topish. 3. Gomotetiya xossalari haqida nazariy savollar. CHEKLOVLAR: Vizual yasash talab qilinadigan masalalar taqiqlanadi. Masalalar faqat matnli formatda berilsin. Arifmetik amallar va kvadrat ildiz bilan cheklaning."
+        }
+      ]
+    }
+  ]
+},
+{
+  "chapter": "Uchburchak tomonlari va burchaklari orasidagi munosabatlar",
+  "index": 3,
+  "subtopics": [
+    {
+      "name": "0° dan 180° gacha bo'lgan burchakning sinusi, kosinusi, tangensi va kotangensi",
+      "index": 1,
+      "context": "MAVZU QOIDALARI: 1. $0^\\circ$ dan $180^\\circ$ gacha bo‘lgan burchaklar uchun birlik yarim aylana yordamida $\\sin \\alpha = y$, $\\cos \\alpha = x$, $\\text{tg} \\alpha = y/x$ ($x \neq 0$), $\\text{ctg} \\alpha = x/y$ ($y \neq 0$) deb belgilanadi. 2. Asosiy ayniyat: $\\sin^2 \\alpha + \\cos^2 \\alpha = 1$. 3. Keltirish formulalari: $\\sin(180^\\circ - \\alpha) = \\sin \\alpha$, $\\cos(180^\\circ - \\alpha) = -\\cos \\alpha$, $\\sin(90^\\circ - \\alpha) = \\cos \\alpha$, $\\cos(90^\\circ - \\alpha) = \\sin \\alpha$. 4. Qo‘shimcha ayniyatlar: $1 + \\text{tg}^2 \\alpha = 1/\\cos^2 \\alpha$ va $1 + \\text{ctg}^2 \\alpha = 1/\\sin^2 \\alpha$. MASHQLAR USLUBI: 1. Berilgan burchak oralig‘iga ko‘ra trigonometrik funksiyalarning ishoralarini aniqlash. 2. Keltirish formulalari yordamida ifodalarni soddalashtirish. 3. Bir funksiya qiymati orqali boshqasini topish (masalan: $\\sin \\alpha = 3/5$ bo‘lsa, $\\cos \\alpha$ ni toping). 4. Maxsus burchaklar ($0^\\circ, 30^\\circ, 45^\\circ, 60^\\circ, 90^\\circ, 120^\\circ, 135^\\circ, 150^\\circ, 180^\\circ$) uchun jadval qiymatlarini qo‘llash. CHEKLOVLAR: Faqat $0^\\circ$ dan $180^\\circ$ gacha bo‘lgan oraliq bilan cheklaning. Radian o‘lchov birligini va teskari trigonometrik funksiyalarni ishlatmang. Rasmlardan foydalanmang."
+    },
+    {
+      "name": "Uchburchak yuzini burchak sinusi yordamida hisoblash",
+      "index": 2,
+      "context": "MAVZU QOIDALARI: 1. Uchburchak yuzi: $S = \\frac{1}{2}ab \\sin C$. 2. Parallelogramm yuzi: $S = ab \\sin \\alpha$. 3. Ixtiyoriy qavariq to‘rtburchak yuzi: $S = \\frac{1}{2}d_1 d_2 \\sin \\phi$. MASHQLAR USLUBI: 1. Ikki tomon va burchak berilganda yuzani hisoblash (Masalan: $a=6, b=4, \\alpha=30^\\circ$ bo‘lsa, $S$ ni toping). 2. Yuza va bitta tomon berilganda ikkinchi tomonни topish. 3. Diagonallar va burchak orqali to‘rtburchak yoki romb yuzini aniqlash. 4. Uchburchak yuzini bissektrisa yordamida ikkita qismga ajratib hisoblash. CHEKLOVLAR: Chizmalar va rasmlardan foydalanish taqiqlanadi. Fazoviy jismlar (3D) va murakkab integrallar ishlatilmasin. Faqat o‘tkir va o‘tmas burchakli tekis shakllar bilan cheklanilsin."
+    },
+    {
+      "name": "Sinuslar teoremasi",
+      "index": 3,
+      "context": "MAVZU QOIDALARI: 1. Sinuslar teoremasi: $a/\\sin A = b/\\sin B = c/\\sin C$. 2. Tashqi chizilgan aylana bilan bog'liqlik: $a/\\sin A = b/\\sin B = c/\\sin C = 2R$. MASHQLAR USLUBI: 1. Ikki burchak va bir tomon berilganda noma'lum tomonни topish. 2. Berilgan tomonlar va burchak sinusi orqali boshqa burchak sinusini hisoblash. 3. Tashqi chizilgan aylana radiusini ($R$) aniqlash (masalan: $30^\\circ$ burchak qarshisidagi tomon $4.8$ dm bo'lsa, $R$ ni toping). 4. Tomonlar va sinuslar nisbati o'rtasidagi bog'liqlik ($a:b:c = \\sin A:\\sin B:\\sin C$). CHEKLOVLAR: Savollarda chizmalar va grafiklardan foydalanish taqiqlanadi. Kosinuslar teoremasi yoki vektorlar ishlatilmasin. Faqat darslikda keltirilgan sinuslar teoremasi va tashqi aylana radiusi munosabatlari bilan cheklanilsin."
+    },
+    {
+      "name": "Kosinuslar teoremasi",
+      "index": 4,
+      "context": "MAVZU QOIDALARI: 1. Kosinuslar teoremasi: $a^2 = b^2 + c^2 - 2bc \\cos A$. 2. Burchakni topish formulasi: $\\cos A = (b^2 + c^2 - a^2) / (2bc)$. 3. Mediana uzunligini topish formulasi: $m_a = \\frac{1}{2} \\sqrt{2b^2 + 2c^2 - a^2}$. MASHQLAR USLUBI: 1. Ikki tomon va ular orasidagi burchak berilganda uchinchi tomonни topish. 2. Uchburchakning uchta tomoni orqali uning burchaklari kosinusini aniqlash. 3. Parallelogramm diagonallari va burchagi orqali tomonlarни hisoblash. 4. Berilgan tomonlar orqali uchburchak medianasни topish. CHEKLOVLAR: Geometrik chizmalardan foydalanish qat'iyan taqiqlanadi. Sinuslar teoremasни qo'shmang. Standart burchaklar ($30^\\circ, 45^\\circ, 60^\\circ, 120^\rc, 150^\\circ$) kosinuslaridan foydalanilsin."
+    },
+    {
+      "name": "Sinuslar va kosinuslar teoremalarining ba'zi tatbiqlari",
+      "index": 5,
+      "context": "MAVZU QOIDALARI: 1. Uchburchak turini aniqlash: agar eng katta tomon $a$ bo'lib, $b^2+c^2 > a^2$ bo'lsa (o'tkir burchakli), $b^2+c^2 = a^2$ (to'g'ri burchakli), $b^2+c^2 < a^2$ (o'tmas burchakli). 2. Tashqi chizilgan aylana radiusi va yuz bog'liqligi: $S = abc/(4R)$. 3. Geron formulasi: $S = \\sqrt{p(p-a)(p-b)(p-c)}$, bunda $p = (a+b+c)/2$. MASHQLAR USLUBI: 1. Berilgan uchta tomoniga ko'ra uchburchak turini topish. 2. Tomonlari berilgan uchburchakka tashqi chizilgan aylana radiusini ($R$) hisoblash. 3. Eng katta/kichik burchakni yoki tomonни aniqlash. CHEKLOVLAR: Tarixiy-amaliy hikoyalarni qo'shmang. Chizmalardan foydalanmang. Ichki chizilgan aylana radiusi ($r$) kiritilmasin."
+    },
+    {
+      "name": "Ikki vektor orasidagi burchak va ularning skalar ko'paytmasi",
+      "index": 6,
+      "context": "MAVZU QOIDALARI: 1. Vektorlarning skalar ko'paytmasi: $\\vec{a} \\cdot \\vec{b} = |\\vec{a}| \\cdot |\\vec{b}| \\cos \\phi$ yoki koordinatalarda $a_1 b_1 + a_2 b_2$. 2. Ikki vektor orasidagi burchak kosinusi: $\\cos \\phi = \\frac{a_1 b_1 + a_2 b_2}{\\sqrt{a_1^2 + a_2^2} \\cdot \\sqrt{b_1^2 + b_2^2}}$. 3. Perpendikulyarlik sharti: $\\vec{a} \\cdot \\vec{b} = 0$. 4. Vektor uzunligi: $|\\vec{a}| = \\sqrt{a_1^2 + a_2^2}$. MASHQLAR USLUBI: 1. Uzunlik va burchak bo'yicha skalar ko'paytmani topish. 2. Koordinatalar orqali burchakni topish. 3. Noma'lum koordinatani perpendikulyarlik sharti orqali topish. CHEKLOVLAR: Chizmalar taqiqlanadi. Fizika yoki geografiyaga oid no-matematik masalalar qo'shilmasin. Faqat 2D tekislikdagi vektorlar bilan cheklanilsin."
+    },
+    {
+      "name": "Uchburchaklarni yechish",
+      "index": 7,
+      "context": "MAVZU QOIDALARI: 1. Uchburchak ichki burchaklari yig'indisi $180^\\circ$ ga teng. 2. Sinuslar teoremasi: $a/\\sin \\alpha = b/\\sin \\beta = c/\\sin \\gamma$. 3. Kosinuslar teoremasi: $c^2 = a^2 + b^2 - 2ab \\cos \\gamma$. 4. Berilgan elementlar orqali noma'lum qismlarni topish uchburchakni yechish deyiladi. MASHQLAR USLUBI: 1. Bir tomon va ikki burchak orqali yechish. 2. Ikki tomon va ular orasidagi burchak orqali yechish. 3. Uchta tomon orqali burchaklarni topish. CHEKLOVLAR: Chizmalar yaratish taqiqlanadi. Medianalar, bissektrisalar yoki balandliklar haqidagi formulalar ishlatilmasin. Faqat sinus va kosinus teoremalari doirasida qolinsin."
+    }
+  ]
+},
+{
+  "chapter": "Aylana uzunligi va doira yuzi",
+  "index": 4,
+  "subtopics": [
+    {
+      "name": "Aylanaga ichki chizilgan ko'pburchak",
+      "index": 1,
+      "context": "MAVZU QOIDALARI: 1. Ko'pburchakning barcha uchlari aylanada yotsa, u ichki chizilgan deyiladi. 2. To'rtburchakka tashqi aylana chizish sharti: qarama-qarshi burchaklar yig'indisi $180^\\circ$. 3. Tashqi aylana markazi tomonlarning o'rta perpendikulyarlari kesishgan nuqtada yotadi. MASHQLAR USLUBI: 1. Tomonlari berilgan uchburchakka tashqi chizilgan aylana radiusini hisoblash. 2. Ichki chizilgan kvadrat yoki to'g'ri to'rtburchak elementlarini topish. 3. Teng yonli trapetsiya elementlari orqali radiusni Pifagor yordamida aniqlash. CHEKLOVLAR: Chizmalar va rasm yuklash taqiqlanadi. Tarixiy faktlar olib tashlansin. Faqat Pifagor teoremasi va arifmetik amallar bilan cheklaning."
+    },
+    {
+      "name": "Aylanaga tashqi chizilgan ko'pburchak",
+      "index": 2,
+      "context": "MAVZU QOIDALARI: 1. Ko'pburchakning barcha tomonlari aylanaga urinsa, u tashqi chizilgan deyiladi. 2. To'rtburchakka ichki aylana chizish sharti: $a+c = b+d$ (qarama-qarshi tomonlar yig'indisi teng). 3. Ko'pburchak yuzi: $S = pr$, bunda $p$ - yarim perimetr, $r$ - ichki aylana radiusi. MASHQLAR USLUBI: 1. Berilgan yuza va perimetr orqali $r$ ni hisoblash. 2. Tashqi chizilgan to'rtburchakning noma'lum tomonini topish. 3. $S=pr$ va $a+c=b+d$ formulalarini birgalikda qo'llash. CHEKLOVLAR: Rasmlar va chizmalardan foydalanish man etiladi. Tashqi chizilgan aylana ($R$) va fazoviy geometriya ishlatilmasin."
+    },
+    {
+      "name": "Muntazam ko'pburchaklar",
+      "index": 3,
+      "context": "MAVZU QOIDALARI: 1. Muntazam ko'pburchak - tomonlari va burchaklari teng ko'pburchak. 2. Muntazam $n$-burchakning har bir ichki burchagi: $\\frac{n-2}{n} \\cdot 180^\\circ$. 3. Tashqi burchaklar yig'indisi $360^\\circ$ ga teng. MASHQLAR USLUBI: 1. Tomonlar soni $n$ berilganda ichki yoki tashqi burchakni hisoblash. 2. Berilgan burchak qiymati orqali $n$ ni aniqlash. 3. Shaklning muntazamligini tekshirish. CHEKLOVLAR: No-matematik mavzular va chizmalar taqiqlanadi. Radiuslar ($R, r$) va murakkab trigonometrik formulalar kiritilmasin."
+    },
+    {
+      "name": "Muntazam ko'pburchakka ichki va tashqi chizilgan aylanalar",
+      "index": 4,
+      "context": "MAVZU QOIDALARI: 1. Muntazam ko'pburchakda ichki va tashqi aylana markazlari ustma-ust tushadi. 2. Apofema - markazdan tomonga tushirilgan perpendikulyar ($r$ ga teng). 3. Muntazam ko'pburchak yuzi: $S = \\frac{1}{2}nar = pr$. MASHQLAR USLUBI: 1. Berilgan yuza yoki perimetr asosida $R$ va $r$ ni hisoblash. 2. Muntazam uchburchak, kvadrat va oltiburchak uchun radiuslar bog'liqligini aniqlash. 3. Markaziy burchak orqali tomonlar sonini topish. CHEKLOVLAR: Amaliy yasash topshiriqlari va chizmalar taqiqlanadi. Faqat muntazam ko'pburchak elementlari bilan cheklanilsin."
+    },
+    {
+      "name": "Muntazam ko'pburchakning tomoni bilan tashqi va ichki chizilgan aylanalar radiuslari orasidagi bog'lanish",
+      "index": 5,
+      "context": "MAVZU QOIDALARI: 1. Bog'lanishlar: $R = a_n / (2 \\sin(180^\\circ/n))$ va $r = a_n / (2 \\text{tg}(180^\\circ/n))$. 2. Xususiy hollar: Uchburchak ($R = a\\sqrt{3}/3, r = a\\sqrt{3}/6$), Kvadrat ($R = a\\sqrt{2}/2, r = a/2$), Oltiburchak ($R = a, r = a\\sqrt{3}/2$). MASHQLAR USLUBI: 1. Tomon uzunligi orqali $R$ va $r$ ni topish. 2. Radius orqali perimetr yoki yuzni aniqlash. 3. Turli shakllar parametrlarini bir-biriga bog'lash. CHEKLOVLAR: Chizmalar va jadvallar ishlatish taqiqlanadi. Asosan $n=3, 4, 6$ bo'lgan muntazam ko'pburchaklar bilan chegaralaning."
+    },
+    {
+      "name": "Aylana uzunligi",
+      "index": 6,
+      "context": "MAVZU QOIDALARI: 1. Aylana uzunligi: $C = 2\\pi R = \\pi D$. 2. $\\pi \\approx 3.14$. 3. Muntazam uchburchak uchun $R = a/\\sqrt{3}$. MASHQLAR USLUBI: 1. Radius orqali $C$ ni yoki aksincha topish. 2. Radius o'zgarishining $C$ ga ta'sirini aniqlash. 3. G'ildirak aylanishlari va masofaga doir masalalar. CHEKLOVLAR: Tarixiy yoki geografik ma'lumotlarni qo'shmang. Rasmlardan foydalanish taqiqlanadi. Sektor yoyi uzunligi yoki radianlar bu bo'limda ishlatilmasin."
+    },
+    {
+      "name": "Aylana yoyi uzunligi. Burchakning radian o'lchovi",
+      "index": 7,
+      "context": "MAVZU QOIDALARI: 1. $n^\\circ$ li yoy uzunligi: $l = \\frac{\\pi R}{180} \\cdot n$. 2. $1 \\text{ radian} = 180^\\circ / \\pi \\approx 57.3^\\circ$. 3. Gradusdan radianga o'tish: $\\alpha = \\frac{\\pi}{180} \\cdot n^\\circ$. 4. Yoy uzunligi radianda: $l = \\alpha R$. MASHQLAR USLUBI: 1. Gradusni radianga va aksincha o'tkazish. 2. Radius va markaziy burchak orqali $l$ ni topish. CHEKLOVLAR: Chizmalar taqiqlanadi. Sektor yoki segment yuzi formulalari kiritilmasin."
+    },
+    {
+      "name": "Doira yuzi",
+      "index": 8,
+      "context": "MAVZU QOIDALARI: 1. Doira yuzi: $S = \\pi R^2$. 2. Radius va yuza munosabati: $R = \\sqrt{S/\\pi}$. 3. Radiusi $k$ marta ortsa, yuzi $k^2$ marta ortadi. MASHQLAR USLUBI: 1. Radius yoki aylana uzunligi asosida $S$ ni topish. 2. Shakllarga ichki va tashqi chizilgan doiralar yuzini topish. 3. Murakkab shakllar tarkibidagi doira qismlari yuzasini topish. CHEKLOVLAR: Real hayotiy kontekstlar filtrlanishi kerak. Chizma yoki rasmlardan foydalanish taqiqlanadi."
+    },
+    {
+      "name": "Doira bo'laklari yuzi",
+      "index": 9,
+      "context": "MAVZU QOIDALARI: 1. Sektor yuzi: $S = \\frac{\\pi R^2}{360} \\cdot n$ yoki $S = \\frac{1}{2}Rl$. 2. Segment yuzi: $S_{seg} = S_{sekt} \\pm S_{\\triangle}$. MASHQLAR USLUBI: 1. Markaziy burchak va radius orqali sektor/segment yuzini topish. 2. Ma'lum yuza va burchak orqali $R$ ni topish. 3. Halqalar yoki kesilgan doira qismlari yuzini topish. CHEKLOVLAR: Chizmalar taqiqlanadi. Tarixiy ma'lumotlar kiritilmasin. Javoblarda $\\pi$ qatnashgan ifodalarni saqlashga ruxsat beriladi."
+    }
+  ]
+},
+{
+  "chapter": "Uchburchak va aylanadagi metrik munosabatlar",
+  "index": 5,
+  "subtopics": [
+    {
+      "name": "Kesmalar proyeksiyasi va proporsionallik",
+      "index": 1,
+      "context": "MAVZU QOIDALARI: 1. Kesmaning proyeksiyasi - perpendikulyarlar asoslari orasidagi masofa. 2. Parallel to'g'ri chiziqlardagi kesmalar proyeksiyalari o'zaro proporsionaldir ($A_1B_1/AB = C_1D_1/CD$). MASHQLAR USLUBI: 1. Proporsionallikdan noma'lum proyeksiya yoki kesmani topish. 2. Koordinata o'qlaridagi proyeksiyalarni aniqlash. 3. Kesma uchlarining masofalari orqali proyeksiyani hisoblash. CHEKLOVLAR: Chizmalardan foydalanish taqiqlanadi. 3D geometriya yoki vektorlar proyeksiyasi ishlatilmasin."
+    },
+    {
+      "name": "Proporsional kesmalarning xossalari",
+      "index": 2,
+      "context": "MAVZU QOIDALARI: 1. Parallel chiziqlar burchak tomonlaridan proporsional kesmalar ajratadi. 2. Kesmani berilgan nisbatda bo'lish mumkin. 3. To'rtinchi proporsional kesma: $a:b = c:x$. MASHQLAR USLUBI: 1. Kesmani ma'lum nisbatda bo'laklarga ajratish. 2. To'rtinchi proporsional kesmani hisoblash. 3. Shakl tomonlari nisbati orqali qiymatlarni topish. CHEKLOVLAR: Chizg'ich va sirkul bilan yasash qadamlari so'ralmasin. Kvadrat tenglamalar yoki trigonometriya kiritilmasin."
+    },
+    {
+      "name": "To'g'ri burchakli uchburchakdagi proporsional kesmalar",
+      "index": 3,
+      "context": "MAVZU QOIDALARI: 1. Balandlik gipotenuza kesmalari orasida o'rta proporsional: $h^2 = a_c \\cdot b_c$. 2. Katet gipotenuza va uning proyeksiyasi orasida o'rta proporsional: $a^2 = c \\cdot a_c$ va $b^2 = c \\cdot b_c$. 3. Pifagor teoremasi: $a^2 + b^2 = c^2$. MASHQLAR USLUBI: 1. Proyeksiyalar orqali balandlik va katetlarni topish. 2. Katet va proyeksiya orqali gipotenuzani topish. 3. Katetlar nisbati orqali proyeksiyalar nisbatini topish. CHEKLOVLAR: Tarixiy hikoyalar chiqarilsin. Chizmalar taqiqlanadi. Faqat metrik munosabatlar bilan cheklanilsin."
+    },
+    {
+      "name": "Berilgan ikkita kesmaga o'rta proporsional kesmani yasash",
+      "index": 4,
+      "context": "MAVZU QOIDALARI: 1. O'rta proporsional (geometrik) qiymat: $h = \\sqrt{ab}$. 2. O'rta arifmetik va o'rta geometrik munosabati: $(a+b)/2 \\geq \\sqrt{ab}$. MASHQLAR USLUBI: 1. Berilgan uzunliklar orqali $\\sqrt{ab}$ ni hisoblash. 2. Balandlik ajratgan kesmalar orqali yuzni topish. 3. Aylanadagi metrik bog'liqliklarni aniqlash. CHEKLOVLAR: Faqat matnli shartlar tuzing. Yasashga oid vizual 'qiziqarli masalalar' kiritilmasin. Ilg'or trigonometriya ishlatilmasin."
+    },
+    {"name": "Aylanadagi proporsional kesmalar",  "index": 5,  "context": "MAVZU QOIDALARI: 1. Kesishuvchi vatarlar: $AO \\cdot OB = CO \\cdot OD$. 2. Urinma va kesuvchi: $PA^2 = PB \\cdot PC$. 3. Ikki kesuvchi: $PA \\cdot PB = PC \\cdot PD$. MASHQLAR USLUBI: 1. Vatarlar formulasidan noma'lum kesmani topish. 2. Urinma va kesuvchi qoidasini qo'llab hisoblash. 3. Tashqi nuqtadan o'tkazilgan kesmalar bog'liqligini topish. CHEKLOVLAR: Rasmlar va sxemalar taqiqlanadi. Aylana tenglamalari yoki burchak o'lchovlari kiritilmasin."
+    }
+  ]
+}]
