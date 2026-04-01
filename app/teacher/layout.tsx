@@ -9,7 +9,7 @@ import { getUserProfile } from '@/services/userService';
 import { 
   LogOut, LayoutDashboard, Users, GraduationCap, Menu, X, 
   FilePlus, FolderOpen, BookOpen, 
-  User, ChevronDown, Check, Sparkles, ChevronLeft, Settings // 🟢 Added Settings
+  User, ChevronDown, Check, Sparkles, ChevronLeft, Settings,Library 
 } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -39,12 +39,14 @@ const SIDEBAR_TRANSLATIONS = {
       overview: "Umumiy",
       library: "Kutubxona",
       classes: "Sinflar",
+      onlineLibrary: "Onlayn Kutubxona",
       analytics: "AI Tahlilchi",
       profile: "Profil"
     },
     create: "Yangi Test",
     signOut: "Chiqish",
     settings: "Sozlamalar",
+    new: "YANGI",
     logoutConfirm: {
       title: "Tizimdan chiqish",
       desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?",
@@ -58,12 +60,14 @@ const SIDEBAR_TRANSLATIONS = {
       overview: "Overview",
       library: "My Library",
       classes: "My Classes",
+      onlineLibrary: "Online Library",
       analytics: "AI Analytics",
       profile: "Profile"
     },
     create: "New Test",
     signOut: "Sign Out",
     settings: "Settings",
+    new: "NEW",
     logoutConfirm: {
       title: "Sign Out",
       desc: "Are you sure you want to sign out of your account?",
@@ -77,12 +81,14 @@ const SIDEBAR_TRANSLATIONS = {
       overview: "Обзор",
       library: "Библиотека",
       classes: "Классы",
+      onlineLibrary: "Онлайн Библиотека",
       analytics: "ИИ Аналитика",
       profile: "Профиль"
     },
     create: "Новый Тест",
     signOut: "Выйти",
     settings: "Настройки",
+    new: "НОВЫЙ",
     logoutConfirm: {
       title: "Выход",
       desc: "Вы уверены, что хотите выйти из аккаунта?",
@@ -205,6 +211,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
     { name: t.create, href: '/teacher/create', icon: FilePlus, isAI: true }, // Added isAI: true
     { name: t.menu.library, href: '/teacher/library', icon: FolderOpen },
     { name: t.menu.classes, href: '/teacher/classes', icon: Users }, 
+    { name: t.menu.onlineLibrary, href: '/teacher/online-books', icon: Library, isNew: true },
     { name: t.menu.analytics, href: '/teacher/analytics', icon: Sparkles, isAI: true },
     { name: t.menu.profile, href: '/teacher/profile', icon: User },
     { name: t.settings, href: '/teacher/settings', icon: Settings },
@@ -275,6 +282,12 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
                       {item.name}
                       {item.isAI && (
                         <span className="bg-indigo-100 text-indigo-600 text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-tighter">AI</span>
+                      )}
+                      {/* 🟢 THE NEW BADGE RENDERING */}
+                      {item.isNew && (
+                        <span className="bg-emerald-100 text-emerald-600 text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-tighter font-black shadow-sm border border-emerald-200 animate-pulse">
+                          {t.new}
+                        </span>
                       )}
                     </span>
                   )}
