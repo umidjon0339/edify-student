@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -11,7 +11,7 @@ import {
   Users, FileText, Layout, Settings, 
   BookOpen, Star, Zap, BarChart2, Sparkles, 
   ArrowUpRight, ChevronDown, LogOut, User as UserIcon,
-  Play, School, ImageIcon, Bot, Check, Globe
+  Play, School, ImageIcon, Bot, Check, Globe, Library
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTeacherLanguage, LangType } from '@/app/teacher/layout';
@@ -25,18 +25,18 @@ const DASHBOARD_TRANSLATIONS = {
     title: "Boshqaruv Paneli",
     welcome: { morning: "Xayrli tong", afternoon: "Xayrli kun", evening: "Xayrli kech", subtitle: "Asosiy ko'rsatkichlar va tezkor amallar paneli." },
     stats: { students: "Jami O'quvchilar", classes: "Faol Sinflar", tests: "Yaratilgan Testlar" },
-    sections: { quickActions: "Tezkor Amallar" },
+    sections: { quickActions: "Kashfiyot va Yaratish", management: "Boshqaruv" },
     actions: {
-      create: { title: "Yangi Test", desc: "AI orqali yoki qo'lda savollar tuzing" },
       classes: { title: "Sinflarim", desc: "Jurnalni boshqarish" },
       analytics: { title: "Tahlillar", desc: "Umumiy natijalarni ko'rish" },
-      library: { title: "Kutubxona", desc: "Arxiv va qoralamalar" },
+      library: { title: "Mening Arxivim", desc: "Saqlangan testlar va qoralamalar" },
       settings: { title: "Sozlamalar", desc: "Profil va xavfsizlik" }
     },
     magicLinks: {
-      maktab: { badge: "Umumta'lim", title: "Maktab Dasturi", desc: "Davlat standarti asosidagi testlar.", btn: "Boshlash" },
-      aiImage: { badge: "Tezkor 📸", title: "Rasm orqali yaratish", desc: "Darslikni rasmga oling. AI test tuzadi.", btn: "Yuklash" },
-      aiPrompt: { badge: "Moslashuvchan ✨", title: "AI Maxsus Prompt", desc: "Test mavzusini matn orqali tushuntiring.", btn: "Yozish" },
+      maktab: { badge: "Umumta'lim", title: "Maktab Dasturi", desc: "Davlat standarti asosidagi testlar." },
+      aiImage: { badge: "Tezkor 📸", title: "Rasm orqali yaratish", desc: "Darslikni rasmga oling. AI test tuzadi." },
+      aiPrompt: { badge: "Moslashuvchan ✨", title: "AI Maxsus Prompt", desc: "Test mavzusini matn orqali tushuntiring." },
+      onlineLibrary: { badge: "Yangi 🌐", title: "Onlayn Kutubxona", desc: "Xalqaro va mahalliy darsliklarni kashf eting." },
     },
     appPromo: { title: "Edify Mobil Ilovasi", desc: "O'quvchilarni telefoningizdan kuzating.", button: "Google Play" },
     aiLimit: { title: "AI Assistent", remaining: "savol qoldi", reset: "00:00 da yangilanadi", upgrade: "Cheksiz qilish", used: "ishlatildi" },
@@ -46,18 +46,18 @@ const DASHBOARD_TRANSLATIONS = {
     title: "Dashboard",
     welcome: { morning: "Good Morning", afternoon: "Good Afternoon", evening: "Good Evening", subtitle: "Your primary metrics and quick actions." },
     stats: { students: "Total Students", classes: "Active Classes", tests: "Created Tests" },
-    sections: { quickActions: "Quick Actions" },
+    sections: { quickActions: "Discover & Create", management: "Management" },
     actions: {
-      create: { title: "New Test", desc: "Create via AI or manually" },
       classes: { title: "My Classes", desc: "Manage your rosters" },
       analytics: { title: "Analytics", desc: "View performance trends" },
-      library: { title: "Library", desc: "Archives & drafts" },
+      library: { title: "My Archive", desc: "Saved tests & drafts" },
       settings: { title: "Settings", desc: "Profile & security" }
     },
     magicLinks: {
-      maktab: { badge: "Standard", title: "Public School", desc: "Standardized tests based on curriculum.", btn: "Start" },
-      aiImage: { badge: "Quick 📸", title: "Create via Image", desc: "Take a photo of an exam paper.", btn: "Upload" },
-      aiPrompt: { badge: "Flexible ✨", title: "AI Custom Prompt", desc: "Describe your test topic in plain text.", btn: "Write" },
+      maktab: { badge: "Standard", title: "Public School", desc: "Standardized tests based on curriculum." },
+      aiImage: { badge: "Quick 📸", title: "Create via Image", desc: "Take a photo of an exam paper." },
+      aiPrompt: { badge: "Flexible ✨", title: "AI Custom Prompt", desc: "Describe your test topic in plain text." },
+      onlineLibrary: { badge: "New 🌐", title: "Online Library", desc: "Discover international and local textbooks." },
     },
     appPromo: { title: "Edify Mobile App", desc: "Monitor your students directly from your phone.", button: "Google Play" },
     aiLimit: { title: "AI Assistant", remaining: "questions left", reset: "Resets at midnight", upgrade: "Go Unlimited", used: "used" },
@@ -67,18 +67,18 @@ const DASHBOARD_TRANSLATIONS = {
     title: "Панель",
     welcome: { morning: "Доброе утро", afternoon: "Добрый день", evening: "Добрый вечер", subtitle: "Ваши основные показатели и быстрые действия." },
     stats: { students: "Всего Учеников", classes: "Активные Классы", tests: "Создано Тестов" },
-    sections: { quickActions: "Быстрые Действия" },
+    sections: { quickActions: "Создание и Поиск", management: "Управление" },
     actions: {
-      create: { title: "Новый Тест", desc: "Создать с помощью ИИ" },
       classes: { title: "Мои Классы", desc: "Управление журналом" },
       analytics: { title: "Аналитика", desc: "Смотреть тренды" },
-      library: { title: "Библиотека", desc: "Архив и черновики" },
+      library: { title: "Мой Архив", desc: "Сохраненные тесты и черновики" },
       settings: { title: "Настройки", desc: "Профиль и безопасность" }
     },
     magicLinks: {
-      maktab: { badge: "Стандарт", title: "Школьная программа", desc: "Тесты по государственным стандартам.", btn: "Начать" },
-      aiImage: { badge: "Быстро 📸", title: "Создать по фото", desc: "Сфотографируйте экзамен для ИИ.", btn: "Загрузить" },
-      aiPrompt: { badge: "Гибкий ✨", title: "AI Свой Промпт", desc: "Опишите тему теста простыми словами.", btn: "Написать" },
+      maktab: { badge: "Стандарт", title: "Школьная программа", desc: "Тесты по государственным стандартам." },
+      aiImage: { badge: "Быстро 📸", title: "Создать по фото", desc: "Сфотографируйте экзамен для ИИ." },
+      aiPrompt: { badge: "Гибкий ✨", title: "AI Свой Промпт", desc: "Опишите тему теста простыми словами." },
+      onlineLibrary: { badge: "Новое 🌐", title: "Онлайн Библиотека", desc: "Открывайте международные и местные учебники." },
     },
     appPromo: { title: "Мобильное Приложение", desc: "Следите за учениками прямо с телефона.", button: "Google Play" },
     aiLimit: { title: "ИИ Ассистент", remaining: "вопросов осталось", reset: "Сброс в 00:00", upgrade: "Безлимит", used: "использовано" },
@@ -86,12 +86,21 @@ const DASHBOARD_TRANSLATIONS = {
   }
 };
 
-// --- ANIMATION VARIANTS FOR CARDS ---
+const LANGUAGE_OPTIONS = [
+  { code: 'uz', label: "O'zbek", flag: '🇺🇿' },
+  { code: 'en', label: "English", flag: '🇬🇧' },
+  { code: 'ru', label: "Русский", flag: '🇷🇺' }
+];
+
+// --- ANIMATION VARIANTS ---
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+};
+
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 15, scale: 0.98 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.4, duration: 0.6 } },
-  hover: { y: -5, transition: { duration: 0.2 } },
-  tap: { scale: 0.97 }
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };
 
 export default function TeacherDashboard() {
@@ -109,6 +118,8 @@ export default function TeacherDashboard() {
   
   const [userStats, setUserStats] = useState({ students: 0, classes: 0, tests: 0 });
   const [loading, setLoading] = useState(true);
+
+  const activeLanguage = LANGUAGE_OPTIONS.find(l => l.code === lang) || LANGUAGE_OPTIONS[0];
 
   // Time-based greeting
   useEffect(() => {
@@ -147,7 +158,9 @@ export default function TeacherDashboard() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-sans relative">
       
-      {/* --- LOGOUT MODAL --- */}
+      
+
+{/* --- LOGOUT MODAL --- */}
       <AnimatePresence>
         {showLogoutModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -189,31 +202,61 @@ export default function TeacherDashboard() {
         
         <div className="flex items-center gap-2 md:gap-4">
           
-          {/* LANGUAGE SELECTOR */}
-          <div className="relative hidden sm:block">
-            <button 
-              onClick={() => { setIsLangMenuOpen(!isLangMenuOpen); setIsAiMenuOpen(false); setIsProfileMenuOpen(false); }}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
-            >
-              <Globe size={16} />
-              <span className="text-xs font-bold uppercase">{lang}</span>
-              <ChevronDown size={14} className="opacity-50" />
-            </button>
-            <AnimatePresence>
-              {isLangMenuOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-slate-100 p-1 z-50"
-                >
-                  {[{c:'uz', l:"O'zbek"}, {c:'en', l:"English"}, {c:'ru', l:"Русский"}].map((l) => (
-                    <button key={l.c} onClick={() => { setLang(l.c as LangType); setIsLangMenuOpen(false); }} className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors ${lang === l.c ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50'}`}>
-                      {l.l} {lang === l.c && <Check size={14}/>}
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          {/* PREMIUM LANGUAGE SELECTOR */}
+        <div className="relative hidden sm:block">
+          <button 
+            onClick={() => { 
+              setIsLangMenuOpen(!isLangMenuOpen); 
+              setIsAiMenuOpen(false); 
+              setIsProfileMenuOpen(false); 
+            }}
+            aria-haspopup="true"
+            aria-expanded={isLangMenuOpen}
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all duration-200 active:scale-95
+              ${isLangMenuOpen 
+                ? 'bg-slate-50 border-slate-300 shadow-inner' 
+                : 'border-slate-200 hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm'
+              }`}
+          >
+            <span className="text-base leading-none">{activeLanguage.flag}</span>
+            <span className="text-xs font-bold uppercase text-slate-700">{lang}</span>
+            <ChevronDown 
+              size={14} 
+              className={`text-slate-400 transition-transform duration-300 ${isLangMenuOpen ? 'rotate-180 text-slate-600' : ''}`} 
+            />
+          </button>
+
+          <AnimatePresence>
+            {isLangMenuOpen && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10, scale: 0.95 }} 
+                animate={{ opacity: 1, y: 0, scale: 1 }} 
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute top-full right-0 mt-2 w-36 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 p-1.5 z-50"
+              >
+                {LANGUAGE_OPTIONS.map((l) => (
+                  <button 
+                    key={l.code} 
+                    onClick={() => { 
+                      setLang(l.code as LangType); 
+                      setIsLangMenuOpen(false); 
+                    }} 
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all
+                      ${lang === l.code 
+                        ? 'bg-indigo-50/80 text-indigo-700' 
+                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                      }`}
+                  >
+                    <span className="text-sm">{l.flag}</span>
+                    <span className="flex-1 text-left">{l.label}</span>
+                    {lang === l.code && <Check size={14} className="text-indigo-600" />}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
           {/* NOTIFICATION BELL */}
           <div className="flex items-center justify-center p-2 text-slate-500 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors">
@@ -344,16 +387,12 @@ export default function TeacherDashboard() {
         </div>
       </header>
 
-      {/* Click outside listener */}
-      {(isAiMenuOpen || isProfileMenuOpen || isLangMenuOpen) && (
-        <div className="fixed inset-0 z-30" onClick={() => { setIsAiMenuOpen(false); setIsProfileMenuOpen(false); setIsLangMenuOpen(false); }}></div>
-      )}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 md:mt-8 space-y-6 md:space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 md:mt-8 space-y-6 md:space-y-10">
         
         {/* --- WELCOME BANNER --- */}
-        <section className="relative overflow-hidden bg-white rounded-[2rem] p-6 md:p-10 shadow-sm border border-slate-200/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-indigo-100/50 to-purple-100/50 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3"></div>
+        <section className="relative overflow-hidden bg-white rounded-[2rem] p-6 md:p-10 shadow-sm border border-slate-200/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group">
+           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-indigo-100/60 to-purple-100/60 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 group-hover:scale-110 transition-transform duration-1000"></div>
            <div className="relative z-10">
               <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-2">
                 {greeting}, <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">{user?.displayName?.split(' ')[0]}</span>
@@ -363,72 +402,75 @@ export default function TeacherDashboard() {
         </section>
 
         {/* --- STAT CARDS --- */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <ColorfulStat label={t.stats.students} value={userStats.students} icon={Users} color="from-blue-500 to-cyan-500" />
-          <ColorfulStat label={t.stats.classes} value={userStats.classes} icon={Layout} color="from-violet-500 to-fuchsia-500" />
-          <ColorfulStat label={t.stats.tests} value={userStats.tests} icon={FileText} color="from-amber-400 to-orange-500" />
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+          <ColorfulStat label={t.stats.students} value={userStats.students} icon={Users} color="from-blue-500 to-cyan-500" shadow="shadow-blue-500/20" />
+          <ColorfulStat label={t.stats.classes} value={userStats.classes} icon={Layout} color="from-violet-500 to-fuchsia-500" shadow="shadow-violet-500/20" />
+          <ColorfulStat label={t.stats.tests} value={userStats.tests} icon={FileText} color="from-amber-400 to-orange-500" shadow="shadow-orange-500/20" />
         </section>
 
-        {/* --- QUICK ACTIONS GRID & APP PROMO --- */}
+        {/* --- QUICK ACTIONS & PROMO --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 pb-10">
           
-          <div className="lg:col-span-2 space-y-4 md:space-y-6">
-             <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest pl-2">
-               {t.sections.quickActions}
-             </h3>
+          <div className="lg:col-span-2 space-y-8">
              
-             {/* --- THE UPGRADED MAGIC ACTION CARDS --- */}
-             <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1 } } }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                
-                {/* 1. MAKTAB (Blue) */}
-                <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/maktab')} className="group relative bg-white rounded-3xl p-5 border border-slate-200/80 hover:border-blue-300 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-48">
-                  <div className="flex justify-between items-start mb-3 relative z-10">
-                    <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors"><School size={20} strokeWidth={2} /></div>
-                    <span className="px-2 py-1 bg-slate-50 border border-slate-200 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-md group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-200">{t.magicLinks.maktab.badge}</span>
-                  </div>
-                  <h2 className="text-[16px] font-black text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">{t.magicLinks.maktab.title}</h2>
-                  <p className="text-[12px] text-slate-500 font-medium line-clamp-2 mb-4">{t.magicLinks.maktab.desc}</p>
-                </motion.div>
+             {/* --- 1. DISCOVERY & CREATION (The 4 Magic Cards) --- */}
+             <div>
+               <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-2 mb-4">
+                 {t.sections.quickActions}
+               </h3>
+               <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Maktab (Blue) */}
+                  <MagicActionCard 
+                    title={t.magicLinks.maktab.title} desc={t.magicLinks.maktab.desc} badge={t.magicLinks.maktab.badge}
+                    icon={School} theme="blue" href="/teacher/create/maktab" router={router}
+                  />
+                  
+                  {/* Image AI (Rose) */}
+                  <MagicActionCard 
+                    title={t.magicLinks.aiImage.title} desc={t.magicLinks.aiImage.desc} badge={t.magicLinks.aiImage.badge}
+                    icon={ImageIcon} theme="rose" href="/teacher/create/by_image" router={router}
+                  />
 
-                {/* 2. IMAGE AI (Rose) */}
-                <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/by_image')} className="group relative bg-white rounded-3xl p-5 border border-slate-200/80 hover:border-rose-300 hover:shadow-[0_20px_40px_-15px_rgba(244,63,94,0.15)] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-48">
-                  <div className="flex justify-between items-start mb-3 relative z-10">
-                    <div className="w-10 h-10 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center group-hover:bg-rose-500 group-hover:text-white transition-colors"><ImageIcon size={20} strokeWidth={2} /></div>
-                    <span className="px-2 py-1 bg-slate-50 border border-slate-200 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-md group-hover:bg-rose-50 group-hover:text-rose-500 group-hover:border-rose-200">{t.magicLinks.aiImage.badge}</span>
-                  </div>
-                  <h2 className="text-[16px] font-black text-slate-900 mb-1 group-hover:text-rose-500 transition-colors">{t.magicLinks.aiImage.title}</h2>
-                  <p className="text-[12px] text-slate-500 font-medium line-clamp-2 mb-4">{t.magicLinks.aiImage.desc}</p>
-                </motion.div>
+                  {/* Prompt AI (Violet) */}
+                  <MagicActionCard 
+                    title={t.magicLinks.aiPrompt.title} desc={t.magicLinks.aiPrompt.desc} badge={t.magicLinks.aiPrompt.badge}
+                    icon={Bot} theme="violet" href="/teacher/create/by_user_input" router={router}
+                  />
 
-                {/* 3. PROMPT AI (Violet) */}
-                <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/by_user_input')} className="group relative bg-white rounded-3xl p-5 border border-slate-200/80 hover:border-violet-300 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.15)] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-48">
-                  <div className="flex justify-between items-start mb-3 relative z-10">
-                    <div className="w-10 h-10 bg-violet-50 text-violet-600 rounded-xl flex items-center justify-center group-hover:bg-violet-600 group-hover:text-white transition-colors"><Bot size={20} strokeWidth={2} /></div>
-                    <span className="px-2 py-1 bg-slate-50 border border-slate-200 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-md group-hover:bg-violet-50 group-hover:text-violet-600 group-hover:border-violet-200">{t.magicLinks.aiPrompt.badge}</span>
-                  </div>
-                  <h2 className="text-[16px] font-black text-slate-900 mb-1 group-hover:text-violet-600 transition-colors">{t.magicLinks.aiPrompt.title}</h2>
-                  <p className="text-[12px] text-slate-500 font-medium line-clamp-2 mb-4">{t.magicLinks.aiPrompt.desc}</p>
-                </motion.div>
+                  {/* Online Library (Emerald) */}
+                  <MagicActionCard 
+                    title={t.magicLinks.onlineLibrary.title} desc={t.magicLinks.onlineLibrary.desc} badge={t.magicLinks.onlineLibrary.badge}
+                    icon={Globe} theme="emerald" href="/teacher/online-books" router={router}
+                  />
 
-                {/* Standard Links */}
-                <OutlineActionTile icon={BookOpen} label={t.actions.classes.title} sub={t.actions.classes.desc} href="/teacher/classes" />
-                <OutlineActionTile icon={BarChart2} label={t.actions.analytics.title} sub={t.actions.analytics.desc} href="/teacher/analytics" />
-                <OutlineActionTile icon={Star} label={t.actions.library.title} sub={t.actions.library.desc} href="/teacher/library" />
+               </motion.div>
+             </div>
 
-             </motion.div>
+             {/* --- 2. MANAGEMENT (The 3 Outline Cards) --- */}
+             <div>
+               <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-2 mb-4">
+                 {t.sections.management}
+               </h3>
+               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <OutlineActionTile icon={BookOpen} label={t.actions.classes.title} sub={t.actions.classes.desc} href="/teacher/classes" />
+                  <OutlineActionTile icon={BarChart2} label={t.actions.analytics.title} sub={t.actions.analytics.desc} href="/teacher/analytics" />
+                  <OutlineActionTile icon={Star} label={t.actions.library.title} sub={t.actions.library.desc} href="/teacher/library" />
+               </div>
+             </div>
+
           </div>
 
-          {/* --- NEW SLEEK GOOGLE PLAY PROMO --- */}
+          {/* --- GOOGLE PLAY PROMO --- */}
           <div className="space-y-4 md:space-y-6">
-             <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest pl-2 hidden lg:block select-none opacity-0">Promo</h3>
+             <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-2 hidden lg:block select-none opacity-0">Promo</h3>
              
-             {/* Decreased height, horizontal layout */}
-             <div className="relative overflow-hidden bg-[#0F172A] rounded-3xl p-6 shadow-xl border border-slate-800 flex flex-col group">
-                {/* Subtle Glow */}
-                <div className="absolute top-[-50%] right-[-20%] w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/30 transition-colors duration-700"></div>
+             <div className="relative overflow-hidden bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-800 flex flex-col group h-[220px]">
+                {/* Animated Background Blob */}
+                <div className="absolute top-[-20%] right-[-10%] w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/40 group-hover:scale-110 transition-all duration-700"></div>
                 
                 <div className="flex items-center gap-4 mb-5 relative z-10">
-                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
+                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30 shrink-0 group-hover:scale-105 transition-transform">
                     <Play size={24} className="text-white ml-1" fill="currentColor" />
                   </div>
                   <div>
@@ -439,9 +481,8 @@ export default function TeacherDashboard() {
                 
                 <a 
                   href="https://play.google.com/store/apps/details?id=uz.wasp2ai.edifyteachers" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="relative z-10 w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-black rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 mt-auto backdrop-blur-md"
+                  target="_blank" rel="noopener noreferrer"
+                  className="relative z-10 w-full py-3.5 px-4 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-black rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 mt-auto backdrop-blur-md"
                 >
                   {t.appPromo.button} <ArrowUpRight size={16} className="opacity-70" />
                 </a>
@@ -454,30 +495,71 @@ export default function TeacherDashboard() {
   );
 }
 
+// --- NEW COMPONENT: MAGIC ACTION CARD ---
+const themeStyles = {
+  blue: { bg: 'group-hover:bg-blue-50', text: 'group-hover:text-blue-600', border: 'hover:border-blue-300', shadow: 'hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)]', iconBg: 'bg-blue-50 group-hover:bg-blue-600', iconText: 'text-blue-600 group-hover:text-white', badgeBg: 'group-hover:bg-blue-100', badgeText: 'group-hover:text-blue-700' },
+  rose: { bg: 'group-hover:bg-rose-50', text: 'group-hover:text-rose-600', border: 'hover:border-rose-300', shadow: 'hover:shadow-[0_20px_40px_-15px_rgba(244,63,94,0.2)]', iconBg: 'bg-rose-50 group-hover:bg-rose-500', iconText: 'text-rose-500 group-hover:text-white', badgeBg: 'group-hover:bg-rose-100', badgeText: 'group-hover:text-rose-700' },
+  violet: { bg: 'group-hover:bg-violet-50', text: 'group-hover:text-violet-600', border: 'hover:border-violet-300', shadow: 'hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.2)]', iconBg: 'bg-violet-50 group-hover:bg-violet-600', iconText: 'text-violet-600 group-hover:text-white', badgeBg: 'group-hover:bg-violet-100', badgeText: 'group-hover:text-violet-700' },
+  emerald: { bg: 'group-hover:bg-emerald-50', text: 'group-hover:text-emerald-600', border: 'hover:border-emerald-300', shadow: 'hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.2)]', iconBg: 'bg-emerald-50 group-hover:bg-emerald-500', iconText: 'text-emerald-500 group-hover:text-white', badgeBg: 'group-hover:bg-emerald-100', badgeText: 'group-hover:text-emerald-700' }
+};
+
+const MagicActionCard = ({ title, desc, badge, icon: Icon, theme, href, router }: any) => {
+  const styles = themeStyles[theme as keyof typeof themeStyles];
+
+  return (
+    <motion.div 
+      variants={cardVariants}
+      onClick={() => router.push(href)} 
+      className={`group relative bg-white rounded-3xl p-6 border border-slate-200/80 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-[180px] ${styles.border} ${styles.shadow}`}
+    >
+      {/* Background Hover Effect */}
+      <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-transparent to-black/5 pointer-events-none ${styles.bg}`}></div>
+      
+      <div className="flex justify-between items-start mb-4 relative z-10">
+        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-sm ${styles.iconBg} ${styles.iconText}`}>
+          <Icon size={22} strokeWidth={2.5} />
+        </div>
+        <span className={`px-2.5 py-1 bg-slate-50 border border-slate-200/60 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-lg transition-colors duration-300 ${styles.badgeBg} ${styles.badgeText}`}>
+          {badge}
+        </span>
+      </div>
+      
+      <div className="relative z-10 mt-auto">
+        <h2 className={`text-lg font-black text-slate-900 mb-1 transition-colors duration-300 ${styles.text}`}>
+          {title}
+        </h2>
+        <p className="text-sm text-slate-500 font-medium line-clamp-2 leading-relaxed">
+          {desc}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
 // --- SUB-COMPONENTS ---
-const ColorfulStat = ({ label, value, icon: Icon, color }: any) => (
-  <div className={`bg-gradient-to-br ${color} p-6 rounded-[2rem] shadow-lg text-white flex items-center gap-5 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group`}>
-    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 bg-white/20 backdrop-blur-sm border border-white/10 group-hover:scale-110 transition-transform">
+const ColorfulStat = ({ label, value, icon: Icon, color, shadow }: any) => (
+  <div className={`bg-gradient-to-br ${color} p-6 rounded-[2rem] shadow-xl ${shadow} text-white flex items-center gap-5 hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden group`}>
+    <div className="absolute top-[-20%] right-[-10%] w-32 h-32 bg-white/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 bg-white/20 backdrop-blur-sm border border-white/10 group-hover:scale-110 group-hover:rotate-3 transition-transform">
       <Icon size={26} strokeWidth={2.5} className="text-white" />
     </div>
     <div className="relative z-10">
-      <h3 className="text-4xl font-black tracking-tight">{value}</h3>
-      <p className="text-[11px] font-black text-white/80 uppercase tracking-widest mt-1">{label}</p>
+      <h3 className="text-4xl font-black tracking-tight drop-shadow-sm">{value}</h3>
+      <p className="text-[11px] font-black text-white/90 uppercase tracking-widest mt-1">{label}</p>
     </div>
   </div>
 );
 
 const OutlineActionTile = ({ icon: Icon, label, sub, href }: any) => (
-  <Link href={href} className="flex flex-col justify-between p-5 rounded-3xl bg-white border border-slate-200/60 shadow-sm hover:border-indigo-300 hover:shadow-md transition-all duration-300 hover:-translate-y-1 h-36 sm:h-48 group">
-    <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+  <Link href={href} className="flex flex-col justify-between p-5 rounded-3xl bg-white border border-slate-200/80 hover:border-indigo-300 hover:shadow-[0_10px_30px_-15px_rgba(99,102,241,0.2)] transition-all duration-300 hover:-translate-y-1 h-36 group">
+    <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 text-slate-500 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:scale-110">
       <Icon size={20} strokeWidth={2} />
     </div>
     <div>
       <h4 className="font-black text-slate-900 text-[15px] group-hover:text-indigo-600 transition-colors flex items-center justify-between">
         {label} <ArrowUpRight size={16} className="opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 text-indigo-600" />
       </h4>
-      <p className="text-slate-500 text-[11px] font-medium mt-1 leading-relaxed line-clamp-2 hidden sm:block">{sub}</p>
+      <p className="text-slate-500 text-[11px] font-medium mt-1 leading-relaxed line-clamp-1">{sub}</p>
     </div>
   </Link>
 );
@@ -491,3 +573,5 @@ const DashboardSkeleton = () => (
     </div>
   </div>
 );
+
+

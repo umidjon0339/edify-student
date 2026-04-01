@@ -8,7 +8,8 @@ import {
   Github, Linkedin, Send, FlaskConical, Play, Presentation, 
   GraduationCap, Smartphone, Wand2, BrainCircuit, Lightbulb, 
   LineChart, FileDown, CheckCircle2, UserCheck, Layout,
-  FileText, CheckCircle,Sparkles
+  FileText, CheckCircle,Sparkles,
+  BarChart2
 } from 'lucide-react';
 import Link from 'next/link';
 import { LanguageContext } from './layout';
@@ -27,6 +28,12 @@ const TRANSLATIONS = {
       card1: { title: "Avtomatik baholash", desc: "Testlar soniyalarda tekshiriladi" },
       card2: { title: "Kimlar uchun?", items: ["🏢 Xususiy maktablar", "🏫 O'quv markazlari", "👨‍🏫 Repetitorlar", "🎓 O'quvchilar"] },
       card3: { title: "Edify AI Yordamchi", desc: "Testlarni 10x tezroq yarating" }
+    },
+    globalLibrary: {
+      badge: "YANGI IMKONIYAT",
+      title: "Xalqaro Ta'lim Dasturlari Kutubxonasi",
+      desc: "AQSh va mahalliy ta'lim standartlari (B.E.S.T. va boshqalar) asosidagi ochiq darsliklar va qo'llanmalarni bepul o'qing. O'quvchilaringizga eng yaxshi bilimlarni bering.",
+      button: "Kutubxonaga o'tish"
     },
     stats: {
       badge: "Statistika",
@@ -96,6 +103,12 @@ const TRANSLATIONS = {
       card2: { title: "For Whom?", items: ["🏢 Private Schools", "🏫 Learning Centers", "👨‍🏫 Tutors", "🎓 Students"] },
       card3: { title: "Edify AI Assistant", desc: "Create tests 10x faster" }
     },
+    globalLibrary: {
+      badge: "NEW FEATURE",
+      title: "Global Curriculum Library",
+      desc: "Access curated open educational resources and standardized textbooks (like Florida B.E.S.T.) from the USA and locally. Provide your students with world-class materials.",
+      button: "Explore Library"
+    },
     stats: {
       badge: "Statistics",
       titlePrefix: "Edify in",
@@ -141,6 +154,7 @@ const TRANSLATIONS = {
       getItOn: "Get it on",
       googlePlay: "Google Play"
     },
+    
     footer: {
       desc: "An innovative platform specially developed for the Uzbekistan education system by Wasp-2 AI.",
       platform: "Platform",
@@ -164,6 +178,14 @@ const TRANSLATIONS = {
       card2: { title: "Для кого?", items: ["🏢 Частные школы", "🏫 Учебные центры", "👨‍🏫 Репетиторы", "🎓 Ученики"] },
       card3: { title: "Edify AI Помощник", desc: "Создавайте тесты в 10 раз быстрее" }
     },
+
+    globalLibrary: {
+      badge: "НОВАЯ ФУНКЦИЯ",
+      title: "Библиотека Глобальных Программ",
+      desc: "Изучайте открытые учебные материалы и стандартизированные учебники (США и местные). Дайте своим ученикам знания мирового уровня.",
+      button: "Перейти в библиотеку"
+    },
+    
     stats: {
       badge: "Статистика",
       titlePrefix: "Edify в",
@@ -555,7 +577,82 @@ export default function LandingPage() {
           </div>
         </section>
 
-        
+        {/* 🟢 NEW: GLOBAL LIBRARY BANNER (Shorter, highly attractive bridge section) */}
+        <section className="bg-[#F8FAFC] pt-24 pb-12 relative z-20 px-4 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative rounded-[2.5rem] bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 overflow-hidden shadow-2xl shadow-indigo-500/20 flex flex-col lg:flex-row items-center justify-between p-8 md:p-12 lg:p-16 border border-indigo-400/30"
+            >
+              {/* Abstract Background Glows */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none translate-x-1/3 -translate-y-1/3" />
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none -translate-x-1/3 translate-y-1/3" />
+
+              {/* Left Side: Content */}
+              <div className="relative z-10 lg:w-3/5 text-center lg:text-left mb-10 lg:mb-0">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-cyan-300 text-[10px] font-black uppercase tracking-widest mb-6 backdrop-blur-md">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+                  </span>
+                  {t.globalLibrary.badge}
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-5 tracking-tight leading-tight">
+                  {t.globalLibrary.title}
+                </h2>
+                <p className="text-indigo-100 text-[15px] md:text-[17px] font-medium leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
+                  {t.globalLibrary.desc}
+                </p>
+                <Link 
+                  href="/teacher/online-books" 
+                  className="inline-flex items-center gap-2 bg-white text-indigo-600 hover:bg-slate-50 font-black py-3.5 px-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all active:scale-95 group"
+                >
+                  <Globe size={20} className="group-hover:rotate-12 transition-transform duration-300" />
+                  {t.globalLibrary.button}
+                </Link>
+              </div>
+
+              {/* Right Side: Floating Books & Flags Illusion */}
+              <div className="relative z-10 w-full lg:w-2/5 h-64 lg:h-full flex items-center justify-center">
+                
+                {/* Center Book Icon */}
+                <div className="absolute z-30 w-24 h-24 bg-white rounded-3xl shadow-2xl flex items-center justify-center border-4 border-indigo-100 animate-[bounce_4s_infinite]">
+                  <BookOpen size={40} className="text-indigo-600" />
+                </div>
+
+                {/* USA Floating Tag */}
+                <div className="absolute z-20 -top-4 right-10 md:right-20 lg:right-10 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl border border-white/50 flex items-center gap-2 animate-[bounce_5s_infinite_0.5s]">
+                  <span className="text-xl">🇺🇸</span>
+                  <div className="text-left">
+                    <p className="text-[10px] font-black text-slate-400 uppercase leading-none">Curriculum</p>
+                    <p className="text-sm font-bold text-slate-800 leading-tight">USA B.E.S.T.</p>
+                  </div>
+                </div>
+
+                {/* UZB Floating Tag */}
+                <div className="absolute z-20 bottom-0 left-10 md:left-20 lg:left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl border border-white/50 flex items-center gap-2 animate-[bounce_6s_infinite_1s]">
+                  <span className="text-xl">🇺🇿</span>
+                  <div className="text-left">
+                    <p className="text-[10px] font-black text-slate-400 uppercase leading-none">Standart</p>
+                    <p className="text-sm font-bold text-slate-800 leading-tight">O'zbekiston</p>
+                  </div>
+                </div>
+
+                {/* Math/Subject Floating Tag */}
+                <div className="absolute z-10 top-1/2 -right-4 lg:-right-8 bg-indigo-900/40 backdrop-blur-xl px-4 py-3 rounded-2xl shadow-2xl border border-indigo-400/30 flex items-center gap-3 animate-[bounce_4.5s_infinite_0.2s]">
+                  <div className="bg-cyan-400/20 p-1.5 rounded-lg text-cyan-300">
+                    <BarChart2 size={16} />
+                  </div>
+                  <p className="text-sm font-bold text-white tracking-wide">Algebra & Geometry</p>
+                </div>
+
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
         {/* 🟢 UPGRADED: MOBILE APPS SECTION (Premium & Highly Attractive) */}
         <section className="bg-[#F8FAFC] py-24 relative z-20 border-t border-slate-100 overflow-hidden">
