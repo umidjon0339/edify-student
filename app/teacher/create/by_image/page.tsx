@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, DragEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, Wand2, CheckCircle2, Trash2, EyeOff, Eye, BookOpen, Layers, Minus, Plus, UploadCloud, Image as ImageIcon, X, Bot, Zap } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, Wand2, CheckCircle2, Trash2, EyeOff, Eye, BookOpen, Layers, Minus, Plus, UploadCloud, Image as ImageIcon, X, Bot, Zap, Lightbulb } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -30,6 +30,9 @@ const PAGE_TRANSLATIONS = {
     modalNext: "Keyingi qadam",
     uploadTitle: "Rasmni yuklang",
     uploadDesc: "Darslik, qo'llanma yoki test qog'ozining rasmini yuklang (Maksimal 2 ta).",
+    // 🟢 NEW TRANSLATIONS
+    howItWorksTitle: "Qanday ishlaydi?",
+    howItWorksDesc: "Darslikdagi biror mavzu yoki savolni rasmga oling. AI rasm mavzusini o'rganib, xuddi shunga o'xshash yangi testlar yaratib beradi.",
     dragDrop: "Rasmni shu yerga tashlang yoki yuklash uchun bosing",
     optionalPrompt: "Qo'shimcha ko'rsatma (Ixtiyoriy)",
     placeholder: "Masalan: Shu rasmning mavzusi bo'yicha sal qiyinroq savollar tuzing...",
@@ -54,6 +57,9 @@ const PAGE_TRANSLATIONS = {
     modalNext: "Next Step",
     uploadTitle: "Upload Material",
     uploadDesc: "Upload a photo of a textbook, worksheet, or exam paper (Max 2).",
+    // 🟢 NEW TRANSLATIONS
+    howItWorksTitle: "How it works:",
+    howItWorksDesc: "Take a photo of a topic or a specific question. The AI will analyze the image and generate new, similar questions based on that topic.",
     dragDrop: "Drag and drop images here or click to browse",
     optionalPrompt: "Additional Instructions (Optional)",
     placeholder: "E.g., Generate slightly harder questions based on this image's topic...",
@@ -78,6 +84,9 @@ const PAGE_TRANSLATIONS = {
     modalNext: "Следующий Шаг",
     uploadTitle: "Загрузите материал",
     uploadDesc: "Загрузите фото учебника, рабочего листа или экзамена (Макс. 2).",
+    // 🟢 NEW TRANSLATIONS
+    howItWorksTitle: "Как это работает:",
+    howItWorksDesc: "Сфотографируйте тему или вопрос. ИИ проанализирует изображение и создаст новые похожие вопросы по этой теме.",
     dragDrop: "Перетащите изображения сюда или нажмите для выбора",
     optionalPrompt: "Дополнительные инструкции (необязательно)",
     placeholder: "Например, Создай вопросы немного сложнее по теме этого фото...",
@@ -565,6 +574,18 @@ export default function AIImageInputPage() {
 
   </div>
 </div>
+
+          {/* 🟢 NEW: "HOW IT WORKS" INFO BANNER */}
+          <div className="mb-6 bg-blue-50/50 border border-blue-100 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+            <div className="bg-blue-100 text-blue-600 p-2 rounded-lg shrink-0 mt-0.5">
+              <Lightbulb size={18} />
+            </div>
+            <p className="text-[13px] text-blue-900/80 font-medium leading-relaxed">
+              <span className="font-bold text-blue-900 mr-1">{t.howItWorksTitle}</span>
+              {t.howItWorksDesc}
+            </p>
+          </div>
+          {/* 🔴 END OF NEW BANNER */}
 
           <div 
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}

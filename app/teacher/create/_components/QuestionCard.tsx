@@ -19,6 +19,7 @@ const REPORT_TRANSLATIONS = {
       wrongAns: "Noto'g'ri javob",
       typo: "Imlo xatosi / Format",
       missing: "Ma'lumot/Rasm yetishmaydi",
+      wrongTopic: "Boshqa mavzudan",
       other: "Boshqa"
     },
     submit: "Yuborish",
@@ -34,6 +35,7 @@ const REPORT_TRANSLATIONS = {
       wrongAns: "Wrong Answer",
       typo: "Typo / Formatting",
       missing: "Missing Info/Image",
+      wrongTopic: "Wrong Topic",
       other: "Other"
     },
     submit: "Submit",
@@ -49,6 +51,7 @@ const REPORT_TRANSLATIONS = {
       wrongAns: "Неверный ответ",
       typo: "Опечатка / Формат",
       missing: "Нет данных/картинки",
+      wrongTopic: "Не по теме",
       other: "Другое"
     },
     submit: "Отправить",
