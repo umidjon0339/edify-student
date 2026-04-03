@@ -1,0 +1,146 @@
+[
+  {
+    "category": "8-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Odam organizmi to'g'risida umumiy ma'lumot",
+        "index": 1,
+        "subtopics": [
+          { "name": "Odam organizmining hujayraviy tuzilishi", "index": 1 },
+          { "name": "Hujayra va organizmning hayotiy xossalari", "index": 2 },
+          { "name": "To'qimalar, organlar va organizm", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Organizm funksiyasining boshqarilishi, sekretsiya bezlari",
+        "index": 2,
+        "subtopics": [
+          { "name": "Organizm funksiyasining gumoral va nerv boshqarilishi", "index": 1 },
+          { "name": "Sekretsiya bezlari, qalqonsimon bez", "index": 2 },
+          { "name": "Qalqonoldi, gipofiz, ayrisimon bez, buyrakusti bezlari, ularning tuzilishi va funksiyasi", "index": 3 },
+          { "name": "Oshqozonosti va jinsiy bezlar, sekretsiya bezlari ishining boshqarilishi", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Tayanch-harakatlanish sistemasi",
+        "index": 3,
+        "subtopics": [
+          { "name": "Tayanch-harakatlanish sistemasining tuzilishi, funksiyasi va ahamiyati", "index": 1 },
+          { "name": "Suyaklarning tuzilishi va o'sishi", "index": 2 },
+          { "name": "Suyaklar shikastlanganida birinchi yordam ko'rsatish", "index": 3 },
+          { "name": "Muskullar", "index": 4 },
+          { "name": "Muskullarning rivojlanishi, odam qad-qomatining shakllanishi", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Qon",
+        "index": 4,
+        "subtopics": [
+          { "name": "Qon va uning vazifasi", "index": 1 },
+          { "name": "Qonning kimyoviy tarkibi", "index": 2 },
+          { "name": "Eritrotsitlar", "index": 3 },
+          { "name": "Leykotsitlar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Qon aylanish sistemasi",
+        "index": 5,
+        "subtopics": [
+          { "name": "Qon aylanishining ahamiyati, yurakning tuzilishi", "index": 1 },
+          { "name": "Qon tomirlari, qon aylanish doirasi", "index": 2 },
+          { "name": "Qonning qon tomirlari bo'ylab oqishi", "index": 3 },
+          { "name": "Qon aylanish organlari ishining boshqarilishi", "index": 4 },
+          { "name": "Tomirlardan qon ketganida birinchi yordam ko'rsatish", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Nafas olish sistemasi",
+        "index": 6,
+        "subtopics": [
+          { "name": "Nafas olish organlarining tuzilishi", "index": 1 },
+          { "name": "O'pkalar va to'qimalarda gazlar almashinuvi", "index": 2 },
+          { "name": "Nafas olishning boshqarilishi, nafas olish organlari kasalliklari", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Ovqat hazm qilish sistemasi",
+        "index": 7,
+        "subtopics": [
+          { "name": "Ovqat hazm qilish sistemasi organlari", "index": 1 },
+          { "name": "Ovqat hazm qilish sistemasi organlarining tuzilishi va funksiyasi", "index": 2 },
+          { "name": "Ovqat hazm qilishning boshqarilishi", "index": 3 },
+          { "name": "Oshqozon-ichak kasalliklari va ularning oldini olish", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Moddalar va energiya almashinuvi",
+        "index": 8,
+        "subtopics": [
+          { "name": "Moddalar va energiya almashinuvining ahamiyati", "index": 1 },
+          { "name": "Oqsillar, karbonsuvlar va yog'lar almashinuvi", "index": 2 },
+          { "name": "Vitaminlar va ularning ahamiyati", "index": 3 },
+          { "name": "Organizmda energiya sarfi", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Teri va siydik ayirish sistemasi",
+        "index": 9,
+        "subtopics": [
+          { "name": "Terining tuzilishi va funksiyasi", "index": 1 },
+          { "name": "Ter bezlari va teri hosilalari", "index": 2 },
+          { "name": "Teri gigiyenasi, teri shikastlanganda birinchi yordam ko'rsatish", "index": 3 },
+          { "name": "Siydik ajratish organlarining tuzilishi", "index": 4 },
+          { "name": "Siydik ajratish organlarining funksiyasi", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Nerv sistemasi",
+        "index": 10,
+        "subtopics": [
+          { "name": "Nerv sistemasining tuzilishi", "index": 1 },
+          { "name": "Nerv sistemasining funksiyasi", "index": 2 },
+          { "name": "Orqa miyaning tuzilishi va funksiyasi", "index": 3 },
+          { "name": "Bosh miyaning tuzilishi va funksiyasi", "index": 4 },
+          { "name": "Bosh miya katta yarimsharlarining tuzilishi", "index": 5 },
+          { "name": "Nerv sistemasi kasalliklari va ularning oldini olish", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Oliy nerv faoliyati",
+        "index": 11,
+        "subtopics": [
+          { "name": "Oliy nerv faoliyati, shartli va shartsiz reflekslar", "index": 1 },
+          { "name": "Shartli reflekslarning hosil bo'lishi va tormozlanishi", "index": 2 },
+          { "name": "Aql-idrok, tafakkur, so'z va nutq", "index": 3 },
+          { "name": "Hissiyot va uning boshqarilishi", "index": 4 },
+          { "name": "Xotira", "index": 5 },
+          { "name": "Uyqu va uning ahamiyati", "index": 6 },
+          { "name": "Nerv faoliyati tiplari, nerv sistemasi gigiyenasi", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Sezgi organlari",
+        "index": 12,
+        "subtopics": [
+          { "name": "Sezgi organlarining ahamiyati", "index": 1 },
+          { "name": "Ko'rish analizatorlari", "index": 2 },
+          { "name": "Ko'rish organlarining funksiyasi", "index": 3 },
+          { "name": "Eshitish organlarining tuzilishi, eshitish gigiyenasi", "index": 4 },
+          { "name": "Muvozanat saqlash, muskul sezish va tuyg'u organlari", "index": 5 },
+          { "name": "Hid bilish va ta'm bilish organlari", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Ko'payish va rivojlanish. Odamning biologik va ijtimoiy tabiati",
+        "index": 13,
+        "subtopics": [
+          { "name": "Ko'payish organlari", "index": 1 },
+          { "name": "Urug'lanish va homilaning rivojlanishi", "index": 2 },
+          { "name": "Bolaning o'sishi va rivojlanishi", "index": 3 },
+          { "name": "Odamning biologik o'zgarishi va ijtimoiy tabiati", "index": 4 }
+        ]
+      }
+    ]
+  }
+]

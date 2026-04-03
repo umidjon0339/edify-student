@@ -1,0 +1,106 @@
+[
+  {
+    "category": "6-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Ovqat hazm qilish sistemasi",
+        "index": 1,
+        "subtopics": [
+          { "name": "Ratsional ovqatlanish", "index": 1 },
+          { "name": "Ovqat hazm qilish sistemasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Nafas va qon aylanish sistemalari",
+        "index": 2,
+        "subtopics": [
+          { "name": "Nafas sistemasi", "index": 1 },
+          { "name": "Qon aylanish sistemasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Kasalliklar",
+        "index": 3,
+        "subtopics": [
+          { "name": "Yuqumli kasalliklar", "index": 1 },
+          { "name": "Kasallik tarqalishining oldini olish", "index": 2 },
+          { "name": "Odam organizmining himoya mexanizmlari", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Oziq zanjiri va oziq to'ri",
+        "index": 4,
+        "subtopics": [
+          { "name": "Oziq zanjirlari va oziq to'ri", "index": 1 },
+          { "name": "Energiya va zaharli moddatar oqimi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Moddaning xossalari",
+        "index": 5,
+        "subtopics": [
+          { "name": "Moddalarning xossalari", "index": 1 },
+          { "name": "Qaynash va bug'lanish", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Fizik va kimyoviy o'zgarishlar",
+        "index": 6,
+        "subtopics": [
+          { "name": "Fizik o'zgarishlar", "index": 1 },
+          { "name": "Moddalarning erish jarayoni", "index": 2 },
+          { "name": "Kimyoviy reaksiyalar", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Kuchlarning ta'siri",
+        "index": 7,
+        "subtopics": [
+          { "name": "Massa, og'irlik va gravitatsiya kuchi", "index": 1 },
+          { "name": "Harakatlanayotgan jismlarga ta'sir qiluvchi kuchlar", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Yoruglikning tarqalishi",
+        "index": 8,
+        "subtopics": [
+          { "name": "Yorug'likning qaytishi", "index": 1 },
+          { "name": "Yorug'likning sinishi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Elektr zanjirlar",
+        "index": 9,
+        "subtopics": [
+          { "name": "Elektr zanjir sxemalari", "index": 1 },
+          { "name": "Elektr zanjir turlari", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Tog' jinslari",
+        "index": 10,
+        "subtopics": [
+          { "name": "Tog' jinslarining turlari", "index": 1 },
+          { "name": "Tog' jinslarining o'zgarishi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Tuproq",
+        "index": 11,
+        "subtopics": [
+          { "name": "Tuproq turlari", "index": 1 },
+          { "name": "Tuproq tarkibi va o'simliklarning o'sishi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Quyosh sistemasi",
+        "index": 12,
+        "subtopics": [
+          { "name": "Quyosh sistemasi", "index": 1 },
+          { "name": "Oyning fazalari", "index": 2 }
+        ]
+      }
+    ]
+  }
+]

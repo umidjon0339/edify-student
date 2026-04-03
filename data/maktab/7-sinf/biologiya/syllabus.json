@@ -1,0 +1,134 @@
+[
+  {
+    "category": "7-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Tirik organizmlarning xilmaxilligi",
+        "index": 1,
+        "subtopics": [
+          { "name": "Biologiya – hayot haqidagi fan", "index": 1 },
+          { "name": "Tirik organizmlarning xilmaxilligi", "index": 2 },
+          { "name": "Bakteriyalar. Protoktistalar. Zamburug'lar", "index": 3 },
+          { "name": "O'simliklarning xilmaxilligi. Sporali o'simliklar", "index": 4 },
+          { "name": "Urug'li o'simliklar", "index": 5 },
+          { "name": "Umurtqasiz hayvonlarning xilmaxilligi", "index": 6 },
+          { "name": "Umurtqali hayvonlarning xilmaxilligi. Baliqlar, amfibiyalar va reptiliyalar", "index": 7 },
+          { "name": "Qushlar va sutemizuvchilar", "index": 8 },
+          { "name": "Amaliy mashg'ulot. O'simlik va hayvonot dunyosi sistematik guruhlarini o'rganish", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Tiriklikning molekula va hujayra darajasi",
+        "index": 2,
+        "subtopics": [
+          { "name": "Hujayra – tirik organizmlarning tuzilish birligi ", "index": 1 },
+          { "name": "To'qimalar", "index": 2 },
+          { "name": "Laboratoriya mashg'uloti: Kattalashtirib ko'rsatuvchi asboblar", "index": 3 },
+          { "name": "Laboratoriya mashg'uloti: O'simlik to'qimasidan vaqtinchalik preparat tayyorlash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Organ va organlar sistemasi",
+        "index": 3,
+        "subtopics": [
+          { "name": "Gulli o'simliklarning vegetativ organlari. Ildiz", "index": 1 },
+          { "name": "Novda", "index": 2 },
+          { "name": "Amaliy mashg'ulot. Vegetativ organlar metamorfozini o'rganish", "index": 3 },
+          { "name": "O'simliklarning generativ organlari. Gul", "index": 4 },
+          { "name": "Meva", "index": 5 },
+          { "name": "Odam va hayvonlarning organlari va organlar sistemasi", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Koordinatsiya va o'z-o'zini boshqarish",
+        "index": 4,
+        "subtopics": [
+          { "name": "Tirik organizmlarning o'z-o'zini boshqarishi", "index": 1 },
+          { "name": "Amaliy mashg'ulot. Reflektor yoyini modellashtirish", "index": 2 },
+          { "name": "Nerv sistemasi", "index": 3 },
+          { "name": "Laboratoriya mashg'uloti. Yomg'ir chuvalchangining refleksini kuzatish", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Oziqlanish",
+        "index": 5,
+        "subtopics": [
+          { "name": "Organizmlarning oziqlanishi", "index": 1 },
+          { "name": "Loyiha ishi. Mineral o'g'itlarning o'simlik rivojiga ta'sirini o'rganish", "index": 2 },
+          { "name": "Laboratoriya mashg'uloti. Bargda organik moddalarning hosil bo'lishi", "index": 3 },
+          { "name": "Hayvonlarning oziqlanishi", "index": 4 },
+          { "name": "Odamning ovqat hazm qilish sistemasi", "index": 5 },
+          { "name": "Amaliy mashg'ulot. Ovqat hazm qilish sistemasini modellashtirish", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Nafas olish",
+        "index": 6,
+        "subtopics": [
+          { "name": "Nafas olishning mohiyati. O'simliklarning nafas olishi", "index": 1 },
+          { "name": "Odam va hayvonlarning nafas olishi", "index": 2 },
+          { "name": "Laboratoriya mashg'uloti. O'simliklarning nafas olishini o'rganish", "index": 3 },
+          { "name": "Amaliy mashg'ulot. Fotosintez va nafas olish jarayonlarini taqqoslash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Tirik organizmlarda moddalar transporti",
+        "index": 7,
+        "subtopics": [
+          { "name": "O'simliklarda moddalar transporti", "index": 1 },
+          { "name": "Laboratoriya mashg'uloti. O'simliklarda moddalar transportini o'rganish", "index": 2 },
+          { "name": "Laboratoriya mashg'uloti. Barglarning suv bug'latishini o'rganish", "index": 3 },
+          { "name": "Umurtqasizlarning qon aylanish sistemasi", "index": 4 },
+          { "name": "Amaliy mashg'ulot. Umurtqasizlarning qon aylanish sistemasini modellashtirish va taqqoslash", "index": 5 },
+          { "name": "Umurtqalilarning qon aylanish sistemasi", "index": 6 },
+          { "name": "Amaliy mashg'ulot. Umurtqalilarning qon aylanish sistemasini modellashtirish va taqqoslash", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Ayirish (ekskretsiya)",
+        "index": 8,
+        "subtopics": [
+          { "name": "Ayirish", "index": 1 },
+          { "name": "Odam va hayvonlarning ayirishi", "index": 2 },
+          { "name": "Amaliy mashg'ulot. Odamning ayirish organlarini modellashtirish", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Harakatlanish",
+        "index": 9,
+        "subtopics": [
+          { "name": "Tirik organizmlarning harakatlanishi", "index": 1 },
+          { "name": "Loyiha ishi. O'simliklarda fototropizm, fotonastiya, geotropizm hodisalarini kuzatish", "index": 2 },
+          { "name": "Umurtqasizlarning harakatlanish organlari", "index": 3 },
+          { "name": "Laboratoriya mashg'uloti. Tufelka infuzoriyasining harakatlanishini kuzatish ", "index": 4 },
+          { "name": "Umurtqalilarning tayanch-harakat organlari ", "index": 5 },
+          { "name": "Amaliy mashg'ulot. Umurtqali hayvonlarning tayanch-harakat sistemasini modellashtirish", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Reproduksiya, o'sish va rivojlanish",
+        "index": 10,
+        "subtopics": [
+          { "name": "Organizmlarning ko'payishi", "index": 1 },
+          { "name": "Loyiha ishi. O'simliklarning vegetativ ko'payishini o'rganish", "index": 2 },
+          { "name": "O'simliklarning individual rivojlanishi", "index": 3 },
+          { "name": "Amaliy mashg'ulot. Urug'li o'simliklarning hayot siklini o'rganish ", "index": 4 },
+          { "name": "Hayvonlarning ko'payishi ", "index": 5 },
+          { "name": "Hayvonlarning individual rivojlanishi", "index": 6 },
+          { "name": "Amaliy mashg'ulot. Hayvonlarning to'g'ri va noto'g'ri rivojlanishini qiyosiy tahlil asosida o'rganish ", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Tur, populyatsiya, ekosistema, biosfera",
+        "index": 11,
+        "subtopics": [
+          { "name": "Tur, populyatsiya ", "index": 1 },
+          { "name": "Amaliy mashg'ulot. Tirik organizmlarning tashqi muhitga moslashishini o'rganish", "index": 2 },
+          { "name": "Ekosistemalar. Biosfera", "index": 3 },
+          { "name": "Amaliy mashg'ulot. Oziq zanjiri va oziq to'ri tuzish", "index": 4 }
+        ]
+      }
+    ]
+  }
+]

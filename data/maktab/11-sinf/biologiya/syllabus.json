@@ -1,0 +1,81 @@
+[
+  {
+    "category": "11-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Ekologiya va hayot",
+        "index": 1,
+        "subtopics": [
+          { "name": "Biologik tizimlar. Ekologiya – biologik tizimlar haqidagi fan", "index": 1 },
+          { "name": "Ekologiyaning rivojlanishi, bo'limlari va metodlari", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Hayotning ekosistema darajasidagi umumbiologik qonuniyatlari",
+        "index": 2,
+        "subtopics": [
+          { "name": "Hayotning ekosistema darajasi xususiyatlari. Biogeotsenoz – biologik sistema", "index": 1 },
+          { "name": "Ekosistemalarning tarkibiy qismlari", "index": 2 },
+          { "name": "Organizmlarning yashash muhiti. Suv muhiti", "index": 3 },
+          { "name": "Quruqlik-havo, tuproq, tirik organizmlar yashash muhitlari sifatida", "index": 4 },
+          { "name": "Muhit omillari va ularning tasnifi", "index": 5 },
+          { "name": "Yorug'lik – muhitning ekologik omili", "index": 6 },
+          { "name": "Harorat – muhitning abiotik omili", "index": 7 },
+          { "name": "Namlik ekologik omil sifatida", "index": 8 },
+          { "name": "Tuproq va topografik omillar", "index": 9 },
+          { "name": "Muhitning biotik omillari. Tirik organizmlar o'rtasidagi munosabatlar", "index": 10 },
+          { "name": "Antropogen omillar", "index": 11 },
+          { "name": "1-laboratoriya mashg'uloti", "index": 12 },
+          { "name": "Turning populatsion strukturasi", "index": 13 },
+          { "name": "Turning populatsion strukturasi (davomi)", "index": 14 },
+          { "name": "Ekotizimlarning trofik strukturasi", "index": 15 },
+          { "name": "Ekotizimlarning mahsuldorligi", "index": 16 },
+          { "name": "Ekologik piramida qoidasi. Biomassa va energiya piramidasi", "index": 17 },
+          { "name": "2-laboratoriya mashg'uloti", "index": 18 },
+          { "name": "Tabiiy ekosistemalar", "index": 19 },
+          { "name": "Markaziy Osiyo va O'zbekistonning tabiiy ekosistemalari", "index": 20 },
+          { "name": "Sun'iy ekosistemalar", "index": 21 },
+          { "name": "Biogeotsenozlarning barqarorligi", "index": 22 },
+          { "name": "Inson ekologiyasi", "index": 23 },
+          { "name": "3-laboratoriya mashg'uloti", "index": 24 }
+        ]
+      },
+      {
+        "chapter": "Hayotning biosfera darajasining umumbiologik qonuniyatlari",
+        "index": 3,
+        "subtopics": [
+          { "name": "Biosfera darajasining xususiyatlari. Biosfera haqida ta'limot", "index": 1 },
+          { "name": "Biosfera chegaralari", "index": 2 },
+          { "name": "Biosferaning tarkibi", "index": 3 },
+          { "name": "Biosferadagi tirik moddaning xususiyatlari va funksiyalari", "index": 4 },
+          { "name": "Biosfera biomassasi", "index": 5 },
+          { "name": "Biosferada modda va energiyaning davriy aylanishi", "index": 6 },
+          { "name": "Biogeokimyoviy sikl", "index": 7 },
+          { "name": "Biosfera evolutsiyasi. Biogenez", "index": 8 },
+          { "name": "Biosfera evolutsiyasi. Noogenez", "index": 9 },
+          { "name": "Inson biosfera omili sifatida. Inson faoliyatining biosferaga ta'siri", "index": 10 },
+          { "name": "O'simlik va hayvonot olamini muhofaza qilish", "index": 11 }
+        ]
+      },
+      {
+        "chapter": "Organik olam filogenezi",
+        "index": 4,
+        "subtopics": [
+          { "name": "Organik olam filogenezining umumiy tavsifi", "index": 1 },
+          { "name": "O'simliklar filogenezi. O'simliklarning vegetativ organlari filogenezi", "index": 2 },
+          { "name": "O'simliklarning generativ organlari filogenezi", "index": 3 },
+          { "name": "4-laboratoriya mashg'uloti", "index": 4 },
+          { "name": "Hayvonot dunyosidagi evolutsion o'zgarishlar", "index": 5 },
+          { "name": "Tirik organizmlarda o'z-o'zini idora etish organlari: gumoral va nerv sistemasi evolutsiyasi", "index": 6 },
+          { "name": "Hayvonlarning tana qoplami va harakat organlari evolutsiyasi", "index": 7 },
+          { "name": "Hayvonlarning nafas olish organlari evolutsiyasi", "index": 8 },
+          { "name": "Hayvonlarning qon aylanish organlari evolutsiyasi", "index": 9 },
+          { "name": "Hayvonlarning hazm qilish organlari evolutsiyasi", "index": 10 },
+          { "name": "Hayvonlarning ayirish va jinsiy organlari evolutsiyasi", "index": 11 },
+          { "name": "5-laboratoriya mashg'uloti", "index": 12 }
+        ]
+      }
+    ]
+  }
+]

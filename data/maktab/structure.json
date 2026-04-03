@@ -3,11 +3,11 @@
   "2-sinf": ["matematika"],
   "3-sinf": ["matematika"],
   "4-sinf": ["matematika"],
-  "5-sinf": ["matematika"],
-  "6-sinf": ["matematika"],
-  "7-sinf": ["algebra", "geometriya"],
-  "8-sinf": ["algebra", "geometriya"],
-  "9-sinf": ["algebra", "geometriya"],
-  "10-sinf": ["algebra", "geometriya"],
-  "11-sinf": ["matematika"]
+  "5-sinf": ["matematika", "tabiiy fanlar (Science)"],
+  "6-sinf": ["matematika", "tabiiy fanlar (Science)"],
+  "7-sinf": ["algebra", "geometriya", "biologiya"],
+  "8-sinf": ["algebra", "geometriya", "biologiya"],
+  "9-sinf": ["algebra", "geometriya", "biologiya"],
+  "10-sinf": ["algebra", "geometriya", "biologiya"],
+  "11-sinf": ["matematika", "biologiya"]
 }
