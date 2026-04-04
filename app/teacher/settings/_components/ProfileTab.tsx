@@ -51,7 +51,6 @@ export default function ProfileTab({
                 {(usernameStatus === 'taken' || usernameStatus === 'invalid') && <XCircle className="text-red-500" size={16}/>}
               </div>
             </div>
-            {usernameStatus === 'invalid' && <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider mt-1.5 ml-1">{usernameError}</p>}
             {usernameStatus === 'taken' && <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider mt-1.5 ml-1">{t.profile.usernameTaken}</p>}
             {usernameStatus === 'valid' && formData.username !== formData.originalUsername && <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mt-1.5 ml-1">{t.profile.usernameAvail}</p>}
           </div>
@@ -60,34 +59,92 @@ export default function ProfileTab({
           <div className="col-span-2">
             <div className="flex justify-between items-center mb-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{t.profile.bio}</label>
-              <span className={`text-[10px] font-black tracking-widest ${formData.bio.length >= 100 ? 'text-red-500' : 'text-slate-400'}`}>
-                {formData.bio.length}/100
+              <span className={`text-[10px] font-black tracking-widest ${formData.bio?.length >= 100 ? 'text-red-500' : 'text-slate-400'}`}>
+                {formData.bio?.length || 0}/100
               </span>
             </div>
             <textarea 
-              rows={3} maxLength={100} value={formData.bio} onChange={(e) => setFormData({...formData, bio: e.target.value})} placeholder={t.profile.bioPlace}
+              rows={3} maxLength={100} value={formData.bio || ''} onChange={(e) => setFormData({...formData, bio: e.target.value})} placeholder={t.profile.bioPlace}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-medium text-slate-800 focus:bg-white focus:border-indigo-400 outline-none resize-none transition-all"
             />
           </div>
 
+          {/* 🟢 NEW SECTION: Professional Info */}
+          <div className="col-span-2 border-t border-slate-100 pt-6 mt-2">
+            <label className="block text-[11px] font-black text-indigo-500 uppercase tracking-widest mb-3">Professional Info</label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              
+              {/* Gender */}
+              <div>
+                <select value={formData.gender || ''} onChange={(e) => setFormData({...formData, gender: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all">
+                  <option value="">{t.profile.gender || "Jinsi (Gender)"}</option>
+                  <option value="male">Erkak (Male)</option>
+                  <option value="female">Ayol (Female)</option>
+                </select>
+              </div>
+
+              {/* Subject */}
+              <div>
+                <select value={formData.subject || ''} onChange={(e) => setFormData({...formData, subject: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all">
+                  <option value="">{t.profile.subject || "Fani"}</option>
+                  <option value="matematika">Matematika</option>
+                  <option value="fizika">Fizika</option>
+                  <option value="kimyo">Kimyo</option>
+                  <option value="biologiya">Biologiya</option>
+                  <option value="informatika">Informatika</option>
+                  <option value="ona_tili">Ona tili va Adabiyot</option>
+                  <option value="tarix">Tarix</option>
+                  <option value="ingliz_tili">Ingliz tili</option>
+                  <option value="rus_tili">Rus tili</option>
+                  <option value="geografiya">Geografiya</option>
+                  <option value="other">Boshqa</option>
+                </select>
+              </div>
+
+              {/* Experience (Saved as Integer) */}
+              <div>
+                <input 
+                  type="number" min="0" max="60"
+                  value={formData.experience === 0 && !formData.experience ? '' : formData.experience} 
+                  onChange={(e) => setFormData({...formData, experience: parseInt(e.target.value) || 0})} 
+                  placeholder={t.profile.experience || "Tajriba (Yil)"}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-900 focus:bg-white focus:border-indigo-400 outline-none transition-all"
+                />
+              </div>
+
+            </div>
+          </div>
+
           {/* Email */}
-          <div>
+          <div className="mt-4">
             <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.profile.email}</label>
             <div className="px-4 py-3 bg-slate-100 rounded-xl text-slate-500 font-mono text-[13px] font-bold border border-slate-200 cursor-not-allowed truncate">{formData.email}</div>
           </div>
 
-          {/* Phone */}
-          <div>
+          {/* Phone (Using your exact Signup Formatter) */}
+          <div className="mt-4">
             <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.profile.phone}</label>
             <div className="relative">
               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16}/>
               <input 
                 type="tel" value={formData.phone} maxLength={19} 
                 onChange={(e) => setFormData({...formData, phone: formatPhoneNumber(e.target.value)})} 
-                placeholder={t.profile.phonePlace}
+                placeholder={t.profile.phonePlace || "+998"}
                 className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-900 focus:bg-white focus:border-indigo-400 outline-none transition-all"
               />
             </div>
+          </div>
+
+          {/* Birth Date (Restored to <input type="date">) */}
+          <div>
+            <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.profile.dob}</label>
+            <input 
+              type="date" 
+              max={new Date().toISOString().split("T")[0]} 
+              value={formData.birthDate || ''} 
+              onChange={(e) => setFormData({...formData, birthDate: e.target.value})} 
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all"
+            />
           </div>
 
           {/* Institution */}
@@ -99,39 +156,21 @@ export default function ProfileTab({
             </div>
           </div>
 
-          {/* Birth Date */}
-          <div>
-            <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.profile.dob}</label>
-            <div className="grid grid-cols-3 gap-2">
-              <select value={formData.birthDate ? formData.birthDate.split('-')[0] : ''} onChange={(e) => { const newYear = e.target.value; const [_, m, d] = (formData.birthDate || `0000-01-01`).split('-'); setFormData({ ...formData, birthDate: `${newYear}-${m || '01'}-${d || '01'}` }); }} className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all">
-                <option value="" disabled>{t.profile.year}</option>
-                {Array.from({ length: 100 }, (_, i) => { const year = new Date().getFullYear() - i; return <option key={year} value={year}>{year}</option>; })}
-              </select>
-              <select value={formData.birthDate ? formData.birthDate.split('-')[1] : ''} disabled={!formData.birthDate?.split('-')[0]} onChange={(e) => { const [y, _, d] = formData.birthDate.split('-'); setFormData({ ...formData, birthDate: `${y}-${e.target.value}-${d}` }); }} className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all disabled:opacity-50">
-                <option value="" disabled>{t.profile.month}</option>
-                {['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'].map(val => <option key={val} value={val}>{val}</option>)}
-              </select>
-              <select value={formData.birthDate ? formData.birthDate.split('-')[2] : ''} disabled={!formData.birthDate?.split('-')[1]} onChange={(e) => { const [y, m, _] = formData.birthDate.split('-'); setFormData({ ...formData, birthDate: `${y}-${m}-${e.target.value}` }); }} className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all disabled:opacity-50">
-                <option value="" disabled>{t.profile.day}</option>
-                {Array.from({ length: 31 }, (_, i) => { const day = (i + 1).toString().padStart(2, '0'); return <option key={day} value={day}>{day}</option>; })}
-              </select>
-            </div>
-          </div>
-
           {/* Location */}
           <div className="col-span-2 border-t border-slate-100 pt-6 mt-2">
             <label className="block text-[11px] font-black text-indigo-500 uppercase tracking-widest mb-3 flex items-center gap-1.5"><MapPin size={14}/> {t.profile.location}</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <select value={formData.location.region} onChange={(e) => setFormData({...formData, location: { ...formData.location, region: e.target.value, district: '' }})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all">
-                <option value="">{t.profile.region}</option>
+              <select value={formData.location?.region || ''} onChange={(e) => setFormData({...formData, location: { ...formData.location, region: e.target.value, district: '' }})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all">
+                <option value="">{t.profile.region || "Viloyatni tanlang"}</option>
                 {Object.keys(UZB_LOCATIONS).map((region) => <option key={region} value={region}>{region}</option>)}
               </select>
-              <select value={formData.location.district} onChange={(e) => setFormData({...formData, location: { ...formData.location, district: e.target.value }})} disabled={!formData.location.region} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all disabled:opacity-50 disabled:bg-slate-100">
-                <option value="">{t.profile.district}</option>
-                {formData.location.region && UZB_LOCATIONS[formData.location.region]?.map((district: string) => <option key={district} value={district}>{district}</option>)}
+              <select value={formData.location?.district || ''} onChange={(e) => setFormData({...formData, location: { ...formData.location, district: e.target.value }})} disabled={!formData.location?.region} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:bg-white focus:border-indigo-400 outline-none transition-all disabled:opacity-50 disabled:bg-slate-100">
+                <option value="">{t.profile.district || "Tumanni tanlang"}</option>
+                {formData.location?.region && UZB_LOCATIONS[formData.location.region]?.map((district: string) => <option key={district} value={district}>{district}</option>)}
               </select>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
