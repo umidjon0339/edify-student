@@ -69,7 +69,7 @@ const processMatchingQuestion = (pairs: any[]) => {
 };
 
 // ============================================================================
-// 2. EXAM VIEWER MODAL (HTML2PDF LOGIC)
+// 2. EXAM VIEWER MODAL (PROFESSIONAL PRINT STYLING & PAGINATION FIX)
 // ============================================================================
 const ExamViewer = ({ selectedTest, onClose }: { selectedTest: any, onClose: () => void }) => {
   const printRef = useRef<HTMLDivElement>(null);
@@ -88,32 +88,35 @@ const ExamViewer = ({ selectedTest, onClose }: { selectedTest: any, onClose: () 
     
     setShowAnswers(withAnswers);
 
-    // 1. Wait for React to update the DOM (show/hide answers)
     setTimeout(async () => {
       try {
         const element = printRef.current;
         if (!element) return;
 
-        // 2. CRITICAL FIX: Wait for all web fonts (especially KaTeX) to finish loading
         await document.fonts.ready;
 
-        // Dynamic import for html2pdf
+        const images = Array.from(element.getElementsByTagName('img'));
+        await Promise.all(images.map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
+        }));
+
         const html2pdf = (await import("html2pdf.js")).default;
 
-        // 3. OPTIMIZED PDF CONFIGURATION
         const opt: any = {
-          margin:       [10, 10, 10, 10], // Reduced margin (1cm all around) for more space
-          filename:     `${selectedTest?.title}_${withAnswers ? 'Javoblar_Kaliti' : 'Oquvchi_Qogozi'}.pdf`,
+          margin:       [15, 15, 20, 15], // Added more bottom margin for natural page breaks
+          filename:     `${selectedTest?.title.replace(/\s+/g, '_')}_${withAnswers ? 'Kalit' : 'Oquvchi'}.pdf`,
           image:        { type: 'jpeg', quality: 1 },
           html2canvas:  { 
-            scale: 2, // High resolution
+            scale: 2, 
             useCORS: true, 
             letterRendering: true,
             scrollY: 0,
-            windowWidth: 800 // Forces consistent layout regardless of screen size
+            windowWidth: 850 // Slightly wider for a better A4 aspect ratio fit
           },
           jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] } 
+          // 🟢 THE BUG FIX: Removed 'avoid-all'. Relying strictly on CSS classes now.
+          pagebreak:    { mode: ['css', 'legacy'] } 
         };
 
         await html2pdf().set(opt).from(element).save();
@@ -121,114 +124,140 @@ const ExamViewer = ({ selectedTest, onClose }: { selectedTest: any, onClose: () 
 
       } catch (error) {
         console.error("PDF yaratishda xatolik:", error);
-        toast.error("PDF yaratishda xatolik yuz berdi.");
+        toast.error("PDF yaratishda xatolik yuz berdi. Internet aloqasini tekshiring.");
       } finally {
         setIsGeneratingStudent(false);
         setIsGeneratingTeacher(false);
         setShowAnswers(false); 
       }
-    }, 400); // 400ms gives KaTeX time to recalculate math layouts
+    }, 500); 
   };
 
   return (
     <>
-      {/* 🟢 GLOBAL CSS INJECTION FOR LATEX PDF FIXES */}
+      {/* 🟢 UPGRADED GLOBAL CSS FOR PROFESSIONAL PRINTING */}
       <style dangerouslySetInnerHTML={{__html: `
-        .pdf-latex-fix .katex-display { margin: 0.5em 0 !important; overflow: visible !important; }
-        .pdf-latex-fix .katex { line-height: 1.2 !important; padding-bottom: 2px; }
-        .pdf-latex-fix .katex-html { overflow: visible !important; }
-        .pdf-latex-fix * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap');
+        
+        .pdf-document { font-family: 'Inter', sans-serif; color: #111827; }
+        .pdf-header-text { font-family: 'Merriweather', serif; }
+        
+        /* Strict Page Break Rules to fix the Biology Gap Bug */
+        .avoid-break { page-break-inside: avoid !important; break-inside: avoid !important; margin-bottom: 2rem; }
+        
+        /* Math Alignment Fixes */
+        .pdf-document .katex-display { margin: 0.5em 0 !important; overflow: visible !important; }
+        .pdf-document .katex { font-size: 1.1em; line-height: 1; padding-bottom: 2px; }
+        .pdf-document .katex-html { overflow: visible !important; }
+        
+        /* General Print Fixes */
+        .pdf-document * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        .pdf-document img { page-break-inside: avoid; break-inside: avoid; max-width: 100%; height: auto; }
       `}} />
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100]" />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100]" />
       
       <motion.div 
         initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="fixed top-0 right-0 w-full max-w-4xl h-full bg-white shadow-2xl z-[110] flex flex-col"
+        className="fixed top-0 right-0 w-full max-w-4xl h-full bg-slate-100 shadow-2xl z-[110] flex flex-col"
       >
-        {/* Header Controls */}
-        <div className="bg-slate-900 px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0">
+        {/* Control Header */}
+        <div className="bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0 shadow-sm z-10">
           <div>
-            <h2 className="text-[18px] font-bold text-white">{selectedTest?.title}</h2>
-            <p className="text-[13px] text-slate-400">{selectedTest?.grade} • {selectedTest?.subject}</p>
+            <h2 className="text-[18px] font-black text-slate-900">{selectedTest?.title}</h2>
+            <p className="text-[13px] font-medium text-slate-500">{selectedTest?.grade} • {selectedTest?.subject}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <button onClick={() => handleDownloadPdf(false)} disabled={isGeneratingStudent || isGeneratingTeacher} className="flex items-center gap-2 bg-white/10 hover:bg-white/20 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all">
+            <button onClick={() => handleDownloadPdf(false)} disabled={isGeneratingStudent || isGeneratingTeacher} className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 border border-slate-300 px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all">
               {isGeneratingStudent ? <Loader2 size={16} className="animate-spin"/> : <Download size={16} />}
               {isGeneratingStudent ? "Yuklanmoqda..." : "O'quvchi PDF"}
             </button>
-            <button onClick={() => handleDownloadPdf(true)} disabled={isGeneratingStudent || isGeneratingTeacher} className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all">
+            <button onClick={() => handleDownloadPdf(true)} disabled={isGeneratingStudent || isGeneratingTeacher} className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all shadow-sm">
               {isGeneratingTeacher ? <Loader2 size={16} className="animate-spin"/> : <Eye size={16} />}
-              {isGeneratingTeacher ? "Yuklanmoqda..." : "Javoblar bilan PDF"}
+              {isGeneratingTeacher ? "Kutib turing..." : "Javoblar kaliti PDF"}
             </button>
-            <div className="w-px h-6 bg-slate-700 mx-1"></div>
-            <button onClick={onClose} disabled={isGeneratingStudent || isGeneratingTeacher} className="p-2 bg-white/10 hover:bg-red-500 text-white rounded-xl transition-colors disabled:opacity-50">
+            <div className="w-px h-6 bg-slate-300 mx-1"></div>
+            <button onClick={onClose} disabled={isGeneratingStudent || isGeneratingTeacher} className="p-2 bg-slate-100 hover:bg-red-50 hover:text-red-500 text-slate-500 rounded-xl transition-colors disabled:opacity-50">
               <X size={20} />
             </button>
           </div>
         </div>
 
         {/* Scrollable Preview Area */}
-        <div className="flex-1 overflow-y-auto bg-slate-100 p-4 md:p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
           
           {/* 🟢 PRINTABLE AREA */}
-          <div ref={printRef} className="pdf-latex-fix bg-white max-w-[800px] mx-auto p-8 shadow-md border border-slate-200 text-slate-900 min-h-[1100px]">
+          <div ref={printRef} className="pdf-document bg-white max-w-[850px] mx-auto p-10 shadow-lg text-slate-900">
             
             {/* 🎓 PROFESSIONAL EXAM HEADER */}
-            <div className="border-2 border-slate-800 rounded-xl p-6 mb-8 bg-white">
-              <h1 className="text-[20px] md:text-[22px] font-black uppercase tracking-widest text-center border-b-2 border-slate-800 pb-5 mb-6 text-slate-900">
-                {selectedTest?.subject} — {selectedTest?.assessmentType} IMTIHON QOG'OZI
+            <div className="mb-10 pb-6 border-b-[3px] border-slate-800 avoid-break">
+              <h1 className="pdf-header-text text-[24px] md:text-[28px] font-black uppercase tracking-wide text-center text-slate-900 mb-6">
+                {selectedTest?.title || `${selectedTest?.subject} — ${selectedTest?.assessmentType}`}
               </h1>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-[15px] font-bold text-slate-800">
-                
-                {/* Row 1 */}
+              <div className="grid grid-cols-2 gap-x-12 gap-y-5 text-[14px] font-medium text-slate-800">
                 <div className="flex items-end gap-3">
-                  <span className="shrink-0">O'quvchi F.I.Sh:</span>
-                  <div className="border-b border-slate-500 flex-1 h-5"></div>
+                  <span className="shrink-0 font-bold">O'quvchi F.I.Sh:</span>
+                  <div className="border-b border-slate-400 flex-1 h-5"></div>
                 </div>
                 <div className="flex items-end gap-3">
-                  <span className="shrink-0">Sana:</span>
-                  <div className="border-b border-slate-500 flex-1 h-5"></div>
-                </div>
-                
-                {/* Row 2 */}
-                <div className="flex items-end gap-3">
-                  <span className="shrink-0">Sinf / Guruh:</span>
-                  <div className="border-b border-slate-500 flex-1 h-5"></div>
+                  <span className="shrink-0 font-bold">Sana:</span>
+                  <div className="border-b border-slate-400 w-32 h-5"></div>
                 </div>
                 <div className="flex items-end gap-3">
-                  <span className="shrink-0">Jami Ball:</span>
-                  <div className="border-b border-slate-500 flex-1 h-5"></div>
+                  <span className="shrink-0 font-bold">Sinf / Guruh:</span>
+                  <div className="border-b border-slate-400 flex-1 h-5"></div>
                 </div>
-                
+                <div className="flex items-end gap-3">
+                  <span className="shrink-0 font-bold">To'plangan Ball:</span>
+                  <div className="border-b border-slate-400 w-32 h-5 text-center text-slate-400 italic text-[12px] pb-1">/ {selectedTest?.totalPoints || 0}</div>
+                </div>
               </div>
             </div>
 
             {/* Questions Loop */}
-            <div className="space-y-6">
+            <div className="space-y-0"> {/* Margin is handled by .avoid-break class now */}
               {selectedTest?.questions?.map((q: any, idx: number) => {
                 return (
-                  <div key={q.id} className="relative html2pdf__page-break-inside-avoid" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                  <div key={q.id} className="avoid-break html2pdf__page-break-inside-avoid">
                     
+                    {/* Reading Passages */}
+                    {q.context && (
+                      <div className="mb-4 p-5 bg-slate-50 border-l-4 border-slate-400 text-[14px] text-slate-800 leading-relaxed text-justify">
+                        <FormattedText text={getText(q.context)} />
+                      </div>
+                    )}
+
                     {/* Question Stem */}
-                    <div className="flex items-start gap-2 mb-3">
-                      <span className="text-[15px] font-black shrink-0 pt-0.5">{idx + 1}.</span>
-                      <div className="text-[15px] font-medium leading-normal text-slate-900">
+                    <div className="flex items-start gap-3 mb-4">
+                      <span className="text-[16px] font-bold shrink-0">{idx + 1}.</span>
+                      <div className="text-[15.5px] font-normal leading-relaxed text-slate-900 w-full">
                         <FormattedText text={getText(q.question)} />
-                        <span className="ml-2 text-[11px] font-bold text-slate-500 whitespace-nowrap">({q.points} Ball)</span>
+                        <span className="ml-2 text-[12px] font-semibold text-slate-500 whitespace-nowrap">({q.points} Ball)</span>
+                        
+                        {/* Images */}
+                        {q.imageUrl && (
+                          <div className="my-4 flex justify-center w-full">
+                            <img 
+                              src={q.imageUrl} 
+                              alt="Question Figure" 
+                              crossOrigin="anonymous" 
+                              className="max-w-full max-h-[300px] object-contain rounded-md border border-slate-300 p-1"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 
-                    <div className="pl-6">
+                    <div className="pl-7">
                       
                       {/* 1. MCQ OPTIONS */}
                       {q.type === "mcq" && q.options && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-8 pl-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8 pl-1">
                           {Object.entries(q.options).map(([key, value]) => (
-                            <div key={key} className="flex items-start gap-2">
+                            <div key={key} className="flex items-start gap-2.5">
                               <span className="font-bold text-slate-800 shrink-0">{key})</span>
-                              <span className="text-slate-800 text-[14.5px]"><FormattedText text={getText(value)} /></span>
+                              <span className="text-slate-800 text-[15px] leading-snug"><FormattedText text={getText(value)} /></span>
                             </div>
                           ))}
                         </div>
@@ -236,56 +265,56 @@ const ExamViewer = ({ selectedTest, onClose }: { selectedTest: any, onClose: () 
 
                       {/* 2. SHORT ANSWER */}
                       {q.type === "short_answer" && (
-                        <div className="mt-3 mb-2 flex items-end gap-2">
-                          <span className="font-bold text-slate-800 text-[14px]">Javob:</span>
-                          <div className="border-b border-dashed border-slate-500 w-48 h-5"></div>
+                        <div className="mt-4 mb-2 flex items-end gap-3">
+                          <span className="font-bold text-slate-800 text-[15px]">Javob:</span>
+                          <div className="border-b border-dashed border-slate-500 w-64 h-6"></div>
                         </div>
                       )}
 
                       {/* 3. TRUE / FALSE */}
                       {q.type === "true_false" && (
-                        <div className="flex gap-8 mt-3 pl-1">
-                          <label className="flex items-center gap-2">
-                            <div className="w-4 h-4 border border-slate-500 rounded-sm"></div>
-                            <span className="font-bold text-[14px] text-slate-800">Rost</span>
+                        <div className="flex gap-10 mt-4 pl-1">
+                          <label className="flex items-center gap-3">
+                            <div className="w-5 h-5 border-[1.5px] border-slate-400 rounded-sm"></div>
+                            <span className="font-bold text-[15px] text-slate-800">Rost</span>
                           </label>
-                          <label className="flex items-center gap-2">
-                            <div className="w-4 h-4 border border-slate-500 rounded-sm"></div>
-                            <span className="font-bold text-[14px] text-slate-800">Yolg'on</span>
+                          <label className="flex items-center gap-3">
+                            <div className="w-5 h-5 border-[1.5px] border-slate-400 rounded-sm"></div>
+                            <span className="font-bold text-[15px] text-slate-800">Yolg'on</span>
                           </label>
                         </div>
                       )}
 
-                      {/* 4. MATCHING (Professional Table Style) */}
+                      {/* 4. MATCHING */}
                       {q.type === "matching" && q.pairs && (() => {
                         const { lefts, rights, answerKey } = processMatchingQuestion(q.pairs);
                         return (
-                          <div className="mt-3">
-                            <div className="grid grid-cols-2 gap-4 mb-4 border border-slate-300 rounded-lg p-3 bg-slate-50/50">
-                              <div className="space-y-2 border-r border-slate-300 pr-4">
+                          <div className="mt-4">
+                            <div className="grid grid-cols-2 gap-6 mb-5 border-[1.5px] border-slate-300 rounded-xl p-4 bg-slate-50/30">
+                              <div className="space-y-3 border-r border-slate-300 pr-6">
                                 {lefts.map((l, i) => (
-                                  <div key={i} className="flex items-start gap-2">
+                                  <div key={i} className="flex items-start gap-2.5">
                                     <span className="font-bold text-[14px] shrink-0">{i + 1})</span>
-                                    <span className="text-[14px] font-medium leading-tight"><FormattedText text={l.text} /></span>
+                                    <span className="text-[14px] leading-snug"><FormattedText text={l.text} /></span>
                                   </div>
                                 ))}
                               </div>
-                              <div className="space-y-2 pl-2">
+                              <div className="space-y-3 pl-2">
                                 {rights.map((r, i) => (
-                                  <div key={i} className="flex items-start gap-2">
+                                  <div key={i} className="flex items-start gap-2.5">
                                     <span className="font-bold text-[14px] shrink-0">{String.fromCharCode(65 + i)})</span>
-                                    <span className="text-[14px] font-medium leading-tight"><FormattedText text={r.text} /></span>
+                                    <span className="text-[14px] leading-snug"><FormattedText text={r.text} /></span>
                                   </div>
                                 ))}
                               </div>
                             </div>
                             
-                            <div className="flex flex-wrap gap-4 items-center pl-1">
-                              <span className="font-bold text-[14px] text-slate-800">Javoblar:</span>
+                            <div className="flex flex-wrap gap-5 items-center pl-1">
+                              <span className="font-bold text-[15px] text-slate-800">Javoblar:</span>
                               {lefts.map((_, i) => (
-                                <div key={i} className="flex items-end gap-1">
-                                  <span className="font-bold text-[14px]">{i + 1} - </span>
-                                  <div className="border-b border-slate-500 w-8 h-4"></div>
+                                <div key={i} className="flex items-end gap-1.5">
+                                  <span className="font-bold text-[15px]">{i + 1} - </span>
+                                  <div className="border-b border-slate-500 w-10 h-5"></div>
                                 </div>
                               ))}
                             </div>
@@ -296,29 +325,29 @@ const ExamViewer = ({ selectedTest, onClose }: { selectedTest: any, onClose: () 
 
                       {/* 5. OPEN ENDED */}
                       {q.type === "open_ended" && (
-                        <div className="mt-4 space-y-6">
-                          <div className="border-b border-dashed border-slate-400 w-full h-4"></div>
-                          <div className="border-b border-dashed border-slate-400 w-full h-4"></div>
-                          <div className="border-b border-dashed border-slate-400 w-full h-4"></div>
-                          <div className="border-b border-dashed border-slate-400 w-full h-4"></div>
+                        <div className="mt-5 space-y-7">
+                          <div className="border-b border-dashed border-slate-400 w-full h-5"></div>
+                          <div className="border-b border-dashed border-slate-400 w-full h-5"></div>
+                          <div className="border-b border-dashed border-slate-400 w-full h-5"></div>
+                          <div className="border-b border-dashed border-slate-400 w-full h-5"></div>
                         </div>
                       )}
 
                       {/* 🟢 TEACHER ANSWER KEY */}
-                      <div style={{ display: showAnswers ? 'block' : 'none' }} className="mt-4 bg-amber-50 p-4 rounded-lg border border-amber-300">
-                        <p className="text-[11px] font-black text-amber-600 uppercase tracking-widest mb-2 flex items-center gap-1.5"><Eye size={14}/> To'g'ri javob kaliti</p>
+                      <div style={{ display: showAnswers ? 'block' : 'none' }} className="mt-6 bg-slate-50 p-5 rounded-xl border border-slate-300 html2pdf__page-break-inside-avoid">
+                        <p className="text-[12px] font-black text-slate-800 uppercase tracking-widest mb-3 flex items-center gap-2"><Eye size={16}/> To'g'ri Javob Kaliti</p>
                         
-                        {q.type === "mcq" && <p className="font-bold text-slate-800 text-[14px]">Javob: <span className="text-indigo-700 bg-indigo-100 px-1.5 py-0.5 rounded">{q.answer}</span></p>}
-                        {q.type === "short_answer" && <p className="font-bold text-slate-800 text-[14px]">Javob: <span className="text-indigo-700"><FormattedText text={getText(q.answer)} /></span></p>}
-                        {q.type === "true_false" && <p className="font-bold text-slate-800 text-[14px]">Javob: <span className={q.answer ? "text-emerald-700" : "text-rose-700"}>{q.answer ? "Rost" : "Yolg'on"}</span></p>}
-                        {q.type === "matching" && <p className="font-bold text-slate-800 text-[14px]">Javob kaliti: <span className="text-indigo-700">{q.injectedAnswer}</span></p>}
+                        {q.type === "mcq" && <p className="font-bold text-slate-800 text-[15px]">Javob: <span className="text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">{q.answer}</span></p>}
+                        {q.type === "short_answer" && <p className="font-bold text-slate-800 text-[15px]">Javob: <span className="text-indigo-700"><FormattedText text={getText(q.answer)} /></span></p>}
+                        {q.type === "true_false" && <p className="font-bold text-slate-800 text-[15px]">Javob: <span className={q.answer ? "text-emerald-600" : "text-rose-600"}>{q.answer ? "Rost" : "Yolg'on"}</span></p>}
+                        {q.type === "matching" && <p className="font-bold text-slate-800 text-[15px]">Javob kaliti: <span className="text-indigo-700">{q.injectedAnswer}</span></p>}
 
                         {q.type === "open_ended" && (
-                          <div className="space-y-2">
-                            <p className="text-[14px] text-slate-800 font-medium"><FormattedText text={getText(q.answer)} /></p>
-                            <div className="border-t border-amber-200/60 pt-2 mt-2">
-                              <span className="text-[11px] font-bold text-amber-700 uppercase">Rubric:</span>
-                              <p className="text-[13px] font-semibold text-amber-900 mt-0.5"><FormattedText text={getText(q.rubric)} /></p>
+                          <div className="space-y-3">
+                            <p className="text-[15px] text-slate-800 font-medium leading-relaxed"><FormattedText text={getText(q.answer)} /></p>
+                            <div className="border-t border-slate-200 pt-3 mt-3">
+                              <span className="text-[12px] font-bold text-slate-500 uppercase tracking-wider">Baholash mezoni (Rubric):</span>
+                              <p className="text-[14px] font-semibold text-slate-700 mt-1"><FormattedText text={getText(q.rubric)} /></p>
                             </div>
                           </div>
                         )}
@@ -335,7 +364,6 @@ const ExamViewer = ({ selectedTest, onClose }: { selectedTest: any, onClose: () 
     </>
   );
 };
-
 // ============================================================================
 // 3. MAIN PAGE (PAGINATION, FILTERING, UI)
 // ============================================================================
