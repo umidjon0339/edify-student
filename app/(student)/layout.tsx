@@ -15,7 +15,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { 
   LayoutDashboard, BookOpen, User as UserIcon, 
   LogOut, Sparkles, Flame, Trophy, ChevronDown, Check,
-  Settings, Menu
+  Settings, Menu, BookMarked
 } from 'lucide-react';
 
 // Components
@@ -44,19 +44,19 @@ export function useStudentLanguage() {
 // ============================================================================
 const LAYOUT_TRANSLATIONS: any = {
   uz: {
-    menu: { dashboard: "Boshqaruv", classes: "Sinflarim", leaderboard: "Reyting", profile: "Profil" },
+    menu: { dashboard: "Boshqaruv", classes: "Sinflarim", library: "Kutubxona", leaderboard: "Reyting", profile: "Profil" },
     topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish" },
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
   },
   en: {
-    menu: { dashboard: "Dashboard", classes: "Classes", leaderboard: "Rank", profile: "Profile" },
+    menu: { dashboard: "Dashboard", classes: "Classes", library: "Library", leaderboard: "Rank", profile: "Profile" },
     topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out" },
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
   },
   ru: {
-    menu: { dashboard: "Главная", classes: "Классы", leaderboard: "Рейтинг", profile: "Профиль" },
+    menu: { dashboard: "Главная", classes: "Классы", library: "Библиотека", leaderboard: "Рейтинг", profile: "Профиль" },
     topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти" },
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
@@ -105,7 +105,6 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
-  // 🟢 NEW: Ref to track clicks outside the Topbar menus
   const topbarRef = useRef<HTMLDivElement>(null);
 
   const t = LAYOUT_TRANSLATIONS[lang] || LAYOUT_TRANSLATIONS['en'];
@@ -131,10 +130,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     return () => unsubscribe();
   }, [user]);
 
-  // 🟢 NEW: Global Click Listener to close menus
+  // Global Click Listener to close menus
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // If the click target is NOT inside our topbar container, close all menus
       if (topbarRef.current && !topbarRef.current.contains(event.target as Node)) {
         setIsLangMenuOpen(false);
         setIsProfileMenuOpen(false);
@@ -158,9 +156,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   }
   if (!user) return null; 
 
+  // 🟢 NEW: Added Library and the hideOnMobile flag
   const menuItems = [
     { name: t.menu.dashboard, href: '/dashboard', icon: LayoutDashboard },
     { name: t.menu.classes, href: '/classes', icon: BookOpen },
+    { name: t.menu.library, href: '/library', icon: BookMarked, hideOnMobile: true }, 
     { name: t.menu.leaderboard, href: '/leaderboard', icon: Trophy },
     { name: t.menu.profile, href: '/profile', icon: UserIcon },
   ];
@@ -211,6 +211,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
             </div>
           </div>
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
+            {/* Desktop maps over EVERYTHING, including Library */}
             {menuItems.map((item) => {
               const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
               return (
@@ -241,7 +242,6 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               </span>
             </div>
 
-            {/* 🟢 NEW: ref attached to the right side cluster to track clicks outside */}
             <div ref={topbarRef} className="flex items-center gap-2 sm:gap-3">
               
               {/* 1. STREAK WIDGET */}
@@ -326,7 +326,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         {/* 📱 APP-NATIVE BOTTOM NAVIGATION (Mobile Only) */}
         {/* ========================================================= */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-zinc-200 px-4 sm:px-6 py-2 flex justify-between items-center z-40 pb-[calc(env(safe-area-inset-bottom)+0.5rem)]">
-          {menuItems.map((item) => {
+          {/* 🟢 NEW: Filter out items that should be hidden on mobile */}
+          {menuItems.filter(item => !item.hideOnMobile).map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
               <Link key={item.href} href={item.href} className="relative flex flex-col items-center justify-center w-14 h-12 group">

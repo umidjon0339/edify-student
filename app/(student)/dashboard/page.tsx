@@ -7,7 +7,7 @@ import { db } from '@/lib/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { 
   Trophy, Flame, Target, ArrowRight, Star, 
-  CheckCircle, Activity, Sparkles, School, BookOpen
+  CheckCircle, Activity, Sparkles, School, BookOpen, BookMarked
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStudentLanguage } from '../layout'; 
@@ -29,7 +29,8 @@ const DASHBOARD_TRANSLATIONS: any = {
     stats: { xp: "Jami XP", streak: "Seriya", level: "Daraja", goal: "Maqsad", days: "kun", edit: "Tahrir" },
     task: { title: "So'nggi Faollik", empty: "Hali hech qanday test ishlanmadi.", btn: "Sinflarga O'tish", score: "Ball" },
     activity: { title: "7 Kunlik Faollik", live: "Jonli" },
-    modal: { title: "Kunlik Maqsad", desc: "O'zingizga mos maqsadni tanlang!", levels: { Casual: "Oddiy", Regular: "O'rtacha", Serious: "Jiddiy", Insane: "Dahshat" }, saved: "Maqsad saqlandi!" }
+    modal: { title: "Kunlik Maqsad", desc: "O'zingizga mos maqsadni tanlang!", levels: { Casual: "Oddiy", Regular: "O'rtacha", Serious: "Jiddiy", Insane: "Dahshat" }, saved: "Maqsad saqlandi!" },
+    library: { title: "Onlayn Kutubxona", desc: "Xalqaro va mahalliy darsliklar to'plamini kashf eting.", btn: "Kutubxonaga o'tish" }
   },
   en: {
     loading: "Loading...",
@@ -38,7 +39,8 @@ const DASHBOARD_TRANSLATIONS: any = {
     stats: { xp: "Total XP", streak: "Streak", level: "Level", goal: "Daily Goal", days: "days", edit: "Edit" },
     task: { title: "Recent Activity", empty: "No tests taken yet.", btn: "Go to Classes", score: "Score" },
     activity: { title: "7-Day Activity", live: "Live" },
-    modal: { title: "Daily Goal", desc: "Choose an XP target that challenges you!", levels: { Casual: "Casual", Regular: "Regular", Serious: "Serious", Insane: "Insane" }, saved: "Goal saved!" }
+    modal: { title: "Daily Goal", desc: "Choose an XP target that challenges you!", levels: { Casual: "Casual", Regular: "Regular", Serious: "Serious", Insane: "Insane" }, saved: "Goal saved!" },
+    library: { title: "Online Library", desc: "Discover a massive collection of textbooks and resources.", btn: "Explore Library" }
   },
   ru: {
     loading: "Загрузка...",
@@ -47,7 +49,8 @@ const DASHBOARD_TRANSLATIONS: any = {
     stats: { xp: "Всего XP", streak: "Серия", level: "Уровень", goal: "Цель", days: "дн.", edit: "Изм." },
     task: { title: "Недавняя активность", empty: "Тесты еще не пройдены.", btn: "Перейти к классам", score: "Балл" },
     activity: { title: "Активность (7 Дней)", live: "Live" },
-    modal: { title: "Цель Дня", desc: "Выберите свою цель XP на день!", levels: { Casual: "Легкий", Regular: "Обычный", Serious: "Серьезный", Insane: "Безумный" }, saved: "Цель сохранена!" }
+    modal: { title: "Цель Дня", desc: "Выберите свою цель XP на день!", levels: { Casual: "Легкий", Regular: "Обычный", Serious: "Серьезный", Insane: "Безумный" }, saved: "Цель сохранена!" },
+    library: { title: "Онлайн Библиотека", desc: "Откройте для себя коллекцию учебников и ресурсов.", btn: "В Библиотеку" }
   }
 };
 
@@ -57,7 +60,7 @@ interface UserProfile {
   currentStreak: number;
   dailyGoal: number;
   dailyHistory: Record<string, number>;
-  recentActivity: any[]; // Added to match our TestRunner logic
+  recentActivity: any[]; 
 }
 
 const generateChartData = (dailyHistory: Record<string, number> | undefined, lang: string) => {
@@ -168,7 +171,6 @@ export default function StudentDashboard() {
     setProfile(prev => prev ? ({ ...prev, dailyGoal: goal }) : null);
     setIsEditingGoal(false);
     
-    // 🟢 BUG FIX: Actually save to Firebase so it persists!
     try {
       await updateDoc(doc(db, 'users', user.uid), { dailyGoal: goal });
       toast.success(t.modal.saved);
@@ -262,7 +264,7 @@ export default function StudentDashboard() {
         {/* 🟢 MAIN CONTENT AREA */}
         <div className="grid lg:grid-cols-3 gap-6">
           
-          {/* Zero-Cost Recent Activity Card (Replaces the heavy "Next Task" queries) */}
+          {/* Zero-Cost Recent Activity Card */}
           <div className="lg:col-span-2 bg-white border-2 border-zinc-200 border-b-[6px] rounded-[2rem] p-6 md:p-8 flex flex-col justify-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border-2 bg-emerald-50 border-emerald-200 text-emerald-600 font-black text-[11px] uppercase tracking-widest mb-6 w-max">
               <Sparkles size={14} strokeWidth={3}/> {t.task.title}
@@ -297,7 +299,7 @@ export default function StudentDashboard() {
             </Link>
           </div>
 
-          {/* 🟢 TACTILE AREA CHART (Last 7 Days) */}
+          {/* TACTILE AREA CHART (Last 7 Days) */}
           <div className="bg-white border-2 border-zinc-200 border-b-[6px] rounded-[2rem] p-6 flex flex-col justify-between">
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-black text-zinc-900 flex items-center gap-2 text-[14px] uppercase tracking-widest">
@@ -330,6 +332,23 @@ export default function StudentDashboard() {
               </ResponsiveContainer>
             </div>
           </div>
+          
+          {/* 🟢 NEW: FULL-WIDTH LIBRARY PROMO BANNER */}
+          <div className="lg:col-span-3 bg-white border-2 border-zinc-200 border-b-[6px] rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-indigo-300 hover:border-b-indigo-400 transition-colors group">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 text-center md:text-left">
+              <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-[1.5rem] flex items-center justify-center border-2 border-indigo-200 shadow-sm shrink-0 rotate-3 group-hover:rotate-6 transition-transform">
+                <BookMarked size={32} strokeWidth={2.5} />
+              </div>
+              <div className="pt-1">
+                <h3 className="text-xl md:text-2xl font-black text-zinc-900 tracking-tight mb-2">{t.library.title}</h3>
+                <p className="text-[14px] md:text-[15px] font-bold text-zinc-500 max-w-lg">{t.library.desc}</p>
+              </div>
+            </div>
+            <Link href="/library" className="w-full md:w-auto px-8 py-4 bg-indigo-600 text-white font-black text-[15px] uppercase tracking-widest rounded-[1.2rem] border-b-4 border-indigo-800 hover:bg-indigo-500 active:border-b-0 active:translate-y-[4px] transition-all flex items-center justify-center gap-2 shadow-sm shrink-0">
+              {t.library.btn} <ArrowRight size={18} strokeWidth={3} />
+            </Link>
+          </div>
+
         </div>
 
         {/* 🟢 TACTILE GOAL EDIT MODAL */}

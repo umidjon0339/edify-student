@@ -3,62 +3,49 @@
 import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { 
-  collection, query, where, orderBy, onSnapshot, 
+  collection, query, where, orderBy, getDocs, 
   doc, writeBatch, limit, updateDoc 
 } from 'firebase/firestore';
 import { useAuth } from '@/lib/AuthContext';
 import { 
   Bell, Check, FileText, UserPlus, Trophy, Eye, Clock, 
-  Trash2, Sparkles, Inbox
+  Trash2, Inbox, Loader2, Sparkles
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useStudentLanguage } from '@/app/(student)/layout'; // 🟢 Import Language Hook
+import { useStudentLanguage } from '@/app/(student)/layout'; 
 
-// --- 1. TRANSLATION DICTIONARY ---
-const NOTIF_TRANSLATIONS = {
+// ============================================================================
+// 🟢 1. GLOBAL CACHE (0 Reads on Tab Switch)
+// ============================================================================
+const globalNotificationsCache: Record<string, { notifications: any[], timestamp: number }> = {};
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
+
+// --- TRANSLATION DICTIONARY ---
+const NOTIF_TRANSLATIONS: any = {
   uz: {
-    title: "Bildirishnomalar",
-    subtitle: "Faollik va yangilanishlar",
-    dismiss: "Yangi xabarlarni o'chirish",
-    emptyTitle: "Hammasi ko'rib chiqildi!",
-    emptyDesc: "Sizda yangi bildirishnomalar yo'q.",
-    time: {
-      now: "Hozirgina",
-      view: "Batafsil"
-    },
-    confirmClear: "Barcha bildirishnomalarni o'chirasizmi? Bu amalni qaytarib bo'lmaydi.",
-    newBadge: "YANGI"
+    title: "Bildirishnomalar", subtitle: "Faollik va yangilanishlar",
+    dismiss: "O'qilgan qilish", clear: "Tozalash",
+    emptyTitle: "Hammasi ko'rib chiqildi!", emptyDesc: "Sizda yangi bildirishnomalar yo'q.",
+    time: { now: "Hozirgina", view: "Batafsil" },
+    confirmClear: "Barcha bildirishnomalarni o'chirasizmi? Bu amalni qaytarib bo'lmaydi.", newBadge: "YANGI"
   },
   en: {
-    title: "Inbox",
-    subtitle: "Your activity & updates",
-    dismiss: "Dismiss New",
-    emptyTitle: "All caught up!",
-    emptyDesc: "You have no new notifications.",
-    time: {
-      now: "Just now",
-      view: "View Details"
-    },
-    confirmClear: "Clear all notifications? This cannot be undone.",
-    newBadge: "NEW"
+    title: "Inbox", subtitle: "Your activity & updates",
+    dismiss: "Mark Read", clear: "Clear",
+    emptyTitle: "All caught up!", emptyDesc: "You have no new notifications.",
+    time: { now: "Just now", view: "View Details" },
+    confirmClear: "Clear all notifications? This cannot be undone.", newBadge: "NEW"
   },
   ru: {
-    title: "Входящие",
-    subtitle: "Активность и обновления",
-    dismiss: "Скрыть новые",
-    emptyTitle: "Все прочитано!",
-    emptyDesc: "У вас нет новых уведомлений.",
-    time: {
-      now: "Только что",
-      view: "Подробнее"
-    },
-    confirmClear: "Очистить все уведомления? Это действие нельзя отменить.",
-    newBadge: "НОВОЕ"
+    title: "Входящие", subtitle: "Активность и обновления",
+    dismiss: "Прочитано", clear: "Очистить",
+    emptyTitle: "Все прочитано!", emptyDesc: "У вас нет новых уведомлений.",
+    time: { now: "Только что", view: "Подробнее" },
+    confirmClear: "Очистить все? Это нельзя отменить.", newBadge: "НОВОЕ"
   }
 };
 
-// --- TYPES ---
 interface Notification {
   id: string;
   title: string;
@@ -69,129 +56,100 @@ interface Notification {
   createdAt: any;
 }
 
-interface GlowingOrbProps {
-  color: string;
-  size: number;
-  position: { x: string; y: string };
-}
-
-// --- VISUAL COMPONENTS ---
-const FloatingParticles = () => {
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 2,
-    duration: Math.random() * 20 + 10,
-    delay: Math.random() * 5,
-    opacity: Math.random() * 0.5 + 0.1,
-  }));
-
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-indigo-400"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            opacity: particle.opacity,
-          }}
-          animate={{
-            y: [0, -80, 0],
-            opacity: [particle.opacity, 0, particle.opacity],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-const GlowingOrb = ({ color, size, position }: GlowingOrbProps) => (
-  <motion.div
-    className={`absolute rounded-full ${color} blur-3xl opacity-20 pointer-events-none`}
-    style={{
-      width: `${size}px`,
-      height: `${size}px`,
-      left: position.x,
-      top: position.y,
-    }}
-    animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-  />
-);
-
 export default function NotificationsPage() {
   const { user } = useAuth();
   const router = useRouter();
-  
-  // 🟢 Use Language Hook
   const { lang } = useStudentLanguage();
-  const t = NOTIF_TRANSLATIONS[lang];
+  const t = NOTIF_TRANSLATIONS[lang] || NOTIF_TRANSLATIONS['en'];
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 1. LISTEN TO ALL NOTIFICATIONS
+  // ============================================================================
+  // 🟢 2. SWR FETCH LOGIC (Replaces onSnapshot)
+  // ============================================================================
   useEffect(() => {
     if (!user) return;
     
-    const q = query(
-      collection(db, 'notifications'),
-      where('userId', '==', user.uid),
-      orderBy('createdAt', 'desc'),
-      limit(50)
-    );
+    const fetchNotifications = async (silent = false) => {
+      const cached = globalNotificationsCache[user.uid];
+      const now = Date.now();
 
-    const unsubscribe = onSnapshot(q, (snap) => {
-      const data = snap.docs.map(d => ({ id: d.id, ...d.data() } as Notification));
-      setNotifications(data);
-      setLoading(false);
-    });
+      if (cached && !silent) {
+        setNotifications(cached.notifications);
+        setLoading(false);
+        if (now - cached.timestamp < CACHE_LIFESPAN) return;
+      }
 
-    return () => unsubscribe();
+      if (!silent) setLoading(true);
+
+      try {
+        const q = query(
+          collection(db, 'notifications'),
+          where('userId', '==', user.uid),
+          orderBy('createdAt', 'desc'),
+          limit(50)
+        );
+
+        const snap = await getDocs(q);
+        const data = snap.docs.map(d => ({ id: d.id, ...d.data() } as Notification));
+        
+        setNotifications(data);
+        globalNotificationsCache[user.uid] = { notifications: data, timestamp: Date.now() };
+      } catch (e) {
+        console.error("Error fetching notifications:", e);
+      } finally {
+        if (!silent) setLoading(false);
+      }
+    };
+
+    fetchNotifications();
   }, [user]);
 
-  // 2. ACTIONS
+  // ============================================================================
+  // 🟢 3. ACTIONS (Optimistic UI Updates)
+  // ============================================================================
   const handleRead = async (notification: Notification) => {
     if (notification.link) router.push(notification.link);
     
     if (!notification.read) {
+      // Optimistic Update
+      const updated = notifications.map(n => n.id === notification.id ? { ...n, read: true } : n);
+      setNotifications(updated);
+      if (globalNotificationsCache[user!.uid]) globalNotificationsCache[user!.uid].notifications = updated;
+
       try {
         await updateDoc(doc(db, 'notifications', notification.id), { read: true });
-      } catch (e) { 
-        console.error("Error updating notification:", e); 
-      }
+      } catch (e) { console.error(e); }
     }
   };
 
   const markAllRead = async () => {
+    // Optimistic Update
+    const updated = notifications.map(n => ({ ...n, read: true }));
+    setNotifications(updated);
+    if (globalNotificationsCache[user!.uid]) globalNotificationsCache[user!.uid].notifications = updated;
+
     const batch = writeBatch(db);
     let hasUpdates = false;
 
     notifications.forEach(n => {
       if (!n.read) {
-        const ref = doc(db, 'notifications', n.id);
-        batch.update(ref, { read: true });
+        batch.update(doc(db, 'notifications', n.id), { read: true });
         hasUpdates = true;
       }
     });
 
-    if (hasUpdates) {
-      await batch.commit();
-    }
+    if (hasUpdates) await batch.commit();
   };
 
   const clearAll = async () => {
     if (!confirm(t.confirmClear)) return;
+    
+    // Optimistic Update
+    setNotifications([]);
+    if (globalNotificationsCache[user!.uid]) globalNotificationsCache[user!.uid].notifications = [];
+
     const batch = writeBatch(db);
     notifications.forEach(n => {
       batch.delete(doc(db, 'notifications', n.id));
@@ -199,20 +157,15 @@ export default function NotificationsPage() {
     await batch.commit();
   };
 
-  // 3. ICONS
+  // --- ICONS (Tactile Design) ---
   const getIcon = (type: string) => {
-    const baseClass = "p-3 rounded-xl border backdrop-blur-md shadow-lg";
+    const baseClass = "w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 shadow-sm";
     switch (type) {
-      case 'assignment': 
-        return <div className={`${baseClass} bg-blue-500/20 text-blue-400 border-blue-500/30`}><FileText size={20} /></div>;
-      case 'submission': 
-        return <div className={`${baseClass} bg-emerald-500/20 text-emerald-400 border-emerald-500/30`}><Trophy size={20} /></div>;
-      case 'request': 
-        return <div className={`${baseClass} bg-purple-500/20 text-purple-400 border-purple-500/30`}><UserPlus size={20} /></div>;
-      case 'result': 
-        return <div className={`${baseClass} bg-orange-500/20 text-orange-400 border-orange-500/30`}><Eye size={20} /></div>;
-      default: 
-        return <div className={`${baseClass} bg-slate-700/50 text-slate-300 border-slate-600/50`}><Bell size={20} /></div>;
+      case 'assignment': return <div className={`${baseClass} bg-blue-50 text-blue-500 border-blue-200`}><FileText size={24} strokeWidth={2.5}/></div>;
+      case 'submission': return <div className={`${baseClass} bg-emerald-50 text-emerald-500 border-emerald-200`}><Trophy size={24} strokeWidth={2.5}/></div>;
+      case 'request': return <div className={`${baseClass} bg-purple-50 text-purple-500 border-purple-200`}><UserPlus size={24} strokeWidth={2.5}/></div>;
+      case 'result': return <div className={`${baseClass} bg-orange-50 text-orange-500 border-orange-200`}><Eye size={24} strokeWidth={2.5}/></div>;
+      default: return <div className={`${baseClass} bg-zinc-100 text-zinc-500 border-zinc-200`}><Bell size={24} strokeWidth={2.5}/></div>;
     }
   };
 
@@ -222,83 +175,74 @@ export default function NotificationsPage() {
     return date.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   };
 
-  // --- SKELETON LOADING ---
+  // --- TACTILE SKELETON ---
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 relative overflow-hidden">
-      <FloatingParticles />
-      <div className="max-w-3xl mx-auto p-6 pt-12 space-y-8 relative z-10">
-        <div className="flex justify-between items-end animate-pulse">
-           <div className="h-10 w-40 bg-slate-700/50 rounded-lg"></div>
-           <div className="h-10 w-24 bg-slate-700/50 rounded-lg"></div>
+    <div className="min-h-screen bg-zinc-50 font-sans pb-24">
+      <div className="max-w-3xl mx-auto p-4 md:p-8 space-y-6 pt-12">
+        <div className="flex justify-between items-end animate-pulse mb-8">
+           <div className="h-10 w-40 bg-zinc-200 rounded-xl"></div>
+           <div className="h-10 w-24 bg-zinc-200 rounded-xl"></div>
         </div>
-        <div className="space-y-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-24 bg-slate-800/80 rounded-2xl border border-slate-700/50 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-700/10 to-transparent animate-[shimmer_1.5s_infinite]" />
-            </div>
-          ))}
-        </div>
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="h-28 bg-white rounded-[1.5rem] border-2 border-zinc-100 animate-pulse" />
+        ))}
       </div>
-      <style jsx>{` @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } } `}</style>
     </div>
   );
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 relative overflow-hidden">
-      <FloatingParticles />
-      <GlowingOrb color="bg-indigo-600" size={300} position={{ x: '10%', y: '10%' }} />
-      <GlowingOrb color="bg-pink-600" size={400} position={{ x: '80%', y: '60%' }} />
+  const unreadCount = notifications.filter(n => !n.read).length;
 
-      <div className="max-w-3xl mx-auto p-4 md:p-8 pb-20 relative z-10">
+  return (
+    <div className="min-h-screen bg-zinc-50 font-sans pb-28 md:pb-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-6 md:pt-10">
         
-        {/* HEADER */}
+        {/* 🟢 HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
-            <h1 className="pt-12 md:pt-0 text-3xl font-black text-white flex items-center gap-3 tracking-tight">
-               <div className="p-2.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl text-white shadow-lg shadow-indigo-500/20">
-                 <Inbox size={28} />
+            <h1 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tight flex items-center gap-3">
+               <div className="w-12 h-12 md:w-14 md:h-14 bg-indigo-100 text-indigo-600 rounded-[1rem] md:rounded-[1.2rem] flex items-center justify-center border-2 border-indigo-200 shadow-sm shrink-0">
+                 <Inbox size={28} strokeWidth={2.5}/>
                </div>
                {t.title}
             </h1>
-            <p className="text-slate-400 mt-2 font-medium text-lg ml-1">
-              {t.subtitle}
+            <p className="text-[14px] font-bold text-zinc-500 mt-2 uppercase tracking-widest pl-1">
+              {t.subtitle} {unreadCount > 0 && <span className="text-indigo-500">• {unreadCount} New</span>}
             </p>
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex gap-2">
              <button 
                onClick={markAllRead} 
-               disabled={!notifications.some(n => !n.read)}
-               className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 border border-slate-700 text-slate-300 font-bold text-sm rounded-xl hover:bg-slate-700 hover:text-white hover:border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
-               title={t.dismiss}
+               disabled={unreadCount === 0}
+               className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 md:py-2.5 bg-white border-2 border-zinc-200 border-b-4 text-zinc-600 font-black text-[12px] uppercase tracking-widest rounded-xl hover:bg-zinc-50 hover:text-zinc-900 active:border-b-2 active:translate-y-[2px] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
              >
-               <Check size={16} /> {t.dismiss}
+               <Check size={16} strokeWidth={3} /> {t.dismiss}
              </button>
              <button 
                onClick={clearAll} 
                disabled={notifications.length === 0}
-               className="p-2.5 text-slate-400 border border-slate-700 bg-slate-800 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 rounded-xl transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-               title="Clear History"
+               className="flex items-center justify-center px-5 py-3 md:py-2.5 bg-red-50 text-red-500 border-2 border-red-200 border-b-4 font-black text-[12px] uppercase tracking-widest rounded-xl hover:bg-red-100 active:border-b-2 active:translate-y-[2px] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
              >
-               <Trash2 size={20} />
+               <Trash2 size={18} strokeWidth={3} className="md:hidden" />
+               <span className="hidden md:inline">{t.clear}</span>
              </button>
           </div>
         </div>
 
-        {/* LIST */}
-        <div className="space-y-3">
+        {/* 🟢 NOTIFICATIONS LIST */}
+        <div className="space-y-4">
           <AnimatePresence mode='popLayout'>
             {notifications.length === 0 ? (
                <motion.div 
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 className="text-center py-20 bg-slate-800/50 backdrop-blur-md rounded-3xl border border-dashed border-slate-700"
+                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                 animate={{ opacity: 1, y: 0, scale: 1 }}
+                 className="text-center py-20 bg-white rounded-[2rem] border-2 border-dashed border-zinc-300 shadow-sm"
                >
-                  <div className="w-20 h-20 bg-slate-700/50 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-600/50 shadow-inner">
-                    <Sparkles size={32} />
+                  <div className="w-20 h-20 bg-zinc-100 text-zinc-400 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 border-2 border-zinc-200 rotate-6">
+                    <Sparkles size={36} strokeWidth={2.5}/>
                   </div>
-                  <h3 className="text-white font-bold text-xl mb-1">{t.emptyTitle}</h3>
-                  <p className="text-slate-400">{t.emptyDesc}</p>
+                  <h3 className="text-zinc-900 font-black text-xl mb-2 tracking-tight">{t.emptyTitle}</h3>
+                  <p className="text-zinc-500 font-bold text-[14px]">{t.emptyDesc}</p>
                </motion.div>
             ) : (
               notifications.map((n) => (
@@ -309,44 +253,40 @@ export default function NotificationsPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
                   onClick={() => handleRead(n)}
-                  className={`relative p-5 rounded-2xl border transition-all cursor-pointer group hover:shadow-xl hover:-translate-y-1 overflow-hidden
+                  className={`relative p-5 rounded-[1.5rem] border-2 transition-all cursor-pointer group hover:shadow-md
                     ${!n.read 
-                      ? 'bg-slate-800/80 border-indigo-500/40 shadow-lg shadow-indigo-500/5' 
-                      : 'bg-slate-800/40 border-slate-700/50 hover:border-slate-600'
+                      ? 'bg-indigo-50/50 border-indigo-200 border-b-[6px] active:border-b-2 active:translate-y-[4px]' 
+                      : 'bg-white border-zinc-200 border-b-[6px] active:border-b-2 active:translate-y-[4px] hover:border-indigo-300'
                     }
                   `}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
                   {/* "New" Badge */}
                   {!n.read && (
-                    <span className="absolute top-4 right-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg shadow-indigo-500/30 tracking-wider">
+                    <span className="absolute top-4 right-4 bg-indigo-500 text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-widest shadow-sm">
                       {t.newBadge}
                     </span>
                   )}
 
-                  <div className="flex items-start gap-5 relative z-10">
-                    <div className="shrink-0 transition-transform group-hover:scale-110 duration-300">
+                  <div className="flex items-start gap-4 relative z-10">
+                    <div className="shrink-0 transition-transform group-hover:scale-105 duration-300">
                       {getIcon(n.type)}
                     </div>
 
                     <div className="flex-1 min-w-0 pt-0.5">
-                       <div className="flex items-center gap-2 mb-1.5 pr-12">
-                          <h3 className={`text-base md:text-lg leading-tight ${!n.read ? 'font-black text-white' : 'font-bold text-slate-300'}`}>
-                            {n.title}
-                          </h3>
-                       </div>
-                       <p className={`text-sm leading-relaxed mb-3 ${!n.read ? 'text-slate-300' : 'text-slate-500'}`}>
+                       <h3 className={`text-[15px] md:text-[17px] tracking-tight leading-tight pr-14 mb-1 ${!n.read ? 'font-black text-indigo-950' : 'font-bold text-zinc-800 group-hover:text-indigo-600 transition-colors'}`}>
+                         {n.title}
+                       </h3>
+                       <p className={`text-[13px] md:text-[14px] leading-relaxed mb-3 ${!n.read ? 'text-indigo-900/80 font-medium' : 'text-zinc-500 font-medium'}`}>
                          {n.message}
                        </p>
                        
-                       <div className="flex items-center gap-4 text-xs font-bold text-slate-500">
-                          <span className="flex items-center gap-1.5 bg-slate-900/30 px-2 py-1 rounded-md">
-                            <Clock size={12} /> {getTimeString(n.createdAt)}
+                       <div className="flex items-center gap-4 text-[11px] font-black text-zinc-400 uppercase tracking-widest">
+                          <span className="flex items-center gap-1.5 bg-zinc-100/80 px-2 py-1 rounded-md border border-zinc-200/50">
+                            <Clock size={14} strokeWidth={2.5}/> {getTimeString(n.createdAt)}
                           </span>
                           {n.link && (
-                            <span className="text-indigo-400 flex items-center gap-1 group-hover:text-indigo-300 transition-colors">
-                              {t.time.view} <Eye size={12}/>
+                            <span className="text-indigo-500 flex items-center gap-1 group-hover:text-indigo-600 transition-colors">
+                              {t.time.view} <Eye size={14} strokeWidth={3}/>
                             </span>
                           )}
                        </div>
