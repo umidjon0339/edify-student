@@ -77,7 +77,7 @@ export default function OnlineLibraryPage() {
   useEffect(() => {
     const fetchAllBooks = async () => {
       const now = Date.now();
-      const CACHE_LIFESPAN = 48 * 60 * 60 * 1000; // 48 Hours
+      const CACHE_LIFESPAN = 24 * 60 * 60 * 1000; // 24 Hours
 
       const localCached = localStorage.getItem('student_library_books');
       const localCacheTime = localStorage.getItem('student_library_timestamp');
