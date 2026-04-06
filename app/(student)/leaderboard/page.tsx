@@ -1,17 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/AuthContext';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, limit, orderBy, doc, getDoc } from 'firebase/firestore';
-import { 
-  Trophy, Medal, Crown, Sparkles, Shield 
-} from 'lucide-react';
+import { Trophy, Crown, Sparkles, User as UserIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStudentLanguage } from '@/app/(student)/layout';
 
-// --- 1. HELPERS: DATE IDs ---
+// =========================================
+// 1. HELPERS & GLOBAL CACHE
+// =========================================
+
+// 🟢 SMART CACHE: Survives navigation and tracks data age!
+const globalLeaderboardCache: Record<string, { leaders: any[], me: any, timestamp: number }> = {};
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds (1 minute)
+
 const getPeriodIds = () => {
   const now = new Date();
   const year = now.getUTCFullYear();
@@ -30,103 +35,89 @@ const getPeriodIds = () => {
   };
 };
 
-// --- TRANSLATIONS ---
-const LEADERBOARD_TRANSLATIONS = {
+// =========================================
+// 2. TRANSLATIONS
+// =========================================
+const LEADERBOARD_TRANSLATIONS: any = {
   uz: {
-    title: "Chempionlar Ligasi",
-    subtitle: "Eng kuchli o'quvchilar reytingi",
+    title: "Reyting",
+    subtitle: "Eng faol o'quvchilar ro'yxati",
     tabs: { today: "Bugun", week: "Hafta", month: "Oy", all: "Umumiy" },
     empty: "Hozircha natijalar yo'q",
-    you: "Siz",
+    you: "SIZ",
     xp: "XP"
   },
   en: {
-    title: "Champions League",
+    title: "Leaderboard",
     subtitle: "Ranking the top performing students",
-    tabs: { today: "Today", week: "This Week", month: "This Month", all: "All Time" },
+    tabs: { today: "Today", week: "Week", month: "Month", all: "All Time" },
     empty: "No results yet",
-    you: "You",
+    you: "YOU",
     xp: "XP"
   },
   ru: {
-    title: "Лига Чемпионов",
-    subtitle: "Рейтинг лучших учеников",
-    tabs: { today: "Сегодня", week: "Неделя", month: "Месяц", all: "Все время" },
+    title: "Рейтинг",
+    subtitle: "Самые активные ученики",
+    tabs: { today: "Сегодня", week: "Неделя", month: "Месяц", all: "За все время" },
     empty: "Пока нет результатов",
-    you: "Вы",
+    you: "ВЫ",
     xp: "XP"
   }
 };
 
-// --- VISUAL COMPONENT: Floating Particles ---
-const FloatingParticles = () => {
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 2,
-    duration: Math.random() * 20 + 10,
-    delay: Math.random() * 5,
-    opacity: Math.random() * 0.5 + 0.1,
-  }));
-
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-blue-400"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            opacity: particle.opacity,
-          }}
-          animate={{
-            y: [0, -80, 0],
-            opacity: [particle.opacity, 0, particle.opacity],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
 export default function LeaderboardPage() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { user } = useAuth();
   const { lang } = useStudentLanguage();
-  const t = LEADERBOARD_TRANSLATIONS[lang];
+  const t = LEADERBOARD_TRANSLATIONS[lang] || LEADERBOARD_TRANSLATIONS['en'];
 
-  // 🟢 State
-  const [cache, setCache] = useState<Record<string, { leaders: any[], me: any }>>({});
-  const [activeTab, setActiveTab] = useState<'today' | 'week' | 'month' | 'all'>('week');
+  // 🟢 URL State Tab Logic
+  const urlTab = searchParams.get('tab') as 'today' | 'week' | 'month' | 'all';
+  const [activeTab, setActiveTab] = useState<'today' | 'week' | 'month' | 'all'>(
+    ['today', 'week', 'month', 'all'].includes(urlTab) ? urlTab : 'week'
+  );
+
   const [leaders, setLeaders] = useState<any[]>([]);
   const [currentUserData, setCurrentUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // --- FETCH DATA (OPTIMIZED WITH CACHING & LIMIT 20) ---
+  // 🟢 Custom Tab Changer (Updates URL silently)
+  const handleTabChange = (tab: 'today' | 'week' | 'month' | 'all') => {
+    setActiveTab(tab);
+    router.replace(`${pathname}?tab=${tab}`, { scroll: false });
+  };
+
+ // =========================================
+  // 3. FETCH DATA (Stale-While-Revalidate)
+  // =========================================
   useEffect(() => {
     const fetchData = async () => {
       const periodIds = getPeriodIds();
       const collectionId = periodIds[activeTab];
+      const now = Date.now();
 
-      // 1. Check Cache First (Costs 0 Firebase Reads!)
-      if (cache[activeTab]) {
-        setLeaders(cache[activeTab].leaders);
-        setCurrentUserData(cache[activeTab].me);
-        return;
+      // 🟢 1. INSTANT CACHE LOAD
+      const cachedData = globalLeaderboardCache[activeTab];
+      if (cachedData) {
+        setLeaders(cachedData.leaders);
+        setCurrentUserData(cachedData.me);
+        setLoading(false); // Instantly paint the UI
+
+        // If the cache is less than 60 seconds old, stop here. Zero reads!
+        if (now - cachedData.timestamp < CACHE_LIFESPAN) {
+          return; 
+        }
+        
+        // 🟢 If older than 60s, DO NOT return. We let the code continue to 
+        // fetch fresh data silently in the background (no loading spinner).
+      } else {
+        // Only show the loading skeleton if we have absolutely no cache
+        setLoading(true); 
       }
 
-      setLoading(true);
       try {
-        // 2. Fetch Top 20 (Decreased from 50 to save costs)
         const q = query(
           collection(db, 'leaderboards', collectionId, 'users'), 
           orderBy('xp', 'desc'), 
@@ -137,28 +128,26 @@ export default function LeaderboardPage() {
 
         let myData = null;
 
-        // 3. Fetch "ME" logic
         if (user) {
           const myIndexInTop20 = fetchedLeaders.findIndex((u: any) => u.uid === user.uid);
           
           if (myIndexInTop20 !== -1) {
-            // I am in the top 20
             myData = { ...fetchedLeaders[myIndexInTop20], rank: myIndexInTop20 + 1 };
           } else {
-            // I am NOT in the top 20. Fetch my specific doc.
             const myDocRef = doc(db, 'leaderboards', collectionId, 'users', user.uid);
             const myDocSnap = await getDoc(myDocRef);
             if (myDocSnap.exists()) {
-              myData = { uid: user.uid, ...myDocSnap.data(), rank: '>20' };
+              myData = { uid: user.uid, ...myDocSnap.data(), rank: '20+' };
             }
           }
         }
 
-        // 4. Save to Cache & Update State
-        setCache(prev => ({
-          ...prev,
-          [activeTab]: { leaders: fetchedLeaders, me: myData }
-        }));
+        // 🟢 2. UPDATE CACHE & UI WITH FRESH DATA
+        globalLeaderboardCache[activeTab] = { 
+          leaders: fetchedLeaders, 
+          me: myData, 
+          timestamp: Date.now() // Record exactly when we fetched this
+        };
         
         setLeaders(fetchedLeaders);
         setCurrentUserData(myData);
@@ -171,177 +160,270 @@ export default function LeaderboardPage() {
     };
 
     fetchData();
-  }, [activeTab, user, cache]);
-
-  // --- STYLING HELPERS ---
-  const getRankStyle = (index: number) => {
-    switch (index) {
-      case 0: return "bg-gradient-to-r from-yellow-500/20 to-yellow-900/20 border-yellow-500/50 shadow-[0_0_20px_rgba(234,179,8,0.3)]";
-      case 1: return "bg-gradient-to-r from-slate-400/20 to-slate-800/20 border-slate-400/50 shadow-[0_0_15px_rgba(148,163,184,0.2)]";
-      case 2: return "bg-gradient-to-r from-orange-500/20 to-orange-900/20 border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]";
-      default: return "bg-slate-800/40 border-slate-700/50 hover:bg-slate-800/60";
-    }
-  };
-
-  const getRankIcon = (index: number) => {
-    switch (index) {
-      case 0: return <Crown size={24} className="text-yellow-400 fill-yellow-400 animate-pulse drop-shadow-md" />;
-      case 1: return <Medal size={22} className="text-slate-300 drop-shadow-md" />;
-      case 2: return <Medal size={22} className="text-orange-400 drop-shadow-md" />;
-      default: return <span className="font-bold text-slate-500 w-8 text-center text-lg">#{index + 1}</span>;
-    }
-  };
+  }, [activeTab, user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 pb-24 relative overflow-hidden text-slate-100">
-      <FloatingParticles />
-
-      <div className="max-w-2xl mx-auto relative z-10 flex flex-col h-full min-h-screen">
+    <div className="min-h-screen bg-zinc-50 pb-28 md:pb-12 relative font-sans">
+      <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6 relative z-10 flex flex-col h-full min-h-screen">
         
-        {/* HEADER */}
-        <div className="pt-20 md:pt-10 pb-6 px-6 text-center">
-           <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600 flex items-center justify-center gap-2 drop-shadow-sm">
-             <Trophy size={28} className="text-yellow-400" fill="currentColor" /> {t.title}
-           </h1>
-           <p className="text-slate-400 text-sm font-medium mt-1 tracking-wide">{t.subtitle}</p>
+        {/* ========================================= */}
+        {/* HEADER (Hidden on Mobile) */}
+        {/* ========================================= */}
+        <div className="hidden md:flex pt-10 pb-6 flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-black text-zinc-900 tracking-tight flex items-center justify-start gap-3">
+              <div className="w-12 h-12 bg-amber-100 rounded-[1.2rem] flex items-center justify-center border-2 border-amber-200 text-amber-500">
+                <Trophy size={24} strokeWidth={2.5} />
+              </div>
+              {t.title}
+            </h1>
+            <p className="text-zinc-500 text-[15px] font-bold mt-1.5">{t.subtitle}</p>
+          </div>
         </div>
 
-        {/* TABS */}
-        <div className="px-4 mb-6 sticky top-4 z-50">
-           <div className="bg-slate-900/80 p-1.5 rounded-2xl flex items-center justify-between border border-white/10 backdrop-blur-xl shadow-2xl">
+        {/* ========================================= */}
+        {/* CHUNKY TABS */}
+        {/* ========================================= */}
+        <div className="pt-6 md:pt-0 mb-6 sticky top-0 z-40 bg-zinc-50/90 backdrop-blur-xl pb-2">
+           <div className="bg-zinc-200/80 p-1.5 rounded-[1.25rem] flex items-center justify-between border-2 border-white/50 shadow-sm mt-2">
               {(['today', 'week', 'month', 'all'] as const).map((tab) => (
                  <button
                    key={tab}
-                   onClick={() => setActiveTab(tab)}
-                   className={`relative flex-1 py-2.5 text-xs font-bold rounded-xl transition-all ${activeTab === tab ? 'text-white' : 'text-slate-400 hover:text-slate-200'}`}
+                   onClick={() => handleTabChange(tab)}
+                   className={`relative flex-1 py-3 text-[12px] sm:text-[14px] font-black rounded-xl transition-all duration-200 ${
+                     activeTab === tab ? 'text-violet-700' : 'text-zinc-500 hover:bg-zinc-300/50'
+                   }`}
                  >
                    {activeTab === tab && (
                      <motion.div 
-                        layoutId="tab-bg" 
-                        className="absolute inset-0 bg-indigo-600 rounded-xl shadow-lg border border-indigo-400/30" 
+                        layoutId="tab-bg-leaderboard" 
+                        className="absolute inset-0 bg-white rounded-xl shadow-sm border-2 border-zinc-200/50" 
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} 
                      />
                    )}
-                   <span className="relative z-10">{t.tabs[tab]}</span>
+                   <span className="relative z-10 uppercase tracking-wide">{t.tabs[tab]}</span>
                  </button>
               ))}
            </div>
         </div>
 
-        {/* LIST VIEW */}
-        <div className="flex-1 px-4 space-y-3 pb-6 relative">
+        {/* ========================================= */}
+        {/* LEADERBOARD LIST & PODIUM */}
+        {/* ========================================= */}
+        <div className="flex-1 space-y-3 pb-6 relative">
           {loading ? (
-             <div className="flex flex-col items-center justify-center space-y-4 py-20 opacity-50">
-                <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+             // 🟢 TACTILE SKELETON LOADER
+             <div className="space-y-3 animate-pulse pt-4">
+                <div className="flex justify-center items-end gap-3 mb-10">
+                  <div className="w-[30%] h-28 bg-zinc-200/80 rounded-t-[2rem]"></div>
+                  <div className="w-[35%] h-36 bg-zinc-300 rounded-t-[2.5rem]"></div>
+                  <div className="w-[30%] h-24 bg-zinc-200/80 rounded-t-[2rem]"></div>
+                </div>
+                {[1, 2, 3, 4, 5].map(i => (
+                  <div key={i} className="h-20 bg-white border-2 border-zinc-200 rounded-2xl w-full"></div>
+                ))}
              </div>
           ) : (
             <>
               <AnimatePresence mode="popLayout">
                  {leaders.length > 0 ? (
-                   leaders.map((u, idx) => {
-                     const isMe = user?.uid === u.uid;
-
-                     return (
-                       <motion.div
-                         key={u.uid}
-                         initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                         transition={{ delay: idx * 0.05, duration: 0.3 }}
-                         onClick={() => router.push(`/profile/${u.uid}`)}
-                         className={`rounded-2xl p-4 flex items-center gap-4 transition-all border backdrop-blur-sm relative overflow-hidden group cursor-pointer 
-                           ${isMe ? 'ring-2 ring-blue-500/50 z-10' : ''} 
-                           ${getRankStyle(idx)}
-                         `}
-                       >
-                          <div className="w-10 flex justify-center shrink-0">
-                            {getRankIcon(idx)}
-                          </div>
-
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border-2 overflow-hidden shadow-sm
-                              ${idx === 0 ? 'border-yellow-400/50 bg-yellow-900/20 text-yellow-200' : 'border-slate-600 bg-slate-700 text-slate-300'}
-                          `}>
-                             {u.avatar ? (
-                               <img src={u.avatar} className="w-full h-full object-cover" alt="User" />
-                             ) : (
-                               u.displayName?.[0] || 'U'
-                             )}
-                          </div>
-
-                          <div className="flex-1 min-w-0">
-                             <div className="flex items-center gap-2">
-                               <h4 className={`font-bold text-base md:text-lg truncate ${idx === 0 ? 'text-yellow-100' : 'text-slate-200'}`}>
-                                 {u.displayName || 'Anonymous Student'}
-                               </h4>
-                               {isMe && (
-                                 <span className="shrink-0 text-[10px] font-bold bg-blue-500 text-white px-2 py-0.5 rounded-full shadow-sm shadow-blue-500/50">
-                                   {t.you}
-                                 </span>
-                               )}
+                   <div className="animate-in fade-in zoom-in-95 duration-500">
+                     
+                     {/* ========================================= */}
+                     {/* 🏆 THE PODIUM (TOP 3) */}
+                     {/* ========================================= */}
+                     <div className="flex justify-center items-end gap-2 sm:gap-6 mt-4 sm:mt-8 mb-8 px-1">
+                       
+                       {/* 🥈 2ND PLACE */}
+                       {leaders[1] && (
+                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} onClick={() => router.push(`/profile/${leaders[1].uid}`)} className="flex flex-col items-center w-[30%] max-w-[110px] mb-4 cursor-pointer group">
+                           <div className="relative">
+                             <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-b from-slate-300 to-slate-400 shadow-lg group-hover:-translate-y-2 transition-transform duration-300 ${user?.uid === leaders[1].uid ? 'ring-4 ring-violet-500/30' : ''}`}>
+                               <div className="w-full h-full rounded-full overflow-hidden bg-white border-2 border-white flex items-center justify-center font-black text-2xl text-slate-400">
+                                 {leaders[1].photoURL || leaders[1].photoUrl || leaders[1].avatar ? <img src={leaders[1].photoURL || leaders[1].photoUrl || leaders[1].avatar} className="w-full h-full object-cover" alt="User" /> : leaders[1].displayName?.[0]?.toUpperCase()}
+                               </div>
                              </div>
-                          </div>
+                             <div className="absolute -bottom-2 -right-1 bg-slate-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-black text-[13px] border-2 border-white shadow-md z-10">2</div>
+                           </div>
+                           <h4 className="font-black text-[12px] sm:text-[14px] text-slate-700 mt-4 text-center line-clamp-2 leading-tight px-1">{leaders[1].displayName || 'Student'}</h4>
+                           <div className="mt-1.5 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-lg flex items-center gap-1">
+                             <span className="font-black text-slate-600 text-[12px]">{leaders[1].xp?.toLocaleString()}</span><span className="text-[8px] font-bold text-slate-400 mt-0.5">XP</span>
+                           </div>
+                         </motion.div>
+                       )}
 
-                          <div className="text-right pl-2">
-                             <span className={`block font-black text-xl tracking-tight ${
-                                 idx === 0 ? 'text-yellow-400 drop-shadow-md' : 
-                                 idx === 1 ? 'text-slate-300' : 
-                                 idx === 2 ? 'text-orange-400' : 'text-indigo-400'}
-                             `}>
-                               {u.xp?.toLocaleString() || 0}
-                             </span>
-                             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">XP</span>
-                          </div>
-                          
-                          {idx < 3 && (
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000" />
-                          )}
-                       </motion.div>
-                     );
-                   })
+                       {/* 🥇 1ST PLACE */}
+                       {leaders[0] && (
+                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} onClick={() => router.push(`/profile/${leaders[0].uid}`)} className="flex flex-col items-center w-[38%] max-w-[130px] z-10 cursor-pointer group">
+                           <div className="relative">
+                             <Crown size={40} strokeWidth={2.5} className="absolute -top-10 left-1/2 -translate-x-1/2 text-amber-500 fill-amber-200 drop-shadow-md group-hover:-translate-y-2 transition-transform duration-300" />
+                             <div className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1.5 bg-gradient-to-b from-amber-300 to-amber-500 shadow-[0_10px_30px_rgba(251,191,36,0.4)] group-hover:-translate-y-2 transition-transform duration-300 ${user?.uid === leaders[0].uid ? 'ring-4 ring-violet-500/30' : ''}`}>
+                               <div className="w-full h-full rounded-full overflow-hidden bg-white border-2 border-white flex items-center justify-center font-black text-3xl text-amber-400">
+                                 {leaders[0].photoURL || leaders[0].photoUrl || leaders[0].avatar ? <img src={leaders[0].photoURL || leaders[0].photoUrl || leaders[0].avatar} className="w-full h-full object-cover" alt="User" /> : leaders[0].displayName?.[0]?.toUpperCase()}
+                               </div>
+                             </div>
+                             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-amber-500 text-white w-9 h-9 rounded-full flex items-center justify-center font-black text-[16px] border-2 border-white shadow-md z-10">1</div>
+                           </div>
+                           <h4 className="font-black text-[14px] sm:text-[16px] text-amber-600 mt-5 text-center line-clamp-2 leading-tight px-1">{leaders[0].displayName || 'Student'}</h4>
+                           <div className="mt-1.5 bg-amber-100 border border-amber-200 px-3 py-1 rounded-xl flex items-center gap-1 shadow-sm">
+                             <span className="font-black text-amber-600 text-[14px]">{leaders[0].xp?.toLocaleString()}</span><span className="text-[9px] font-bold text-amber-500 mt-0.5">XP</span>
+                           </div>
+                         </motion.div>
+                       )}
+
+                       {/* 🥉 3RD PLACE */}
+                       {leaders[2] && (
+                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} onClick={() => router.push(`/profile/${leaders[2].uid}`)} className="flex flex-col items-center w-[30%] max-w-[110px] mb-4 cursor-pointer group">
+                           <div className="relative">
+                             <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full p-1 bg-gradient-to-b from-orange-300 to-orange-500 shadow-lg group-hover:-translate-y-2 transition-transform duration-300 ${user?.uid === leaders[2].uid ? 'ring-4 ring-violet-500/30' : ''}`}>
+                               <div className="w-full h-full rounded-full overflow-hidden bg-white border-2 border-white flex items-center justify-center font-black text-2xl text-orange-400">
+                                 {leaders[2].photoURL || leaders[2].photoUrl || leaders[2].avatar ? <img src={leaders[2].photoURL || leaders[2].photoUrl || leaders[2].avatar} className="w-full h-full object-cover" alt="User" /> : leaders[2].displayName?.[0]?.toUpperCase()}
+                               </div>
+                             </div>
+                             <div className="absolute -bottom-2 -right-1 bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-black text-[13px] border-2 border-white shadow-md z-10">3</div>
+                           </div>
+                           <h4 className="font-black text-[12px] sm:text-[14px] text-slate-700 mt-4 text-center line-clamp-2 leading-tight px-1">{leaders[2].displayName || 'Student'}</h4>
+                           <div className="mt-1.5 bg-orange-50 border border-orange-200 px-2.5 py-0.5 rounded-lg flex items-center gap-1">
+                             <span className="font-black text-orange-600 text-[12px]">{leaders[2].xp?.toLocaleString()}</span><span className="text-[8px] font-bold text-orange-400 mt-0.5">XP</span>
+                           </div>
+                         </motion.div>
+                       )}
+                     </div>
+
+                     {/* ========================================= */}
+                     {/* 📝 THE REST OF THE LIST (4th to 20th) */}
+                     {/* ========================================= */}
+                     {leaders.length > 3 && (
+                       <div className="space-y-3">
+                         {leaders.slice(3).map((u, idx) => {
+                           const rank = idx + 4;
+                           const isMe = user?.uid === u.uid;
+                           const avatarUrl = u.photoURL || u.photoUrl || u.avatar || null;
+
+                           return (
+                             <motion.div
+                               key={u.uid}
+                               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.03 }}
+                               onClick={() => router.push(`/profile/${u.uid}`)}
+                               className={`rounded-[1.5rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-4 transition-all cursor-pointer 
+                                 ${isMe 
+                                   ? 'bg-violet-50 border-2 border-violet-300 border-b-4 shadow-[0_8px_30px_rgb(139,92,246,0.15)] ring-4 ring-violet-500/10 z-10' 
+                                   : 'bg-white border-2 border-zinc-200 border-b-4 hover:border-violet-200 hover:shadow-[0_8px_30px_rgb(139,92,246,0.08)] active:translate-y-[2px] active:border-b-2'} 
+                               `}
+                             >
+                                {/* 🟢 Avatar with Rank Badge Bottom Right */}
+                                <div className="relative shrink-0">
+                                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full p-[2px] bg-gradient-to-tr from-violet-200 to-fuchsia-200 shadow-sm">
+                                    <div className="w-full h-full rounded-full border-2 border-white bg-zinc-100 overflow-hidden flex items-center justify-center font-black text-xl text-zinc-400">
+                                      {avatarUrl ? (
+                                        <img src={avatarUrl} className="w-full h-full object-cover" alt="Avatar" />
+                                      ) : (
+                                        u.displayName?.[0]?.toUpperCase() || <UserIcon size={20} strokeWidth={3}/>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center font-black text-[11px] border-2 border-white shadow-sm z-10 ${isMe ? 'bg-violet-600 text-white' : 'bg-zinc-800 text-white'}`}>
+                                    {rank}
+                                  </div>
+                                </div>
+
+                                {/* Name */}
+                                <div className="flex-1 min-w-0 ml-1">
+                                   <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                                     <h4 className={`font-black text-[15px] sm:text-[17px] truncate tracking-tight ${isMe ? 'text-violet-700' : 'text-zinc-900'}`}>
+                                       {u.displayName || 'Student'}
+                                     </h4>
+                                     {isMe && (
+                                       <span className="w-fit text-[9px] font-black bg-violet-600 text-white px-2 py-0.5 rounded-lg uppercase tracking-widest">
+                                         {t.you}
+                                       </span>
+                                     )}
+                                   </div>
+                                </div>
+
+                                {/* 🟢 Tactile XP Badge */}
+                                <div className="shrink-0">
+                                  <div className={`border-2 rounded-xl px-3 py-1.5 flex items-center gap-1 ${isMe ? 'bg-white border-violet-200' : 'bg-violet-50 border-violet-100'}`}>
+                                    <span className={`font-black text-[15px] sm:text-[17px] leading-none ${isMe ? 'text-violet-700' : 'text-violet-600'}`}>
+                                      {(u.xp || 0).toLocaleString()}
+                                    </span>
+                                    <span className="text-[9px] font-black text-violet-400 uppercase tracking-widest mt-0.5">{t.xp}</span>
+                                  </div>
+                                </div>
+                             </motion.div>
+                           );
+                         })}
+
+                         {/* ========================================= */}
+                         {/* 🟢 THE "ME" CARD (Appended at bottom if > 20) */}
+                         {/* ========================================= */}
+                         {currentUserData && currentUserData.rank === '20+' && (
+                           <>
+                             {/* Vertical Ellipsis to show gap */}
+                             <div className="flex flex-col items-center gap-1.5 my-3">
+                               <div className="w-1.5 h-1.5 rounded-full bg-zinc-300"></div>
+                               <div className="w-1.5 h-1.5 rounded-full bg-zinc-300"></div>
+                               <div className="w-1.5 h-1.5 rounded-full bg-zinc-300"></div>
+                             </div>
+
+                             {/* Purple Me Card */}
+                             <motion.div
+                               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                               onClick={() => router.push(`/profile/${currentUserData.uid}`)}
+                               className="rounded-[1.5rem] p-3 sm:p-4 flex items-center gap-4 bg-violet-600 border-2 border-violet-700 border-b-4 cursor-pointer active:translate-y-[2px] active:border-b-2 transition-all shadow-xl"
+                             >
+                                {/* Avatar with Rank Badge */}
+                                <div className="relative shrink-0">
+                                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full p-[2px] bg-gradient-to-tr from-white/40 to-white/10 shadow-sm">
+                                    <div className="w-full h-full rounded-full border-2 border-violet-500 bg-violet-400 overflow-hidden flex items-center justify-center font-black text-xl text-white">
+                                      {currentUserData.photoURL || currentUserData.photoUrl || currentUserData.avatar ? (
+                                        <img src={currentUserData.photoURL || currentUserData.photoUrl || currentUserData.avatar} className="w-full h-full object-cover" alt="Me" />
+                                      ) : (
+                                        currentUserData.displayName?.[0]?.toUpperCase() || <UserIcon size={20} strokeWidth={3}/>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="absolute -bottom-1 -right-1 bg-white text-violet-700 w-7 h-7 rounded-full flex items-center justify-center font-black text-[10px] sm:text-[11px] border-2 border-violet-600 shadow-sm z-10">
+                                    {currentUserData.rank}
+                                  </div>
+                                </div>
+
+                                {/* Name */}
+                                <div className="flex-1 min-w-0 ml-1">
+                                   <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                                     <h4 className="font-black text-[15px] sm:text-[17px] text-white truncate tracking-tight">
+                                       {currentUserData.displayName || 'Student'}
+                                     </h4>
+                                     <span className="w-fit text-[9px] font-black bg-white text-violet-700 px-2 py-0.5 rounded-lg uppercase tracking-widest">
+                                       {t.you}
+                                     </span>
+                                   </div>
+                                </div>
+
+                                {/* XP Badge */}
+                                <div className="shrink-0">
+                                  <div className="bg-white/20 border-2 border-white/30 rounded-xl px-3 py-1.5 flex items-center gap-1">
+                                    <span className="font-black text-[15px] sm:text-[17px] text-white leading-none">
+                                      {(currentUserData.xp || 0).toLocaleString()}
+                                    </span>
+                                    <span className="text-[9px] font-black text-violet-200 uppercase tracking-widest mt-0.5">{t.xp}</span>
+                                  </div>
+                                </div>
+                             </motion.div>
+                           </>
+                         )}
+                       </div>
+                     )}
+                   </div>
                  ) : (
-                   <div className="text-center py-20 text-slate-500">
-                      <Sparkles className="mx-auto mb-2 opacity-20" size={40} />
-                      <p className="text-sm font-medium">{t.empty}</p>
+                   <div className="text-center py-20 text-zinc-400 flex flex-col items-center">
+                      <div className="w-20 h-20 bg-zinc-200 rounded-[2rem] flex items-center justify-center mb-4 rotate-12">
+                        <Sparkles size={32} strokeWidth={2.5} />
+                      </div>
+                      <p className="text-[15px] font-black">{t.empty}</p>
                    </div>
                  )}
               </AnimatePresence>
-
-              {/* 🟢 FIXED BOTTOM CARD FOR CURRENT USER (If not in Top 20) */}
-              {currentUserData && currentUserData.rank === '>20' && (
-                <div className="sticky bottom-4 z-50 mt-4">
-                  <div className="rounded-2xl p-4 flex items-center gap-4 border-2 border-indigo-500 bg-slate-800/90 backdrop-blur-md shadow-[0_-10px_30px_rgba(99,102,241,0.2)]">
-                    
-                    <div className="w-10 flex justify-center shrink-0">
-                      <span className="font-bold text-slate-400 w-8 text-center text-lg">{currentUserData.rank}</span>
-                    </div>
-
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border-2 border-slate-600 bg-slate-700 text-slate-300 overflow-hidden">
-                      {currentUserData.avatar ? (
-                        <img src={currentUserData.avatar} className="w-full h-full object-cover" alt="User" />
-                      ) : (
-                        currentUserData.displayName?.[0] || 'U'
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-base md:text-lg text-white truncate">
-                          {currentUserData.displayName || 'Anonymous'}
-                        </h4>
-                        <span className="shrink-0 text-[10px] font-bold bg-indigo-500 text-white px-2 py-0.5 rounded-full">
-                          {t.you}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="text-right pl-2">
-                      <span className="block font-black text-xl tracking-tight text-indigo-400">
-                        {currentUserData.xp?.toLocaleString() || 0}
-                      </span>
-                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">XP</span>
-                    </div>
-                  </div>
-                </div>
-              )}
             </>
           )}
         </div>

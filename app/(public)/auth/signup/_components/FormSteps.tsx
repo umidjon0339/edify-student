@@ -145,15 +145,40 @@ export const Step3Location = ({ formData, setFormData, handleChange, locations, 
   </div>
 );
 
+
+
 export const Step4WorkEdu = ({ formData, handleChange, role, t }: any) => (
   <div className="space-y-4 animate-in fade-in slide-in-from-right">
     <div className="relative group">
       <Building2 className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
-      <input name="institutionName" type="text" placeholder={role === "student" ? t.inputs.institution : t.inputs.institutionOrg} required value={formData.institutionName} onChange={handleChange} className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 outline-none font-semibold transition text-[15px]" />
+      <input 
+        name="institutionName" 
+        type="text" 
+        placeholder={role === "student" ? t.inputs.institution : t.inputs.institutionOrg} 
+        required 
+        value={formData.institutionName} 
+        onChange={handleChange} 
+        className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 outline-none font-semibold transition text-[15px]" 
+      />
     </div>
+    
     {role === "student" ? (
-      <select name="gradeLevel" value={formData.gradeLevel} onChange={handleChange} required className="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:border-blue-500 focus:bg-white outline-none font-semibold text-[15px] transition">
+      <select 
+        name="gradeLevel" 
+        value={formData.gradeLevel} 
+        onChange={handleChange} 
+        required 
+        className="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:border-blue-500 focus:bg-white outline-none font-semibold text-[15px] transition"
+      >
         <option value="">{t.selects.grade}</option>
+        {/* Added Grades 1-6 */}
+        <option value="school_1">1st Grade</option>
+        <option value="school_2">2nd Grade</option>
+        <option value="school_3">3rd Grade</option>
+        <option value="school_4">4th Grade</option>
+        <option value="school_5">5th Grade</option>
+        <option value="school_6">6th Grade</option>
+        {/* Existing Grades */}
         <option value="school_7">7th Grade</option>
         <option value="school_8">8th Grade</option>
         <option value="school_9">9th Grade</option>
@@ -165,7 +190,13 @@ export const Step4WorkEdu = ({ formData, handleChange, role, t }: any) => (
         <option value="uni_4">University - 4th Year</option>
       </select>
     ) : (
-      <select name="schoolSubject" required value={formData.schoolSubject} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:border-blue-500 focus:bg-white outline-none font-semibold text-[15px] transition">
+      <select 
+        name="schoolSubject" 
+        required 
+        value={formData.schoolSubject} 
+        onChange={handleChange} 
+        className="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:border-blue-500 focus:bg-white outline-none font-semibold text-[15px] transition"
+      >
         <option value="">{t.selects.subject}</option>
         <option value="matematika">Matematika</option>
         <option value="fizika">Fizika</option>
@@ -180,8 +211,13 @@ export const Step4WorkEdu = ({ formData, handleChange, role, t }: any) => (
         <option value="other">Boshqa</option>
       </select>
     )}
+    
     <div className="flex items-start gap-3 mt-6 p-4 bg-blue-50/50 rounded-xl border border-blue-100 text-slate-700">
-      <input type="checkbox" required className="mt-1 w-4 h-4 rounded cursor-pointer accent-blue-600 border-slate-300" />
+      <input 
+        type="checkbox" 
+        required 
+        className="mt-1 w-4 h-4 rounded cursor-pointer accent-blue-600 border-slate-300" 
+      />
       <p className="text-[13px] font-medium leading-relaxed">{t.terms}</p>
     </div>
   </div>

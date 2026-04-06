@@ -1,0 +1,78 @@
+# EDIFY STUDENT PORTAL - AI DESIGN SYSTEM & CODING GUIDELINES
+**Version:** 1.0
+**Target Audience:** Students (Mobile-First)
+**Scale Target:** 100k+ Users (High Performance)
+
+## 1. CORE PHILOSOPHY: "TACTILE CAMPUS"
+The student portal is completely distinct from the teacher dashboard. It must feel like a premium, tactile game (similar to Duolingo or native iOS apps). 
+* **Performance Absolute:** 90% of students use older Android/iOS devices. We must maintain 60 FPS.
+* **BANNED CSS:** Do NOT use `backdrop-blur` on standard components. Do NOT use heavy `shadow-lg` or `shadow-xl`. Do NOT use complex SVG backgrounds.
+* **ALLOWED CSS:** Use crisp CSS borders (`border-2`, `border-b-4`) to create depth and 3D effects. This is mathematically the cheapest way for a mobile GPU to render 3D UI.
+
+## 2. COLOR PALETTE (Light Mode Only)
+Use the `zinc` palette for neutrals. It is slightly warmer and less sterile than `slate` or `gray`.
+
+**Backgrounds & Surfaces:**
+* **App Background:** `bg-zinc-100` (#F4F4F5) - Soft, warm gray to reduce eye strain.
+* **Card/Container Surface:** `bg-white` (#FFFFFF) - Pure white.
+* **Card Borders:** `border-zinc-200` (#E4E4E7) - Creates a crisp edge.
+
+**Typography:**
+* **Primary Headings:** `text-zinc-900` (#18181B)
+* **Body/Secondary Text:** `text-zinc-500` (#71717A)
+* **Muted/Meta Text:** `text-zinc-400` (#A1A1AA)
+
+**Gamification & Accents (Vibrant):**
+* **Primary Action:** `violet-500` (#8B5CF6) - Energetic, creative, distinct from teacher's Indigo.
+* **XP / Coins / Rewards:** `amber-500` (#F59E0B) - Rich Gold.
+* **Streaks / Fire:** `orange-500` (#F97316) - High energy.
+* **Success / Correct:** `emerald-500` (#10B981) - Crisp green.
+* **Error / Danger:** `rose-500` (#F43F5E) - Bright red.
+
+## 3. TYPOGRAPHY & SPACING RULES
+* **Font:** Standard Sans-Serif (`font-sans`).
+* **Headings:** MUST use `font-black tracking-tight`. E.g., `text-2xl font-black text-zinc-900 tracking-tight`.
+* **Subtitles/Body:** Avoid `font-normal`. Use `font-bold` with a lighter color for better readability on bad screens. E.g., `text-[14px] font-bold text-zinc-500`.
+* **Micro-copy (Badges/Labels):** MUST use `text-[11px] font-black uppercase tracking-widest text-zinc-400`.
+
+## 4. UI COMPONENT RECIPES (Copy exactly)
+
+### A. The "Tactile 3D" Button (Primary Call to Action)
+Do NOT use hover shadows. Use this exact border-bottom push effect:
+```html
+<button className="w-full py-3.5 bg-violet-500 text-white font-black text-[15px] rounded-2xl border-b-4 border-violet-700 active:border-b-0 active:translate-y-1 transition-all flex items-center justify-center gap-2">
+  Boshlash
+</button>
+
+
+
+Secondary Button
+HTML
+<button className="w-full py-3.5 bg-white text-zinc-600 font-black text-[15px] rounded-2xl border-2 border-zinc-200 border-b-4 active:border-b-2 active:translate-y-[2px] transition-all flex items-center justify-center gap-2">
+  Bekor qilish
+</button>
+C. Standard Content Card
+Extra-rounded corners, crisp border, NO shadow.
+
+HTML
+<div className="bg-white rounded-[2rem] border-2 border-zinc-200 p-6 md:p-8 flex flex-col">
+  <h2 className="text-xl font-black text-zinc-900 tracking-tight mb-2">Card Title</h2>
+  <p className="text-[14px] font-bold text-zinc-500">Subtitle or description goes here.</p>
+</div>
+D. Gamification Badge (Inline)
+HTML
+<div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 border-2 border-amber-200 rounded-xl">
+  <Star size={16} className="text-amber-500 fill-amber-500" />
+  <span className="font-black text-amber-600 text-[14px]">150 XP</span>
+</div>
+5. STRICT AI CODING CONSTRAINTS
+Always use Lucide React for icons. Keep strokeWidth={2.5} or 3 to match the chunky, tactile feel.
+
+Never use backdrop-blur unless explicitly requested for a sticky mobile header.
+
+Never use shadow-lg or shadow-xl. Rely on border-2 border-zinc-200 to separate elements.
+
+Data Safety First: Always use optional chaining (?.) when rendering dynamic text to prevent page crashes.
+
+Mobile First: Assume the user is on a vertical phone screen. Use flex-col by default, scaling to md:flex-row only when necessary.
+

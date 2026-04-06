@@ -4,11 +4,23 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { collection, query, orderBy, limit, startAfter, getDocs } from 'firebase/firestore';
-import { Trophy, Medal, Award, Loader2, Star, ChevronRight } from 'lucide-react';
+import { Trophy, Medal, Award, Loader2, Star, ChevronRight, Sparkles, User as UserIcon } from 'lucide-react';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 
+// ============================================================================
+// 🟢 1. GLOBAL CACHE (Survives Tab Switches, Preserves Scroll Position)
+// ============================================================================
+const globalTeacherLeaderboardCache: Record<string, { 
+  leaderboard: any[], 
+  lastDoc: any, 
+  hasMore: boolean, 
+  timestamp: number 
+}> = {};
+
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
+
 // --- TRANSLATION DICTIONARY ---
-const LEADERBOARD_TRANSLATIONS = {
+const LEADERBOARD_TRANSLATIONS: any = {
   uz: { emptyTitle: "Reyting bo'sh", emptyDesc: "O'quvchilar test ishlaganda XP to'plashadi va shu yerda ko'rinadi.", points: "XP", rank: "O'rin" },
   en: { emptyTitle: "Leaderboard is empty", emptyDesc: "Students will appear here as they earn XP by taking tests.", points: "XP", rank: "Rank" },
   ru: { emptyTitle: "Рейтинг пуст", emptyDesc: "Ученики появятся здесь, когда заработают XP за тесты.", points: "XP", rank: "Место" }
@@ -30,7 +42,35 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
 
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // --- 1. INFINITE SCROLL FETCHING ---
+  // ============================================================================
+  // 🟢 2. SWR FETCHING LOGIC (Snapshot Refresh)
+  // ============================================================================
+  useEffect(() => {
+    const initializeTab = async () => {
+      const cached = globalTeacherLeaderboardCache[classId];
+      const now = Date.now();
+
+      if (cached) {
+        // 🟢 CACHE HIT: Instant Load!
+        setLeaderboard(cached.leaderboard);
+        setLastDoc(cached.lastDoc);
+        setHasMore(cached.hasMore);
+        setLoadingInitial(false);
+
+        // If fresh, stop here.
+        if (now - cached.timestamp < CACHE_LIFESPAN) return;
+
+        // If stale, silently re-fetch the EXACT number of items currently on screen
+        revalidateSnapshot(cached.leaderboard.length);
+      } else {
+        setLoadingInitial(true);
+        fetchLeaderboard(false);
+      }
+    };
+
+    initializeTab();
+  }, [classId]);
+
   const fetchLeaderboard = async (isNextPage: boolean = false) => {
     if (!classId) return;
     if (isNextPage && !lastDoc) return;
@@ -38,7 +78,6 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
     isNextPage ? setLoadingMore(true) : setLoadingInitial(true);
 
     try {
-      // 🟢 Ask Firestore for the Top XP earners, but ONLY 10 at a time!
       let q = query(
         collection(db, 'classes', classId, 'leaderboard'), 
         orderBy('xp', 'desc'), 
@@ -57,9 +96,23 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
       const snap = await getDocs(q);
       const newDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      setLeaderboard(prev => isNextPage ? [...prev, ...newDocs] : newDocs);
-      setLastDoc(snap.docs[snap.docs.length - 1] || null);
-      setHasMore(snap.docs.length >= PAGE_SIZE);
+      setLeaderboard(prev => {
+        const updated = isNextPage ? [...prev, ...newDocs] : newDocs;
+        const newLastDoc = snap.docs[snap.docs.length - 1] || null;
+        const newHasMore = snap.docs.length >= PAGE_SIZE;
+
+        // Update Cache
+        globalTeacherLeaderboardCache[classId] = {
+          leaderboard: updated,
+          lastDoc: newLastDoc,
+          hasMore: newHasMore,
+          timestamp: Date.now()
+        };
+
+        setLastDoc(newLastDoc);
+        setHasMore(newHasMore);
+        return updated;
+      });
     } catch (e) {
       console.error("Leaderboard fetch error:", e);
     } finally {
@@ -68,9 +121,28 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
     }
   };
 
-  useEffect(() => { fetchLeaderboard(); }, [classId]);
+  // 🟢 Snapshot Refresh: Grabs the top N students in one fast query to fix ordering
+  const revalidateSnapshot = async (currentTotalLoaded: number) => {
+    try {
+      const q = query(
+        collection(db, 'classes', classId, 'leaderboard'), 
+        orderBy('xp', 'desc'), 
+        limit(currentTotalLoaded) // e.g. If teacher scrolled to 40, fetch top 40.
+      );
+      const snap = await getDocs(q);
+      const freshDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-  // --- 2. INTERSECTION OBSERVER (THE INVISIBLE TRIGGER) ---
+      setLeaderboard(freshDocs);
+      
+      // We don't update lastDoc/hasMore here so infinite scroll doesn't break.
+      // We just update the data and timestamp.
+      globalTeacherLeaderboardCache[classId].leaderboard = freshDocs;
+      globalTeacherLeaderboardCache[classId].timestamp = Date.now();
+    } catch (e) {
+      console.error("Silent leaderboard revalidation failed", e);
+    }
+  };
+
   const lastElementRef = useCallback((node: HTMLDivElement) => {
     if (loadingInitial || loadingMore) return;
     if (observerRef.current) observerRef.current.disconnect();
@@ -85,18 +157,21 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
   }, [loadingInitial, loadingMore, hasMore]);
 
 
+  // ============================================================================
+  // 🟢 3. RENDER (Tactile Gamified UI)
+  // ============================================================================
   if (loadingInitial && leaderboard.length === 0) {
     return <div className="py-12 flex justify-center"><Loader2 className="animate-spin text-indigo-500" size={28}/></div>;
   }
 
   if (leaderboard.length === 0) {
     return (
-      <div className="text-center py-16 bg-slate-50 rounded-[2rem] border border-dashed border-slate-200 flex flex-col items-center">
-        <div className="w-16 h-16 bg-white rounded-[1.2rem] flex items-center justify-center mb-4 shadow-sm text-amber-400 border border-amber-100">
-          <Trophy size={32} />
+      <div className="text-center py-16 bg-white rounded-[2rem] border-2 border-dashed border-zinc-200 flex flex-col items-center">
+        <div className="w-20 h-20 bg-amber-50 rounded-[2rem] flex items-center justify-center mb-4 shadow-sm text-amber-500 border-2 border-amber-100 rotate-12 hover:rotate-0 transition-transform">
+          <Trophy size={40} strokeWidth={2.5} />
         </div>
-        <h3 className="text-slate-800 font-black text-[16px]">{t.emptyTitle}</h3>
-        <p className="text-[13px] font-medium text-slate-500 mt-1 max-w-xs">{t.emptyDesc}</p>
+        <h3 className="text-zinc-900 font-black text-[18px] mb-2">{t.emptyTitle}</h3>
+        <p className="text-[14px] font-bold text-zinc-500 max-w-sm leading-relaxed">{t.emptyDesc}</p>
       </div>
     );
   }
@@ -105,71 +180,75 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
     <div className="space-y-3">
       {leaderboard.map((student, index) => {
         const isLastElement = index === leaderboard.length - 1;
-        const rank = index + 1; // Because the array is ordered, index+1 is their absolute rank!
+        const rank = index + 1; 
+        const avatarUrl = student.photoURL || student.photoUrl || student.avatar || null;
         
-        // --- MODERN UI STYLING FOR TOP 3 ---
-        let rankStyle = "bg-slate-50 border-slate-200/80 text-slate-500";
-        let icon = <span className="font-black text-[14px]">{rank}</span>;
-        let cardGlow = "border-slate-200/80 hover:border-indigo-300";
+        // --- 🟢 DYNAMIC STYLING FOR PODIUM vs REGULAR ---
+        let cardStyle = "bg-white border-zinc-200 hover:border-indigo-300";
+        let rankColor = "bg-zinc-800 text-white";
+        let avatarBorder = "border-zinc-200 bg-zinc-100 text-zinc-400";
 
         if (rank === 1) {
-          rankStyle = "bg-amber-50 border-amber-200 text-amber-500 shadow-inner";
-          icon = <Trophy size={20} strokeWidth={2.5} />;
-          cardGlow = "border-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.15)] hover:shadow-[0_0_20px_rgba(251,191,36,0.25)]";
+          cardStyle = "bg-amber-50/30 border-amber-300 shadow-[0_8px_30px_rgba(251,191,36,0.15)] ring-4 ring-amber-500/10 z-10";
+          rankColor = "bg-amber-500 text-white border-amber-400";
+          avatarBorder = "border-amber-400 bg-amber-100 text-amber-500";
         } else if (rank === 2) {
-          rankStyle = "bg-slate-100 border-slate-300 text-slate-500 shadow-inner";
-          icon = <Medal size={20} strokeWidth={2.5} />;
-          cardGlow = "border-slate-300 shadow-sm hover:shadow-md";
+          cardStyle = "bg-slate-50/50 border-slate-300";
+          rankColor = "bg-slate-400 text-white border-slate-300";
+          avatarBorder = "border-slate-300 bg-slate-100 text-slate-400";
         } else if (rank === 3) {
-          rankStyle = "bg-orange-50 border-orange-200 text-orange-600 shadow-inner";
-          icon = <Award size={20} strokeWidth={2.5} />;
-          cardGlow = "border-orange-200 shadow-sm hover:shadow-md";
+          cardStyle = "bg-orange-50/30 border-orange-300";
+          rankColor = "bg-orange-500 text-white border-orange-400";
+          avatarBorder = "border-orange-300 bg-orange-100 text-orange-500";
         }
 
         return (
           <div 
             key={student.id} 
             ref={isLastElement ? lastElementRef : null}
-            onClick={() => router.push(`/teacher/students/${student.uid}`)} // 🟢 3. CLICK TO PROFILE
-            className={`flex items-center justify-between p-4 md:p-5 bg-white rounded-[1.2rem] border transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 ${cardGlow}`}
+            onClick={() => router.push(`/teacher/students/${student.uid}`)}
+            className={`flex items-center justify-between p-3 md:p-4 rounded-[1.5rem] border-2 border-b-4 transition-all duration-200 cursor-pointer group active:translate-y-[2px] active:border-b-2 hover:-translate-y-0.5 ${cardStyle}`}
           >
             
-            {/* Left side: Rank & Avatar & Name */}
-            <div className="flex items-center gap-4 min-w-0">
-              <div className={`w-12 h-12 rounded-[1rem] flex items-center justify-center shrink-0 border ${rankStyle}`}>
-                {icon}
+            {/* Left side: Avatar + Rank & Name */}
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+              
+              {/* 🟢 Profile Picture with Nested Rank Badge */}
+              <div className="relative shrink-0">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 overflow-hidden flex items-center justify-center font-black text-xl shadow-sm ${avatarBorder}`}>
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    student.displayName?.[0]?.toUpperCase() || <UserIcon size={20} strokeWidth={3}/>
+                  )}
+                </div>
+                <div className={`absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-black text-[11px] sm:text-[12px] border-2 border-white shadow-sm z-10 ${rankColor}`}>
+                  {rank === 1 ? <Trophy size={12} strokeWidth={3}/> : rank === 2 ? <Medal size={12} strokeWidth={3}/> : rank === 3 ? <Award size={12} strokeWidth={3}/> : rank}
+                </div>
               </div>
 
-              <div className="flex items-center gap-3 min-w-0 pr-2">
-                {student.avatar ? (
-                  <img src={student.avatar} alt="avatar" className="w-10 h-10 rounded-xl border border-slate-200 object-cover shadow-sm" />
-                ) : (
-                  <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center font-black text-[14px] shrink-0 border border-indigo-100">
-                    {student.displayName?.[0]?.toUpperCase() || 'S'}
-                  </div>
-                )}
-                <div className="min-w-0">
-                  <p className="font-black text-[15px] text-slate-900 truncate group-hover:text-indigo-600 transition-colors">
-                    {student.displayName || "Student"}
-                  </p>
-                  <p className="text-[12px] font-bold text-slate-400 truncate">
-                    {rank === 1 ? '🥇 1st Place' : rank === 2 ? '🥈 2nd Place' : rank === 3 ? '🥉 3rd Place' : `#${rank} ${t.rank}`}
-                  </p>
-                </div>
+              {/* Name Details */}
+              <div className="min-w-0 pr-2 ml-1">
+                <p className="font-black text-[15px] sm:text-[17px] text-zinc-900 truncate tracking-tight group-hover:text-indigo-600 transition-colors">
+                  {student.displayName || "Anonymous Student"}
+                </p>
+                <p className="text-[12px] font-bold text-zinc-400 truncate">
+                  {rank === 1 ? '🥇 1st Place' : rank === 2 ? '🥈 2nd Place' : rank === 3 ? '🥉 3rd Place' : `@${student.username || 'student'}`}
+                </p>
               </div>
             </div>
 
-            {/* Right side: XP & Arrow */}
-            <div className="flex items-center gap-4 shrink-0">
-              <div className="text-right flex flex-col items-end">
-                <span className={`font-black text-[18px] sm:text-[20px] flex items-center gap-1.5 ${rank === 1 ? 'text-amber-500' : 'text-indigo-600'}`}>
-                  {student.xp || 0} <Star size={16} strokeWidth={2.5} className={rank === 1 ? 'fill-amber-500' : 'fill-indigo-600'} />
+            {/* Right side: Tactile XP Pill */}
+            <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+              <div className={`border-2 rounded-xl px-3 py-1.5 flex items-center gap-1.5 ${rank === 1 ? 'bg-white border-amber-200' : 'bg-zinc-50 border-zinc-200'}`}>
+                <span className={`font-black text-[15px] sm:text-[18px] leading-none ${rank === 1 ? 'text-amber-600' : 'text-indigo-600'}`}>
+                  {(student.xp || 0).toLocaleString()}
                 </span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.points}</span>
+                <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mt-0.5">{t.points}</span>
               </div>
               
-              <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors hidden sm:flex">
-                <ChevronRight size={18} strokeWidth={2.5} />
+              <div className="w-8 h-8 rounded-xl bg-white border-2 border-zinc-200 flex items-center justify-center text-zinc-400 group-hover:bg-indigo-500 group-hover:border-indigo-500 group-hover:text-white transition-all hidden sm:flex">
+                <ChevronRight size={18} strokeWidth={3} />
               </div>
             </div>
 

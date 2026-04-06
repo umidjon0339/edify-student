@@ -5,14 +5,21 @@ import { db } from '@/lib/firebase';
 import { collection, query, orderBy, limit, startAfter, getDocs, deleteDoc, doc, where } from 'firebase/firestore';
 import { 
   Calendar, Clock, Trash2, Edit2, Plus, 
-  Copy, AlertTriangle, X, Loader2, Play, Lock, CheckCircle, MoreVertical
+  Copy, AlertTriangle, X, Loader2, Play, Lock, CheckCircle, User as UserIcon
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 import { useRouter } from 'next/navigation';
 
+// ============================================================================
+// 🟢 1. GLOBAL CACHES (Survives Tab Switches, 0 Reads on Back Navigation)
+// ============================================================================
+const globalAssignmentsCache: Record<string, { assignments: any[], lastDoc: any, hasMore: boolean, timestamp: number }> = {};
+const globalSubmissionsCache: Record<string, { attempts: any[], missingProfiles: any[], timestamp: number }> = {};
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
+
 // --- TRANSLATION DICTIONARY ---
-const ASSIGN_TAB_TRANSLATIONS = {
+const ASSIGN_TAB_TRANSLATIONS: any = {
   uz: {
     emptyTitle: "Hozircha topshiriqlar yo'q", createBtn: "Topshiriq Yaratish", loading: "Yuklanmoqda...",
     status: { scheduled: "Rejalashtirilgan", active: "Faol", closed: "Yopilgan", due: "Muddat", noDeadline: "Muddatsiz" },
@@ -66,28 +73,73 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
   const [submissionsData, setSubmissionsData] = useState<any>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // --- INFINITE SCROLL ---
-  const fetchAssignments = async (isNextPage: boolean = false) => {
+  // ============================================================================
+  // 🟢 2. SWR FETCHING LOGIC (Cache First, Fetch Later)
+  // ============================================================================
+  useEffect(() => {
+    const initializeTab = async () => {
+      const cached = globalAssignmentsCache[classId];
+      const now = Date.now();
+
+      // Cache Hit: Instant Load!
+      if (cached) {
+        setAssignments(cached.assignments);
+        setLastDoc(cached.lastDoc);
+        setHasMore(cached.hasMore);
+        setLoadingInitial(false);
+
+        // If fresh, stop. If stale, silently re-fetch page 1 in the background
+        if (now - cached.timestamp < CACHE_LIFESPAN) return;
+        fetchAssignments(false, true); 
+      } else {
+        setLoadingInitial(true);
+        fetchAssignments(false, false);
+      }
+    };
+
+    initializeTab();
+  }, [classId]);
+
+  const fetchAssignments = async (isNextPage: boolean = false, silent: boolean = false) => {
     if (!classId) return;
     if (isNextPage && !lastDoc) return;
     
-    isNextPage ? setLoadingMore(true) : setLoadingInitial(true);
+    if (!silent) {
+      isNextPage ? setLoadingMore(true) : setLoadingInitial(true);
+    }
 
     try {
       let q = query(collection(db, 'classes', classId, 'assignments'), orderBy('createdAt', 'desc'), limit(PAGE_SIZE));
-      if (isNextPage && lastDoc) q = query(collection(db, 'classes', classId, 'assignments'), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE));
+      if (isNextPage && lastDoc) {
+        q = query(collection(db, 'classes', classId, 'assignments'), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE));
+      }
 
       const snap = await getDocs(q);
       const newDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      setAssignments(prev => isNextPage ? [...prev, ...newDocs] : newDocs);
-      setLastDoc(snap.docs[snap.docs.length - 1] || null);
-      setHasMore(snap.docs.length >= PAGE_SIZE);
+      setAssignments(prev => {
+        const updated = isNextPage ? [...prev, ...newDocs] : newDocs;
+        const newLastDoc = snap.docs[snap.docs.length - 1] || null;
+        const newHasMore = snap.docs.length >= PAGE_SIZE;
+
+        // 🟢 Update Cache
+        globalAssignmentsCache[classId] = {
+          assignments: updated,
+          lastDoc: newLastDoc,
+          hasMore: newHasMore,
+          timestamp: Date.now()
+        };
+
+        if (!silent || !isNextPage) {
+          setLastDoc(newLastDoc);
+          setHasMore(newHasMore);
+        }
+        return updated;
+      });
+
     } catch (e) { console.error(e); } 
     finally { setLoadingInitial(false); setLoadingMore(false); }
   };
-
-  useEffect(() => { fetchAssignments(); }, [classId]);
 
   const lastElementRef = useCallback((node: HTMLDivElement) => {
     if (loadingInitial || loadingMore) return;
@@ -104,7 +156,12 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
     try {
       await deleteDoc(doc(db, 'classes', classId, 'assignments', deleteData.id));
       toast.success(t.toasts.deleted);
-      setAssignments(prev => prev.filter(a => a.id !== deleteData.id));
+      
+      setAssignments(prev => {
+        const updated = prev.filter(a => a.id !== deleteData.id);
+        if (globalAssignmentsCache[classId]) globalAssignmentsCache[classId].assignments = updated;
+        return updated;
+      });
       setDeleteData(null);
     } catch (e) { toast.error(t.toasts.failDelete); }
   };
@@ -164,7 +221,6 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                 onClick={() => setSubmissionsData({ assignment: a, targetRequired, submittedCount, percent })}
                 className="bg-white rounded-[1.2rem] border border-slate-200/80 p-4 hover:border-slate-300 hover:shadow-sm transition-all duration-200 cursor-pointer group flex flex-col md:flex-row md:items-center gap-4"
               >
-                {/* Left: Icon & Title */}
                 <div className="flex items-start gap-4 flex-1 min-w-0">
                   <div className={`w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 border ${statusUI[status].bg} ${statusUI[status].border} ${statusUI[status].text}`}>
                     {statusUI[status].icon}
@@ -194,10 +250,7 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                   </div>
                 </div>
 
-                {/* Right: Progress & Actions */}
                 <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 pl-14 md:pl-0">
-                   
-                   {/* Clean Minimal Progress Bar */}
                    <div className="flex flex-col w-32 shrink-0">
                      <div className="flex justify-between items-end mb-1.5">
                         <span className="text-[11px] font-bold text-slate-400">{submittedCount}/{targetRequired} {t.progress.submitted}</span>
@@ -208,7 +261,6 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                      </div>
                    </div>
 
-                   {/* Minimal Actions */}
                    <div className="flex items-center gap-1 shrink-0">
                       <button onClick={(e) => { e.stopPropagation(); onEdit(a); }} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-colors" title="Edit"><Edit2 size={14} strokeWidth={2.5}/></button>
                       <button onClick={(e) => handleCopyLink(e, a.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors" title="Copy Link"><Copy size={14} strokeWidth={2.5}/></button>
@@ -256,7 +308,7 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
 }
 
 // ============================================================================
-// 🟢 SUBMISSIONS MODAL
+// 🟢 3. SUBMISSIONS MODAL (With Caching & Safe Profile Pics)
 // ============================================================================
 function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) {
   const router = useRouter();
@@ -269,25 +321,48 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
 
   useEffect(() => {
     const fetchData = async () => {
+      const cached = globalSubmissionsCache[assignment.id];
+      const now = Date.now();
+
+      // Cache Hit: Open results instantly!
+      if (cached && (now - cached.timestamp < CACHE_LIFESPAN)) {
+        setAttempts(cached.attempts);
+        setLocalRoster(prev => {
+          const newProfiles = cached.missingProfiles.filter((p: any) => !prev.find(r => r.uid === p.uid));
+          return [...prev, ...newProfiles];
+        });
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       try {
         const q = query(collection(db, 'attempts'), where('classId', '==', classId), where('assignmentId', '==', assignment.id));
         const snap = await getDocs(q);
-        setAttempts(snap.docs.map(d => d.data()));
+        const fetchedAttempts = snap.docs.map(d => d.data());
+        setAttempts(fetchedAttempts);
 
+        // 🟢 100k-Ready: Safe Promise Chunking for Missing Profiles
         const missingIds = (assignment.completedBy || []).filter((uid: string) => !localRoster.find(r => r.uid === uid));
+        const missingProfiles: any[] = [];
+        
         if (missingIds.length > 0) {
-          const chunks = [];
-          for (let i = 0; i < missingIds.length; i += 10) chunks.push(missingIds.slice(i, i + 10));
-          
-          const missingProfiles: any[] = [];
-          for (const chunk of chunks) {
+          for (let i = 0; i < missingIds.length; i += 10) {
+            const chunk = missingIds.slice(i, i + 10);
             const userQ = query(collection(db, 'users'), where('uid', 'in', chunk));
             const userSnap = await getDocs(userQ);
             userSnap.forEach(d => missingProfiles.push({ uid: d.id, ...d.data() }));
           }
           setLocalRoster(prev => [...prev, ...missingProfiles]);
         }
+
+        // Save to cache
+        globalSubmissionsCache[assignment.id] = {
+          attempts: fetchedAttempts,
+          missingProfiles: missingProfiles,
+          timestamp: Date.now()
+        };
+
       } catch (e) { console.error(e); } 
       finally { setLoading(false); }
     };
@@ -361,6 +436,7 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
               {displayList.map((student, idx) => {
                 const attempt = attempts.find(a => a.userId === student.uid);
                 const scoreP = attempt && attempt.totalQuestions > 0 ? Math.round((attempt.score / attempt.totalQuestions) * 100) : 0;
+                const avatarUrl = student.photoURL || student.photoUrl || student.avatar || null;
                 
                 let rankColor = '#475569';
                 if (activeTab === 'submitted') {
@@ -368,23 +444,28 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
                 }
 
                 return (
-                  // 🟢 2. ADD onClick AND hover styles to this div
                   <div 
                     key={student.uid} 
                     onClick={() => {
-                      onClose(); // Close the modal first
-                      router.push(`/teacher/students/${student.uid}`); // Navigate to profile
+                      onClose(); 
+                      router.push(`/teacher/students/${student.uid}`); 
                     }}
                     className="flex items-center gap-3 p-3 md:p-4 bg-white border border-slate-200/80 rounded-[1.2rem] shadow-sm hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group"
                   >
                     {activeTab === 'submitted' && (
                        <span style={{ color: rankColor }} className="font-black text-[13px] w-5 text-center shrink-0">#{idx + 1}</span>
                     )}
-                    <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center font-black text-slate-500 text-[14px] shrink-0 border border-slate-200">
-                      {student.displayName?.[0]?.toUpperCase() || 'S'}
+                    
+                    {/* 🟢 Safe Profile Picture Implementation */}
+                    <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center font-black text-slate-500 text-[14px] shrink-0 border border-slate-200 overflow-hidden">
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        student.displayName?.[0]?.toUpperCase() || <UserIcon size={18} strokeWidth={3}/>
+                      )}
                     </div>
+
                     <div className="flex-1 min-w-0 pr-2">
-                      {/* 🟢 Added group-hover:text-indigo-600 so the name turns blue on hover */}
                       <p className="font-black text-slate-900 text-[14px] truncate group-hover:text-indigo-600 transition-colors">{student.displayName}</p>
                       <p className="text-[11px] font-bold text-slate-400 truncate">@{student.username || 'student'}</p>
                     </div>
@@ -402,7 +483,6 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

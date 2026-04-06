@@ -7,127 +7,37 @@ import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firesto
 import { useAuth } from '@/lib/AuthContext';
 import { 
   CheckCircle, XCircle, ChevronLeft, AlertTriangle, 
-  BookOpen, Trophy, Lightbulb, List, Eye, Lock, Clock, Calendar
+  BookOpen, Trophy, Lightbulb, List, Eye, Lock, Clock, Grid, Filter
 } from 'lucide-react';
 import LatexRenderer from '@/components/LatexRenderer'; 
 import { Loader2 } from 'lucide-react';
-import { useStudentLanguage } from '@/app/(student)/layout'; // 🟢 Import Language Hook
+import { useStudentLanguage } from '@/app/(student)/layout'; 
+import { motion, AnimatePresence } from 'framer-motion';
 
-// --- 1. TRANSLATION DICTIONARY ---
-const RESULTS_TRANSLATIONS = {
+// --- TRANSLATION DICTIONARY ---
+const RESULTS_TRANSLATIONS: any = {
   uz: {
-    loading: "Kirish huquqi tekshirilmoqda...",
-    back: "Ortga",
-    title: "Natijalar",
-    status: {
-      excellent: "Ajoyib Natija!",
-      good: "Yaxshi Harakat",
-      needsWork: "Yaxshilash Kerak"
-    },
-    cards: {
-      score: "Ball",
-      right: "To'g'ri",
-      wrong: "Noto'g'ri",
-      questions: "Savollar",
-      review: "Batafsil Ko'rib Chiqish"
-    },
-    question: {
-      skipped: "Siz o'tkazib yubordingiz",
-      yourAns: "Sizning javobingiz",
-      noSel: "Tanlanmadi",
-      correctAns: "To'g'ri Javob",
-      showOpts: "Variantlarni ko'rsatish",
-      hideOpts: "Variantlarni yashirish",
-      viewExp: "Yechimni ko'rish",
-      hideExp: "Yechimni yashirish",
-      solution: "Bosqichma-bosqich yechim",
-      options: "Barcha Variantlar"
-    },
-    blocked: {
-      title: "Ball Saqlandi",
-      result: "Sizning Natijangiz",
-      reason1: "O'qituvchi batafsil ko'rib chiqishni o'chirib qo'ygan.",
-      reason2: "Natijalar muddat tugaguncha yashirin: ",
-      btn: "Panelga qaytish"
-    }
+    loading: "Natijalar yuklanmoqda...", back: "Sinfga qaytish", title: "Natijalar",
+    status: { excellent: "Ajoyib Natija!", good: "Yaxshi Harakat", needsWork: "Yaxshilash Kerak" },
+    cards: { score: "Ball", right: "To'g'ri", wrong: "Noto'g'ri", questions: "Savollar", review: "Batafsil Ko'rib Chiqish", overview: "Xarita", filters: "Filtr", all: "Barchasi", incorrectOnly: "Faqat Xatolar" },
+    question: { skipped: "O'tkazil.", yourAns: "Sizning javob", noSel: "Tanlanmadi", correctAns: "To'g'ri Javob", showOpts: "Variantlar", hideOpts: "Yashirish", viewExp: "Yechim", hideExp: "Yashirish", solution: "Yechim", options: "Barcha Variantlar" },
+    blocked: { title: "Ball Saqlandi", result: "Sizning Natijangiz", reason1: "O'qituvchi batafsil ko'rib chiqishni yopgan.", reason2: "Natijalar yashirin: ", btn: "Panelga qaytish" }
   },
   en: {
-    loading: "Verifying Access...",
-    back: "Back",
-    title: "Results",
-    status: {
-      excellent: "Excellent Work!",
-      good: "Good Effort",
-      needsWork: "Needs Improvement"
-    },
-    cards: {
-      score: "Score",
-      right: "Right",
-      wrong: "Wrong",
-      questions: "Questions",
-      review: "Detailed Review"
-    },
-    question: {
-      skipped: "You Skipped",
-      yourAns: "Your Answer",
-      noSel: "No option selected",
-      correctAns: "Correct Answer",
-      showOpts: "Show All Options",
-      hideOpts: "Hide Options",
-      viewExp: "View Explanation",
-      hideExp: "Hide Explanation",
-      solution: "Step-by-Step Solution",
-      options: "All Options"
-    },
-    blocked: {
-      title: "Score Recorded",
-      result: "Your Result",
-      reason1: "The instructor has disabled detailed review for this test.",
-      reason2: "Results are hidden until the deadline passes: ",
-      btn: "Return to Dashboard"
-    }
+    loading: "Loading Results...", back: "Back to Class", title: "Results",
+    status: { excellent: "Excellent Work!", good: "Good Effort", needsWork: "Needs Improvement" },
+    cards: { score: "Score", right: "Right", wrong: "Wrong", questions: "Questions", review: "Review", overview: "Map", filters: "Filters", all: "All", incorrectOnly: "Incorrect Only" },
+    question: { skipped: "Skipped", yourAns: "Your Answer", noSel: "None", correctAns: "Correct Answer", showOpts: "Options", hideOpts: "Hide", viewExp: "Solution", hideExp: "Hide", solution: "Step-by-Step Solution", options: "All Options" },
+    blocked: { title: "Score Recorded", result: "Your Result", reason1: "Review is disabled by the instructor.", reason2: "Results hidden until: ", btn: "Return to Dashboard" }
   },
   ru: {
-    loading: "Проверка доступа...",
-    back: "Назад",
-    title: "Результаты",
-    status: {
-      excellent: "Отличная работа!",
-      good: "Хорошая попытка",
-      needsWork: "Нужно улучшить"
-    },
-    cards: {
-      score: "Балл",
-      right: "Верно",
-      wrong: "Неверно",
-      questions: "Вопросов",
-      review: "Подробный обзор"
-    },
-    question: {
-      skipped: "Вы пропустили",
-      yourAns: "Ваш ответ",
-      noSel: "Не выбрано",
-      correctAns: "Правильный ответ",
-      showOpts: "Показать все",
-      hideOpts: "Скрыть варианты",
-      viewExp: "Показать решение",
-      hideExp: "Скрыть решение",
-      solution: "Пошаговое решение",
-      options: "Все варианты"
-    },
-    blocked: {
-      title: "Балл сохранен",
-      result: "Ваш результат",
-      reason1: "Преподаватель отключил подробный обзор для этого теста.",
-      reason2: "Результаты скрыты до истечения срока: ",
-      btn: "Вернуться на панель"
-    }
+    loading: "Загрузка...", back: "В класс", title: "Результаты",
+    status: { excellent: "Отлично!", good: "Хорошо", needsWork: "Нужно улучшить" },
+    cards: { score: "Балл", right: "Верно", wrong: "Неверно", questions: "Вопросы", review: "Обзор", overview: "Карта", filters: "Фильтр", all: "Все", incorrectOnly: "Только ошибки" },
+    question: { skipped: "Пропуск", yourAns: "Ваш ответ", noSel: "Нет", correctAns: "Правильный", showOpts: "Варианты", hideOpts: "Скрыть", viewExp: "Решение", hideExp: "Скрыть", solution: "Пошаговое решение", options: "Все варианты" },
+    blocked: { title: "Балл сохранен", result: "Результат", reason1: "Обзор отключен.", reason2: "Скрыто до: ", btn: "На панель" }
   }
 };
-
-// ==================================================================================
-// 1. HELPERS
-// ==================================================================================
 
 const getContentText = (content: any) => {
   if (!content) return "";
@@ -135,82 +45,59 @@ const getContentText = (content: any) => {
   return content.uz || content.en || content.ru || content.text || JSON.stringify(content);
 };
 
-// 🔒 SECURE TIME FETCHER
-async function getSecureTime() {
-  try {
-    const response = await fetch('https://worldtimeapi.org/api/ip  ');
-    if (!response.ok) throw new Error('Time API failed');
-    const data = await response.json();
-    return new Date(data.datetime);
-  } catch (error) {
-    console.warn("Could not verify server time, falling back to local time.");
-    return new Date(); 
-  }
-}
-
 // ==================================================================================
-// 2. COMPONENT: Question Card
+// COMPONENT: Question Card (Compact & Sleek Scale)
 // ==================================================================================
-const QuestionReviewCard = ({ 
-  question, 
-  index, 
-  studentAnswerKey,
-  t 
-}: { 
-  question: any, 
-  index: number, 
-  studentAnswerKey: string | undefined,
-  t: any 
-}) => {
+const QuestionReviewCard = ({ question, index, studentAnswerKey, t }: any) => {
   const [showExplanation, setShowExplanation] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(false); 
 
   const questionText = getContentText(question.question);
-  const rawExplanation = question.explanation || question.solution; 
-  const explanationText = getContentText(rawExplanation);
-  
+  const explanationText = getContentText(question.explanation || question.solution);
   const isCorrect = studentAnswerKey === question.answer;
   const isSkipped = !studentAnswerKey;
   
-  const borderColor = isCorrect ? 'border-emerald-100' : isSkipped ? 'border-slate-100' : 'border-rose-100';
-  const headerBg = isCorrect ? 'bg-emerald-50/30' : isSkipped ? 'bg-slate-50' : 'bg-rose-50/30';
-  const badgeColor = isCorrect ? 'bg-emerald-500' : isSkipped ? 'bg-slate-300' : 'bg-rose-400';
+  const borderColor = isCorrect ? 'border-emerald-200' : isSkipped ? 'border-zinc-200' : 'border-rose-200';
+  const headerBg = isCorrect ? 'bg-emerald-50/50' : isSkipped ? 'bg-zinc-50' : 'bg-rose-50/50';
+  const badgeColor = isCorrect ? 'bg-emerald-500 text-white' : isSkipped ? 'bg-zinc-200 text-zinc-600' : 'bg-rose-500 text-white';
 
   return (
-    <div className={`bg-white rounded-xl border transition-all duration-300 shadow-sm hover:shadow-md ${borderColor}`}>
-      <div className={`px-4 md:px-6 py-4 md:py-5 flex items-start gap-4 md:gap-5 border-b ${borderColor} ${headerBg}`}>
-        <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-xs md:text-sm text-white shadow-sm mt-0.5 ${badgeColor}`}>
+    <div id={`question-${index}`} className={`bg-white rounded-2xl border ${borderColor} shadow-sm overflow-hidden scroll-mt-24`}>
+      {/* HEADER */}
+      <div className={`px-4 py-3 flex items-start gap-3 border-b ${borderColor} ${headerBg}`}>
+        <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 font-black text-[13px] shadow-sm ${badgeColor}`}>
           {index + 1}
         </div>
-        <div className="flex-1">
-          <div className="font-medium text-slate-700 text-base md:text-lg leading-relaxed">
+        <div className="flex-1 pt-0.5">
+          <div className="font-bold text-zinc-800 text-[14px] leading-relaxed">
             <LatexRenderer latex={questionText} />
           </div>
         </div>
-        <div className="shrink-0">
-          {isCorrect ? <CheckCircle className="text-emerald-500" size={20} /> : 
-           isSkipped ? <AlertTriangle className="text-slate-400" size={20} /> : 
-           <XCircle className="text-rose-500" size={20} />}
+        <div className="shrink-0 pt-0.5">
+          {isCorrect ? <CheckCircle className="text-emerald-500" strokeWidth={2.5} size={20} /> : 
+           isSkipped ? <AlertTriangle className="text-zinc-400" strokeWidth={2.5} size={20} /> : 
+           <XCircle className="text-rose-500" strokeWidth={2.5} size={20} />}
         </div>
       </div>
 
-      <div className="p-4 md:p-6">
-        <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4">
+      {/* BODY */}
+      <div className="p-4">
+        <div className="grid md:grid-cols-2 gap-3 mb-3">
           {/* Student Answer */}
-          <div className={`rounded-xl p-3 md:p-4 border flex flex-col gap-2 relative overflow-hidden ${isCorrect ? 'bg-emerald-50/50 border-emerald-100' : isSkipped ? 'bg-slate-50 border-slate-100' : 'bg-rose-50/50 border-rose-100'}`}>
-             <span className={`text-[10px] md:text-[11px] font-bold uppercase tracking-widest flex items-center gap-1 md:gap-2 ${isCorrect ? 'text-emerald-600' : isSkipped ? 'text-slate-500' : 'text-rose-600'}`}>
-               {isCorrect ? <CheckCircle size={12}/> : isSkipped ? <AlertTriangle size={12}/> : <XCircle size={12}/>}
+          <div className={`rounded-xl p-3 border flex flex-col gap-1.5 ${isCorrect ? 'bg-emerald-50/30 border-emerald-100' : isSkipped ? 'bg-zinc-50 border-zinc-100' : 'bg-rose-50/30 border-rose-100'}`}>
+             <span className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-1 ${isCorrect ? 'text-emerald-600' : isSkipped ? 'text-zinc-500' : 'text-rose-600'}`}>
+               {isCorrect ? <CheckCircle size={12} strokeWidth={3}/> : isSkipped ? <AlertTriangle size={12} strokeWidth={3}/> : <XCircle size={12} strokeWidth={3}/>}
                {isSkipped ? t.question.skipped : t.question.yourAns}
              </span>
-             <div className="flex gap-2 md:gap-3 items-center relative z-10">
+             <div className="flex gap-2 items-start mt-0.5">
                 {isSkipped ? (
-                   <span className="text-slate-400 italic text-sm font-medium">{t.question.noSel}</span>
+                   <span className="text-zinc-400 italic text-[13px] font-bold">{t.question.noSel}</span>
                 ) : (
                    <>
-                     <span className={`font-mono px-2 py-1 md:px-2.5 md:py-1 rounded text-xs md:text-sm font-bold shadow-sm ${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}`}>
+                     <span className={`w-6 h-6 rounded flex items-center justify-center font-black text-[12px] shrink-0 border ${isCorrect ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : 'bg-rose-100 text-rose-700 border-rose-200'}`}>
                         {studentAnswerKey?.toUpperCase()}
                      </span>
-                     <div className="text-slate-700 font-medium text-sm md:text-base">
+                     <div className="text-zinc-800 font-bold text-[13px] pt-0.5">
                        <LatexRenderer latex={getContentText(question.options[studentAnswerKey as string])} />
                      </div>
                    </>
@@ -218,17 +105,17 @@ const QuestionReviewCard = ({
              </div>
           </div>
 
-          {/* Correct Answer */}
+          {/* Correct Answer (If wrong) */}
           {!isCorrect && (
-            <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 md:p-4 flex flex-col gap-2 relative overflow-hidden">
-               <span className="text-[10px] md:text-[11px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-1 md:gap-2 relative z-10">
-                 <CheckCircle size={12} /> {t.question.correctAns}
+            <div className="bg-emerald-50/30 border border-emerald-100 rounded-xl p-3 flex flex-col gap-1.5">
+               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1">
+                 <CheckCircle size={12} strokeWidth={3} /> {t.question.correctAns}
                </span>
-               <div className="flex gap-2 md:gap-3 items-center relative z-10">
-                  <span className="font-mono bg-emerald-200 text-emerald-800 px-2 py-1 md:px-2.5 md:py-1 rounded text-xs md:text-sm font-bold shadow-sm">
+               <div className="flex gap-2 items-start mt-0.5">
+                  <span className="w-6 h-6 rounded flex items-center justify-center font-black text-[12px] shrink-0 bg-emerald-100 text-emerald-700 border-emerald-200">
                     {question.answer?.toUpperCase()}
                   </span>
-                  <div className="text-slate-700 font-medium text-sm md:text-base">
+                  <div className="text-zinc-800 font-bold text-[13px] pt-0.5">
                     <LatexRenderer latex={getContentText(question.options[question.answer])} />
                   </div>
                </div>
@@ -236,277 +123,275 @@ const QuestionReviewCard = ({
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 md:gap-3 pt-3 md:pt-4 border-t border-slate-100 mt-3 md:mt-4">
-          <button 
-            onClick={() => setShowAllOptions(!showAllOptions)}
-            className="flex items-center gap-1 md:gap-2 text-slate-500 text-xs font-bold bg-white border border-slate-200 hover:bg-slate-50 px-3 py-2 md:px-4 md:py-2.5 rounded-lg transition-all"
-          >
-            {showAllOptions ? <Eye size={12} /> : <List size={12} />}
-            {showAllOptions ? t.question.hideOpts : t.question.showOpts}
+        {/* Buttons */}
+        <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-zinc-100">
+          <button onClick={() => setShowAllOptions(!showAllOptions)} className="flex items-center gap-1.5 text-zinc-500 text-[11px] font-black uppercase tracking-widest bg-white border border-zinc-200 hover:bg-zinc-50 px-3 py-1.5 rounded-lg transition-colors">
+            {showAllOptions ? <Eye size={14} strokeWidth={2.5}/> : <List size={14} strokeWidth={2.5}/>} {showAllOptions ? t.question.hideOpts : t.question.showOpts}
           </button>
 
           {explanationText && (
-            <button 
-              onClick={() => setShowExplanation(!showExplanation)}
-              className={`flex items-center gap-1 md:gap-2 text-xs font-bold px-3 py-2 md:px-4 md:py-2.5 rounded-lg border transition-all shadow-sm ${
-                showExplanation 
-                ? 'bg-indigo-500 text-white border-indigo-500' 
-                : 'bg-white text-indigo-500 border-indigo-200 hover:border-indigo-500'
-              }`}
-            >
-              <Lightbulb size={12} className={showExplanation ? "fill-white" : "fill-indigo-500"} />
-              {showExplanation ? t.question.hideExp : t.question.viewExp}
+            <button onClick={() => setShowExplanation(!showExplanation)} className={`flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border transition-colors ${showExplanation ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-white text-indigo-600 border-indigo-200 hover:bg-indigo-50'}`}>
+              <Lightbulb size={14} strokeWidth={2.5} className="text-indigo-500" /> {showExplanation ? t.question.hideExp : t.question.viewExp}
             </button>
           )}
         </div>
 
-        {showAllOptions && (
-          <div className="mt-3 md:mt-4 p-3 md:p-4 bg-slate-50 rounded-xl border border-slate-100 animate-in fade-in slide-in-from-top-2">
-            <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-2 md:mb-3">{t.question.options}</p>
-            <div className="space-y-1 md:space-y-2">
-              {Object.entries(question.options || {}).map(([key, val]: any) => (
-                <div key={key} className={`flex items-center gap-2 md:gap-3 p-2 rounded-lg border ${key === question.answer ? 'bg-emerald-100/50 border-emerald-100' : 'bg-white border-slate-100'}`}>
-                  <span className={`font-mono text-[10px] md:text-xs font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded ${key === question.answer ? 'bg-emerald-200 text-emerald-800' : 'bg-slate-200 text-slate-600'}`}>
-                    {key}
-                  </span>
-                  <div className="text-sm text-slate-700">
-                    <LatexRenderer latex={getContentText(val)} />
-                  </div>
-                  {key === question.answer && <CheckCircle size={12} className="text-emerald-500 ml-auto"/>}
+        {/* Expandable Content */}
+        <AnimatePresence>
+          {showAllOptions && (
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+              <div className="mt-3 p-3 bg-zinc-50 rounded-xl border border-zinc-200">
+                <div className="space-y-1.5">
+                  {Object.entries(question.options || {}).map(([key, val]: any) => (
+                    <div key={key} className={`flex items-start gap-2 p-2 rounded-lg border ${key === question.answer ? 'bg-emerald-50 border-emerald-200' : 'bg-white border-zinc-200'}`}>
+                      <span className={`w-6 h-6 flex items-center justify-center font-black text-[11px] rounded shrink-0 ${key === question.answer ? 'bg-emerald-200 text-emerald-800' : 'bg-zinc-200 text-zinc-600'}`}>{key}</span>
+                      <div className="text-[13px] font-bold text-zinc-700 pt-0.5"><LatexRenderer latex={getContentText(val)} /></div>
+                      {key === question.answer && <CheckCircle size={14} strokeWidth={3} className="text-emerald-500 ml-auto shrink-0 mt-0.5"/>}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {showExplanation && explanationText && (
-          <div className="mt-3 md:mt-4 p-4 md:p-5 bg-indigo-50/50 rounded-xl border border-indigo-100 animate-in fade-in slide-in-from-top-2">
-             <div className="flex gap-2 md:gap-3">
-                <div className="shrink-0 mt-0.5">
-                   <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500">
-                     <Lightbulb size={12} />
-                   </div>
-                </div>
-                <div className="space-y-1 w-full">
-                   <p className="text-[9px] md:text-[10px] font-black text-indigo-400 uppercase tracking-widest">{t.question.solution}</p>
-                   <div className="text-slate-700 text-sm leading-6 md:leading-7">
-                     <LatexRenderer latex={explanationText} />
-                   </div>
-                </div>
-             </div>
-          </div>
-        )}
+              </div>
+            </motion.div>
+          )}
+          {showExplanation && explanationText && (
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+              <div className="mt-3 p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 flex gap-3">
+                 <div className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0"><Lightbulb size={14} strokeWidth={3}/></div>
+                 <div className="space-y-1 w-full pt-1">
+                    <p className="text-[9px] font-black text-indigo-500 uppercase tracking-widest">{t.question.solution}</p>
+                    <div className="text-zinc-800 font-bold text-[13px] leading-relaxed"><LatexRenderer latex={explanationText} /></div>
+                 </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </div>
   );
 };
 
-
 // ==================================================================================
-// 3. MAIN PAGE COMPONENT
+// MAIN PAGE COMPONENT
 // ==================================================================================
 export default function TestResultsPage() {
   const { classId, assignmentId } = useParams() as { classId: string; assignmentId: string };
   const { user } = useAuth();
   const router = useRouter();
-  
-  // 🟢 Use Language Hook
   const { lang } = useStudentLanguage();
-  const t = RESULTS_TRANSLATIONS[lang];
+  const t = RESULTS_TRANSLATIONS[lang] || RESULTS_TRANSLATIONS['en'];
 
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState<any>(null);
   const [testData, setTestData] = useState<any>(null);
   const [assignment, setAssignment] = useState<any>(null);
 
-  // Security States
   const [canViewDetails, setCanViewDetails] = useState(false);
   const [blockReason, setBlockReason] = useState<string>('');
-  const [verifyingSecurity, setVerifyingSecurity] = useState(true);
+  
+  // 🟢 NEW: Filter State
+  const [filter, setFilter] = useState<'all' | 'incorrect'>('all');
 
-  // 1. LOAD DATA
   useEffect(() => {
     if (!user) return;
-
     async function loadResults() {
       try {
-        // Fetch Attempt
         const attemptsQ = query(collection(db, 'attempts'), where('assignmentId', '==', assignmentId), where('userId', '==', user!.uid));
         const attemptSnap = await getDocs(attemptsQ);
         if (attemptSnap.empty) { router.push(`/classes/${classId}`); return; }
         const attemptDoc = attemptSnap.docs[0].data();
         setAttempt(attemptDoc);
 
-        // Fetch Test
-        const testRef = doc(db, 'custom_tests', attemptDoc.testId);
-        const testSnap = await getDoc(testRef);
+        const testSnap = await getDoc(doc(db, 'custom_tests', attemptDoc.testId));
         if (testSnap.exists()) setTestData(testSnap.data());
 
-        // Fetch Assignment (Needed for Due Date)
-        const assignRef = doc(db, 'classes', classId, 'assignments', assignmentId);
-        const assignSnap = await getDoc(assignRef);
+        const assignSnap = await getDoc(doc(db, 'classes', classId, 'assignments', assignmentId));
         if (assignSnap.exists()) setAssignment(assignSnap.data());
 
-      } catch (error) {
-        console.error("Error loading results:", error);
-      } finally {
-        setLoading(false);
-      }
+      } catch (error) { console.error(error); } 
+      finally { setLoading(false); }
     }
     loadResults();
   }, [user, assignmentId, classId, router]);
 
-  // 2. CHECK SECURITY (Run when data is loaded)
   useEffect(() => {
     if (!testData || !assignment) return;
+    const visibility = testData.resultsVisibility || (testData.showResults ? 'always' : 'never');
 
-    const performSecurityCheck = async () => {
-      const visibility = testData.resultsVisibility || (testData.showResults ? 'always' : 'never');
-
-      if (visibility === 'always') {
-        setCanViewDetails(true);
-      } 
-      else if (visibility === 'never') {
-        setCanViewDetails(false);
-        setBlockReason(t.blocked.reason1);
-      } 
-      else if (visibility === 'after_due') {
-        if (!assignment.dueAt) {
-          setCanViewDetails(true); 
-        } else {
-          // 🛑 SECURE TIME CHECK
-          const now = await getSecureTime();
-          const dueDate = new Date(assignment.dueAt.seconds * 1000);
-          
-          if (now > dueDate) {
-            setCanViewDetails(true);
-          } else {
-            setCanViewDetails(false);
-            const dateStr = dueDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-            const timeStr = dueDate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-            setBlockReason(`${t.blocked.reason2} ${dateStr} at ${timeStr}`);
-          }
+    if (visibility === 'always') setCanViewDetails(true);
+    else if (visibility === 'never') { setCanViewDetails(false); setBlockReason(t.blocked.reason1); }
+    else if (visibility === 'after_due') {
+      if (!assignment.dueAt) setCanViewDetails(true); 
+      else {
+        const now = new Date();
+        const dueDate = new Date(assignment.dueAt.seconds * 1000);
+        if (now > dueDate) setCanViewDetails(true);
+        else {
+          setCanViewDetails(false);
+          setBlockReason(`${t.blocked.reason2} ${dueDate.toLocaleDateString()} at ${dueDate.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`);
         }
       }
-      setVerifyingSecurity(false);
-    };
-
-    performSecurityCheck();
+    }
   }, [testData, assignment, t]);
 
-  // --- RENDERING ---
+  // 🟢 SMART MAP SCROLLING
+  const handleMapClick = (idx: number, qId: string) => {
+    const isCorrect = attempt.answers[qId] === testData.questions[idx].answer;
+    
+    // If they click a correct answer while filtering only incorrects, auto-switch filter back to 'All'
+    if (filter === 'incorrect' && isCorrect) {
+      setFilter('all');
+      setTimeout(() => {
+        const el = document.getElementById(`question-${idx}`);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+      }, 100); 
+    } else {
+      const el = document.getElementById(`question-${idx}`);
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+    }
+  };
 
-  if (loading || verifyingSecurity) return (
-    <div className="h-screen flex items-center justify-center bg-slate-50 text-indigo-500 gap-2 font-bold">
-      <Loader2 className="animate-spin" /> {t.loading}
-    </div>
-  );
-
+  if (loading) return <div className="h-screen flex items-center justify-center bg-zinc-50 text-indigo-600 gap-3 font-black text-xl"><Loader2 className="animate-spin" size={32}/> {t.loading}</div>;
   if (!attempt || !testData) return null;
 
-  // --- BLOCKED STATE UI ---
   if (!canViewDetails) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full p-6 md:p-8 bg-white rounded-2xl md:rounded-3xl shadow-sm border border-slate-100 animate-in zoom-in duration-300">
-          <div className="w-14 h-14 md:w-16 md:h-16 bg-indigo-100 text-indigo-500 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-            <Lock size={28} />
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4 font-sans">
+        <div className="max-w-md w-full p-8 bg-white rounded-[2rem] shadow-xl border border-zinc-200 text-center">
+          <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6"><Lock size={28} strokeWidth={2.5}/></div>
+          <h1 className="text-2xl font-black text-zinc-900 mb-2">{t.blocked.title}</h1>
+          <div className="mt-6 p-6 bg-zinc-50 rounded-2xl border border-zinc-200">
+             <p className="text-[11px] font-black text-zinc-400 uppercase tracking-widest mb-1">{t.blocked.result}</p>
+             <p className="text-5xl font-black text-indigo-600 tracking-tight">{attempt.score}<span className="text-2xl text-zinc-300">/{attempt.totalQuestions}</span></p>
           </div>
-          <h1 className="text-xl md:text-2xl font-black text-slate-700">{t.blocked.title}</h1>
-          <div className="mt-4 md:mt-6 p-4 md:p-6 bg-slate-50 rounded-xl md:rounded-2xl border border-slate-100">
-             <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 md:mb-2">{t.blocked.result}</p>
-             <p className="text-3xl md:text-5xl font-black text-indigo-500 tracking-tight">
-               {attempt.score}<span className="text-xl md:text-2xl text-slate-300 font-bold">/{attempt.totalQuestions}</span>
-             </p>
-          </div>
-          
-          <div className="mt-4 md:mt-6 bg-yellow-50 border border-yellow-100 p-3 md:p-4 rounded-xl text-yellow-700 text-xs md:text-sm font-medium flex items-start gap-2 md:gap-3 text-left">
-             <Clock size={16} className="shrink-0 mt-0.5" />
+          <div className="mt-6 bg-amber-50 border border-amber-200 p-4 rounded-xl text-amber-700 text-[13px] font-bold flex items-start gap-3 text-left">
+             <Clock size={18} strokeWidth={2.5} className="shrink-0 mt-0.5 text-amber-500" />
              <p>{blockReason}</p>
           </div>
-
-          <button 
-            onClick={() => router.push(`/classes/${classId}`)}
-            className="mt-6 md:mt-8 w-full py-2.5 md:py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition-all shadow-sm"
-          >
-            {t.blocked.btn}
-          </button>
+          <button onClick={() => router.push(`/classes/${classId}`)} className="mt-8 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white font-black text-[14px] uppercase tracking-widest rounded-xl transition-all">{t.blocked.btn}</button>
         </div>
       </div>
     );
   }
 
-  // --- ALLOWED STATE UI ---
   const percentage = Math.round((attempt.score / attempt.totalQuestions) * 100);
-  let gradeColor = 'text-rose-500 bg-rose-50 border-rose-100';
-  let gradeMessage = t.status.needsWork;
+  const gradeColor = percentage >= 80 ? 'text-emerald-600' : percentage >= 50 ? 'text-amber-600' : 'text-rose-600';
   
-  if (percentage >= 80) {
-    gradeColor = 'text-emerald-500 bg-emerald-50 border-emerald-100';
-    gradeMessage = t.status.excellent;
-  } else if (percentage >= 50) {
-    gradeColor = 'text-amber-500 bg-amber-50 border-amber-100';
-    gradeMessage = t.status.good;
-  }
+  // Apply Filter
+  const filteredQuestions = testData.questions.filter((q: any) => filter === 'all' || attempt.answers[q.id] !== q.answer);
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-16 md:pb-20">
-      <div className="bg-white border-b border-slate-100 sticky top-0 z-20 shadow-sm/30 backdrop-blur-sm bg-white/95">
-      <div className="max-w-4xl mx-auto px-4 md:px-6 pt-16 pb-3 md:py-0 md:h-16 flex items-center justify-between">
-   <button onClick={() => router.push(`/classes/${classId}`)} className="flex items-center gap-1 md:gap-2 text-xs md:text-sm font-bold text-slate-500 hover:text-indigo-500 transition-colors">
-     <ChevronLeft size={14} /> {t.back}
-   </button>
-   <h1 className="font-bold text-slate-700 hidden md:block text-base md:text-lg truncate max-w-[250px] md:max-w-[300px]">{t.title}: {testData.title}</h1>
-   <div className={`px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-black border flex items-center gap-1 ${gradeColor}`}>
-     <Trophy size={10} /> {percentage}%
-   </div>
-</div>
+    <div className="min-h-screen bg-zinc-50 pb-20 font-sans">
+      
+      {/* 🟢 MINIMAL STICKY HEADER */}
+      <div className="bg-white/90 backdrop-blur-md border-b border-zinc-200 sticky top-0 z-40 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+          <button onClick={() => router.push(`/classes/${classId}`)} className="flex items-center gap-1.5 text-[13px] font-black uppercase tracking-widest text-zinc-500 hover:text-indigo-600 transition-colors">
+            <ChevronLeft size={16} strokeWidth={3} /> <span className="hidden sm:inline">{t.back}</span>
+          </button>
+          <h1 className="font-black text-zinc-900 text-[15px] md:text-[16px] truncate max-w-xs md:max-w-md mx-4">{testData.title}</h1>
+          <div className={`font-black text-[15px] flex items-center gap-1.5 ${gradeColor}`}>
+            <Trophy size={16} strokeWidth={3} /> {percentage}%
+          </div>
+        </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-8 space-y-6 md:space-y-8">
-        <div className="bg-white p-5 md:p-6 lg:p-8 rounded-2xl md:rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-slate-50 rounded-full translate-x-8 md:translate-x-10 -translate-y-8 md:-translate-y-10 z-0" />
-           <div className="text-center md:text-left relative z-10">
-             <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-slate-800 mb-1">{gradeMessage}</h2>
-             <p className="text-slate-500 font-medium text-sm md:text-base">You scored <strong className="text-slate-800">{attempt.score}</strong> correct out of <strong className="text-slate-800">{attempt.totalQuestions}</strong> questions.</p>
-           </div>
-           <div className="flex gap-2 md:gap-3 text-center relative z-10">
-             <div className="p-2 md:p-3 bg-emerald-50 rounded-xl md:rounded-2xl border border-emerald-100 min-w-[70px] md:min-w-[80px]">
-               <CheckCircle size={16} className="mx-auto mb-0.5 md:mb-1 text-emerald-500" />
-               <p className="text-[9px] md:text-[10px] font-bold text-emerald-600/70 uppercase">{t.cards.right}</p>
-               <p className="font-bold text-emerald-700 text-lg md:text-xl mt-0.5 md:mt-1">{attempt.score}</p>
-             </div>
-             <div className="p-2 md:p-3 bg-rose-50 rounded-xl md:rounded-2xl border border-rose-100 min-w-[70px] md:min-w-[80px]">
-               <XCircle size={16} className="mx-auto mb-0.5 md:mb-1 text-rose-500" />
-               <p className="text-[9px] md:text-[10px] font-bold text-rose-600/70 uppercase">{t.cards.wrong}</p>
-               <p className="font-bold text-rose-700 text-lg md:text-xl mt-0.5 md:mt-1">{attempt.totalQuestions - attempt.score}</p>
-             </div>
-           </div>
-        </div>
-
-        <div className="space-y-5 md:space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3 md:pb-4">
-            <h3 className="font-black text-slate-700 text-lg md:text-xl flex items-center gap-1 md:gap-2">
-              <BookOpen size={20} className="text-indigo-500"/> {t.cards.review}
-            </h3>
-            <span className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-slate-100">
-              {testData.questions.length} {t.cards.questions}
-            </span>
+      {/* 🟢 TWO-COLUMN DASHBOARD LAYOUT */}
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8 flex flex-col-reverse lg:flex-row gap-6 md:gap-8">
+        
+        {/* LEFT COLUMN: Questions (flex-1) */}
+        <div className="flex-1 space-y-4">
+          
+          {/* Quick Filters */}
+          <div className="flex items-center justify-between bg-white p-2 rounded-xl border border-zinc-200 shadow-sm">
+            <div className="flex gap-1">
+              <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded-lg text-[12px] font-black uppercase tracking-widest transition-all ${filter === 'all' ? 'bg-zinc-800 text-white' : 'text-zinc-500 hover:bg-zinc-100'}`}>
+                {t.cards.all} ({attempt.totalQuestions})
+              </button>
+              <button onClick={() => setFilter('incorrect')} className={`px-4 py-2 rounded-lg text-[12px] font-black uppercase tracking-widest transition-all ${filter === 'incorrect' ? 'bg-rose-500 text-white shadow-sm' : 'text-zinc-500 hover:bg-zinc-100'}`}>
+                {t.cards.incorrectOnly} ({attempt.totalQuestions - attempt.score})
+              </button>
+            </div>
+            <Filter size={16} className="text-zinc-400 mr-2" strokeWidth={2.5}/>
           </div>
 
-          <div className="space-y-5 md:space-y-6">
-            {testData.questions.map((q: any, idx: number) => (
-              <QuestionReviewCard 
-                key={q.id || idx}
-                question={q}
-                index={idx}
-                studentAnswerKey={attempt.answers[q.id]}
-                t={t}
-              />
-            ))}
+          <div className="space-y-4">
+            {filteredQuestions.map((q: any) => {
+              // We need the ORIGINAL index for numbering and scrolling
+              const originalIndex = testData.questions.findIndex((origQ: any) => origQ.id === q.id);
+              return (
+                <QuestionReviewCard key={q.id} question={q} index={originalIndex} studentAnswerKey={attempt.answers[q.id]} t={t} />
+              );
+            })}
+            
+            {filteredQuestions.length === 0 && (
+              <div className="text-center py-12 bg-white rounded-2xl border border-zinc-200">
+                 <CheckCircle size={32} className="mx-auto text-emerald-400 mb-3" strokeWidth={2.5}/>
+                 <p className="text-zinc-500 font-bold text-[14px]">Perfect score! No incorrect questions.</p>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* RIGHT COLUMN: Sticky Sidebar (Stats + Map) */}
+        <div className="w-full lg:w-[320px] shrink-0">
+          <div className="lg:sticky lg:top-24 flex flex-col sm:flex-row lg:flex-col gap-4 md:gap-6">
+            
+            {/* COMPACT STATS CARD */}
+            <div className="flex-1 lg:flex-none bg-white p-5 md:p-6 rounded-2xl border border-zinc-200 shadow-sm flex flex-col justify-center">
+               <h3 className="font-black text-zinc-800 text-[14px] uppercase tracking-widest mb-4 flex items-center gap-2">
+                 <Trophy size={16} strokeWidth={3} className="text-indigo-500"/> {t.cards.score}
+               </h3>
+               <div className="flex items-end gap-2 mb-4">
+                 <span className="text-5xl font-black text-zinc-900 tracking-tighter leading-none">{attempt.score}</span>
+                 <span className="text-lg font-bold text-zinc-400 mb-1">/ {attempt.totalQuestions}</span>
+               </div>
+               
+               <div className="flex gap-2">
+                 <div className="flex-1 bg-emerald-50 rounded-xl border border-emerald-100 p-2.5 text-center">
+                   <p className="text-[10px] font-black text-emerald-600/70 uppercase tracking-widest">{t.cards.right}</p>
+                   <p className="font-black text-emerald-700 text-lg">{attempt.score}</p>
+                 </div>
+                 <div className="flex-1 bg-rose-50 rounded-xl border border-rose-100 p-2.5 text-center">
+                   <p className="text-[10px] font-black text-rose-600/70 uppercase tracking-widest">{t.cards.wrong}</p>
+                   <p className="font-black text-rose-700 text-lg">{attempt.totalQuestions - attempt.score}</p>
+                 </div>
+               </div>
+            </div>
+
+            {/* OVERVIEW MATRIX (MAP) */}
+            <div className="flex-1 lg:flex-none bg-white p-5 md:p-6 rounded-2xl border border-zinc-200 shadow-sm">
+               <h3 className="font-black text-zinc-800 text-[14px] uppercase tracking-widest mb-4 flex items-center gap-2">
+                 <Grid size={16} strokeWidth={3} className="text-indigo-500"/> {t.cards.overview}
+               </h3>
+               <div className="flex flex-wrap gap-1.5 md:gap-2">
+                  {testData.questions.map((q: any, idx: number) => {
+                     const isCorrect = attempt.answers[q.id] === q.answer;
+                     const isSkipped = !attempt.answers[q.id];
+                     
+                     let style = "bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200";
+                     if (isCorrect) style = "bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200";
+                     else if (isSkipped) style = "bg-zinc-100 text-zinc-500 border-zinc-200 hover:bg-zinc-200";
+
+                     // Dim the correct ones if filter is active, but keep them clickable
+                     const isDimmed = filter === 'incorrect' && isCorrect;
+
+                     return (
+                       <button 
+                         key={idx} 
+                         onClick={() => handleMapClick(idx, q.id)}
+                         className={`w-8 h-8 md:w-[38px] md:h-[38px] rounded-[10px] font-black text-[12px] md:text-[13px] border transition-all flex items-center justify-center shadow-sm hover:-translate-y-0.5 active:scale-95 ${style} ${isDimmed ? 'opacity-30 hover:opacity-100' : ''}`}
+                       >
+                         {idx + 1}
+                       </button>
+                     )
+                  })}
+               </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   );

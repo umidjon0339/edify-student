@@ -1,1141 +1,636 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { db, auth } from "@/lib/firebase";
-import { doc, getDoc, writeBatch } from "firebase/firestore";
-import {
-  signOut,
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  updatePassword,
-} from "firebase/auth";
-import {
-  User,
-  Mail,
-  LogOut,
-  Award,
-  Flame,  Trophy,  Calendar,  Edit2,  X,  RefreshCw,
-  MapPin,  School,  Quote,  Briefcase,  Menu,  Info,  Phone,  Send,  Github,Linkedin
-} from "lucide-react";
-import toast, { Toaster } from "react-hot-toast";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import EditProfileModal from "./_components/EditProfileModal";
-import { useStudentLanguage } from "@/app/(student)/layout"; // 🟢 Import Hook
+import { useEffect, useState, useRef, useMemo } from 'react';
+import { useAuth } from '@/lib/AuthContext';
+import { auth, db, storage } from '@/lib/firebase';
+import { doc, getDoc, updateDoc, writeBatch } from 'firebase/firestore'; // 🟢 Added writeBatch
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { updateProfile, signOut } from 'firebase/auth';
+import { 
+  User as UserIcon, Mail, Trophy, Flame, Star, 
+  Activity, Edit2, Check, X, LogOut, Camera, Calendar,
+  GraduationCap, Loader2, Trash2, Smile,
+  AtSign, RefreshCw, CheckCircle, XCircle,BookOpen // 🟢 Added Icons for Username check
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer, YAxis } from 'recharts';
+import { useStudentLanguage } from '../layout';
+import { checkUsernameUnique } from '@/services/userService'; // 🟢 Make sure this service exists!
+
+// 🟢 IMAGE CROPPER
+import ReactCrop, { Crop, PixelCrop, centerCrop, makeAspectCrop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+
+const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/; // Starts with letter, 5-32 chars
 
 // --- 1. TRANSLATION DICTIONARY ---
-const PROFILE_TRANSLATIONS = {
+const PROFILE_TRANSLATIONS: any = {
   uz: {
-    loading: "Profil yuklanmoqda...",
-    role: { student: "O'quvchi", teacher: "O'qituvchi" },
-    buttons: {
-      edit: "Profilni Tahrirlash",
-      support: "Yordam",
-      logout: "Chiqish",
-      dashboard: "Boshqaruv",
-      classes: "Sinflarim",
-      leaderboard: "Reyting",
-      history: "Tarix",
-      profile: "Profil"
-    },
-    info: {
-      title: "Shaxsiy Ma'lumotlar",
-      email: "Email Manzili",
-      birth: "Tug'ilgan Sana",
-      location: "Joylashuv",
-      education: "Ta'lim",
-      notProvided: "Kiritilmagan",
-      gradePrefix: "Sinf",
-      yearPrefix: "Kurs"
-    },
-    stats: {
-      xp: "Jami XP",
-      streak: "Kunlik Seriya",
-      level: "Joriy Daraja"
-    },
-    activity: {
-      title: "Faollik Tarixi",
-      daysActive: "Kun Faol",
-      less: "Kamroq",
-      more: "Ko'proq",
-      mon: "Dush",
-      wed: "Chor",
-      fri: "Juma"
-    },
-    about: {
-      title: "EdifyPlatform",
-      subtitle: "AI yordamida ta'limni kuchaytirish",
-      supportHeader: "Yordam va Aloqa",
-      telegram: "Telegram Yordam",
-      callCenter: "Aloqa Markazi",
-      email: "Email Manzili",
-      devHeader: "Dasturchi",
-      innovating: "Ta'lim texnologiyalarini rivojlantirish",
-      rights: "Barcha huquqlar himoyalangan.",
-      system: "Tizim Ishlamoqda"
-    },
-    toasts: {
-      updateSuccess: "Profil muvaffaqiyatli yangilandi!",
-      updateFail: "Profilni yangilashda xatolik",
-      passSuccess: "Parol yangilandi!",
-      passFail: "Xatolik. Joriy parolni tekshiring."
-    }
+    title: "Mening Profilim", edit: "Tahrirlash", save: "Saqlash", cancel: "Bekor", student: "O'quvchi",
+    labels: { name: "To'liq ism", email: "Pochta", joined: "Qo'shilgan", phone: "Telefon", school: "Muassasa", notProvided: "Kiritilmagan", username: "Foydalanuvchi nomi", bio: "O'zim haqimda", birthDate: "Tug'ilgan sana", gender: "Jinsi", grade: "Sinf/Kurs", location: "Manzil" },
+    sections: { personal: "Shaxsiy Ma'lumotlar", education: "Ta'lim va Manzil", stats: "Hisob Statistikasi", activity: "7 Kunlik Faollik" },
+    stats: { xp: "Jami XP", streak: "Seriya", level: "Daraja" },
+    status: { minChar: "Kamida 5 ta belgi", regex: "Harf bilan boshlang (a-z, 0-9, _)", taken: "Bu nom band qilingan", avail: "Bu nom bo'sh!" }, // 🟢 Added Status translations
+    genders: { male: "Erkak", female: "Ayol" },
+    logout: "Tizimdan chiqish", logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Yo'q, qolish", confirm: "Ha, chiqish" },
+    photo: { cropTitle: "Rasmni Kesish", apply: "Saqlash", updated: "Rasm yangilandi!", deleted: "Rasm o'chirildi!" },
+    success: "Profil yangilandi!", error: "Xatolik yuz berdi."
   },
   en: {
-    loading: "Loading Profile...",
-    role: { student: "Student", teacher: "Instructor" },
-    buttons: {
-      edit: "Edit Profile",
-      support: "Support",
-      logout: "Sign Out",
-      dashboard: "Dashboard",
-      classes: "My Classes",
-      leaderboard: "Leaderboard",
-      history: "History",
-      profile: "Profile"
-    },
-    info: {
-      title: "Personal Info",
-      email: "Email Address",
-      birth: "Birth Date",
-      location: "Location",
-      education: "Education",
-      notProvided: "Not provided",
-      gradePrefix: "Grade",
-      yearPrefix: "Year"
-    },
-    stats: {
-      xp: "Total XP",
-      streak: "Day Streak",
-      level: "Current Level"
-    },
-    activity: {
-      title: "Activity Log",
-      daysActive: "Days Active",
-      less: "Less",
-      more: "More",
-      mon: "Mon",
-      wed: "Wed",
-      fri: "Fri"
-    },
-    about: {
-      title: "EdifyPlatform",
-      subtitle: "Empowering Education with AI",
-      supportHeader: "Support & Contact",
-      telegram: "Telegram Support",
-      callCenter: "Call Center",
-      email: "Email Address",
-      devHeader: "Developed By",
-      innovating: "Innovating Education Technology",
-      rights: "All rights reserved.",
-      system: "System Operational"
-    },
-    toasts: {
-      updateSuccess: "Profile updated successfully!",
-      updateFail: "Failed to update profile",
-      passSuccess: "Password updated!",
-      passFail: "Failed. Check current password."
-    }
+    title: "My Profile", edit: "Edit", save: "Save", cancel: "Cancel", student: "Student",
+    labels: { name: "Full Name", email: "Email", joined: "Joined", phone: "Phone", school: "Institution", notProvided: "Not provided", username: "Username", bio: "Bio", birthDate: "Birth Date", gender: "Gender", grade: "Grade", location: "Location" },
+    sections: { personal: "Personal Info", education: "Education & Location", stats: "Account Stats", activity: "7-Day Activity" },
+    stats: { xp: "Total XP", streak: "Streak", level: "Level" },
+    status: { minChar: "Minimum 5 characters", regex: "Start with letter (a-z, 0-9, _)", taken: "Username is taken", avail: "Username is available!" },
+    genders: { male: "Male", female: "Female" },
+    logout: "Sign Out", logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out?", cancel: "No, stay", confirm: "Yes, sign out" },
+    photo: { cropTitle: "Crop Photo", apply: "Apply", updated: "Photo updated!", deleted: "Photo deleted!" },
+    success: "Profile updated!", error: "An error occurred."
   },
   ru: {
-    loading: "Загрузка профиля...",
-    role: { student: "Ученик", teacher: "Преподаватель" },
-    buttons: {
-      edit: "Редактировать",
-      support: "Поддержка",
-      logout: "Выйти",
-      dashboard: "Главная",
-      classes: "Мои Классы",
-      leaderboard: "Рейтинг",
-      history: "История",
-      profile: "Профиль"
-    },
-    info: {
-      title: "Личная Информация",
-      email: "Эл. почта",
-      birth: "Дата Рождения",
-      location: "Местоположение",
-      education: "Образование",
-      notProvided: "Не указано",
-      gradePrefix: "Класс",
-      yearPrefix: "Курс"
-    },
-    stats: {
-      xp: "Всего XP",
-      streak: "Серия Дней",
-      level: "Текущий Уровень"
-    },
-    activity: {
-      title: "История Активности",
-      daysActive: "Дней Активности",
-      less: "Меньше",
-      more: "Больше",
-      mon: "Пн",
-      wed: "Ср",
-      fri: "Пт"
-    },
-    about: {
-      title: "EdifyPlatform",
-      subtitle: "Улучшение образования с ИИ",
-      supportHeader: "Поддержка и Контакты",
-      telegram: "Telegram Поддержка",
-      callCenter: "Колл-центр",
-      email: "Эл. почта",
-      devHeader: "Разработчик",
-      innovating: "Инновации в образовании",
-      rights: "Все права защищены.",
-      system: "Система работает"
-    },
-    toasts: {
-      updateSuccess: "Профиль успешно обновлен!",
-      updateFail: "Ошибка обновления профиля",
-      passSuccess: "Пароль обновлен!",
-      passFail: "Ошибка. Проверьте текущий пароль."
-    }
+    title: "Мой Профиль", edit: "Изменить", save: "Сохранить", cancel: "Отмена", student: "Ученик",
+    labels: { name: "Имя", email: "Email", joined: "Регистрация", phone: "Телефон", school: "Учреждение", notProvided: "Не указано", username: "Никнейм", bio: "О себе", birthDate: "Дата рождения", gender: "Пол", grade: "Класс/Курс", location: "Локация" },
+    sections: { personal: "Личные данные", education: "Образование", stats: "Статистика", activity: "Активность (7 Дней)" },
+    stats: { xp: "Всего XP", streak: "Серия", level: "Уровень" },
+    status: { minChar: "Минимум 5 символов", regex: "Начните с буквы (a-z, 0-9, _)", taken: "Имя занято", avail: "Имя доступно!" },
+    genders: { male: "Мужской", female: "Женский" },
+    logout: "Выйти", logoutConfirm: { title: "Выйти", desc: "Вы уверены, что хотите выйти?", cancel: "Отмена", confirm: "Да, выйти" },
+    photo: { cropTitle: "Обрезать фото", apply: "Применить", updated: "Фото обновлено!", deleted: "Фото удалено!" },
+    success: "Профиль обновлен!", error: "Произошла ошибка."
   }
 };
 
-// --- VISUAL COMPONENTS (Backgrounds & Nav) ---
-const FloatingParticles = () => {
-  const particles = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 2,
-    duration: Math.random() * 20 + 10,
-    delay: Math.random() * 5,
-    opacity: Math.random() * 0.6 + 0.2,
-  }));
-
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            opacity: particle.opacity,
-          }}
-          animate={{
-            y: [0, -100, 0],
-            x: [0, Math.sin(particle.id) * 50, 0],
-            opacity: [
-              particle.opacity,
-              particle.opacity * 0.1,
-              particle.opacity,
-            ],
-          }}
-          transition={{
-            duration: particle.duration,
-            delay: particle.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
+const formatGrade = (gradeId: string, lang: string) => {
+  if (!gradeId) return null;
+  if (gradeId.startsWith('school_')) return `${gradeId.replace('school_', '')}${lang === 'uz' ? '-sinf' : lang === 'ru' ? ' класс' : 'th Grade'}`;
+  if (gradeId.startsWith('uni_')) return `${gradeId.replace('uni_', '')}${lang === 'uz' ? '-kurs' : lang === 'ru' ? ' курс' : 'st Year'}`;
+  return gradeId;
 };
 
-const GlowingOrb = ({
-  color,
-  size,
-  position,
-}: {
-  color: string;
-  size: number;
-  position: { x: string; y: string };
-}) => (
-  <motion.div
-    className={`absolute rounded-full ${color} blur-3xl opacity-20 pointer-events-none`}
-    style={{
-      width: `${size}px`,
-      height: `${size}px`,
-      left: position.x,
-      top: position.y,
-    }}
-    animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.4, 0.2] }}
-    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-  />
-);
-
-const MobileNavBar = ({ onMenuClick, title }: { onMenuClick: () => void, title: string }) => (
-  <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900 z-40 flex items-center justify-between px-4 border-b border-slate-800 md:hidden">
-    <div className="flex items-center gap-3">
-      <button
-        onClick={onMenuClick}
-        className="p-2 text-slate-400 hover:text-white rounded-lg transition-colors hover:bg-slate-800"
-      >
-        <Menu size={24} />
-      </button>
-      <h1 className="text-lg font-black text-white tracking-tight">{title}</h1>
-    </div>
-  </div>
-);
-
-// --- ABOUT / SUPPORT MODAL COMPONENT ---
-const AboutModal = ({
-  isOpen,
-  onClose,
-  t
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  t: any;
-}) => {
-  if (!isOpen) return null;
-
-  const ContactCard = ({
-    icon,
-    title,
-    value,
-    href,
-    colorClass,
-  }: {
-    icon: React.ReactNode;
-    title: string;
-    value: string;
-    href?: string;
-    colorClass: string;
-  }) => {
-    const Wrapper = href ? "a" : "div";
-    return (
-      <Wrapper
-        href={href}
-        target={href ? "_blank" : undefined}
-        rel={href ? "noopener noreferrer" : undefined}
-        className={`group flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 hover:border-${colorClass}-200 transition-all duration-300 cursor-pointer`}
-      >
-        <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-sm text-white bg-gradient-to-br ${colorClass} group-hover:scale-110 transition-transform duration-300`}
-        >
-          {icon}
-        </div>
-        <div>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            {title}
-          </p>
-          <p className="text-sm font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">
-            {value}
-          </p>
-        </div>
-      </Wrapper>
-    );
-  };
-
-  return (
-    <motion.div
-      className="fixed inset-0 bg-slate-900/60 z-[60] flex items-center justify-center p-4 backdrop-blur-md"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
-      <motion.div
-        className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* PREMIUM HEADER */}
-        <div className="relative h-40 bg-slate-900 overflow-hidden shrink-0">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2 animate-blob"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2 animate-blob animation-delay-2000"></div>
-
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-all z-20"
-          >
-            <X size={20} />
-          </button>
-
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-2xl shadow-indigo-500/20 mb-3">
-              <span className="text-3xl font-black text-indigo-600">E</span>
-            </div>
-            <h2 className="text-2xl font-black text-white tracking-tight">
-              Edify<span className="text-indigo-400">Platform</span>
-            </h2>
-            <p className="text-slate-400 text-xs font-medium mt-1">
-              {t.subtitle}
-            </p>
-          </div>
-        </div>
-
-        {/* SCROLLABLE CONTENT */}
-        <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                <span className="w-1 h-4 bg-indigo-500 rounded-full"></span>{" "}
-                {t.supportHeader}
-              </h3>
-
-              <ContactCard
-                href="https://t.me/Umidjon0339" // 🟢 Trigger Telegram
-                colorClass="from-blue-400 to-blue-600"
-                title={t.telegram}
-                value="@Umidjon0339"
-                icon={<Send size={20} />} 
-              />
-
-              {/* Phone Card */}
-              <ContactCard
-                href="tel:+998338602006" // 🟢 Trigger Phone Call
-                colorClass="from-emerald-400 to-emerald-600"
-                title={t.callCenter}
-                value="+998 33 860 20 06"
-                icon={<Phone size={24} />}
-              />
-
-              {/* Email Card */}
-              <ContactCard
-                href="mailto:u.jumaqulov@newuu.uz" // 🟢 Trigger Email App
-                colorClass="from-orange-400 to-orange-600"
-                title={t.email}
-                value="u.jumaqulov@newuu.uz"
-                icon={<Mail size={24} />}
-              />
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                <span className="w-1 h-4 bg-purple-500 rounded-full"></span>{" "}
-                {t.devHeader}
-              </h3>
-
-              <div className="p-5 rounded-2xl bg-slate-900 text-white relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Briefcase size={100} />
-                </div>
-                <h4 className="text-lg font-bold mb-1">WASP-2 AI Solutions</h4>
-                <p className="text-slate-400 text-xs mb-4">
-                  {t.innovating}
-                </p>
-
-                <div className="space-y-3">
-                  <a
-                    href="https://github.com/Wasp-2-AI"
-                    target="_blank"
-                    className="flex items-center gap-3 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-                  >
-                    <div className="bg-white text-slate-900 p-1.5 rounded-full">
-                      <Github size={16} />
-                    </div>
-                    <span className="text-xs font-bold">
-                      github.com/wasp-2-ai
-                    </span>
-                  </a>
-
-                  <a
-                    href="https://www.linkedin.com/company/wasp-2-ai"
-                    target="_blank"
-                    className="flex items-center gap-3 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-                  >
-                    <div className="bg-[#0077b5] text-white p-1.5 rounded-full">
-                      <Linkedin size={16} />
-                    </div>
-                    <span className="text-xs font-bold">
-                      WASP-2 AI Solutions
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left">
-            <p className="text-[10px] font-bold text-slate-400">
-              © 2026 WASP-2 AI Solutions. {t.rights}
-            </p>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-1 rounded-md bg-slate-100 text-[10px] font-bold text-slate-500 border border-slate-200">
-                v1.0.0
-              </span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-[10px] font-bold text-emerald-600">
-                {t.system}
-              </span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
+const calculateTrueStreak = (dailyHistory: Record<string, number> | undefined) => {
+  if (!dailyHistory) return 0;
+  const today = new Date(); const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+  const formatDate = (d: Date) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+  if (!dailyHistory[formatDate(today)] && !dailyHistory[formatDate(yesterday)]) return 0;
+  let streakCount = 0; let checkDate = new Date(dailyHistory[formatDate(today)] ? today : yesterday);
+  while (dailyHistory[formatDate(checkDate)] && dailyHistory[formatDate(checkDate)] > 0) { streakCount++; checkDate.setDate(checkDate.getDate() - 1); }
+  return streakCount;
 };
 
-// --- HELPER FUNCTIONS ---
-const calculateLevel = (xp: number) => {
-  if (!xp || xp < 0) return 1;
-  return Math.floor(xp / 100) + 1;
-};
-
-// --- HELPER: Process Last 30 Days ---
-const getLast30DaysData = (history: Record<string, number> = {}) => {
-  const days = [];
-  const today = new Date();
-  
-  // Create last 30 days array (in reverse order for chart left-to-right)
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i); // Go back i days
-    const dateStr = d.toISOString().split("T")[0]; // YYYY-MM-DD
-    
-    // Get stats
-    const xp = history[dateStr] || 0;
-    
-    // Format Display Date (e.g., "Feb 4")
-    const displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }); // "Mon"
-
-    days.push({
-      fullDate: dateStr,
-      displayDate,
-      dayName,
-      xp
-    });
+const generateChartData = (dailyHistory: Record<string, number> | undefined, lang: string) => {
+  const data = []; const today = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(today.getDate() - i);
+    const dateStr = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+    const displayDate = d.toLocaleDateString(lang === 'uz' ? 'uz-UZ' : lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'short' });
+    data.push({ name: displayDate.toUpperCase(), XP: dailyHistory?.[dateStr] || 0 });
   }
-  return days;
+  return data;
 };
 
-
-
-const getCellColor = (xp: number) => {
-  if (xp === 0) return "bg-slate-700/50 border-slate-600";
-  if (xp < 50) return "bg-indigo-500/20 border-indigo-500/30";
-  if (xp < 100) return "bg-indigo-500/40 border-indigo-500/50";
-  if (xp < 200) return "bg-indigo-500/60 border-indigo-500/70";
-  return "bg-indigo-500/80 border-indigo-500";
-};
-
-const generateHeatmapData = (history: Record<string, number> = {}) => {
-  const days = [];
-  const today = new Date();
-  const startDate = new Date(today);
-  startDate.setDate(today.getDate() - 364);
-  while (startDate.getDay() !== 0) startDate.setDate(startDate.getDate() - 1);
-  const currentDate = new Date(startDate);
-  while (currentDate <= today || currentDate.getDay() !== 0) {
-    const dateStr = currentDate.toISOString().split("T")[0];
-    days.push({
-      date: dateStr,
-      xp: history[dateStr] || 0,
-      dayOfWeek: currentDate.getDay(),
-      month: currentDate.toLocaleString("default", { month: "short" }),
-      dayOfMonth: currentDate.getDate(),
-      year: currentDate.getFullYear(),
-    });
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-  return days;
-};
-
-interface UserData {
-  username: string;
-  displayName: string;
-  email: string;
-  phone?: string;
-  bio?: string;
-  role?: string;
-  location?: { country: string; region: string; district: string };
-  education?: { institution: string; grade: string };
-  birthDate?: string; 
-  totalXP: number;
-  currentStreak: number;
-  level: number;
-  dailyHistory: Record<string, number>;
-}
-
-// --- MAIN PAGE ---
-export default function ProfilePage() {
-  const router = useRouter();
-  const [user, setUser] = useState(auth.currentUser);
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const heatmapScrollRef = useRef<HTMLDivElement>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState<any>({});
-
-
-  
-
-  // 🟢 Use Language Hook
+export default function StudentProfilePage() {
+  const { user } = useAuth();
   const { lang } = useStudentLanguage();
-  const t = PROFILE_TRANSLATIONS[lang];
+  const t = PROFILE_TRANSLATIONS[lang] || PROFILE_TRANSLATIONS['en'];
+
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  
+  // Edit States
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editBio, setEditBio] = useState('');
+  const [editUsername, setEditUsername] = useState(''); // 🟢 New
+  
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState({ text: '', type: '' });
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
+  // 🟢 Username Checker States
+  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'valid' | 'taken' | 'invalid'>('idle');
+  const [usernameError, setUsernameError] = useState('');
+
+  // Cropper States
+  const [isUploading, setIsUploading] = useState(false);
+  const [showPhotoViewer, setShowPhotoViewer] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imgSrc, setImgSrc] = useState('');
+  const [crop, setCrop] = useState<Crop>();
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (u) => {
-      setUser(u);
-      if (!u) {
-        router.push("/auth/login");
-        return;
-      }
+    async function loadProfile() {
+      if (!user) return;
       try {
-        const docSnap = await getDoc(doc(db, "users", u.uid));
-        if (docSnap.exists()) {
-          const data = docSnap.data() as UserData;
-          setUserData(data);
-          setFormData({
-            displayName: data.displayName || "",
-            username: data.username || "",
-            phone: data.phone || "+998 ",
-            bio: data.bio || "",
-            country: data.location?.country || "Uzbekistan",
-            region: data.location?.region || "",
-            district: data.location?.district || "",
-            institution: data.education?.institution || "",
-            grade: data.education?.grade || "",
-            birthDate: data.birthDate || "",
+        const userSnap = await getDoc(doc(db, 'users', user.uid));
+        if (userSnap.exists()) {
+          const data = userSnap.data();
+          setProfile({
+            ...data,
+            displayName: data.displayName || user.displayName || 'Student',
+            photoURL: data.photoURL || data.photoUrl || user.photoURL || null,
+            totalXP: data.totalXP ?? data.xp ?? 0,
+            currentStreak: calculateTrueStreak(data.dailyHistory),
+            dailyHistory: data.dailyHistory || {},
           });
+          setEditName(data.displayName || user.displayName || '');
+          setEditBio(data.bio || '');
+          setEditUsername(data.username || ''); // 🟢 Pre-fill username
         }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
+      } catch (error) { console.error(error); } finally { setLoading(false); }
+    }
+    loadProfile();
+  }, [user]);
 
+  // ============================================================================
+  // 🟢 LIVE USERNAME CHECKER (Debounced)
+  // ============================================================================
   useEffect(() => {
-    if (!loading && heatmapScrollRef.current) {
-      heatmapScrollRef.current.scrollLeft =
-        heatmapScrollRef.current.scrollWidth;
-    }
-  }, [loading, userData]);
+    if (!isEditing) return; // Only check when editing
+    const input = editUsername.trim().toLowerCase();
+    const original = profile?.username?.toLowerCase() || '';
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      router.push("/auth/login");
-    } catch (e) {
-      console.error("Logout Failed", e);
+    if (!input) { setUsernameStatus('idle'); setUsernameError(''); return; }
+    if (input.length < 5) { setUsernameStatus('invalid'); setUsernameError(t.status.minChar); return; }
+    if (!USERNAME_REGEX.test(input)) { setUsernameStatus('invalid'); setUsernameError(t.status.regex); return; }
+    if (input === original) { setUsernameStatus('valid'); setUsernameError(''); return; }
+
+    const timer = setTimeout(async () => {
+      setUsernameStatus('checking');
+      try {
+        const isUnique = await checkUsernameUnique(input);
+        if (isUnique) { setUsernameStatus('valid'); setUsernameError(''); }
+        else { setUsernameStatus('taken'); setUsernameError(t.status.taken); }
+      } catch (error) {
+        console.error(error);
+        setUsernameStatus('idle');
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [editUsername, profile?.username, isEditing, t]);
+
+
+  const showToast = (text: string, type: 'success' | 'error') => {
+    setMessage({ text, type }); setTimeout(() => setMessage({ text: '', type: '' }), 3000);
+  };
+
+  // 🟢 BIO CHARACTER LIMIT HANDLER (Max 100 chars)
+  const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const text = e.target.value;
+    if (text.length <= 100) {
+      setEditBio(text);
     }
   };
 
-  const handleSaveProfile = async (updatedData: any) => {
-    if (!user) return;
-    setSaving(true);
-    try {
-      const batch = writeBatch(db);
-      const userRef = doc(db, "users", user.uid);
-      const updates: any = {
-        displayName: updatedData.displayName,
-        phone: updatedData.phone,
-        bio: updatedData.bio,
-        location: {
-          country: updatedData.country,
-          region: updatedData.region,
-          district: updatedData.district,
-        },
-        education: {
-          institution: updatedData.institution,
-          grade: updatedData.grade,
-        },
-        birthDate: updatedData.birthDate,
-      };
+  // ============================================================================
+  // 🟢 SAVE PROFILE WITH BATCH WRITE (Username Logic)
+  // ============================================================================
+  const handleSaveProfile = async () => {
+    if (!user || !editName.trim()) return;
+    
+    // Prevent saving if username is invalid or still checking
+    if (usernameStatus === 'checking' || usernameStatus === 'invalid' || usernameStatus === 'taken') {
+      return;
+    }
 
-      if (updatedData.username !== userData?.username) {
-        const newNameRef = doc(
-          db,
-          "usernames",
-          updatedData.username.toLowerCase()
-        );
-        batch.set(newNameRef, { uid: user.uid });
-        if (userData?.username) {
-          const oldNameRef = doc(
-            db,
-            "usernames",
-            userData.username.toLowerCase()
-          );
-          batch.delete(oldNameRef);
+    setIsSaving(true);
+    try {
+      const newUsername = editUsername.trim().toLowerCase();
+      const oldUsername = profile?.username?.toLowerCase();
+
+      await updateProfile(user, { displayName: editName.trim() });
+
+      // 🟢 Batch Write: Only if the username actually changed
+      if (newUsername !== oldUsername && newUsername) {
+        const batch = writeBatch(db);
+        
+        // 1. Release old username
+        if (oldUsername) {
+          batch.delete(doc(db, 'usernames', oldUsername));
         }
-        updates.username = updatedData.username.toLowerCase();
+        // 2. Claim new username
+        batch.set(doc(db, 'usernames', newUsername), { uid: user.uid });
+        // 3. Update User Document
+        batch.update(doc(db, 'users', user.uid), { 
+          displayName: editName.trim(), 
+          bio: editBio.trim(),
+          username: newUsername
+        });
+        
+        await batch.commit();
+      } else {
+        // Just update normal fields
+        await updateDoc(doc(db, 'users', user.uid), { 
+          displayName: editName.trim(), 
+          bio: editBio.trim() 
+        });
       }
 
-      batch.update(userRef, updates);
-      await batch.commit();
-      setUserData({ ...userData!, ...updates });
-      setFormData(updatedData);
-      toast.success(t.toasts.updateSuccess);
+      setProfile((prev: any) => ({ ...prev, displayName: editName.trim(), bio: editBio.trim(), username: newUsername }));
+      showToast(t.success, 'success');
       setIsEditing(false);
-    } catch (e) {
-      console.error(e);
-      toast.error(t.toasts.updateFail);
-    } finally {
-      setSaving(false);
+    } catch (error) { 
+      showToast(t.error, 'error'); 
+    } finally { 
+      setIsSaving(false); 
     }
   };
 
-  const handlePasswordUpdate = async (current: string, newP: string) => {
+  // --- Image Cropper/Upload Functions remain unchanged... ---
+  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+      const reader = new FileReader();
+      reader.addEventListener('load', () => setImgSrc(reader.result?.toString() || ''));
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { width, height } = e.currentTarget;
+    setCrop(centerCrop(makeAspectCrop({ unit: 'px', width: Math.min(width, height) * 0.9 }, 1, width, height), width, height));
+  };
+
+  const handleUploadCroppedImage = async () => {
+    if (!completedCrop || !imgRef.current || !user || !selectedFile) return;
+    setIsUploading(true);
     try {
-      if (!user || !user.email) return;
-      const cred = EmailAuthProvider.credential(user.email, current);
-      await reauthenticateWithCredential(user, cred);
-      await updatePassword(user, newP);
-      toast.success(t.toasts.passSuccess);
-    } catch (e) {
-      toast.error(t.toasts.passFail);
+      const canvas = document.createElement('canvas');
+      const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
+      const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+      let cropW = completedCrop.width * scaleX, cropH = completedCrop.height * scaleY;
+      const originalKb = selectedFile.size / 1024;
+      let outputQuality = originalKb > 1024 ? 0.75 : originalKb > 200 ? 0.85 : 1.0;
+      if (originalKb > 1024 && cropW > 800) { cropH *= 800 / cropW; cropW = 800; }
+      else if (originalKb > 200 && cropW > 1024) { cropH *= 1024 / cropW; cropW = 1024; }
+
+      canvas.width = cropW; canvas.height = cropH;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('No 2d context');
+      ctx.drawImage(imgRef.current, completedCrop.x * scaleX, completedCrop.y * scaleY, completedCrop.width * scaleX, completedCrop.height * scaleY, 0, 0, canvas.width, canvas.height);
+
+      const blob: Blob = await new Promise((resolve, reject) => canvas.toBlob((b) => { if (b) resolve(b); else reject(new Error('Empty')); }, 'image/jpeg', outputQuality));
+      const storageRef = ref(storage, `profile_images/${user.uid}.jpg`);
+      await uploadBytes(storageRef, blob);
+      const finalUrl = `${await getDownloadURL(storageRef)}&t=${Date.now()}`;
+
+      await updateDoc(doc(db, 'users', user.uid), { photoURL: finalUrl });
+      await updateProfile(user, { photoURL: finalUrl });
+      setProfile((prev: any) => ({ ...prev, photoURL: finalUrl }));
+      showToast(t.photo.updated, 'success');
+      setImgSrc(''); setSelectedFile(null); setImgError(false);
+    } catch (error) { showToast(t.photo.errUpload, 'error'); } finally { 
+      setIsUploading(false); if (fileInputRef.current) fileInputRef.current.value = ''; 
     }
   };
 
-  if (loading)
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 flex items-center justify-center relative overflow-hidden">
-        <FloatingParticles />
-        <div className="z-10 text-center">
-          <RefreshCw
-            className="animate-spin text-blue-400 mx-auto mb-4"
-            size={32}
-          />
-          <p className="text-blue-400 font-bold">{t.loading}</p>
-        </div>
-      </div>
-    );
+  const handleDeletePhoto = async () => {
+    if (!user) return;
+    setIsUploading(true);
+    try {
+      try { await deleteObject(ref(storage, `profile_images/${user.uid}.jpg`)); } catch (e) {}
+      await updateDoc(doc(db, 'users', user.uid), { photoURL: null });
+      await updateProfile(user, { photoURL: "" });
+      setProfile((prev: any) => ({ ...prev, photoURL: null }));
+      setShowPhotoViewer(false); showToast(t.photo.deleted, 'success');
+    } catch (error) { showToast(t.photo.errDelete, 'error'); } finally { setIsUploading(false); }
+  };
 
-  if (!userData) return null;
+  const chartData = useMemo(() => generateChartData(profile?.dailyHistory, lang), [profile, lang]);
+  const currentLevel = Math.floor((profile?.totalXP || 0) / 1000) + 1;
+  const joinDate = profile?.createdAt?.toDate ? profile.createdAt.toDate().toLocaleDateString(lang === 'uz' ? 'uz-UZ' : 'en-US', { month: 'long', year: 'numeric' }) : profile?.createdAt?.split('T')[0] || '2024';
+  const avatarUrl = !imgError && profile?.photoURL ? profile.photoURL : null;
 
-  const currentLevel = calculateLevel(userData.totalXP);
-  const heatmapData = generateHeatmapData(userData.dailyHistory);
-  const activeDaysCount = heatmapData.filter((day) => day.xp > 0).length;
-  const weeks = [];
-  for (let i = 0; i < heatmapData.length; i += 7)
-    weeks.push(heatmapData.slice(i, i + 7));
-
-  // Inside ProfilePage, before return:
-  const last30Days = getLast30DaysData(userData.dailyHistory);
-  const maxXP = Math.max(...last30Days.map(d => d.xp), 1); // Avoid div by zero
-  const totalXP30d = last30Days.reduce((acc, curr) => acc + curr.xp, 0);
-  const avgXP = Math.round(totalXP30d / 30);
+  if (loading) {
+    return <div className="w-full min-h-[60vh] flex items-center justify-center"><div className="w-12 h-12 border-4 border-zinc-200 border-t-violet-500 rounded-full animate-spin"></div></div>;
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 relative overflow-hidden">
-      <FloatingParticles />
-      <GlowingOrb
-        color="bg-blue-500"
-        size={300}
-        position={{ x: "10%", y: "20%" }}
-      />
-      <GlowingOrb
-        color="bg-purple-500"
-        size={400}
-        position={{ x: "85%", y: "15%" }}
-      />
-      <GlowingOrb
-        color="bg-orange-500"
-        size={250}
-        position={{ x: "70%", y: "80%" }}
-      />
+    <div className="w-full max-w-[1000px] mx-auto px-4 sm:px-6 py-6 md:py-10 pb-28 md:pb-12">
+      
+      <input type="file" accept="image/jpeg, image/png, image/webp" ref={fileInputRef} className="hidden" onChange={onSelectFile} />
 
-      <MobileNavBar onMenuClick={() => setIsMobileMenuOpen(true)} title={t.buttons.profile} />
-
+      {/* --- CROPPER MODAL (Unchanged) --- */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black/90 z-50 md:hidden pt-20 px-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <button
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-4 right-4 text-white p-2 bg-slate-800 rounded-lg"
-            >
-              <X size={24} />
-            </button>
-            <div className="space-y-4">
-              <Link
-                href="/dashboard"
-                className="block text-lg font-bold text-white py-3 px-4 bg-slate-800 rounded-xl"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t.buttons.dashboard}
-              </Link>
-              <Link
-                href="/classes"
-                className="block text-lg font-bold text-white py-3 px-4 bg-slate-800 rounded-xl"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t.buttons.classes}
-              </Link>
-              <Link
-                href="/leaderboard"
-                className="block text-lg font-bold text-white py-3 px-4 bg-slate-800 rounded-xl"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t.buttons.leaderboard}
-              </Link>
-              <Link
-                href="/history"
-                className="block text-lg font-bold text-white py-3 px-4 bg-slate-800 rounded-xl"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t.buttons.history}
-              </Link>
-              <Link
-                href="/profile"
-                className="block text-lg font-bold text-white py-3 px-4 bg-indigo-600 rounded-xl"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t.buttons.profile}
-              </Link>
-            </div>
-          </motion.div>
+        {imgSrc && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-900/80 backdrop-blur-sm" onClick={() => !isUploading && setImgSrc('')} />
+            <motion.div initial={{ scale: 0.95, opacity: 0, y: 10 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="relative bg-white rounded-[2rem] border-2 border-zinc-200 p-6 max-w-md w-full shadow-2xl z-10">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-black text-zinc-900 tracking-tight">{t.photo.cropTitle}</h3>
+                <button onClick={() => setImgSrc('')} disabled={isUploading} className="text-zinc-400 hover:text-zinc-900 bg-zinc-100 hover:bg-zinc-200 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><X size={18} strokeWidth={3}/></button>
+              </div>
+              <div className="w-full max-h-[50vh] overflow-hidden bg-zinc-100 border-2 border-zinc-200 rounded-2xl flex items-center justify-center mb-6">
+                <ReactCrop crop={crop} onChange={(_, p) => setCrop(p)} onComplete={(c) => setCompletedCrop(c)} aspect={1} circularCrop className="max-h-full">
+                  <img ref={imgRef} src={imgSrc} alt="Crop preview" onLoad={onImageLoad} className="max-h-[50vh] object-contain" />
+                </ReactCrop>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={() => setImgSrc('')} disabled={isUploading} className="flex-1 py-3 bg-white text-zinc-600 font-black text-[15px] rounded-2xl border-2 border-zinc-200 border-b-4 active:border-b-2 active:translate-y-[2px] transition-all disabled:opacity-50">{t.cancel}</button>
+                <button onClick={handleUploadCroppedImage} disabled={isUploading} className="flex-1 py-3 bg-violet-500 text-white font-black text-[15px] rounded-2xl border-b-4 border-violet-700 active:border-b-0 active:translate-y-[4px] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                  {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} strokeWidth={3} />} {t.photo.apply}
+                </button>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
-      <div className="max-w-6xl mx-auto p-4 md:p-6 md:p-8 pb-20 pt-20 md:pt-8 relative z-10">
-        <Toaster position="top-center" />
+      <h1 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tight mb-6">{t.title}</h1>
 
-        <motion.div
-          className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-2xl border border-slate-700 overflow-hidden shadow-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="h-40 bg-gradient-to-r from-slate-800 to-slate-900 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800"></div>
-          </div>
+      <div className="space-y-5 md:space-y-6">
+        
+        {/* ========================================= */}
+        {/* 1. PREMIUM HEADER IDENTITY CARD */}
+        {/* ========================================= */}
+        <div className="bg-white border-2 border-zinc-200 rounded-[2rem] p-6 md:p-8 relative overflow-hidden shadow-sm">
+          
+          {/* Subtle Background Decoration */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-violet-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+          
+          {/* 🟢 RESPONSIVE EDIT BUTTON (Top Right) */}
+          {!isEditing && (
+            <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20">
+              <button 
+                onClick={() => setIsEditing(true)} 
+                className="inline-flex items-center justify-center gap-2 p-3 md:px-5 md:py-2.5 bg-white text-zinc-700 font-black text-[14px] rounded-xl md:rounded-2xl border-2 border-zinc-200 border-b-4 hover:bg-zinc-50 active:border-b-2 active:translate-y-[2px] transition-all"
+              >
+                <Edit2 size={18} strokeWidth={2.5}/> 
+                <span className="hidden md:inline">{t.edit}</span>
+              </button>
+            </div>
+          )}
 
-          <div className="px-4 md:px-6 pb-6 md:pb-8">
-            <div className="flex flex-col md:flex-row gap-4 md:gap-6 relative">
-              <div className="-mt-14 relative shrink-0">
-                <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl border-4 border-slate-900 bg-slate-800/50 text-slate-300 flex items-center justify-center text-3xl font-bold shadow-lg overflow-hidden">
-                  {user?.photoURL ? (
-                    <img
-                      src={user.photoURL}
-                      className="w-full h-full object-cover"
-                      alt="Profile"
-                    />
-                  ) : (
-                    <span>{userData.displayName?.[0]?.toUpperCase()}</span>
-                  )}
-                </div>
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mt-4 md:mt-0">
+            
+            {/* AVATAR CONTAINER */}
+            <div className="relative shrink-0 group">
+              <div 
+                onClick={() => avatarUrl && !isUploading ? setShowPhotoViewer(true) : null}
+                className={`w-28 h-28 md:w-36 md:h-36 rounded-[2.5rem] bg-violet-500 border-2 border-zinc-200 border-b-4 flex items-center justify-center text-white text-5xl font-black shadow-sm overflow-hidden z-10 relative transition-transform ${avatarUrl ? 'cursor-pointer active:translate-y-[2px] active:border-b-2' : ''}`}
+              >
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" onError={() => setImgError(true)} />
+                ) : (
+                  profile?.displayName?.charAt(0).toUpperCase() || 'S'
+                )}
+                {isUploading && <div className="absolute inset-0 bg-zinc-900/40 flex items-center justify-center"><Loader2 className="animate-spin text-white" size={28} /></div>}
               </div>
+              <button 
+                onClick={() => fileInputRef.current?.click()} disabled={isUploading}
+                className="absolute -bottom-2 -right-2 w-11 h-11 bg-white rounded-xl flex items-center justify-center text-zinc-600 border-2 border-zinc-200 border-b-4 active:border-b-2 active:translate-y-[2px] z-20 transition-all hover:text-violet-600 disabled:opacity-50"
+              >
+                <Camera size={18} strokeWidth={3} />
+              </button>
+            </div>
 
-              <div className="pt-2 flex-1">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            {/* CONTENT / EDIT FORM */}
+            <div className="flex-1 w-full text-center md:text-left relative z-10">
+              
+              {isEditing ? (
+                <div className="space-y-4 w-full max-w-md mx-auto md:mx-0 animate-in fade-in">
+                  
+                  {/* Name Input */}
                   <div>
-                    <h1 className="text-xl md:text-2xl font-black text-white flex items-center gap-3">
-                      {userData.displayName}
-                      {userData.role === "teacher" && (
-                        <span className="text-[10px] font-bold text-white bg-indigo-600 px-2 py-0.5 rounded-md uppercase tracking-wide">
-                          {t.role.teacher}
-                        </span>
-                      )}
-                    </h1>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-1 text-sm font-medium text-slate-400">
-                      {userData.username && <span>@{userData.username}</span>}
-                      <div className="w-1 h-1 bg-slate-500 rounded-full"></div>
-                      <span className="flex items-center gap-1.5 text-slate-300">
-                        <Briefcase size={14} className="text-indigo-400" />{" "}
-                        {userData.role === "teacher" ? t.role.teacher : t.role.student}
-                      </span>
-                      <div className="w-1 h-1 bg-slate-500 rounded-full"></div>
-                      <span className="flex items-center gap-1.5 text-slate-300">
-                        <MapPin size={14} className="text-indigo-400" />{" "}
-                        {userData.location?.region || "Uzbekistan"}
+                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest ml-1">{t.labels.name}</label>
+                    <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} className="w-full mt-1 px-4 py-3.5 bg-zinc-50 border-2 border-zinc-200 rounded-2xl font-black text-zinc-900 focus:outline-none focus:border-violet-500 focus:bg-white transition-colors" />
+                  </div>
+                  
+                  {/* Username Input */}
+                  <div>
+                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest ml-1">{t.labels.username}</label>
+                    <div className="relative mt-1">
+                      <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} strokeWidth={3} />
+                      <input 
+                        type="text" 
+                        value={editUsername} 
+                        onChange={(e) => setEditUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_.]/g, ''))}
+                        className={`w-full pl-10 pr-12 py-3.5 bg-zinc-50 border-2 rounded-2xl font-black text-zinc-900 focus:outline-none focus:bg-white transition-colors ${
+                          usernameStatus === 'valid' ? 'border-emerald-500 focus:border-emerald-500 bg-emerald-50/30' :
+                          (usernameStatus === 'taken' || usernameStatus === 'invalid') ? 'border-rose-500 focus:border-rose-500 bg-rose-50/30' :
+                          'border-zinc-200 focus:border-violet-500'
+                        }`} 
+                      />
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                        {usernameStatus === 'checking' && <RefreshCw className="animate-spin text-zinc-400" size={18} strokeWidth={3}/>}
+                        {usernameStatus === 'valid' && <CheckCircle className="text-emerald-500" size={18} strokeWidth={3}/>}
+                        {(usernameStatus === 'taken' || usernameStatus === 'invalid') && <XCircle className="text-rose-500" size={18} strokeWidth={3}/>}
+                      </div>
+                    </div>
+                    {usernameStatus === 'invalid' && <p className="text-[12px] font-bold text-rose-500 mt-1.5 ml-1">{usernameError}</p>}
+                    {usernameStatus === 'taken' && <p className="text-[12px] font-bold text-rose-500 mt-1.5 ml-1">{usernameError}</p>}
+                    {usernameStatus === 'valid' && editUsername !== profile.username && <p className="text-[12px] font-bold text-emerald-600 mt-1.5 ml-1">{t.status.avail}</p>}
+                  </div>
+
+                  {/* 🟢 TACTILE BIO INPUT (With Character Counter) */}
+                  <div>
+                    <div className="flex justify-between items-end mb-1">
+                      <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest ml-1">{t.labels.bio}</label>
+                      <span className={`text-[10px] font-bold mr-1 transition-colors ${editBio.length === 100 ? 'text-rose-500' : 'text-zinc-400'}`}>
+                        {editBio.length}/100
                       </span>
                     </div>
-                  </div>
-
-                  <div className="flex gap-3 w-full md:w-auto mt-4 md:mt-0">
-                    {/* Edit Profile Button */}
-                    <motion.button
-                      onClick={() => setIsEditing(true)}
-                      className="flex-1 md:flex-none px-4 py-2 bg-slate-800 border border-slate-600 text-white font-bold rounded-xl text-sm hover:bg-slate-700 transition-colors flex items-center justify-center gap-2"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Edit2 size={16} /> {t.buttons.edit}
-                    </motion.button>
-
-                    {/* Support Button */}
-                    <motion.button
-                      onClick={() => setIsAboutOpen(true)}
-                      className="flex-1 md:flex-none px-4 py-2 bg-slate-800 border border-slate-600 text-white font-bold rounded-xl text-sm hover:bg-slate-700 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Info size={16} /> {t.buttons.support}
-                    </motion.button>
-
-                    {/* Logout Button */}
-                    <motion.button
-                      onClick={handleLogout}
-                      className="px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-400 font-bold rounded-xl text-sm hover:bg-red-500/20 hover:text-red-300 transition-colors flex items-center justify-center"
-                      title={t.buttons.logout}
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <LogOut size={16} />
-                    </motion.button>
-                  </div>
-                </div>
-
-                {userData.bio && (
-                  <div className="mt-6 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 relative">
-                    <Quote
-                      size={16}
-                      className="text-indigo-200 absolute top-3 left-3 fill-current"
+                    <textarea 
+                      value={editBio} 
+                      onChange={handleBioChange} 
+                      maxLength={100}
+                      rows={3} 
+                      className="w-full px-4 py-3.5 bg-zinc-50 border-2 border-zinc-200 rounded-2xl font-bold text-[14px] text-zinc-900 focus:outline-none focus:border-violet-500 focus:bg-white transition-colors resize-none custom-scrollbar" 
+                      placeholder={t.labels.notProvided} 
                     />
-                    <p className="text-slate-300 text-sm leading-relaxed italic font-medium pl-6 relative z-10">
-                      {userData.bio}
-                    </p>
                   </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          <motion.div
-            className="space-y-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-6 rounded-2xl border border-slate-700 shadow-lg h-full">
-              <h3 className="text-sm font-black text-white uppercase tracking-wide mb-6 flex items-center gap-2 pb-4 border-b border-slate-700">
-                <User size={16} className="text-indigo-400" /> {t.info.title}
-              </h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-700/50 border border-slate-600 flex items-center justify-center text-slate-400">
-                    <Mail size={16} />
-                  </div>
-                  <div className="overflow-hidden">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                      {t.info.email}
-                    </p>
-                    <p
-                      className="text-sm font-bold text-white truncate"
-                      title={userData.email}
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 pt-2">
+                    <button 
+                      onClick={handleSaveProfile} 
+                      disabled={isSaving || usernameStatus === 'checking' || usernameStatus === 'invalid' || usernameStatus === 'taken'} 
+                      className="flex-1 py-3.5 bg-violet-500 text-white font-black text-[15px] rounded-2xl border-b-4 border-violet-700 active:border-b-0 active:translate-y-[4px] transition-all disabled:opacity-50 disabled:active:border-b-4 disabled:active:translate-y-0 flex items-center justify-center gap-2"
                     >
-                      {userData.email}
-                    </p>
+                      {isSaving ? <Loader2 size={18} className="animate-spin"/> : <Check size={18} strokeWidth={3}/>} {t.save}
+                    </button>
+                    <button onClick={() => { setIsEditing(false); setEditName(profile?.displayName || ''); setEditBio(profile?.bio || ''); setEditUsername(profile?.username || ''); setUsernameStatus('idle'); }} className="flex-1 py-3.5 bg-white text-zinc-600 font-black text-[15px] rounded-2xl border-2 border-zinc-200 border-b-4 active:border-b-2 active:translate-y-[2px] transition-all">
+                      {t.cancel}
+                    </button>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-700/50 border border-slate-600 flex items-center justify-center text-slate-400">
-                    <Calendar size={16} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                      {t.info.birth}
-                    </p>
-                    <p className="text-sm font-bold text-white">
-                      {userData.birthDate || t.info.notProvided}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-700/50 border border-slate-600 flex items-center justify-center text-slate-400">
-                    <MapPin size={16} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                      {t.info.location}
-                    </p>
-                    <p className="text-sm font-bold text-white">
-                      {userData.location?.district
-                        ? `${userData.location.district}, `
-                        : ""}
-                      {userData.location?.region || "Uzbekistan"}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-700/50 border border-slate-600 flex items-center justify-center text-slate-400">
-                    <School size={16} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-                      {t.info.education}
-                    </p>
-                    <p className="text-sm font-bold text-white">
-                      {userData.education?.institution || t.info.notProvided}
-                    </p>
-                    {userData.education?.grade && (
-                      <p className="text-xs font-semibold text-slate-400 mt-1 bg-slate-700/50 inline-block px-2 py-0.5 rounded">
-                        {userData.education.grade
-                          .replace("school_", `${t.info.gradePrefix} `)
-                          .replace("uni_", `${t.info.yearPrefix} `)}
-                      </p>
+              ) : (
+                <div className="flex flex-col h-full mt-2 md:mt-3 animate-in fade-in">
+                  
+                  {/* Name & Username */}
+                  <h2 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight mb-1">{profile?.displayName}</h2>
+                  {profile?.username && <p className="text-[15px] font-bold text-zinc-500 mb-4">@{profile.username}</p>}
+                  
+                  {/* 🟢 BADGES (Gender Icon Only) */}
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-5">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-violet-50 text-violet-600 border-2 border-violet-100 rounded-xl font-black text-[11px] uppercase tracking-widest">
+                      <GraduationCap size={16} strokeWidth={3} /> {t.student}
+                    </span>
+                    
+                    {profile?.gender && (
+                      <span 
+                        title={profile.gender === 'male' ? t.genders.male : t.genders.female}
+                        className={`inline-flex items-center justify-center w-8 h-8 rounded-xl border-2 ${
+                          profile.gender === 'male' 
+                            ? 'bg-blue-50 text-blue-500 border-blue-100' 
+                            : 'bg-rose-50 text-rose-500 border-rose-100'
+                        }`}
+                      >
+                        {profile.gender === 'male' ? <UserIcon size={16} strokeWidth={3}/> : <Smile size={16} strokeWidth={3}/>}
+                      </span>
                     )}
                   </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
-          <motion.div
-            className="lg:col-span-2 space-y-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            {/* 1. STATS GRID (Unchanged) */}
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                {
-                  icon: <Trophy size={20} />,
-                  value: userData.totalXP.toLocaleString(),
-                  label: t.stats.xp,
-                  color: "yellow",
-                },
-                {
-                  icon: <Flame size={20} />,
-                  value: userData.currentStreak,
-                  label: t.stats.streak,
-                  color: "orange",
-                },
-                {
-                  icon: <Award size={20} />,
-                  value: currentLevel,
-                  label: t.stats.level,
-                  color: "purple",
-                },
-              ].map((stat, idx) => (
-                <motion.div
-                  key={idx}
-                  className={`bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-5 rounded-2xl border border-slate-700 shadow-lg flex flex-col items-center justify-center text-center group hover:border-${stat.color}-500/30 transition-colors`}
-                  whileHover={{ y: -3, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div
-                    className={`w-10 h-10 bg-${stat.color}-500/20 rounded-full flex items-center justify-center text-${stat.color}-400 mb-3 group-hover:scale-110 transition-transform`}
-                  >
-                    {stat.icon}
-                  </div>
-                  <div className="text-2xl font-black text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* 2. MODERN ACTIVITY CHART (Replaces Heatmap) */}
-            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-6 rounded-2xl border border-slate-700 shadow-lg">
-              
-              {/* Header with Stats */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-                <h3 className="text-sm font-black text-white uppercase tracking-wide flex items-center gap-2">
-                  <Calendar size={16} className="text-indigo-400" /> {t.activity.title}
-                </h3>
-                
-                <div className="flex gap-3">
-                  <div className="px-3 py-1.5 rounded-lg bg-slate-700/50 border border-slate-600 flex flex-col items-end min-w-[80px]">
-                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">30 Days</span>
-                    <span className="text-sm font-black text-indigo-400">{totalXP30d.toLocaleString()} XP</span>
-                  </div>
-                  <div className="px-3 py-1.5 rounded-lg bg-slate-700/50 border border-slate-600 flex flex-col items-end min-w-[80px]">
-                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Daily Avg</span>
-                    <span className="text-sm font-black text-white">{avgXP} XP</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Chart Container */}
-              <div className="relative w-full h-48 flex items-end gap-1 md:gap-2 pt-6">
-                
-                {/* Y-Axis Guidelines (Background) */}
-                <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 pb-4">
-                   <div className="border-t border-slate-400 w-full"></div>
-                   <div className="border-t border-slate-400 w-full dashed"></div>
-                   <div className="border-t border-slate-400 w-full"></div>
-                </div>
-
-                {/* Bars */}
-                {last30Days.map((day, idx) => {
-                  const heightPercent = (day.xp / maxXP) * 100;
-                  const isToday = idx === 29; 
-
-                  return (
-                    <div 
-                      key={day.fullDate} 
-                      className="group relative flex-1 h-full flex flex-col justify-end items-center"
-                    >
-                      {/* Tooltip */}
-                      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
-                        <div className="bg-slate-900 text-white text-xs rounded-lg py-1.5 px-3 shadow-xl border border-slate-700 whitespace-nowrap text-center">
-                          <p className="font-black text-indigo-400">{day.xp} XP</p>
-                          <p className="text-[10px] text-slate-400 font-medium">{day.displayDate}</p>
-                        </div>
-                        {/* Little triangle arrow */}
-                        <div className="w-2 h-2 bg-slate-900 border-r border-b border-slate-700 rotate-45 mx-auto -mt-1"></div>
-                      </div>
-
-                      {/* Bar */}
-                      <motion.div 
-                        initial={{ height: 0 }}
-                        animate={{ height: `${Math.max(heightPercent, 2)}%` }} // Min height 2% so empty days show a line
-                        transition={{ duration: 0.5, delay: idx * 0.02 }}
-                        className={`w-full max-w-[12px] rounded-t-sm transition-all duration-200 
-                          ${day.xp > 0 
-                            ? 'bg-gradient-to-t from-indigo-600 to-indigo-400 group-hover:from-indigo-500 group-hover:to-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.4)]' 
-                            : 'bg-slate-700/30'
-                          }
-                          ${isToday ? 'ring-1 ring-white/50 shadow-[0_0_15px_rgba(255,255,255,0.2)]' : ''}
-                        `}
-                      />
-                      
-                      {/* X-Axis Label (Show every 5th day) */}
-                      <div className="mt-2 h-4 w-full text-center">
-                        {(idx % 5 === 0 || isToday) && (
-                          <span className={`text-[9px] font-bold block whitespace-nowrap ${isToday ? 'text-white' : 'text-slate-500'}`}>
-                            {day.displayDate.split(' ')[1]}
-                          </span>
-                        )}
-                      </div>
+                  {/* Premium Quote Bio Bubble */}
+                  {profile?.bio ? (
+                    <div className="bg-zinc-50 border-2 border-zinc-200/60 rounded-2xl p-5 text-[14px] font-bold text-zinc-600 max-w-lg mx-auto md:mx-0 text-center md:text-left relative inline-block">
+                      <span className="absolute -top-4 -left-2 text-5xl font-serif text-zinc-200 select-none">"</span>
+                      <span className="relative z-10 leading-relaxed block px-2 break-words">{profile.bio}</span>
+                      <span className="absolute -bottom-6 -right-2 text-5xl font-serif text-zinc-200 select-none">"</span>
                     </div>
-                  );
-                })}
-              </div>
+                  ) : (
+                     <div className="text-[13px] font-bold text-zinc-400 italic">
+                       {t.labels.notProvided} {t.labels.bio.toLowerCase()}
+                     </div>
+                  )}
+
+                </div>
+              )}
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* EDIT MODAL */}
-        <AnimatePresence>
-          {isEditing && (
-            <EditProfileModal
-              isOpen={isEditing}
-              onClose={() => setIsEditing(false)}
-              userData={userData}
-              initialData={formData}
-              onSave={handleSaveProfile}
-              onPasswordUpdate={handlePasswordUpdate}
-              saving={saving}
-            />
-          )}
-        </AnimatePresence>
+        
 
-        {/* ABOUT MODAL */}
-        <AnimatePresence>
-          {isAboutOpen && (
-            <AboutModal
-              isOpen={isAboutOpen}
-              onClose={() => setIsAboutOpen(false)}
-              t={t.about} // 🟢 Pass translation
-            />
-          )}
-        </AnimatePresence>
+        {/* ========================================= */}
+        {/* 2. DETAILS GRID */}
+        {/* ========================================= */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Contact & Personal */}
+          <div className="bg-white p-6 md:p-8 rounded-[2rem] border-2 border-zinc-200 shadow-sm">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 border-2 border-blue-100"><Mail size={20} strokeWidth={2.5}/></div>
+              <h3 className="font-black text-zinc-900 text-[16px] tracking-tight">{t.sections.personal}</h3>
+            </div>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center"><span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">{t.labels.email}</span><span className="text-zinc-900 font-black text-[14px] truncate max-w-[200px]">{user?.email}</span></div>
+              <div className="h-0.5 w-full bg-zinc-100"></div>
+              <div className="flex justify-between items-center"><span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">{t.labels.phone}</span><span className="text-zinc-900 font-black text-[14px]">{profile?.phone || <span className="text-zinc-400 italic">{t.labels.notProvided}</span>}</span></div>
+              <div className="h-0.5 w-full bg-zinc-100"></div>
+              <div className="flex justify-between items-center"><span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">{t.labels.birthDate}</span><span className="text-zinc-900 font-black text-[14px]">{profile?.birthDate || <span className="text-zinc-400 italic">{t.labels.notProvided}</span>}</span></div>
+            </div>
+          </div>
+
+          {/* Education & Location */}
+          <div className="bg-white p-6 md:p-8 rounded-[2rem] border-2 border-zinc-200 shadow-sm">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500 border-2 border-emerald-100"><BookOpen size={20} strokeWidth={2.5}/></div>
+              <h3 className="font-black text-zinc-900 text-[16px] tracking-tight">{t.sections.education}</h3>
+            </div>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center"><span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">{t.labels.school}</span><span className="text-zinc-900 font-black text-[14px] truncate max-w-[150px] text-right">{profile?.institution || profile?.institutionName || <span className="text-zinc-400 italic">{t.labels.notProvided}</span>}</span></div>
+              <div className="h-0.5 w-full bg-zinc-100"></div>
+              <div className="flex justify-between items-center"><span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">{t.labels.grade}</span><span className="text-zinc-900 font-black text-[14px]">{formatGrade(profile?.grade, lang) || <span className="text-zinc-400 italic">{t.labels.notProvided}</span>}</span></div>
+              <div className="h-0.5 w-full bg-zinc-100"></div>
+              <div className="flex justify-between items-center"><span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest">{t.labels.location}</span><span className="text-zinc-900 font-black text-[14px] text-right truncate max-w-[180px]">{[profile?.location?.district, profile?.location?.region].filter(Boolean).join(', ') || <span className="text-zinc-400 italic">{t.labels.notProvided}</span>}</span></div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================= */}
+        {/* 3. TACTILE STATS GRID */}
+        {/* ========================================= */}
+        <div>
+          <h3 className="text-[18px] font-black text-zinc-900 tracking-tight mb-4 ml-2">{t.sections.stats}</h3>
+          
+          {/* 🟢 CHANGED: md:grid-cols-4 is now md:grid-cols-3 */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            
+            {/* XP Card */}
+            <div className="bg-white rounded-3xl border-2 border-zinc-200 p-5 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-[1rem] bg-amber-100 flex items-center justify-center text-amber-500 border-2 border-amber-200 mb-3">
+                <Trophy size={24} strokeWidth={2.5}/>
+              </div>
+              <p className="text-3xl font-black text-zinc-900 tracking-tight">{(profile?.totalXP || 0).toLocaleString()}</p>
+              <span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest mt-1">{t.stats.xp}</span>
+            </div>
+
+            {/* Streak Card */}
+            <div className="bg-white rounded-3xl border-2 border-zinc-200 p-5 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-[1rem] bg-orange-100 flex items-center justify-center text-orange-500 border-2 border-orange-200 mb-3">
+                <Flame size={24} strokeWidth={2.5}/>
+              </div>
+              <p className={`text-3xl font-black tracking-tight ${profile!.currentStreak > 0 ? 'text-orange-500' : 'text-zinc-900'}`}>
+                {profile?.currentStreak}
+              </p>
+              <span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest mt-1">{t.stats.streak}</span>
+            </div>
+
+            {/* Level Card - Spans 2 columns on mobile, 1 on desktop */}
+            <div className="bg-white rounded-3xl border-2 border-zinc-200 p-5 flex flex-col items-center text-center col-span-2 md:col-span-1">
+              <div className="w-12 h-12 rounded-[1rem] bg-emerald-100 flex items-center justify-center text-emerald-500 border-2 border-emerald-200 mb-3">
+                <Star size={24} strokeWidth={2.5}/>
+              </div>
+              <p className="text-3xl font-black text-zinc-900 tracking-tight">{currentLevel}</p>
+              <span className="text-[11px] font-black text-zinc-400 uppercase tracking-widest mt-1">{t.stats.level}</span>
+            </div>
+          
+          </div>
+        </div>
+
+        {/* ========================================= */}
+        {/* 4. RECHARTS ACTIVITY GRAPH */}
+        {/* ========================================= */}
+        <div className="bg-white border-2 border-zinc-200 rounded-[2rem] p-6 md:p-8 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="font-black text-zinc-900 flex items-center gap-2 text-[16px] tracking-tight">
+              <Activity size={20} strokeWidth={3} className="text-violet-500" /> {t.sections.activity}
+            </h3>
+          </div>
+          <div className="w-full min-h-[220px] h-[220px] mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
+                <defs><linearGradient id="colorXPProfile" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.4}/><stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/></linearGradient></defs>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#A1A1AA', fontWeight: 900 }} dy={10} />
+                <YAxis hide={true} domain={[0, 'dataMax + 50']} />
+                <Tooltip contentStyle={{ backgroundColor: '#18181B', borderRadius: '16px', border: 'none', color: '#fff', fontWeight: '900', fontSize: '14px', padding: '10px 16px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.2)' }} itemStyle={{ color: '#8B5CF6' }} cursor={{ stroke: '#E4E4E7', strokeWidth: 2, strokeDasharray: '4 4' }} />
+                <Area type="monotone" dataKey="XP" stroke="#8B5CF6" strokeWidth={4} fillOpacity={1} fill="url(#colorXPProfile)" activeDot={{ r: 6, fill: '#8B5CF6', stroke: '#fff', strokeWidth: 3 }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* ========================================= */}
+        {/* 5. DANGER ZONE */}
+        {/* ========================================= */}
+        <div className="pt-2">
+          <button onClick={() => setShowLogoutModal(true)} className="w-full py-4 bg-white text-rose-600 font-black text-[15px] rounded-2xl border-2 border-zinc-200 border-b-4 hover:border-rose-200 hover:bg-rose-50 active:border-b-2 active:translate-y-[2px] transition-all flex items-center justify-center gap-2">
+            <LogOut size={20} strokeWidth={2.5}/> {t.logout}
+          </button>
+        </div>
+
       </div>
+
+      {/* 🟢 FULL-SCREEN PHOTO VIEWER MODAL */}
+      {showPhotoViewer && avatarUrl && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
+          <div className="absolute inset-0 bg-zinc-900/90 backdrop-blur-sm" onClick={() => setShowPhotoViewer(false)}></div>
+          <div className="relative w-full max-w-sm aspect-square rounded-[2.5rem] bg-zinc-100 overflow-hidden shadow-2xl border-4 border-white animate-in zoom-in-95 z-10">
+            <img src={avatarUrl} alt="Full Profile" className="w-full h-full object-cover" />
+            <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center bg-gradient-to-b from-zinc-900/60 to-transparent">
+              <button onClick={() => setShowPhotoViewer(false)} className="w-10 h-10 rounded-full bg-zinc-900/40 text-white flex items-center justify-center hover:bg-zinc-900/60 backdrop-blur-md transition-colors"><X size={20} strokeWidth={3}/></button>
+              <button onClick={handleDeletePhoto} disabled={isUploading} className="w-10 h-10 rounded-full bg-zinc-900/40 text-rose-400 hover:text-white hover:bg-rose-500 flex items-center justify-center backdrop-blur-md transition-colors disabled:opacity-50">
+                {isUploading ? <Loader2 size={18} className="animate-spin text-white"/> : <Trash2 size={18} strokeWidth={2.5}/>}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

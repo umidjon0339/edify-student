@@ -7,13 +7,23 @@ import { ref, deleteObject } from 'firebase/storage';
 import { 
   FileText, Image as ImageIcon, Video, File, Download, Trash2, 
   Eye, EyeOff, Loader2, Link as LinkIcon, ExternalLink, Folder, 
-  Archive, ArchiveRestore, Edit, X, AlertTriangle, CheckCircle 
+  Archive, ArchiveRestore, Edit, X, AlertTriangle 
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 
+// ============================================================================
+// 🟢 1. GLOBAL DUAL-CACHE (Survives Tab Switches, 0 Reads on Toggle)
+// ============================================================================
+const globalMaterialsCache: Record<string, {
+  active: { materials: any[], lastDoc: any, hasMore: boolean, timestamp: number } | null;
+  archived: { materials: any[], lastDoc: any, hasMore: boolean, timestamp: number } | null;
+}> = {};
+
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
+
 // --- TRANSLATION DICTIONARY ---
-const MATERIALS_TRANSLATIONS = {
+const MATERIALS_TRANSLATIONS: any = {
   uz: {
     tabs: { active: "Faol Materiallar", archived: "Arxivlanganlar" },
     empty: { activeTitle: "Hozircha materiallar yo'q", activeDesc: "O'quvchilar uchun PDF, rasm, video yoki havolalar yuklang.", archiveTitle: "Arxivlangan materiallar yo'q", archiveDesc: "Arxivlangan narsalar shu yerda ko'rinadi." },
@@ -64,12 +74,46 @@ export default function MaterialsTab({ classId }: { classId: string }) {
 
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // --- 1. INFINITE SCROLL FETCHING ---
-  const fetchMaterials = async (isNextPage: boolean = false) => {
+  // ============================================================================
+  // 🟢 2. SWR FETCH LOGIC
+  // ============================================================================
+  useEffect(() => {
+    const initializeTab = async () => {
+      if (!globalMaterialsCache[classId]) {
+        globalMaterialsCache[classId] = { active: null, archived: null };
+      }
+
+      const cacheType = showArchived ? 'archived' : 'active';
+      const cached = globalMaterialsCache[classId][cacheType];
+      const now = Date.now();
+
+      // 🟢 CACHE HIT: Instant Load
+      if (cached) {
+        setMaterials(cached.materials);
+        setLastDoc(cached.lastDoc);
+        setHasMore(cached.hasMore);
+        setLoadingInitial(false);
+
+        // If fresh, do nothing. If stale, fetch silently in the background
+        if (now - cached.timestamp < CACHE_LIFESPAN) return;
+        fetchMaterials(false, true);
+      } else {
+        // No cache: Show loading spinner and fetch
+        setLoadingInitial(true);
+        fetchMaterials(false, false);
+      }
+    };
+
+    initializeTab();
+  }, [classId, showArchived]);
+
+  const fetchMaterials = async (isNextPage: boolean = false, silent: boolean = false) => {
     if (!classId) return;
     if (isNextPage && !lastDoc) return;
     
-    isNextPage ? setLoadingMore(true) : setLoadingInitial(true);
+    if (!silent) {
+      isNextPage ? setLoadingMore(true) : setLoadingInitial(true);
+    }
 
     try {
       let q = query(
@@ -80,29 +124,46 @@ export default function MaterialsTab({ classId }: { classId: string }) {
       );
 
       if (isNextPage && lastDoc) {
-        q = query(collection(db, 'classes', classId, 'materials'), where('isArchived', '==', showArchived), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE));
+        q = query(
+          collection(db, 'classes', classId, 'materials'), 
+          where('isArchived', '==', showArchived), 
+          orderBy('createdAt', 'desc'), 
+          startAfter(lastDoc), 
+          limit(PAGE_SIZE)
+        );
       }
 
       const snap = await getDocs(q);
       const newDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      setMaterials(prev => isNextPage ? [...prev, ...newDocs] : newDocs);
-      setLastDoc(snap.docs[snap.docs.length - 1] || null);
-      setHasMore(snap.docs.length >= PAGE_SIZE);
+      setMaterials(prev => {
+        const updated = isNextPage ? [...prev, ...newDocs] : newDocs;
+        const newLastDoc = snap.docs[snap.docs.length - 1] || null;
+        const newHasMore = snap.docs.length >= PAGE_SIZE;
+
+        // 🟢 Update Cache
+        const cacheType = showArchived ? 'archived' : 'active';
+        globalMaterialsCache[classId][cacheType] = {
+          materials: updated,
+          lastDoc: newLastDoc,
+          hasMore: newHasMore,
+          timestamp: Date.now()
+        };
+
+        if (!silent || !isNextPage) {
+          setLastDoc(newLastDoc);
+          setHasMore(newHasMore);
+        }
+        return updated;
+      });
     } catch (e) {
       console.error(e);
-      toast.error(t.toasts.error);
+      if (!silent) toast.error(t.toasts.error);
     } finally {
       setLoadingInitial(false);
       setLoadingMore(false);
     }
   };
-
-  // Fetch when tab mounts or 'showArchived' toggles
-  useEffect(() => {
-    setMaterials([]); setLastDoc(null); setHasMore(true);
-    fetchMaterials();
-  }, [classId, showArchived]);
 
   // Observer
   const lastElementRef = useCallback((node: HTMLDivElement) => {
@@ -114,25 +175,50 @@ export default function MaterialsTab({ classId }: { classId: string }) {
     if (node) observerRef.current.observe(node);
   }, [loadingInitial, loadingMore, hasMore, showArchived]);
 
-  // --- ACTIONS ---
+  // ============================================================================
+  // 🟢 3. MUTATIONS (Updates UI & Cache instantly)
+  // ============================================================================
   const executeConfirmAction = async () => {
     if (!confirmDialog) return;
     setIsProcessing(true);
     const { type, mat } = confirmDialog;
+    const cacheType = showArchived ? 'archived' : 'active';
+    const oppositeCacheType = showArchived ? 'active' : 'archived';
 
     try {
       if (type === 'visibility') {
         await updateDoc(doc(db, 'classes', classId, 'materials', mat.id), { isVisible: !mat.isVisible });
-        setMaterials(prev => prev.map(m => m.id === mat.id ? { ...m, isVisible: !m.isVisible } : m));
+        setMaterials(prev => {
+          const updated = prev.map(m => m.id === mat.id ? { ...m, isVisible: !m.isVisible } : m);
+          if (globalMaterialsCache[classId][cacheType]) globalMaterialsCache[classId][cacheType]!.materials = updated;
+          return updated;
+        });
         toast.success(mat.isVisible ? t.toasts.hidden : t.toasts.visible);
+
       } else if (type === 'archive') {
         await updateDoc(doc(db, 'classes', classId, 'materials', mat.id), { isArchived: !mat.isArchived });
-        setMaterials(prev => prev.filter(m => m.id !== mat.id)); // Remove from current view
+        
+        // Remove from current view
+        setMaterials(prev => {
+          const updated = prev.filter(m => m.id !== mat.id);
+          if (globalMaterialsCache[classId][cacheType]) globalMaterialsCache[classId][cacheType]!.materials = updated;
+          return updated;
+        });
+        
+        // 🟢 Invalidate the opposite cache so it fetches fresh when they switch tabs
+        globalMaterialsCache[classId][oppositeCacheType] = null;
+        
         toast.success(mat.isArchived ? t.toasts.unarchived : t.toasts.archived);
+
       } else if (type === 'delete') {
         if (mat.storagePath) await deleteObject(ref(storage, mat.storagePath));
         await deleteDoc(doc(db, 'classes', classId, 'materials', mat.id));
-        setMaterials(prev => prev.filter(m => m.id !== mat.id));
+        
+        setMaterials(prev => {
+          const updated = prev.filter(m => m.id !== mat.id);
+          if (globalMaterialsCache[classId][cacheType]) globalMaterialsCache[classId][cacheType]!.materials = updated;
+          return updated;
+        });
         toast.success(t.toasts.deleted);
       }
     } catch (error) { toast.error(t.toasts.error); } 
@@ -142,21 +228,27 @@ export default function MaterialsTab({ classId }: { classId: string }) {
   const handleEditSave = async () => {
     if (!editingMat || !editForm.title.trim()) return toast.error(t.toasts.error);
     setIsProcessing(true);
+    const cacheType = showArchived ? 'archived' : 'active';
+
     try {
       await updateDoc(doc(db, 'classes', classId, 'materials', editingMat.id), {
         title: editForm.title.trim(), description: editForm.description.trim(), topicId: editForm.topicId.trim() || null,
         externalUrl: editingMat.isExternal ? editForm.externalUrl.trim() : null,
         fileUrl: editingMat.isExternal ? editForm.externalUrl.trim() : editingMat.fileUrl,
       });
-      setMaterials(prev => prev.map(m => m.id === editingMat.id ? { ...m, ...editForm } : m));
+      
+      setMaterials(prev => {
+        const updated = prev.map(m => m.id === editingMat.id ? { ...m, ...editForm } : m);
+        if (globalMaterialsCache[classId][cacheType]) globalMaterialsCache[classId][cacheType]!.materials = updated;
+        return updated;
+      });
+      
       toast.success(t.toasts.updated);
       setEditingMat(null);
     } catch (error) { toast.error(t.toasts.error); } 
     finally { setIsProcessing(false); }
   };
-  
 
-  // 🟢 ADD THIS MISSING FUNCTION BACK
   const openEditModal = (mat: any) => {
     setEditingMat(mat);
     setEditForm({ 
@@ -175,6 +267,7 @@ export default function MaterialsTab({ classId }: { classId: string }) {
     return { color: 'text-slate-500', bg: 'bg-slate-50', border: 'border-slate-200', icon: File, hover: 'hover:border-slate-300' };
   };
 
+  // --- RENDER ---
   return (
     <div className="space-y-6">
       
@@ -248,8 +341,6 @@ export default function MaterialsTab({ classId }: { classId: string }) {
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-slate-100/80">
-                  
-                  {/* Primary View/Download Action */}
                   <a 
                     href={mat.fileUrl} target="_blank" rel="noopener noreferrer" 
                     className={`px-4 py-2 rounded-xl text-[12px] font-bold flex items-center gap-2 transition-all active:scale-95 ${style.bg} ${style.color} hover:brightness-95 border ${style.border}`}
@@ -257,7 +348,6 @@ export default function MaterialsTab({ classId }: { classId: string }) {
                     {mat.isExternal ? <><ExternalLink size={14}/> {t.labels.view}</> : <><Download size={14}/> {t.labels.download}</>}
                   </a>
                   
-                  {/* Secondary Management Actions */}
                   <div className="flex gap-1.5">
                     <button onClick={() => setConfirmDialog({ type: 'visibility', mat })} className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 border border-slate-200/50 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition-colors" title={mat.isVisible ? t.tooltips.hide : t.tooltips.show}>
                       {mat.isVisible ? <EyeOff size={14} strokeWidth={2.5}/> : <Eye size={14} strokeWidth={2.5}/>}

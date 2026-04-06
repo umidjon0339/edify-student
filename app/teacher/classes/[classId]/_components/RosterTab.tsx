@@ -8,14 +8,27 @@ import toast from 'react-hot-toast';
 import StudentDetailsModal from './StudentDetailsModal';
 import { useTeacherLanguage } from '@/app/teacher/layout'; 
 
+// ============================================================================
+// 🟢 1. GLOBAL CACHE (Survives Tab Switches, 0 Reads on Back Navigation)
+// ============================================================================
+const globalRosterCache: Record<string, { 
+  students: any[], 
+  assignments: any[],
+  page: number, 
+  hasMore: boolean, 
+  timestamp: number 
+}> = {};
+
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
+
 // --- TRANSLATION DICTIONARY ---
-const ROSTER_TRANSLATIONS = {
+const ROSTER_TRANSLATIONS: any = {
   uz: { loading: "Jurnal yuklanmoqda...", empty: "Bu sinfda hali o'quvchilar yo'q.", unknown: "Noma'lum", deleted: "o'chirilgan", confirmRemove: "Bu o'quvchini sinfdan o'chirasizmi?", removed: "O'quvchi o'chirildi", errRemove: "O'quvchini o'chirishda xatolik", errLoad: "Sinf ma'lumotlarini yuklab bo'lmadi", hint: "Baholarni ko'rish uchun bosing", details: "Batafsil", removeBtn: "Sinfdan o'chirish" },
   en: { loading: "Loading roster...", empty: "No students in this class yet.", unknown: "Unknown", deleted: "deleted", confirmRemove: "Remove this student from the class?", removed: "Student removed", errRemove: "Error removing student", errLoad: "Could not load class data", hint: "Click to view grades", details: "Details", removeBtn: "Remove from class" },
   ru: { loading: "Загрузка списка...", empty: "В этом классе пока нет учеников.", unknown: "Неизвестно", deleted: "удален", confirmRemove: "Удалить этого ученика из класса?", removed: "Ученик удален", errRemove: "Ошибка удаления ученика", errLoad: "Не удалось загрузить данные класса", hint: "Нажмите для просмотра оценок", details: "Подробнее", removeBtn: "Удалить из класса" }
 };
 
-// 🟢 PREMIUM VIBRANT PALETTE
+// PREMIUM VIBRANT PALETTE
 const STUDENT_COLORS = ['#3B82F6', '#A855F7', '#10B981', '#F59E0B', '#F43F5E', '#06B6D4'];
 
 const getStudentColor = (uid: string) => {
@@ -56,13 +69,52 @@ export default function RosterTab({ classId, studentIds }: Props) {
 
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // --- 1. INFINITE SCROLL & FETCHING ARCHITECTURE ---
+  // ============================================================================
+  // 🟢 2. SMART FETCHING & CHUNKING LOGIC
+  // ============================================================================
+  
+  useEffect(() => {
+    const initializeTab = async () => {
+      const cached = globalRosterCache[classId];
+      const now = Date.now();
+
+      if (cached) {
+        setStudents(cached.students);
+        setAssignments(cached.assignments);
+        setPage(cached.page);
+        setHasMore(cached.hasMore);
+        setLoadingInitial(false);
+
+        // If cache is fresh, do nothing. If stale, fetch silently.
+        if (now - cached.timestamp < CACHE_LIFESPAN) return;
+        revalidateLoadedData(cached.page);
+      } else {
+        setLoadingInitial(true);
+        await Promise.all([fetchAssignments(), loadStudentsPage(0)]);
+      }
+    };
+
+    initializeTab();
+  }, [classId]);
+
+  // Sync state if a student is removed from the parent array via another tab
+  useEffect(() => {
+    setStudents(prev => {
+      const updated = prev.filter(s => studentIds.includes(s.uid));
+      if (globalRosterCache[classId]) globalRosterCache[classId].students = updated;
+      return updated;
+    });
+  }, [studentIds, classId]);
+
   const fetchAssignments = async () => {
     try {
       const q = query(collection(db, 'classes', classId, 'assignments'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
-      setAssignments(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-    } catch (e) { console.error("Assignments Error", e); }
+      const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      setAssignments(data);
+      if (globalRosterCache[classId]) globalRosterCache[classId].assignments = data;
+      return data;
+    } catch (e) { console.error("Assignments Error", e); return []; }
   };
 
   const loadStudentsPage = async (pageIndex: number) => {
@@ -76,8 +128,7 @@ export default function RosterTab({ classId, studentIds }: Props) {
       return;
     }
 
-    if (pageIndex === 0) setLoadingInitial(true);
-    else setLoadingMore(true);
+    if (pageIndex > 0) setLoadingMore(true);
 
     try {
       const promises = idsToFetch.map(uid => getDoc(doc(db, 'users', uid)));
@@ -89,33 +140,63 @@ export default function RosterTab({ classId, studentIds }: Props) {
       });
 
       setStudents(prev => {
-        if (pageIndex === 0) return loadedStudents;
-        const existingUids = new Set(prev.map(s => s.uid));
-        const uniques = loadedStudents.filter(s => !existingUids.has(s.uid));
-        return [...prev, ...uniques];
-      });
+        const newState = pageIndex === 0 ? loadedStudents : [...prev, ...loadedStudents.filter(s => !prev.find(p => p.uid === s.uid))];
+        const stillHasMore = endIndex < studentIds.length;
+        
+        globalRosterCache[classId] = {
+          students: newState,
+          assignments: assignments,
+          page: pageIndex,
+          hasMore: stillHasMore,
+          timestamp: Date.now()
+        };
 
-      setHasMore(endIndex < studentIds.length);
-    } catch (e) {
-      toast.error(t.errLoad);
-    } finally {
+        setHasMore(stillHasMore);
+        return newState;
+      });
+    } catch (e) { toast.error(t.errLoad); } finally {
       setLoadingInitial(false);
       setLoadingMore(false);
     }
   };
 
-  // Initial Mount
-  useEffect(() => {
-    fetchAssignments();
-    loadStudentsPage(0);
-  }, [classId]);
+  // 🟢 100k Ready: Promise Chunking (Prevents browser freeze with 300+ students)
+  const revalidateLoadedData = async (currentPage: number) => {
+    try {
+      const newAssignments = await fetchAssignments();
+      
+      const totalLoaded = (currentPage + 1) * PAGE_SIZE;
+      const idsToRefetch = studentIds.slice(0, totalLoaded);
+      if (idsToRefetch.length === 0) return;
 
-  // Sync state if a student is removed from the parent array via another tab
-  useEffect(() => {
-    setStudents(prev => prev.filter(s => studentIds.includes(s.uid)));
-  }, [studentIds]);
+      const CHUNK_SIZE = 10;
+      const freshStudents: any[] = [];
 
-  // Intersection Observer for Infinite Scroll
+      // Fetch in batches of 10 to save memory and network queue
+      for (let i = 0; i < idsToRefetch.length; i += CHUNK_SIZE) {
+        const chunkIds = idsToRefetch.slice(i, i + CHUNK_SIZE);
+        const promises = chunkIds.map(uid => getDoc(doc(db, 'users', uid)));
+        const snaps = await Promise.all(promises);
+        
+        const chunkStudents = snaps.map((snap, index) => {
+          if (snap.exists()) return { uid: snap.id, ...snap.data() };
+          return { uid: chunkIds[index], displayName: t.unknown, username: t.deleted, isDeleted: true };
+        });
+
+        freshStudents.push(...chunkStudents);
+      }
+
+      setStudents(freshStudents);
+      globalRosterCache[classId] = {
+        students: freshStudents,
+        assignments: newAssignments,
+        page: currentPage,
+        hasMore: hasMore,
+        timestamp: Date.now()
+      };
+    } catch (e) { console.error("Silent revalidation failed", e); }
+  };
+
   const lastElementRef = useCallback((node: HTMLDivElement) => {
     if (loadingInitial || loadingMore) return;
     if (observerRef.current) observerRef.current.disconnect();
@@ -133,7 +214,6 @@ export default function RosterTab({ classId, studentIds }: Props) {
     if (node) observerRef.current.observe(node);
   }, [loadingInitial, loadingMore, hasMore, studentIds]);
 
-  // --- ACTIONS ---
   const handleShowDetails = (student: any) => {
     if (student.isDeleted) return;
     setSelectedStudent(student);
@@ -141,16 +221,15 @@ export default function RosterTab({ classId, studentIds }: Props) {
   };
 
   const handleRemove = async (e: React.MouseEvent, studentUid: string) => {
-    e.stopPropagation(); // Prevents opening the modal when clicking trash
+    e.stopPropagation(); 
     if (!confirm(t.confirmRemove)) return;
     try {
       await updateDoc(doc(db, 'classes', classId), { studentIds: arrayRemove(studentUid) });
       toast.success(t.removed);
-      // Local state is synced automatically by the useEffect above monitoring `studentIds`
     } catch (e) { toast.error(t.errRemove); }
   };
 
-  // --- RENDER ---
+  // --- 3. RENDER (Elegant Teacher UI Preserved) ---
   if (loadingInitial && students.length === 0) {
     return <div className="py-12 flex flex-col items-center justify-center gap-3"><Loader2 className="animate-spin text-indigo-500" size={28}/></div>;
   }
@@ -173,7 +252,7 @@ export default function RosterTab({ classId, studentIds }: Props) {
           const color = getStudentColor(student.uid);
           const isLastElement = index === students.length - 1;
 
-          // Premium Angled Gradient Match
+          // Premium Angled Gradient Match (Kept exactly as requested)
           const bgGradient = student.isDeleted 
             ? 'linear-gradient(135deg, #FAFAFA 0%, #FAFAFA 100%)' 
             : `linear-gradient(135deg, ${hexToRgba(color, 0.1)} 0%, #FFFFFF 30%, #FFFFFF 100%)`;
@@ -193,12 +272,22 @@ export default function RosterTab({ classId, studentIds }: Props) {
                   {index + 1}
                 </div>
                 
-                {/* Glowing Squircle Avatar */}
+                {/* 🟢 Profile Picture Render Fix + overflow-hidden */}
                 <div 
                   style={{ backgroundColor: student.isDeleted ? '#F1F5F9' : hexToRgba(color, 0.15), borderColor: student.isDeleted ? '#E2E8F0' : hexToRgba(color, 0.3), color: student.isDeleted ? '#94A3B8' : color }} 
-                  className="w-12 h-12 rounded-[1rem] border flex items-center justify-center font-black text-[18px] shrink-0"
+                  className="w-12 h-12 rounded-[1rem] border flex items-center justify-center font-black text-[18px] shrink-0 overflow-hidden"
                 >
-                  {student.isDeleted ? <UserX size={20}/> : (student.displayName?.[0]?.toUpperCase() || 'S')}
+                  {student.isDeleted ? (
+                    <UserX size={20}/> 
+                  ) : student.photoURL || student.photoUrl || student.avatar ? (
+                    <img 
+                      src={student.photoURL || student.photoUrl || student.avatar} 
+                      alt="Student Avatar" 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    student.displayName?.[0]?.toUpperCase() || 'S'
+                  )}
                 </div>
                 
                 <div className="min-w-0 pr-2">
@@ -213,12 +302,10 @@ export default function RosterTab({ classId, studentIds }: Props) {
 
               <div className="flex items-center gap-3 shrink-0">
                 
-                {/* Trash Button */}
                 <button onClick={(e) => handleRemove(e, student.uid)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors z-10" title={t.removeBtn}>
                   <Trash2 size={18} />
                 </button>
 
-                {/* Android-Style Tinted Chevron */}
                 {!student.isDeleted && (
                   <div style={{ color: hexToRgba(color, 0.5) }} className="w-8 h-8 flex items-center justify-center group-hover:translate-x-1 transition-transform">
                     <ChevronRight size={24} strokeWidth={2.5} />
@@ -229,7 +316,6 @@ export default function RosterTab({ classId, studentIds }: Props) {
           );
         })}
 
-        {/* Loading More Spinner Indicator */}
         {loadingMore && (
           <div className="py-6 flex justify-center">
             <Loader2 className="animate-spin text-indigo-500" size={24}/>

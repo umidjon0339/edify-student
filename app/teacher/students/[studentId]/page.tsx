@@ -7,11 +7,17 @@ import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firesto
 import { 
   ChevronLeft, Award, Star, Flame, School, 
   MapPin, Phone, Loader2, BadgeCheck, Mail, 
-  CalendarDays, Clock, Activity, UserCircle, BookOpen, ChevronRight 
+  CalendarDays, Activity, UserCircle, BookOpen, ChevronRight 
 } from 'lucide-react';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 import toast from 'react-hot-toast';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer, YAxis } from 'recharts';
+
+// ============================================================================
+// 🟢 1. GLOBAL CACHE (Saves Firebase Reads & Surivives Back Navigation)
+// ============================================================================
+const globalStudentProfileCache: Record<string, { profile: any, enrolledClasses: any[], timestamp: number }> = {};
+const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
 
 // --- TRANSLATION DICTIONARY ---
 const PROFILE_TRANSLATIONS: any = {
@@ -47,7 +53,7 @@ const PROFILE_TRANSLATIONS: any = {
   }
 };
 
-// 🟢 SMART STREAK CALCULATOR (Fixes the Ghost Streak Bug)
+// 🟢 SMART STREAK CALCULATOR
 const calculateTrueStreak = (dailyHistory: Record<string, number> | undefined) => {
   if (!dailyHistory) return 0;
   
@@ -56,7 +62,6 @@ const calculateTrueStreak = (dailyHistory: Record<string, number> | undefined) =
   yesterday.setDate(yesterday.getDate() - 1);
 
   const formatDate = (d: Date) => {
-    // Correctly formats to local YYYY-MM-DD
     const offset = d.getTimezoneOffset() * 60000;
     return new Date(d.getTime() - offset).toISOString().split('T')[0];
   };
@@ -64,12 +69,8 @@ const calculateTrueStreak = (dailyHistory: Record<string, number> | undefined) =
   const todayStr = formatDate(today);
   const yesterdayStr = formatDate(yesterday);
 
-  // If they earned no XP today AND no XP yesterday, their streak is completely broken (0).
-  if (!dailyHistory[todayStr] && !dailyHistory[yesterdayStr]) {
-    return 0;
-  }
+  if (!dailyHistory[todayStr] && !dailyHistory[yesterdayStr]) return 0;
 
-  // If the streak is alive, trace backwards day by day to count it
   let streakCount = 0;
   let checkDate = new Date(dailyHistory[todayStr] ? today : yesterday);
 
@@ -77,16 +78,16 @@ const calculateTrueStreak = (dailyHistory: Record<string, number> | undefined) =
     const checkStr = formatDate(checkDate);
     if (dailyHistory[checkStr] && dailyHistory[checkStr] > 0) {
       streakCount++;
-      checkDate.setDate(checkDate.getDate() - 1); // Move back one day
+      checkDate.setDate(checkDate.getDate() - 1); 
     } else {
-      break; // Streak broken
+      break; 
     }
   }
 
   return streakCount;
 };
 
-// 🟢 CHART DATA GENERATOR (Fills in missing days with 0)
+// 🟢 CHART DATA GENERATOR
 const generateChartData = (dailyHistory: Record<string, number> | undefined, lang: string) => {
   const data = [];
   const today = new Date();
@@ -97,24 +98,11 @@ const generateChartData = (dailyHistory: Record<string, number> | undefined, lan
     
     const offset = d.getTimezoneOffset() * 60000;
     const dateStr = new Date(d.getTime() - offset).toISOString().split('T')[0];
-    
     const displayDate = d.toLocaleDateString(lang === 'uz' ? 'uz-UZ' : 'en-US', { month: 'short', day: 'numeric' });
     
-    data.push({
-      name: displayDate,
-      XP: dailyHistory?.[dateStr] || 0
-    });
+    data.push({ name: displayDate, XP: dailyHistory?.[dateStr] || 0 });
   }
   return data;
-};
-
-const safeFormatDate = (dateVal: any, includeTime: boolean = false) => {
-  if (!dateVal) return null;
-  try {
-    const d = dateVal.seconds ? new Date(dateVal.seconds * 1000) : new Date(dateVal);
-    if (isNaN(d.getTime())) return null;
-    return d.toLocaleString([], { year: 'numeric', month: 'short', day: 'numeric', ...(includeTime && { hour: '2-digit', minute: '2-digit' }) });
-  } catch (e) { return null; }
 };
 
 export default function StudentProfilePage() {
@@ -127,9 +115,29 @@ export default function StudentProfilePage() {
   const [enrolledClasses, setEnrolledClasses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ============================================================================
+  // 🟢 2. SWR FETCH LOGIC (100k Scale Optimized)
+  // ============================================================================
   useEffect(() => {
     if (!studentId) return;
+
     const fetchProfileAndClasses = async () => {
+      const now = Date.now();
+      const cached = globalStudentProfileCache[studentId];
+
+      // 🟢 Cache Hit: Instant Load!
+      if (cached) {
+        setProfile(cached.profile);
+        setEnrolledClasses(cached.enrolledClasses);
+        setLoading(false);
+
+        // Stop here if data is fresh. 0 Firebase Reads!
+        if (now - cached.timestamp < CACHE_LIFESPAN) return;
+      } else {
+        setLoading(true);
+      }
+
+      // 🟢 Background Fetch (or initial fetch)
       try {
         const [profileSnap, classesSnap] = await Promise.all([
           getDoc(doc(db, 'users', studentId)),
@@ -137,8 +145,20 @@ export default function StudentProfilePage() {
         ]);
 
         if (profileSnap.exists()) {
-          setProfile(profileSnap.data());
-          setEnrolledClasses(classesSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+          const profileData = profileSnap.data();
+          const classesData = classesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+          setProfile(profileData);
+          setEnrolledClasses(classesData);
+
+          // Update Cache
+          globalStudentProfileCache[studentId] = {
+            profile: profileData,
+            enrolledClasses: classesData,
+            timestamp: Date.now()
+          };
+        } else {
+          setProfile(null); // Handle student not found
         }
       } catch (e) {
         toast.error("Failed to load profile data");
@@ -146,6 +166,7 @@ export default function StudentProfilePage() {
         setLoading(false);
       }
     };
+
     fetchProfileAndClasses();
   }, [studentId]);
 
@@ -177,6 +198,9 @@ export default function StudentProfilePage() {
   const username = profile.username || 'student';
   const bio = profile.bio;
   const initial = displayName.charAt(0).toUpperCase();
+  
+  // 🟢 Safely extract the avatar URL regardless of database formatting
+  const avatarUrl = profile.photoURL || profile.photoUrl || profile.avatar || null;
 
   const institution = profile.institution;
   const grade = profile.grade;
@@ -186,8 +210,6 @@ export default function StudentProfilePage() {
   const email = profile.email;
   const phone = profile.phone;
   const birthDate = profile.birthDate; 
-  const joinedDate = safeFormatDate(profile.createdAt);
-  const lastActive = safeFormatDate(profile.lastActiveTimestamp || profile.lastActiveDate, true);
 
   return (
     <div className="min-h-[100dvh] bg-[#FAFAFA] font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-20">
@@ -205,8 +227,13 @@ export default function StudentProfilePage() {
         <div className="bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 shadow-sm flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-indigo-50/50 to-transparent z-0 pointer-events-none"></div>
           
-          <div className="w-28 h-28 shrink-0 rounded-[2rem] bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-black text-5xl text-white shadow-lg shadow-indigo-500/20 relative z-10">
-            {initial}
+          {/* 🟢 PROFILE PICTURE IMPLEMENTATION */}
+          <div className="w-28 h-28 shrink-0 rounded-[2rem] bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-black text-5xl text-white shadow-lg shadow-indigo-500/20 relative z-10 overflow-hidden border-[4px] border-white">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+            ) : (
+              initial
+            )}
           </div>
 
           <div className="text-center md:text-left relative z-10 flex-1">
@@ -230,7 +257,7 @@ export default function StudentProfilePage() {
             <span className="text-[11px] font-bold text-amber-600 uppercase tracking-widest mt-1.5">{t.totalXP}</span>
           </div>
 
-          {/* Dynamic Streak Card (Red if 0, Orange/Fire if active) */}
+          {/* Dynamic Streak Card */}
           <div className={`border rounded-[1.5rem] p-6 flex flex-col items-center justify-center text-center shadow-sm ${trueStreak > 0 ? 'bg-orange-50/50 border-orange-100' : 'bg-slate-50 border-slate-200'}`}>
             <Flame size={28} className={`mb-3 ${trueStreak > 0 ? 'text-orange-500' : 'text-slate-300'}`} />
             <span className={`text-4xl font-black ${trueStreak > 0 ? 'text-slate-900' : 'text-slate-400'}`}>{trueStreak}</span>
