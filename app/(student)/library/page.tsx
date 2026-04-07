@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, updateDoc, increment } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, increment,getDoc } from 'firebase/firestore';
 import { BookOpen, Download, Eye, X, ExternalLink, ChevronDown, Search, Share2, Check, BookMarked, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStudentLanguage } from '@/app/(student)/layout'; 
@@ -154,22 +154,68 @@ export default function OnlineLibraryPage() {
 
   const displayedBooks = processedBooks.slice(0, visibleCount);
 
-  // --- 6. CLICK HANDLERS ---
+  // --- 6. CLICK HANDLERS (With Micro-Fetch Synchronization) ---
   const handleBookClick = async (book: OnlineBook) => {
+    // 1. Optimistic UI Open (Instant)
     setSelectedBook(book);
     setIsDrawerOpen(true);
     setCopiedLink(false); 
 
-    setAllBooks(prev => prev.map(b => b.id === book.id ? { ...b, viewscount: (b.viewscount || 0) + 1 } : b));
-    try { await updateDoc(doc(db, 'online_books', book.id), { viewscount: increment(1) }); } catch (e) {}
+    // 2. Optimistic local view increment
+    const optimisticViewCount = (book.viewscount || 0) + 1;
+    setAllBooks(prev => prev.map(b => b.id === book.id ? { ...b, viewscount: optimisticViewCount } : b));
+
+    try { 
+      // 3. Tell server to increment view globally
+      await updateDoc(doc(db, 'online_books', book.id), { viewscount: increment(1) }); 
+      
+      // 🟢 THE PERFECT IDEA: The Micro-Fetch
+      // Fetch the true, global, real-time data for JUST this one book (Costs 1 Read)
+      const freshSnap = await getDoc(doc(db, 'online_books', book.id));
+      
+      if (freshSnap.exists()) {
+        const freshData = freshSnap.data() as OnlineBook;
+        
+        // 4. Silently sync the Drawer and the Main List with the true global counts from all students
+        setSelectedBook(prev => prev ? { ...prev, viewscount: freshData.viewscount, downloadscount: freshData.downloadscount } : null);
+        setAllBooks(prev => prev.map(b => b.id === book.id ? { ...b, viewscount: freshData.viewscount, downloadscount: freshData.downloadscount } : b));
+        
+        // 5. Update the local storage cache with the fresh numbers so it stays synced
+        const localCached = localStorage.getItem('student_library_books');
+        if (localCached) {
+          const parsed = JSON.parse(localCached);
+          const updatedCache = parsed.map((b: OnlineBook) => b.id === book.id ? { ...b, viewscount: freshData.viewscount, downloadscount: freshData.downloadscount } : b);
+          localStorage.setItem('student_library_books', JSON.stringify(updatedCache));
+        }
+      }
+    } catch (e) {
+      console.error("Failed to sync book stats:", e);
+    }
   };
 
   const handleDownloadClick = async (bookId: string, telegramLink: string) => {
-    setAllBooks(prev => prev.map(b => b.id === bookId ? { ...b, downloadscount: (b.downloadscount || 0) + 1 } : b));
-    if (selectedBook) setSelectedBook({ ...selectedBook, downloadscount: (selectedBook.downloadscount || 0) + 1 });
-    
+    // 1. Open Telegram instantly
     window.open(telegramLink, '_blank');
-    try { await updateDoc(doc(db, 'online_books', bookId), { downloadscount: increment(1) }); } catch (e) {}
+
+    // 2. Optimistic local update
+    const newDownloadCount = (selectedBook?.downloadscount || 0) + 1;
+    setAllBooks(prev => prev.map(b => b.id === bookId ? { ...b, downloadscount: newDownloadCount } : b));
+    if (selectedBook) setSelectedBook({ ...selectedBook, downloadscount: newDownloadCount });
+    
+    // 3. Send true increment to global server
+    try { 
+      await updateDoc(doc(db, 'online_books', bookId), { downloadscount: increment(1) }); 
+      
+      // Update cache so next time they open the app, it has their download saved
+      const localCached = localStorage.getItem('student_library_books');
+      if (localCached) {
+        const parsed = JSON.parse(localCached);
+        const updatedCache = parsed.map((b: OnlineBook) => b.id === bookId ? { ...b, downloadscount: newDownloadCount } : b);
+        localStorage.setItem('student_library_books', JSON.stringify(updatedCache));
+      }
+    } catch (e) {
+      console.error("Failed to update download count:", e);
+    }
   };
 
   const handleShare = () => {
