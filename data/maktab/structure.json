@@ -5,9 +5,9 @@
   "4-sinf": ["matematika"],
   "5-sinf": ["matematika", "tabiiy fanlar (Science)"],
   "6-sinf": ["matematika", "tabiiy fanlar (Science)"],
-  "7-sinf": ["algebra", "geometriya", "biologiya"],
-  "8-sinf": ["algebra", "geometriya", "biologiya"],
-  "9-sinf": ["algebra", "geometriya", "biologiya"],
-  "10-sinf": ["algebra", "geometriya", "biologiya"],
-  "11-sinf": ["matematika", "biologiya"]
+  "7-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
+  "8-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
+  "9-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
+  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
+  "11-sinf": ["matematika", "biologiya", "kimyo"]
 }

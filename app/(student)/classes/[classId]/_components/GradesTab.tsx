@@ -69,6 +69,7 @@ export default function GradesTab({ classId, userId }: { classId: string, userId
       if (isNextPage && lastDoc) {
         q = query(collection(db, 'attempts'), where('classId', '==', classId), where('userId', '==', userId), orderBy('submittedAt', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE));
       }
+  
 
       const snap = await getDocs(q);
       const newDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));

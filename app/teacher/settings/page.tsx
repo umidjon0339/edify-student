@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { db } from '@/lib/firebase';
+import { db,auth } from '@/lib/firebase';
 import { doc, getDoc, deleteDoc, collection, query, where, getDocs, writeBatch } from 'firebase/firestore';
-import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, updateProfile, deleteUser, GoogleAuthProvider, reauthenticateWithPopup } from 'firebase/auth';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, updateProfile, deleteUser, GoogleAuthProvider, reauthenticateWithPopup,signOut } from 'firebase/auth';
 import { useAuth } from '@/lib/AuthContext';
 import { User, Shield, Info, Loader2, AlertTriangle, Settings as SettingsIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -146,7 +146,7 @@ export default function SettingsPage() {
     }
   }, [activeTab, user, classesLoaded]);
 
-  // 3. Trigger Enterprise Cloud Function for Deletion (Handles subcollections safely)
+  // 3. Trigger Enterprise Cloud Function for Deletion
   const handleDeleteAccount = async () => {
     if (!user) return;
     if (!isGoogleUser && !deletePassword) return toast.error(t.toasts.reqPass);
@@ -161,15 +161,19 @@ export default function SettingsPage() {
         await reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email!, deletePassword)); 
       }
 
-      // 2. Trigger the powerful Backend Server Function
+      // 2. Trigger the Backend Server Function
       const functions = getFunctions();
       const deleteAccountAPI = httpsCallable(functions, 'deleteAccountAPI');
+      await deleteAccountAPI({ targetUid: user.uid });
       
-      await deleteAccountAPI(); 
-      // Note: We don't need to pass `{ targetUid }` because the server automatically uses request.auth.uid if no target is provided!
+      // 🟢 THE FIX: Manually destroy the local browser session to prevent "Ghosts"
+      await signOut(auth);
       
       toast.success(t.toasts.deleted, { id: toastId }); 
-      router.push('/auth/login');
+      
+      // 3. Send them to login (or landing page)
+      router.replace('/auth/login'); // 🟢 Tip: Use replace instead of push so they can't click the browser "Back" button!
+
     } catch (error: any) { 
       console.error("Deletion error:", error);
       toast.error(error?.message || "Deletion failed.", { id: toastId }); 

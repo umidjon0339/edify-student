@@ -15,7 +15,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { 
   LayoutDashboard, BookOpen, User as UserIcon, 
   LogOut, Sparkles, Flame, Trophy, ChevronDown, Check,
-  Settings, Menu, BookMarked
+  Settings, Menu, BookMarked, Compass, X
 } from 'lucide-react';
 
 // Components
@@ -44,20 +44,20 @@ export function useStudentLanguage() {
 // ============================================================================
 const LAYOUT_TRANSLATIONS: any = {
   uz: {
-    menu: { dashboard: "Boshqaruv", classes: "Sinflarim", library: "Kutubxona", leaderboard: "Reyting", profile: "Profil" },
-    topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish" },
+    menu: { dashboard: "Boshqaruv", classes: "Sinflarim", explore: "Kurslar", library: "Kutubxona", leaderboard: "Reyting", profile: "Profil" },
+    topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til" },
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
   },
   en: {
-    menu: { dashboard: "Dashboard", classes: "Classes", library: "Library", leaderboard: "Rank", profile: "Profile" },
-    topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out" },
+    menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", leaderboard: "Rank", profile: "Profile" },
+    topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language" },
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
   },
   ru: {
-    menu: { dashboard: "Главная", classes: "Классы", library: "Библиотека", leaderboard: "Рейтинг", profile: "Профиль" },
-    topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти" },
+    menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", leaderboard: "Рейтинг", profile: "Профиль" },
+    topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык" },
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
   }
@@ -100,10 +100,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   const [lang, setLang] = useState<LangType>('uz');
   const [stats, setStats] = useState({ xp: 0, streak: 0 });
   
-  // Dropdown States
+  // Dropdown & Modal States
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   
   const topbarRef = useRef<HTMLDivElement>(null);
 
@@ -156,10 +157,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   }
   if (!user) return null; 
 
-  // 🟢 NEW: Added Library and the hideOnMobile flag
+  // MENU ITEMS
   const menuItems = [
     { name: t.menu.dashboard, href: '/dashboard', icon: LayoutDashboard },
     { name: t.menu.classes, href: '/classes', icon: BookOpen },
+    { name: t.menu.explore, href: '/explore', icon: Compass }, 
     { name: t.menu.library, href: '/library', icon: BookMarked, hideOnMobile: true }, 
     { name: t.menu.leaderboard, href: '/leaderboard', icon: Trophy },
     { name: t.menu.profile, href: '/profile', icon: UserIcon },
@@ -170,12 +172,12 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       <div className="flex min-h-[100dvh] bg-zinc-100 text-zinc-900 font-sans selection:bg-violet-100 selection:text-violet-900 relative">
         
         {/* ========================================================= */}
-        {/* 🟢 TACTILE LOGOUT CONFIRMATION MODAL */}
+        {/* TACTILE LOGOUT CONFIRMATION MODAL */}
         {/* ========================================================= */}
         <AnimatePresence>
           {showLogoutModal && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-900/60" onClick={() => setShowLogoutModal(false)} />
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm" onClick={() => setShowLogoutModal(false)} />
               <motion.div 
                 initial={{ scale: 0.95, opacity: 0, y: 10 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 10 }} 
                 className="relative bg-white rounded-[2rem] border-2 border-zinc-200 p-6 md:p-8 w-full max-w-sm shadow-2xl flex flex-col items-center text-center"
@@ -199,7 +201,56 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </AnimatePresence>
 
         {/* ========================================================= */}
-        {/* 🖥️ DESKTOP SIDEBAR */}
+        {/* MOBILE DRAWER SIDEBAR */}
+        {/* ========================================================= */}
+        <AnimatePresence>
+          {isMobileSidebarOpen && (
+            <>
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
+                className="fixed inset-0 bg-zinc-900/60 z-[100] md:hidden backdrop-blur-sm"
+                onClick={() => setIsMobileSidebarOpen(false)}
+              />
+              
+              <motion.aside 
+                initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed top-0 left-0 bottom-0 w-72 bg-white border-r-2 border-zinc-200 z-[101] flex flex-col md:hidden shadow-2xl"
+              >
+                <div className="flex items-center justify-between p-6 border-b-2 border-zinc-100 shrink-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-violet-500 rounded-xl flex items-center justify-center text-white border-b-4 border-violet-700 shrink-0">
+                      <Sparkles size={20} strokeWidth={3} />
+                    </div>
+                    <h1 className="text-[18px] font-black text-zinc-900 tracking-tight leading-none">EdifyStudent</h1>
+                  </div>
+                  <button onClick={() => setIsMobileSidebarOpen(false)} className="w-10 h-10 flex items-center justify-center bg-zinc-100 text-zinc-500 rounded-xl active:scale-95 transition-all">
+                    <X size={20} strokeWidth={3} />
+                  </button>
+                </div>
+                
+                <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
+                  {menuItems.map((item) => {
+                    const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
+                    return (
+                      <Link 
+                        key={item.href} 
+                        href={item.href} 
+                        onClick={() => setIsMobileSidebarOpen(false)}
+                        className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[15px] font-black transition-all duration-200 ${isActive ? 'bg-violet-100 text-violet-700 border-2 border-violet-200 border-b-4 translate-y-[-2px]' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 border-2 border-transparent'}`}
+                      >
+                        <item.icon size={22} strokeWidth={isActive ? 3 : 2.5} className={isActive ? 'text-violet-600' : 'text-zinc-400'} />
+                        <span>{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </nav>
+              </motion.aside>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* ========================================================= */}
+        {/* DESKTOP SIDEBAR */}
         {/* ========================================================= */}
         <aside className="hidden md:flex flex-col w-64 h-screen fixed top-0 left-0 bg-white border-r-2 border-zinc-200 z-40">
           <div className="flex items-center gap-3 p-6 border-b-2 border-zinc-100 shrink-0">
@@ -211,7 +262,6 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
             </div>
           </div>
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
-            {/* Desktop maps over EVERYTHING, including Library */}
             {menuItems.map((item) => {
               const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
               return (
@@ -229,32 +279,40 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         {/* ========================================================= */}
         <div className="flex-1 flex flex-col min-w-0 md:pl-64">
           
-          {/* 🟢 UNIFIED GLOBAL TOP BAR */}
-          <header className="bg-white border-b-2 border-zinc-200 sticky top-0 z-40 px-3 md:px-6 py-2.5 md:py-3 flex justify-between items-center shrink-0 shadow-sm">
+          {/* 🟢 RESPONSIVE GLOBAL TOP BAR */}
+          <header className="bg-white border-b-2 border-zinc-200 sticky top-0 z-40 px-3 sm:px-4 md:px-6 py-2.5 md:py-3 flex justify-between items-center shrink-0 shadow-sm">
             
-            {/* Left: Mobile Logo / PC Title */}
-            <div className="flex items-center gap-2">
-              <div className="md:hidden w-9 h-9 bg-violet-500 rounded-xl flex items-center justify-center text-white border-b-2 border-violet-700 shrink-0">
-                <Sparkles size={18} strokeWidth={3} />
+            {/* Left: Mobile Menu Trigger & Logo */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button 
+                onClick={() => setIsMobileSidebarOpen(true)}
+                className="md:hidden flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white border-2 border-zinc-200 border-b-4 rounded-xl text-zinc-500 active:translate-y-[2px] active:border-b-2 transition-all"
+              >
+                <Menu size={18} strokeWidth={3} />
+              </button>
+
+              <div className="md:hidden w-8 h-8 sm:w-9 sm:h-9 bg-violet-500 rounded-xl flex items-center justify-center text-white border-b-2 border-violet-700 shrink-0">
+                <Sparkles size={16} strokeWidth={3} />
               </div>
-              <span className="font-black text-zinc-900 text-[18px] tracking-tight hidden sm:block">
+              <span className="font-black text-zinc-900 text-[18px] tracking-tight hidden md:block">
                 Edify<span className="text-violet-600">Student</span>
               </span>
             </div>
 
-            <div ref={topbarRef} className="flex items-center gap-2 sm:gap-3">
+            {/* Right: Actions */}
+            <div ref={topbarRef} className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
               
               {/* 1. STREAK WIDGET */}
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-2 bg-orange-50 border-2 border-orange-200 border-b-4 rounded-xl shadow-sm text-orange-600">
+              <div className="flex items-center gap-1 px-2 py-1.5 md:px-3 md:py-2 bg-orange-50 border-2 border-orange-200 border-b-4 rounded-xl shadow-sm text-orange-600">
                 <Flame size={16} strokeWidth={3} className={stats.streak > 0 ? 'fill-orange-500' : 'text-orange-300'} />
-                <span className="text-[14px] md:text-[15px] font-black">{stats.streak}</span>
+                <span className="text-[13px] md:text-[15px] font-black">{stats.streak}</span>
               </div>
 
-              {/* 2. LANGUAGE SELECTOR */}
-              <div className="relative">
-                <button onClick={() => { setIsLangMenuOpen(!isLangMenuOpen); setIsProfileMenuOpen(false); }} className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-2 rounded-xl border-2 transition-all active:translate-y-[2px] ${isLangMenuOpen ? 'bg-zinc-100 border-zinc-300' : 'border-zinc-200 border-b-4 bg-white hover:bg-zinc-50'}`}>
+              {/* 2. LANGUAGE SELECTOR (Hidden on Mobile) */}
+              <div className="relative hidden md:block">
+                <button onClick={() => { setIsLangMenuOpen(!isLangMenuOpen); setIsProfileMenuOpen(false); }} className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border-2 transition-all active:translate-y-[2px] ${isLangMenuOpen ? 'bg-zinc-100 border-zinc-300' : 'border-zinc-200 border-b-4 bg-white hover:bg-zinc-50'}`}>
                   <span className="text-[16px] leading-none">{activeLang.flag}</span>
-                  <span className="text-[12px] font-black uppercase text-zinc-700 hidden md:block">{lang}</span>
+                  <span className="text-[12px] font-black uppercase text-zinc-700">{lang}</span>
                   <ChevronDown size={14} strokeWidth={3} className="text-zinc-400" />
                 </button>
                 <AnimatePresence>
@@ -273,7 +331,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               {/* 3. NOTIFICATIONS */}
               <div 
                 onClick={() => { setIsLangMenuOpen(false); setIsProfileMenuOpen(false); }} 
-                className="w-10 h-10 flex items-center justify-center text-zinc-500 bg-white border-2 border-zinc-200 border-b-4 active:border-b-2 active:translate-y-[2px] rounded-xl transition-all"
+                className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-zinc-500 bg-white border-2 border-zinc-200 border-b-4 active:border-b-2 active:translate-y-[2px] rounded-xl transition-all"
               >
                 <NotificationBell />
               </div>
@@ -284,15 +342,15 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               <div className="relative">
                 <button 
                   onClick={() => { setIsProfileMenuOpen(!isProfileMenuOpen); setIsLangMenuOpen(false); }} 
-                  className={`flex items-center gap-2 bg-white border-2 transition-all active:translate-y-[2px] p-1 pr-2 sm:pr-3 rounded-[14px] ${isProfileMenuOpen ? 'bg-zinc-100 border-zinc-300 border-b-2 translate-y-[2px]' : 'border-zinc-200 border-b-4 hover:border-zinc-300 hover:bg-zinc-50'}`}
+                  className={`flex items-center gap-2 bg-white border-2 transition-all active:translate-y-[2px] p-1 md:pr-3 rounded-[14px] ${isProfileMenuOpen ? 'bg-zinc-100 border-zinc-300 border-b-2 translate-y-[2px]' : 'border-zinc-200 border-b-4 hover:border-zinc-300 hover:bg-zinc-50'}`}
                 >
-                   <div className="w-8 h-8 rounded-[10px] bg-violet-500 flex items-center justify-center text-white font-black overflow-hidden shrink-0 border border-violet-600">
+                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-[10px] bg-violet-500 flex items-center justify-center text-white font-black overflow-hidden shrink-0 border border-violet-600">
                      {user?.photoURL ? <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover"/> : user?.displayName?.[0]?.toUpperCase() || 'S'}
                    </div>
-                   <span className="hidden sm:block text-[13px] font-black text-zinc-700 truncate max-w-[80px]">
+                   <span className="hidden md:block text-[13px] font-black text-zinc-700 truncate max-w-[80px]">
                      {user?.displayName?.split(' ')[0] || 'User'}
                    </span>
-                   <ChevronDown size={16} strokeWidth={3} className={`text-zinc-400 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
+                   <ChevronDown size={16} strokeWidth={3} className={`hidden md:block text-zinc-400 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
                 
                 <AnimatePresence>
@@ -302,6 +360,22 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
                          <p className="text-[14px] font-black text-zinc-900 truncate">{user?.displayName}</p>
                          <p className="text-[11px] font-bold text-zinc-500 truncate">{user?.email}</p>
                        </div>
+
+                       {/* 🟢 Mobile Language Selector inside Profile Menu */}
+                       <div className="md:hidden flex items-center justify-between px-4 py-3 rounded-xl hover:bg-zinc-50 transition-colors">
+                         <span className="text-[14px] font-black text-zinc-600">{t.topbar.language}</span>
+                         <select 
+                           value={lang} 
+                           onChange={(e) => setLang(e.target.value as LangType)}
+                           className="bg-zinc-100 border border-zinc-200 text-zinc-700 font-bold text-[13px] rounded-lg px-2 py-1 outline-none focus:border-violet-400 transition-colors"
+                         >
+                           {LANGUAGE_OPTIONS.map(l => (
+                             <option key={l.code} value={l.code}>{l.flag} {l.label}</option>
+                           ))}
+                         </select>
+                       </div>
+                       <div className="md:hidden h-0.5 bg-zinc-100 my-1 mx-2"></div>
+
                        <Link href="/profile" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-black text-zinc-600 hover:text-violet-700 hover:bg-violet-50 transition-colors"><UserIcon size={18} strokeWidth={2.5} /> {t.topbar.profile}</Link>
                        <Link href="/settings" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-black text-zinc-600 hover:text-violet-700 hover:bg-violet-50 transition-colors"><Settings size={18} strokeWidth={2.5} /> {t.topbar.settings}</Link>
                        <div className="h-0.5 bg-zinc-100 my-2 mx-2"></div>
@@ -323,10 +397,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </div>
 
         {/* ========================================================= */}
-        {/* 📱 APP-NATIVE BOTTOM NAVIGATION (Mobile Only) */}
+        {/* APP-NATIVE BOTTOM NAVIGATION (Mobile Only) */}
         {/* ========================================================= */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-zinc-200 px-4 sm:px-6 py-2 flex justify-between items-center z-40 pb-[calc(env(safe-area-inset-bottom)+0.5rem)]">
-          {/* 🟢 NEW: Filter out items that should be hidden on mobile */}
           {menuItems.filter(item => !item.hideOnMobile).map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
