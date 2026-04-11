@@ -92,57 +92,56 @@ export default function RequestsTab({ classId }: Props) {
 
   if (requests.length === 0) {
     return (
-      <div className="py-16 flex flex-col items-center justify-center text-center bg-white rounded-[2rem] border border-slate-200/80 shadow-sm">
-        <div className="w-16 h-16 bg-orange-50 rounded-[1.2rem] flex items-center justify-center mb-4 text-orange-400 border border-orange-100 shadow-inner">
-          <UserPlus size={32} strokeWidth={2} />
+      <div className="text-center py-12 md:py-16 bg-white rounded-3xl md:rounded-[2rem] border-2 border-dashed border-slate-200 flex flex-col items-center shadow-sm mx-2 md:mx-0">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-orange-50 rounded-2xl md:rounded-[1.2rem] flex items-center justify-center mb-3 md:mb-4 text-orange-400 border border-orange-100 shadow-inner">
+          <UserPlus size={24} className="md:w-8 md:h-8" strokeWidth={2.5} />
         </div>
-        <h3 className="text-[16px] font-black text-slate-800">{t.emptyTitle}</h3>
-        <p className="text-[13px] font-medium text-slate-500 mt-1 max-w-xs">{t.emptyDesc}</p>
+        <h3 className="text-[15px] md:text-[16px] font-black text-slate-800 mb-1.5">{t.emptyTitle}</h3>
+        <p className="text-[13px] font-medium text-slate-500 max-w-xs px-4">{t.emptyDesc}</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5 md:space-y-3">
       {requests.map((req) => (
         <div 
           key={req.id} 
-          className="bg-white p-4 md:p-5 rounded-[1.2rem] border border-slate-200/80 flex items-center justify-between gap-4 shadow-sm hover:shadow-md hover:border-orange-200 hover:-translate-y-0.5 transition-all duration-300 group"
+          className="bg-white p-3 md:p-5 rounded-2xl md:rounded-[1.2rem] border border-slate-200/80 flex items-center justify-between gap-3 md:gap-4 shadow-sm hover:shadow-md hover:border-orange-200 active:scale-[0.98] md:active:scale-100 md:hover:-translate-y-0.5 transition-all duration-200 group"
         >
           {/* 🟢 CLICKING LEFT SIDE GOES TO FULL PROFILE */}
           <div 
             onClick={() => router.push(`/teacher/students/${req.studentId}`)}
-            className="flex items-center gap-4 min-w-0 flex-1 cursor-pointer"
+            className="flex items-center gap-3 md:gap-4 min-w-0 flex-1 cursor-pointer"
           >
-            <div className="w-12 h-12 bg-orange-50 text-orange-500 border border-orange-100 rounded-[1rem] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
-              <Clock size={22} strokeWidth={2.5} />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-50 text-orange-500 border border-orange-100 rounded-[10px] md:rounded-[1rem] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+              <Clock size={18} className="md:w-[22px] md:h-[22px]" strokeWidth={2.5} />
             </div>
-            <div className="min-w-0 pr-2">
-              {/* Added group-hover:underline so it feels like a link */}
-              <p className="font-black text-[15px] text-slate-900 group-hover:text-orange-600 group-hover:underline transition-colors truncate">
+            <div className="min-w-0 pr-2 flex-1">
+              <p className="font-black text-[14px] md:text-[15px] text-slate-900 group-hover:text-orange-600 transition-colors truncate leading-snug">
                 {req.studentName}
               </p>
-              <p className="text-[12px] font-bold text-slate-500 mt-0.5 truncate">
+              <p className="text-[11px] md:text-[12px] font-bold text-slate-500 mt-0.5 truncate">
                 @{req.studentUsername || t.unknown}
               </p>
             </div>
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
             <button 
               onClick={() => handleReject(req.id)}
-              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 rounded-xl transition-colors border border-red-100/50"
+              className="w-9 h-9 md:w-11 md:h-11 flex items-center justify-center bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600 rounded-[10px] md:rounded-[14px] transition-colors border border-red-100/50 active:scale-95"
               title="Reject"
             >
-              <X size={20} strokeWidth={2.5} />
+              <X size={16} className="md:w-5 md:h-5" strokeWidth={3} />
             </button>
             <button 
               onClick={() => handleAccept(req)}
-              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-emerald-500 text-white hover:bg-emerald-600 rounded-xl transition-all shadow-md shadow-emerald-500/20 active:scale-95"
+              className="w-9 h-9 md:w-11 md:h-11 flex items-center justify-center bg-emerald-500 text-white hover:bg-emerald-600 rounded-[10px] md:rounded-[14px] transition-all shadow-sm md:shadow-md shadow-emerald-500/20 active:scale-95"
               title="Accept"
             >
-              <Check size={20} strokeWidth={2.5} />
+              <Check size={16} className="md:w-5 md:h-5" strokeWidth={3} />
             </button>
           </div>
         </div>

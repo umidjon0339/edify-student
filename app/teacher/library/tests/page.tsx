@@ -10,9 +10,9 @@ import TestCard from '../_components/TestCard';
 import EditTestModal from '../_components/EditTestModal';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 import toast from 'react-hot-toast';
+import { motion, Variants } from 'framer-motion';
 
 // --- TRANSLATION DICTIONARY ---
-// Removed the "sort" translations to keep it clean
 const LIBRARY_TRANSLATIONS: any = {
   uz: {
     title: "Mening Kutubxonam",
@@ -44,10 +44,11 @@ const LIBRARY_TRANSLATIONS: any = {
 };
 
 const PAGE_SIZE = 10;
+const containerVariants: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 
 export default function LibraryPage() {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuth() as any;
   const { lang } = useTeacherLanguage();
   const t = LIBRARY_TRANSLATIONS[lang] || LIBRARY_TRANSLATIONS['en'];
 
@@ -57,7 +58,7 @@ export default function LibraryPage() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 🟢 Server-Side Filters (Sorting is now hardcoded to newest)
+  // Server-Side Filters 
   const [filterStatus, setFilterStatus] = useState<'active' | 'archived'>('active');
 
   // Pagination State
@@ -68,14 +69,13 @@ export default function LibraryPage() {
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  // 🟢 Optimized Server-Side Fetching
+  // Optimized Server-Side Fetching
   const fetchTests = useCallback(async (isLoadMore = false) => {
     if (!user) return;
     if (isLoadMore) setIsLoadingMore(true);
     else setIsLoadingData(true);
 
     try {
-      // 🟢 This perfectly matches your existing Firebase Composite Index!
       let q = query(
         collection(db, 'custom_tests'),
         where('teacherId', '==', user.uid),
@@ -84,9 +84,7 @@ export default function LibraryPage() {
         limit(PAGE_SIZE)
       );
 
-      if (isLoadMore && lastDoc) {
-        q = query(q, startAfter(lastDoc));
-      }
+      if (isLoadMore && lastDoc) q = query(q, startAfter(lastDoc));
 
       const snapshot = await getDocs(q);
 
@@ -109,7 +107,6 @@ export default function LibraryPage() {
     }
   }, [user, filterStatus, lastDoc]);
 
-  // Refetch completely when Status changes
   useEffect(() => {
     setLastDoc(null);
     setTests([]);
@@ -118,7 +115,6 @@ export default function LibraryPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterStatus, user]);
 
-  // Client-side text search (only applies to what is currently loaded in memory)
   const displayTests = tests.filter(test => {
     if (!searchQuery) return true;
     return test.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -134,103 +130,108 @@ export default function LibraryPage() {
     return <div className="flex h-[100dvh] bg-[#FAFAFA] items-center justify-center"><Loader2 className="animate-spin text-indigo-600" size={32}/></div>;
   }
 
+  // Dynamic Theme Palette for Cards
+  const THEMES = ['blue', 'violet', 'emerald', 'rose', 'amber', 'cyan'];
+
   return (
-    <div className="flex h-[100dvh] bg-[#FAFAFA] overflow-hidden font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-[100dvh] bg-[#FAFAFA] font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-[100px] md:pb-12">
       
       {selectedTest && <EditTestModal key={selectedTest.id} isOpen={isEditOpen} onClose={() => { setIsEditOpen(false); fetchTests(false); }} test={selectedTest} />}
 
-      <main className="flex-1 overflow-y-auto custom-scrollbar relative w-full pb-20">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-8 relative z-10">
         
-        {/* UNIFIED STICKY TOP BAR */}
-        <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-sm">
+        {/* 🟢 PREMIUM UNIFIED HEADER */}
+        <div className="bg-white rounded-[2rem] p-5 md:p-6 border border-slate-200/80 shadow-sm mb-8">
           
-          <div className="flex items-center gap-4">
-            <h1 className="text-[16px] md:text-[18px] font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <Library size={18} className="text-indigo-500" /> {t.title}
-            </h1>
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-full border border-slate-200/60 animate-in fade-in">
-              <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${filterStatus === 'active' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
-              <span className="text-[11px] font-bold text-slate-600 tracking-wide uppercase">{tests.length} {hasMore ? '+' : ''} {t.items}</span>
-            </div>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-            <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-              <input 
-                type="text" 
-                placeholder={t.search} 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-100/80 border border-slate-200/60 rounded-lg text-[13px] font-medium text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-[1200px] mx-auto px-4 md:px-8 mt-6">
-          
-          {/* APPLE-STYLE SEGMENTED TABS */}
-          <div className="flex justify-center sm:justify-start mb-8">
-            <div className="flex items-center bg-slate-200/50 p-1 rounded-xl border border-slate-200/60 shadow-inner">
-              <button 
-                onClick={() => setFilterStatus('active')}
-                className={`flex items-center gap-2 px-5 py-2 text-[13px] font-bold rounded-lg transition-all ${filterStatus === 'active' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
-              >
-                <FolderOpen size={16} className={filterStatus === 'active' ? 'text-emerald-500' : ''} /> {t.filters.active}
-              </button>
-              <button 
-                onClick={() => setFilterStatus('archived')}
-                className={`flex items-center gap-2 px-5 py-2 text-[13px] font-bold rounded-lg transition-all ${filterStatus === 'archived' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
-              >
-                <Archive size={16} className={filterStatus === 'archived' ? 'text-slate-500' : ''} /> {t.filters.archived}
-              </button>
-            </div>
-          </div>
-
-          {/* EDGE-TO-EDGE GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {isLoadingData ? (
-               <div className="col-span-full flex justify-center py-10"><Loader2 className="animate-spin text-indigo-500" size={32}/></div>
-            ) : displayTests.length > 0 ? (
-              displayTests.map((test, idx) => (
-                <div key={test.id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${(idx % 10) * 40}ms`, animationFillMode: 'both' }}>
-                  <TestCard test={test} onManage={() => handleManage(test)} />
-                </div>
-              ))
-            ) : (
-              /* FUNCTIONAL EMPTY STATE */
-              <div className="col-span-full py-16 flex flex-col items-center justify-center text-center bg-white border-2 border-dashed border-slate-200 rounded-3xl animate-in zoom-in-95 duration-500 shadow-sm">
-                <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mb-5 shadow-sm">
-                  <Sparkles size={28} className="text-slate-300" />
-                </div>
-                <h3 className="text-[18px] font-black text-slate-800 tracking-tight">{t.empty.title}</h3>
-                <p className="text-slate-400 text-[14px] mt-1 font-medium mb-6 max-w-sm">{t.empty.desc}</p>
-                
-                {filterStatus === 'active' && !searchQuery && (
-                  <button onClick={() => router.push('/teacher/create')} className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 text-[14px]">
-                    <Plus size={16} /> {t.createTest}
-                  </button>
-                )}
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 shadow-inner shrink-0">
+                 <Library size={24} strokeWidth={2.5} className="md:w-7 md:h-7" />
               </div>
-            )}
+              <div>
+                <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight flex items-center gap-3">
+                  {t.title}
+                  <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-slate-50 rounded-full border border-slate-200/80 animate-in fade-in">
+                    <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${filterStatus === 'active' ? 'bg-emerald-500' : 'bg-slate-400'}`}></div>
+                    <span className="text-[11px] font-bold text-slate-600 tracking-wide uppercase">{tests.length} {hasMore ? '+' : ''} {t.items}</span>
+                  </div>
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-3 md:w-auto w-full">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} strokeWidth={2.5} />
+                <input 
+                  type="text" placeholder={t.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all"
+                />
+              </div>
+            </div>
           </div>
 
-          {/* LOAD MORE BUTTON */}
-          {hasMore && !searchQuery && (
-            <div className="flex justify-center pt-8 pb-4">
-              <button 
-                onClick={() => fetchTests(true)}
-                disabled={isLoadingMore}
-                className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 font-bold py-2.5 px-6 rounded-xl shadow-sm transition-all active:scale-95 text-[13px] disabled:opacity-50"
-              >
-                {isLoadingMore ? <Loader2 size={16} className="animate-spin"/> : <ChevronDown size={16} />}
-                {t.loadMore}
-              </button>
-            </div>
-          )}
+          <div className="h-px bg-slate-100 my-6 hidden md:block"></div>
+
+          {/* 🟢 APPLE-STYLE SEGMENTED TABS */}
+          <div className="flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200/60 shadow-inner w-full md:w-max">
+            <button 
+              onClick={() => setFilterStatus('active')}
+              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 text-[13px] font-bold rounded-xl transition-all duration-300 ${filterStatus === 'active' ? 'bg-white text-slate-900 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              <FolderOpen size={16} strokeWidth={2.5} className={filterStatus === 'active' ? 'text-emerald-500' : ''} /> {t.filters.active}
+            </button>
+            <button 
+              onClick={() => setFilterStatus('archived')}
+              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 text-[13px] font-bold rounded-xl transition-all duration-300 ${filterStatus === 'archived' ? 'bg-white text-slate-900 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              <Archive size={16} strokeWidth={2.5} className={filterStatus === 'archived' ? 'text-slate-500' : ''} /> {t.filters.archived}
+            </button>
+          </div>
 
         </div>
+
+        {/* 🟢 EDGE-TO-EDGE GRID */}
+        {isLoadingData ? (
+           <div className="flex justify-center py-20"><Loader2 className="animate-spin text-indigo-500" size={32}/></div>
+        ) : displayTests.length > 0 ? (
+          <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+            {displayTests.map((test, index) => {
+               const themeColor = THEMES[index % THEMES.length];
+               return <TestCard key={test.id} test={test} theme={themeColor} onManage={() => handleManage(test)} />;
+            })}
+          </motion.div>
+        ) : (
+          /* FUNCTIONAL EMPTY STATE */
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="col-span-full py-16 md:py-24 text-center flex flex-col items-center justify-center bg-white border-2 border-dashed border-slate-200 rounded-[2rem] shadow-sm relative overflow-hidden group mt-4">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-colors duration-700 pointer-events-none z-0"></div>
+            <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mb-5 shadow-sm relative z-10">
+              <Sparkles size={28} className="text-slate-400" />
+            </div>
+            <h3 className="text-[18px] md:text-[20px] font-black text-slate-800 tracking-tight relative z-10">{t.empty.title}</h3>
+            <p className="text-[13px] md:text-[14px] text-slate-500 font-medium mt-1.5 mb-8 max-w-sm relative z-10 px-4">{t.empty.desc}</p>
+            
+            {filterStatus === 'active' && !searchQuery && (
+              <button onClick={() => router.push('/teacher/create')} className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition-all active:scale-95 text-[14px] relative z-10">
+                <Plus size={16} strokeWidth={2.5} /> {t.createTest}
+              </button>
+            )}
+          </motion.div>
+        )}
+
+        {/* LOAD MORE BUTTON */}
+        {hasMore && !searchQuery && (
+          <div className="flex justify-center pt-10 pb-6">
+            <button 
+              onClick={() => fetchTests(true)}
+              disabled={isLoadingMore}
+              className="flex items-center gap-2 bg-white border-2 border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 font-black py-3 px-8 rounded-2xl shadow-sm transition-all active:scale-95 text-[14px] disabled:opacity-50"
+            >
+              {isLoadingMore ? <Loader2 size={18} className="animate-spin"/> : <ChevronDown size={18} strokeWidth={2.5} />}
+              {t.loadMore}
+            </button>
+          </div>
+        )}
+
       </main>
     </div>
   );

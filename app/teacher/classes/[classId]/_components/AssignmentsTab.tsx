@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom'; // 🟢 ADDED PORTAL
 import { db } from '@/lib/firebase';
 import { collection, query, orderBy, limit, startAfter, getDocs, deleteDoc, doc, where } from 'firebase/firestore';
 import { 
@@ -62,6 +63,10 @@ const PAGE_SIZE = 10;
 export default function AssignmentsTab({ classId, roster = [], totalRosterSize, onEdit, onAdd }: Props) {
   const { lang } = useTeacherLanguage();
   const t = ASSIGN_TAB_TRANSLATIONS[lang] || ASSIGN_TAB_TRANSLATIONS['en'];
+
+  // 🟢 SSR HYDRATION FIX FOR PORTAL
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const [assignments, setAssignments] = useState<any[]>([]);
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -180,13 +185,13 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
 
   return (
     <>
-      <div className="space-y-3">
+      <div className="space-y-3 md:space-y-4">
         {assignments.length === 0 && (
           <div className="text-center py-16 bg-slate-50 rounded-[1.5rem] border border-dashed border-slate-200 flex flex-col items-center">
              <div className="w-16 h-16 bg-white rounded-[1.2rem] flex items-center justify-center mb-4 shadow-sm text-slate-300">
                <Clock size={32} />
              </div>
-             <h3 className="text-slate-800 font-black text-[15px]">{t.emptyTitle}</h3>
+             <h3 className="text-slate-800 font-black text-[14px] md:text-[15px]">{t.emptyTitle}</h3>
              <button onClick={onAdd} className="mt-4 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-2 text-[13px]">
                <Plus size={16} strokeWidth={2.5}/> {t.createBtn}
              </button>
@@ -219,16 +224,16 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                 key={a.id} 
                 ref={isLastElement ? lastElementRef : null}
                 onClick={() => setSubmissionsData({ assignment: a, targetRequired, submittedCount, percent })}
-                className="bg-white rounded-[1.2rem] border border-slate-200/80 p-4 hover:border-slate-300 hover:shadow-sm transition-all duration-200 cursor-pointer group flex flex-col md:flex-row md:items-center gap-4"
+                className="bg-white rounded-2xl md:rounded-[1.2rem] border border-slate-200/80 p-4 hover:border-slate-300 hover:shadow-sm transition-all duration-200 cursor-pointer group flex flex-col md:flex-row md:items-center gap-4 active:scale-[0.98] md:active:scale-100"
               >
-                <div className="flex items-start gap-4 flex-1 min-w-0">
+                <div className="flex items-start gap-3 md:gap-4 flex-1 min-w-0">
                   <div className={`w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 border ${statusUI[status].bg} ${statusUI[status].border} ${statusUI[status].text}`}>
                     {statusUI[status].icon}
                   </div>
                   
                   <div className="flex-1 min-w-0 pt-0.5">
                     <div className="flex items-center gap-2">
-                       <h3 className="font-bold text-[15px] text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                       <h3 className="font-bold text-[14px] md:text-[15px] text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
                          {a.testTitle || 'Untitled Assignment'}
                        </h3>
                        <span className={`hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${statusUI[status].bg} ${statusUI[status].text}`}>
@@ -236,13 +241,13 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                        </span>
                     </div>
 
-                    <div className="flex items-center gap-3 mt-1.5 text-[12px] font-medium text-slate-500 truncate">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px] md:text-[12px] font-bold text-slate-500">
                       {dueDate ? (
-                        <span className={`flex items-center gap-1 ${status === 'closed' ? 'text-red-500 font-bold' : ''}`}>
+                        <span className={`flex items-center gap-1 ${status === 'closed' ? 'text-red-500' : ''}`}>
                           <Calendar size={12}/> {t.status.due} {dueDate.toLocaleDateString([], {month: 'short', day: 'numeric'})}
                         </span>
                       ) : <span className="text-slate-400">{t.status.noDeadline}</span>}
-                      <span className="text-slate-300">•</span>
+                      <span className="text-slate-300 hidden sm:block">•</span>
                       <span>
                          {Array.isArray(a.assignedTo) ? t.assignees.count.replace("{n}", a.assignedTo.length.toString()) : t.assignees.all}
                       </span>
@@ -250,11 +255,11 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 pl-14 md:pl-0">
+                <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 pl-14 md:pl-0">
                    <div className="flex flex-col w-32 shrink-0">
                      <div className="flex justify-between items-end mb-1.5">
-                        <span className="text-[11px] font-bold text-slate-400">{submittedCount}/{targetRequired} {t.progress.submitted}</span>
-                        <span className={`text-[11px] font-black ${percent === 100 ? 'text-emerald-500' : 'text-slate-700'}`}>{Math.round(percent)}%</span>
+                        <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-widest">{submittedCount}/{targetRequired} {t.progress.submitted}</span>
+                        <span className={`text-[10px] md:text-[11px] font-black ${percent === 100 ? 'text-emerald-500' : 'text-slate-700'}`}>{Math.round(percent)}%</span>
                      </div>
                      <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full rounded-full transition-all duration-500 ${percent === 100 ? 'bg-emerald-500' : 'bg-indigo-500'}`} style={{ width: `${percent}%` }}></div>
@@ -262,9 +267,9 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                    </div>
 
                    <div className="flex items-center gap-1 shrink-0">
-                      <button onClick={(e) => { e.stopPropagation(); onEdit(a); }} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-colors" title="Edit"><Edit2 size={14} strokeWidth={2.5}/></button>
-                      <button onClick={(e) => handleCopyLink(e, a.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors" title="Copy Link"><Copy size={14} strokeWidth={2.5}/></button>
-                      <button onClick={(e) => { e.stopPropagation(); setDeleteData(a); }} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors" title="Delete"><Trash2 size={14} strokeWidth={2.5}/></button>
+                      <button onClick={(e) => { e.stopPropagation(); onEdit(a); }} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-colors active:scale-95" title="Edit"><Edit2 size={14} strokeWidth={2.5}/></button>
+                      <button onClick={(e) => handleCopyLink(e, a.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors active:scale-95" title="Copy Link"><Copy size={14} strokeWidth={2.5}/></button>
+                      <button onClick={(e) => { e.stopPropagation(); setDeleteData(a); }} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors active:scale-95" title="Delete"><Trash2 size={14} strokeWidth={2.5}/></button>
                    </div>
                 </div>
               </div>
@@ -277,20 +282,21 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
         </div>
       </div>
 
-      {/* --- DANGER ZONE MODAL --- */}
-      {deleteData && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setDeleteData(null)}></div>
-          <div className="relative bg-white rounded-3xl w-full max-w-sm p-6 md:p-8 shadow-2xl animate-in zoom-in-95 text-center border border-slate-100">
+      {/* --- DANGER ZONE MODAL (PORTAL) --- */}
+      {mounted && deleteData && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setDeleteData(null)}></div>
+          <div className="relative bg-white rounded-[2rem] w-full max-w-sm p-6 md:p-8 shadow-2xl animate-in zoom-in-95 fade-in text-center border border-slate-100">
              <div className="w-14 h-14 bg-red-50 text-red-500 rounded-[1.2rem] flex items-center justify-center mb-5 mx-auto"><AlertTriangle size={24} strokeWidth={2.5}/></div>
              <h3 className="text-[18px] font-black text-slate-900 mb-2">{t.modals.deleteTitle}</h3>
              <p className="text-[13px] text-slate-500 font-medium mb-6 leading-relaxed">{t.modals.deleteDesc.replace("{title}", deleteData.testTitle)}</p>
-             <div className="flex gap-3">
-               <button onClick={() => setDeleteData(null)} className="flex-1 py-3 text-[13px] font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80">{t.modals.cancel}</button>
-               <button onClick={handleDeleteConfirm} className="flex-1 py-3 text-[13px] font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-md shadow-red-600/20 active:scale-95 transition-all">{t.modals.confirmDelete}</button>
+             <div className="flex flex-col-reverse sm:flex-row gap-3">
+               <button onClick={() => setDeleteData(null)} className="w-full py-3.5 text-[13px] font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80 active:scale-95">{t.modals.cancel}</button>
+               <button onClick={handleDeleteConfirm} className="w-full py-3.5 text-[13px] font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-md shadow-red-600/20 active:scale-95 transition-all">{t.modals.confirmDelete}</button>
              </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* --- SUBMISSIONS MODAL --- */}
@@ -308,12 +314,16 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
 }
 
 // ============================================================================
-// 🟢 3. SUBMISSIONS MODAL (With Caching & Safe Profile Pics)
+// 🟢 3. SUBMISSIONS MODAL (With Caching & Safe Profile Pics & Portal)
 // ============================================================================
 function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) {
   const router = useRouter();
   const { assignment, targetRequired, submittedCount, percent } = data;
   
+  // 🟢 SSR HYDRATION FIX FOR PORTAL
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const [localRoster, setLocalRoster] = useState<any[]>(roster);
   const [attempts, setAttempts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -388,59 +398,67 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
   const pendingList = useMemo(() => targetStudents.filter(r => !(assignment.completedBy || []).includes(r.uid)), [targetStudents, assignment]);
   const displayList = activeTab === 'submitted' ? submittedList : pendingList;
 
-  return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6">
-      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={onClose}></div>
-      <div className="relative bg-white rounded-[2rem] w-full max-w-lg h-[80vh] flex flex-col shadow-2xl animate-in zoom-in-95 fade-in border border-slate-100">
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-end sm:items-center justify-center p-0 sm:p-6">
+      {/* OVERLAY */}
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
+      
+      {/* 🟢 ULTRA MINIMALISTIC MOBILE-FIRST MODAL */}
+      <div className="relative bg-white rounded-t-[2rem] sm:rounded-[2rem] w-full max-w-lg h-[90vh] sm:h-[80vh] flex flex-col shadow-2xl animate-in slide-in-from-bottom-10 sm:zoom-in-95 fade-in duration-300 border border-slate-100 overflow-hidden">
         
         {/* Header */}
-        <div className="p-6 md:p-8 border-b border-slate-100 flex items-start justify-between shrink-0 bg-white">
-          <div className="flex-1 pr-4">
-            <h2 className="text-[18px] font-black text-slate-900 leading-tight mb-4">{assignment.testTitle}</h2>
-            <div className="bg-slate-50 border border-slate-200/60 rounded-[1rem] p-4">
+        <div className="p-5 md:p-8 border-b border-slate-100 flex items-start justify-between shrink-0 bg-white/90 backdrop-blur-md z-20 shadow-sm">
+          <div className="flex-1 pr-4 min-w-0">
+            <h2 className="text-[16px] md:text-[18px] font-black text-slate-900 leading-tight mb-3 truncate">{assignment.testTitle}</h2>
+            <div className="bg-slate-50 border border-slate-200/60 rounded-xl p-3 md:p-4">
               <div className="flex justify-between items-end mb-2">
-                <span className="text-slate-500 text-[11px] font-bold uppercase tracking-widest">{submittedCount}/{targetRequired} {t.progress.submitted}</span>
-                <span className="text-[13px] font-black text-indigo-600">{Math.round(percent)}%</span>
+                <span className="text-slate-500 text-[10px] md:text-[11px] font-bold uppercase tracking-widest">{submittedCount}/{targetRequired} {t.progress.submitted}</span>
+                <span className="text-[12px] md:text-[13px] font-black text-indigo-600">{Math.round(percent)}%</span>
               </div>
               <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                 <div className={`h-full rounded-full transition-all duration-1000 ${percent === 100 ? 'bg-emerald-500' : 'bg-indigo-500'}`} style={{ width: `${percent}%` }}></div>
               </div>
             </div>
           </div>
-          <button onClick={onClose} className="w-8 h-8 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-slate-400 transition-colors shrink-0"><X size={16} strokeWidth={2.5}/></button>
+          <button onClick={onClose} className="w-8 h-8 md:w-9 md:h-9 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-full flex items-center justify-center text-slate-400 transition-colors shrink-0 active:scale-95"><X size={18} strokeWidth={2.5}/></button>
         </div>
 
         {/* Segmented Tabs */}
-        <div className="px-6 md:px-8 py-4 bg-[#FAFAFA] shrink-0">
+        <div className="px-5 md:px-8 py-3 md:py-4 bg-[#FAFAFA] shrink-0 z-10 border-b border-slate-100">
           <div className="flex p-1 bg-slate-200/60 rounded-xl shadow-inner border border-slate-200/50">
-            <button onClick={() => setActiveTab('submitted')} className={`flex-1 py-2 text-[12px] font-bold rounded-lg transition-all ${activeTab === 'submitted' ? 'bg-white text-indigo-600 shadow-[0_2px_8px_rgb(0,0,0,0.04)]' : 'text-slate-500 hover:text-slate-800'}`}>
+            <button onClick={() => setActiveTab('submitted')} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-lg transition-all ${activeTab === 'submitted' ? 'bg-white text-indigo-600 shadow-sm ring-1 ring-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>
               {t.submissions.submitted} ({submittedCount})
             </button>
-            <button onClick={() => setActiveTab('pending')} className={`flex-1 py-2 text-[12px] font-bold rounded-lg transition-all ${activeTab === 'pending' ? 'bg-white text-indigo-600 shadow-[0_2px_8px_rgb(0,0,0,0.04)]' : 'text-slate-500 hover:text-slate-800'}`}>
+            <button onClick={() => setActiveTab('pending')} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-lg transition-all ${activeTab === 'pending' ? 'bg-white text-indigo-600 shadow-sm ring-1 ring-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>
               {t.submissions.pending} ({targetRequired - submittedCount})
             </button>
           </div>
         </div>
 
         {/* List */}
-        <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-6 bg-[#FAFAFA] custom-scrollbar">
+        {/* Added pb-[env(safe-area-inset-bottom)] for iOS devices */}
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-8 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] bg-[#FAFAFA] custom-scrollbar">
           {loading ? (
             <div className="py-20 flex justify-center"><Loader2 className="animate-spin text-indigo-500" size={28}/></div>
           ) : displayList.length === 0 ? (
-            <div className="py-16 flex flex-col items-center text-slate-400 gap-3 border-2 border-dashed border-slate-200 rounded-2xl bg-white">
+            <div className="py-16 flex flex-col items-center text-slate-400 gap-3 border-2 border-dashed border-slate-200/80 rounded-[1.5rem] bg-white shadow-sm">
               <CheckCircle size={32} className="opacity-30"/>
-              <p className="font-bold text-[13px]">{activeTab === 'submitted' ? t.submissions.emptySub : t.submissions.emptyPend}</p>
+              <p className="font-bold text-[12px] md:text-[13px]">{activeTab === 'submitted' ? t.submissions.emptySub : t.submissions.emptyPend}</p>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-2 md:space-y-3">
               {displayList.map((student, idx) => {
                 const attempt = attempts.find(a => a.userId === student.uid);
                 const scoreP = attempt && attempt.totalQuestions > 0 ? Math.round((attempt.score / attempt.totalQuestions) * 100) : 0;
                 const avatarUrl = student.photoURL || student.photoUrl || student.avatar || null;
                 
-                let rankColor = '#475569';
+                let rankColor = '#94A3B8'; // default slate-400
                 if (activeTab === 'submitted') {
-                  if (idx === 0) rankColor = '#FBBF24'; else if (idx === 1) rankColor = '#94A3B8'; else if (idx === 2) rankColor = '#B45309';
+                  if (idx === 0) rankColor = '#F59E0B'; // amber-500
+                  else if (idx === 1) rankColor = '#94A3B8'; // slate-400
+                  else if (idx === 2) rankColor = '#D97706'; // amber-600
                 }
 
                 return (
@@ -450,32 +468,32 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
                       onClose(); 
                       router.push(`/teacher/students/${student.uid}`); 
                     }}
-                    className="flex items-center gap-3 p-3 md:p-4 bg-white border border-slate-200/80 rounded-[1.2rem] shadow-sm hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group"
+                    className="flex items-center gap-2.5 md:gap-3 p-3.5 md:p-4 bg-white border border-slate-200/80 rounded-2xl md:rounded-[1.2rem] shadow-sm hover:border-indigo-300 hover:shadow-md active:scale-[0.98] transition-all cursor-pointer group"
                   >
                     {activeTab === 'submitted' && (
-                       <span style={{ color: rankColor }} className="font-black text-[13px] w-5 text-center shrink-0">#{idx + 1}</span>
+                       <span style={{ color: rankColor }} className="font-black text-[12px] md:text-[13px] w-5 text-center shrink-0">#{idx + 1}</span>
                     )}
                     
                     {/* 🟢 Safe Profile Picture Implementation */}
-                    <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center font-black text-slate-500 text-[14px] shrink-0 border border-slate-200 overflow-hidden">
+                    <div className="w-9 h-9 md:w-10 md:h-10 bg-slate-100 rounded-xl flex items-center justify-center font-black text-slate-500 text-[13px] md:text-[14px] shrink-0 border border-slate-200 overflow-hidden">
                       {avatarUrl ? (
                         <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                       ) : (
-                        student.displayName?.[0]?.toUpperCase() || <UserIcon size={18} strokeWidth={3}/>
+                        student.displayName?.[0]?.toUpperCase() || <UserIcon size={16} strokeWidth={3}/>
                       )}
                     </div>
 
                     <div className="flex-1 min-w-0 pr-2">
-                      <p className="font-black text-slate-900 text-[14px] truncate group-hover:text-indigo-600 transition-colors">{student.displayName}</p>
-                      <p className="text-[11px] font-bold text-slate-400 truncate">@{student.username || 'student'}</p>
+                      <p className="font-black text-slate-900 text-[13px] md:text-[14px] truncate group-hover:text-indigo-600 transition-colors">{student.displayName}</p>
+                      <p className="text-[10px] md:text-[11px] font-bold text-slate-400 truncate">@{student.username || 'student'}</p>
                     </div>
                     {activeTab === 'submitted' && attempt ? (
                       <div className="text-right shrink-0">
-                        <p className={`font-black text-[16px] ${scoreP >= 60 ? 'text-emerald-500' : 'text-red-500'}`}>{scoreP}%</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{attempt.score}/{attempt.totalQuestions} {t.submissions.correct}</p>
+                        <p className={`font-black text-[15px] md:text-[16px] leading-none ${scoreP >= 60 ? 'text-emerald-500' : 'text-red-500'}`}>{scoreP}%</p>
+                        <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{attempt.score}/{attempt.totalQuestions} {t.submissions.correct}</p>
                       </div>
                     ) : activeTab === 'pending' ? (
-                      <span className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md shrink-0">{t.submissions.pending}</span>
+                      <span className="bg-slate-100 text-slate-500 text-[9px] md:text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md shrink-0">{t.submissions.pending}</span>
                     ) : null}
                   </div>
                 )
@@ -484,6 +502,7 @@ function AssignmentSubmissionsModal({ data, onClose, roster, classId, t }: any) 
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

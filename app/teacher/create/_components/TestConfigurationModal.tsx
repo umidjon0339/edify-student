@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom'; // 🟢 ADDED PORTAL IMPORT
 import { X, Clock, Shuffle, Eye, Lock, CheckCircle, Shield, CalendarClock, EyeOff } from 'lucide-react';
 import { useTeacherLanguage } from '@/app/teacher/layout'; 
-import { motion, AnimatePresence } from 'framer-motion'; // 🟢 Added for smooth animations
+import { motion, AnimatePresence } from 'framer-motion'; 
 
 // --- 1. TRANSLATION DICTIONARY ---
 const CONFIG_TRANSLATIONS = {
@@ -138,6 +139,10 @@ export default function TestConfigurationModal({
   const { lang } = useTeacherLanguage();
   const t = CONFIG_TRANSLATIONS[lang];
 
+  // 🟢 MOUNTED STATE FOR PORTAL SSR FIX
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const [duration, setDuration] = useState<number>(45);
   const [isTimeLimited, setIsTimeLimited] = useState(true);
   const [shuffle, setShuffle] = useState(true);
@@ -159,25 +164,28 @@ export default function TestConfigurationModal({
     });
   };
 
-  return (
+  // 🟢 SSR PREVENT ERROR
+  if (!mounted) return null;
+
+  // 🟢 WRAPPED IN CREATE PORTAL
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        // 🟢 FIXED Z-INDEX: Added z-[9999] to ensure it covers the sidebar perfectly
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6">
           
           {/* BACKGROUND BLUR */}
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" 
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" 
             onClick={onClose}
           />
 
-          {/* 🟢 UPGRADED MODAL CARD */}
+          {/* UPGRADED MODAL CARD */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 10 }} 
             animate={{ opacity: 1, scale: 1, y: 0 }} 
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] w-full max-w-xl overflow-hidden border border-slate-100 flex flex-col max-h-[90vh]"
+            className="relative bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] w-full max-w-xl overflow-hidden border border-slate-100 flex flex-col max-h-[90vh] z-10"
           >
             
             {/* HEADER */}
@@ -345,6 +353,7 @@ export default function TestConfigurationModal({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

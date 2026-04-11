@@ -1,233 +1,176 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { ArrowLeft, BookCopy, ChevronRight, CheckCircle2, Layers, Printer, Sparkles } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { ArrowRight, CheckCircle2, Layers, Printer, Sparkles, FileText, CheckSquare, Zap, BookCopy } from "lucide-react";
 import { useTeacherLanguage } from "@/app/teacher/layout";
 
 // ============================================================================
-// 🎨 CUSTOM SVG ILLUSTRATIONS
+// 🎨 PREMIUM DYNAMIC SVG ILLUSTRATION (Organic Floating Blobs)
 // ============================================================================
-
-const TestsIllustration = () => (
-  <svg viewBox="0 0 120 120" className="w-full h-full drop-shadow-md" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#3B82F6" />
-        <stop offset="100%" stopColor="#06B6D4" />
-      </linearGradient>
-      <linearGradient id="cyanGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#0EA5E9" />
-        <stop offset="100%" stopColor="#10B981" />
-      </linearGradient>
-    </defs>
-    <rect x="20" y="20" width="70" height="80" rx="16" fill="url(#blueGrad)" fillOpacity="0.1" stroke="url(#blueGrad)" strokeWidth="2" />
-    <motion.g initial={{ y: 0 }} animate={{ y: [-3, 3, -3] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
-      {/* 🟢 FIXED: Removed the invalid shadow="xl" attribute here */}
-      <rect x="30" y="30" width="60" height="60" rx="12" fill="white" />
-      <rect x="30" y="30" width="60" height="60" rx="12" fill="url(#blueGrad)" fillOpacity="0.05" />
-      <circle cx="45" cy="50" r="6" fill="url(#blueGrad)" />
-      <path d="M43 50L44.5 51.5L47 48.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="58" y="48" width="22" height="4" rx="2" fill="#E2E8F0" />
-      <circle cx="45" cy="68" r="6" fill="#E2E8F0" />
-      <rect x="58" y="66" width="16" height="4" rx="2" fill="#E2E8F0" />
-    </motion.g>
-    <motion.circle cx="85" cy="25" r="8" fill="url(#cyanGrad)" initial={{ y: 0 }} animate={{ y: [4, -4, 4] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
-    <motion.rect x="15" y="75" width="14" height="14" rx="4" fill="#3B82F6" fillOpacity="0.8" initial={{ rotate: 0 }} animate={{ rotate: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
-  </svg>
-);
-
-const AssessmentsIllustration = () => (
-  <svg viewBox="0 0 120 120" className="w-full h-full drop-shadow-md" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#8B5CF6" />
-        <stop offset="100%" stopColor="#D946EF" />
-      </linearGradient>
-      <linearGradient id="pinkGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#EC4899" />
-        <stop offset="100%" stopColor="#F43F5E" />
-      </linearGradient>
-    </defs>
-    <rect x="35" y="15" width="55" height="75" rx="10" fill="url(#purpleGrad)" fillOpacity="0.2" transform="rotate(8 62 52)" />
-    <rect x="25" y="20" width="55" height="75" rx="10" fill="url(#purpleGrad)" fillOpacity="0.4" transform="rotate(4 52 57)" />
-    <motion.g initial={{ y: 0 }} animate={{ y: [-3, 3, -3] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
-      <rect x="15" y="25" width="60" height="75" rx="10" fill="white" />
-      <rect x="15" y="25" width="60" height="75" rx="10" fill="url(#purpleGrad)" fillOpacity="0.05" stroke="url(#purpleGrad)" strokeWidth="1" />
-      <rect x="25" y="40" width="40" height="4" rx="2" fill="#E2E8F0" />
-      <rect x="25" y="50" width="30" height="4" rx="2" fill="#E2E8F0" />
-      <rect x="25" y="60" width="35" height="4" rx="2" fill="#E2E8F0" />
-      <rect x="25" y="80" width="20" height="6" rx="3" fill="url(#purpleGrad)" fillOpacity="0.2" />
-    </motion.g>
-    <motion.path d="M95 55L98 62L105 63L100 68L101 75L95 72L89 75L90 68L85 63L92 62L95 55Z" fill="url(#pinkGrad)" initial={{ scale: 1, rotate: 0 }} animate={{ scale: [1, 1.1, 1], rotate: [0, 5, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
-    <motion.circle cx="20" cy="30" r="5" fill="#A855F7" fillOpacity="0.8" initial={{ y: 0 }} animate={{ y: [3, -3, 3] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-  </svg>
-);
+const CardIllustration = ({ theme }: { theme: string }) => {
+  const baseColor = theme.split('-')[1]; 
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-700">
+      <svg viewBox="0 0 200 200" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id={`grad1-${baseColor}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <motion.circle cx="160" cy="160" r="80" fill={`url(#grad1-${baseColor})`} className={`text-${baseColor}-500`}
+          animate={{ x: [-20, 10, -20], y: [-10, 20, -10], scale: [1, 1.1, 1] }} 
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} 
+        />
+        <motion.circle cx="40" cy="180" r="60" fill={`url(#grad1-${baseColor})`} className={`text-${baseColor}-500`}
+          animate={{ x: [10, -15, 10], y: [15, -10, 15], scale: [1, 1.2, 1] }} 
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} 
+        />
+        <motion.rect x="150" y="30" width="40" height="40" rx="10" fill="currentColor" fillOpacity="0.05" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2" className={`text-${baseColor}-500`} transform="rotate(15 170 50)"
+          animate={{ rotate: [15, 45, 15] }} 
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </svg>
+    </div>
+  );
+};
 
 // ============================================================================
-// 🏛️ MAIN HUB PAGE
+// 🌐 TRANSLATION DICTIONARY
 // ============================================================================
+const LIBRARY_TRANSLATIONS: Record<string, any> = {
+  uz: {
+    heroBadge: "Arxiv", title: "Mening Kutubxonam", subtitle: "Barcha yaratilgan testlar va imtihon materiallari shu yerda saqlanadi.",
+    tests: {
+      badge: "Onlayn", title: "Kundalik Testlar", desc: "O'quvchilar onlayn tarzda ishlaydigan standart testlar, uy vazifalari va tezkor so'rovnomalar.",
+      features: ["Onlayn ishlash", "Avtomatik tekshirish", "Tahlil"], btn: "Ochish"
+    },
+    assess: {
+      badge: "Qog'oz", title: "BSB va CHSB", desc: "Rasmiy maktab standartlariga mos, qog'ozda chop etishga mo'ljallangan BSB va CHSB imtihonlari.",
+      features: ["Matritsa", "A4 PDF", "Javoblar kaliti"], btn: "Ochish"
+    }
+  },
+  en: {
+    heroBadge: "Archive", title: "My Library", subtitle: "All your created tests and exam materials are stored securely here.",
+    tests: {
+      badge: "Online", title: "Daily Tests & Quizzes", desc: "Manage standard multiple-choice tests, homework assignments, and quick online quizzes.",
+      features: ["Online execution", "Auto-grading", "Analytics"], btn: "Open"
+    },
+    assess: {
+      badge: "Paper", title: "BSB & CHSB Exams", desc: "Manage formal, printable exams designed for official school curriculums.",
+      features: ["Matrix system", "A4 PDF Format", "Answer Keys"], btn: "Open"
+    }
+  },
+  ru: {
+    heroBadge: "Архив", title: "Моя Библиотека", subtitle: "Здесь надежно хранятся все созданные вами тесты и материалы.",
+    tests: {
+      badge: "Онлайн", title: "Ежедневные тесты", desc: "Управление тестами, домашними заданиями и быстрыми онлайн-опросами.",
+      features: ["Онлайн выполнение", "Автопроверка", "Аналитика"], btn: "Открыть"
+    },
+    assess: {
+      badge: "Бумага", title: "Экзамены BSB и CHSB", desc: "Официальные экзамены для распечатки, соответствующие школьным стандартам.",
+      features: ["Матричная система", "Формат A4 PDF", "Ключи ответов"], btn: "Открыть"
+    }
+  }
+};
 
+// --- THEME ENGINE ---
+const THEMES = {
+  blue: { bg: 'bg-blue-50', text: 'text-blue-600', iconBg: 'group-hover:bg-blue-600', border: 'hover:border-blue-300', shadow: 'hover:shadow-blue-500/20' },
+  purple: { bg: 'bg-purple-50', text: 'text-purple-600', iconBg: 'group-hover:bg-purple-600', border: 'hover:border-purple-300', shadow: 'hover:shadow-purple-500/20' },
+};
+
+// --- ANIMATION VARIANTS ---
+const containerVariants: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+const cardVariants: Variants = { 
+  hidden: { opacity: 0, y: 15, scale: 0.98 }, 
+  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 25 } },
+  hover: { y: -4, transition: { duration: 0.2 } },
+  tap: { scale: 0.97 }
+};
+
+// ============================================================================
+// 🏛️ MAIN PAGE COMPONENT
+// ============================================================================
 export default function LibraryHubPage() {
   const router = useRouter();
   const { lang } = useTeacherLanguage();
+  const t = LIBRARY_TRANSLATIONS[lang] || LIBRARY_TRANSLATIONS['uz'];
 
-  const content = {
-    uz: {
-      title: "Mening Kutubxonam",
-      subtitle: "Barcha yaratilgan testlar va imtihon materiallari shu yerda saqlanadi. Quyidagi bo'limlardan birini tanlang.",
-      testsTitle: "Kundalik Testlar",
-      testsDesc: "O'quvchilar onlayn tarzda ishlaydigan standart testlar, uy vazifalari va tezkor so'rovnomalar.",
-      testsFeatures: ["Onlayn ishlash", "Avtomatik tekshirish", "Tahlil"],
-      assessTitle: "Yaratilgan BSB va CHSB materiallar",
-      assessDesc: "Rasmiy maktab standartlariga mos, qog'ozda chop etishga mo'ljallangan BSB va CHSB imtihonlari.",
-      assessFeatures: ["Matritsa", "A4 PDF", "Javoblar kaliti"]
-    },
-    en: {
-      title: "My Library",
-      subtitle: "All your created tests and exam materials are stored here. Choose a section below to manage them.",
-      testsTitle: "Daily Tests & Quizzes",
-      testsDesc: "Manage standard multiple-choice tests, homework assignments, and quick online quizzes.",
-      testsFeatures: ["Online execution", "Auto-grading", "Results analytics"],
-      assessTitle: "Created BSB and CHSB materials",
-      assessDesc: "Manage formal, printable exams (BSB/CHSB) designed for official school curriculums.",
-      assessFeatures: ["Matrix system", "A4 PDF format", "Teacher answer keys"]
-    },
-    ru: {
-      title: "Моя Библиотека",
-      subtitle: "Здесь хранятся все созданные вами тесты и экзаменационные материалы. Выберите раздел ниже.",
-      testsTitle: "Ежедневные тесты",
-      testsDesc: "Управление стандартными тестами, домашними заданиями и быстрыми онлайн-опросами.",
-      testsFeatures: ["Онлайн выполнение", "Автопроверка", "Аналитика результатов"],
-      assessTitle: "Созданные материалы BSB и CHSB",
-      assessDesc: "Официальные экзамены (BSB/CHSB) для распечатки на бумаге, соответствующие школьным стандартам.",
-      assessFeatures: ["Матричная система", "Формат A4 PDF", "Ключи с ответами"]
-    }
-  };
-
-  const t = content[lang as keyof typeof content] || content['uz'];
+  // --- DATA STRUCTURE ---
+  const LIBRARY_CARDS = [
+    { id: 'tests', icon: CheckSquare, theme: 'blue', href: '/teacher/library/tests', data: t.tests },
+    { id: 'assessments', icon: FileText, theme: 'purple', href: '/teacher/library/assessments', data: t.assess },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans pb-24 selection:bg-indigo-100 selection:text-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans relative overflow-hidden pb-[100px] selection:bg-indigo-100 selection:text-indigo-900">
       
-      {/* GLOBAL BACKGROUND MESH (Very subtle) */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-indigo-50/50 to-transparent pointer-events-none" />
-
-      {/* HEADER */}
-      <div className="bg-white/80 backdrop-blur-xl border-b border-slate-200/80 sticky top-0 z-30">
-        <div className="max-w-[900px] mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button onClick={() => router.push('/teacher/dashboard')} className="p-2 -ml-2 text-slate-400 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all">
-              <ArrowLeft size={18} />
-            </button>
-            <div className="w-px h-5 bg-slate-200"></div>
-            <h1 className="text-[16px] md:text-[18px] font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <BookCopy size={18} className="text-indigo-600"/> {t.title}
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      <main className="max-w-[900px] mx-auto px-4 sm:px-6 mt-12 relative z-10">
+      {/* 🟢 AMBIENT BACKGROUND GLOWS */}
+      <div className="absolute top-0 inset-x-0 h-[40vh] bg-gradient-to-b from-slate-100 to-transparent pointer-events-none z-0"></div>
+      <div className="absolute -left-[20%] top-[-10%] w-[70vw] h-[50vh] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute -right-[20%] top-[10%] w-[70vw] h-[50vh] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      
+      <div className="flex-1 flex flex-col items-center w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 relative z-10 pt-8 md:pt-12">
         
-        {/* HERO TITLE */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <motion.h2 initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.4 }} className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-3">
-            {t.title}
-          </motion.h2>
-          <motion.p initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.4, delay: 0.1 }} className="text-[14px] sm:text-[15px] font-medium text-slate-500 leading-relaxed max-w-lg mx-auto">
-            {t.subtitle}
-          </motion.p>
-        </div>
+        {/* --- HERO SECTION --- */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 md:mb-14 max-w-2xl flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200/80 text-slate-700 font-bold text-[10px] md:text-[12px] uppercase tracking-widest mb-4 shadow-sm">
+            <BookCopy size={14} className="text-indigo-500" /> {t.heroBadge}
+          </div>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-3 leading-tight">{t.title}</h1>
+          <p className="text-slate-500 text-[14px] md:text-[16px] font-medium leading-relaxed px-4">{t.subtitle}</p>
+        </motion.div>
 
-        {/* LIST OF CARDS (HORIZONTAL LAYOUT) */}
-        <div className="flex flex-col gap-6">
-          
-          {/* ==================================================== */}
-          {/* CARD 1: STANDARD TESTS (BLUE/CYAN)                   */}
-          {/* ==================================================== */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-            onClick={() => router.push('/teacher/library/tests')}
-            className="group relative bg-white rounded-[2rem] p-5 sm:p-6 md:p-8 border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(59,130,246,0.1)] hover:border-blue-300 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col md:flex-row items-center gap-6 md:gap-10"
-          >
-            <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-400/10 rounded-full blur-[80px] group-hover:bg-blue-400/20 transition-all duration-700 pointer-events-none" />
-            
-            {/* Left SVG Side */}
-            <div className="w-full md:w-44 h-40 md:h-44 bg-slate-50/80 rounded-3xl border border-slate-100 flex items-center justify-center p-4 shrink-0 group-hover:bg-blue-50/80 transition-colors relative overflow-hidden">
-              <div className="absolute inset-0 bg-grid-slate-100/[0.04] bg-[size:20px_20px]" />
-              <div className="w-28 h-28 relative z-10 transition-transform duration-500 group-hover:scale-110">
-                <TestsIllustration />
-              </div>
-            </div>
-            
-            {/* Right Info Side */}
-            <div className="flex-1 w-full relative z-10">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="text-[22px] font-black text-slate-900 group-hover:text-blue-600 transition-colors">{t.testsTitle}</h3>
-                <div className="hidden sm:flex w-10 h-10 rounded-full bg-slate-50 items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
-                  <ChevronRight size={20} className="group-hover:translate-x-0.5 transition-transform"/>
+        {/* --- DYNAMIC CARDS GRID --- */}
+        <motion.div variants={containerVariants} initial="hidden" animate="show" className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 max-w-4xl">
+          {LIBRARY_CARDS.map((item) => {
+            const theme = THEMES[item.theme as keyof typeof THEMES];
+            return (
+              <motion.div 
+                key={item.id} variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push(item.href)} 
+                className={`group relative bg-white rounded-3xl md:rounded-[2rem] p-5 md:p-8 border border-slate-200/80 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col ${theme.border} hover:shadow-2xl ${theme.shadow}`}
+              >
+                <CardIllustration theme={item.theme} />
+                
+                {/* Header: Icon & Badge */}
+                <div className="flex justify-between items-start mb-6 relative z-10">
+                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm border border-slate-100 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 shrink-0 ${theme.bg} ${theme.text} ${theme.iconBg}`}>
+                    <item.icon size={28} strokeWidth={2.5} className="md:w-8 md:h-8" />
+                  </div>
+                  <span className={`text-[10px] font-black px-2.5 py-1.5 rounded-lg border uppercase tracking-widest bg-white shadow-sm ${theme.text} border-${item.theme}-200`}>{item.data.badge}</span>
                 </div>
-              </div>
-              <p className="text-[14.5px] text-slate-500 font-medium leading-relaxed mb-6">
-                {t.testsDesc}
-              </p>
 
-              {/* Modern Pill Tags */}
-              <div className="flex flex-wrap gap-2 sm:gap-3">
-                {t.testsFeatures.map((feature, i) => (
-                  <span key={i} className="flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-lg text-[13px] font-bold border border-blue-100 shadow-sm">
-                    <CheckCircle2 size={14} strokeWidth={2.5}/> {feature}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* ==================================================== */}
-          {/* CARD 2: BSB/CHSB ASSESSMENTS (PURPLE/PINK)             */}
-          {/* ==================================================== */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
-            onClick={() => router.push('/teacher/library/assessments')}
-            className="group relative bg-white rounded-[2rem] p-5 sm:p-6 md:p-8 border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(168,85,247,0.1)] hover:border-purple-300 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col md:flex-row items-center gap-6 md:gap-10"
-          >
-            <div className="absolute -top-32 -right-32 w-96 h-96 bg-purple-400/10 rounded-full blur-[80px] group-hover:bg-purple-400/20 transition-all duration-700 pointer-events-none" />
-            
-            {/* Left SVG Side */}
-            <div className="w-full md:w-44 h-40 md:h-44 bg-slate-50/80 rounded-3xl border border-slate-100 flex items-center justify-center p-4 shrink-0 group-hover:bg-purple-50/80 transition-colors relative overflow-hidden">
-              <div className="absolute inset-0 bg-grid-slate-100/[0.04] bg-[size:20px_20px]" />
-              <div className="w-28 h-28 relative z-10 transition-transform duration-500 group-hover:scale-110">
-                <AssessmentsIllustration />
-              </div>
-            </div>
-            
-            {/* Right Info Side */}
-            <div className="flex-1 w-full relative z-10">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="text-[20px] font-black text-slate-900 group-hover:text-purple-600 transition-colors">{t.assessTitle}</h3>
-                <div className="hidden sm:flex w-10 h-10 rounded-full bg-slate-50 items-center justify-center text-slate-400 group-hover:bg-purple-600 group-hover:text-white transition-colors shadow-sm">
-                  <ChevronRight size={20} className="group-hover:translate-x-0.5 transition-transform"/>
+                {/* Text Content */}
+                <div className="relative z-10 flex-1">
+                  <h2 className={`text-[20px] md:text-[22px] font-black text-slate-900 group-hover:${theme.text} transition-colors leading-tight mb-2 md:mb-3`}>{item.data.title}</h2>
+                  <p className="text-[13px] md:text-[15px] text-slate-500 font-medium leading-relaxed mb-6 md:mb-8 line-clamp-3">{item.data.desc}</p>
+                  
+                  {/* Pills */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {item.data.features.map((feature: string, i: number) => (
+                      <span key={i} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] md:text-[12px] font-bold border shadow-sm bg-white ${theme.text} border-${item.theme}-200`}>
+                        {i === 0 ? <CheckCircle2 size={14}/> : i === 1 ? <Layers size={14}/> : <Sparkles size={14}/>} {feature}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <p className="text-[14.5px] text-slate-500 font-medium leading-relaxed mb-6">
-                {t.assessDesc}
-              </p>
+                
+                {/* Bottom Action */}
+                <div className={`flex items-center justify-between mt-auto pt-4 border-t border-slate-100 relative z-10 transition-colors group-hover:border-${item.theme}-100`}>
+                  <span className={`text-[14px] font-black transition-colors ${theme.text}`}>{item.data.btn}</span>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm bg-white border border-slate-200 group-hover:bg-${item.theme}-600 group-hover:text-white group-hover:border-transparent ${theme.text}`}>
+                    <ArrowRight size={16} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
-              {/* Modern Pill Tags */}
-              <div className="flex flex-wrap gap-2 sm:gap-3">
-                {t.assessFeatures.map((feature, i) => (
-                  <span key={i} className="flex items-center gap-1.5 bg-purple-50 text-purple-700 px-3.5 py-1.5 rounded-lg text-[13px] font-bold border border-purple-100 shadow-sm">
-                    {i === 1 ? <Printer size={14} strokeWidth={2.5}/> : i === 0 ? <Layers size={14} strokeWidth={2.5}/> : <Sparkles size={14} strokeWidth={2.5}/>}
-                    {feature}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

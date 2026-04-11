@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom'; // 🟢 ADDED PORTAL
 import { db, storage } from '@/lib/firebase';
 import { collection, query, orderBy, limit, startAfter, getDocs, doc, deleteDoc, updateDoc, where } from 'firebase/firestore';
 import { ref, deleteObject } from 'firebase/storage';
@@ -55,6 +56,10 @@ const PAGE_SIZE = 10;
 export default function MaterialsTab({ classId }: { classId: string }) {
   const { lang } = useTeacherLanguage();
   const t = MATERIALS_TRANSLATIONS[lang] || MATERIALS_TRANSLATIONS['en'];
+
+  // 🟢 SSR HYDRATION FIX FOR PORTAL
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // --- STATE ---
   const [materials, setMaterials] = useState<any[]>([]);
@@ -269,14 +274,14 @@ export default function MaterialsTab({ classId }: { classId: string }) {
 
   // --- RENDER ---
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       
       {/* ACTIVE / ARCHIVED TOGGLE */}
-      <div className="flex p-1.5 bg-slate-200/50 rounded-[1rem] shadow-inner max-w-xs">
-        <button onClick={() => setShowArchived(false)} className={`flex-1 py-2 text-[12px] font-bold rounded-xl transition-all ${!showArchived ? 'bg-white shadow-[0_2px_8px_rgb(0,0,0,0.04)] text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}>
+      <div className="flex p-1.5 bg-slate-200/50 rounded-[1rem] shadow-inner max-w-xs mx-auto md:mx-0">
+        <button onClick={() => setShowArchived(false)} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-xl transition-all ${!showArchived ? 'bg-white shadow-[0_2px_8px_rgb(0,0,0,0.04)] text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}>
           {t.tabs.active}
         </button>
-        <button onClick={() => setShowArchived(true)} className={`flex-1 py-2 text-[12px] font-bold rounded-xl transition-all ${showArchived ? 'bg-white shadow-[0_2px_8px_rgb(0,0,0,0.04)] text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}>
+        <button onClick={() => setShowArchived(true)} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-xl transition-all ${showArchived ? 'bg-white shadow-[0_2px_8px_rgb(0,0,0,0.04)] text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}>
           {t.tabs.archived}
         </button>
       </div>
@@ -285,15 +290,15 @@ export default function MaterialsTab({ classId }: { classId: string }) {
       {loadingInitial ? (
         <div className="py-12 flex justify-center"><Loader2 className="animate-spin text-indigo-500" size={28}/></div>
       ) : materials.length === 0 ? (
-        <div className="text-center py-16 bg-slate-50 rounded-[2rem] border border-dashed border-slate-200 flex flex-col items-center">
-          <div className="w-16 h-16 bg-white rounded-[1.2rem] flex items-center justify-center mb-4 shadow-sm text-slate-300">
-            {showArchived ? <Archive size={32} /> : <FileText size={32} />}
+        <div className="text-center py-12 md:py-16 bg-slate-50 rounded-[1.5rem] md:rounded-[2rem] border border-dashed border-slate-200 flex flex-col items-center">
+          <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-xl md:rounded-[1.2rem] flex items-center justify-center mb-3 md:mb-4 shadow-sm text-slate-300">
+            {showArchived ? <Archive size={28} /> : <FileText size={28} />}
           </div>
-          <h3 className="text-slate-800 font-black text-[16px]">{showArchived ? t.empty.archiveTitle : t.empty.activeTitle}</h3>
-          <p className="text-[13px] font-medium text-slate-500 mt-1 max-w-xs">{showArchived ? t.empty.archiveDesc : t.empty.activeDesc}</p>
+          <h3 className="text-slate-800 font-black text-[14px] md:text-[16px]">{showArchived ? t.empty.archiveTitle : t.empty.activeTitle}</h3>
+          <p className="text-[12px] md:text-[13px] font-medium text-slate-500 mt-1 max-w-xs">{showArchived ? t.empty.archiveDesc : t.empty.activeDesc}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
           {materials.map((mat, index) => {
             const isLastElement = index === materials.length - 1;
             const style = getSemanticStyle(mat.fileType);
@@ -303,34 +308,34 @@ export default function MaterialsTab({ classId }: { classId: string }) {
               <div 
                 key={mat.id} 
                 ref={isLastElement ? lastElementRef : null}
-                className={`bg-white p-5 rounded-[1.5rem] border transition-all duration-300 shadow-sm group flex flex-col justify-between ${
-                  !mat.isVisible ? 'border-dashed border-slate-300 opacity-60 hover:opacity-100' : `border-slate-200/80 hover:shadow-md ${style.hover} hover:-translate-y-0.5`
+                className={`bg-white p-4 md:p-5 rounded-[1.2rem] md:rounded-[1.5rem] border transition-all duration-300 shadow-sm group flex flex-col justify-between ${
+                  !mat.isVisible ? 'border-dashed border-slate-300 opacity-60 hover:opacity-100' : `border-slate-200/80 hover:shadow-md ${style.hover} hover:-translate-y-0.5 active:scale-[0.98] md:active:scale-100`
                 }`}
               >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className={`w-12 h-12 rounded-[14px] border flex items-center justify-center shrink-0 shadow-inner ${style.bg} ${style.color} ${style.border}`}>
-                    <IconComp size={24} strokeWidth={2}/>
+                <div className="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-[14px] border flex items-center justify-center shrink-0 shadow-inner ${style.bg} ${style.color} ${style.border}`}>
+                    <IconComp size={20} strokeWidth={2.5} className="md:w-6 md:h-6 md:stroke-2" />
                   </div>
                   
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex-1 min-w-0 pt-0.5">
+                    <div className="flex flex-wrap items-center gap-1.5 mb-1 md:mb-1.5">
                       {mat.topicId && (
-                        <span className="bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-200/60 shadow-sm">
+                        <span className="bg-slate-100 text-slate-500 text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-200/60 shadow-sm">
                           <Folder size={10}/> {mat.topicId}
                         </span>
                       )}
                       {!mat.isVisible && (
-                        <span className="bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-200/60 shadow-sm">
+                        <span className="bg-slate-100 text-slate-500 text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md flex items-center gap-1 border border-slate-200/60 shadow-sm">
                           <EyeOff size={10}/> {t.labels.hidden}
                         </span>
                       )}
                     </div>
-                    <h3 className="font-black text-[15px] text-slate-900 truncate">{mat.title}</h3>
-                    <p className="text-[12px] font-medium text-slate-500 truncate mt-0.5">{mat.description || '...'}</p>
+                    <h3 className="font-black text-[14px] md:text-[15px] text-slate-900 truncate leading-snug">{mat.title}</h3>
+                    <p className="text-[11px] md:text-[12px] font-medium text-slate-500 truncate mt-0.5 md:mt-1">{mat.description || '...'}</p>
                     
-                    <div className="flex items-center gap-3 mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <div className="flex items-center gap-2 md:gap-3 mt-1.5 md:mt-2 text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       {mat.isExternal ? (
-                         <span className="text-emerald-500 flex items-center gap-1"><ExternalLink size={12}/> {t.labels.externalLink}</span>
+                         <span className="text-emerald-500 flex items-center gap-1"><ExternalLink size={10} className="md:w-3 md:h-3"/> {t.labels.externalLink}</span>
                       ) : (
                          <span>{(mat.fileSize / 1024 / 1024).toFixed(2)} MB</span>
                       )}
@@ -340,26 +345,26 @@ export default function MaterialsTab({ classId }: { classId: string }) {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100/80">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 md:pt-4 border-t border-slate-100/80">
                   <a 
                     href={mat.fileUrl} target="_blank" rel="noopener noreferrer" 
-                    className={`px-4 py-2 rounded-xl text-[12px] font-bold flex items-center gap-2 transition-all active:scale-95 ${style.bg} ${style.color} hover:brightness-95 border ${style.border}`}
+                    className={`px-4 py-2.5 md:py-2 rounded-xl text-[11px] md:text-[12px] font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${style.bg} ${style.color} hover:brightness-95 border ${style.border} text-center w-full sm:w-auto`}
                   >
                     {mat.isExternal ? <><ExternalLink size={14}/> {t.labels.view}</> : <><Download size={14}/> {t.labels.download}</>}
                   </a>
                   
-                  <div className="flex gap-1.5">
-                    <button onClick={() => setConfirmDialog({ type: 'visibility', mat })} className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 border border-slate-200/50 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition-colors" title={mat.isVisible ? t.tooltips.hide : t.tooltips.show}>
-                      {mat.isVisible ? <EyeOff size={14} strokeWidth={2.5}/> : <Eye size={14} strokeWidth={2.5}/>}
+                  <div className="flex gap-1.5 justify-end w-full sm:w-auto">
+                    <button onClick={() => setConfirmDialog({ type: 'visibility', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-xl sm:rounded-lg bg-slate-50 text-slate-400 border border-slate-200/50 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition-colors active:scale-95" title={mat.isVisible ? t.tooltips.hide : t.tooltips.show}>
+                      {mat.isVisible ? <EyeOff size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/> : <Eye size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>}
                     </button>
-                    <button onClick={() => openEditModal(mat)} className="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 border border-blue-100/50 hover:bg-blue-100 hover:text-blue-600 flex items-center justify-center transition-colors" title={t.tooltips.edit}>
-                      <Edit size={14} strokeWidth={2.5}/>
+                    <button onClick={() => openEditModal(mat)} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-xl sm:rounded-lg bg-blue-50 text-blue-500 border border-blue-100/50 hover:bg-blue-100 hover:text-blue-600 flex items-center justify-center transition-colors active:scale-95" title={t.tooltips.edit}>
+                      <Edit size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>
                     </button>
-                    <button onClick={() => setConfirmDialog({ type: 'archive', mat })} className="w-8 h-8 rounded-lg bg-amber-50 text-amber-500 border border-amber-100/50 hover:bg-amber-100 hover:text-amber-600 flex items-center justify-center transition-colors" title={mat.isArchived ? t.tooltips.unarchive : t.tooltips.archive}>
-                      {mat.isArchived ? <ArchiveRestore size={14} strokeWidth={2.5}/> : <Archive size={14} strokeWidth={2.5}/>}
+                    <button onClick={() => setConfirmDialog({ type: 'archive', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-xl sm:rounded-lg bg-amber-50 text-amber-500 border border-amber-100/50 hover:bg-amber-100 hover:text-amber-600 flex items-center justify-center transition-colors active:scale-95" title={mat.isArchived ? t.tooltips.unarchive : t.tooltips.archive}>
+                      {mat.isArchived ? <ArchiveRestore size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/> : <Archive size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>}
                     </button>
-                    <button onClick={() => setConfirmDialog({ type: 'delete', mat })} className="w-8 h-8 rounded-lg bg-red-50 text-red-500 border border-red-100/50 hover:bg-red-100 hover:text-red-600 flex items-center justify-center transition-colors" title={t.tooltips.delete}>
-                      <Trash2 size={14} strokeWidth={2.5}/>
+                    <button onClick={() => setConfirmDialog({ type: 'delete', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-xl sm:rounded-lg bg-red-50 text-red-500 border border-red-100/50 hover:bg-red-100 hover:text-red-600 flex items-center justify-center transition-colors active:scale-95" title={t.tooltips.delete}>
+                      <Trash2 size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>
                     </button>
                   </div>
                 </div>
@@ -369,73 +374,81 @@ export default function MaterialsTab({ classId }: { classId: string }) {
         </div>
       )}
 
-      {loadingMore && <div className="py-6 flex justify-center"><Loader2 className="animate-spin text-indigo-500" size={24}/></div>}
+      {loadingMore && <div className="py-4 md:py-6 flex justify-center"><Loader2 className="animate-spin text-indigo-500" size={24}/></div>}
 
-      {/* --- CONFIRMATION MODAL --- */}
-      {confirmDialog && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onClick={() => setConfirmDialog(null)}></div>
-          <div className="relative bg-white rounded-[2rem] w-full max-w-sm p-6 md:p-8 shadow-2xl animate-in zoom-in-95 text-center border border-slate-100">
+      {/* --- CONFIRMATION MODAL (PORTAL) --- */}
+      {mounted && confirmDialog && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6">
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setConfirmDialog(null)}></div>
+          <div className="relative bg-white rounded-[2rem] w-full max-w-sm p-6 md:p-8 shadow-2xl animate-in zoom-in-95 fade-in text-center border border-slate-100">
             <div className={`w-14 h-14 rounded-[1.2rem] flex items-center justify-center mb-5 mx-auto ${confirmDialog.type === 'delete' ? 'bg-red-50 text-red-500' : 'bg-amber-50 text-amber-500'}`}>
               <AlertTriangle size={24} strokeWidth={2.5} />
             </div>
-            <h2 className="text-[18px] font-black text-slate-900 mb-2">{t.modals.confirmTitle}</h2>
-            <p className="text-[13px] text-slate-500 font-medium mb-6 leading-relaxed">
+            <h2 className="text-[16px] md:text-[18px] font-black text-slate-900 mb-2">{t.modals.confirmTitle}</h2>
+            <p className="text-[12px] md:text-[13px] text-slate-500 font-medium mb-6 leading-relaxed px-2">
               {confirmDialog.type === 'visibility' ? (confirmDialog.mat.isVisible ? t.modals.hideMsg : t.modals.showMsg) : confirmDialog.type === 'archive' ? (confirmDialog.mat.isArchived ? t.modals.unarchiveMsg : t.modals.archiveMsg) : t.modals.deleteMsg}
             </p>
-            <div className="flex gap-3">
-              <button onClick={() => setConfirmDialog(null)} disabled={isProcessing} className="flex-1 py-3 text-[13px] font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80">{t.modals.cancel}</button>
-              <button onClick={executeConfirmAction} disabled={isProcessing} className={`flex-1 py-3 text-[13px] font-bold text-white rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 ${confirmDialog.type === 'delete' ? 'bg-red-600 hover:bg-red-700 shadow-red-600/20' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/20'}`}>
+            <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
+              <button onClick={() => setConfirmDialog(null)} disabled={isProcessing} className="w-full py-3.5 sm:py-3 text-[12px] sm:text-[13px] font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80 active:scale-95">{t.modals.cancel}</button>
+              <button onClick={executeConfirmAction} disabled={isProcessing} className={`w-full py-3.5 sm:py-3 text-[12px] sm:text-[13px] font-bold text-white rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 ${confirmDialog.type === 'delete' ? 'bg-red-600 hover:bg-red-700 shadow-red-600/20' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/20'}`}>
                 {isProcessing && <Loader2 size={16} className="animate-spin"/>} {t.modals.confirm}
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* --- EDIT MODAL --- */}
-      {editingMat && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onClick={() => setEditingMat(null)}></div>
-          <div className="relative bg-white rounded-[2rem] w-full max-w-md shadow-2xl animate-in zoom-in-95 border border-slate-100 flex flex-col max-h-[90vh]">
-            <div className="px-6 md:px-8 py-5 border-b border-slate-100 bg-white flex justify-between items-center shrink-0">
+      {/* --- EDIT MODAL (PORTAL) --- */}
+      {mounted && editingMat && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-end sm:items-center justify-center p-0 sm:p-6">
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setEditingMat(null)}></div>
+          <div className="relative bg-white rounded-t-[2rem] sm:rounded-[2rem] w-full max-w-md shadow-2xl animate-in slide-in-from-bottom-10 sm:zoom-in-95 fade-in border border-slate-100 flex flex-col h-[90vh] sm:h-auto sm:max-h-[90vh]">
+            
+            <div className="px-5 py-4 sm:px-8 sm:py-5 border-b border-slate-100 bg-white/90 backdrop-blur-xl flex justify-between items-center shrink-0 z-20 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-sm shrink-0"><Edit size={18} strokeWidth={2.5}/></div>
-                <h2 className="text-[18px] font-black text-slate-900 tracking-tight">{t.modals.editTitle}</h2>
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-sm shrink-0">
+                   <Edit size={16} strokeWidth={2.5} className="sm:w-[18px] sm:h-[18px]" />
+                </div>
+                <h2 className="text-[16px] sm:text-[18px] font-black text-slate-900 tracking-tight">{t.modals.editTitle}</h2>
               </div>
-              <button onClick={() => setEditingMat(null)} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full text-slate-400 hover:text-slate-600 transition-colors"><X size={16} strokeWidth={2.5}/></button>
+              <button onClick={() => setEditingMat(null)} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-full text-slate-400 hover:text-slate-600 transition-colors active:scale-95 shrink-0">
+                 <X size={18} strokeWidth={2.5}/>
+              </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-4 bg-[#FAFAFA] custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-4 sm:space-y-5 bg-[#FAFAFA] custom-scrollbar pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-8">
               <div>
-                <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.modals.titleLabel}</label>
-                <input type="text" value={editForm.title} onChange={e => setEditForm({...editForm, title: e.target.value})} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[14px] font-bold text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm" />
+                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">{t.modals.titleLabel}</label>
+                <input type="text" value={editForm.title} onChange={e => setEditForm({...editForm, title: e.target.value})} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[13px] sm:text-[14px] font-bold text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm" />
               </div>
               <div>
-                <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5"><Folder size={12}/> {t.modals.topicLabel}</label>
-                <input type="text" value={editForm.topicId} onChange={e => setEditForm({...editForm, topicId: e.target.value})} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[14px] font-bold text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm" />
+                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2 flex items-center gap-1.5"><Folder size={12}/> {t.modals.topicLabel}</label>
+                <input type="text" value={editForm.topicId} onChange={e => setEditForm({...editForm, topicId: e.target.value})} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[13px] sm:text-[14px] font-bold text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm" />
               </div>
               <div>
-                <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.modals.descLabel}</label>
-                <textarea value={editForm.description} onChange={e => setEditForm({...editForm, description: e.target.value})} rows={2} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[14px] font-medium text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none resize-none transition-all shadow-sm" />
+                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">{t.modals.descLabel}</label>
+                <textarea value={editForm.description} onChange={e => setEditForm({...editForm, description: e.target.value})} rows={3} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[13px] sm:text-[14px] font-medium text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none resize-none transition-all shadow-sm" />
               </div>
               {editingMat.isExternal && (
                 <div>
-                  <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{t.modals.urlLabel}</label>
-                  <input type="url" value={editForm.externalUrl} onChange={e => setEditForm({...editForm, externalUrl: e.target.value})} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[14px] font-bold text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm" />
+                  <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">{t.modals.urlLabel}</label>
+                  <input type="url" value={editForm.externalUrl} onChange={e => setEditForm({...editForm, externalUrl: e.target.value})} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-[1rem] text-[13px] sm:text-[14px] font-bold text-slate-900 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm" />
                 </div>
               )}
             </div>
 
-            <div className="px-6 md:px-8 py-4 border-t border-slate-100 bg-white flex justify-end gap-3 shrink-0">
-              <button onClick={() => setEditingMat(null)} disabled={isProcessing} className="px-6 py-2.5 text-slate-500 font-bold hover:bg-slate-50 rounded-xl text-[13px] transition-colors">{t.modals.cancel}</button>
-              <button onClick={handleEditSave} disabled={isProcessing || !editForm.title.trim()} className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition-all flex items-center gap-2 text-[13px] disabled:opacity-50">
+            <div className="px-4 sm:px-8 py-4 sm:py-5 border-t border-slate-100 bg-white flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 shrink-0 z-20 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-5 shadow-[0_-10px_30px_rgb(0,0,0,0.03)]">
+              <button onClick={() => setEditingMat(null)} disabled={isProcessing} className="w-full sm:w-auto px-6 py-3.5 sm:py-2.5 text-slate-600 bg-slate-50 border border-slate-200/80 font-bold hover:bg-slate-100 hover:text-slate-900 rounded-xl text-[12px] sm:text-[13px] transition-colors active:scale-95">{t.modals.cancel}</button>
+              <button onClick={handleEditSave} disabled={isProcessing || !editForm.title.trim()} className="w-full sm:w-auto px-8 py-3.5 sm:py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition-all flex items-center justify-center gap-2 text-[12px] sm:text-[13px] disabled:opacity-50 active:scale-95">
                 {isProcessing && <Loader2 className="animate-spin" size={16}/>} {t.modals.save}
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
+
     </div>
   );
 }

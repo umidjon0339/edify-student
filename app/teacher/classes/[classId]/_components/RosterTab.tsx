@@ -160,7 +160,6 @@ export default function RosterTab({ classId, studentIds }: Props) {
     }
   };
 
-  // 🟢 100k Ready: Promise Chunking (Prevents browser freeze with 300+ students)
   const revalidateLoadedData = async (currentPage: number) => {
     try {
       const newAssignments = await fetchAssignments();
@@ -172,7 +171,6 @@ export default function RosterTab({ classId, studentIds }: Props) {
       const CHUNK_SIZE = 10;
       const freshStudents: any[] = [];
 
-      // Fetch in batches of 10 to save memory and network queue
       for (let i = 0; i < idsToRefetch.length; i += CHUNK_SIZE) {
         const chunkIds = idsToRefetch.slice(i, i + CHUNK_SIZE);
         const promises = chunkIds.map(uid => getDoc(doc(db, 'users', uid)));
@@ -236,9 +234,9 @@ export default function RosterTab({ classId, studentIds }: Props) {
 
   if (students.length === 0) {
     return (
-      <div className="py-16 flex flex-col items-center justify-center text-center bg-slate-50/50 rounded-3xl border-2 border-dashed border-slate-200">
-        <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4"><Users size={32} className="text-slate-300"/></div>
-        <p className="text-[16px] font-black text-slate-700">{t.empty}</p>
+      <div className="py-12 md:py-16 flex flex-col items-center justify-center text-center bg-slate-50/50 rounded-2xl md:rounded-3xl border-2 border-dashed border-slate-200 mx-2 md:mx-0">
+        <div className="w-12 h-12 md:w-16 md:h-16 bg-slate-100 rounded-full flex items-center justify-center mb-3 md:mb-4"><Users size={24} className="text-slate-300 md:w-8 md:h-8"/></div>
+        <p className="text-[14px] md:text-[16px] font-black text-slate-700">{t.empty}</p>
       </div>
     );
   }
@@ -247,16 +245,16 @@ export default function RosterTab({ classId, studentIds }: Props) {
     <>
       <StudentDetailsModal isOpen={isDetailsOpen} onClose={() => setIsDetailsOpen(false)} student={selectedStudent} assignments={assignments} classId={classId} />
 
-      <div className="space-y-4">
+      <div className="space-y-2.5 md:space-y-4">
         {students.map((student, index) => {
           const color = getStudentColor(student.uid);
           const isLastElement = index === students.length - 1;
 
-          // Premium Angled Gradient Match (Kept exactly as requested)
+          // Premium Angled Gradient Match (Compact for mobile)
           const bgGradient = student.isDeleted 
             ? 'linear-gradient(135deg, #FAFAFA 0%, #FAFAFA 100%)' 
-            : `linear-gradient(135deg, ${hexToRgba(color, 0.1)} 0%, #FFFFFF 30%, #FFFFFF 100%)`;
-          const borderColor = student.isDeleted ? '#F1F5F9' : hexToRgba(color, 0.2);
+            : `linear-gradient(135deg, ${hexToRgba(color, 0.08)} 0%, #FFFFFF 40%, #FFFFFF 100%)`;
+          const borderColor = student.isDeleted ? '#F8FAFC' : hexToRgba(color, 0.15);
 
           return (
             <div 
@@ -264,25 +262,25 @@ export default function RosterTab({ classId, studentIds }: Props) {
               ref={isLastElement ? lastElementRef : null}
               onClick={() => handleShowDetails(student)}
               style={{ background: bgGradient, borderColor: borderColor }}
-              className={`p-4 md:p-5 rounded-[1.2rem] border flex items-center justify-between gap-4 group transition-all duration-300 ${!student.isDeleted ? 'cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-0.5' : ''}`}
+              className={`p-3 md:p-5 rounded-2xl md:rounded-[1.2rem] border flex items-center justify-between gap-2 md:gap-4 group transition-all duration-200 ${!student.isDeleted ? 'cursor-pointer active:scale-[0.98] md:active:scale-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-0.5' : ''}`}
             >
               
-              <div className="flex items-center gap-4 min-w-0">
-                <div style={{ color: student.isDeleted ? '#94A3B8' : hexToRgba(color, 0.6) }} className="text-[13px] font-black w-6 text-center shrink-0">
+              <div className="flex items-center gap-2.5 md:gap-4 min-w-0 flex-1">
+                <div style={{ color: student.isDeleted ? '#94A3B8' : hexToRgba(color, 0.6) }} className="text-[11px] md:text-[13px] font-black w-4 md:w-6 text-center shrink-0">
                   {index + 1}
                 </div>
                 
                 {/* 🟢 Profile Picture Render Fix + overflow-hidden */}
                 <div 
                   style={{ backgroundColor: student.isDeleted ? '#F1F5F9' : hexToRgba(color, 0.15), borderColor: student.isDeleted ? '#E2E8F0' : hexToRgba(color, 0.3), color: student.isDeleted ? '#94A3B8' : color }} 
-                  className="w-12 h-12 rounded-[1rem] border flex items-center justify-center font-black text-[18px] shrink-0 overflow-hidden"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-[1rem] border flex items-center justify-center font-black text-[14px] md:text-[18px] shrink-0 overflow-hidden shadow-sm"
                 >
                   {student.isDeleted ? (
-                    <UserX size={20}/> 
+                    <UserX size={18} className="md:w-5 md:h-5"/> 
                   ) : student.photoURL || student.photoUrl || student.avatar ? (
                     <img 
                       src={student.photoURL || student.photoUrl || student.avatar} 
-                      alt="Student Avatar" 
+                      alt="Avatar" 
                       className="w-full h-full object-cover" 
                     />
                   ) : (
@@ -290,25 +288,29 @@ export default function RosterTab({ classId, studentIds }: Props) {
                   )}
                 </div>
                 
-                <div className="min-w-0 pr-2">
-                  <p style={{ color: student.isDeleted ? '#64748B' : '#0F172A' }} className="font-black text-[15px] truncate">
+                <div className="min-w-0 pr-2 flex-1">
+                  <p style={{ color: student.isDeleted ? '#64748B' : '#0F172A' }} className="font-black text-[14px] md:text-[15px] truncate leading-tight">
                     {student.isDeleted ? t.deleted : student.displayName}
                   </p>
-                  <p style={{ color: student.isDeleted ? '#94A3B8' : '#64748B' }} className="text-[12px] font-bold truncate mt-0.5">
+                  <p style={{ color: student.isDeleted ? '#94A3B8' : '#64748B' }} className="text-[11px] md:text-[12px] font-bold truncate mt-0.5">
                     @{student.username || 'student'}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
                 
-                <button onClick={(e) => handleRemove(e, student.uid)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors z-10" title={t.removeBtn}>
-                  <Trash2 size={18} />
+                <button 
+                  onClick={(e) => handleRemove(e, student.uid)} 
+                  className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl bg-white md:bg-slate-50 text-slate-300 md:text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors z-10 active:scale-95 shadow-sm md:shadow-none border border-slate-100 md:border-transparent" 
+                  title={t.removeBtn}
+                >
+                  <Trash2 size={14} className="md:w-[18px] md:h-[18px]" strokeWidth={2.5}/>
                 </button>
 
                 {!student.isDeleted && (
-                  <div style={{ color: hexToRgba(color, 0.5) }} className="w-8 h-8 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                    <ChevronRight size={24} strokeWidth={2.5} />
+                  <div style={{ color: hexToRgba(color, 0.5) }} className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center md:group-hover:translate-x-1 transition-transform">
+                    <ChevronRight size={18} className="md:w-6 md:h-6" strokeWidth={2.5} />
                   </div>
                 )}
               </div>
@@ -317,10 +319,13 @@ export default function RosterTab({ classId, studentIds }: Props) {
         })}
 
         {loadingMore && (
-          <div className="py-6 flex justify-center">
-            <Loader2 className="animate-spin text-indigo-500" size={24}/>
-          </div>
-        )}
+        <div className="py-4 flex justify-center">
+          <Loader2 
+            size={20} 
+            className="animate-spin text-indigo-500 md:w-6 md:h-6" 
+          />
+        </div>
+      )}
       </div>
     </>
   );

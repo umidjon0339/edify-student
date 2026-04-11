@@ -1,82 +1,96 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowRight, Bot, PenTool, Image as ImageIcon, School, Award, GraduationCap, Zap, FileText } from "lucide-react";
+import { ArrowRight, Bot, PenTool, Image as ImageIcon, School, Award, GraduationCap, Zap, FileText, Calculator } from "lucide-react";
 import { useTeacherLanguage } from "@/app/teacher/layout"; 
 import { motion, Variants } from "framer-motion";
 
-// ============================================================================
-// 🎨 PREMIUM LAYERED SVG ILLUSTRATION FOR CARDS
-// ============================================================================
-const CardIllustration = ({ colorClass }: { colorClass: string }) => (
-  <svg viewBox="0 0 100 100" className={`w-full h-full drop-shadow-md opacity-40 group-hover:opacity-100 transition-all duration-500 ${colorClass}`} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <motion.circle cx="50" cy="50" r="38" fill="currentColor" fillOpacity="0.05" initial={{ scale: 0.9 }} animate={{ scale: [0.9, 1.05, 0.9] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-    <motion.g initial={{ y: 0 }} animate={{ y: [-4, 4, -4] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
-      <rect x="30" y="20" width="45" height="45" rx="12" fill="currentColor" fillOpacity="0.08" stroke="currentColor" strokeOpacity="0.3" strokeWidth="1.5" transform="rotate(12 55 45)" />
-      <rect x="20" y="35" width="45" height="45" rx="12" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeOpacity="0.5" strokeWidth="2" />
-      <path d="M30 50 H55 M30 60 H45" stroke="currentColor" strokeOpacity="0.8" strokeWidth="3" strokeLinecap="round" />
-    </motion.g>
-    <motion.circle cx="80" cy="75" r="8" fill="currentColor" fillOpacity="0.6" initial={{ y: 0, opacity: 0.5 }} animate={{ y: [5, -5, 5], opacity: [0.5, 1, 0.5] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
-    <motion.path d="M75 20 L76.5 25.5 L82 27 L76.5 28.5 L75 34 L73.5 28.5 L68 27 L73.5 25.5 Z" fill="currentColor" fillOpacity="0.8" initial={{ scale: 0.8, rotate: 0 }} animate={{ scale: [0.8, 1.2, 0.8], rotate: [0, 90, 180] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
-  </svg>
-);
+const CardIllustration = ({ theme }: { theme: string }) => {
+  return (
+    <div className={`absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-700 text-${theme}-500`}>
+      <svg viewBox="0 0 200 200" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        {/* Large Wireframe Circle */}
+        <motion.circle cx="160" cy="160" r="70" fill="none" stroke="currentColor" strokeOpacity="0.1" strokeWidth="2" strokeDasharray="10 10"
+          animate={{ rotate: [0, 360] }} 
+          style={{ originX: "160px", originY: "160px" }}
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }} 
+        />
+        {/* Solid Floating Triangle */}
+        <motion.polygon points="40,140 70,190 10,190" fill="currentColor" fillOpacity="0.05" stroke="currentColor" strokeOpacity="0.2" strokeWidth="1.5"
+          animate={{ y: [0, -15, 0], rotate: [0, 15, 0] }} 
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} 
+        />
+        {/* Floating Square */}
+        <motion.rect x="140" y="20" width="50" height="50" rx="8" fill="currentColor" fillOpacity="0.08"
+          animate={{ x: [0, -10, 0], y: [0, 15, 0], rotate: [0, 45, 0] }} 
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} 
+        />
+      </svg>
+    </div>
+  );
+};
 
 // ============================================================================
-// 🌐 TRANSLATION DICTIONARY (PUNCHY, ACTION-ORIENTED COPY)
+// 🌐 TRANSLATION DICTIONARY
 // ============================================================================
 const HUB_TRANSLATIONS: Record<string, any> = {
   uz: {
     heroBadge: "Studiya 2.0 ✨", title: "Test Yaratish Markazi", subtitle: "Maqsadingizga qarab, eng tezkor usulni tanlang.",
-    section1: "Ta'lim Dasturlari", section2: "AI va Maxsus Vositalar",
-    
+    sections: { cur: "Ta'lim Dasturlari", work: "Ishchi Varaqlar", ai: "AI va Maxsus Vositalar" },
     bsb: { badge: "Rasmiy", title: "BSB va CHSB", desc: "Matritsa asosida rasmiy chorak imtihonlarini avtomatik yarating.", btn: "Boshlash" },
     maktab: { badge: "Kundalik", title: "Maktab Dasturi", desc: "Darsliklar asosida tezkor so'rovlar va uy vazifalarini tuzing.", btn: "Boshlash" },
     ixtisos: { badge: "Mantiq", title: "Ixtisoslashtirilgan", desc: "Iqtidorli o'quvchilar uchun qiyinlashtirilgan, mantiqiy masalalar.", btn: "Boshlash" },
     abiturient: { badge: "DTM", title: "Abituriyent (Blok)", desc: "Oliy ta'limga kirish imtihonlari formatidagi 5 fanli blok testlar.", btn: "Boshlash" },
-    
+    mathOps: { badge: "Yangi", title: "Matematik Amallar", desc: "Qo'shish, ayirish, ko'paytirish va bo'lish uchun cheksiz PDF varaqlar.", btn: "Yaratish" },
     aiImage: { badge: "Skaner 📸", title: "Rasm Orqali", desc: "Eski testni rasmga oling. AI uni o'qib, yangi variantlarini tuzadi.", btn: "Yuklash" },
     aiPrompt: { badge: "Avtomat", title: "AI Maxsus Buyruq", desc: "Test mavzusini so'z bilan yozing, AI qolganini o'zi bajaradi.", btn: "Yozish" },
     custom: { badge: "Qo'l Mehnati", title: "Oq Qog'oz", desc: "Matematik klaviatura yordamida o'z savollaringizni noldan yozing.", btn: "Ochish" },
   },
   en: {
-    heroBadge: "Studio 2.0 ✨", title: "Test Creation Hub", subtitle: "Select the fastest workflow for your teaching goals.",
-    section1: "Curriculum Standards", section2: "AI & Manual Tools",
-    
+    heroBadge: "Studio 2.0 ✨", title: "Creation Hub", subtitle: "Select the fastest workflow for your teaching goals.",
+    sections: { cur: "Curriculum Exams", work: "Worksheets & Practice", ai: "AI & Manual Tools" },
     bsb: { badge: "Official", title: "BSB & CHSB", desc: "Instantly generate matrix-based, official term exam papers.", btn: "Start" },
     maktab: { badge: "Daily", title: "Public School", desc: "Create quick quizzes and homework based on standard textbooks.", btn: "Start" },
     ixtisos: { badge: "Logic", title: "Specialized Track", desc: "Generate multi-step, Olympiad-level logic problems.", btn: "Start" },
     abiturient: { badge: "University", title: "Entrance Exams", desc: "Build highly competitive subject blocks formatted for DTM.", btn: "Start" },
-    
+    mathOps: { badge: "New", title: "Math Operations", desc: "Generate endless PDF worksheets for basic arithmetic practice.", btn: "Generate" },
     aiImage: { badge: "Scanner 📸", title: "Create via Image", desc: "Snap a photo of an old test. AI will generate brand new variants.", btn: "Upload" },
     aiPrompt: { badge: "Auto", title: "AI Text Command", desc: "Just describe your topic. The AI builds the entire test for you.", btn: "Write" },
     custom: { badge: "Manual", title: "Blank Canvas", desc: "Write questions from scratch using our built-in math keyboard.", btn: "Open" },
   },
   ru: {
-    heroBadge: "Студия 2.0 ✨", title: "Центр Создания Тестов", subtitle: "Выберите самый быстрый способ для ваших целей.",
-    section1: "Учебные Программы", section2: "ИИ и Инструменты",
-    
-    bsb: { badge: "Официально", title: "Генератор BSB / CHSB", desc: "Автоматическое создание четвертных экзаменов по матрице.", btn: "Начать" },
+    heroBadge: "Студия 2.0 ✨", title: "Центр Создания", subtitle: "Выберите самый быстрый способ для ваших целей.",
+    sections: { cur: "Учебные Программы", work: "Рабочие Листы", ai: "ИИ и Инструменты" },
+    bsb: { badge: "Официально", title: "Генератор BSB", desc: "Автоматическое создание четвертных экзаменов по матрице.", btn: "Начать" },
     maktab: { badge: "Ежедневно", title: "Школьная программа", desc: "Быстрые тесты и домашки на основе стандартных учебников.", btn: "Начать" },
-    ixtisos: { badge: "Логика", title: "Спец. школы", desc: "Сложные, многоэтапные логические задачи для одаренных детей.", btn: "Начать" },
-    abiturient: { badge: "Поступление", title: "Подготовка в ВУЗ", desc: "Блоки по 5 предметам в формате вступительных экзаменов DTM.", btn: "Начать" },
-    
+    ixtisos: { badge: "Логика", title: "Спец. школы", desc: "Сложные, логические задачи для одаренных детей.", btn: "Начать" },
+    abiturient: { badge: "Поступление", title: "Подготовка в ВУЗ", desc: "Блоки по 5 предметам в формате вступительных экзаменов.", btn: "Начать" },
+    mathOps: { badge: "Новое", title: "Математические Операции", desc: "Бесконечные PDF-листы для практики сложения и вычитания.", btn: "Создать" },
     aiImage: { badge: "Сканер 📸", title: "Создать по фото", desc: "Сфотографируйте старый тест. ИИ создаст его новые аналоги.", btn: "Загрузить" },
     aiPrompt: { badge: "Автомат", title: "AI Свой Запрос", desc: "Просто опишите тему. ИИ сам составит готовый тест.", btn: "Написать" },
     custom: { badge: "Вручную", title: "Чистый Лист", desc: "Создавайте тесты с нуля, используя математическую клавиатуру.", btn: "Открыть" },
   }
 };
 
-// --- ANIMATION VARIANTS ---
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+// --- THEME ENGINE ---
+const THEMES = {
+  purple: { bg: 'bg-purple-50', text: 'text-purple-600', iconBg: 'group-hover:bg-purple-600', border: 'hover:border-purple-300', shadow: 'hover:shadow-purple-500/20' },
+  blue: { bg: 'bg-blue-50', text: 'text-blue-600', iconBg: 'group-hover:bg-blue-600', border: 'hover:border-blue-300', shadow: 'hover:shadow-blue-500/20' },
+  amber: { bg: 'bg-amber-50', text: 'text-amber-600', iconBg: 'group-hover:bg-amber-500', border: 'hover:border-amber-300', shadow: 'hover:shadow-amber-500/20' },
+  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', iconBg: 'group-hover:bg-emerald-600', border: 'hover:border-emerald-300', shadow: 'hover:shadow-emerald-500/20' },
+  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-600', iconBg: 'group-hover:bg-cyan-500', border: 'hover:border-cyan-300', shadow: 'hover:shadow-cyan-500/20' },
+  rose: { bg: 'bg-rose-50', text: 'text-rose-600', iconBg: 'group-hover:bg-rose-500', border: 'hover:border-rose-300', shadow: 'hover:shadow-rose-500/20' },
+  violet: { bg: 'bg-violet-50', text: 'text-violet-600', iconBg: 'group-hover:bg-violet-600', border: 'hover:border-violet-300', shadow: 'hover:shadow-violet-500/20' },
+  teal: { bg: 'bg-teal-50', text: 'text-teal-600', iconBg: 'group-hover:bg-teal-500', border: 'hover:border-teal-300', shadow: 'hover:shadow-teal-500/20' },
 };
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", bounce: 0.4, duration: 0.6 } },
-  hover: { y: -6, transition: { duration: 0.2 } },
-  tap: { scale: 0.96 }
+// --- ANIMATION VARIANTS ---
+const containerVariants: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+const cardVariants: Variants = { 
+  hidden: { opacity: 0, y: 15, scale: 0.98 }, 
+  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 25 } },
+  hover: { y: -4, transition: { duration: 0.2 } },
+  tap: { scale: 0.97 }
 };
 
 // ============================================================================
@@ -87,173 +101,106 @@ export default function CreateHubPage() {
   const { lang } = useTeacherLanguage();
   const t = HUB_TRANSLATIONS[lang] || HUB_TRANSLATIONS['uz'];
 
-  return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans relative overflow-hidden pb-24 selection:bg-indigo-100 selection:text-indigo-900">
-      
-      {/* 🟢 AMBIENT BACKGROUND GLOWS (Vercel Style) */}
-      <div className="absolute top-0 inset-x-0 h-[60vh] bg-gradient-to-b from-slate-100 to-transparent pointer-events-none z-0"></div>
-      <div className="absolute -left-[20%] top-[-10%] w-[70vw] h-[50vh] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute -right-[20%] top-[10%] w-[70vw] h-[50vh] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+  // --- 1. DATA STRUCTURE (Super easy to manage) ---
+  const SECTIONS = [
+    {
+      title: t.sections.cur,
+      items: [
+        { id: 'bsb', icon: FileText, theme: 'purple', href: '/teacher/create/bsb-chsb', data: t.bsb },
+        { id: 'maktab', icon: School, theme: 'blue', href: '/teacher/create/maktab', data: t.maktab },
+        { id: 'ixtisos', icon: Award, theme: 'amber', href: '/teacher/create/ixtisoslashtirilgan_maktab', data: t.ixtisos },
+        { id: 'abiturient', icon: GraduationCap, theme: 'emerald', href: '/teacher/create/abiturient', data: t.abiturient },
+      ]
+    },
+    {
+      title: t.sections.work,
+      items: [
+        { id: 'mathOps', icon: Calculator, theme: 'cyan', href: '/teacher/create/operations', data: t.mathOps },
+      ]
+    },
+    {
+      title: t.sections.ai,
+      items: [
+        { id: 'aiImage', icon: ImageIcon, theme: 'rose', href: '/teacher/create/by_image', data: t.aiImage },
+        { id: 'aiPrompt', icon: Bot, theme: 'violet', href: '/teacher/create/by_user_input', data: t.aiPrompt },
+        { id: 'custom', icon: PenTool, theme: 'teal', href: '/teacher/create/custom', data: t.custom },
+      ]
+    }
+  ];
 
-      <div className="flex-1 flex flex-col items-center w-full max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8 relative z-10 pt-12 md:pt-16">
+  return (
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans relative overflow-hidden pb-[100px] selection:bg-indigo-100 selection:text-indigo-900">
+      
+      {/* 🟢 AMBIENT BACKGROUND GLOWS */}
+      <div className="absolute top-0 inset-x-0 h-[40vh] bg-gradient-to-b from-slate-100 to-transparent pointer-events-none z-0"></div>
+      <div className="absolute -left-[20%] top-[-10%] w-[70vw] h-[50vh] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      
+      <div className="flex-1 flex flex-col items-center w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10 pt-8 md:pt-12">
         
         {/* --- HERO SECTION --- */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }} className="text-center mb-16 max-w-2xl flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200/80 text-slate-700 font-bold text-[12px] uppercase tracking-widest mb-6 shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 md:mb-16 max-w-2xl flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200/80 text-slate-700 font-bold text-[10px] md:text-[12px] uppercase tracking-widest mb-4 shadow-sm">
             <Zap size={14} className="fill-amber-400 text-amber-500" /> {t.heroBadge}
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-5 leading-tight">
-            {t.title}
-          </h1>
-          <p className="text-slate-500 text-[16px] md:text-[18px] font-medium leading-relaxed">
-            {t.subtitle}
-          </p>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-3 leading-tight">{t.title}</h1>
+          <p className="text-slate-500 text-[14px] md:text-[18px] font-medium leading-relaxed px-4">{t.subtitle}</p>
         </motion.div>
 
-        {/* ================= SECTION 1: CURRICULUMS ================= */}
-        <div className="w-full mb-16">
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="h-px flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-slate-300"></div>
-            <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest text-center">{t.section1}</h3>
-            <div className="h-px flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-slate-300"></div>
-          </div>
-          
-          <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* --- DYNAMIC SECTIONS RENDERER --- */}
+        {SECTIONS.map((section, sIdx) => (
+          <div key={sIdx} className="w-full mb-12 md:mb-16">
             
-            {/* 1. BSB/CHSB (Purple Glow) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/bsb-chsb')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-purple-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-purple-300 hover:shadow-[0_20px_40px_-15px_rgba(168,85,247,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 group-hover:border-purple-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <FileText size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-purple-100">{t.bsb.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-purple-700 transition-colors leading-tight relative z-10">{t.bsb.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.bsb.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-purple-600 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.bsb.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-purple-500" /></div>
-            </motion.div>
-
-            {/* 2. MAKTAB (Blue Glow) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/maktab')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-blue-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-blue-300 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:border-blue-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <School size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-blue-100">{t.maktab.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-blue-700 transition-colors leading-tight relative z-10">{t.maktab.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.maktab.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-blue-600 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.maktab.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-blue-500" /></div>
-            </motion.div>
-
-            {/* 3. IXTISOS (Amber Glow) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/ixtisoslashtirilgan_maktab')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-amber-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-amber-300 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <Award size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-amber-100">{t.ixtisos.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-amber-600 transition-colors leading-tight relative z-10">{t.ixtisos.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.ixtisos.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-amber-600 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.ixtisos.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-amber-500" /></div>
-            </motion.div>
-
-            {/* 4. ABITURIENT (Emerald Glow) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/abiturient')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-emerald-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-emerald-300 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:border-emerald-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <GraduationCap size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-emerald-100">{t.abiturient.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-emerald-700 transition-colors leading-tight relative z-10">{t.abiturient.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.abiturient.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-emerald-600 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.abiturient.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-emerald-500" /></div>
-            </motion.div>
-
-          </motion.div>
-        </div>
-
-        {/* ================= SECTION 2: ADVANCED TOOLS ================= */}
-        <div className="w-full">
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="h-px flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-slate-300"></div>
-            <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest text-center">{t.section2}</h3>
-            <div className="h-px flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-slate-300"></div>
-          </div>
-          
-          <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Section Divider */}
+            <div className="flex items-center justify-center gap-4 mb-6 md:mb-8">
+              <div className="h-px flex-1 max-w-[50px] md:max-w-[100px] bg-gradient-to-r from-transparent to-slate-300"></div>
+              <h3 className="text-[11px] md:text-[12px] font-black text-slate-400 uppercase tracking-widest text-center">{section.title}</h3>
+              <div className="h-px flex-1 max-w-[50px] md:max-w-[100px] bg-gradient-to-l from-transparent to-slate-300"></div>
+            </div>
             
-            {/* 5. IMAGE AI (Rose) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/by_image')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-rose-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-rose-300 hover:shadow-[0_20px_40px_-15px_rgba(244,63,94,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-rose-500 group-hover:border-rose-400 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <ImageIcon size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-rose-100">{t.aiImage.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-rose-600 transition-colors leading-tight relative z-10">{t.aiImage.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.aiImage.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-rose-500 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.aiImage.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-rose-500" /></div>
-            </motion.div>
+            {/* Cards Grid */}
+            <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              {section.items.map((item) => {
+                const theme = THEMES[item.theme as keyof typeof THEMES];
+                return (
+                  <motion.div 
+                    key={item.id} variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push(item.href)} 
+                    className={`group relative bg-white rounded-2xl md:rounded-[2rem] p-4 md:p-6 border border-slate-200/80 transition-all duration-300 cursor-pointer overflow-hidden flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-0 ${theme.border} hover:shadow-xl ${theme.shadow} hover:-translate-y-1`}
+                  >
+                    <CardIllustration theme={item.theme} />
+                    
+                    {/* Icon & Badge (Responsive Flex) */}
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start w-auto md:w-full md:mb-6 relative z-10 shrink-0">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm border border-slate-100 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 ${theme.bg} ${theme.text} ${theme.iconBg}`}>
+                        <item.icon size={24} strokeWidth={2.5} className="md:w-7 md:h-7" />
+                      </div>
+                      <span className={`hidden md:block text-[9px] font-black px-2 py-1 rounded border uppercase tracking-widest bg-white ${theme.text} border-${item.theme}-200 shadow-sm`}>{item.data.badge}</span>
+                    </div>
 
-            {/* 6. PROMPT AI (Violet) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/by_user_input')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-violet-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-violet-300 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-violet-600 group-hover:border-violet-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <Bot size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-violet-600 bg-violet-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-violet-100">{t.aiPrompt.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-violet-700 transition-colors leading-tight relative z-10">{t.aiPrompt.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.aiPrompt.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-violet-600 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.aiPrompt.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-violet-500" /></div>
+                    {/* Text Content */}
+                    <div className="flex-1 text-left relative z-10 w-full">
+                      <div className="flex items-center gap-2 mb-1 md:mb-2">
+                         <h2 className={`text-[15px] md:text-[18px] font-black text-slate-900 group-hover:${theme.text} transition-colors leading-tight`}>{item.data.title}</h2>
+                         <span className={`md:hidden text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest bg-white ${theme.text} border border-${item.theme}-200`}>{item.data.badge}</span>
+                      </div>
+                      <p className="text-[12px] md:text-[14px] text-slate-500 font-medium leading-relaxed md:mb-8 line-clamp-2 md:line-clamp-3">{item.data.desc}</p>
+                      
+                      {/* Desktop Button */}
+                      <div className={`hidden md:inline-flex items-center gap-2 text-[13px] font-bold transition-colors ${theme.text} opacity-80 group-hover:opacity-100 mt-auto`}>
+                        <span className="group-hover:mr-1 transition-all duration-300">{item.data.btn}</span>
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
+                      </div>
+                    </div>
+                    
+                    {/* Mobile Arrow */}
+                    <div className="md:hidden shrink-0 text-slate-300 group-hover:text-slate-600 transition-colors">
+                      <ArrowRight size={20} />
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
-
-            {/* 7. CUSTOM STUDIO (Teal) */}
-            <motion.div variants={cardVariants} whileHover="hover" whileTap="tap" onClick={() => router.push('/teacher/create/custom')} className="group relative bg-white hover:bg-gradient-to-b hover:from-white hover:to-teal-50/50 rounded-[2rem] p-6 border border-slate-200/80 hover:border-teal-300 hover:shadow-[0_20px_40px_-15px_rgba(20,184,166,0.2)] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6 relative z-10">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-teal-500 group-hover:border-teal-400 group-hover:text-white transition-all duration-500 shadow-sm group-hover:scale-110 shrink-0">
-                  <PenTool size={22} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-teal-100">{t.custom.badge}</span>
-              </div>
-              <h2 className="text-[18px] font-black text-slate-900 mb-2.5 group-hover:text-teal-600 transition-colors leading-tight relative z-10">{t.custom.title}</h2>
-              <p className="text-[14px] text-slate-500 mb-8 font-medium leading-relaxed relative z-10">{t.custom.desc}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-slate-400 group-hover:text-teal-600 text-[14px] font-bold transition-colors relative z-10">
-                <span className="group-hover:mr-1 transition-all duration-300">{t.custom.btn}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300"/>
-              </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none"><CardIllustration colorClass="text-teal-500" /></div>
-            </motion.div>
-
-          </motion.div>
-        </div>
+          </div>
+        ))}
 
       </div>
     </div>

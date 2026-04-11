@@ -2,6 +2,7 @@
 
 import { sendNotification } from '@/services/notificationService';
 import { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom'; // 🟢 ADDED PORTAL
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, addDoc, doc, updateDoc, serverTimestamp, orderBy, limit, startAfter, DocumentSnapshot } from 'firebase/firestore';
@@ -78,6 +79,10 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
   const router = useRouter(); 
   const { lang } = useTeacherLanguage();
   const t = ASSIGN_MODAL_TRANSLATIONS[lang] || ASSIGN_MODAL_TRANSLATIONS['en'];
+
+  // 🟢 SSR HYDRATION FIX FOR PORTAL
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // State
   const [step, setStep] = useState(1);
@@ -236,36 +241,38 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
 
   const toggleStudent = (uid: string) => setSelectedStudentIds(prev => prev.includes(uid) ? prev.filter(id => id !== uid) : [...prev, uid]);
 
-  if (!isOpen) return null;
+  if (!mounted || !isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+  // 🟢 WRAPPED IN CREATE PORTAL
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-end sm:items-center justify-center p-0 sm:p-6">
       {/* Premium Backdrop */}
-      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
       
-      <div className="relative bg-white rounded-[2rem] w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl animate-in zoom-in-95 fade-in duration-300 border border-slate-100">
+      {/* 🟢 ULTRA MINIMALISTIC MOBILE-FIRST MODAL */}
+      <div className="relative bg-white rounded-t-[2rem] sm:rounded-[2rem] w-full max-w-2xl overflow-hidden flex flex-col h-[90vh] sm:h-auto sm:max-h-[90vh] shadow-2xl animate-in slide-in-from-bottom-10 sm:zoom-in-95 fade-in duration-300 border border-slate-100">
         
         {/* HEADER */}
-        <div className="px-6 md:px-8 py-5 border-b border-slate-100 bg-white flex justify-between items-center shrink-0">
+        <div className="px-5 py-4 sm:px-8 sm:py-5 border-b border-slate-100 bg-white/90 backdrop-blur-xl flex justify-between items-center shrink-0 z-20 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
-               <FileText size={20} strokeWidth={2.5} />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
+               <FileText size={18} strokeWidth={2.5} className="sm:w-5 sm:h-5" />
             </div>
-            <h2 className="text-[18px] font-black text-slate-900 tracking-tight">
+            <h2 className="text-[16px] sm:text-[18px] font-black text-slate-900 tracking-tight leading-tight">
               {editData ? t.titleEdit : (step === 1 ? t.titleCreate : t.titleConfig)}
             </h2>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full text-slate-400 hover:text-slate-600 transition-colors shrink-0">
-            <X size={16} strokeWidth={2.5} />
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-full text-slate-400 hover:text-slate-600 transition-colors shrink-0 active:scale-95">
+            <X size={18} strokeWidth={2.5} />
           </button>
         </div>
 
         {/* BODY */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA] custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[#FAFAFA] custom-scrollbar relative pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-8">
           
           {/* ================= STEP 1: SELECT TEST ================= */}
           {step === 1 && !editData && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               
               {/* Search Bar */}
               <div className="relative group">
@@ -275,44 +282,44 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
                   placeholder={t.search} 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200/80 rounded-[1rem] text-[14px] font-bold text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm"
+                  className="w-full pl-11 pr-4 py-3 sm:py-3.5 bg-white border border-slate-200/80 rounded-[1rem] text-[13px] sm:text-[14px] font-bold text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all shadow-sm"
                 />
               </div>
               
               {/* List or Empty State */}
               {myTests.length === 0 && !isLoadingMore ? (
-                 <div className="text-center py-12 px-6 bg-white rounded-[1.5rem] border-2 border-dashed border-slate-200 flex flex-col items-center shadow-sm">
-                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 text-slate-400 border border-slate-100"><BookOpen size={28} /></div>
-                    <h4 className="text-slate-800 font-black text-[16px]">{t.empty.title}</h4>
-                    <p className="text-slate-500 font-medium text-[13px] mt-1.5 max-w-xs mx-auto mb-6">{t.empty.desc}</p>
-                    <button onClick={() => router.push('/teacher/create')} className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all flex items-center gap-2 active:scale-95 text-[13px]">
+                 <div className="text-center py-10 sm:py-12 px-6 bg-white rounded-[1.5rem] border-2 border-dashed border-slate-200 flex flex-col items-center shadow-sm">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 text-slate-400 border border-slate-100"><BookOpen size={24} className="sm:w-7 sm:h-7" /></div>
+                    <h4 className="text-slate-800 font-black text-[15px] sm:text-[16px]">{t.empty.title}</h4>
+                    <p className="text-slate-500 font-medium text-[12px] sm:text-[13px] mt-1.5 max-w-xs mx-auto mb-6">{t.empty.desc}</p>
+                    <button onClick={() => router.push('/teacher/create')} className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all flex items-center gap-2 active:scale-95 text-[12px] sm:text-[13px]">
                        <Plus size={16} /> {t.empty.btn}
                     </button>
                  </div>
               ) : filteredTests.length === 0 && searchQuery ? (
-                 <div className="text-center py-10 text-slate-400 font-bold text-[14px]">{t.list.notFound}</div>
+                 <div className="text-center py-10 text-slate-400 font-bold text-[13px] sm:text-[14px]">{t.list.notFound}</div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2.5 sm:space-y-3">
                   {filteredTests.map(test => (
                     <div 
                       key={test.id} onClick={() => setSelectedTest(test)}
-                      className={`p-5 rounded-[1.2rem] border cursor-pointer transition-all flex justify-between items-center group shadow-sm ${selectedTest?.id === test.id ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-500/20' : 'border-slate-200/80 bg-white hover:border-indigo-300 hover:shadow-md'}`}
+                      className={`p-4 sm:p-5 rounded-[1.2rem] border cursor-pointer transition-all flex justify-between items-center group shadow-sm active:scale-[0.98] sm:active:scale-100 ${selectedTest?.id === test.id ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-500/20' : 'border-slate-200/80 bg-white hover:border-indigo-300 hover:shadow-md'}`}
                     >
                       <div>
-                        <p className={`font-black text-[15px] transition-colors ${selectedTest?.id === test.id ? 'text-indigo-800' : 'text-slate-800 group-hover:text-indigo-600'}`}>{test.title}</p>
-                        <p className="text-[12px] font-bold text-slate-500 mt-1 uppercase tracking-widest">{test.questionCount} {t.questions} • {test.duration ? `${test.duration}m` : t.noLimit}</p>
+                        <p className={`font-black text-[14px] sm:text-[15px] transition-colors leading-snug ${selectedTest?.id === test.id ? 'text-indigo-800' : 'text-slate-800 group-hover:text-indigo-600'}`}>{test.title}</p>
+                        <p className="text-[11px] sm:text-[12px] font-bold text-slate-500 mt-1 uppercase tracking-widest">{test.questionCount} {t.questions} • {test.duration ? `${test.duration}m` : t.noLimit}</p>
                       </div>
                       {selectedTest?.id === test.id 
-                        ? <CheckCircle2 size={24} className="text-indigo-600 fill-indigo-100 shrink-0"/> 
-                        : <div className="w-6 h-6 rounded-full border-2 border-slate-200 group-hover:border-indigo-300 shrink-0 transition-colors"></div>
+                        ? <CheckCircle2 size={22} className="text-indigo-600 fill-indigo-100 shrink-0 sm:w-6 sm:h-6"/> 
+                        : <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-200 group-hover:border-indigo-300 shrink-0 transition-colors"></div>
                       }
                     </div>
                   ))}
                   
                   {/* Load More Button */}
                   {hasMore && !searchQuery && (
-                    <div className="pt-4 pb-2 text-center">
-                      <button onClick={loadMoreTests} disabled={isLoadingMore} className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 font-bold rounded-xl shadow-sm transition-all text-[13px] active:scale-95 flex items-center justify-center gap-2 mx-auto">
+                    <div className="pt-3 pb-2 text-center">
+                      <button onClick={loadMoreTests} disabled={isLoadingMore} className="px-5 sm:px-6 py-2.5 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 font-bold rounded-xl shadow-sm transition-all text-[12px] sm:text-[13px] active:scale-95 flex items-center justify-center gap-2 mx-auto">
                         {isLoadingMore ? <><Loader2 size={16} className="animate-spin"/> {t.list.loading}</> : t.list.loadMore}
                       </button>
                     </div>
@@ -324,48 +331,48 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
 
           {/* ================= STEP 2: CONFIGURE ================= */}
           {step === 2 && (
-            <div className="space-y-8 animate-in slide-in-from-right-4 fade-in duration-300">
+            <div className="space-y-6 sm:space-y-8 animate-in slide-in-from-right-4 fade-in duration-300">
               
               {/* Description (With 200 Char Limit) */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><AlignLeft size={14}/> {t.config.instructions}</label>
-                  <span className={`text-[10px] font-black tracking-widest ${description.length >= 190 ? 'text-red-500' : 'text-slate-400'}`}>{description.length}/200</span>
+                  <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><AlignLeft size={14}/> {t.config.instructions}</label>
+                  <span className={`text-[9px] sm:text-[10px] font-black tracking-widest ${description.length >= 190 ? 'text-red-500' : 'text-slate-400'}`}>{description.length}/200</span>
                 </div>
-                <textarea rows={2} maxLength={200} placeholder={t.config.instPlace} value={description} onChange={(e) => setDescription(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-xl text-[14px] font-medium text-slate-800 placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none resize-none transition-all shadow-sm" />
+                <textarea rows={2} maxLength={200} placeholder={t.config.instPlace} value={description} onChange={(e) => setDescription(e.target.value)} className="w-full px-4 py-3 bg-white border border-slate-200/80 rounded-xl text-[13px] sm:text-[14px] font-medium text-slate-800 placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 outline-none resize-none transition-all shadow-sm" />
               </div>
 
               {/* Attempts (Android Stepper Match) */}
               <div>
-                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 mb-3"><RotateCcw size={14}/> {t.config.attempts}</label>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-slate-200/80 p-4 rounded-xl shadow-sm gap-4">
-                  <span className="text-[14px] font-black text-slate-800">{allowedAttempts === 0 ? t.config.unlimited : t.config.maxAttempts}</span>
+                <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 mb-2 sm:mb-3"><RotateCcw size={14}/> {t.config.attempts}</label>
+                <div className="flex flex-row items-center justify-between bg-white border border-slate-200/80 p-3 sm:p-4 rounded-xl shadow-sm gap-2">
+                  <span className="text-[13px] sm:text-[14px] font-black text-slate-800 leading-tight">{allowedAttempts === 0 ? t.config.unlimited : t.config.maxAttempts}</span>
                   
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                     {allowedAttempts > 0 && (
-                      <button onClick={() => setAllowedAttempts(0)} className="text-[12px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors">{t.config.setUnlimited}</button>
+                      <button onClick={() => setAllowedAttempts(0)} className="text-[11px] sm:text-[12px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors hidden sm:block">{t.config.setUnlimited}</button>
                     )}
                     <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl shadow-inner p-1">
-                      <button onClick={() => handleAttemptsChange(-1)} className="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-slate-600 hover:text-slate-900 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all"><Minus size={16}/></button>
-                      <span className="w-12 text-center text-[16px] font-black text-indigo-600">{allowedAttempts === 0 ? '∞' : allowedAttempts}</span>
-                      <button onClick={() => handleAttemptsChange(1)} className="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-slate-600 hover:text-slate-900 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all"><Plus size={16}/></button>
+                      <button onClick={() => handleAttemptsChange(-1)} className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white flex items-center justify-center text-slate-600 hover:text-slate-900 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all active:scale-95"><Minus size={16}/></button>
+                      <span className="w-10 sm:w-12 text-center text-[15px] sm:text-[16px] font-black text-indigo-600">{allowedAttempts === 0 ? '∞' : allowedAttempts}</span>
+                      <button onClick={() => handleAttemptsChange(1)} className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white flex items-center justify-center text-slate-600 hover:text-slate-900 hover:shadow-sm border border-transparent hover:border-slate-200 transition-all active:scale-95"><Plus size={16}/></button>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Timing (Exact Math Presets) */}
-              <div className="space-y-4 pt-4 border-t border-slate-200/80">
-                <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Clock size={14}/> {t.config.schedule}</h3>
+              <div className="space-y-3 sm:space-y-4 pt-4 border-t border-slate-200/80">
+                <h3 className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Clock size={14}/> {t.config.schedule}</h3>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white border border-slate-200/80 p-4 rounded-xl shadow-sm">
-                    <label className="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2">{t.config.openDate}</label>
-                    <input type="datetime-local" className="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-[13px] font-bold text-slate-700 focus:border-indigo-400 focus:bg-white outline-none transition-colors" value={openAt} onChange={e => setOpenAt(e.target.value)} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="bg-white border border-slate-200/80 p-3 sm:p-4 rounded-xl shadow-sm">
+                    <label className="block text-[10px] sm:text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2">{t.config.openDate}</label>
+                    <input type="datetime-local" className="w-full bg-slate-50 border border-slate-200 p-2 sm:p-2.5 rounded-lg text-[12px] sm:text-[13px] font-bold text-slate-700 focus:border-indigo-400 focus:bg-white outline-none transition-colors" value={openAt} onChange={e => setOpenAt(e.target.value)} />
                   </div>
-                  <div className="bg-white border border-slate-200/80 p-4 rounded-xl shadow-sm">
-                    <label className="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2">{t.config.dueDate}</label>
-                    <input type="datetime-local" className="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-[13px] font-bold text-slate-700 focus:border-indigo-400 focus:bg-white outline-none transition-colors" value={dueAt} onChange={e => setDueAt(e.target.value)} />
+                  <div className="bg-white border border-slate-200/80 p-3 sm:p-4 rounded-xl shadow-sm">
+                    <label className="block text-[10px] sm:text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2">{t.config.dueDate}</label>
+                    <input type="datetime-local" className="w-full bg-slate-50 border border-slate-200 p-2 sm:p-2.5 rounded-lg text-[12px] sm:text-[13px] font-bold text-slate-700 focus:border-indigo-400 focus:bg-white outline-none transition-colors" value={dueAt} onChange={e => setDueAt(e.target.value)} />
                   </div>
                 </div>
 
@@ -375,35 +382,35 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
                     { label: t.config.presets.plus3, type: '3_days' as const },
                     { label: t.config.presets.plus7, type: '7_days' as const }
                   ].map(preset => (
-                    <button key={preset.type} onClick={() => applyPreset(preset.type)} className="px-4 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-[11px] font-black text-slate-500 rounded-lg transition-all shadow-sm">
+                    <button key={preset.type} onClick={() => applyPreset(preset.type)} className="px-3 sm:px-4 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-[10px] sm:text-[11px] font-black text-slate-500 rounded-lg transition-all shadow-sm active:scale-95">
                       {preset.label}
                     </button>
                   ))}
-                  <button onClick={() => applyPreset('clear')} className="px-4 py-1.5 bg-red-50 border border-red-100 hover:bg-red-100 text-[11px] font-black text-red-500 rounded-lg transition-all">
+                  <button onClick={() => applyPreset('clear')} className="px-3 sm:px-4 py-1.5 bg-red-50 border border-red-100 hover:bg-red-100 text-[10px] sm:text-[11px] font-black text-red-500 rounded-lg transition-all active:scale-95">
                     {t.config.presets.clear}
                   </button>
                 </div>
               </div>
 
               {/* Assignees (Segmented Apple-Style Tabs) */}
-              <div className="space-y-4 pt-4 border-t border-slate-200/80">
-                <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Users size={14}/> {t.config.assignTo}</h3>
+              <div className="space-y-3 sm:space-y-4 pt-4 border-t border-slate-200/80">
+                <h3 className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Users size={14}/> {t.config.assignTo}</h3>
                 
                 <div className="flex p-1.5 bg-slate-900 rounded-[1rem] shadow-inner">
-                  <button onClick={() => setAssignMode('all')} className={`flex-1 py-2 text-[12px] font-bold rounded-xl transition-all ${assignMode === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-white'}`}>
+                  <button onClick={() => setAssignMode('all')} className={`flex-1 py-2 text-[11px] sm:text-[12px] font-bold rounded-xl transition-all ${assignMode === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-white'}`}>
                     {t.config.all}
                   </button>
-                  <button onClick={() => setAssignMode('individual')} className={`flex-1 py-2 text-[12px] font-bold rounded-xl transition-all ${assignMode === 'individual' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-white'}`}>
+                  <button onClick={() => setAssignMode('individual')} className={`flex-1 py-2 text-[11px] sm:text-[12px] font-bold rounded-xl transition-all ${assignMode === 'individual' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-white'}`}>
                     {t.config.individual}
                   </button>
                 </div>
 
                 {assignMode === 'individual' && (
-                  <div className="max-h-56 overflow-y-auto border border-slate-200/80 rounded-[1.2rem] p-3 space-y-1.5 bg-white shadow-sm custom-scrollbar">
+                  <div className="max-h-48 sm:max-h-56 overflow-y-auto border border-slate-200/80 rounded-[1.2rem] p-2 sm:p-3 space-y-1.5 bg-white shadow-sm custom-scrollbar">
                     {roster.length === 0 ? (
                        <div className="flex flex-col items-center justify-center py-6 text-slate-400 border border-dashed border-slate-200 rounded-xl bg-slate-50">
                          <AlertTriangle size={24} className="mb-2 text-slate-300"/>
-                         <p className="text-[12px] font-bold">{t.config.noStudents}</p>
+                         <p className="text-[11px] sm:text-[12px] font-bold">{t.config.noStudents}</p>
                        </div>
                     ) : (
                       roster.map(student => {
@@ -411,12 +418,12 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
                         return (
                           <div 
                             key={student.uid} onClick={() => toggleStudent(student.uid)}
-                            className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border ${isChecked ? 'bg-indigo-50/50 border-indigo-200 shadow-sm' : 'bg-white border-transparent hover:border-slate-200 hover:bg-slate-50'}`}
+                            className={`flex items-center gap-3 p-2.5 sm:p-3 rounded-xl cursor-pointer transition-all border active:scale-[0.98] sm:active:scale-100 ${isChecked ? 'bg-indigo-50/50 border-indigo-200 shadow-sm' : 'bg-white border-transparent hover:border-slate-200 hover:bg-slate-50'}`}
                           >
                             <div className={`w-5 h-5 rounded-[6px] border-2 flex items-center justify-center transition-colors shrink-0 ${isChecked ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300 bg-white'}`}>
                               {isChecked && <CheckCircle2 size={14} className="text-white"/>}
                             </div>
-                            <span className={`text-[13px] font-bold truncate ${isChecked ? 'text-indigo-900' : 'text-slate-700'}`}>{student.displayName}</span>
+                            <span className={`text-[12px] sm:text-[13px] font-bold truncate ${isChecked ? 'text-indigo-900' : 'text-slate-700'}`}>{student.displayName}</span>
                           </div>
                         )
                       })
@@ -429,22 +436,23 @@ export default function AssignTestModal({ classId, isOpen, onClose, roster, edit
         </div>
 
         {/* FOOTER */}
-        <div className="px-6 md:px-8 py-4 border-t border-slate-100 bg-white flex justify-end gap-3 shrink-0">
+        <div className="px-4 sm:px-8 py-4 sm:py-4 border-t border-slate-100 bg-white flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 shrink-0 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-4 z-20 shadow-[0_-10px_30px_rgb(0,0,0,0.03)]">
           {step === 2 && !editData && (
-            <button onClick={() => setStep(1)} className="px-6 py-2.5 bg-slate-50 border border-slate-200 text-slate-600 font-bold hover:bg-slate-100 hover:text-slate-900 rounded-xl text-[13px] transition-colors">
+            <button onClick={() => setStep(1)} className="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-slate-50 border border-slate-200 text-slate-600 font-bold hover:bg-slate-100 hover:text-slate-900 rounded-xl text-[12px] sm:text-[13px] transition-colors active:scale-95">
               {t.buttons.back}
             </button>
           )}
           <button 
             onClick={() => step === 1 ? (selectedTest ? setStep(2) : toast.error(t.buttons.select)) : handleSave()}
             disabled={loading || (step === 1 && !selectedTest)}
-            className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-all flex items-center gap-2 text-[13px] disabled:opacity-50 active:scale-95"
+            className="w-full sm:w-auto px-8 py-3 sm:py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition-all flex items-center justify-center gap-2 text-[12px] sm:text-[13px] disabled:opacity-50 active:scale-95"
           >
             {loading ? <Loader2 className="animate-spin" size={16}/> : step === 1 ? t.buttons.next : (editData ? t.buttons.save : t.buttons.publish)}
           </button>
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
