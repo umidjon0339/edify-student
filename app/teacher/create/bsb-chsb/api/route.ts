@@ -60,19 +60,19 @@ CRITICAL RULES:
 
 <schemas>
 For "mcq" type:
-{"type": "mcq", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "..."}, "options": {"A": {"uz": "..."}, "B": {"uz": "..."}, "C": {"uz": "..."}, "D": {"uz": "..."}}, "answer": "A", "explanation": {"uz": "..."}}
+{"type": "mcq", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "..."}, "options": {"A": {"uz": "..."}, "B": {"uz": "..."}, "C": {"uz": "..."}, "D": {"uz": "..."}}, "answer": "A", "explanation": {"uz": "(no more that 4 words)"}}
 
 For "short_answer" type (Must NOT have "options"):
-{"type": "short_answer", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "..."}, "answer": {"uz": "Specific short string or number"}, "explanation": {"uz": "..."}}
+{"type": "short_answer", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "..."}, "answer": {"uz": "Specific short string or number"}, "explanation": {"uz": "(no more that 4 words)"}}
 
 For "open_ended" type (Must NOT have "options"):
-{"type": "open_ended", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "..."}, "answer": {"uz": "Detailed step-by-step model solution"}, "rubric": {"uz": "Grading criteria, e.g., 1 ball for formula, 2 for calculation"}, "explanation": {"uz": "..."}}
+{"type": "open_ended", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "..."}, "answer": {"uz": "Detailed step-by-step model solution(no more that 6 words)"}, "rubric": {"uz": "Grading criteria, e.g., 1 ball for formula, 2 for calculation(no more that 10 words)"}, "explanation": {"uz": "(no more that 4 words)"}}
 
 For "matching" type (Must NOT have "options"):
-{"type": "matching", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "Quyidagilarni moslashtiring:"}, "pairs": [{"left": {"uz": "Term 1"}, "right": {"uz": "Definition 1"}}, {"left": {"uz": "Term 2"}, "right": {"uz": "Definition 2"}}], "explanation": {"uz": "..."}}
+{"type": "matching", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "Quyidagilarni moslashtiring:"}, "pairs": [{"left": {"uz": "Term 1"}, "right": {"uz": "Definition 1"}}, {"left": {"uz": "Term 2"}, "right": {"uz": "Definition 2"}}], "explanation": {"uz": "(no more that 4 words)"}}
 
 For "true_false" type (Must NOT have "options"):
-{"type": "true_false", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "Statement to evaluate"}, "answer": true, "explanation": {"uz": "..."}}
+{"type": "true_false", "points": [int], "topic": "...", "difficulty": "${difficulty}", "question": {"uz": "Statement to evaluate"}, "answer": true, "explanation": {"uz": "(no more that 4 words)"}}
 </schemas>`;
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {

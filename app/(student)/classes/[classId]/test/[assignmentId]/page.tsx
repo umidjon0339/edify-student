@@ -407,7 +407,7 @@ export default function TestRunnerPage() {
         }, { merge: true });
 
         transaction.set(doc(db, 'attempts', attemptDocId), {
-          userId, userName: user.displayName, classId, assignmentId, testId: state.assignment.testId,
+          userId, userName: user.displayName, classId, assignmentId,type: 'assignment', testId: state.assignment.testId,
           testTitle: state.test.title, score: correctCount, totalQuestions: state.questions.length,
           answers: state.answers, tabSwitches: state.tabSwitchCount, submittedAt: serverTimestamp(),
           attemptsTaken: isRetake ? increment(1) : 1, xpEarned: xpToAward 

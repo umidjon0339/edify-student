@@ -10,7 +10,7 @@ import { useStudentLanguage } from '@/app/(student)/layout';
 // 🟢 1. GLOBAL CACHE FOR GRADES (0 Reads on Tab Switch)
 const globalGradesCache: Record<string, { attempts: any[], lastDoc: any, hasMore: boolean, timestamp: number }> = {};
 const CACHE_LIFESPAN = 60 * 1000; // 60 seconds
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15; // 🟢 Bumped to 15 to ensure we always have enough items even after filtering out exams
 
 const GRADES_TRANSLATIONS: any = {
   uz: { noGrades: "Hali baholar yo'q.", justNow: "Hozirgina", tries: "Urinishlar", score: "Ball" },
@@ -67,21 +67,36 @@ export default function GradesTab({ classId, userId }: { classId: string, userId
       );
 
       if (isNextPage && lastDoc) {
-        q = query(collection(db, 'attempts'), where('classId', '==', classId), where('userId', '==', userId), orderBy('submittedAt', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE));
+        q = query(
+          collection(db, 'attempts'), 
+          where('classId', '==', classId), 
+          where('userId', '==', userId), 
+          orderBy('submittedAt', 'desc'), 
+          startAfter(lastDoc), 
+          limit(PAGE_SIZE)
+        );
       }
-  
 
       const snap = await getDocs(q);
-      const newDocs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      
+      // 🟢 FILTER OUT EXAMS HERE: We only want standard assignments
+      const newDocs = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter((d: any) => d.type !== 'exam'); 
 
       setAttempts(prev => {
         const updated = isNextPage ? [...prev, ...newDocs] : newDocs;
+        
+        // 🟢 CRITICAL: We MUST use the raw snap.docs for the cursor, NOT the filtered array!
         const newLastDoc = snap.docs[snap.docs.length - 1] || null;
         const newHasMore = snap.docs.length >= PAGE_SIZE;
 
         globalGradesCache[classId] = { attempts: updated, lastDoc: newLastDoc, hasMore: newHasMore, timestamp: Date.now() };
 
-        if (!silent || !isNextPage) { setLastDoc(newLastDoc); setHasMore(newHasMore); }
+        if (!silent || !isNextPage) { 
+          setLastDoc(newLastDoc); 
+          setHasMore(newHasMore); 
+        }
         return updated;
       });
     } catch (e) {
