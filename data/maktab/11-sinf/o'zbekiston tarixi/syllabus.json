@@ -1,0 +1,82 @@
+[{
+  "category": "11-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "MUSTAQILLIKNING E'LON QILINISHI VA O'ZBEKISTONDA IJTIMOIY-SIYOSIY ISLOHOTLARNING BOSHLANISHI",
+      "index": 1,
+      "subtopics": [
+         { "name": "O'zbekiston Respublikasi mustaqilligining qo'lga kiritilishi", "index": 1 },
+        { "name": "O'zbekiston Respublikasi milliy davlatchiligining shakllanishi va rivojlanishi", "index": 2 }
+      ]
+    },
+    {
+      "chapter": "O'ZBEKISTONDA FUQAROLIK JAMIYATINING SHAKLLANISHI VA RIVOJLANISHI",
+      "index": 2,
+      "subtopics": [
+         { "name": "Fuqarolik jamiyati g'oyasining rivojlanish tarixi", "index": 1 },
+         { "name": "O'zbekistonda fuqarolik jamiyati rivojlanishining asosiy bosqichlari va istiqbollari", "index": 2 }
+      ]
+    },
+    {
+      "chapter": "O'ZBEKISTONDA IQTISODIY ISLOHOTLAR VA IJTIMOIY SIYOSAT",
+      "index": 3,
+      "subtopics": [
+         { "name": "O'zbek modelining ishlab chiqilishi. Iqtisodiy islohotlarning boshlanishi", "index": 1 },
+         { "name": "Mamlakat ishlab chiqarish salohiyatining oshirilishi va jahon iqtisodiy tizimiga integratsiyalashuvi", "index": 2 },
+         { "name": "Ijtimoiy siyosat va uning amalga oshirilish bosqichlari", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "O'ZBEKISTONDA ETNIK VA KONFESSIYALARARO MUNOSABATLAR",
+      "index": 4,
+      "subtopics": [
+         { "name": "O'zbekistonda millatlararo munosabatlar va bag'rikenglik", "index": 1 },
+         { "name": "O'zbekistonda konfessiyalararo munosabatlar", "index": 2 }
+      ]
+    },
+    {
+      "chapter": "TA'LIM TIZIMI ISLOHOTLARI VA KADRLAR TAYYORLASH",
+      "index": 5,
+      "subtopics": [
+         { "name": "Umumiy va o'rta maxsus ta'lim tizimi", "index": 1 },
+         { "name": "Oliy ta'lim va undan keyingi ta'limning takomillashtirilishi", "index": 2 }
+      ]
+    },
+    {
+      "chapter": "MUSTAQILLIK YILLARIDA ILM-FAN VA SPORTNING RIVOJLANISHI",
+      "index": 6,
+      "subtopics": [
+         { "name": "O'zbekistonda ilm-fan", "index": 1 },
+         { "name": "O'zbekiston Respublikasida jismoniy tarbiya va sportning rivojlanishi", "index": 2 },
+         { "name": "O'zbekistonda yoshlar siyosati", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "MUSTAQILLIK YILLARIDA O'ZBEKISTONDA MA'NAVIY VA MADANIY TARAQQIYOT",
+      "index": 7,
+      "subtopics": [
+         { "name": "O'zbekistonda ma'naviy va tarixiy merosning tiklanishi", "index": 1 },
+         { "name": "O'zbekistonda madaniyat va san'at", "index": 2 }
+      ]
+    },
+    {
+      "chapter": "O'ZBEKISTON RESPUBLIKASINING TASHQI SIYOSATI VA IKKI TOMONLAMA MUNOSABATLARI",
+      "index": 8,
+      "subtopics": [
+         { "name": "O'zbekiston Respublikasi tashqi siyosiy faoliyatining shakllanishi va uning ustuvor yo'nalishlari", "index": 1 },
+         { "name": "O'zbekistonning Markaziy Osiyo mamlakatlari bilan o'zaro hamkorligi", "index": 2 },
+         { "name": "O'zbekiston Respublikasining Rossiya, Xitoy va AQSh bilan o'zaro munosabatlari", "index": 3 },
+         { "name": "O'zbekistonning Yaponiya, Hindiston va Koreya Respublikasi bilan ikki tomonlama aloqalarining rivojlanishi", "index": 4 }
+      ]
+    },
+    {
+      "chapter": "O'ZBEKISTON RESPUBLIKASI KO'P TOMONLAMA HAMKORLIK ALOQALARINING RIVOJLANISHI",
+      "index": 9,
+      "subtopics": [
+         { "name": "O'zbekistonning Birlashgan Millatlar Tashkiloti doirasidagi faoliyati va tinchlikparvar tashqi siyosati", "index": 1 },
+         { "name": "O'zbekistonning mintaqaviy tashkilotlar doirasida ko'ptomonlama hamkorligi", "index": 2 }
+      ]
+    }
+  ]
+}]

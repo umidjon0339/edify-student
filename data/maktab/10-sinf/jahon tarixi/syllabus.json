@@ -1,0 +1,61 @@
+[{
+  "category": "10-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "XIX ASR OXIRI – XX ASR BOSHLARIDA JAHON MAMLAKATLARI: INDUSTRIAL SIVILIZATSIYANING QAROR TOPISHI",
+      "index": 1,
+      "subtopics": [
+         { "name": "Industrial sivilizatsiyaning qaror topishi", "index": 1 },
+         { "name": "\"Yanada Buyuk Britaniya\" uchun: yangi iqtisodiy va mafkuraviy tizimning paydo bo'lishi", "index": 2 },
+         { "name": "Fransiya va Germaniya: Yevropada yetakchilik uchun kurash", "index": 3 },
+         { "name": "Sharqiy Yevropa va Rossiya: jamiyatni isloh qilish muammolari", "index": 4 },
+         { "name": "Ikki xil Amerika: Shimoliy va Janubiy Amerikada taraqqiyot yo'nalishlari", "index": 5 },
+         { "name": "Yaponiya, Xitoy va Hindiston: islohotlarning osiyocha yo'li", "index": 6 },
+         { "name": "Islom sivilizatsiyasi mamlakatlarida an'anaviylik va islohotchilik o'rtasidagi kurash", "index": 7 },
+         { "name": "Afrika mamlakatlarida mustamlakachilik va taraqqiyot muammolari", "index": 8 }
+      ]
+    },
+    {
+      "chapter": "JAHON URUSHLARI ORALIG'IDA SIVILIZATSIYA RIVOJINING IKKI YO'NALISHI: LIBERAL DEMOKRATIYA VA TOTALITAR-AVTORITAR DIKTATURA",
+      "index": 2,
+      "subtopics": [
+         { "name": "Birinchi jahon urushining kelib chiqish sabablari va oqibatlari", "index": 1 },
+         { "name": "Liberal-demokratik mamlakatlarda taraqqiyotning yangi muammolari", "index": 2 },
+         { "name": "Totalitar va avtoritar diktatura mamlakatlari: yangi urush o'chog'ining paydo bo'lishi", "index": 3 },
+         { "name": "Osiyo mamlakatlarida mustaqillik va taraqqiyot muammolari", "index": 4 },
+         { "name": "Afrikada milliy uyg'onish va mustaqillik g'oyalarining paydo bo'lishi", "index": 5 },
+         { "name": "Ikkinchi jahon urushining kelib chiqish sabablari va oqibatlari", "index": 6 }
+      ]
+    },
+    {
+      "chapter": "1945–1991-YILLARDA YEVROPA VA SHIMOLIY AMERIKA MAMLAKATLARI",
+      "index": 3,
+      "subtopics": [
+         { "name": "G'arbiy Yevropa va Shimoliy Amerika mamlakatlari rivojlanishining asosiy yo'nalishlari", "index": 1 },
+         { "name": "SSSR va Sharqiy Yevropa mamlakatlari rivojlanishining asosiy yo'nalishlari", "index": 2 },
+         { "name": "AQSH: yangi liderning paydo bo'lishi", "index": 3 },
+         { "name": "Buyuk Britaniya va Fransiya: yangi Yevropani qurish", "index": 4 },
+         { "name": "Germaniya va Italiya: mag'lubiyatdan keyingi taraqqiyot", "index": 5 },
+         { "name": "G'arbiy Yevropada iqtisodiy va siyosiy integratsiya jarayonlari", "index": 6 },
+         { "name": "Janubiy va Shimoliy Yevropa mamlakatlari: diktatura va demokratiya", "index": 7 },
+         { "name": "Sovet Ittifoqida islohotlar va inqiroz: imperiyaning tugatilishi", "index": 8 },
+         { "name": "Markaziy va Sharqiy Yevropa mamlakatlari totalitarizm va demokratiya oralig'ida", "index": 9 }
+      ]
+    },
+    {
+      "chapter": "UYG'ONAYOTGAN DUNYO: 1945–1991-YILLARDA OSIYO, AFRIKA VA LOTIN AMERIKASI MAMLAKATLARI",
+      "index": 4,
+      "subtopics": [
+         { "name": "Osiyo, Afrika va Lotin Amerikasi mamlakatlari rivojlanishining asosiy yo'nalishlari", "index": 1 },
+         { "name": "Yaponiya, Xitoy va Janubiy Koreya: Osiyo sivilizatsiyasi qadriyatlari va G'arb ishlab chiqarish usuli uyg'unligi", "index": 2 },
+         { "name": "Hindiston va Pokistonda mustaqillikning murakkab yo'li", "index": 3 },
+         { "name": "Turkiya, Eron va Afg'oniston: diniy qadriyatlar va zamonaviy sivilizatsiya muammolari", "index": 4 },
+         { "name": "Suriya, Iroq va Janubi-g'arbiy Osiyo mamlakatlari", "index": 5 },
+         { "name": "Lotin Amerikasida milliy islohotchilik va taraqqiyotning boshqa yo'llari", "index": 6 },
+         { "name": "Afrikada mustaqillik, qashshoqlik va taraqqiyot muammolari", "index": 7 },
+         { "name": "XX asrning ikkinchi yarmida ilm-fan va madaniyatning rivojlanishi", "index": 8 }
+      ]
+    }
+  ]
+}]

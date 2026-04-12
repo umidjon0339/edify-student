@@ -49,10 +49,10 @@ CRITICAL RULES:
    - Matrices MUST use: $$ \\\\begin{pmatrix} 1 & 2 \\\\\\\\ 3 & 4 \\\\end{pmatrix} $$
    - Integrals/Limits MUST use: $ \\\\int_{0}^{1} x dx $ or $ \\\\lim_{x \\\\to \\\\infty} $
 5. JSON ESCAPING: You MUST double-escape all LaTeX backslashes so the JSON does not break. (e.g., write \\\\frac instead of \\frac, write \\\\alpha instead of \\alpha).
-6. CONTENT: 1 correct answer, 3 plausible distractors. Randomize 'answer' (A-D). Max 2 sentence 'explanation'.
+6. CONTENT: 1 correct answer, 3 plausible distractors. Randomize 'answer' (A-D). Max 1 sentence 'explanation'.
 
 Output RAW JSON array ONLY. No markdown.
-Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
+Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":"(no more that 1 sentences)"}]`;
 
     const requestParts: any[] = [{ text: systemPrompt }];
 

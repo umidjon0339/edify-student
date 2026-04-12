@@ -18,7 +18,7 @@ const PAGE_TRANSLATIONS: any = {
     title: "Kutubxona", subtitle: "Xalqaro va mahalliy darsliklarni kashf eting.", searchPlaceholder: "Kitob nomi yoki muallifni izlang...", booksFound: "ta kitob",
     filters: { country: "Davlat", grade: "Sinf", subject: "Fan", type: "Turi", sort: "Saralash", all: "Barchasi", defaultSort: "Saralash..." },
     sortOptions: { popular: "Ko'p yuklangan", viewed: "Ko'p ko'rilgan", newest: "Yangi nashr" },
-    actions: { view: "Ko'rish", telegram: "Telegramdan olish", loading: "Kitoblar yuklanmoqda...", share: "Ulashish", copied: "Nusxa olindi!" },
+    actions: { view: "Ko'rish", telegram: "Yuklab olish", loading: "Kitoblar yuklanmoqda...", share: "Ulashish", copied: "Nusxa olindi!" },
     drawer: { details: "Kitob Tafsilotlari", views: "Ko'rilgan", downloads: "Yuklangan", description: "Tavsif", downloadSection: "Yuklab olish", pages: "bet" },
     empty: "Ushbu filtrlarga mos kitob topilmadi."
   },
@@ -26,7 +26,7 @@ const PAGE_TRANSLATIONS: any = {
     title: "Library", subtitle: "Discover international and local textbooks.", searchPlaceholder: "Search by title or author...", booksFound: "books",
     filters: { country: "Country", grade: "Grade", subject: "Subject", type: "Type", sort: "Sort By", all: "All", defaultSort: "Sort..." },
     sortOptions: { popular: "Most Downloaded", viewed: "Most Viewed", newest: "Newest" },
-    actions: { view: "View", telegram: "Get via Telegram", loading: "Loading books...", share: "Share", copied: "Copied!" },
+    actions: { view: "View", telegram: "Download", loading: "Loading books...", share: "Share", copied: "Copied!" },
     drawer: { details: "Book Details", views: "Views", downloads: "Downloads", description: "Description", downloadSection: "Download Parts", pages: "pages" },
     empty: "No books match these filters."
   },
@@ -34,7 +34,7 @@ const PAGE_TRANSLATIONS: any = {
     title: "Библиотека", subtitle: "Международные и местные учебники.", searchPlaceholder: "Поиск по названию или автору...", booksFound: "книг",
     filters: { country: "Страна", grade: "Класс", subject: "Предмет", type: "Тип", sort: "Сортировка", all: "Все", defaultSort: "Сортировка..." },
     sortOptions: { popular: "Популярные", viewed: "Просматриваемые", newest: "Новые" },
-    actions: { view: "Смотреть", telegram: "Скачать в Telegram", loading: "Загрузка книг...", share: "Поделиться", copied: "Скопировано!" },
+    actions: { view: "Смотреть", telegram: "Скачать", loading: "Загрузка книг...", share: "Поделиться", copied: "Скопировано!" },
     drawer: { details: "Детали Книги", views: "Просмотры", downloads: "Скачивания", description: "Описание", downloadSection: "Скачать", pages: "стр." },
     empty: "Книги по этим фильтрам не найдены."
   }

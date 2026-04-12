@@ -1,0 +1,53 @@
+[{
+  "category": "11-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "XX ASR OXIRI – XXI ASR BOSHLARIDA DUNYO MAMLAKATLARI",
+      "index": 1,
+      "subtopics": [
+         { "name": "XX asr oxiri – XXI asr boshlarida xalqaro munosabatlar", "index": 1 },
+         { "name": "Sharqiy Yevropa mamlakatlarida demokratik inqiloblar va sotsialistik lagerning parchalanishi", "index": 2 },
+         { "name": "Sovet davlatining parchalanishi va sobiq sovet respublikalarida mustaqillikning e'lon qilinishi", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "1991 – 2017-YILLARDA DUNYO MAMLAKATLARI",
+      "index": 2,
+      "subtopics": [
+         { "name": "1991 – 2017-yillarda Rossiya Federatsiyasi", "index": 1 },
+         { "name": "1991 – 2017-yillarda Ukraina, Belarus va Moldova respublikalari", "index": 2 },
+         { "name": "1991 – 2017-yillarda Boltiqbo'yi davlatlari", "index": 3 },
+         { "name": "1991 – 2017-yillarda Kavkazorti davlatlari", "index": 4 },
+         { "name": "1991 – 2017-yillarda Markaziy Osiyo davlatlari", "index": 5 },
+         { "name": "G'arb mamlakatlarida integratsiyalashuv jarayonlarining jadallashuvi. Yevropa Ittifoqi va AQSH munosabatlari", "index": 6 },
+         { "name": "1991 – 2017-yillarda Amerika Qo'shma Shtatlari", "index": 7 },
+         { "name": "1991 – 2017-yillarda Germaniya Federativ Respublikasi", "index": 8 },
+         { "name": "1991 – 2017-yillarda Buyuk Britaniya", "index": 9 },
+         { "name": "1991 – 2017-yillarda Fransiya", "index": 10 },
+         { "name": "1991 – 2017-yillarda Italiya", "index": 11 },
+         { "name": "Osiyo, Afrika va Lotin Amerikasi mamlakatlari siyosiy, ijtimoiy-iqtisodiy rivojlanishining asosiy yo'nalishlari", "index": 12 },
+         { "name": "1991 – 2017-yillarda Xitoy Xalq Respublikasi", "index": 13 },
+         { "name": "1991 – 2017-yillarda Yaponiya", "index": 14 },
+         { "name": "1991 – 2017-yillarda Janubi-Sharqiy Osiyo mamlakatlari", "index": 15 },
+         { "name": "1991 – 2017-yillarda Hindiston Respublikasi", "index": 16 },
+         { "name": "1991 – 2017-yillarda Turkiya Respublikasi", "index": 17 },
+         { "name": "1991 – 2017-yillarda Eron Islom Respublikasi", "index": 18 },
+         { "name": "1991 – 2017-yillarda Pokiston va Afg'oniston", "index": 19 },
+         { "name": "1991 – 2017-yillarda Suriya va Iroq", "index": 20 },
+         { "name": "1991 – 2017-yillarda Isroil davlati va Falastin muammosi", "index": 21 },
+         { "name": "1991 – 2017-yillarda Lotin Amerikasi mamlakatlari", "index": 22 },
+         { "name": "1991 – 2017-yillarda Afrika mamlakatlari", "index": 23 }
+      ]
+    },
+    {
+      "chapter": "YANGI MINGYILLIK BOSHLARIDA JAHON SIVILIZATSIYASI MUAMMOLARI",
+      "index": 3,
+      "subtopics": [
+         { "name": "XX asr oxiri – XXI asr boshlarida globallashuv muammolari, harbiy, ekstremistik va ekologik xavf-xatarlar", "index": 1 },
+         { "name": "XX asr oxiri – XXI asr boshlarida barqaror rivojlanish va etno-ijtimoiy muammolar", "index": 2 },
+         { "name": "XX asr oxiri – XXI asr boshlarida ilmiy-texnik taraqqiyot. Ilm-fan, adabiyot, san'at", "index": 3 }
+      ]
+    }
+  ]
+}]

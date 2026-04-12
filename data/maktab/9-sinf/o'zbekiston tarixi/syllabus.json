@@ -1,0 +1,72 @@
+[{
+  "category": "9-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "XV ASRNING OXIRI – XVI ASRNING BOSHLARIDA TURONDA SIYOSIY VAZIYAT",
+      "index": 1,
+      "subtopics": [
+         { "name": "Qipchoq dashti va Movarounnahrdagi siyosiy vaziyat", "index": 1 },
+         { "name": "Movarounnahrda Shayboniy hukmronligining o'rnatilishi", "index": 2 },
+         { "name": "Shayboniylar davrida davlat boshqaruvi", "index": 3 },
+         { "name": "Shayboniylar davrida ijtimoiy-iqtisodiy hayot", "index": 4 },
+         { "name": "Shayboniylar davrida ichki va tashqi savdo", "index": 5 },
+         { "name": "Shayboniylar davrida madaniy hayot", "index": 6 },
+         { "name": "Shayboniylar davri me'morchiligi", "index": 7 },
+         { "name": "Shayboniylarning tashqi siyosati", "index": 8 }
+      ]
+    },
+    {
+      "chapter": "MAMLAKATIMIZ TARIXIDA ASHTARXONIYLAR VA MANG'ITLAR SULOLASI",
+      "index": 2,
+      "subtopics": [
+         { "name": "Ashtarxoniylarning hukmronlik davri", "index": 1 },
+         { "name": "Ashtarxoniylar davrida davlat boshqaruvi va tashqi siyosat", "index": 2 },
+         { "name": "Ashtarxoniylar davrida ijtimoiy-iqtisodiy hayot", "index": 3 },
+         { "name": "Ashtarxoniylar davrida me'morchilik va ta'lim", "index": 4 },
+         { "name": "Mang'itlar boshqaruvi davri", "index": 5 },
+         { "name": "Mang'itlar davrida ijtimoiy-iqtisodiy hayot", "index": 6 },
+         { "name": "Mang'itlar davrida ilm-fan va madaniyat", "index": 7 }
+      ]
+    },
+    {
+      "chapter": "QO'NG'IROTLAR BOSHQARUVI",
+      "index": 3,
+      "subtopics": [
+         { "name": "Xiva xonligining tashkil topishi", "index": 1 },
+         { "name": "Tashqi siyosat", "index": 2 },
+         { "name": "Qo'ng'irotlar davrida ijtimoiy-iqtisodiy hayot", "index": 3 },
+         { "name": "Qo'ng'irotlar davrida Xiva me'morchiligi", "index": 4 }
+      ]
+    },
+    {
+      "chapter": "XVI–XIX ASRLARDA QORAQALPOQLAR",
+      "index": 4,
+      "subtopics": [
+         { "name": "XVI–XIX asrning birinchi yarmida qoraqalpoqlar", "index": 1 },
+         { "name": "Qoraqalpoqlarning qo'shni xalqlar bilan munosabatlari", "index": 2 },
+         { "name": "Qoraqalpoqlarning turmush tarzi", "index": 3 },
+         { "name": "Qoraqalpoqlarning madaniy hayoti", "index": 4 },
+         { "name": "Qoraqalpoqlarning milliy kiyimlari", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "MINGLAR HUKMRONLIGI DAVRI",
+      "index": 5,
+      "subtopics": [
+         { "name": "Minglar hukmronligi davrida siyosat", "index": 1 },
+         { "name": "Qo'qon xonligida davlat boshqaruvi", "index": 2 },
+         { "name": "Qo'qon xonligida ijtimoiy-iqtisodiy hayot", "index": 3 },
+         { "name": "Qo'qon xonligida kiyinish madaniyati", "index": 4 },
+         { "name": "Ichki va tashqi savdo. Soliq tizimi", "index": 5 },
+         { "name": "Qo'qon xonligida ta'lim va madaniyat", "index": 6 },
+         { "name": "Qo'qon adabiy muhiti", "index": 7 },
+         { "name": "Qo'qon xonligining tashqi siyosati", "index": 8 },
+         { "name": "O'zbek davlatlarining harbiy salohiyati", "index": 9 },
+         { "name": "Turkistonning uch xonlikka bo'linib ketishi va uning oqibatlari", "index": 10 },
+         { "name": "O'zbek davlatlari tarixi bo'yicha manbalar", "index": 11 },
+         { "name": "O'zbekiston tarixiga oid ayrim muhim sanalar", "index": 12 }
+      ]
+    }
+  ]
+}]

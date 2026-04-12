@@ -16,7 +16,7 @@ const PAGE_TRANSLATIONS = {
     booksFound: "ta kitob topildi",
     filters: { country: "Davlat", grade: "Sinf", subject: "Fan", type: "Turi", sort: "Saralash", all: "Barchasi", defaultSort: "Tanlanmagan" },
     sortOptions: { popular: "Eng ko'p yuklangan", viewed: "Eng ko'p ko'rilgan", newest: "Yangi nashrlar" },
-    actions: { view: "Ko'rish", telegram: "Telegramdan olish", loading: "Kitoblar yuklanmoqda...", share: "Ulashish", copied: "Nusxa olindi!" },
+    actions: { view: "Ko'rish", telegram: "Yuklab olish", loading: "Kitoblar yuklanmoqda...", share: "Ulashish", copied: "Nusxa olindi!" },
     drawer: { details: "Kitob Tafsilotlari", views: "Ko'rilgan", downloads: "Yuklangan", description: "Tavsif", downloadSection: "Yuklab olish", pages: "bet" },
     empty: "Ushbu filtrlarga mos kitob topilmadi."
   },
@@ -27,7 +27,7 @@ const PAGE_TRANSLATIONS = {
     booksFound: "books found",
     filters: { country: "Country", grade: "Grade", subject: "Subject", type: "Type", sort: "Sort By", all: "All", defaultSort: "None" },
     sortOptions: { popular: "Most Downloaded", viewed: "Most Viewed", newest: "Newest Published" },
-    actions: { view: "View", telegram: "Get via Telegram", loading: "Loading books...", share: "Share", copied: "Copied!" },
+    actions: { view: "View", telegram: "Download", loading: "Loading books...", share: "Share", copied: "Copied!" },
     drawer: { details: "Book Details", views: "Views", downloads: "Downloads", description: "Description", downloadSection: "Download Parts", pages: "pages" },
     empty: "No books match these filters."
   },
@@ -38,7 +38,7 @@ const PAGE_TRANSLATIONS = {
     booksFound: "книг найдено",
     filters: { country: "Страна", grade: "Класс", subject: "Предмет", type: "Тип", sort: "Сортировка", all: "Все", defaultSort: "Не выбрано" },
     sortOptions: { popular: "Популярные", viewed: "Просматриваемые", newest: "Новые издания" },
-    actions: { view: "Смотреть", telegram: "Скачать в Telegram", loading: "Загрузка книг...", share: "Поделиться", copied: "Скопировано!" },
+    actions: { view: "Смотреть", telegram: "Скачать", loading: "Загрузка книг...", share: "Поделиться", copied: "Скопировано!" },
     drawer: { details: "Детали Книги", views: "Просмотры", downloads: "Скачивания", description: "Описание", downloadSection: "Скачать", pages: "стр." },
     empty: "Книги по этим фильтрам не найдены."
   }

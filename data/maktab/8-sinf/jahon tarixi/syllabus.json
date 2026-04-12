@@ -1,0 +1,49 @@
+[{
+  "category": "8-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "XIII–XV ASRLARDA YEVROPA DAVLATLARI",
+      "index": 1,
+      "subtopics": [
+          { "name": "Fransiyada markazlashgan davlatning tashkil topishi. General shtatlar", "index": 1 },
+          { "name": "Yuz yillik urush: sabablari, yakunlari va oqibatlari", "index": 2 },
+          { "name": "Fransiyani birlashtirishning tugallanishi va uning natijalari", "index": 3 },
+          { "name": "Angliyada markazlashgan davlatning tashkil topishi", "index": 4 },
+          { "name": "XIV–XV asrlarda Angliya", "index": 5 },
+          { "name": "Germaniyada ijtimoiy-siyosiy va iqtisodiy hayot", "index": 6 },
+          { "name": "Italiya: shahar-respublikalar va Rim papalari davlati", "index": 7 },
+          { "name": "Pireney yarimoroli mamlakatlari: Ispaniya va Portugaliya", "index": 8 },
+          { "name": "Rus knyazliklarida ijtimoiy-siyosiy hayot", "index": 9 },
+          { "name": "Bolqon mamlakatlari, Markaziy va Sharqiy Yevropa", "index": 10 }
+      ]
+    },
+    {
+      "chapter": "OSIYO, AFRIKA VA AMERIKA XALQLARI",
+      "index": 2,
+      "subtopics": [
+          { "name": "Uch qit'ani birlashtirgan sultonlik (Usmoniy turklar davlati)", "index": 1 },
+          { "name": "O'rta asrlarda Eron", "index": 2 },
+          { "name": "Oltin O'rda xonligi", "index": 3 },
+          { "name": "O'rta asrlarda Hindiston", "index": 4 },
+          { "name": "O'rta asrlarda Xitoy", "index": 5 },
+          { "name": "O'rta asrlarda Yaponiya va Koreya", "index": 6 },
+          { "name": "O'rta asrlarda Afrika", "index": 7 },
+          { "name": "O'rta asrlarda Amerika xalqlari", "index": 8 }
+      ]
+    },
+    {
+      "chapter": "XIII–XV ASRLARDA JAHON XALQLARINING IJTIMOIY-IQTISODIY VA MADANIY HAYOTI",
+      "index": 3,
+      "subtopics": [
+          { "name": "O'rta asrlar Yevropa aholisining kundalik hayoti", "index": 1 },
+          { "name": "XIII–XV asrlarda Yevropa iqtisodiy rivojlanishining o'ziga xos jihatlari", "index": 2 },
+          { "name": "Osiyo, Afrika va Amerika xalqlari iqtisodiy hayoti", "index": 3 },
+          { "name": "Yevropada ilm-fan", "index": 4 },
+          { "name": "Yevropada me'morchilik va san'at", "index": 5 },
+          { "name": "Ilk Uyg'onish davri madaniyati", "index": 6 },
+          { "name": "Osiyo, Afrika va Amerika xalqlari madaniyati", "index": 7 }
+      ]
+    }
+  ]
+}]

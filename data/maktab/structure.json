@@ -1,13 +1,13 @@
 {
-  "1-sinf": ["matematika"],
-  "2-sinf": ["matematika"],
-  "3-sinf": ["matematika"],
-  "4-sinf": ["matematika"],
-  "5-sinf": ["matematika", "tabiiy fanlar (Science)"],
-  "6-sinf": ["matematika", "tabiiy fanlar (Science)"],
-  "7-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
-  "8-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
-  "9-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
-  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo"],
-  "11-sinf": ["matematika", "biologiya", "kimyo"]
+  "1-sinf": ["matematika","ona tili"],
+  "2-sinf": ["matematika","ona tili"],
+  "3-sinf": ["matematika","ona tili"],
+  "4-sinf": ["matematika","ona tili"],
+  "5-sinf": ["matematika", "tabiiy fanlar (Science)","ona tili"],
+  "6-sinf": ["matematika", "tabiiy fanlar (Science)", "tarix", "ona tili"],
+  "7-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili"],
+  "8-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili"],
+  "9-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili"],
+  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili"],
+  "11-sinf": ["matematika", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili"]
 }

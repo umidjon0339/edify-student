@@ -59,7 +59,7 @@ RULES:
 6. NO NEWLINES: Do not use \\n. Write explanations as a single continuous line. Max 2 sentences.
 
 Output RAW JSON array only. No markdown.
-Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
+Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":"(no more that 1 sentences)"}]`;
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',

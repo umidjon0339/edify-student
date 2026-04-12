@@ -1,0 +1,79 @@
+[{ 
+  "category": "6-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "Eng qadimgi tuzumdan sivilizatsiya sari",
+      "index": 1,
+      "subtopics": [
+         { "name": "Qadimgi tarix ildizlari", "index": 1 },
+         { "name": "Eng qadimgi odamlarning rivojlanish bosqichlari", "index": 2 },
+         { "name": "Urug‘chilik jamiyati", "index": 3 },
+         { "name": "Eneolit va bronza davri", "index": 4 },
+         { "name": "O‘rta Osiyo temir asriga o‘tish davrida", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "Qadimgi Sharq va O‘rta Osiyo",
+      "index": 2,
+      "subtopics": [
+         { "name": "Nil vodiysi va uning aholisi", "index": 1 },
+         { "name": "Qadimgi Misr va qo‘shni davlatlar", "index": 2 },
+         { "name": "Qadimgi Misrda din", "index": 3 },
+         { "name": "Piramidalar va daxmalar", "index": 4 },
+         { "name": "Qadimgi Misr madaniyati", "index": 5 },
+         { "name": "Mesopotamiya sivilizatsiyalari", "index": 6 },
+         { "name": "Bobil podsholigi", "index": 7 },
+         { "name": "Old Osiyo davlatlari", "index": 8 },
+         { "name": "Ahamoniylar davlati", "index": 9 },
+         { "name": "Qadimgi Hindistondagi ilk sivilizatsiya", "index": 10 },
+         { "name": "Qadimgi Hindiston madaniyati", "index": 11 },
+         { "name": "Qadimgi Xitoy sivilizatsiyalari", "index": 12 },
+         { "name": "Miloddan avvalgi III asrda Xitoy", "index": 13 },
+         { "name": "O‘zbekiston hududidagi qadimiy davlatlar", "index": 14 },
+         { "name": "Zardushtiylik va “Avesto”", "index": 15 }
+      ]
+    },
+    {
+      "chapter": "Qadimgi Yunoniston",
+      "index": 3,
+      "subtopics": [
+         { "name": "Antik tarixning boshlanishi", "index": 1 },
+         { "name": "Qadimgi Yunonistonning yuksalishi", "index": 2 },
+         { "name": "Yunon koloniyalari", "index": 3 },
+         { "name": "Afinada demokratiya", "index": 4 },
+         { "name": "Yunon-fors urushlari. Makedoniyaning Yunonistonni bosib olishi", "index": 5 },
+         { "name": "Yunon fuqarolari tarbiyasi", "index": 6 },
+         { "name": "Qadimgi Yunoniston madaniyati", "index": 7 },
+         { "name": "Qadimgi Yunoniston olimlari va mutafakkirlari", "index": 8 },
+         { "name": "Qadimgi Yunoniston afsonalari", "index": 9 }
+      ]
+    },
+    {
+      "chapter": "Mil. avv. VI – mil. III asrlarda O‘rta Osiyo",
+      "index": 4,
+      "subtopics": [
+         { "name": "Ahamoniylarning O‘rta Osiyoga bosqinchilik yurishlari", "index": 1 },
+         { "name": "O‘rta Osiyo aholisining yunon-makedon istilochilariga qarshi kurashi", "index": 2 },
+         { "name": "Salavkiylar davlati va Yunon-Baqtriya podsholigi", "index": 3 },
+         { "name": "Qadimgi Xorazm", "index": 4 },
+         { "name": "Qadimgi Qang‘ va Davan davlatlari", "index": 5 },
+         { "name": "Kushon davlati", "index": 6 },
+         { "name": "Buyuk ipak yo‘li", "index": 7 }
+      ]
+    },
+    {
+      "chapter": "Qadimgi Rim",
+      "index": 5,
+      "subtopics": [
+         { "name": "Qadimgi Italiya va uning aholisi", "index": 1 },
+         { "name": "Rim respublikasi", "index": 2 },
+         { "name": "Rim respublikasida hayot", "index": 3 },
+        { "name": "Qullar va gladiatorlar", "index": 4 },
+         { "name": "Rim respublikasining qulashi", "index": 5 },
+         { "name": "G‘arbiy Rim imperiyasining tanazzuli va halokati", "index": 6 },
+         { "name": "Qadimgi Rim madaniyati", "index": 7 }
+      ]
+    }
+  ]
+}]

@@ -1,0 +1,67 @@
+[{
+  "category": "9-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "YEVROPADA YANGI DAVRNING BOSHLANISHI",
+      "index": 1,
+      "subtopics": [
+         { "name": "Buyuk geografik kashfiyotlar. Mustamlaka tizimining shakllanishi", "index": 1 },
+         { "name": "G‘arbiy Yevropa mamlakatlarida industrial jamiyat asoslarining yaratilishi", "index": 2 },
+         { "name": "Gumanizm: G‘arbiy Yevropada Yangi davr madaniyati va fani", "index": 3 },
+         { "name": "Yevropada Reformatsiya: Yangi davr qadriyatlarining shakllanishi", "index": 4 }
+      ]
+    },
+    {
+      "chapter": "XVI–XVIII ASRLARDA YEVROPA VA AMERIKA MAMLAKATLARI",
+      "index": 2,
+      "subtopics": [
+         { "name": "Angliyada qirol hokimiyatining kuchayishi. Absolyutizm", "index": 1 },
+         { "name": "Buyuk Britaniya: imperiya quyoshining porlashi", "index": 2 },
+         { "name": "“Davlat – bu men!”: Fransiyada mutlaq monarxiya", "index": 3 },
+         { "name": "Fransiya burjua inqilobi", "index": 4 },
+         { "name": "Germaniya imperiyasidagi siyosiy-iqtisodiy jarayonlar", "index": 5 },
+         { "name": "Rossiya — Buyuk knyazlikdan imperiya sari", "index": 6 },
+         { "name": "XVII–XVIII asrlarda Shimoliy Amerika: yangi davlatning vujudga kelishi", "index": 7 },
+         { "name": "Lotin Amerikasi mustamlakachilik zulmi ostida", "index": 8 },
+         { "name": "Ma’rifat asri: ilm-fan va madaniyat rivoji", "index": 9 }
+      ]
+    },
+    {
+      "chapter": "XVI–XVIII ASRLARDA OSIYO VA AFRIKA MAMLAKATLARI",
+      "index": 3,
+      "subtopics": [
+         { "name": "Osiyo va Afrika mamlakatlari: an’anaviy jamiyatlarda taraqqiyot muammolari", "index": 1 },
+         { "name": "Xitoy: yuksalish va inqiroz orasida", "index": 2 },
+         { "name": "Hindiston Boburiylar imperiyasi davrida", "index": 3 },
+         { "name": "Yaponiya va Koreyada ijtimoiy-siyosiy jarayonlar", "index": 4 },
+         { "name": "Usmoniylar imperiyasi: yuksalish, inqiroz va islohot", "index": 5 },
+         { "name": "Eron rivojlanish va qaramlik arafasida", "index": 6 },
+         { "name": "Afrika: mustamlakachilikning boshlanishi", "index": 7 }
+      ]
+    },
+    {
+      "chapter": "1800–1870-YILLARDA YEVROPA VA AMERIKA MAMLAKATLARI",
+      "index": 4,
+      "subtopics": [
+         { "name": "Buyuk Britaniyaning yuksalishi", "index": 1 },
+         { "name": "Fransiya inqilob va imperiyalar davrida", "index": 2 },
+         { "name": "Germaniya va Italiyada mamlakatni birlashtirish uchun kurash", "index": 3 },
+         { "name": "Rossiya: taraqqiyotning o‘zgacha yo‘li", "index": 4 },
+         { "name": "1800–1870-yillarda AQSH: fuqarolar urushi va keyingi taraqqiyot", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "1800–1870-YILLARDA OSIYO VA AFRIKA MAMLAKATLARI",
+      "index": 5,
+      "subtopics": [
+         { "name": "Yaponiya va Koreya: ma’rifatli boshqaruv va mustaqil taraqqiyot uchun kurash", "index": 1 },
+         { "name": "Xitoy qo‘zg‘olon va urushlar davrida", "index": 2 },
+         { "name": "Hindistonning Buyuk Britaniya mustamlakasiga aylanishi", "index": 3 },
+         { "name": "Usmoniylar imperiyasi inqiroz va islohotlar davrida", "index": 4 },
+         { "name": "G‘arb mamlakatlarining Eron va Afg‘onistonni egallash uchun urinishlari", "index": 5 },
+         { "name": "Afrika: qul savdosi va mustamlakachilikning kuchayishi", "index": 6 }
+      ]
+    }
+  ]
+}]

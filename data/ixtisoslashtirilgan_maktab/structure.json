@@ -1,9 +1,6 @@
 {
   "5-sinf": ["matematika"],
   "6-sinf": ["matematika"],
-  "7-sinf": ["algebra", "geometriya"],
-  "8-sinf": ["algebra", "geometriya"],
-  "9-sinf": ["algebra", "geometriya"],
-  "10-sinf": ["algebra", "geometriya"],
-  "11-sinf": ["algebra", "geometriya"]
+  "7-sinf": ["algebra", "geometriya"]
+  
 }

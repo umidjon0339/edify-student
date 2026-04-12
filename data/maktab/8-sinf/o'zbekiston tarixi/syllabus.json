@@ -1,0 +1,50 @@
+[{
+  "category": "8-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "XIII ASRDA MOVAROUNNAHR VA XORAZM",
+      "index": 1,
+      "subtopics": [
+         { "name": "XIII asr boshlarida Xorazm davlatida siyosiy vaziyat", "index": 1 },
+         { "name": "Xorazm va Mo‘g‘ul davlati o‘rtasidagi munosabatlar", "index": 2 },
+         { "name": "Muhammad Xorazmshohning mamlakat mudofaasiga oid tadbirlari va buning oqibati", "index": 3 },
+         { "name": "Jaloliddin Manguberdi", "index": 4 },
+         { "name": "Jaloliddin Manguberdi Xorazmshohlar davlatini tiklash yo‘lida", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "CHIG‘ATOY ULUSI",
+      "index": 2,
+      "subtopics": [
+         { "name": "Chig‘atoy ulusining tashkil topishi", "index": 1 },
+         { "name": "Chig‘atoy ulusining ikki qismga bo‘linib ketishi va ijtimoiy-iqtisodiy hayot", "index": 2 },
+         { "name": "XIII asr – XIV asr birinchi yarmida ilm-fan", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "AMIR TEMUR VA TEMURIYLAR DAVRI",
+      "index": 3,
+      "subtopics": [
+         { "name": "XIV asrning o‘rtalarida Turonda yuzaga kelgan siyosiy vaziyat", "index": 1 },
+         { "name": "Amir Temur – Movarounnahr hukmdori", "index": 2 },
+         { "name": "Amir Temur markazlashgan davlat tuzish yo‘lida", "index": 3 },
+         { "name": "Amir Temurning davlat chegaralarini mustahkamlashi", "index": 4 },
+         { "name": "Amir Temurning tashqi siyosati", "index": 5 },
+         { "name": "Amir Temur davlatida qo‘shin tuzilishi", "index": 6 },
+         { "name": "Amir Temur davlatining boshqaruvi", "index": 7 },
+         { "name": "Amir Temurning jahon tarixida tutgan o‘rni", "index": 8 },
+         { "name": "Amir Temur davlatida obodonlashtirish va bunyodkorlik", "index": 9 },
+         { "name": "Temuriylar davrida Movarounnahr va Xuroson", "index": 10 },
+         { "name": "Mirzo Ulug‘bek", "index": 11 },
+         { "name": "Sulton Husayn Mirzo", "index": 12 },
+         { "name": "Amir Temur va temuriylar davrida iqtisodiy munosabatlar", "index": 13 },
+         { "name": "Ikkinchi Renessans asoschilari", "index": 14 },
+         { "name": "Temuriylar davri me’morchiligi", "index": 15 },
+         { "name": "Xattotlik va miniatyura", "index": 16 },
+         { "name": "Temuriylar davrida hunarmandchilik", "index": 17 },
+         { "name": "Alisher Navoiy", "index": 18 }
+      ]
+    }
+  ]
+}]

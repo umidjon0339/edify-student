@@ -1,0 +1,42 @@
+[{
+  "category": "7-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "O‘zbekiston tarixi",
+      "index": 1,
+      "subtopics": [
+         { "name": "Ajdodlarimizning ma’naviy qadriyatlari – jahon sivilizatsiyasi asoslaridan biri", "index": 1 },
+         { "name": "IV–VII asrlarda mamlakatimiz xalqlarining turmush tarzi", "index": 2 },
+         { "name": "IV–VII asrlarda Xorazm", "index": 3 },
+         { "name": "IV–V asrlarda xioniylar va kidariylar", "index": 4 },
+         { "name": "Eftaliylar", "index": 5 },
+         { "name": "Turk xoqonligi", "index": 6 },
+         { "name": "G‘arbiy Turk xoqonligi", "index": 7 },
+         { "name": "Mahalliy hokimliklarning tashkil topishi", "index": 8 },
+         { "name": "Turon xalqlarining harbiy san’ati", "index": 9 },
+         { "name": "VI–VII asrlarda Turon xalqlari madaniy hayoti", "index": 10 },
+         { "name": "VII–VIII asr boshlarida Turonda siyosiy vaziyat", "index": 11 },
+         { "name": "VIII asrda Xuroson va Movarounnahr", "index": 12 },
+         { "name": "Qarluqlar. O‘g‘uzlar. Tohiriylar", "index": 13 },
+         { "name": "Somoniylar", "index": 14 },
+         { "name": "Somoniylar davrida ijtimoiy-iqtisodiy hayot", "index": 15 },
+         { "name": "G‘aznaviylar", "index": 16 },
+         { "name": "Qoraxoniylar", "index": 17 },
+         { "name": "Saljuqiylar", "index": 18 },
+         { "name": "Xorazmshohlar davlati va uning yuksalishi", "index": 19 },
+         { "name": "Xorazmshohlar davlat boshqaruvi va ijtimoiy-iqtisodiy hayot", "index": 20 },
+         { "name": "Etnik jarayonlar va o‘zbek xalqining shakllanishi", "index": 21 },
+         { "name": "Mintaqada Islom dinining yoyilishi", "index": 22 },
+         { "name": "Ta’lim", "index": 23 },
+         { "name": "Aql-zakovat bilan bunyod etilgan boy ma’naviyat", "index": 24 },
+         { "name": "IX-XII asrlarda ilm-fan va madaniyatning yuksalishi", "index": 25 },
+         { "name": "Muhammad ibn Muso al-Xorazmiy", "index": 26 },
+         { "name": "Ahmad Farg‘oniy", "index": 27 },
+         { "name": "Abu Nasr Forobiy", "index": 28 },
+         { "name": "Abu Rayhon Beruniy", "index": 29 },
+         { "name": "Abu Ali ibn Sino", "index": 30 }
+      ]
+    }
+  ]
+}]

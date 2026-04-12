@@ -53,7 +53,7 @@ STRICT MATH/SCIENCE FORMATTING (CRITICAL):
 4. NO NEWLINES: Do not use \\n. Write explanations as a single continuous line. Max 40 words.
 
 Output ONLY a RAW JSON array. No markdown.
-Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":""}]`;
+Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":"(no more than 15 words)"}]`;
 
     if (context && context.trim() !== "") {
       systemPrompt += `\nSTRICT CONTEXT RULES FOR THIS SUBTOPIC:\n${context}`;

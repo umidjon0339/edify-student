@@ -1,0 +1,46 @@
+[{
+  "category": "7-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "O‘RTA ASRLARDA YEVROPA XALQLARI (V-XIII asrlar)",
+      "index": 1,
+      "subtopics": [
+         { "name": "German qabilalari va Rim imperiyasi", "index": 1 },
+         { "name": "Franklar davlati: qirollikdan imperiya sari", "index": 2 },
+         { "name": "Britaniyadan – Angliyaga", "index": 3 },
+         { "name": "Muqaddas Rim imperiyasi", "index": 4 },
+         { "name": "Vizantiya: G‘arb va Sharq orasida", "index": 5 },
+         { "name": "Slavyan davlatlarining tashkil topishi", "index": 6 }
+      ]
+    },
+    {
+      "chapter": "V-XIII ASRLARDA OSIYO VA AMERIKA",
+      "index": 2,
+      "subtopics": [
+         { "name": "Yangi din beshigi", "index": 1 },
+         { "name": "Arab xalifaligi: islom dunyosining barpo etilishi", "index": 2 },
+         { "name": "Saljuqiylar davlati", "index": 3 },
+         { "name": "Mo‘g‘ullar davlati", "index": 4 },
+         { "name": "Hindiston – “ming ajoyibotlar mamlakati”", "index": 5 },
+         { "name": "Xitoy – “Osmonosti imperiyasi”: yuksalish va tushkunliklar", "index": 6 },
+         { "name": "Koreya o‘rta asrlarda", "index": 7 },
+         { "name": "O‘rta asrlarda kunchiqar mamlakat – Yaponiya", "index": 8 },
+         { "name": "Amerika o‘rta asrlarda", "index": 9 }
+      ]
+    },
+    {
+      "chapter": "O‘RTA ASR XALQLARINING IJTIMOIY-IQTISODIY VA MADANIY HAYOTIDAGI O‘ZGARISHLAR",
+      "index": 3,
+      "subtopics": [
+         { "name": "O‘rta asrlarda xristian olamida sodir bo‘lgan o‘zgarishlar", "index": 1 },
+         { "name": "Salib yurishlari", "index": 2 },
+         { "name": "Yevropada o‘rta asr shaharlarining o‘ziga xosligi", "index": 3 },
+         { "name": "Osiyoning o‘rta asr shaharlari", "index": 4 },
+         { "name": "Yevropaning o‘rta asrlar madaniyati", "index": 5 },
+         { "name": "Arab xalifaligi mamlakatlari madaniyati", "index": 6 },
+         { "name": "Xitoy, Koreya, Yaponiya va Hindiston xalqlari madaniyati", "index": 7 }
+      ]
+    }
+  ]
+}]
