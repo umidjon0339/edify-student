@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, Menu, X, ChevronRight, Globe, ChevronDown, Check } from 'lucide-react';
+import { BookOpen, Menu, X, Globe, ChevronDown, Check, Instagram, Send } from 'lucide-react';
 import { useState, createContext, useContext, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -25,9 +25,9 @@ export function useLanguage() {
 
 // --- 2. TRANSLATIONS ---
 const NAV_TRANSLATIONS = {
-  uz: { login: "Kirish", start: "Ro'yxatdan o'tish", langName: "O'zbek" },
-  en: { login: "Log in", start: "Sign Up", langName: "English" },
-  ru: { login: "Войти", start: "Регистрация", langName: "Русский" }
+  uz: { login: "Kirish", start: "Ro'yxatdan o'tish", langName: "O'zbek", followUs: "Bizni kuzatib boring" },
+  en: { login: "Log in", start: "Sign Up", langName: "English", followUs: "Follow Us" },
+  ru: { login: "Войти", start: "Регистрация", langName: "Русский", followUs: "Следите за нами" }
 };
 
 // --- 3. LANGUAGE DROPDOWN COMPONENT (Desktop) ---
@@ -110,6 +110,12 @@ const Navbar = () => {
   
   const t = NAV_TRANSLATIONS[lang];
 
+  // Your Social Links
+  const SOCIAL_LINKS = {
+    telegram: "https://t.me/testedify", // Replace with actual link
+    instagram: "https://instagram.com/testedify.uz" // Replace with actual link
+  };
+
   return (
     <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80 h-[72px] transition-all">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 h-full flex items-center justify-between">
@@ -128,6 +134,18 @@ const Navbar = () => {
         {!isAuthPage && (
           <div className="hidden md:flex items-center gap-6">
             
+            {/* 🟢 NEW: Desktop Social Icons */}
+            <div className="flex items-center gap-3">
+              <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#229ED9] transition-colors p-1">
+                <Send size={18} className="-ml-0.5 mt-0.5" /> 
+              </a>
+              <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#E1306C] transition-colors p-1">
+                <Instagram size={18} />
+              </a>
+            </div>
+
+            <div className="h-5 w-px bg-slate-200 mx-1"></div>
+
             <LanguageDropdown />
 
             <div className="h-6 w-px bg-slate-200"></div>
@@ -176,7 +194,7 @@ const Navbar = () => {
             transition={{ duration: 0.2 }}
             className="absolute top-[72px] inset-x-0 bg-white/95 backdrop-blur-xl border-b border-slate-200 p-5 flex flex-col gap-4 shadow-2xl md:hidden z-40"
           >
-            {/* 🟢 LANGUAGE SWITCHER (Mobile Segmented Control) */}
+            {/* Language Switcher */}
             <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200/60 mb-2">
               {(['uz', 'en', 'ru'] as const).map((l) => (
                 <button
@@ -207,6 +225,32 @@ const Navbar = () => {
             >
               {t.start}
             </Link>
+
+            {/* 🟢 NEW: Mobile Social Links */}
+            <div className="mt-4 pt-4 border-t border-slate-200/80">
+              <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 text-center mb-3">
+                {t.followUs}
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <a 
+                  href={SOCIAL_LINKS.telegram} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#229ED9]/10 text-[#229ED9] rounded-xl font-bold text-sm hover:bg-[#229ED9]/20 transition-colors"
+                >
+                  <Send size={16} className="-ml-0.5 mt-0.5" /> Telegram
+                </a>
+                <a 
+                  href={SOCIAL_LINKS.instagram} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#E1306C]/10 text-[#E1306C] rounded-xl font-bold text-sm hover:bg-[#E1306C]/20 transition-colors"
+                >
+                  <Instagram size={16} /> Instagram
+                </a>
+              </div>
+            </div>
+
           </motion.div>
         )}
       </AnimatePresence>
@@ -220,7 +264,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
-      {/* 🟢 CHANGED: bg-slate-900 to bg-[#FAFAFA], text-slate-100 to text-slate-900 */}
       <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
         <Navbar />
         <main className="flex-1">
