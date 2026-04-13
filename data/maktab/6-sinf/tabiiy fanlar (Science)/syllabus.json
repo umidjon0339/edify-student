@@ -1,5 +1,6 @@
-[
-  {
+
+  [
+    {
     "category": "6-sinf",
     "index": 1,
     "chapters": [
@@ -29,7 +30,7 @@
         ]
       },
       {
-        "chapter": "Oziq zanjiri va oziq to'ri",
+        "chapter": "Oziq zanjiri va oziq to‘ri",
         "index": 4,
         "subtopics": [
           { "name": "Oziq zanjirlari va oziq to'ri", "index": 1 },
@@ -41,24 +42,24 @@
         "index": 5,
         "subtopics": [
           { "name": "Moddalarning xossalari", "index": 1 },
-          { "name": "Qaynash va bug'lanish", "index": 2 }
+          { "name": "Qaynash va bug‘lanish", "index": 2 }
         ]
       },
       {
         "chapter": "Fizik va kimyoviy o'zgarishlar",
         "index": 6,
         "subtopics": [
-          { "name": "Fizik o'zgarishlar", "index": 1 },
+          { "name": "Fizik o‘zgarishlar", "index": 1 },
           { "name": "Moddalarning erish jarayoni", "index": 2 },
           { "name": "Kimyoviy reaksiyalar", "index": 3 }
         ]
       },
       {
-        "chapter": "Kuchlarning ta'siri",
+        "chapter": "Kuchlarning ta’siri",
         "index": 7,
         "subtopics": [
           { "name": "Massa, og'irlik va gravitatsiya kuchi", "index": 1 },
-          { "name": "Harakatlanayotgan jismlarga ta'sir qiluvchi kuchlar", "index": 2 }
+          { "name": "Harakatlanayotgan jismlarga ta’sir qiluvchi kuchlar", "index": 2 }
         ]
       },
       {
@@ -66,7 +67,7 @@
         "index": 8,
         "subtopics": [
           { "name": "Yorug'likning qaytishi", "index": 1 },
-          { "name": "Yorug'likning sinishi", "index": 2 }
+          { "name": "Yorug’likning sinishi", "index": 2 }
         ]
       },
       {
@@ -78,11 +79,11 @@
         ]
       },
       {
-        "chapter": "Tog' jinslari",
+        "chapter": "Tog’ jinslari",
         "index": 10,
         "subtopics": [
-          { "name": "Tog' jinslarining turlari", "index": 1 },
-          { "name": "Tog' jinslarining o'zgarishi", "index": 2 }
+          { "name": "Tog’ jinslarining turlari", "index": 1 },
+          { "name": "Tog’ jinslarining o‘zgarishi", "index": 2 }
         ]
       },
       {
@@ -90,7 +91,7 @@
         "index": 11,
         "subtopics": [
           { "name": "Tuproq turlari", "index": 1 },
-          { "name": "Tuproq tarkibi va o'simliklarning o'sishi", "index": 2 }
+          { "name": "Tuproq tarkibi va o‘simliklarning o‘sishi", "index": 2 }
         ]
       },
       {

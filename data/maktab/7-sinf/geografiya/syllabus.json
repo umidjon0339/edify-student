@@ -1,0 +1,128 @@
+[
+  {
+    "category": "7-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "KIRISH",
+        "index": 2,
+        "subtopics": [
+          { "name": "Geografiya fani haqida tushuncha", "index": 1 },
+          { "name": "Geografik kashfiyotlar va hozirgi zamon geografiyasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "GEOGRAFIK XARITALAR",
+        "index": 3,
+        "subtopics": [
+          { "name": "Geografik xaritalar", "index": 1 },
+          { "name": "Geografik koordinatalar", "index": 2 },
+          { "name": "Masshtab", "index": 3 },
+          { "name": "Amaliy mashg'ulot", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "GEOGRAFIK QOBIQ",
+        "index": 4,
+        "subtopics": [
+          { "name": "Geografik qobiqning chegaralari, xususiyatlari", "index": 1 },
+          { "name": "Geografik qobiqning rivojlanish bosqichlari", "index": 2 },
+          { "name": "Litosfera va uning harakatlari", "index": 3 },
+          { "name": "Yerning iqlim mintaqalari", "index": 4 },
+          { "name": "Landshaftlar", "index": 5 },
+          { "name": "Yer yuzi aholisi va uning tabiatga ta'siri", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "DUNYO OKEANI",
+        "index": 5,
+        "subtopics": [
+          { "name": "Dunyo okeani va uning qismlari", "index": 1 },
+          { "name": "Dunyo okeani tubining geologik tuzilishi va relyefi", "index": 2 },
+          { "name": "Okean suvining xususiyatlari", "index": 3 },
+          { "name": "Okean boyliklari va ulardan foydalanish", "index": 4 },
+          { "name": "Umumlashtiruvchi dars", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "MATERIKLAR VA OKEANLAR TABIATI. Afrika materigi",
+        "index": 6,
+        "subtopics": [
+          { "name": "Geografik o'rni va o'rganilishi", "index": 1 },
+          { "name": "Geologik tuzilishi, relyefi va foydali qazilmalari", "index": 2 },
+          { "name": "Materik iqlimining xususiyatlari. Iqlim mintaqalari", "index": 3 },
+          { "name": "Afrika materigining ichki suvlari", "index": 4 },
+          { "name": "Amaliy mashg'ulot", "index": 5 },
+          { "name": "Materikning tabiat zonalari", "index": 6 },
+          { "name": "Tabiiy geografik o'lkalari. Materik tabiatiga insonning ta'siri", "index": 7 },
+          { "name": "Atlantika okeani", "index": 8 },
+          { "name": "Hind okeani", "index": 9 },
+          { "name": "Amaliy mashg'ulot", "index": 10 },
+          { "name": "Umumlashtiruvchi dars", "index": 11 }
+        ]
+      },
+      {
+        "chapter": "Avstraliya materigi",
+        "index": 7,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilishi, geologik tuzilishi, foydali qazilmalari va relyefi", "index": 1 },
+          { "name": "Iqlimi, ichki suvlari va tabiat zonalari", "index": 2 },
+          { "name": "Materik aholisi va uning tabiatga ta'siri", "index": 3 },
+          { "name": "Umumlashtiruvchi dars", "index": 4 },
+          { "name": "Tinch okean", "index": 5 },
+          { "name": "Okeaniya", "index": 6 },
+          { "name": "Amaliy mashg'ulot", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Antarktida materigi",
+        "index": 8,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilishi, geologik tuzilishi, foydali qazilmalari, relyefi", "index": 1 },
+          { "name": "Iqlimi va organik dunyosi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Janubiy Amerika materigi",
+        "index": 9,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilishi, geologik tuzilishi, foydali qazilmalari, relyefi", "index": 1 },
+          { "name": "Iqlimi va ichki suvlari", "index": 2 },
+          { "name": "Amaliy mashg'ulot", "index": 3 },
+          { "name": "Janubiy Amerika tabiat zonalari va balandlik mintaqalari", "index": 4 },
+          { "name": "Tabiiy geografik o'lkalari. Aholisi va uning tabiatga ta'siri", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Shimoliy Amerika materigi",
+        "index": 10,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilishi, geologik tuzilishi, foydali qazilmalari, relyefi", "index": 1 },
+          { "name": "Shimoliy Amerika iqlimi va ichki suvlari", "index": 2 },
+          { "name": "Shimoliy Amerikaning tabiat zonalari va balandlik mintaqalari", "index": 3 },
+          { "name": "Amaliy mashg'ulot", "index": 4 },
+          { "name": "Tabiiy geografik o'lkalari va aholisining tabiatga ta'siri", "index": 5 },
+          { "name": "Shimoliy Muz okeani", "index": 6 },
+          { "name": "Umumlashtiruvchi dars", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Yevrosiyo materigi",
+        "index": 11,
+        "subtopics": [
+          { "name": "Yevrosiyoning geografik o'rni, o'rganilishi", "index": 1 },
+          { "name": "Geologik tuzilishi, foydali qazilmalari. Relyefi", "index": 2 },
+          { "name": "Yevrosiyo iqlimi", "index": 3 },
+          { "name": "Yevrosiyoning iqlim mintaqalari", "index": 4 },
+          { "name": "Yevrosiyoning ichki suvlari", "index": 5 },
+          { "name": "Amaliy mashg'ulot", "index": 6 },
+          { "name": "Yevrosiyoning tabiat zonalari", "index": 7 },
+          { "name": "Yevrosiyo aholisi va uning tabiatga ta'siri", "index": 8 },
+          { "name": "Yevrosiyo hududining tabiiy geografik o'lkalarga bo'linishi", "index": 9 },
+          { "name": "Amaliy mashg'ulot", "index": 10 },
+          { "name": "Umumlashtiruvchi dars", "index": 11 }
+        ]
+      }
+    ]
+  }
+]

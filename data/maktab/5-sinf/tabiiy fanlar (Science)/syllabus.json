@@ -4,11 +4,11 @@
     "index": 1,
     "chapters": [
       {
-        "chapter": "Gulli o'simliklar",
+        "chapter": "Gulli o‘simliklar",
         "index": 1,
         "subtopics": [
           { "name": "Gul", "index": 1 },
-          { "name": "Gulli o'simliklarning ko'payishi", "index": 2 },
+          { "name": "Gulli o'simliklarning ko‘payishi", "index": 2 },
           { "name": "Urug'larning unib chiqishi", "index": 3 }
         ]
       },
@@ -17,8 +17,8 @@
         "index": 2,
         "subtopics": [
           { "name": "Yashash muhitiga moslanish", "index": 1 },
-          { "name": "Gulli o'simliklarning moslanishlari", "index": 2 },
-          { "name": "Yirtqichlar va ularning 0'ljalaridagi moslanishlar", "index": 3 }
+          { "name": "Gulli o‘simliklarning moslanishlari", "index": 2 },
+          { "name": "Yirtqichlar va ularning 0‘ljalaridagi moslanishlar", "index": 3 }
         ]
       },
       {
@@ -26,11 +26,11 @@
         "index": 3,
         "subtopics": [
           { "name": "Qattiq, suyuq va gazsimon moddalarning tuzilishi", "index": 1 },
-          { "name": "Bug'lanish va kondensatsiya", "index": 2 }
+          { "name": "Bug‘lanish va kondensatsiya", "index": 2 }
         ]
       },
       {
-        "chapter": "Moddalarning o'zaro ta’siri",
+        "chapter": "Moddalarning o‘zaro ta’siri",
         "index": 4,
         "subtopics": [
           { "name": "Suvning xossalari", "index": 1 },
@@ -49,7 +49,7 @@
         "chapter": "Tovushlar",
         "index": 6,
         "subtopics": [
-          { "name": "Tovushning hosilbo'lishi", "index": 1 },
+          { "name": "Tovushning hosil bo‘lishi", "index": 1 },
           { "name": "Tovushning balandligi va qattiqligi", "index": 2 }
         ]
       },
@@ -57,7 +57,7 @@
         "chapter": "Magnitlar va magnit kuchi",
         "index": 7,
         "subtopics": [
-          { "name": "Magnitlarva magnetikmateriallar", "index": 1 },
+          { "name": "Magnitlar va magnetik materiallar", "index": 1 },
           { "name": "Magnit kuchi", "index": 2 }
         ]
       },
@@ -79,11 +79,11 @@
         ]
       },
       {
-        "chapter": "Yer sayyorasining harakat",
+        "chapter": "Yer sayyorasining harakati",
         "index": 10,
         "subtopics": [
           { "name": "Yerning aylanish orbitasi", "index": 1 },
-          { "name": "Sayyoralarning tabiiy va sun’iy yo'ldoshlari", "index": 2 }
+          { "name": "Sayyoralarning tabiiy va sun’iy yo‘ldoshlari", "index": 2 }
         ]
       }
     ]

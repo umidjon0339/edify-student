@@ -1,0 +1,80 @@
+[
+  {
+    "category": "5-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Geografiya fani va uning rivojlanishi",
+        "index": 1,
+        "subtopics": [
+          { "name": "Kirish. Geografiya nimani o'rganadi?", "index": 1 },
+          { "name": "Geografik kashfiyotlar va hozirgi zamon geografiyasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Yer — Quyosh sistemasidagi sayyora",
+        "index": 2,
+        "subtopics": [
+          { "name": "Quyosh, Oy va yulduzlar", "index": 1 },
+          { "name": "Yerning shakli va o'lchamlari", "index": 2 },
+          { "name": "Yerning o'z o'qi va Quyosh atrofida aylanishi", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Geografik xaritalar",
+        "index": 3,
+        "subtopics": [
+          { "name": "Azimut va masofani o'lchash", "index": 1 },
+          { "name": "Joy balandligi", "index": 2 },
+          { "name": "Masshtab", "index": 3 },
+          { "name": "Amaliy mashg'ulot", "index": 4 },
+          { "name": "Geografik xaritalar", "index": 5 },
+          { "name": "Geografik koordinatalar", "index": 6 },
+          { "name": "Amaliy mashg'ulot", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Yerning qattiq qobig'i — litosfera",
+        "index": 4,
+        "subtopics": [
+          { "name": "Yerning ichki tuzilishi", "index": 1 },
+          { "name": "Litosfera. Tog' jinslari", "index": 2 },
+          { "name": "Yer po'stining harakatlari", "index": 3 },
+          { "name": "Yer yuzasi relyefining asosiy shakllari", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Yerning suv qobig'i — gidrosfera",
+        "index": 5,
+        "subtopics": [
+          { "name": "Gidrosferaning tarkibi. Dunyo okeani", "index": 1 },
+          { "name": "Daryolar", "index": 2 },
+          { "name": "Ko'l va muzliklar. Yer osti suvlari", "index": 3 },
+          { "name": "Umumlashtiruvchi takrorlash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Yerning havo qobig'i — atmosfera",
+        "index": 6,
+        "subtopics": [
+          { "name": "Atmosferaning tuzilishi", "index": 1 },
+          { "name": "Havo harorati va bosimi", "index": 2 },
+          { "name": "Amaliy mashg'ulot", "index": 3 },
+          { "name": "Shamol", "index": 4 },
+          { "name": "Havoning namligi va yog'inlar", "index": 5 },
+          { "name": "Amaliy mashg'ulot", "index": 6 },
+          { "name": "Ob-havo va iqlim", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Biosfera. Inson va tabiat",
+        "index": 7,
+        "subtopics": [
+          { "name": "Yerning hayot qobig'i — biosfera", "index": 1 },
+          { "name": "Tabiat zonalari", "index": 2 },
+          { "name": "Umumlashtiruvchi takrorlash", "index": 3 }
+        ]
+      }
+    ]
+  }
+]

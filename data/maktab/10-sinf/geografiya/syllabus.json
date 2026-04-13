@@ -1,0 +1,118 @@
+[
+  {
+    "category": "9-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "1-bob. Jahonning siyosiy xaritasi",
+        "index": 3,
+        "subtopics": [
+          { "name": "Jahonning siyosiy xaritasi", "index": 1 },
+          { "name": "Jahon mamlakatlarining ijtimoiy-iqtisodiy rivojlanganligi bo'yicha tasnifi", "index": 2 },
+          { "name": "Mamlakatlarning boshqaruv shakli va davlat tuzilishi", "index": 3 },
+          { "name": "Amaliy mashg'ulot. Jahon siyosiy xaritasi bilan ishlash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "2-bob. Jahon tabiiy resurslari",
+        "index": 4,
+        "subtopics": [
+          { "name": "Mineral resurslar geografiyasi", "index": 1 },
+          { "name": "Tugamaydigan va tiklanadigan tabiiy resurslar geografiyasi", "index": 2 },
+          { "name": "Loyiha darsi. Global ekologik muammolar", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "3-bob. Jahon aholisi",
+        "index": 5,
+        "subtopics": [
+          { "name": "Dunyo aholisining soni, o'sishi va joylashishi", "index": 1 },
+          { "name": "Jahon aholisining yosh, jinsiy va irqiy tarkibi", "index": 2 },
+          { "name": "Dunyo aholisining etnik va diniy tarkibi", "index": 3 },
+          { "name": "Jahon mamlakatlarining urbanizatsiyasi", "index": 4 },
+          { "name": "Amaliy mashg'ulot. Aholi harakati, tarkibi va joylashuviga oid masalalar", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "4-bob. Jahon xo'jaligi geografiyasi",
+        "index": 6,
+        "subtopics": [
+          { "name": "Jahon xo'jaligi va xalqaro mehnat taqsimoti", "index": 1 },
+          { "name": "Jahon iqtisodiyoti markazlari va xalqaro integratsiya jarayonlari", "index": 2 },
+          { "name": "Amaliy mashg'ulot. Jahon xo'jaligi va uning tarkibini o'rganish", "index": 3 },
+          { "name": "Jahon energetikasi geografiyasi", "index": 4 },
+          { "name": "Amaliy mashg'ulot. Jahon sanoati geografiyasi va uning o'zgarib borishini o'rganish", "index": 5 },
+          { "name": "Jahon qishloq xo'jaligi geografiyasi", "index": 6 },
+          { "name": "Jahon transporti geografiyasi", "index": 7 },
+          { "name": "Xalqaro iqtisodiy aloqalar geografiyasi", "index": 8 },
+          { "name": "Umumlashtiruvchi dars", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "5-bob. Yevropa mamlakatlari",
+        "index": 8,
+        "subtopics": [
+          { "name": "Yevropaning geografik o'rni, chegaralari va siyosiy xaritasi", "index": 1 },
+          { "name": "Amaliy mashg'ulot. Yevropa siyosiy xaritasini o'rganish", "index": 2 },
+          { "name": "Germaniya Federativ Respublikasi", "index": 3 },
+          { "name": "Buyuk Britaniya va Shimoliy Irlandiya Birlashgan Qirolligi", "index": 4 },
+          { "name": "Fransiya Respublikasi", "index": 5 },
+          { "name": "Italiya Respublikasi", "index": 6 },
+          { "name": "Rossiya Federatsiyasi", "index": 7 },
+          { "name": "Rossiya Federatsiyasi xo'jaligi", "index": 8 },
+          { "name": "Umumlashtiruvchi dars", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "6-bob. Osiyo mamlakatlari",
+        "index": 9,
+        "subtopics": [
+          { "name": "Osiyo qit'asining geografik o'rni, chegaralari va siyosiy xaritasi", "index": 1 },
+          { "name": "Amaliy mashg'ulot. Osiyo siyosiy xaritasini o'rganish", "index": 2 },
+          { "name": "Osiyo mamlakatlarining iqtisodiy rivojlanganligi", "index": 3 },
+          { "name": "Qozog'iston Respublikasi", "index": 4 },
+          { "name": "Qirg'iz Respublikasi", "index": 5 },
+          { "name": "Turkmaniston Respublikasi", "index": 6 },
+          { "name": "Tojikiston Respublikasi", "index": 7 },
+          { "name": "Amaliy mashg'ulot. Markaziy Osiyo mamlakatlarining qiyosiy geografik tavsifi", "index": 8 },
+          { "name": "Turkiya Respublikasi", "index": 9 },
+          { "name": "Amaliy mashg'ulot. Eron, Afg'oniston va Pokistonning qiyosiy geografik tavsifi", "index": 10 },
+          { "name": "Xitoy Xalq Respublikasi", "index": 11 },
+          { "name": "Xitoy iqtisodiyoti va iqtisodiy rayonlari", "index": 12 },
+          { "name": "Koreya Respublikasi", "index": 13 },
+          { "name": "Yaponiya", "index": 14 },
+          { "name": "Hindiston Respublikasi", "index": 15 },
+          { "name": "Fors qo'ltig'i arab davlatlari", "index": 16 },
+          { "name": "Umumlashtiruvchi dars", "index": 17 }
+        ]
+      },
+      {
+        "chapter": "7-Bob. Afrika, Avstraliya va Okeaniya, Amerika mamlakatlari",
+        "index": 10,
+        "subtopics": [
+          { "name": "Afrikaning geografik o'rni, siyosiy xaritasi, tabiiy resurslari", "index": 1 },
+          { "name": "Afrika mamlakatlarining aholisi va xo'jaligi", "index": 2 },
+          { "name": "Janubiy Afrika Respublikasi", "index": 3 },
+          { "name": "Nigeriya Federativ Respublikasi", "index": 4 },
+          { "name": "Misr Arab Respublikasi", "index": 5 },
+          { "name": "Amaliy mashg'ulot. Afrikaning siyosiy xaritasi, tabiiy va iqtisodiy geografik sharoitini o'rganish", "index": 6 },
+          { "name": "Avstraliya Ittifoqi", "index": 7 },
+          { "name": "Amerikaning siyosiy xaritasi", "index": 8 },
+          { "name": "Amerika Qo'shma Shtatlari", "index": 9 },
+          { "name": "AQSH xo'jaligi va iqtisodiy rayonlari", "index": 10 },
+          { "name": "Kanada", "index": 11 },
+          { "name": "Braziliya", "index": 12 },
+          { "name": "Umumlashtiruvchi takrorlash", "index": 13 }
+        ]
+      },
+      {
+        "chapter": "Glossariy",
+        "index": 11,
+        "subtopics": [
+          { "name": "Foydalanilgan va tavsiya etilayotgan adabiyotlar ro'yxati", "index": 1 },
+          { "name": "Xalqaro statistik ma'lumotlar bilan tanishishda foydalanish mumkin bo'lgan veb saytlar", "index": 2 }
+        ]
+      }
+    ]
+  }
+]

@@ -19,24 +19,21 @@
           { "name": "Prokariot hujayralar", "index": 2 },
           { "name": "Eukariotlar – o'simliklarning xilma-xilligi", "index": 3 },
           { "name": "Zamburug'lar dunyosi", "index": 4 },
-          { "name": "Hayvonlar dunyosi", "index": 5 },
-          { "name": "1- laboratoriya mashg'uloti. 1. Pichan tayoqcha bakteriyasini mikroskopda ko'rish. 2. Ko'k-yashil suvo'tini mikroskopda ko'rish.", "index": 6 }
+          { "name": "Hayvonlar dunyosi", "index": 5 }
         ]
       },
       {
         "chapter": "Sitologiya asoslari",
         "index": 3,
         "subtopics": [
-          { "name": "Hujayrani o'rganish tarixi va hujayra nazariyasi", "index": 1 },
+          { "name": "Hujayrani o‘rganish tarixi va hujayra nazariyasi", "index": 1 },
           { "name": "Hujayrani o'rganish usullari", "index": 2 },
           { "name": "Eukariot hujayralar", "index": 3 },
           { "name": "Sitoplazma. Hujayraning membranasiz va membranali organoidlari: endoplazmatik to'r, ribosomalar, golji majmuasi", "index": 4 },
           { "name": "Mitoxondriya, plastidalar, lizosomalar va sitoplazmaning boshqa organoidlari", "index": 5 },
           { "name": "Yadro va uning tuzilishi", "index": 6 },
           { "name": "Prokariot va eukariot hujayralar", "index": 7 },
-          { "name": "Hujayralar evolutsiyasi", "index": 8 },
-          { "name": "2- laboratoriya mashg'uloti. O'simlik va hayvon hujayralarining tuzilishini mikroskop yordamida o'rganish", "index": 9 },
-          { "name": "3- laboratoriya mashg'uloti. O'simlik hujayrasida plazmoliz va deplazmolizni kuzatish", "index": 10 }
+          { "name": "Hujayralar evolutsiyasi", "index": 8 }
         ]
       },
       {
@@ -52,8 +49,7 @@
           { "name": "Oqsil tarkibi. Oqsil tuzilishi", "index": 7 },
           { "name": "Oqsillarning xossalari. Oddiy va murakkab oqsillar", "index": 8 },
           { "name": "Oqsillarning funksiyasi", "index": 9 },
-          { "name": "Nuklein kislotalar", "index": 10 },
-          { "name": "4- laboratoriya mashg'uloti. Amilazaning kraxmalga ta'siri", "index": 11 }
+          { "name": "Nuklein kislotalar", "index": 10 }
         ]
       },
       {
@@ -65,9 +61,7 @@
           { "name": "Energiya almashinuvi bosqichlari", "index": 3 },
           { "name": "Hujayraning oziqlanishi", "index": 4 },
           { "name": "Xemosintez", "index": 5 },
-          { "name": "Hujayrada plastik almashinuv", "index": 6 },
-          { "name": "Hujayrada modda va energiyalar almashinuviga doir masalalar yechish", "index": 7 },
-          { "name": "5- laboratoriya mashg'uloti. O'simlik bargida organik moddalarning hosil bo'lishini o'rganish", "index": 8 }
+          { "name": "Hujayrada plastik almashinuv", "index": 6 }
         ]
       },
       {
@@ -91,18 +85,12 @@
         "subtopics": [
           { "name": "Genetikaning rivojlanish tarixi", "index": 1 },
           { "name": "G.Mendel qonunlari. Monoduragay chatishtirish", "index": 2 },
-          { "name": "6- laboratoriya mashg'uloti. Monoduragay chatishtirishga doir masalalar yechish", "index": 3 },
           { "name": "Di-poliduragay chatishtirish. Mendelning uchinchi qonuni", "index": 4 },
-          { "name": "1- amaliy mashg'ulot. Diduragay chatishtirishga doir masalalar yechish", "index": 5 },
-          { "name": "7- laboratoriya mashg'uloti. G'o'za, pomidor, nomozshomgulning chatishtirish natijasini gerbariy asosida o'rganish", "index": 6 },
           { "name": "Noallel genlarning o'zaro ta'siri", "index": 7 },
           { "name": "Genlarning polimer va ko'p tomonlama ta'siri", "index": 8 },
-          { "name": "2- amaliy mashg'ulot. Noallel genlarning o'zaro ta'siriga doir masalalar yechish", "index": 9 },
           { "name": "Belgilarning birikkan holda irsiylanishi", "index": 10 },
           { "name": "Jins genetikasi", "index": 11 },
-          { "name": "3- amaliy mashg'ulot. Birikkan holda irsiylanish va jins bilan bog'liq holda irsiylanishga doir masalalar yechish", "index": 12 },
           { "name": "O'zgaruvchanlik", "index": 13 },
-          { "name": "8- laboratoriya mashg'uloti. Modifikatsion o'zgaruvchanlikning statistik qonuniyatlarini o'rganish", "index": 14 },
           { "name": "Mutatsion (genotipik) o'zgaruvchanlik", "index": 15 },
           { "name": "Odam genetikasini o'rganish usullari", "index": 16 },
           { "name": "Odamdagi irsiy kasalliklar", "index": 17 }

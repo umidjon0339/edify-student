@@ -1,0 +1,92 @@
+[
+  {
+    "category": "8-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "O'zbekistonning geografik o'rni va ma'muriy-hududiy tuzilishi",
+        "index": 1,
+        "subtopics": [
+          { "name": "Kirish", "index": 1 },
+          { "name": "O'zbekistonning geografik o'rni", "index": 2 },
+          { "name": "O'zbekistonning ma'muriy-hududiy tuzilishi", "index": 3 },
+          { "name": "Ijtimoiy-iqtisodiy xaritalar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "O'zbekistonning tabiiy boyliklari, aholisi va mehnat resurslari",
+        "index": 2,
+        "subtopics": [
+          { "name": "O'zbekistonning tabiiy sharoiti va tabiiy boyliklari", "index": 1 },
+          { "name": "Tabiiy sharoit va tabiiy boyliklarning milliy iqtisodiyotdagi ahamiyati", "index": 2 },
+          { "name": "O'zbekiston aholisi", "index": 3 },
+          { "name": "O'zbekiston aholisining tarkibi", "index": 4 },
+          { "name": "Aholi punktlari", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Milliy iqtisodiyotning tarkibiy tuzilishi",
+        "index": 3,
+        "subtopics": [
+          { "name": "O'zbekiston milliy iqtisodiyotining tuzilishi", "index": 1 },
+          { "name": "Sanoat – milliy iqtisodiyotning tayanch tarmog'i", "index": 2 },
+          { "name": "Yoqilg'i-energetika majmuasi", "index": 3 },
+          { "name": "Neft va gaz sanoati", "index": 4 },
+          { "name": "Ko'mir sanoati", "index": 5 },
+          { "name": "Elektroenergetika", "index": 6 },
+          { "name": "Kimyo sanoati", "index": 7 },
+          { "name": "Qora metallurgiya", "index": 8 },
+          { "name": "Rangli metallurgiya", "index": 9 },
+          { "name": "Mashinasozlik va uning tarmoqlari", "index": 10 },
+          { "name": "Avtomobilsozlik", "index": 11 },
+          { "name": "Yog'ochni qayta ishlash sanoati", "index": 12 },
+          { "name": "Qurilish materiallari sanoati", "index": 13 },
+          { "name": "Sanoat va ekologik muammolar", "index": 14 },
+          { "name": "Agrosanoat majmuasi", "index": 15 },
+          { "name": "Qishloq xo'jaligi", "index": 16 },
+          { "name": "Dehqonchilik", "index": 17 },
+          { "name": "Chorvachilik", "index": 18 },
+          { "name": "O'zbekistonda qishloq xo'jaligining geografik tiplari", "index": 19 },
+          { "name": "Yengil sanoat", "index": 20 },
+          { "name": "Oziq-ovqat sanoati", "index": 21 },
+          { "name": "Sanoatni hududiy tashkil etish hamda joylashtirish shakllari", "index": 22 },
+          { "name": "Transport geografiyasi", "index": 23 },
+          { "name": "O'zbekiston transportining zamonaviy rivojlanishi", "index": 24 },
+          { "name": "Aholiga xizmat ko'rsatish sohalari", "index": 25 },
+          { "name": "O'zbekistonda rekreatsiya va turizm", "index": 26 },
+          { "name": "Tashqi iqtisodiy aloqalar", "index": 27 },
+          { "name": "Amaliy mashg'ulot", "index": 28 }
+        ]
+      },
+      {
+        "chapter": "O'zbekistonning regional tavsifi",
+        "index": 4,
+        "subtopics": [
+          { "name": "O'zbekiston iqtisodiyotini hududiy tashkil etish", "index": 1 },
+          { "name": "Toshkent iqtisodiy rayoni", "index": 2 },
+          { "name": "Toshkent viloyati", "index": 3 },
+          { "name": "Toshkent shahri", "index": 4 },
+          { "name": "Mirzacho'l iqtisodiy rayoni", "index": 5 },
+          { "name": "Sirdaryo viloyati", "index": 6 },
+          { "name": "Jizzax viloyati", "index": 7 },
+          { "name": "Farg'ona iqtisodiy rayoni", "index": 8 },
+          { "name": "Andijon viloyati", "index": 9 },
+          { "name": "Farg'ona viloyati", "index": 10 },
+          { "name": "Namangan viloyati", "index": 11 },
+          { "name": "Zarafshon iqtisodiy rayoni", "index": 12 },
+          { "name": "Samarqand viloyati", "index": 13 },
+          { "name": "Navoiy viloyati", "index": 14 },
+          { "name": "Buxoro viloyati", "index": 15 },
+          { "name": "Janubiy iqtisodiy rayon", "index": 16 },
+          { "name": "Qashqadaryo viloyati", "index": 17 },
+          { "name": "Surxondaryo viloyati", "index": 18 },
+          { "name": "Quyi Amudaryo iqtisodiy rayoni", "index": 19 },
+          { "name": "Xorazm viloyati", "index": 20 },
+          { "name": "Qoraqalpog'iston Respublikasi", "index": 21 },
+          { "name": "Amaliy mashg'ulot", "index": 22 },
+          { "name": "Umumlashtiruvchi takrorlash", "index": 23 }
+        ]
+      }
+    ]
+  }
+]

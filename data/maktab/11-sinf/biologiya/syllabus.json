@@ -4,7 +4,7 @@
     "index": 1,
     "chapters": [
       {
-        "chapter": "Ekologiya va hayot",
+        "chapter": "I BOB. EKOLOGIYA VA HAYOT",
         "index": 1,
         "subtopics": [
           { "name": "Biologik tizimlar. Ekologiya – biologik tizimlar haqidagi fan", "index": 1 },
@@ -12,7 +12,7 @@
         ]
       },
       {
-        "chapter": "Hayotning ekosistema darajasidagi umumbiologik qonuniyatlari",
+        "chapter": "II BOB. HAYOTNING EKOSISTEMA DARAJASIDAGI UMUMBIOLOGIK QONUNIYATLARI",
         "index": 2,
         "subtopics": [
           { "name": "Hayotning ekosistema darajasi xususiyatlari. Biogeotsenoz – biologik sistema", "index": 1 },
@@ -26,23 +26,20 @@
           { "name": "Tuproq va topografik omillar", "index": 9 },
           { "name": "Muhitning biotik omillari. Tirik organizmlar o'rtasidagi munosabatlar", "index": 10 },
           { "name": "Antropogen omillar", "index": 11 },
-          { "name": "1-laboratoriya mashg'uloti", "index": 12 },
           { "name": "Turning populatsion strukturasi", "index": 13 },
           { "name": "Turning populatsion strukturasi (davomi)", "index": 14 },
           { "name": "Ekotizimlarning trofik strukturasi", "index": 15 },
           { "name": "Ekotizimlarning mahsuldorligi", "index": 16 },
           { "name": "Ekologik piramida qoidasi. Biomassa va energiya piramidasi", "index": 17 },
-          { "name": "2-laboratoriya mashg'uloti", "index": 18 },
           { "name": "Tabiiy ekosistemalar", "index": 19 },
           { "name": "Markaziy Osiyo va O'zbekistonning tabiiy ekosistemalari", "index": 20 },
           { "name": "Sun'iy ekosistemalar", "index": 21 },
           { "name": "Biogeotsenozlarning barqarorligi", "index": 22 },
-          { "name": "Inson ekologiyasi", "index": 23 },
-          { "name": "3-laboratoriya mashg'uloti", "index": 24 }
+          { "name": "Inson ekologiyasi", "index": 23 }
         ]
       },
       {
-        "chapter": "Hayotning biosfera darajasining umumbiologik qonuniyatlari",
+        "chapter": "III BOB. HAYOTNING BIOSFERA DARAJASINING UMUMBIOLOGIK QONUNIYATLARI",
         "index": 3,
         "subtopics": [
           { "name": "Biosfera darajasining xususiyatlari. Biosfera haqida ta'limot", "index": 1 },
@@ -59,21 +56,19 @@
         ]
       },
       {
-        "chapter": "Organik olam filogenezi",
+        "chapter": "IV BOB. ORGANIK OLAM FILOGENEZI",
         "index": 4,
         "subtopics": [
           { "name": "Organik olam filogenezining umumiy tavsifi", "index": 1 },
           { "name": "O'simliklar filogenezi. O'simliklarning vegetativ organlari filogenezi", "index": 2 },
           { "name": "O'simliklarning generativ organlari filogenezi", "index": 3 },
-          { "name": "4-laboratoriya mashg'uloti", "index": 4 },
           { "name": "Hayvonot dunyosidagi evolutsion o'zgarishlar", "index": 5 },
           { "name": "Tirik organizmlarda o'z-o'zini idora etish organlari: gumoral va nerv sistemasi evolutsiyasi", "index": 6 },
           { "name": "Hayvonlarning tana qoplami va harakat organlari evolutsiyasi", "index": 7 },
           { "name": "Hayvonlarning nafas olish organlari evolutsiyasi", "index": 8 },
           { "name": "Hayvonlarning qon aylanish organlari evolutsiyasi", "index": 9 },
           { "name": "Hayvonlarning hazm qilish organlari evolutsiyasi", "index": 10 },
-          { "name": "Hayvonlarning ayirish va jinsiy organlari evolutsiyasi", "index": 11 },
-          { "name": "5-laboratoriya mashg'uloti", "index": 12 }
+          { "name": "Hayvonlarning ayirish va jinsiy organlari evolutsiyasi", "index": 11 }
         ]
       }
     ]

@@ -4,100 +4,83 @@
     "index": 1,
     "chapters": [
       {
-        "chapter": "Molekulyar biologiya",
+        "chapter": "MOLEKULYAR BIOLOGIYA",
         "index": 1,
         "subtopics": [
           { "name": "Biologiya fan sifatida", "index": 1 },
-          { "name": "Amaliy mashg'ulot. Hayotning tuzilish darajalarini modellashtirish", "index": 2 },
           { "name": "Tirik organizmlarning kimyoviy tarkibi", "index": 3 },
-          { "name": "Amaliy mashg'ulot. Suvning tirik organizmlar uchun ahamiyati", "index": 4 },
           { "name": "Uglevodlar", "index": 5 },
           { "name": "Lipidlar", "index": 6 },
           { "name": "Oqsillar", "index": 7 },
-          { "name": "Amaliy mashg'ulot. Biologik infografika tuzish", "index": 8 },
-          { "name": "Nuklein kislotalar", "index": 9 },
-          { "name": "Amaliy mashg'ulot. DNK va RNK tuzilishiga doir masalalar yechish", "index": 10 }
+          { "name": "Nuklein kislotalar", "index": 9 }
         ]
       },
       {
-        "chapter": "Hujayra biologiyasi",
+        "chapter": "HUJAYRA BIOLOGIYASI",
         "index": 2,
         "subtopics": [
           { "name": "Eukariot hujayra. Hujayra qobig'i", "index": 1 },
           { "name": "Sitoplazma. Hujayraning membranasiz organoidlari", "index": 2 },
           { "name": "Hujayraning membranali organoidlari", "index": 3 },
-          { "name": "Laboratoriya mashg'uloti. Hujayra membranasiga haroratning ta'sirini o'rganish", "index": 4 },
           { "name": "Yadro", "index": 5 },
           { "name": "Prokariot hujayra", "index": 6 },
-          { "name": "Amaliy mashg'ulot. Prokariot va eukariot hujayralar tuzilishini qiyosiy o'rganish", "index": 7 },
           { "name": "Hujayrada moddalar almashinuvi. Hujayrada energetik almashinuv", "index": 8 },
-          { "name": "Amaliy mashg'ulot. Energiya almashinuviga doir masalalar yechish", "index": 9 },
           { "name": "Hujayrada irsiy axborotning amalga oshirilishi", "index": 10 },
-          { "name": "Amaliy mashg'ulot. Oqsil biosintezi jarayonini modellashtirish", "index": 11 },
           { "name": "Prokariot va eukariot hujayralarning bo'linishi", "index": 12 },
-          { "name": "Meyoz", "index": 13 },
-          { "name": "Laboratoriya mashg'uloti. Mitoz jarayonini mikropreparatlar yordamida o'rganish", "index": 14 },
-          { "name": "Amaliy mashg'ulot. Mitoz va meyoz fazalarini taqqoslash", "index": 15 }
+          { "name": "Meyoz", "index": 13 }
         ]
       },
       {
-        "chapter": "Hayotiy jarayonlar",
+        "chapter": "HAYOTIY JARAYONLAR",
         "index": 3,
         "subtopics": [
           { "name": "Organizmlarning jinssiz ko'payishi", "index": 1 },
           { "name": "Gametogenez", "index": 2 },
           { "name": "Organizmlarning jinsiy ko'payishi", "index": 3 },
-          { "name": "O'simlik va hayvonlar hayot siklida jinssiz va jinsiy nasl gallanishi", "index": 4 },
-          { "name": "Amaliy mashg'ulot. O'simliklar (yo'sin, qirqquloq, qirqbo'g'im, urug'li o'simlik) hayot siklida jinssiz va jinsiy bo'g'inlarning gallanishini modellashtirish", "index": 5 }
+          { "name": "O'simlik va hayvonlar hayot siklida jinssiz va jinsiy nasl gallanishi", "index": 4 }
         ]
       },
       {
-        "chapter": "Irsiyat va o'zgaruvchanlik",
+        "chapter": "IRSIYAT VA O'ZGARUVCHANLIK",
         "index": 4,
         "subtopics": [
           { "name": "Irsiyat qonuniyatlari", "index": 1 },
-          { "name": "Amaliy mashg'ulot. To'liq va chala dominantlik bo'yicha masalalar yechish", "index": 2 },
-          { "name": "Amaliy mashg'ulot. Kodominantlik va pleyotropiyaga doir masalalar yechish", "index": 3 },
           { "name": "Jins genetikasi", "index": 4 },
           { "name": "Belgilarning jinsga bog'liq holda irsiylanishi", "index": 5 },
-          { "name": "Amaliy mashg'ulot. Jins genetikasiga doir masalalar yechish", "index": 6 },
           { "name": "O'zgaruvchanlik", "index": 7 },
-          { "name": "Amaliy mashg'ulot. Modifikatsion o'zgaruvchanlikni o'rganish", "index": 8 },
-          { "name": "Genotipik o'zgaruvchanlik turlari", "index": 9 },
-          { "name": "Amaliy mashg'ulot. Modifikatsion va mutatsion o'zgaruvchanliklarni qiyosiy o'rganish", "index": 10 }
+          { "name": "Genotipik o'zgaruvchanlik turlari", "index": 9 }
         ]
       },
       {
-        "chapter": "Genetik muhandislik va biotexnologiya",
+        "chapter": "GENETIK MUHANDISLIK VA BIOTEXNOLOGIYA",
         "index": 5,
         "subtopics": [
           { "name": "Genetik muhandislik", "index": 1 },
           { "name": "Hujayra irsiyatini o'zgartirish", "index": 2 },
-          { "name": "Biotexnologiya", "index": 3 },
-          { "name": "Amaliy mashg'ulot. Restriksion saytlarni aniqlash va meva sharbatini ishlab chiqarishda pektinazadan foydalanishni o'rganish", "index": 4 }
+
+
+
+
+          
+          { "name": "Biotexnologiya", "index": 3 }
         ]
       },
       {
-        "chapter": "Ekosistema",
+        "chapter": "EKOSISTEMA",
         "index": 6,
         "subtopics": [
           { "name": "Ekosistemaning tarkibiy tuzilmasi", "index": 1 },
-          { "name": "Amaliy mashg'ulot. Ekosistemaning tarkibiy qismlarini aniqlash", "index": 2 },
           { "name": "Ekologik omillar", "index": 3 },
-          { "name": "Loyiha ishi. Turli muhit sharoitida o'sgan o'simliklarning tuzilishini taqqoslash", "index": 4 },
-          { "name": "Ekosistemaning trofik strukturasi", "index": 5 },
-          { "name": "Amaliy mashg'ulot. Oziq zanjiri va oziq to'riga oid sxemalar tuzish va masalalar yechish", "index": 6 }
+          { "name": "Ekosistemaning trofik strukturasi", "index": 5 }
         ]
       },
       {
-        "chapter": "Evolyutsiya",
+        "chapter": "EVOLYUTSIYA",
         "index": 7,
         "subtopics": [
           { "name": "Evolyutsiyani harakatlantiruvchi omillari", "index": 1 },
-          { "name": "Amaliy mashg'ulot. Populyatsiyalarning demografik ko'rsatkichlarini Hardi-Vaynberg qonuni asosida o'rganish", "index": 2 },
           { "name": "Tabiiy tanlanish", "index": 3 },
           { "name": "Organik olamdagi moslanishlar – evolyutsiya natijasi", "index": 4 },
-          { "name": "Amaliy mashg'ulot. Organizmlarning yashash muhitiga moslanishini o'rganish", "index": 5 },
           { "name": "Turlarning paydo bo'lishi", "index": 6 }
         ]
       }

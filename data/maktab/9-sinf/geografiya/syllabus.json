@@ -1,0 +1,110 @@
+[
+  {
+    "category": "9-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "1-BOB. JAHONNING SIYOSIY XARITASI",
+        "index": 3,
+        "subtopics": [
+          { "name": "Jahonning siyosiy xaritasi", "index": 1 },
+          { "name": "Jahon mamlakatlarining ijtimoiy-iqtisodiy rivojlanganligi bo'yicha tasnifi", "index": 2 },
+          { "name": "Mamlakatlarning boshqaruv shakli va davlat tuzilishi", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "2-BOB. JAHON TABIIY RESURSLARI",
+        "index": 4,
+        "subtopics": [
+          { "name": "Dunyoning tabiiy resurslari", "index": 1 },
+          { "name": "Mineral resurslar geografiyasi", "index": 2 },
+          { "name": "Tugamaydigan va tiklanadigan tabiiy resurslar geografiyasi", "index": 3 },
+          { "name": "Zamonaviy ekologik muammolar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "3-BOB. JAHON AHOLISI",
+        "index": 5,
+        "subtopics": [
+          { "name": "Jahon aholisining soni, o'sishi va joylashuvi", "index": 1 },
+          { "name": "Jahon aholisining jinsiy, yosh, irqiy tarkibi", "index": 2 },
+          { "name": "Dunyo aholisining etnik va diniy tarkibi", "index": 3 },
+          { "name": "Jahon mamlakatlarining urbanizatsiyasi", "index": 4 },
+          { "name": "Amaliy mashg'ulot", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "4-BOB. JAHON XO'JALIGI",
+        "index": 6,
+        "subtopics": [
+          { "name": "Jahon xo'jaligi va xalqaro mehnat taqsimoti", "index": 1 },
+          { "name": "Jahon iqtisodiyoti markazlari va xalqaro integratsiya jarayonlari", "index": 2 },
+          { "name": "Fan-texnika inqilobi va ishlab chiqarishning rivojlanishiga innovatsion texnologiyalarning ta'siri", "index": 3 },
+          { "name": "Jahon energetikasi geografiyasi", "index": 4 },
+          { "name": "Jahon metallurgiya va kimyo sanoati geografiyasi", "index": 5 },
+          { "name": "Jahon mashinasozlik va yengil sanoati geografiyasi", "index": 6 },
+          { "name": "Jahon dehqonchiligi geografiyasi", "index": 7 },
+          { "name": "Jahon chorvachiligi va baliqchiligi geografiyasi", "index": 8 },
+          { "name": "Jahon transporti geografiyasi", "index": 9 },
+          { "name": "Xalqaro iqtisodiy aloqalar geografiyasi", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "5-BOB. YEVROPA MAMLAKATLARI",
+        "index": 8,
+        "subtopics": [
+          { "name": "Yevropaning geografik o'rni, chegaralari va siyosiy xaritasi", "index": 1 },
+          { "name": "Yevropaning tabiiy sharoiti va resurslari, aholisi", "index": 2 },
+          { "name": "Yevropa mamlakatlarining iqtisodiyoti", "index": 3 },
+          { "name": "Germaniya Federativ Respublikasi", "index": 4 },
+          { "name": "Buyuk Britaniya va Shimoliy Irlandiya Birlashgan Qirolligi", "index": 5 },
+          { "name": "Fransiya Respublikasi", "index": 6 },
+          { "name": "Italiya Respublikasi", "index": 7 },
+          { "name": "Rossiya Federatsiyasi", "index": 8 },
+          { "name": "Rossiya Federatsiyasi xo'jaligi", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "6-BOB. OSIYO MAMLAKATLARI",
+        "index": 9,
+        "subtopics": [
+          { "name": "Osiyo qit'asining geografik o'rni, chegaralari va siyosiy xaritasi", "index": 1 },
+          { "name": "Osiyo mamlakatlari tabiiy resurslari va aholisi", "index": 2 },
+          { "name": "Osiyo mamlakatlarining iqtisodiy rivojlanganligi", "index": 3 },
+          { "name": "Qozog'iston Respublikasi", "index": 4 },
+          { "name": "Qirg'iziston Respublikasi", "index": 5 },
+          { "name": "Turkmaniston Respublikasi", "index": 6 },
+          { "name": "Tojikiston Respublikasi", "index": 7 },
+          { "name": "Amaliy mashg'ulot (Markaziy Osiyo davlatlariga qiyosiy geografik tavsif)", "index": 8 },
+          { "name": "Turkiya Respublikasi", "index": 9 },
+          { "name": "Eron, Afg'oniston, Pokiston Islom Respublikalari", "index": 10 },
+          { "name": "Xitoy Xalq Respublikasi", "index": 11 },
+          { "name": "Xitoy iqtisodiyoti va iqtisodiy rayonlari", "index": 12 },
+          { "name": "Koreya Respublikasi", "index": 13 },
+          { "name": "Yaponiya", "index": 14 },
+          { "name": "Hindiston Respublikasi", "index": 15 },
+          { "name": "Fors qo'ltig'i arab davlatlari", "index": 16 },
+          { "name": "Indoneziya, Malayziya, Singapur davlatlari", "index": 17 }
+        ]
+      },
+      {
+        "chapter": "7-BOB. AFRIKA, AVSTRALIYA VA OKEANIYA, AMERIKA MAMLAKATLARI",
+        "index": 10,
+        "subtopics": [
+          { "name": "Afrikaning geografik o'rni va siyosiy xaritasi", "index": 1 },
+          { "name": "Afrika mamlakatlarining aholisi va xo'jaligi", "index": 2 },
+          { "name": "Janubiy Afrika Respublikasi", "index": 3 },
+          { "name": "Nigeriya Federativ Respublikasi", "index": 4 },
+          { "name": "Misr Arab Respublikasi", "index": 5 },
+          { "name": "Avstraliya Ittifoqi", "index": 6 },
+          { "name": "Amerikaning siyosiy xaritasi", "index": 7 },
+          { "name": "Amerika Qo'shma Shtatlari", "index": 8 },
+          { "name": "Amerika Qo'shma Shtatlari xo'jaligi va iqtisodiy rayonlari", "index": 9 },
+          { "name": "Kanada", "index": 10 },
+          { "name": "Braziliya", "index": 11 },
+          { "name": "Umumlashtiruvchi takrorlash", "index": 12 }
+        ]
+      }
+    ]
+  }
+]

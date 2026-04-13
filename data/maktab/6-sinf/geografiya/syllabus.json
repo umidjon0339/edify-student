@@ -1,0 +1,128 @@
+[
+  {
+    "category": "6-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "SO'ZBOSHI",
+        "index": 1,
+        "subtopics": [
+          { "name": "\"Materiklar va okeanlar tabiiy geografiyasi\" kursida nimalar o'rganiladi?", "index": 1 },
+          { "name": "Geografik xaritalar va ularning turlari. Atlaslar, globuslar", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "GEOGRAFIK QOBIQ",
+        "index": 2,
+        "subtopics": [
+          { "name": "Geografik qobiqning chegaralari, xususiyatlari", "index": 1 },
+          { "name": "Geografik qobiqning rivojlanish bosqichlari va umumiy qonuniyatlari", "index": 2 },
+          { "name": "Litosfera va Yer relyefi", "index": 3 },
+          { "name": "Materiklar va okeanlarning paydo bo'lishi va rivojlanishi", "index": 4 },
+          { "name": "Gidrosfera, uning tarkibiy qismlari", "index": 5 },
+          { "name": "Atmosfera. Yerning iqlim mintaqalari", "index": 6 },
+          { "name": "Tabiat komplekslari, ularning almashinishi va zonalligi", "index": 7 },
+          { "name": "Yer yuzi aholisi, irqlar", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "OKEANLAR TABIATI",
+        "index": 3,
+        "subtopics": [
+          { "name": "Dunyo okeani va uning qismlari", "index": 1 },
+          { "name": "Dunyo okeani tubining geologik tuzilishi va relyefi", "index": 2 },
+          { "name": "Okean suvining xususiyatlari", "index": 3 },
+          { "name": "Dunyo okeanining atmosfera va quruqlikka ta'siri", "index": 4 },
+          { "name": "Okean boyliklari, ulardan foydalanish va muhofaza qilish", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "MATERIKLAR VA OKEANLAR TABIATI. AFRIKA",
+        "index": 4,
+        "subtopics": [
+          { "name": "Afrika materigining geografik o'rni va o'rganilish tarixi", "index": 1 },
+          { "name": "Geologik tuzilishi va foydali qazilmalari. Relyefi", "index": 2 },
+          { "name": "Materik iqlimining xususiyatlari", "index": 3 },
+          { "name": "Iqlim mintaqalari", "index": 4 },
+          { "name": "Ichki suvlari", "index": 5 },
+          { "name": "Ekvatorial o'rmonlar va savannalar", "index": 6 },
+          { "name": "Tropik cho'llar va subtropiklar", "index": 7 },
+          { "name": "Tabiiy geografik o'lkalari", "index": 8 },
+          { "name": "Materik aholisi va uning tabiatga ta'siri", "index": 9 },
+          { "name": "Atlantika okeani", "index": 10 },
+          { "name": "Hind okeani", "index": 11 }
+        ]
+      },
+      {
+        "chapter": "AVSTRALIYA VA OKEANIYA",
+        "index": 5,
+        "subtopics": [
+          { "name": "Avstraliyaning geografik o'rni, o'rganilish tarixi, geologik tuzilishi, foydali qazilmalari. Relyefi", "index": 1 },
+          { "name": "Iqlimi, ichki suvlari va tabiat zonalari", "index": 2 },
+          { "name": "Materik aholisi va uning tabiatga ta'siri", "index": 3 },
+          { "name": "Takrorlash", "index": 4 },
+          { "name": "Tinch okean", "index": 5 },
+          { "name": "Okeaniya", "index": 6 },
+          { "name": "Okeaniya iqlimi, tabiat zonalari va aholisi", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "ANTARKTIDA",
+        "index": 6,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilish tarixi, geologik tuzilishi, foydali qazilmalari. Relyefi", "index": 1 },
+          { "name": "Iqlimi va tabiat komplekslari", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "JANUBIY AMERIKA",
+        "index": 7,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilish tarixi, geologik tuzilishi, foydali qazilmalari. Relyefi", "index": 1 },
+          { "name": "Iqlimi va ichki suvlari", "index": 2 },
+          { "name": "Janubiy Amerikaning tabiat zonalari va balandlik mintaqalari", "index": 3 },
+          { "name": "Tabiiy geografik o'lkalari", "index": 4 },
+          { "name": "Janubiy Amerika aholisi", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "SHIMOLIY AMERIKA",
+        "index": 8,
+        "subtopics": [
+          { "name": "Geografik o'rni, o'rganilish tarixi, geologik tuzilishi, foydali qazilmalari. Relyefi", "index": 1 },
+          { "name": "Shimoliy Amerika iqlimi va ichki suvlari", "index": 2 },
+          { "name": "Shimoliy Amerikaning tabiat zonalari va balandlik mintaqalari", "index": 3 },
+          { "name": "Shimoliy Amerikaning tabiiy geografik o'lkalari", "index": 4 },
+          { "name": "Shimoliy Amerika aholisi", "index": 5 },
+          { "name": "Shimoliy Muz okeani", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "YEVROSIYO",
+        "index": 9,
+        "subtopics": [
+          { "name": "Yevrosiyoning geografik o'rni, o'rganilish tarixi", "index": 1 },
+          { "name": "Geologik tuzilishi va foydali qazilmalari. Relyefi", "index": 2 },
+          { "name": "Yevrosiyo iqlimi", "index": 3 },
+          { "name": "Sovuq va mo'tadil iqlim mintaqalari", "index": 4 },
+          { "name": "Issiq iqlim mintaqalari", "index": 5 },
+          { "name": "Ichki suvlari", "index": 6 },
+          { "name": "Sovuq va mo'tadil iqlim mintaqalaridagi tabiat zonalari", "index": 7 },
+          { "name": "Issiq iqlim mintaqalaridagi tabiat zonalari", "index": 8 },
+          { "name": "Balandlik mintaqalari", "index": 9 },
+          { "name": "Yevrosiyo aholisi va siyosiy xaritasi", "index": 10 },
+          { "name": "Antropogen tabiat komplekslari", "index": 11 },
+          { "name": "Yevrosiyo hududining tabiiy geografik o'lkalarga bo'linishi", "index": 12 },
+          { "name": "O'rta Yevropa", "index": 13 },
+          { "name": "Sharqiy Yevropa", "index": 14 },
+          { "name": "G'arbiy va Sharqiy Sibir", "index": 15 },
+          { "name": "Markaziy Osiyo", "index": 16 },
+          { "name": "Sharqiy Osiyo", "index": 17 },
+          { "name": "Janubiy Osiyo", "index": 18 },
+          { "name": "Old Osiyo", "index": 19 },
+          { "name": "Umumlashtiruvchi takrorlash", "index": 20 }
+        ]
+      }
+    ]
+  }
+]

@@ -73,6 +73,7 @@
           { "name": "Oshqozon-ichak kasalliklari va ularning oldini olish", "index": 4 }
         ]
       },
+
       {
         "chapter": "Moddalar va energiya almashinuvi",
         "index": 8,
@@ -83,6 +84,8 @@
           { "name": "Organizmda energiya sarfi", "index": 4 }
         ]
       },
+
+      
       {
         "chapter": "Teri va siydik ayirish sistemasi",
         "index": 9,
