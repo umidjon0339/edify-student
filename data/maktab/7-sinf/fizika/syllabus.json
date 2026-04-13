@@ -1,0 +1,96 @@
+[
+  {
+    "category": "7-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Mexanik harakat haqida umumiy ma'lumotlar",
+        "index": 1,
+        "subtopics": [
+          { "name": "Jismlarning harakati", "index": 1 },
+          { "name": "Fazo va vaqt", "index": 2 },
+          { "name": "Kinematikaning asosiy tushunchalari", "index": 3 },
+          { "name": "Skalyar va vektor kattaliklar hamda ular ustida amallar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "To'g'ri chiziqli harakat",
+        "index": 2,
+        "subtopics": [
+          { "name": "To'g'ri chiziqli tekis harakat haqida tushuncha", "index": 1 },
+          { "name": "To'g'ri chiziqli tekis harakat tezligi", "index": 2 },
+          { "name": "To'g'ri chiziqli tekis harakatning grafik tasviri", "index": 3 },
+          { "name": "Notekis harakatda tezlik", "index": 4 },
+          { "name": "Tekis o'zgaruvchan harakatda tezlanish", "index": 5 },
+          { "name": "Tekis o'zgaruvchan harakat tezligi", "index": 6 },
+          { "name": "Tekis o'zgaruvchan harakatda bosib o'tilgan yo'l", "index": 7 },
+          { "name": "Tekis tezlanuvchan harakatlanayotgan jism tezlanishini aniqlash (1-laboratoriya ishi)", "index": 8 },
+          { "name": "Jismlarning erkin tushishi", "index": 9 },
+          { "name": "Yuqoriga tik otilgan jismning harakati", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "Tekis aylanma harakat",
+        "index": 3,
+        "subtopics": [
+          { "name": "Jismning tekis aylanma harakati", "index": 1 },
+          { "name": "Aylanma harakatni tavsiflaydigan kattaliklar orasidagi munosabatlar", "index": 2 },
+          { "name": "Markazga intilma tezlanish", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Harakat qonunlari",
+        "index": 4,
+        "subtopics": [
+          { "name": "Jismlarning o'zaro ta'siri. Kuch", "index": 1 },
+          { "name": "Nyutonning birinchi qonuni — inersiya qonuni", "index": 2 },
+          { "name": "Jism massasi", "index": 3 },
+          { "name": "Nyutonning ikkinchi qonuni", "index": 4 },
+          { "name": "Nyutonning uchinchi qonuni", "index": 5 },
+          { "name": "Harakat qonunlarining aylanma harakatga tatbiqi", "index": 6 },
+          { "name": "Elastiklik kuchi", "index": 7 },
+          { "name": "Prujina bikirligini aniqlash (2-laboratoriya ishi)", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "Tashqi kuchlar ta'sirida jismlarning harakati",
+        "index": 5,
+        "subtopics": [
+          { "name": "Butun olam tortishish qonuni", "index": 1 },
+          { "name": "Og'irlik kuchi", "index": 2 },
+          { "name": "Jismning og'irligi", "index": 3 },
+          { "name": "Yuklama va vaznsizlik", "index": 4 },
+          { "name": "Yerning tortish kuchi ta'sirida jismlarning harakati", "index": 5 },
+          { "name": "Yerning sun'iy yo'ldoshlari", "index": 6 },
+          { "name": "Ishqalanish kuchi. Tinchlikdagi ishqalanish", "index": 7 },
+          { "name": "Sirpanish ishqalanish. Dumalash ishqalanish", "index": 8 },
+          { "name": "Sirpanish ishqalanish koeffitsiyentini aniqlash (3-laboratoriya ishi)", "index": 9 },
+          { "name": "Tabiatda va texnikada ishqalanish", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "Impulsning saqlanish qonuni",
+        "index": 6,
+        "subtopics": [
+          { "name": "Impuls", "index": 1 },
+          { "name": "Impulsning saqlanish qonuni", "index": 2 },
+          { "name": "Reaktiv harakat", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Ish va energiya. Energiyaning saqlanish qonuni",
+        "index": 7,
+        "subtopics": [
+          { "name": "Mexanik ish", "index": 1 },
+          { "name": "Jismni ko'tarishda va shu masofaga gorizontal ko'chirishda bajarilgan ishini hisoblash (4-laboratoriya ishi)", "index": 2 },
+          { "name": "Potensial energiya", "index": 3 },
+          { "name": "Kinetik energiya", "index": 4 },
+          { "name": "Mexanik energiyaning saqlanish qonuni", "index": 5 },
+          { "name": "Jism kinetik energiyasining uning tezligi va massasiga bog'liqligini aniqlash (5-laboratoriya ishi)", "index": 6 },
+          { "name": "Quvvat", "index": 7 },
+          { "name": "Tabiatda energiyaning saqlanishi. Foydali ish koeffitsiyenti", "index": 8 }
+        ]
+      }
+    ]
+  }
+]

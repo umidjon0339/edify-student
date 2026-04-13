@@ -1,0 +1,111 @@
+[{
+  "category": "10-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "MEXANIKA",
+      "index": 1,
+      "subtopics": [
+        { "name": "Fizikaning tadqiqot metodlari", "index": 1 }
+      ]
+    },
+    {
+      "chapter": "KINEMATIKA",
+      "index": 2,
+      "subtopics": [
+        { "name": "Mexanik harakat turlari. Harakatlarning mustaqillik prinsipi", "index": 1 },
+        { "name": "Jismlarning vertikal harakati", "index": 2 },
+        { "name": "Aylana bo'ylab notekis harakat. Burchak tezlanish. Tangensial tezlanish", "index": 3 },
+        { "name": "Aylanma va ilgarilanma harakatni o'zaro uzatish", "index": 4 },
+        { "name": "Gorizontal otilgan jism harakati", "index": 5 },
+        { "name": "Gorizontga qiya otilgan jism harakati", "index": 6 },
+        { "name": "Laboratoriya ishi: Gorizontga qiya otilgan jism harakatini o'rganish", "index": 7 }
+      ]
+    },
+    {
+      "chapter": "DINAMIKA",
+      "index": 3,
+      "subtopics": [
+        { "name": "Dinamika qonunlari", "index": 1 },
+        { "name": "Galileyning nisbiylik prinsipi. Inersial va noinersial sanoq sistemalari", "index": 2 },
+        { "name": "Gravitatsion maydonda harakat", "index": 3 },
+        { "name": "Jism og'irligining harakat turiga bog'liqligi", "index": 4 },
+        { "name": "Jismning bir necha kuch ta'siridagi harakati", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "MEXANIKADA SAQLANISH QONUNLARI",
+      "index": 4,
+      "subtopics": [
+        { "name": "Energiya va ish. Energiyaning saqlanish qonuni. Jismning qiya tekislik bo'ylab harakatlanishida bajarilgan ish", "index": 1 },
+        { "name": "Laboratoriya ishi: Qiya tekislikda foydali ish koeffitsiyentini aniqlash", "index": 2 },
+        { "name": "Jismlarning absolyut elastik va noelastik to'qnashishi", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "STATIKA VA GIDRODINAMIKA",
+      "index": 5,
+      "subtopics": [
+        { "name": "Jismlarning muvozanatda bo'lish shartlari", "index": 1 },
+        { "name": "Momentlar qoidasiga asoslanib ishlaydigan mexanizmlar", "index": 2 },
+        { "name": "Aylanma harakat dinamikasi", "index": 3 },
+        { "name": "Suyuqlik va gazlar harakati, oqimning uzluksizlik teoremasi. Bernulli tenglamasi", "index": 4 },
+        { "name": "Harakatlanayotgan gazlar va suyuqliklarda bosimning tezlikka bog'liqligidan texnikada foydalanish", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "MEXANIK TEBRANISHLAR VA TO'LQINLAR",
+      "index": 6,
+      "subtopics": [
+        { "name": "Garmonik tebranishlar", "index": 1 },
+        { "name": "Prujinali va matematik mayatniklar", "index": 2 },
+        { "name": "Laboratoriya ishi: Matematik mayatnik yordamida erkin tushish tezlanishini aniqlash", "index": 3 },
+        { "name": "Majburiy tebranishlar. Texnikada rezonans", "index": 4 },
+        { "name": "Mexanik to'lqinlarning muhitlarda tarqalishi. Ultra va infratovushlardan turmushda va texnikada foydalanish", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "TERMODINAMIKA ASOSLARI",
+      "index": 7,
+      "subtopics": [
+        { "name": "Issiqlik jarayonlarining qaytmasligi. Termodinamika qonunlari", "index": 1 },
+        { "name": "Adiabatik jarayon. Issiqlik mashinasining foydali ish koeffitsiyenti. Karno sikli", "index": 2 },
+        { "name": "Inson hayotida issiqlik divigatellarining ahamiyati. Issiqlik dvigatellari va ekologiya", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "ELEKTRODINAMIKA",
+      "index": 8,
+      "subtopics": [
+        { "name": "Zaryadning saqlanish qonuni. Nuqtaviy zaryadning maydoni. Elektr maydon kuchlanganligining superpozitsiya prinsipi", "index": 1 },
+        { "name": "Zaryadlangan sharning elektr maydoni. Dielektrik singdiruvchanlik", "index": 2 },
+        { "name": "Nuqtaviy zaryad maydonining potensiali. Potensiallar farqi", "index": 3 },
+        { "name": "Elektrostatik maydonda zaryadni ko'chirishda bajarilgan ish", "index": 4 },
+        { "name": "Elektr maydon energiyasi", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "O'ZGARMAS TOK QONUNLARI",
+      "index": 9,
+      "subtopics": [
+        { "name": "Elektr o'tkazuvchanlik. Tok kuchining kuchlanishga bog'liqligi", "index": 1 },
+        { "name": "Tok kuchi va tok zichligi. Elektr tokining ta'sirlari", "index": 2 },
+        { "name": "Butun zanjir uchun Om qonuni. Tok manbayining foydali ish koeffitsiyenti", "index": 3 },
+        { "name": "Tok manbalarini ketma-ket va parallel ulash", "index": 4 },
+        { "name": "Ampermetr va voltmetrning o'lchash chegarasini oshirish", "index": 5 },
+        { "name": "Laboratoriya ishi: Tok manbayining EYuK va ichki qarshiligini aniqlash", "index": 6 }
+      ]
+    },
+    {
+      "chapter": "TURLI MUHITLARDA ELEKTR TOKI",
+      "index": 10,
+      "subtopics": [
+        { "name": "Vakuumda elektr toki", "index": 1 },
+        { "name": "Metall o'tkazgichlar qarshiligining temperaturaga bog'liqligi", "index": 2 },
+        { "name": "Yarimo'tkazgichlarda xususiy o'tkazuvchanlik. Aralashmali o'tkazuvchanlik", "index": 3 },
+        { "name": "Yarimo'tkazgichli asboblar (diod, tranzistor) va ularning texnikada qo'llanilishi", "index": 4 },
+        { "name": "Laboratoriya ishi: Yarim otkazgichli diodning volt-amper xarakteristikasini o'rganish", "index": 5 }
+      ]
+    }
+  ]
+}]

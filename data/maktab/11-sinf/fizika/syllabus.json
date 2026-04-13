@@ -1,0 +1,93 @@
+[{
+  "category": "11-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "MAGNIT MAYDON",
+      "index": 1,
+      "subtopics": [
+        { "name": "Magnit maydon. Magnit maydonni tavsiflovchi kattaliklar", "index": 1 },
+        { "name": "Bir jinsli magnit maydonning tokli ramkani aylantiruvchi momenti", "index": 2 },
+        { "name": "Tokli to'g'ri o'tkazgichning, halqa va g'altakning magnit maydoni", "index": 3 },
+        { "name": "Tokli o'tkazgichni magnit maydonda ko'chirishda bajarilgan ish", "index": 4 },
+        { "name": "Tokli o'tkazgichlarning o'zaro ta'sir kuchi", "index": 5 },
+        { "name": "Bir jinsli magnit maydonida zaryadli zarraning harakati. Lorens kuchi", "index": 6 }
+      ]
+    },
+    {
+      "chapter": "ELEKTROMAGNIT INDUKSIYA",
+      "index": 2,
+      "subtopics": [
+        { "name": "Elektromagnit induksiya hodisasi. Induksiya elektr yurituvchi kuch. Faradey qonuni", "index": 1 },
+        { "name": "O'zinduksiya hodisasi. O'zinduksiya EYuK. Induktivlik", "index": 2 },
+        { "name": "Moddalarning magnit xossalari", "index": 3 },
+        { "name": "Magnit maydon energiyasi", "index": 4 }
+      ]
+    },
+    {
+      "chapter": "ELEKTROMAGNIT TEBRANISHLAR",
+      "index": 3,
+      "subtopics": [
+        { "name": "Erkin elektromagnit tebranishlar (tebranish konturi). Tebranish konturida energiyaning o'zgarishi", "index": 1 },
+        { "name": "Tebranishlarni grafik ravishda tasvirlash. So'nuvchi elektromagnit tebranishlar", "index": 2 },
+        { "name": "Tranzistorli elektromagnit tebranishlar generatori", "index": 3 },
+        { "name": "O'zgaruvchan tok zanjiridagi aktiv qarshilik", "index": 4 },
+        { "name": "O'zgaruvchan tok zanjiridagi kondensator", "index": 5 },
+        { "name": "O'zgaruvchan tok zanjiridagi induktiv g'altak", "index": 6 },
+        { "name": "Aktiv qarshilik, induktiv g'altak va kondensator ketma-ket ulangan o'zgaruvchan tok zanjiri uchun Om qonuni", "index": 7 },
+        { "name": "O'zgaruvchan tok zanjirida rezonans hodisasi", "index": 8 },
+        { "name": "Laboratoriya ishi: O'zgaruvchan tok zanjirida rezonans hodisasini o'rganish", "index": 9 },
+        { "name": "O'zgaruvchan tokning ishi va quvvati. Quvvat koeffitsiyenti", "index": 10 }
+      ]
+    },
+    {
+      "chapter": "ELEKTROMAGNIT TO'LQINLAR VA TO'LQIN OPTIKASI",
+      "index": 4,
+      "subtopics": [
+        { "name": "Elektromagnit tebranishlarning tarqalishi. Elektromagnit to'lqin tezligi", "index": 1 },
+        { "name": "Elektromagnit to'lqinlarning umumiy xossalari (ikki muhit chegarasida qaytishi va sinishi). To'lqinni xarakterlovchi asosiy tushuncha va kattaliklar", "index": 2 },
+        { "name": "Radioaloqaning fizik asoslari. Eng sodda radioning tuzilishi va ishlashi. Radiolokatsiya", "index": 3 },
+        { "name": "Teleko'rsatuvlarning fizik asoslari. Toshkent–televideniye vatani", "index": 4 },
+        { "name": "Yorug'lik interferensiyasi va difraksiyasi", "index": 5 },
+        { "name": "Laboratoriya ishi: Difraksion panjara yordamida yorug'lik to'lqin uzunligini aniqlash", "index": 6 },
+        { "name": "Yorug'lik dispersiyasi. Spektral analiz", "index": 7 },
+        { "name": "Yorug'likning qutblanishi", "index": 8 },
+        { "name": "Infraqizil nurlanish. Ultrabinafsha nurlanish. Rentgen nurlanish va uning tatbiqi", "index": 9 },
+        { "name": "Yorug'lik oqimi. Yorug'lik kuchi. Yoritilganlik qonuni", "index": 10 },
+        { "name": "Laboratoriya ishi: Yoritilganlikning yorug'lik kuchiga bog'liqligi", "index": 11 }
+      ]
+    },
+    {
+      "chapter": "NISBIYLIK NAZARIYASI",
+      "index": 5,
+      "subtopics": [
+        { "name": "Maxsus nisbiylik nazariyasi asoslari. Tezliklarni qo'shishning relyativistik qonuni", "index": 1 },
+        { "name": "Massaning tezlikka bog'liqligi. Relyativistik dinamika. Massa bilan energiyaning o'zaro bog'liqlik qonuni", "index": 2 }
+      ]
+    },
+    {
+      "chapter": "KVANT FIZIKASI",
+      "index": 6,
+      "subtopics": [
+        { "name": "Kvant fizikasining paydo bo'lishi", "index": 1 },
+        { "name": "Fotoelektrik effekt. Fotonlar", "index": 2 },
+        { "name": "Fotonning impulsi. Yorug'lik bosimi. Fotoeffektning texnikada qo'llanilishi", "index": 3 }
+      ]
+    },
+    {
+      "chapter": "ATOM VA YADRO FIZIKASI. ATOM ENERGETIKASINING FIZIK ASOSLARI",
+      "index": 7,
+      "subtopics": [
+        { "name": "Atomning Bor modeli. Bor postulatlari", "index": 1 },
+        { "name": "Lazer va ularning turlari", "index": 2 },
+        { "name": "Atom yadrosining tarkibi. Bog'lanish energiyasi. Massa defekti", "index": 3 },
+        { "name": "Radioaktiv nurlanishni va zarralarni qayd qilish usullari", "index": 4 },
+        { "name": "Radioaktiv yemirilish qonuni", "index": 5 },
+        { "name": "Yadro reaksiyalari. Siljish qonuni", "index": 6 },
+        { "name": "Elementar zarralar", "index": 7 },
+        { "name": "Atom energetikasining fizik asoslari. Yadro energiyasidan foydalanishda xavfsizlik choralari", "index": 8 },
+        { "name": "O'zbekistonda yadro fizikasi sohasidagi tadqiqotlar va ularning natijalaridan xalq xo'jaligida foydalanish", "index": 9 }
+      ]
+    }
+  ]
+}]

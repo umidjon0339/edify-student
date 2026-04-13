@@ -1,0 +1,96 @@
+[{
+  "category": "8-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "ELEKTR ZARYAD. ELEKTR MAYDON",
+      "index": 1,
+      "subtopics": [
+        { "name": "Jismlarning zaryadlanishi", "index": 1 },
+        { "name": "Elektr zaryad", "index": 2 },
+        { "name": "Zaryadlarning o'zaro ta'siri. Kulon qonuni", "index": 3 },
+        { "name": "Masalalar yechish", "index": 4 },
+        { "name": "Elektr maydon", "index": 5 },
+        { "name": "O'tkazgichlarda elektr zaryadlarning taqsimlanishi", "index": 6 },
+        { "name": "Masalalar yechish", "index": 7 },
+        { "name": "Tabiatdagi elektr hodisalar", "index": 8 }
+      ]
+    },
+    {
+      "chapter": "ELEKTR TOKI",
+      "index": 2,
+      "subtopics": [
+        { "name": "Elektr toki haqida tushuncha", "index": 1 },
+        { "name": "Tok manbalari", "index": 2 },
+        { "name": "Elektr kuchlanish va uni o'lchash", "index": 3 },
+        { "name": "Tok kuchi va uni o'lchash", "index": 4 },
+        { "name": "Masalalar yechish", "index": 5 },
+        { "name": "Laboratoriya ishi. Elektr zanjirni yig'ish, uning turli qismlaridagi tok kuchi va kuchlanishni o'lchash", "index": 6 },
+        { "name": "Elektr qarshilik", "index": 7 },
+        { "name": "Rezistorlar. Reostatlar. Potensiometrlar", "index": 8 },
+        { "name": "Zanjirning bir qismi uchun Om qonuni", "index": 9 },
+        { "name": "Masalalar yechish", "index": 10 },
+        { "name": "Laboratoriya ishi. Om qonunini o'rganish", "index": 11 },
+        { "name": "Amaliy mashg'ulot. Reostat yordamida tok kuchini rostlash", "index": 12 },
+        { "name": "Iste'molchilarni ketma-ket ulash", "index": 13 },
+        { "name": "Iste'molchilarni parallel ulash", "index": 14 },
+        { "name": "Amaliy mashg'ulot. Tok manbalarini ulash", "index": 15 },
+        { "name": "Laboratoriya ishi. O'tkazgichlarni ketma-ket va parallel ulashni o'rganish", "index": 16 },
+        { "name": "Iste'molchilarni aralash ulash (Mustaqil o'qish uchun)", "index": 17 },
+        { "name": "Masalalar yechish", "index": 18 },
+        { "name": "Elektr sig'imi. Kondensatorlar", "index": 19 },
+        { "name": "Kondensatorlarni parallel va ketma-ket ulash", "index": 20 },
+        { "name": "Masalalar yechish", "index": 21 }
+      ]
+    },
+    {
+      "chapter": "ELEKTR TOKINING ISHI VA QUVVATI",
+      "index": 3,
+      "subtopics": [
+        { "name": "Elektr tokining ishi", "index": 1 },
+        { "name": "Elektr tokining quvvati", "index": 2 },
+        { "name": "Masalalar yechish", "index": 3 },
+        { "name": "Laboratoriya ishi. Iste'molchi (lampochka)ning elektr quvvatini aniqlash", "index": 4 },
+        { "name": "Elektr toki ta'sirida o'tkazgichlarning qizishi", "index": 5 },
+        { "name": "Masalalar yechish", "index": 6 },
+        { "name": "Joul–Lens qonunining amaliy tatbiqlari", "index": 7 },
+        { "name": "Xonadonlardagi elektr zanjirlar va ulashlar", "index": 8 },
+        { "name": "Elektr xavfsizlik choralari", "index": 9 },
+        { "name": "Masalalar yechish", "index": 10 }
+      ]
+    },
+    {
+      "chapter": "TURLI MUHITLARDA ELEKTR TOKI",
+      "index": 4,
+      "subtopics": [
+        { "name": "Metallarda elektr toki", "index": 1 },
+        { "name": "Suyuqliklarda elektr toki", "index": 2 },
+        { "name": "Elektroliz. Faradeyning birinchi qonuni", "index": 3 },
+        { "name": "Faradeyning ikkinchi qonuni", "index": 4 },
+        { "name": "Masalalar yechish", "index": 5 },
+        { "name": "Elektrolizdan turmushda va texnikada foydalanish", "index": 6 },
+        { "name": "Vakuumda elektr toki", "index": 7 },
+        { "name": "Gazlarda elektr toki", "index": 8 },
+        { "name": "Elektr razryadlarning turlari va ulardan foydalanish", "index": 9 }
+      ]
+    },
+    {
+      "chapter": "MAGNIT MAYDON",
+      "index": 5,
+      "subtopics": [
+        { "name": "Magnit maydon. Doimiy magnit va uning qutblari", "index": 1 },
+        { "name": "Magnit maydonni xarakterlovchi parametrlar", "index": 2 },
+        { "name": "Yerning magnit maydoni", "index": 3 },
+        { "name": "Tokning magnit maydoni", "index": 4 },
+        { "name": "Magnit maydonning tokli o'tkazgichga ta'siri", "index": 5 },
+        { "name": "Masalalar yechish", "index": 6 },
+        { "name": "Bir jinsli magnit maydonda tokli ramkaning aylanma harakati", "index": 7 },
+        { "name": "Magnit maydonda zaryadli zarraning harakati", "index": 8 },
+        { "name": "Elektromagnitlar. Elektromagnit rele", "index": 9 },
+        { "name": "Laboratoriya ishi. Eng oddiy elektromagnitni yig'ish va uning ishlashini o'rganish", "index": 10 },
+        { "name": "O'zgarmas tok elektr dvigateli", "index": 11 },
+        { "name": "Masalalar yechish", "index": 12 }
+      ]
+    }
+  ]
+}]

@@ -1,0 +1,73 @@
+[{
+  "category": "9-sinf",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "MODDA TUZILISHINING MOLEKULYAR-KINETIK NAZARIYASI ASOSLARI",
+      "index": 1,
+      "subtopics": [
+        { "name": "Modda tuzilishining molekulyar – kinetik nazariyasi", "index": 1 },
+        { "name": "Molekulaning massasi va o'lchami", "index": 2 },
+        { "name": "Modda miqdori", "index": 3 },
+        { "name": "Masalalar yechish", "index": 4 },
+        { "name": "Ideal gaz", "index": 5 },
+        { "name": "Temperatura", "index": 6 },
+        { "name": "Gaz molekulalarining harakat tezligi", "index": 7 },
+        { "name": "Masalalar yechish", "index": 8 },
+        { "name": "Ideal gaz holatining tenglamalari", "index": 9 },
+        { "name": "Izotermik jarayon", "index": 10 },
+        { "name": "Izobarik jarayon", "index": 11 },
+        { "name": "Izoxorik jarayon", "index": 12 },
+        { "name": "Amaliy mashg'ulot. Molekulalarning o'lchamini baholash", "index": 13 },
+        { "name": "Masalalar yechish", "index": 14 }
+      ]
+    },
+    {
+      "chapter": "ICHKI ENERGIYA VA TERMODINAMIKA ELEMENTLARI",
+      "index": 2,
+      "subtopics": [
+        { "name": "Ichki energiya", "index": 1 },
+        { "name": "Termodinamik ish", "index": 2 },
+        { "name": "Issiqlik miqdori", "index": 3 },
+        { "name": "Masalalar yechish", "index": 4 },
+        { "name": "Amaliy mashg'ulot. Jismlarda issiqlik muvozanatini o'rganish", "index": 5 },
+        { "name": "Laboratoriya ishi. Qattiq jismlarning solishtirma issiqlik sig'imini aniqlash", "index": 6 },
+        { "name": "Yoqilg'ining solishtirma yonish issiqligi", "index": 7 },
+        { "name": "Termodinamikaning birinchi qonuni", "index": 8 },
+        { "name": "Masalalar yechish", "index": 9 },
+        { "name": "Issiqlik jarayonlarining qaytmasligi. Termodinamikaning ikkinchi qonuni", "index": 10 },
+        { "name": "Laboratoriya ishi. Turli temperaturali suv aralashtirilganda issiqlik miqdorlarini taqqoslash", "index": 11 }
+      ]
+    },
+    {
+      "chapter": "ISSIQLIK DVIGATELLARI",
+      "index": 3,
+      "subtopics": [
+        { "name": "Ichki yonuv dvigatellari", "index": 1 },
+        { "name": "Issiqlik dvigatellarining ishlash prinsipi", "index": 2 },
+        { "name": "Masalalar yechish", "index": 3 },
+        { "name": "Issiqlik mashinalari va tabiatni muhofaza qilish", "index": 4 },
+        { "name": "Masalalar yechish", "index": 5 }
+      ]
+    },
+    {
+      "chapter": "SUYUQLIK VA QATTIQ JISMLARNING XOSSALARI",
+      "index": 4,
+      "subtopics": [
+        { "name": "Suyuqlikning xossalari", "index": 1 },
+        { "name": "Ho'llash. Kapillyar hodisalar", "index": 2 },
+        { "name": "Masalalar yechish", "index": 3 },
+        { "name": "Laboratoriya ishi. Suyuqlikning sirt taranglik koeffitsiyentini aniqlash", "index": 4 },
+        { "name": "Kristall va amorf jismlar", "index": 5 },
+        { "name": "Qattiq jismlarning mexanik xossalari", "index": 6 },
+        { "name": "Masalalar yechish", "index": 7 },
+        { "name": "Qattiq jismlarning erishi va qotishi", "index": 8 },
+        { "name": "Moddaning solishtirma erish issiqligi. Amorf jismlarning erishi va qotishi", "index": 9 },
+        { "name": "Bug'lanish va kondensatsiya", "index": 10 },
+        { "name": "Atmosferadagi hodisalar", "index": 11 },
+        { "name": "Laboratoriya ishi. Havoning nisbiy namligini aniqlash", "index": 12 },
+        { "name": "Masalalar yechish", "index": 13 }
+      ]
+    }
+  ]
+}]
