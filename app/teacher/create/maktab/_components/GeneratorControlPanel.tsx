@@ -43,10 +43,10 @@ export default function GeneratorControlPanel({
         {/* STEP 1: CLASS */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-black ${selectedClass ? 'bg-emerald-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
+            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${selectedClass ? 'bg-emerald-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
               {selectedClass ? <CheckCircle2 size={14} /> : "1"}
             </div>
-            <h3 className={`text-[14px] font-bold ${selectedClass ? 'text-emerald-700' : 'text-slate-900'}`}>Sinfni tanlang</h3>
+            <h3 className={`text-[12px] font-bold ${selectedClass ? 'text-emerald-700' : 'text-slate-900'}`}>Sinfni tanlang</h3>
           </div>
           
           <div className="pl-8">
@@ -57,10 +57,10 @@ export default function GeneratorControlPanel({
               {selectedClass ? (
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm"><GraduationCap size={20} /></div>
-                  <span className="text-[15px] font-bold text-slate-800">{selectedClass}</span>
+                  <span className="text-[13px] font-bold text-slate-800">{selectedClass}</span>
                 </div>
               ) : (
-                <span className="text-[14px] font-bold text-slate-400 pl-2">Sinfni tanlang...</span>
+                <span className="text-[12px] font-bold text-slate-400 pl-2">Sinfni tanlang...</span>
               )}
               <ChevronRight size={20} className="text-slate-400 group-hover:text-indigo-500 transition-colors shrink-0" />
             </button>
@@ -72,10 +72,10 @@ export default function GeneratorControlPanel({
           {selectedClass && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-3 pt-4 border-t border-slate-100">
               <div className="flex items-center gap-2">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-black ${selectedSubject ? 'bg-emerald-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${selectedSubject ? 'bg-emerald-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
                   {selectedSubject ? <CheckCircle2 size={14} /> : "2"}
                 </div>
-                <h3 className={`text-[14px] font-bold ${selectedSubject ? 'text-emerald-700' : 'text-slate-900'}`}>Fanni tanlang</h3>
+                <h3 className={`text-[12px] font-bold ${selectedSubject ? 'text-emerald-700' : 'text-slate-900'}`}>Fanni tanlang</h3>
               </div>
               
               <div className="pl-8">
@@ -86,10 +86,10 @@ export default function GeneratorControlPanel({
                   {selectedSubject ? (
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm"><BookOpen size={20} /></div>
-                      <span className="text-[15px] font-bold text-slate-800">{formatSubjectName(selectedSubject)}</span>
+                      <span className="text-[13px] font-bold text-slate-800">{formatSubjectName(selectedSubject)}</span>
                     </div>
                   ) : (
-                    <span className="text-[14px] font-bold text-slate-400 pl-2">Fanni tanlang...</span>
+                    <span className="text-[12px] font-bold text-slate-400 pl-2">Fanni tanlang...</span>
                   )}
                   <ChevronRight size={20} className="text-slate-400 group-hover:text-indigo-500 transition-colors shrink-0" />
                 </button>
@@ -104,10 +104,10 @@ export default function GeneratorControlPanel({
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-3 pt-4 border-t border-slate-100">
               <div className="flex items-center gap-2 justify-between">
                 <div className="flex items-center gap-2">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-black ${activeSubtopic ? 'bg-emerald-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${activeSubtopic ? 'bg-emerald-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
                     {activeSubtopic ? <CheckCircle2 size={14} /> : "3"}
                   </div>
-                  <h3 className={`text-[14px] font-bold ${activeSubtopic ? 'text-emerald-700' : 'text-slate-900'}`}>O'quv mavzusi</h3>
+                  <h3 className={`text-[12px] font-bold ${activeSubtopic ? 'text-emerald-700' : 'text-slate-900'}`}>O'quv mavzusi</h3>
                 </div>
                 {isLoadingSyllabus && <Loader2 size={14} className="animate-spin text-indigo-500"/>}
               </div>
@@ -120,13 +120,13 @@ export default function GeneratorControlPanel({
                 >
                   {activeChapter && activeSubtopic ? (
                     <div className="min-w-0 pr-4">
-                      <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-1 truncate flex items-center gap-1.5"><BookMarked size={12}/> {activeChapter.chapter}</div>
-                      <div className="text-[13px] font-bold text-slate-800 leading-snug line-clamp-2">{activeSubtopic.name}</div>
+                      <div className="text-[9px] font-black text-indigo-500 uppercase tracking-widest mb-1 truncate flex items-center gap-1.5"><BookMarked size={12}/> {activeChapter.chapter}</div>
+                      <div className="text-[11px] font-bold text-slate-800 leading-snug line-clamp-2">{activeSubtopic.name}</div>
                     </div>
                   ) : (
                     <div className="flex items-center gap-3 text-slate-400">
                       <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm group-hover:text-indigo-500 transition-colors"><Layers size={20} /></div>
-                      <span className="text-[14px] font-bold">Mavzuni tanlang...</span>
+                      <span className="text-[12px] font-bold">Mavzuni tanlang...</span>
                     </div>
                   )}
                   <ChevronRight size={20} className="text-slate-400 group-hover:text-indigo-500 transition-colors shrink-0" />
@@ -143,29 +143,29 @@ export default function GeneratorControlPanel({
               
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[12px] font-black">4</div>
-                  <h3 className="text-[14px] font-bold text-slate-900">Sozlamalar</h3>
+                  <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-black">4</div>
+                  <h3 className="text-[12px] font-bold text-slate-900">Sozlamalar</h3>
                 </div>
                 
                 <div className="pl-8 space-y-5">
                   {/* Difficulty */}
                   <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-50 rounded-xl border border-slate-200/60 shadow-inner">
-    {difficulties.map(diff => {
-      const isSelected = difficulty === diff.id;
-      return (
-        <button key={diff.id} onClick={() => setDifficulty(diff.id)} className={`py-2 px-1 rounded-lg text-[12px] font-bold transition-all text-center ${isSelected ? diff.active : `bg-white border border-slate-200 text-slate-600 ${diff.color}`}`}>
-          {diff.label}
-        </button>
-      )
-    })}
-  </div>
+                    {difficulties.map(diff => {
+                      const isSelected = difficulty === diff.id;
+                      return (
+                        <button key={diff.id} onClick={() => setDifficulty(diff.id)} className={`py-2 px-1 rounded-lg text-[10px] font-bold transition-all text-center ${isSelected ? diff.active : `bg-white border border-slate-200 text-slate-600 ${diff.color}`}`}>
+                          {diff.label}
+                        </button>
+                      )
+                    })}
+                  </div>
 
                   {/* Count & Limits */}
                   <div className="flex items-center justify-between bg-white border border-slate-200 p-3 rounded-2xl shadow-sm">
-                    <span className="text-[13px] font-bold text-slate-600 flex items-center gap-2"><Settings2 size={16} className="text-indigo-400"/> Savollar soni</span>
+                    <span className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Settings2 size={16} className="text-indigo-400"/> Savollar soni</span>
                     <div className="flex items-center gap-4">
                       <button onClick={() => setCount((prev: number) => Math.max(1, prev - 1))} className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors disabled:opacity-40" disabled={count <= 1}><Minus size={16} strokeWidth={3} /></button>
-                      <span className="text-[16px] font-black text-slate-900 w-4 text-center">{count}</span>
+                      <span className="text-[14px] font-black text-slate-900 w-4 text-center">{count}</span>
                       <button onClick={() => setCount((prev: number) => Math.min(15, aiData?.remaining ?? 15, prev + 1))} className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors disabled:opacity-40" disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}><Plus size={16} strokeWidth={3} /></button>
                     </div>
                   </div>
@@ -173,7 +173,7 @@ export default function GeneratorControlPanel({
                   {aiData && !aiData.isLimitReached && aiData.remaining < 15 && (
                     <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-3 items-start">
                       <Zap size={16} className="text-amber-500 shrink-0 mt-0.5" />
-                      <p className="text-[11px] font-bold text-amber-700 leading-snug">
+                      <p className="text-[10px] font-bold text-amber-700 leading-snug">
                         Sizda faqat <span className="font-black text-amber-900">{aiData.remaining} ta</span> savol yaratish limiti qoldi.
                       </p>
                     </div>
@@ -191,7 +191,7 @@ export default function GeneratorControlPanel({
         <button 
           onClick={onGenerateClick} 
           disabled={isGenerating || !isReadyToGenerate} 
-          className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-200 text-white rounded-2xl font-black flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-indigo-600/20 disabled:shadow-none text-[15px] border-b-4 border-indigo-800 active:border-b-0"
+          className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-200 text-white rounded-2xl font-black flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-indigo-600/20 disabled:shadow-none text-[13px] border-b-4 border-indigo-800 active:border-b-0"
         >
           {isGenerating ? <Loader2 className="animate-spin" size={20} /> : <Wand2 size={20} strokeWidth={2.5}/>} 
           {isGenerating ? "Yaratilmoqda..." : "Savol Yaratish"}

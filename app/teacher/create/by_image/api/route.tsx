@@ -40,7 +40,7 @@ Lang: ${language}. Diff: ${difficulty}. Instruction: "${promptText || 'Extract m
 
 CRITICAL RULES:
 1. GUARDRAIL: If image is NOT educational, academic, or text-based, output EXACTLY: {"error": "invalid_image"}
-2. STANDALONE: NEVER say "Rasmdagi" or "In the image". Questions must make sense without seeing the photo.
+2. STANDALONE: NEVER say "Rasmdagi" or "In the image". Questions must make sense without seeing the photo. Don't reference the image directly.
 3. FORMATTING: No newlines (\\n). Use single quotes ('') inside text.
 4. STRICT MATH LATEX RULES (CRITICAL): 
    - Wrap ALL math/numbers/variables in $ (for inline) or $$ (for display/blocks).

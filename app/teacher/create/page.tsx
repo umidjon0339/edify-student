@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowRight, Bot, PenTool, Image as ImageIcon, School, Award, GraduationCap, Zap, FileText, Calculator } from "lucide-react";
+import { ArrowRight, Bot, PenTool, Image as ImageIcon, School, Award, GraduationCap, Zap, FileText, Calculator, Database } from "lucide-react";
 import { useTeacherLanguage } from "@/app/teacher/layout"; 
 import { motion, Variants } from "framer-motion";
 
@@ -36,6 +36,7 @@ const CardIllustration = ({ theme }: { theme: string }) => {
 const HUB_TRANSLATIONS: Record<string, any> = {
   uz: {
     heroBadge: "Studiya 2.0 ✨", title: "Test Yaratish Markazi", subtitle: "Maqsadingizga qarab, eng tezkor usulni tanlang.",
+    myBank: "Mening Savollarim",
     sections: { cur: "Ta'lim Dasturlari", work: "Ishchi Varaqlar", ai: "AI va Maxsus Vositalar" },
     bsb: { badge: "Rasmiy", title: "BSB va CHSB", desc: "Matritsa asosida rasmiy chorak imtihonlarini avtomatik yarating.", btn: "Boshlash" },
     maktab: { badge: "Kundalik", title: "Maktab Dasturi", desc: "Darsliklar asosida tezkor so'rovlar va uy vazifalarini tuzing.", btn: "Boshlash" },
@@ -48,6 +49,7 @@ const HUB_TRANSLATIONS: Record<string, any> = {
   },
   en: {
     heroBadge: "Studio 2.0 ✨", title: "Creation Hub", subtitle: "Select the fastest workflow for your teaching goals.",
+    myBank: "My Question Bank",
     sections: { cur: "Curriculum Exams", work: "Worksheets & Practice", ai: "AI & Manual Tools" },
     bsb: { badge: "Official", title: "BSB & CHSB", desc: "Instantly generate matrix-based, official term exam papers.", btn: "Start" },
     maktab: { badge: "Daily", title: "Public School", desc: "Create quick quizzes and homework based on standard textbooks.", btn: "Start" },
@@ -60,6 +62,7 @@ const HUB_TRANSLATIONS: Record<string, any> = {
   },
   ru: {
     heroBadge: "Студия 2.0 ✨", title: "Центр Создания", subtitle: "Выберите самый быстрый способ для ваших целей.",
+    myBank: "Моя База Вопросов",
     sections: { cur: "Учебные Программы", work: "Рабочие Листы", ai: "ИИ и Инструменты" },
     bsb: { badge: "Официально", title: "Генератор BSB", desc: "Автоматическое создание четвертных экзаменов по матрице.", btn: "Начать" },
     maktab: { badge: "Ежедневно", title: "Школьная программа", desc: "Быстрые тесты и домашки на основе стандартных учебников.", btn: "Начать" },
@@ -72,16 +75,16 @@ const HUB_TRANSLATIONS: Record<string, any> = {
   }
 };
 
-// --- THEME ENGINE ---
+// --- THEME ENGINE (Tailwind-safe mappings) ---
 const THEMES = {
-  purple: { bg: 'bg-purple-50', text: 'text-purple-600', iconBg: 'group-hover:bg-purple-600', border: 'hover:border-purple-300', shadow: 'hover:shadow-purple-500/20' },
-  blue: { bg: 'bg-blue-50', text: 'text-blue-600', iconBg: 'group-hover:bg-blue-600', border: 'hover:border-blue-300', shadow: 'hover:shadow-blue-500/20' },
-  amber: { bg: 'bg-amber-50', text: 'text-amber-600', iconBg: 'group-hover:bg-amber-500', border: 'hover:border-amber-300', shadow: 'hover:shadow-amber-500/20' },
-  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', iconBg: 'group-hover:bg-emerald-600', border: 'hover:border-emerald-300', shadow: 'hover:shadow-emerald-500/20' },
-  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-600', iconBg: 'group-hover:bg-cyan-500', border: 'hover:border-cyan-300', shadow: 'hover:shadow-cyan-500/20' },
-  rose: { bg: 'bg-rose-50', text: 'text-rose-600', iconBg: 'group-hover:bg-rose-500', border: 'hover:border-rose-300', shadow: 'hover:shadow-rose-500/20' },
-  violet: { bg: 'bg-violet-50', text: 'text-violet-600', iconBg: 'group-hover:bg-violet-600', border: 'hover:border-violet-300', shadow: 'hover:shadow-violet-500/20' },
-  teal: { bg: 'bg-teal-50', text: 'text-teal-600', iconBg: 'group-hover:bg-teal-500', border: 'hover:border-teal-300', shadow: 'hover:shadow-teal-500/20' },
+  purple: { bg: 'bg-purple-50', text: 'text-purple-600', iconBg: 'group-hover:bg-purple-600', border: 'hover:border-purple-300', shadow: 'hover:shadow-purple-500/20', badgeBorder: 'border-purple-200' },
+  blue: { bg: 'bg-blue-50', text: 'text-blue-600', iconBg: 'group-hover:bg-blue-600', border: 'hover:border-blue-300', shadow: 'hover:shadow-blue-500/20', badgeBorder: 'border-blue-200' },
+  amber: { bg: 'bg-amber-50', text: 'text-amber-600', iconBg: 'group-hover:bg-amber-500', border: 'hover:border-amber-300', shadow: 'hover:shadow-amber-500/20', badgeBorder: 'border-amber-200' },
+  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', iconBg: 'group-hover:bg-emerald-600', border: 'hover:border-emerald-300', shadow: 'hover:shadow-emerald-500/20', badgeBorder: 'border-emerald-200' },
+  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-600', iconBg: 'group-hover:bg-cyan-500', border: 'hover:border-cyan-300', shadow: 'hover:shadow-cyan-500/20', badgeBorder: 'border-cyan-200' },
+  rose: { bg: 'bg-rose-50', text: 'text-rose-600', iconBg: 'group-hover:bg-rose-500', border: 'hover:border-rose-300', shadow: 'hover:shadow-rose-500/20', badgeBorder: 'border-rose-200' },
+  violet: { bg: 'bg-violet-50', text: 'text-violet-600', iconBg: 'group-hover:bg-violet-600', border: 'hover:border-violet-300', shadow: 'hover:shadow-violet-500/20', badgeBorder: 'border-violet-200' },
+  teal: { bg: 'bg-teal-50', text: 'text-teal-600', iconBg: 'group-hover:bg-teal-500', border: 'hover:border-teal-300', shadow: 'hover:shadow-teal-500/20', badgeBorder: 'border-teal-200' },
 };
 
 // --- ANIMATION VARIANTS ---
@@ -101,7 +104,6 @@ export default function CreateHubPage() {
   const { lang } = useTeacherLanguage();
   const t = HUB_TRANSLATIONS[lang] || HUB_TRANSLATIONS['uz'];
 
-  // --- 1. DATA STRUCTURE (Super easy to manage) ---
   const SECTIONS = [
     {
       title: t.sections.cur,
@@ -135,7 +137,21 @@ export default function CreateHubPage() {
       <div className="absolute top-0 inset-x-0 h-[40vh] bg-gradient-to-b from-slate-100 to-transparent pointer-events-none z-0"></div>
       <div className="absolute -left-[20%] top-[-10%] w-[70vw] h-[50vh] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
       
-      <div className="flex-1 flex flex-col items-center w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10 pt-8 md:pt-12">
+      {/* 🟢 NEW STICKY GLOBAL HEADER */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 py-3 flex justify-between items-center shadow-sm w-full">
+        <div className="flex items-center">
+          {/* Spacer to push the button to the right */}
+        </div>
+        <button 
+          onClick={() => router.push('/teacher/create/my_questions')} 
+          className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl font-bold shadow-sm transition-all flex items-center gap-2 text-[11px] md:text-[13px] active:scale-95"
+        >
+          <Database size={16} className="md:w-4 md:h-4 text-indigo-500" />
+          <span>{t.myBank}</span>
+        </button>
+      </header>
+
+      <div className="flex-1 flex flex-col items-center w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10 pt-6 md:pt-12">
         
         {/* --- HERO SECTION --- */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 md:mb-16 max-w-2xl flex flex-col items-center">
@@ -173,14 +189,15 @@ export default function CreateHubPage() {
                       <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm border border-slate-100 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 ${theme.bg} ${theme.text} ${theme.iconBg}`}>
                         <item.icon size={24} strokeWidth={2.5} className="md:w-7 md:h-7" />
                       </div>
-                      <span className={`hidden md:block text-[9px] font-black px-2 py-1 rounded border uppercase tracking-widest bg-white ${theme.text} border-${item.theme}-200 shadow-sm`}>{item.data.badge}</span>
+                      {/* Fixed dynamic border classes to be production safe */}
+                      <span className={`hidden md:block text-[9px] font-black px-2 py-1 rounded border uppercase tracking-widest bg-white ${theme.text} ${theme.badgeBorder} shadow-sm`}>{item.data.badge}</span>
                     </div>
 
                     {/* Text Content */}
                     <div className="flex-1 text-left relative z-10 w-full">
                       <div className="flex items-center gap-2 mb-1 md:mb-2">
                          <h2 className={`text-[15px] md:text-[18px] font-black text-slate-900 group-hover:${theme.text} transition-colors leading-tight`}>{item.data.title}</h2>
-                         <span className={`md:hidden text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest bg-white ${theme.text} border border-${item.theme}-200`}>{item.data.badge}</span>
+                         <span className={`md:hidden text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest bg-white ${theme.text} border ${theme.badgeBorder}`}>{item.data.badge}</span>
                       </div>
                       <p className="text-[12px] md:text-[14px] text-slate-500 font-medium leading-relaxed md:mb-8 line-clamp-2 md:line-clamp-3">{item.data.desc}</p>
                       
