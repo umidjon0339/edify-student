@@ -1,0 +1,42 @@
+[
+  {
+    "category": "2-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "O'zbekiston madhiyasi", "index": 1 },
+          { "name": "Vatanjonim – Vatanim!", "index": 2 },
+          { "name": "Shermat Yormatov", "index": 3 },
+          { "name": "Orkestr", "index": 4 },
+          { "name": "Simfonik ertak", "index": 5 },
+          { "name": "Musiqiy ifoda vositalari", "index": 6 },
+          { "name": "Musiqa kayfiyati", "index": 7 },
+          { "name": "Temp va ritm", "index": 8 },
+          { "name": "Raqs", "index": 9 },
+          { "name": "Qo'shiq aytib", "index": 10 },
+          { "name": "Saf qo'shig'i", "index": 11 },
+          { "name": "Balet", "index": 12 },
+          { "name": "Archa atrofida", "index": 13 },
+          { "name": "Yangi yil", "index": 14 },
+          { "name": "Ansambl", "index": 15 },
+          { "name": "O'zbekiston – Vatanim!", "index": 16 },
+          { "name": "Bahorgi improvizatsiya", "index": 17 },
+          { "name": "Registr va tembr", "index": 18 },
+          { "name": "Ayiqpolvonlar bog'chasi", "index": 19 },
+          { "name": "Dinamika", "index": 20 },
+          { "name": "Buvijon", "index": 21 },
+          { "name": "Musiqa va tabiat", "index": 22 },
+          { "name": "Tovush qatori va oktava", "index": 23 },
+          { "name": "Yomg'ir yog'aloq", "index": 24 },
+          { "name": "Harbiy orkestr", "index": 25 },
+          { "name": "Musiqadagi uchta kit", "index": 26 },
+          { "name": "Notalar davomiyligi", "index": 27 },
+          { "name": "Twinkle Twinkle Little Star", "index": 28 }
+        ]
+      }
+    ]
+  }
+]

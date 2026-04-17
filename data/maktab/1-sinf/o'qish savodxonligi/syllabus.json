@@ -1,0 +1,119 @@
+[
+  {
+    "category": "1-sinf",
+    "subject": "O'qish savodxonligi",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Aziz Vatan, jonajon Vatan",
+        "index": 1,
+        "subtopics": [
+          { "name": "Siz sevgan odamlar makoni", "index": 1 },
+          { "name": "O'zbekiston – ozod diyor", "index": 2 },
+          { "name": "Vatan himoyachilari", "index": 3 },
+          { "name": "Yurt qalqonlari", "index": 4 },
+          { "name": "O'zbekiston – jonajon yurtim mening!", "index": 5 },
+          { "name": "Men – shu yurtning bo'lagi", "index": 6 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Qoyilman qish ishiga, zavq beradi kishiga",
+        "index": 2,
+        "subtopics": [
+          { "name": "O'lkamda qish", "index": 1 },
+          { "name": "Rosa maza qish, qorlari – kumush", "index": 2 },
+          { "name": "Qishda jonivorlar hayoti", "index": 3 },
+          { "name": "Qish faslining erkasi", "index": 4 },
+          { "name": "Qishda bo'lgan voqealar I", "index": 5 },
+          { "name": "Qishda bo'lgan voqealar II", "index": 6 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Kitob bilim bulog'i – O'quvchining o'rtog'i",
+        "index": 3,
+        "subtopics": [
+          { "name": "Fan yo'lida nur-oftob", "index": 1 },
+          { "name": "Qiziqarli mashg'ulot", "index": 2 },
+          { "name": "Boshing to'lsin aqlga", "index": 3 },
+          { "name": "Eng yaxshi sovg'a", "index": 4 },
+          { "name": "Kitobsevar bobom", "index": 5 },
+          { "name": "Kitob – buyuk donishmand", "index": 6 },
+          { "name": "Kitoblarning makoni", "index": 7 },
+          { "name": "Kitobni toza saqlang", "index": 8 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Bahor keldi, keladi Navro'z",
+        "index": 4,
+        "subtopics": [
+          { "name": "Salom senga, gulbahor", "index": 1 },
+          { "name": "Ko'klam – yashnaydi olam", "index": 2 },
+          { "name": "Onajonim, mehribonim", "index": 3 },
+          { "name": "Uchib keladi qushlar", "index": 4 },
+          { "name": "Ko'klamni boshlab kelding", "index": 5 },
+          { "name": "Bahorning taomi", "index": 6 },
+          { "name": "Butun borliq seni der", "index": 7 },
+          { "name": "Kulib keldi Navro'zim", "index": 8 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "U – kim, bu – nima?",
+        "index": 5,
+        "subtopics": [
+          { "name": "Ajdodlar – bizning faxrimiz", "index": 1 },
+          { "name": "Olamga mashhur Sohibqiron", "index": 2 },
+          { "name": "Siz xabarni qanday jo'natasiz?", "index": 3 },
+          { "name": "Yulduzlar siri", "index": 4 },
+          { "name": "Yulduzlar ilmini o'rgangan bobom", "index": 5 },
+          { "name": "Koinotga parvozlar", "index": 6 },
+          { "name": "Zahiriddin Muhammad Bobur", "index": 7 },
+          { "name": "Suv tomchisining sayohati", "index": 8 },
+          { "name": "Ajoyib so'zlar", "index": 9 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "Xalq og'zaki ijodi – behisob xislat koni",
+        "index": 6,
+        "subtopics": [
+          { "name": "Ertaklar – yaxshilikka yetaklar", "index": 1 },
+          { "name": "Ertaklardan ol saboq", "index": 2 },
+          { "name": "Zukko bo'lgin, bolajon", "index": 3 },
+          { "name": "Rivoyatda ibrat bor", "index": 4 },
+          { "name": "Qo'shiqqa bo'lamiz jo'r", "index": 5 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Qanday yaxshi, bolalar Go'zal xulq, orastalik",
+        "index": 7,
+        "subtopics": [
+          { "name": "Odobning boshi – til", "index": 1 },
+          { "name": "Kiyinish odobi", "index": 2 },
+          { "name": "Odobli bola", "index": 3 },
+          { "name": "Rostgo'ylik – inson ko'rki", "index": 4 },
+          { "name": "Orastalik qanday soz", "index": 5 },
+          { "name": "Yomon odatlardan saqlaning", "index": 6 },
+          { "name": "Maqtanchoq bo'lmang", "index": 7 },
+          { "name": "Vaqtdan unumli foydalaning", "index": 8 },
+          { "name": "Yaxshilik qilish – odob-axloqdandir", "index": 9 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "Yoz – o'tadi soz",
+        "index": 8,
+        "subtopics": [
+          { "name": "Yoz – naqadar soz", "index": 1 },
+          { "name": "Mevalar g'arq pishgan mahalda", "index": 2 },
+          { "name": "Quvnoq o'tsin go'zal yoz", "index": 3 },
+          { "name": "O'tilganlarni mustahkamlash", "index": 4 }
+        ]
+      }
+    ]
+  }
+]

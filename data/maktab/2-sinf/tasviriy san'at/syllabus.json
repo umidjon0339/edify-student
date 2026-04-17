@@ -1,0 +1,43 @@
+[
+  {
+    "category": "2-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Vatanimiz – O'zbekiston", "index": 1 },
+          { "name": "Kuz faslini tasvirlaymiz", "index": 2 },
+          { "name": "Oltin kuz", "index": 3 },
+          { "name": "Tulkicha", "index": 4 },
+          { "name": "Ajoyib hayvonlar", "index": 5 },
+          { "name": "Mevalar rasmini chizamiz", "index": 6 },
+          { "name": "Hosil yig'im-terimi", "index": 7 },
+          { "name": "Sopol xumcha", "index": 8 },
+          { "name": "Ijodiy tasavvur", "index": 9 },
+          { "name": "Naqshinkor bezaklar chizamiz", "index": 10 },
+          { "name": "Naqshinkor bezaklar", "index": 11 },
+          { "name": "Qish", "index": 12 },
+          { "name": "Qish mavsumi", "index": 13 },
+          { "name": "Archa o'yinchoqlari", "index": 14 },
+          { "name": "Yangi yil archasi", "index": 15 },
+          { "name": "Naycha bilan rasm chizamiz", "index": 16 },
+          { "name": "Tasavvur", "index": 17 },
+          { "name": "Barmoqlar bilan rasm chizamiz", "index": 18 },
+          { "name": "O'rik novdasi", "index": 19 },
+          { "name": "Lolalar", "index": 20 },
+          { "name": "Gullar rasmini chizamiz", "index": 21 },
+          { "name": "Onamga sovg'a", "index": 22 },
+          { "name": "Namunaga qarab hayvonlar rasmini chizamiz", "index": 23 },
+          { "name": "Qushlar va parrandalar rasmini chizamiz", "index": 24 },
+          { "name": "Bahorgi qushlar", "index": 25 },
+          { "name": "Koinot rasmini chizamiz", "index": 26 },
+          { "name": "Quyosh sistemasi", "index": 27 },
+          { "name": "Manzara chizamiz", "index": 28 },
+          { "name": "Issiq yoz", "index": 29 }
+        ]
+      }
+    ]
+  }
+]

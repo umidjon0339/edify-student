@@ -1,0 +1,59 @@
+[
+  {
+    "category": "6-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I CHORAK",
+        "index": 1,
+        "subtopics": [
+          { "name": "\"Yozgi taassurotlarim\" mavzusida kompozitsiya ishlash", "index": 1 },
+          { "name": "Kuz manzarasini ishlash", "index": 2 },
+          { "name": "Mayda plastikada milliy obrazlar haykalini yasash", "index": 3 },
+          { "name": "Mifologik mavzuda rasm ishlash", "index": 4 },
+          { "name": "Kuz mavzusida ijodiy natyurmort ishlash", "index": 5 },
+          { "name": "Fluid art uslubida abstrakt kompozitsiya yaratish", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "II CHORAK",
+        "index": 2,
+        "subtopics": [
+          { "name": "Harakatdagi odam tasvirini ishlash", "index": 1 },
+          { "name": "Siluet mavzusida rasm ishlash", "index": 2 },
+          { "name": "Badiiy asarga illyustratsiya ishlash", "index": 3 },
+          { "name": "Erkin mavzuda komiks ishlash", "index": 4 },
+          { "name": "Sharq miniatyura san'ati", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "III CHORAK",
+        "index": 3,
+        "subtopics": [
+          { "name": "Sirk mavzusida kompozitsiya ishlash (erkin uslubda)", "index": 1 },
+          { "name": "Pop art uslubida hayvonlar tasvirini ishlash", "index": 2 },
+          { "name": "Abstrakt kompozitsiyali maket yasash", "index": 3 },
+          { "name": "3D uslubida rasm ishlash", "index": 4 },
+          { "name": "\"Zentangle\" va \"Doodling\" uslubida rasm ishlash", "index": 5 },
+          { "name": "Mozaika uslubida tasvir ishlash", "index": 6 },
+          { "name": "Turli materiallardan fantastik obrazlar yasash", "index": 7 },
+          { "name": "Turli materiallar va texnikalardan foydalanib kinetik haykal yasash", "index": 8 },
+          { "name": "Turli materiallardan foydalanib stilizatsiya uslubida haykal yasash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "IV CHORAK",
+        "index": 4,
+        "subtopics": [
+          { "name": "Tadbir uchun emblema yaratish", "index": 1 },
+          { "name": "Plakat grafikasi", "index": 2 },
+          { "name": "Koinot mavzusidagi abstrakt kompozitsiyani kompyuter grafikasida chizish va bo'yash", "index": 3 },
+          { "name": "Tasavvurdagi modern avtomobil rasmini ishlash", "index": 4 },
+          { "name": "Plener (ochiq havoda ishlash)", "index": 5 },
+          { "name": "Ijodiy ko'rgazma", "index": 6 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "category": "5-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Orkestrdagi cholg'ularning tovushi", "index": 1 },
+          { "name": "Xalq cholg'ulari orkestri va uning cholg'u guruhlari", "index": 2 },
+          { "name": "Musiqada kalitlar", "index": 3 },
+          { "name": "Musiqada kuz", "index": 4 },
+          { "name": "Dunyo xalqlarining musiqa cholg'ulari", "index": 5 },
+          { "name": "To'xtasin Jalilov", "index": 6 },
+          { "name": "Mutal Burhonov", "index": 7 },
+          { "name": "O'zbek xalq kuylari", "index": 8 },
+          { "name": "Shermat Yormatov", "index": 9 },
+          { "name": "Bu qaysi cholg'uning ovozi?", "index": 10 },
+          { "name": "Musiqiy shakl", "index": 11 },
+          { "name": "Sahnaviy musiqa janrlari", "index": 12 },
+          { "name": "Musiqada qish", "index": 13 },
+          { "name": "O'zbek xalq raqslari", "index": 14 },
+          { "name": "Muxtor Ashrafiy", "index": 15 },
+          { "name": "Bolalar xalq qo'shiqlari", "index": 16 },
+          { "name": "Shashmaqom. Musiqiy meros", "index": 17 },
+          { "name": "Turg'un Alimatov", "index": 18 },
+          { "name": "O'zbekiston akademik xonandalari", "index": 19 },
+          { "name": "Musiqada bahor", "index": 20 },
+          { "name": "Sulaymon Yudakov", "index": 21 },
+          { "name": "Qoraqalpoq musiqa ijodi", "index": 22 },
+          { "name": "Vokal haqida tushuncha", "index": 23 },
+          { "name": "Iogann Sebastyan Bax", "index": 24 },
+          { "name": "Dirijorlik san'ati", "index": 25 },
+          { "name": "Men xonanda bo'laman! Men sozanda bo'laman!", "index": 26 },
+          { "name": "Men bastakorman!", "index": 27 }
+        ]
+      }
+    ]
+  }
+]

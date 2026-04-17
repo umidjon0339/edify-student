@@ -1,0 +1,119 @@
+[
+  {
+    "category": "4-sinf",
+    "subject": "O'qish savodxonligi",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Do'st do'stga oyna",
+        "index": 1,
+        "subtopics": [
+          { "name": "Kichik ustoz", "index": 1 },
+          { "name": "Do'st do'stga oyna", "index": 2 },
+          { "name": "Abu Ali ibn Sino", "index": 3 },
+          { "name": "Do'stlikda gap ko'p ekan", "index": 4 },
+          { "name": "Tovuq bilan Tulki", "index": 5 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Davlatimiz ramzlari – Vatanimiz timsoli",
+        "index": 2,
+        "subtopics": [
+          { "name": "Konstitutsiya – davlatning asosiy qonuni", "index": 1 },
+          { "name": "Vatan – jon fidolikdir", "index": 2 },
+          { "name": "O'zbekiston madhiyasi", "index": 3 },
+          { "name": "Bayroqlar nimani anglatadi?", "index": 4 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Rosa maza qish, qorlari – kumush",
+        "index": 3,
+        "subtopics": [
+          { "name": "Chang'i uchaman", "index": 1 },
+          { "name": "Bir hovli qush 1-qism", "index": 2 },
+          { "name": "Bir hovli qush 2-qism", "index": 3 },
+          { "name": "Qishki ta'til", "index": 4 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Men va tabiat",
+        "index": 4,
+        "subtopics": [
+          { "name": "Qanday go'zal bu olam", "index": 1 },
+          { "name": "Arining qasosi", "index": 2 },
+          { "name": "Arining qasosi", "index": 3 },
+          { "name": "Do'stlar sayohati", "index": 4 },
+          { "name": "Chaqmoq", "index": 5 },
+          { "name": "Mimoza", "index": 6 },
+          { "name": "Chumoli va bug'doy donasi", "index": 7 },
+          { "name": "Qushlar qanday inlarda yashaydi?", "index": 8 },
+          { "name": "Suvda xotira bor", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Salomatlik – tuman boylik",
+        "index": 5,
+        "subtopics": [
+          { "name": "Tutun zahri", "index": 1 },
+          { "name": "Mikrob, virus va Salomat qiz", "index": 2 },
+          { "name": "Mikrob, virus va Salomat qiz", "index": 3 },
+          { "name": "Tan sihatlik – tuman boylik", "index": 4 },
+          { "name": "Chuchvarachi chumchuq xola", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Oila – tarbiya o'chog'i",
+        "index": 6,
+        "subtopics": [
+          { "name": "Qari bilganni pari bilmas", "index": 1 },
+          { "name": "Nok", "index": 2 },
+          { "name": "Temir qoziq", "index": 3 },
+          { "name": "Ukam", "index": 4 },
+          { "name": "Tarbiya", "index": 5 },
+          { "name": "Ona", "index": 6 },
+          { "name": "Ona kaklik", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Manguga muhrlanganlar",
+        "index": 7,
+        "subtopics": [
+          { "name": "Yerga chizilgan rasm", "index": 1 },
+          { "name": "Sohibqiron bobom mening", "index": 2 },
+          { "name": "Sirli sandiq", "index": 3 },
+          { "name": "O'tmishdan ertaklar", "index": 4 },
+          { "name": "Bastakor Yunus bobo", "index": 5 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Qiziqishlardan kasblargacha",
+        "index": 8,
+        "subtopics": [
+          { "name": "Kasblar gulshodasi", "index": 1 },
+          { "name": "Cho'rtanbaliq va mushuk", "index": 2 },
+          { "name": "Mard o'g'lonlar bo'lamiz", "index": 3 },
+          { "name": "Maydondagi bolalar", "index": 4 },
+          { "name": "Zardo'z", "index": 5 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Mo'jizalar olami",
+        "index": 9,
+        "subtopics": [
+          { "name": "Dunyo mo'jizalari", "index": 1 },
+          { "name": "Tabiat mo'jizalari", "index": 2 },
+          { "name": "Mo'jiza", "index": 3 },
+          { "name": "Dengiz suvi nega sho'r?", "index": 4 },
+          { "name": "Telebola. I qism", "index": 5 },
+          { "name": "Telebola. II-III qismlar", "index": 6 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
+        ]
+      }
+    ]
+  }
+]

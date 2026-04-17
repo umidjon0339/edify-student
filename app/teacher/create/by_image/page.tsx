@@ -200,8 +200,18 @@ const FormattedText = ({ text }: { text: any }) => {
   );
 };
 
+// 🟢 BUG FIX: UI Crash oldi olindi. Xavfsiz getText funksiyasi qo'shildi.
 const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove: (id: string) => void, t: any }) => {
   const [showExplanation, setShowExplanation] = useState(false);
+
+  // 🛠 Yangi xavfsiz o'qish funksiyasi
+  const getText = (field: any): string => {
+    if (!field) return "";
+    if (typeof field === "string") return field;
+    if (field.uz) return field.uz;
+    return JSON.stringify(field); 
+  };
+
   return (
     <div className="bg-white p-3.5 md:p-6 rounded-[1rem] md:rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 group relative">
       <div className="flex justify-between items-start mb-3 md:mb-5 pb-2.5 md:pb-4 border-b border-slate-100">
@@ -213,33 +223,49 @@ const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove
         </div>
         <button onClick={() => onRemove(q.id)} className="text-slate-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-md transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100"><Trash2 size={14} className="md:w-4 md:h-4" /></button>
       </div>
-      <div className="font-semibold text-[12px] md:text-[15px] text-slate-900 mb-3 md:mb-6 leading-relaxed"><FormattedText text={q.question.uz} /></div>
+      
+      {/* 🛠 Q.QUESTION.UZ o'rniga getText() ishlatildi */}
+      <div className="font-semibold text-[12px] md:text-[15px] text-slate-900 mb-3 md:mb-6 leading-relaxed">
+        <FormattedText text={getText(q.question)} />
+      </div>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 mb-2 md:mb-4">
         {Object.entries(q.options).map(([key, value]: any) => {
           const isCorrect = q.answer === key;
           return (
             <div key={key} className={`flex items-start p-2 md:p-3 rounded-xl border-2 transition-all ${isCorrect ? 'bg-indigo-50/40 border-indigo-500/30' : 'bg-white border-slate-100'}`}>
               <div className={`w-5 h-5 md:w-6 md:h-6 rounded-md flex items-center justify-center text-[10px] md:text-[11px] font-black mr-2 md:mr-3 mt-0.5 ${isCorrect ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500'}`}>{key}</div>
-              <div className={`text-[11px] md:text-sm font-medium pt-0.5 ${isCorrect ? 'text-indigo-950' : 'text-slate-700'}`}><FormattedText text={value.uz} /></div>
+              
+              {/* 🛠 VALUE.UZ o'rniga getText() ishlatildi */}
+              <div className={`text-[11px] md:text-sm font-medium pt-0.5 ${isCorrect ? 'text-indigo-950' : 'text-slate-700'}`}>
+                <FormattedText text={getText(value)} />
+              </div>
             </div>
           );
         })}
       </div>
-      <div className="mt-2 pt-2.5 md:pt-4 border-t border-slate-50">
-        <button onClick={() => setShowExplanation(!showExplanation)} className="text-[11px] md:text-[13px] font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1.5 transition-colors">
-          {showExplanation ? <EyeOff size={12} className="md:w-3.5 md:h-3.5" /> : <Eye size={12} className="md:w-3.5 md:h-3.5" />} {showExplanation ? t.hideExp : t.showExp}
-        </button>
-      </div>
-      {showExplanation && (
+      
+      {getText(q.explanation).trim() && (
+        <div className="mt-2 pt-2.5 md:pt-4 border-t border-slate-50">
+          <button onClick={() => setShowExplanation(!showExplanation)} className="text-[11px] md:text-[13px] font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1.5 transition-colors">
+            {showExplanation ? <EyeOff size={12} className="md:w-3.5 md:h-3.5" /> : <Eye size={12} className="md:w-3.5 md:h-3.5" />} {showExplanation ? t.hideExp : t.showExp}
+          </button>
+        </div>
+      )}
+      
+      {showExplanation && getText(q.explanation).trim() && (
         <div className="bg-slate-50 border border-slate-100 p-2.5 md:p-4 rounded-xl mt-2.5 md:mt-4">
           <p className="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2 flex items-center gap-1 md:gap-1.5"><BookOpen size={12} className="text-indigo-400 md:w-3.5 md:h-3.5" /> {t.solutionLogic}</p>
-          <p className="text-[11px] md:text-[13.5px] text-slate-700 font-medium leading-relaxed"><FormattedText text={q.explanation.uz} /></p>
+          
+          {/* 🛠 Q.EXPLANATION.UZ o'rniga getText() ishlatildi */}
+          <p className="text-[11px] md:text-[13.5px] text-slate-700 font-medium leading-relaxed">
+            <FormattedText text={getText(q.explanation)} />
+          </p>
         </div>
       )}
     </div>
   );
 };
-
 export default function AIImageInputPage() {
   const router = useRouter();
   const { user } = useAuth();

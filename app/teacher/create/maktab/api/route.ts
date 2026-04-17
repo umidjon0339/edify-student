@@ -47,6 +47,10 @@ export async function POST(req: Request) {
     const limitCheck = await consumeAiCredits(userId, count, false); 
     if (!limitCheck.allowed) return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
 
+    // Calculate numeric difficulty safely
+    const diffLower = difficulty.toLowerCase();
+    const diffVal = diffLower === "easy" ? 1 : diffLower === "hard" ? 3 : 2;
+
     // =========================================================================
     // 🚀 ULTRA-FAST FIREBASE STORAGE INTERCEPTOR (WITH RAM CACHING)
     // =========================================================================
@@ -64,14 +68,10 @@ export async function POST(req: Request) {
 
         // STEP B: If not in RAM Cache, fetch directly from Firebase Storage
         if (!localDatabase) {
-          // Encode the path to handle spaces and apostrophes (e.g., o'zbekiston tarixi)
           const encodedPath = encodeURIComponent(`local_dbs/${safeSubject}/${safeGrade}.json`);
-          
-          // Direct Google Cloud Storage URL for public read
           const firebaseUrl = `https://firebasestorage.googleapis.com/v0/b/${BUCKET_NAME}/o/${encodedPath}?alt=media`;
 
           const res = await fetch(firebaseUrl);
-          
           if (!res.ok) throw new Error(`Firebase Storage'dan topilmadi: ${res.statusText}`);
           
           localDatabase = await res.json();
@@ -87,21 +87,28 @@ export async function POST(req: Request) {
           matchedQuestions = shuffleArray(matchedQuestions);
           const selectedQuestions = matchedQuestions.slice(0, count);
 
+          // 🟢 BUG FIX 1 & 3: Inject uiDifficulty & Strict Object Structure { uz: "" }
           const formattedQuestions = selectedQuestions.map((q: any) => ({
-            // SAFE EXTRACTION: Prevents crashes if your DB has a typo
-            question: q.question?.[language] || q.question?.uz || "Savol topilmadi",
+            id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+            type: "mcq",
+            points: 2,
+            uiDifficulty: difficulty, // Fixed Crash Issue
+            difficultyId: diffVal,
+            question: { uz: q.question?.[language] || q.question?.uz || q.question || "Savol topilmadi" },
             options: {
-              A: q.options?.A?.[language] || q.options?.A?.uz || q.options?.A || "A",
-              B: q.options?.B?.[language] || q.options?.B?.uz || q.options?.B || "B",
-              C: q.options?.C?.[language] || q.options?.C?.uz || q.options?.C || "C",
-              D: q.options?.D?.[language] || q.options?.D?.uz || q.options?.D || "D"
+              A: { uz: q.options?.A?.[language] || q.options?.A?.uz || q.options?.A || "A" },
+              B: { uz: q.options?.B?.[language] || q.options?.B?.uz || q.options?.B || "B" },
+              C: { uz: q.options?.C?.[language] || q.options?.C?.uz || q.options?.C || "C" },
+              D: { uz: q.options?.D?.[language] || q.options?.D?.uz || q.options?.D || "D" }
             },
             answer: q.answer || "A",
-            explanation: "" 
+            explanation: { uz: q.explanation?.uz || q.explanation || "" } // Forced nested structure
           }));
 
           // Artificial delay (3.5 seconds) for the UX animation
           await new Promise(resolve => setTimeout(resolve, 3500));
+          
+          // Deduct credits as requested
           await consumeAiCredits(userId, formattedQuestions.length, true);
 
           return NextResponse.json({ questions: formattedQuestions });
@@ -169,6 +176,7 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     try {
       parsedJSON = JSON.parse(generatedText);
     } catch (initialParseError) {
+      // 🟢 PERFECT LATEX REPAIR LOGIC
       let sanitizedText = generatedText.replace(/```json/gi, '').replace(/```/g, '').trim();
       sanitizedText = sanitizedText.replace(/\\\\\\\\/g, '\\\\'); 
       sanitizedText = sanitizedText.replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1'); 
@@ -188,14 +196,25 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
 
     let rawAiQuestions = Array.isArray(parsedJSON) ? parsedJSON : (parsedJSON.questions || [parsedJSON]);
 
-    // 🟢 SAFE MAPPING
+    // 🟢 BUG FIX 1 & 3: Inject uiDifficulty & Strict Object Structure { uz: "" }
     const enrichedQuestions = rawAiQuestions.map((q: any) => ({
-      ...q,
-      explanation: { uz: "" },
+      id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
       type: "mcq",
-      points: 2
+      points: 2,
+      uiDifficulty: difficulty, // Fixed Crash Issue
+      difficultyId: diffVal,
+      question: { uz: q.question || "" },
+      options: {
+        A: { uz: q.options?.A || "" },
+        B: { uz: q.options?.B || "" },
+        C: { uz: q.options?.C || "" },
+        D: { uz: q.options?.D || "" }
+      },
+      answer: q.answer || "A",
+      explanation: { uz: q.explanation || "" } // Forced nested structure
     }));
 
+    // Deduct credits as requested
     await consumeAiCredits(userId, enrichedQuestions.length, true); 
 
     return NextResponse.json({ questions: enrichedQuestions });

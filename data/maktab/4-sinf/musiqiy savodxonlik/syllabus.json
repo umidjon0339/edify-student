@@ -1,0 +1,37 @@
+[
+  {
+    "category": "4-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "O'zbekiston Respublikasi Davlat madhiyasi", "index": 1 },
+          { "name": "Musiqa festivali", "index": 2 },
+          { "name": "Takt", "index": 3 },
+          { "name": "Shopen musiqasi", "index": 4 },
+          { "name": "Tovushqator va oktavalar", "index": 5 },
+          { "name": "Tonallik", "index": 6 },
+          { "name": "\"Musiqiy cholg'u asbobini toping\" o'yini", "index": 7 },
+          { "name": "Klavishli cholg'u asboblari", "index": 8 },
+          { "name": "Avaz Mansurov", "index": 9 },
+          { "name": "Jaz tovushlari", "index": 10 },
+          { "name": "Qor", "index": 11 },
+          { "name": "Xalq qo'shiqlari", "index": 12 },
+          { "name": "Bugun bayram", "index": 13 },
+          { "name": "Musiqada ifoda vositalari", "index": 14 },
+          { "name": "Bilmasvoy musiqachi bo'lmoqchi", "index": 15 },
+          { "name": "Aka-singil", "index": 16 },
+          { "name": "Navro'z", "index": 17 },
+          { "name": "Vladimir Shainskiy", "index": 18 },
+          { "name": "Musiqiy manzara", "index": 19 },
+          { "name": "Musiqiy cholg'u asboblari", "index": 20 },
+          { "name": "Tulpor", "index": 21 },
+          { "name": "Navbahor", "index": 22 },
+          { "name": "Karaoke-konsert", "index": 23 }
+        ]
+      }
+    ]
+  }
+]

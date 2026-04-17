@@ -1,0 +1,68 @@
+[
+  {
+    "category": "7-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Kirish",
+        "index": 1,
+        "subtopics": [
+          { "name": "So'zboshi", "index": 1 },
+          { "name": "O'zbekiston Respublikasining Davlat Madhiyasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "I CHORAK. XALQ MUSIQASINING MAHALLIY USLUBLARI",
+        "index": 2,
+        "subtopics": [
+          { "name": "Surxondaryo – Qashqadaryo musiqa uslubi haqida tushuncha", "index": 1 },
+          { "name": "Buxoro – Samarqand musiqa uslubi haqida tushuncha", "index": 2 },
+          { "name": "Sozanda san'ati", "index": 3 },
+          { "name": "Farg'ona – Toshkent musiqa uslubi haqida tushuncha", "index": 4 },
+          { "name": "Katta ashula va Yallachilik san'ati", "index": 5 },
+          { "name": "Xorazm musiqa uslubi haqida tushuncha", "index": 6 },
+          { "name": "Xorazm dostonchilik an'analari", "index": 7 },
+          { "name": "Xorazm ashulachilik san'ati", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "II CHORAK. MAQOMLAR HAQIDA UMUMIY TUSHUNCHA",
+        "index": 3,
+        "subtopics": [
+          { "name": "Maqom tushunchasi.Shashmaqom", "index": 1 },
+          { "name": "Shashmaqomning cholg'u (mushkilot) va ashula (nasr) bo'limi", "index": 2 },
+          { "name": "Xorazm maqomlari", "index": 3 },
+          { "name": "Xorazm maqomlarining aytim yo'li", "index": 4 },
+          { "name": "Farg'ona – Toshkent maqom yo'llari", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "III CHORAK. O'ZBEK MUSIQA SAN'ATINING JAHON MUSIQA SAN'ATIDA TUTGAN O'RNI",
+        "index": 4,
+        "subtopics": [
+          { "name": "Jahon musiqa madaniyati haqida", "index": 1 },
+          { "name": "Sharq allomalari musiqa haqida", "index": 2 },
+          { "name": "Jahon musiqasi rivojining asosiy bosqichlari", "index": 3 },
+          { "name": "Vena klassik maktabi namoyandalari", "index": 4 },
+          { "name": "XIX – XX asrlar musiqa madaniyati. Musiqada impressionizm", "index": 5 },
+          { "name": "XX asr O'zbekiston musiqa madaniyatiga doir", "index": 6 },
+          { "name": "O'zbek musiqasida kompozitorlik ijodiyoti", "index": 7 },
+          { "name": "Mirsodiq Tojiyev ijodida o'zbek simfoniyasining yuksalishi", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "IV CHORAK. O'ZBEKISTONNING MISIQA MADANIYATI",
+        "index": 5,
+        "subtopics": [
+          { "name": "Zamonaviy o'zbek misiqa madaniyati haqida", "index": 1 },
+          { "name": "Atoqli o'zbek san'atkorlari va musiqiy jamoalari", "index": 2 },
+          { "name": "Teatr san'ati va konsert ijrochilik faoliyati", "index": 3 },
+          { "name": "Televideniye va kino musiqasi haqida", "index": 4 },
+          { "name": "O'zbek musiqa san'atining jahon sahnasiga chiqishi", "index": 5 },
+          { "name": "Musiqa lug'ati", "index": 6 }
+        ]
+      }
+    ]
+  }
+]

@@ -7,7 +7,6 @@ import { consumeAiCredits } from "@/lib/ai/aiLimitsHelper";
 
 export async function POST(req: Request) {
   try {
-    // 🟢 ADDED userId to request
     const { userId, topic, subject, chapter, subtopic, difficulty, count, language = "uz", context } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -27,6 +26,10 @@ export async function POST(req: Request) {
     }
     // 🔴 AI LIMIT BLOCK END
     // =========================================================================
+
+    // 🟢 Calculate numeric difficulty safely
+    const diffLower = difficulty.toLowerCase();
+    const diffVal = diffLower === "easy" ? 1 : diffLower === "hard" ? 3 : diffLower === "olympiad" ? 4 : 2;
 
     // 🟢 REFINED PROMPT: Gifted student logic + Strict LaTeX Formatting
     let systemPrompt = `Act as an expert examiner for the Uzbekistan Specialized Schools and Presidential Schools curriculum.
@@ -65,7 +68,7 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       body: JSON.stringify({
         contents: [{ parts: [{ text: systemPrompt }] }],
         generationConfig: { 
-            temperature: 0.4, // Slightly higher for creative gifted problems
+            temperature: 0.4, 
             responseMimeType: "application/json" 
         }
       })
@@ -74,15 +77,20 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || "Gemini Error");
 
-    const generatedText = data.candidates[0].content.parts[0].text;
+    // 🟢 BUG FIX 2: SAFETY CHECK - Handles Gemini Safety Filter Blocks
+    const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!generatedText) {
+      throw new Error(data.candidates?.[0]?.finishReason === "SAFETY" 
+        ? "AI xavfsizlik filtri: Bu mavzu bo'yicha savol tuzish taqiqlangan." 
+        : "AI kutilmagan javob qaytardi. Qayta urinib ko'ring.");
+    }
+
     let parsedJSON;
 
     // 🟢 BULLETPROOF PARSING
     try {
       parsedJSON = JSON.parse(generatedText);
     } catch (initialParseError) {
-      console.warn("Initial JSON parse failed, attempting cleanup...");
-      
       let sanitizedText = generatedText.replace(/```json/gi, '').replace(/```/g, '').trim();
       sanitizedText = sanitizedText.replace(/\\\\\\\\/g, '\\\\'); 
       sanitizedText = sanitizedText.replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1'); 
@@ -93,34 +101,48 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
         parsedJSON = JSON.parse(sanitizedText);
       } catch (parseError) {
         try {
-          const repairedJson = jsonrepair(sanitizedText);
-          parsedJSON = JSON.parse(repairedJson);
+          parsedJSON = JSON.parse(jsonrepair(sanitizedText));
         } catch (repairError) {
           throw new Error("AI output was too corrupted to repair.");
         }
       }
     }
 
-    let rawAiQuestions = [];
-    if (Array.isArray(parsedJSON)) {
-      rawAiQuestions = parsedJSON;
-    } else if (parsedJSON.questions && Array.isArray(parsedJSON.questions)) {
-      rawAiQuestions = parsedJSON.questions;
-    } else if (typeof parsedJSON === 'object') {
-      rawAiQuestions = [parsedJSON];
-    }
+    let rawAiQuestions = Array.isArray(parsedJSON) ? parsedJSON : (parsedJSON.questions || [parsedJSON]);
+
+    // 🟢 BUG FIX 1: Strict Object Mapping { uz: "" } + injecting difficulty
+    const enrichedQuestions = rawAiQuestions.map((q: any) => ({
+      id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      type: "mcq",
+      points: 2,
+      uiDifficulty: difficulty, 
+      difficultyId: diffVal,
+      subject: subject,
+      topic: topic,
+      chapter: chapter,
+      subtopic: subtopic,
+      question: { uz: q.question || "" },
+      options: {
+        A: { uz: q.options?.A || "" },
+        B: { uz: q.options?.B || "" },
+        C: { uz: q.options?.C || "" },
+        D: { uz: q.options?.D || "" }
+      },
+      answer: q.answer || "A",
+      explanation: { uz: q.explanation || "" } 
+    }));
 
     // =========================================================================
     // 🟢 AI LIMIT BLOCK START: Step 2 - SUCCESS! DEDUCT THE CREDITS NOW
     // =========================================================================
-    await consumeAiCredits(userId, count, true);
+    await consumeAiCredits(userId, enrichedQuestions.length, true);
     // 🔴 AI LIMIT BLOCK END
     // =========================================================================
 
-    return NextResponse.json({ questions: rawAiQuestions });
+    return NextResponse.json({ questions: enrichedQuestions });
 
   } catch (error: any) {
     console.error("AI Generation Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Tizim xatoligi yuz berdi" }, { status: 500 });
   }
 }

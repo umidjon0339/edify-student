@@ -21,7 +21,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
     }
     
-    // deduct: false -> "Just check if they have enough, don't update Firebase yet"
     const limitCheck = await consumeAiCredits(userId, count, false); 
     
     if (!limitCheck.allowed) {
@@ -30,7 +29,10 @@ export async function POST(req: Request) {
     // 🔴 AI LIMIT BLOCK END
     // =========================================================================
 
-    // 🟢 UNIVERSAL DIFFICULTY DEFINITIONS: Works for Math, History, Biology, etc.
+    // Qiyinlik darajasi raqamini hisoblash
+    const diffLower = difficulty.toLowerCase();
+    const diffVal = diffLower === "easy" ? 1 : diffLower === "hard" ? 3 : 2;
+
     const difficultyDefinitions: Record<string, string> = {
       "Easy": "Fundamental concepts, basic definitions, and single-step recall. Clear and direct.",
       "Medium": "Intermediate level. Requires analysis, application of rules, or multi-step reasoning. Standard high-school level.",
@@ -39,7 +41,6 @@ export async function POST(req: Request) {
 
     const activeDifficultyInstruction = difficultyDefinitions[difficulty] || difficultyDefinitions["Medium"];
 
-    // 🟢 REFINED UNIVERSAL PROMPT: Subject-agnostic, with conditional strict LaTeX rules
     const systemPrompt = `Role: Expert Academic Examiner. Generate exactly ${count} multiple-choice questions.
 Language: ${language}. Difficulty: ${difficulty.toUpperCase()}.
 
@@ -76,67 +77,59 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || "Failed to fetch from Gemini");
 
-    let generatedText = data.candidates[0].content.parts[0].text;
+    const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!generatedText) throw new Error("AI kutilmagan javob qaytardi. Qayta urinib ko'ring.");
+
     let parsedJSON;
 
     try {
       parsedJSON = JSON.parse(generatedText);
     } catch (initialParseError) {
-      console.warn("Initial JSON parse failed, attempting cleanup...");
-      
       let sanitizedText = generatedText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      sanitizedText = sanitizedText.replace(/\\\\\\\\/g, '\\\\'); 
-      sanitizedText = sanitizedText.replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1'); 
-      sanitizedText = sanitizedText.replace(/\\'/g, "'"); 
-      sanitizedText = sanitizedText.replace(/\\n/g, ' ').replace(/\n/g, ' '); 
+      sanitizedText = sanitizedText.replace(/\\\\\\\\/g, '\\\\').replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1').replace(/\\'/g, "'").replace(/\\n/g, ' ').replace(/\n/g, ' '); 
 
       try {
         parsedJSON = JSON.parse(sanitizedText);
       } catch (parseError) {
         try {
-          const repairedJson = jsonrepair(sanitizedText);
-          parsedJSON = JSON.parse(repairedJson);
+          parsedJSON = JSON.parse(jsonrepair(sanitizedText));
         } catch (repairError) {
           throw new Error("AI output was too corrupted to repair.");
         }
       }
     }
 
-    let rawAiQuestions = [];
-    if (Array.isArray(parsedJSON)) {
-      rawAiQuestions = parsedJSON;
-    } else if (parsedJSON.questions && Array.isArray(parsedJSON.questions)) {
-      rawAiQuestions = parsedJSON.questions;
-    } else if (typeof parsedJSON === 'object') {
-      rawAiQuestions = [parsedJSON];
-    }
+    let rawAiQuestions = Array.isArray(parsedJSON) ? parsedJSON : (parsedJSON.questions || [parsedJSON]);
 
+    // 🟢 BUG FIX 2 & 3: Xavfsiz Object Mapping va Standart maydonlar
     const formattedQuestions = rawAiQuestions.map((q: any) => ({
       id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      type: "mcq",
+      points: 2,
       uiDifficulty: difficulty,
-      question: { uz: q.question || "", ru: "", en: "" },
+      difficultyId: diffVal,
+      question: { uz: q.question?.uz || q.question || "" },
       options: {
-        A: { uz: q.options?.A || "", ru: "", en: "" },
-        B: { uz: q.options?.B || "", ru: "", en: "" },
-        C: { uz: q.options?.C || "", ru: "", en: "" },
-        D: { uz: q.options?.D || "", ru: "", en: "" }
+        A: { uz: q.options?.A?.uz || q.options?.A || "" },
+        B: { uz: q.options?.B?.uz || q.options?.B || "" },
+        C: { uz: q.options?.C?.uz || q.options?.C || "" },
+        D: { uz: q.options?.D?.uz || q.options?.D || "" }
       },
       answer: q.answer || "A",
-      explanation: { uz: q.explanation || "", ru: "", en: "" }
+      explanation: { uz: q.explanation?.uz || q.explanation || "" }
     }));
 
     // =========================================================================
     // 🟢 AI LIMIT BLOCK START: Step 2 - SUCCESS! DEDUCT THE CREDITS NOW
     // =========================================================================
-    // deduct: true -> We know it succeeded, so actually deduct the credits!
-    await consumeAiCredits(userId, count, true);
+    // 🟢 BUG FIX 1: Faqat AI generatsiya qilib bera olgan savollar sonigina yechiladi!
+    await consumeAiCredits(userId, formattedQuestions.length, true);
     // 🔴 AI LIMIT BLOCK END
     // =========================================================================
 
     return NextResponse.json({ questions: formattedQuestions });
 
   } catch (error: any) {
-    // If Gemini crashes, the code jumps here. Credits are NOT deducted!
     console.error("AI Generation Error:", error);
     return NextResponse.json({ error: error.message || "Failed to generate questions" }, { status: 500 });
   }

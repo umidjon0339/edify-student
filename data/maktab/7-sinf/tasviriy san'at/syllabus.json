@@ -1,0 +1,55 @@
+[
+  {
+    "category": "7-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "1-CHORAK",
+        "index": 1,
+        "subtopics": [
+          { "name": "Tasviriy san'atda ramziy belgi va geraldika", "index": 1 },
+          { "name": "San'at festivali, sport musobaqasi logotipini ishlash", "index": 2 },
+          { "name": "Tasviriy san'atda oqim va yo'nalishlar. Impressionizm va postimpressionizm", "index": 3 },
+          { "name": "Puantilizm uslubida manzara ishlash", "index": 4 },
+          { "name": "Puantilizm uslubida natyurmort ishlash", "index": 5 },
+          { "name": "Kubizm uslubida natyurmort ishlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "2-CHORAK",
+        "index": 2,
+        "subtopics": [
+          { "name": "Grafik dasturlar yordamida kitob muqovasi dizaynini ishlash", "index": 1 },
+          { "name": "Kitob illyustratsiyasi", "index": 2 },
+          { "name": "Shriftli-grafik kompozitsiya", "index": 3 },
+          { "name": "Kollaj texnikasida tasvir ishlash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "3-CHORAK",
+        "index": 3,
+        "subtopics": [
+          { "name": "Haykaltaroshlikda portret", "index": 1 },
+          { "name": "Haykaltaroshlik materiallaridan dekorativ buyumlar yasash", "index": 2 },
+          { "name": "Landshaft dizayni uchun funksional-dekorativ haykalcha yasash", "index": 3 },
+          { "name": "Haykaltaroshlikda dekorativ panno yasash. Relyef", "index": 4 },
+          { "name": "O'zbekiston amaliy bezak san'atida ramziy shakllar", "index": 5 },
+          { "name": "Islimiy naqsh ishlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "4-CHORAK",
+        "index": 4,
+        "subtopics": [
+          { "name": "Dizayn san'ati", "index": 1 },
+          { "name": "Arxitekturada kompozitsiya. Interyer dizayni", "index": 2 },
+          { "name": "Arxitekturada kompozitsiya. Eksteryer dizayni", "index": 3 },
+          { "name": "Arxitektura muhitida graffiti kompozitsiyasi", "index": 4 },
+          { "name": "“Orzumdagi shahar” mavzusida me'moriy kompozitsiya ishlash", "index": 5 },
+          { "name": "Fotografiyada kompozitsiya", "index": 6 }
+        ]
+      }
+    ]
+  }
+]

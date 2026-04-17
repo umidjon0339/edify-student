@@ -1,0 +1,44 @@
+[
+  {
+    "category": "3-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Akvarel", "index": 1 },
+          { "name": "Akvarelda guldon chizamiz", "index": 2 },
+          { "name": "Guashda rasm chizamiz", "index": 3 },
+          { "name": "Boyqush", "index": 4 },
+          { "name": "Rang", "index": 5 },
+          { "name": "Puantilizm", "index": 6 },
+          { "name": "Grafika", "index": 7 },
+          { "name": "“Kuz jilvalari” loyihasi", "index": 8 },
+          { "name": "O'zbek milliy naqshlari", "index": 9 },
+          { "name": "Ornament", "index": 10 },
+          { "name": "Tabiatda va san'atda simmetriya", "index": 11 },
+          { "name": "Ufq chizig'i", "index": 12 },
+          { "name": "Qishki uychalar", "index": 13 },
+          { "name": "Interyer", "index": 14 },
+          { "name": "Yorug'lik va soya", "index": 15 },
+          { "name": "Olma chizamiz", "index": 16 },
+          { "name": "Natyurmort", "index": 17 },
+          { "name": "Hayvonlarni chizamiz", "index": 18 },
+          { "name": "Qushlarni chizamiz", "index": 19 },
+          { "name": "Delfinlar", "index": 20 },
+          { "name": "Dengiz hayoti", "index": 21 },
+          { "name": "Do'stimning portreti", "index": 22 },
+          { "name": "“Bahor jilvalari” loyihasi", "index": 23 },
+          { "name": "Multiplikatsiya", "index": 24 },
+          { "name": "Mum bilan chizamiz", "index": 25 },
+          { "name": "Grattaj", "index": 26 },
+          { "name": "Koinotga sayohat", "index": 27 },
+          { "name": "Ip bilan chizamiz", "index": 28 },
+          { "name": "O'zbekiston rassomlari", "index": 29 },
+          { "name": "Quyoshning chiqishi va botishi", "index": 30 }
+        ]
+      }
+    ]
+  }
+]

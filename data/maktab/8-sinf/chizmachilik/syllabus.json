@@ -1,0 +1,45 @@
+[
+  {
+    "category": "8-sinf",
+    "subject": "Chizmachilik",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Chizmachilik",
+        "index": 1,
+        "subtopics": [
+          { "name": "Chizmachilik kursiga kirish", "index": 1 },
+          { "name": "Chizmalarni taxt qilish. Standart. Format. Masshtab", "index": 2 },
+          { "name": "Chiziq turlari. O'lcham qo'yish qoidalari", "index": 3 },
+          { "name": "Chizma shriftlari va ularning o'lchamlari", "index": 4 },
+          { "name": "Bosh va yozma harflar hamda raqamlarning yozilishi", "index": 5 },
+          { "name": "Geometrik yasashlar. Turli xil chiziqlar chizish", "index": 6 },
+          { "name": "Burchaklar chizish va ularni teng bo'laklarga bo'lish. Muntazam ko'pburchaklar yasash", "index": 7 },
+          { "name": "Geometrik naqsh – girih chizish", "index": 8 },
+          { "name": "Tutashmalar. To'g'ri, o'tmas va o'tkir burchak tomonlarini tutashtirish", "index": 9 },
+          { "name": "Ikki aylanani uchinchi aylana yordamida tutashtirish", "index": 10 },
+          { "name": "Proyeksiyalash usullari. Markaziy va parallel proyeksiyalash", "index": 11 },
+          { "name": "Oktant va epyur haqida umumiy tushuncha", "index": 12 },
+          { "name": "To'g'ri chiziqning proyeksiyalari", "index": 13 },
+          { "name": "Tekis shakllarning proyeksiyalari", "index": 14 },
+          { "name": "Modelni bitta, o'zaro perpendikular ikkita va uchta tekislikka proyeksiyalash", "index": 15 },
+          { "name": "Geometrik jismlar va ularning proyeksiyalarini yasash", "index": 16 },
+          { "name": "Ko'pyoqliklarning yoyilmalari", "index": 17 },
+          { "name": "Silindr, konus, shar va piramidaning proyeksiyalari", "index": 18 },
+          { "name": "Aylanish sirtlari shaklining yoyilmalari", "index": 19 },
+          { "name": "Ko'rinishlar. Asosiy, bosh va mahalliy ko'rinishlar", "index": 20 },
+          { "name": "Texnik modelni konstruksiyalash va uning ko'rinishlarini chizish", "index": 21 },
+          { "name": "Oddiy model chizmalarini tahlil qilish, geometrik jismlarga ajratish", "index": 22 },
+          { "name": "Chizmalarni o'qish tartibi va qoidalari. Chizmalarni o'qish bo'yicha amaliy mashg'ulot", "index": 23 },
+          { "name": "Aksonometrik proyeksiyalar haqida umumiy tushuncha. O'qlarning joylashishi", "index": 24 },
+          { "name": "Tekis shakllarning aksonometriyalarini frontal dimetriya va izometriyada yasash", "index": 25 },
+          { "name": "Detalning frontal dimetrik proyeksiyasi", "index": 26 },
+          { "name": "Detalning izometrik proyeksiyasi", "index": 27 },
+          { "name": "Aksonometrik proyeksiyalar bo'yicha amaliy mashg'ulot", "index": 28 },
+          { "name": "Eskizlar haqida tushuncha va uni chizish bosqichlari. O'quv modelining eskizini chizish", "index": 29 },
+          { "name": "Texnik rasm chizish", "index": 30 }
+        ]
+      }
+    ]
+  }
+]

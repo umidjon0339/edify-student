@@ -1,0 +1,62 @@
+[
+  {
+    "category": "5-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I CHORAK",
+        "index": 1,
+        "subtopics": [
+          { "name": "\"Mening yurtim\" mavzusida badiiy shriftlar asosida kompozitsiya ishlash", "index": 1 },
+          { "name": "\"Mening yurtim\" mavzusida tashrif qog'ozi kompozitsiyasini ishlash", "index": 2 },
+          { "name": "Tasviriy san'atning turlari", "index": 3 },
+          { "name": "Tasviriy san'atning janrlari", "index": 4 },
+          { "name": "Inson gavdasini nisbatlar asosida chizish", "index": 5 },
+          { "name": "Inson gavdasi haykalchasini yasash", "index": 6 },
+          { "name": "Men sevgan qahramon", "index": 7 },
+          { "name": "Sharq miniatura san'ati", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "II CHORAK",
+        "index": 2,
+        "subtopics": [
+          { "name": "O'zbekiston amaliy bezak san'ati", "index": 1 },
+          { "name": "O'zbekiston amaliy bezak san'ati ustalari", "index": 2 },
+          { "name": "Kompozitsiya", "index": 3 },
+          { "name": "Grafika va uning turlari", "index": 4 },
+          { "name": "Ranglangan qog'ozga qalam bilan naturmort chizish", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "III CHORAK",
+        "index": 3,
+        "subtopics": [
+          { "name": "Grizayl", "index": 1 },
+          { "name": "Tasvirlarda ranglar jilosi", "index": 2 },
+          { "name": "Qarama-qarshi ranglardan foydalanib, kompozitsiya ishlash", "index": 3 },
+          { "name": "Tasviriy san'atda qog'oz plastikasi", "index": 4 },
+          { "name": "Badiiy shrift", "index": 5 },
+          { "name": "Qo'lni uzmasdan chizish texnikasi", "index": 6 },
+          { "name": "Badiiy bezakli sovg'a qutichasini ishlash", "index": 7 },
+          { "name": "Animalistik janr", "index": 8 },
+          { "name": "Navro'z bayrami mavzusida kompozitsiya ishlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "IV CHORAK",
+        "index": 4,
+        "subtopics": [
+          { "name": "O'zbekiston rassomlari", "index": 1 },
+          { "name": "Naqsh namunasidan nusxa ko'chirish", "index": 2 },
+          { "name": "Sketchbook dasturi", "index": 3 },
+          { "name": "Sketchbook dasturi asosida tasvir chizish", "index": 4 },
+          { "name": "Sharqona me'morchilik san'ati", "index": 5 },
+          { "name": "Zamonaviy me'morchilik san'ati", "index": 6 },
+          { "name": "Badiiy bezak grafikasi", "index": 7 }
+        ]
+      }
+    ]
+  }
+]

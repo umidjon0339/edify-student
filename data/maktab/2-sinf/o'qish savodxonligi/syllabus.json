@@ -1,0 +1,180 @@
+[
+  {
+    "category": "2-sinf",
+    "subject": "O'qish savodxonligi",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Ona vatan bag'rida baxtiyor avlod!",
+        "index": 1,
+        "subtopics": [
+          { "name": "Vatanim – jannatmakon O'zbekiston", "index": 1 },
+          { "name": "Ona bitta, Vatan yagona", "index": 2 },
+          { "name": "Vatan ostonadan boshlanadi", "index": 3 },
+          { "name": "Maktabim – qutlug' makonim", "index": 4 },
+          { "name": "Toshkent – O'zbekiston poytaxti", "index": 5 },
+          { "name": "Serquyosh o'lka", "index": 6 },
+          { "name": "Yoshi ulug' shaharlarimiz", "index": 7 },
+          { "name": "Til – millat ko'zgusi", "index": 8 },
+          { "name": "Ochiq osmon ostidagi muzey", "index": 9 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "Kitob – noyob xazina, bilim – tuganmas boylik",
+        "index": 2,
+        "subtopics": [
+          { "name": "Kitob – beminnat do'st", "index": 1 },
+          { "name": "Kitob – bebaho boylik", "index": 2 },
+          { "name": "Kitob o'qigan bola", "index": 3 },
+          { "name": "Gulzor shahrining mittilari – I qism", "index": 4 },
+          { "name": "Gulzor shahrining mittilari – II qism", "index": 5 },
+          { "name": "\"Uzum\" hikoyasi", "index": 6 },
+          { "name": "Ilm – yorug'lik", "index": 7 },
+          { "name": "Kitobga sodiq bo'ling", "index": 8 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Ixtiro va kashfiyotlarga boy olam",
+        "index": 3,
+        "subtopics": [
+          { "name": "Juda foydali ixtiro", "index": 1 },
+          { "name": "Kashfiyotchi bobolar", "index": 2 },
+          { "name": "O'z aksini ko'rish orzusi", "index": 3 },
+          { "name": "Yo'l ko'rsatuvchi mayoq", "index": 4 },
+          { "name": "Oshxona buyumlari", "index": 5 },
+          { "name": "Vaqt qadri", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Hunar – zar, kasb – gavhar",
+        "index": 4,
+        "subtopics": [
+          { "name": "Hunarmandchilik turlari", "index": 1 },
+          { "name": "Har kasbning o'z o'rni bor", "index": 2 },
+          { "name": "Yosh musavvir", "index": 3 },
+          { "name": "Kasbning yomoni yo'q", "index": 4 },
+          { "name": "Sharafli kasb", "index": 5 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Eng katta boylik – salomatlik",
+        "index": 5,
+        "subtopics": [
+          { "name": "Ehtiyot bo'ling!", "index": 1 },
+          { "name": "Ko'zga ko'rinmas olam", "index": 2 },
+          { "name": "Ko'zga ko'rinmas olam", "index": 3 },
+          { "name": "Mashhur tabib bobomiz", "index": 4 },
+          { "name": "Tumovdan saqlaning", "index": 5 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Bir-birini kuzatadi fasllar",
+        "index": 6,
+        "subtopics": [
+          { "name": "Har faslning o'z ziynati bor", "index": 1 },
+          { "name": "Fasllar nega almashadi?", "index": 2 },
+          { "name": "Qish zavqi", "index": 3 },
+          { "name": "Zumrad bahor", "index": 4 },
+          { "name": "Yoz, seni sog'indik!", "index": 5 },
+          { "name": "Oltin kuz", "index": 6 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Ertaklarning sehrli olamidan bahra olamiz!",
+        "index": 7,
+        "subtopics": [
+          { "name": "Ertaklar olami", "index": 1 },
+          { "name": "Hayvonlar haqida ertaklar I", "index": 2 },
+          { "name": "Hayvonlar haqida ertaklar II", "index": 3 },
+          { "name": "Boyo'g'li bilan qarg'a", "index": 4 },
+          { "name": "Tulkining hiylasi ko'p...", "index": 5 },
+          { "name": "Adabiy ertaklar", "index": 6 },
+          { "name": "Tabiat in'omi", "index": 7 },
+          { "name": "Bog'da", "index": 8 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Buyuklar xotirada mangu yashaydi!",
+        "index": 8,
+        "subtopics": [
+          { "name": "Biz buyuklar avlodimiz", "index": 1 },
+          { "name": "Buyuk sarkarda", "index": 2 },
+          { "name": "Mirzo Ulug'bek", "index": 3 },
+          { "name": "Ulug' shoir va mutafakkir", "index": 4 },
+          { "name": "Adolatli shoh va buyuk shoir", "index": 5 },
+          { "name": "Qatag'on qurbonlari xotirasi", "index": 6 },
+          { "name": "Mehnatsiz taxt kelmas", "index": 7 },
+          { "name": "Yuksak ma'naviyatli avlod", "index": 8 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Milliy an'ana va qadriyatlarimiz e'zozda",
+        "index": 9,
+        "subtopics": [
+          { "name": "Oila – muqaddas qo'rg'on", "index": 1 },
+          { "name": "Bebaho qadriyatlar", "index": 2 },
+          { "name": "An'ana nima?", "index": 3 },
+          { "name": "Ibratli amallar va go'zal an'analar", "index": 4 },
+          { "name": "Fayzli ko'chalar – mahallamiz ko'rki", "index": 5 },
+          { "name": "Odob salomdan boshlanadi", "index": 6 },
+          { "name": "Bayramlari ko'p yurtim", "index": 7 },
+          { "name": "Navro'z taomlari", "index": 8 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+        ]
+      },
+      {
+        "chapter": "Bizning yordamchilar",
+        "index": 10,
+        "subtopics": [
+          { "name": "Aqlli yordamchilar", "index": 1 },
+          { "name": "Elektr manbalari", "index": 2 },
+          { "name": "Transport turlari", "index": 3 },
+          { "name": "Yo'l belgilari tilga kirganda", "index": 4 },
+          { "name": "Ajoyib topilma", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Do'stlar qancha ko'p bo'lsa, olam nurga to'ladi",
+        "index": 11,
+        "subtopics": [
+          { "name": "Do'stlikda hikmat ko'p", "index": 1 },
+          { "name": "Do'stlikning qudrati", "index": 2 },
+          { "name": "Yovlashmoq – oson, yarashmoq – qiyin", "index": 3 },
+          { "name": "Do'stlik – mustahkam rishta I", "index": 4 },
+          { "name": "Do'stlik – mustahkam rishta II", "index": 5 },
+          { "name": "Do'st har vaqtda qo'llaydi", "index": 6 },
+          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Shirin-shakar so'zlasang, sehrgardek bo'lasan!",
+        "index": 12,
+        "subtopics": [
+          { "name": "Nutq sehri I", "index": 1 },
+          { "name": "Nutq sehri II", "index": 2 },
+          { "name": "Avval o'yla, keyin so'yla", "index": 3 },
+          { "name": "Jumlangiz bo'lsin to'g'ri", "index": 4 },
+          { "name": "Tilga bo'ling hurmatda", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Tabiatni asraymiz, unga ozor bermaymiz!",
+        "index": 13,
+        "subtopics": [
+          { "name": "Suv – zaminning yuragi", "index": 1 },
+          { "name": "Tabiatni asrash burchimizdir I", "index": 2 },
+          { "name": "Tabiatni asrash burchimizdir II", "index": 3 },
+          { "name": "Tabiat qo'ynida", "index": 4 },
+          { "name": "O'tilganlarni mustahkamlash", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

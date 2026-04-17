@@ -1,0 +1,39 @@
+[
+  {
+    "category": "3-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Konsertga boramiz", "index": 1 },
+          { "name": "Obod vatanim", "index": 2 },
+          { "name": "Estrada san'ati", "index": 3 },
+          { "name": "Doira dum-dum", "index": 4 },
+          { "name": "Musiqiy cholg'ular", "index": 5 },
+          { "name": "Dunyo xalqlarining musiqiy cholg'ulari", "index": 6 },
+          { "name": "Musiqiy meros", "index": 7 },
+          { "name": "Bremen mashshoqlari", "index": 8 },
+          { "name": "Ovoz", "index": 9 },
+          { "name": "Jingle bells", "index": 10 },
+          { "name": "Oppoq qish-ey, oppoq qish", "index": 11 },
+          { "name": "Teatrga boramiz", "index": 12 },
+          { "name": "Mening oilam!", "index": 13 },
+          { "name": "Maktab", "index": 14 },
+          { "name": "Raqs", "index": 15 },
+          { "name": "\"Raqsni top\" o'yini", "index": 16 },
+          { "name": "Mehribonim onajon!", "index": 17 },
+          { "name": "Musiqa – tasviriy san'atning singlisi", "index": 18 },
+          { "name": "Buratino", "index": 19 },
+          { "name": "Mening do'stlarim", "index": 20 },
+          { "name": "Tinchlik bo'lsin", "index": 21 },
+          { "name": "Ovoz yozish studiyasi", "index": 22 },
+          { "name": "Motsart – musiqa ramzi", "index": 23 },
+          { "name": "Musiqiy sehr", "index": 24 },
+          { "name": "His-tuyg'ular lug'ati", "index": 25 }
+        ]
+      }
+    ]
+  }
+]

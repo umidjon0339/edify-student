@@ -1,0 +1,39 @@
+[
+  {
+    "category": "1-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Musiqa nima?", "index": 1 },
+          { "name": "O'zbekiston Respublikasi Davlat madhiyasi", "index": 2 },
+          { "name": "Maktabim", "index": 3 },
+          { "name": "Mening sevimli qo'shiqlarim", "index": 4 },
+          { "name": "Jo'jalarim", "index": 5 },
+          { "name": "Musiqiy tovushlar olami. Kuz", "index": 6 },
+          { "name": "Musiqiy asboblar", "index": 7 },
+          { "name": "O'zbekiston bayrog'i", "index": 8 },
+          { "name": "Cholg'u asboblarining guruhlari", "index": 9 },
+          { "name": "ABC", "index": 10 },
+          { "name": "Yog'ochli puflama cholg'u asboblari", "index": 11 },
+          { "name": "Alifbo", "index": 12 },
+          { "name": "Misli puflama cholg'u asboblari", "index": 13 },
+          { "name": "Olmani qarang", "index": 14 },
+          { "name": "Torli-kamonli musia cholg'u asboblari", "index": 15 },
+          { "name": "Dadajon", "index": 16 },
+          { "name": "Onajon", "index": 17 },
+          { "name": "Chertib chalinadigan torli cholg'u asboblari", "index": 18 },
+          { "name": "Zarbli cholg'u asboblari", "index": 19 },
+          { "name": "Klavishli cholg'u asboblari", "index": 20 },
+          { "name": "Musiqiy alifbo", "index": 21 },
+          { "name": "Pianino", "index": 22 },
+          { "name": "Shovqinli cholg'u asboblari", "index": 23 },
+          { "name": "Kelajakmiz", "index": 24 },
+          { "name": "Alla qo'shig'i", "index": 25 }
+        ]
+      }
+    ]
+  }
+]

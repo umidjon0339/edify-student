@@ -1,0 +1,61 @@
+[
+  {
+    "category": "1-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Kirish", "index": 1 },
+          { "name": "Tasviriy san'at nima?", "index": 2 },
+          { "name": "O'lkamiz boyliklari", "index": 3 },
+          { "name": "Kuzgi yaproqlar", "index": 4 },
+          { "name": "Yaproqlar rasmini chizamiz", "index": 5 },
+          { "name": "Kuzgi yaproqlarning to'kilishi", "index": 6 },
+          { "name": "Shtamplar bilan ishlaymiz", "index": 7 },
+          { "name": "Kuzgi o'rmon", "index": 8 },
+          { "name": "Kamalak", "index": 9 },
+          { "name": "Sovun pufakchalari rasmini chizamiz", "index": 10 },
+          { "name": "Hosil yig'im-terimi", "index": 11 },
+          { "name": "Hosil rasmini chizamiz", "index": 12 },
+          { "name": "Sabzavotlar", "index": 13 },
+          { "name": "Olma", "index": 14 },
+          { "name": "Olma rasmini chizamiz", "index": 15 },
+          { "name": "Qor parchasi", "index": 16 },
+          { "name": "Qor parchasi rasmini chizamiz", "index": 17 },
+          { "name": "Sumalaklar manzarasi", "index": 18 },
+          { "name": "Qishki archa", "index": 19 },
+          { "name": "Archa rasmini sachratish usulida chizamiz", "index": 20 },
+          { "name": "Samolyot", "index": 21 },
+          { "name": "Vatan himoyachilari", "index": 22 },
+          { "name": "O'rmon jonivorlari. Quyoncha", "index": 23 },
+          { "name": "Quyoncha rasmini chizamiz", "index": 24 },
+          { "name": "Ajoyib hayvonlar", "index": 25 },
+          { "name": "Gul solingan guldon", "index": 26 },
+          { "name": "Guldondagi gul rasmini chizamiz", "index": 27 },
+          { "name": "Sachratma", "index": 28 },
+          { "name": "Nastarin guli novdasi", "index": 29 },
+          { "name": "Nastarin novdasi rasmini chizamiz", "index": 30 },
+          { "name": "Bahor gullari", "index": 31 },
+          { "name": "Mimoza", "index": 32 },
+          { "name": "Navro'z – bahor bayrami", "index": 33 },
+          { "name": "Navro'zni tasvirlaymiz", "index": 34 },
+          { "name": "Olma daraxti", "index": 35 },
+          { "name": "Olma daraxtini chizamiz", "index": 36 },
+          { "name": "Rang-barang kapalaklar", "index": 37 },
+          { "name": "Kapalaklar rasmini chizamiz", "index": 38 },
+          { "name": "Sponj yoki paxta bo'lakchasi yordamida rasm chizamiz", "index": 39 },
+          { "name": "G'ijimlangan qog'oz yordamida chizamiz", "index": 40 },
+          { "name": "Qoqio't", "index": 41 },
+          { "name": "Qoqio't rasmini chizamiz", "index": 42 },
+          { "name": "Kapalak", "index": 43 },
+          { "name": "Monotipiya. Kapalak", "index": 44 },
+          { "name": "Monotipiya", "index": 45 },
+          { "name": "Trafaretlar", "index": 46 },
+          { "name": "Biz nimalarni o'rgandik", "index": 47 }
+        ]
+      }
+    ]
+  }
+]

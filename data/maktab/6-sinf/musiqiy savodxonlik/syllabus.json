@@ -1,0 +1,76 @@
+[
+  {
+    "category": "6-sinf",
+    "subject": "Musiqiy savodxonlik",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Kirish",
+        "index": 1,
+        "subtopics": [
+          { "name": "So'zboshi", "index": 1 },
+          { "name": "O'zbekiston Respublikasining Davlat madhiyasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "I CHORAK. Mumtoz musiqa haqida tushuncha",
+        "index": 2,
+        "subtopics": [
+          { "name": "Mumtoz musiqa", "index": 1 },
+          { "name": "Mumtoz kuylar", "index": 2 },
+          { "name": "Mumtoz ashula", "index": 3 },
+          { "name": "Shashmaqom – mumtoz musiqamiz asosi", "index": 4 },
+          { "name": "Farg'ona – Toshkent vohasining mumtoz musiqasi. Katta ashula", "index": 5 },
+          { "name": "Xorazm vohasining mumtoz musiqasi", "index": 6 },
+          { "name": "Surxondaryo va Qashqadaryo mumtoz musiqasi", "index": 7 },
+          { "name": "Mumtoz musiqaning madaniyatimizdagi o'rni", "index": 8 },
+          { "name": "Nazorat ishi", "index": 9 },
+          { "name": "Boshqotirma", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "II CHORAK. Zamonaviy musiqa va uning asosiy xususiyatlari",
+        "index": 3,
+        "subtopics": [
+          { "name": "O'zbek zamonaviy musiqasi", "index": 1 },
+          { "name": "Zamonaviy musiqa", "index": 2 },
+          { "name": "Folklor musiqasi va dostonchilik san'ati", "index": 3 },
+          { "name": "Estrada musiqasi. B. Zokirov va \"Yalla\" guruhi", "index": 4 },
+          { "name": "Musiqa san'ati bo'yicha ko'rik-tanlov va festivallari", "index": 5 },
+          { "name": "Nazorat ishi", "index": 6 },
+          { "name": "Boshqotirma", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "III CHORAK. Sharq xalqlari mumtoz musiqasi",
+        "index": 4,
+        "subtopics": [
+          { "name": "Sharq taronalari", "index": 1 },
+          { "name": "Turk va ozarbayjon xalqlarining mumtoz musiqasi", "index": 2 },
+          { "name": "Turkman xalq mumtoz musiqasi", "index": 3 },
+          { "name": "Eron va arab xalq mumtoz musiqasi", "index": 4 },
+          { "name": "Xitoy va uyg'ur xalq mumtoz musiqasi", "index": 5 },
+          { "name": "Yapon va Hind mumtoz musiqasi", "index": 6 },
+          { "name": "Qozoq va qirg'iz xalq mumtoz musiqasi", "index": 7 },
+          { "name": "Sharq xalqlari kasbiy musiqasining o'xshashligi", "index": 8 },
+          { "name": "Nazorat ishi", "index": 9 },
+          { "name": "Boshqotirma", "index": 10 }
+        ]
+      },
+      {
+        "chapter": "IV CHORAK. Yevropa mumtoz musiqasi haqida tushuncha",
+        "index": 5,
+        "subtopics": [
+          { "name": "Yevropa mumtoz musiqasi", "index": 1 },
+          { "name": "Volfgang Amadey Motsart", "index": 2 },
+          { "name": "Simfoniya haqida tushuncha", "index": 3 },
+          { "name": "Lyudvig van Betxoven", "index": 4 },
+          { "name": "Friderik Shopen", "index": 5 },
+          { "name": "Mixail Ivanovich Glinka hayoti va ijodi. Yevropa musiqasining jahon xalqlari orasida ommalashishi", "index": 6 },
+          { "name": "Nazorat ishi", "index": 7 },
+          { "name": "Boshqotirma", "index": 8 }
+        ]
+      }
+    ]
+  }
+]

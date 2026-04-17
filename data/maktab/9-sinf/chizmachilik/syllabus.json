@@ -1,0 +1,48 @@
+[
+  {
+    "category": "9-sinf",
+    "subject": "Chizmachilik",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Chizmachilik",
+        "index": 1,
+        "subtopics": [
+          { "name": "8-sinfda chizmachilikdan olingan bilimlarni qisqacha takrorlash va umumlashtirish", "index": 1 },
+          { "name": "Kesimlar", "index": 2 },
+          { "name": "Kesim turlari", "index": 3 },
+          { "name": "Kesimlarda shartlilik va soddalashtirishlar", "index": 4 },
+          { "name": "Qirqimlar", "index": 5 },
+          { "name": "Qirqim turlari", "index": 6 },
+          { "name": "Oddiy va mahalliy qirqimlar. Ularning chizmalarda belgilanishi", "index": 7 },
+          { "name": "Ko'rinishning yarmi bilan qirqimning yarmini birlashtirish", "index": 8 },
+          { "name": "Ko'rinishning qismini qirqimning qismi bilan birlashtirib tasvirlash", "index": 9 },
+          { "name": "Aksonometrik proyeksiya(izometriya)da qirqimni tasvirlash", "index": 10 },
+          { "name": "Frontal dimetriyada qirqimni tasvirlash", "index": 11 },
+          { "name": "Kesim va qirqim talab qiladigan detallarning eskizini chizish", "index": 12 },
+          { "name": "Eskiz chizish bo'yicha amaliy mashg'ulot va texnik rasm chizish", "index": 13 },
+          { "name": "Chizmalarda shartlilik va soddalashtirish", "index": 14 },
+          { "name": "Detalning shaklini dizayn asosida konstruktiv o'zgartirishga oid loyihalash", "index": 15 },
+          { "name": "Loyihalashga doir grafik masalalar", "index": 16 },
+          { "name": "Detalning fazoviy holatini o'zgartirishga va qayta loyihalashga oid ijodiy grafik ishlar", "index": 17 },
+          { "name": "Mashinasozlik chizmalari. Buyum va konstruktorlik hujjatlarining turlari", "index": 18 },
+          { "name": "Ajraladigan va ajralmaydigan birikmalar", "index": 19 },
+          { "name": "Rezbalar va ularni chizmalarda tasvirlash", "index": 20 },
+          { "name": "Bo'ltli birikmani chizish", "index": 21 },
+          { "name": "Shpilkali birikmani chizish", "index": 22 },
+          { "name": "Oddiy yig'ish chizmalarini o'qish", "index": 23 },
+          { "name": "Kdonstruksiyalashga doir masalalar", "index": 24 },
+          { "name": "Kompyuterda to'g'ri chiziq, burchak va tekis shakllarni yasash", "index": 25 },
+          { "name": "Kompyuter yordamida berilgan oddiy detallarning fazoviy holatini va uning shaklini dizayn asosida qisman o'zgartirish", "index": 26 },
+          { "name": "Kompyuterda buyumlarni loyihalash", "index": 27 },
+          { "name": "Qurilish chizmalari. Binoning plani. Qirqimi va fasadi", "index": 28 },
+          { "name": "Qurilish chizmalarini o'qish", "index": 29 },
+          { "name": "Bosh plan chizish bo'yicha amaliy mashg'ulot", "index": 30 },
+          { "name": "Murakkab qirqimlar", "index": 31 },
+          { "name": "Sxemalar", "index": 32 },
+          { "name": "1, 2, 3-grafik ishlar uchun variantlar", "index": 33 }
+        ]
+      }
+    ]
+  }
+]

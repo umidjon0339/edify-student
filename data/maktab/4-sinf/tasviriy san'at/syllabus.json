@@ -1,0 +1,40 @@
+[
+  {
+    "category": "4-sinf",
+    "subject": "Tasviriy san'at",
+    "index": 1,
+    "chapters": [
+      {
+        "index": 1,
+        "subtopics": [
+          { "name": "Rangtasvir", "index": 1 },
+          { "name": "Dastgohli rangtasvir", "index": 2 },
+          { "name": "Ranglar uyg'unligi", "index": 3 },
+          { "name": "Rangtasvir turlari", "index": 4 },
+          { "name": "Dekorativ rangtasvir", "index": 5 },
+          { "name": "Ona yurtimiz", "index": 6 },
+          { "name": "Kuzning rang-barang ohanglari", "index": 7 },
+          { "name": "Grafika", "index": 8 },
+          { "name": "Natyurmort", "index": 9 },
+          { "name": "Portret", "index": 10 },
+          { "name": "Sehrli qovoq", "index": 11 },
+          { "name": "Oila gerbi", "index": 12 },
+          { "name": "Badiiy obraz", "index": 13 },
+          { "name": "Vitraj", "index": 14 },
+          { "name": "Animalistika", "index": 15 },
+          { "name": "Haykaltaroshlik", "index": 16 },
+          { "name": "Ko'rish illyuziyasi", "index": 17 },
+          { "name": "Boychechak", "index": 18 },
+          { "name": "Noan'anaviy rasm chizish texnikalari, 1-qism", "index": 19 },
+          { "name": "Kitob grafikasi", "index": 20 },
+          { "name": "Kompyuter grafikasi", "index": 21 },
+          { "name": "Grafik muharrir", "index": 22 },
+          { "name": "Kompyuter grafikasi rassomi", "index": 23 },
+          { "name": "Konstruktiv rasm", "index": 24 },
+          { "name": "Me'morchilik", "index": 25 },
+          { "name": "Noan'anaviy rasm chizish texnikalari, 2-qism", "index": 26 }
+        ]
+      }
+    ]
+  }
+]

@@ -10,30 +10,22 @@ export async function POST(req: Request) {
     const { userId, images, promptText, difficulty, count, language = "uz" } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: "GEMINI_API_KEY is missing" }, { status: 500 });
-    }
+    if (!apiKey) return NextResponse.json({ error: "GEMINI_API_KEY is missing" }, { status: 500 });
 
     // =========================================================================
     // 🟢 AI LIMIT BLOCK START: Step 1 - GATEKEEPER CHECK (Do NOT deduct yet)
     // =========================================================================
-    if (!userId) {
-      return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
-    }
+    if (!userId) return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
     
-    // Notice the 'false' parameter here! It means "just check the math, don't update Firebase yet"
     const limitCheck = await consumeAiCredits(userId, count, false); 
-    
-    if (!limitCheck.allowed) {
-      return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
-    }
+    if (!limitCheck.allowed) return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
     // 🔴 AI LIMIT BLOCK END
     // =========================================================================
 
+    if (!images || images.length === 0) return NextResponse.json({ error: "No images provided" }, { status: 400 });
 
-    if (!images || images.length === 0) {
-      return NextResponse.json({ error: "No images provided" }, { status: 400 });
-    }
+    const diffLower = difficulty.toLowerCase();
+    const diffVal = diffLower === "easy" ? 1 : diffLower === "hard" ? 3 : 2;
 
     const systemPrompt = `Role: Expert Academic Examiner. Generate exactly ${count} multiple-choice questions based on the image content.
 Lang: ${language}. Diff: ${difficulty}. Instruction: "${promptText || 'Extract main concepts'}".
@@ -59,9 +51,7 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     images.forEach((imgBase64: string) => {
       const mimeType = imgBase64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)?.[1] || "image/jpeg";
       const base64Data = imgBase64.split(',')[1];
-      requestParts.push({
-        inlineData: { data: base64Data, mimeType: mimeType }
-      });
+      requestParts.push({ inlineData: { data: base64Data, mimeType: mimeType } });
     });
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
@@ -69,10 +59,7 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: requestParts }],
-        generationConfig: {
-          temperature: 0.1, 
-          responseMimeType: "application/json", 
-        }
+        generationConfig: { temperature: 0.1, responseMimeType: "application/json" }
       })
     });
 
@@ -85,65 +72,44 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     try {
       parsedJSON = JSON.parse(generatedText);
     } catch (initialParseError) {
-      console.warn("Initial JSON parse failed, attempting cleanup...");
       let sanitizedText = generatedText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      
+      sanitizedText = sanitizedText.replace(/\\\\\\\\/g, '\\\\').replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1').replace(/\\'/g, "'").replace(/\\n/g, ' ').replace(/\n/g, ' '); 
       try {
         parsedJSON = JSON.parse(sanitizedText);
       } catch (parseError) {
-        try {
-          const repairedJson = jsonrepair(sanitizedText);
-          parsedJSON = JSON.parse(repairedJson);
-        } catch (repairError) {
-          throw new Error("AI output was too corrupted to repair.");
-        }
+        try { parsedJSON = JSON.parse(jsonrepair(sanitizedText)); } 
+        catch (repairError) { throw new Error("AI output was too corrupted to repair."); }
       }
     }
 
-    // 🟢 If the AI says the image is invalid, the code stops here! 
-    // The credits are NEVER deducted, which is exactly what we want.
-    if (parsedJSON.error === "invalid_image") {
-      return NextResponse.json({ error: "invalid_image" }, { status: 400 });
-    }
+    if (parsedJSON.error === "invalid_image") return NextResponse.json({ error: "invalid_image" }, { status: 400 });
 
-    let rawAiQuestions = [];
-    if (Array.isArray(parsedJSON)) {
-      rawAiQuestions = parsedJSON;
-    } else if (parsedJSON.questions && Array.isArray(parsedJSON.questions)) {
-      rawAiQuestions = parsedJSON.questions;
-    } else if (typeof parsedJSON === 'object') {
-      rawAiQuestions = [parsedJSON];
-    }
+    let rawAiQuestions = Array.isArray(parsedJSON) ? parsedJSON : (parsedJSON.questions || [parsedJSON]);
 
+    // 🟢 BUG FIX 2: Object nesting prevented & format standardized
     const formattedQuestions = rawAiQuestions.map((q: any) => ({
       id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      type: "mcq",
+      points: 2,
       uiDifficulty: difficulty,
-      question: { uz: q.question || "", ru: "", en: "" },
+      difficultyId: diffVal,
+      question: { uz: q.question?.uz || q.question || "" },
       options: {
-        A: { uz: q.options?.A || "", ru: "", en: "" },
-        B: { uz: q.options?.B || "", ru: "", en: "" },
-        C: { uz: q.options?.C || "", ru: "", en: "" },
-        D: { uz: q.options?.D || "", ru: "", en: "" }
+        A: { uz: q.options?.A?.uz || q.options?.A || "" },
+        B: { uz: q.options?.B?.uz || q.options?.B || "" },
+        C: { uz: q.options?.C?.uz || q.options?.C || "" },
+        D: { uz: q.options?.D?.uz || q.options?.D || "" }
       },
       answer: q.answer || "A",
-      explanation: { uz: q.explanation || "", ru: "", en: "" }
+      explanation: { uz: q.explanation?.uz || q.explanation || "" }
     }));
 
-    // =========================================================================
-    // 🟢 AI LIMIT BLOCK START: Step 2 - SUCCESS! DEDUCT THE CREDITS NOW
-    // =========================================================================
-    // By the time we reach this line, we know the JSON is valid, the image was good, 
-    // and the questions are formatted perfectly. Now we actually deduct the count!
-    // Notice the 'true' parameter here!
-    await consumeAiCredits(userId, count, true);
-    // 🔴 AI LIMIT BLOCK END
-    // =========================================================================
+    // 🟢 BUG FIX 1: Only charge for what AI actually generated
+    await consumeAiCredits(userId, formattedQuestions.length, true);
 
     return NextResponse.json({ questions: formattedQuestions });
 
   } catch (error: any) {
-    // 🟢 If the Gemini API crashes or times out, the code jumps here.
-    // The bottom consumeAiCredits(..., true) is skipped, and credits are saved!
     console.error("AI Image Generation Error:", error);
     return NextResponse.json({ error: error.message || "Failed to generate questions" }, { status: 500 });
   }
