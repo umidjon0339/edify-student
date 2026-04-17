@@ -1,13 +1,13 @@
 {
-  "1-sinf": ["matematika","ona tili"],
-  "2-sinf": ["matematika","ona tili"],
-  "3-sinf": ["matematika","ona tili"],
-  "4-sinf": ["matematika","ona tili"],
-  "5-sinf": ["matematika", "tabiiy fanlar (Science)","ona tili","geografiya"],
-  "6-sinf": ["matematika", "tabiiy fanlar (Science)", "tarix", "ona tili", "geografiya"],
-  "7-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika"],
-  "8-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika"],
-  "9-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika"],
-  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya","fizika"],
+  "1-sinf": ["matematika","ona tili","tarbiya","texnologiya"],
+  "2-sinf": ["matematika","ona tili","tarbiya","texnologiya"],
+  "3-sinf": ["matematika","ona tili","tarbiya","texnologiya"],
+  "4-sinf": ["matematika","ona tili","tarbiya","texnologiya"],
+  "5-sinf": ["matematika", "tabiiy fanlar (Science)","ona tili","geografiya","tarbiya","texnologiya"],
+  "6-sinf": ["matematika", "tabiiy fanlar (Science)", "tarix", "ona tili", "geografiya", "tarbiya","texnologiya"],
+  "7-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika", "tarbiya","texnologiya"],
+  "8-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika", "tarbiya","texnologiya"],
+  "9-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika", "tarbiya","texnologiya"],
+  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya","fizika", "tarbiya"],
   "11-sinf": ["matematika", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "fizika"]
 }

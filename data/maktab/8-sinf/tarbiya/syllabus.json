@@ -1,0 +1,58 @@
+[
+  {
+    "category": "8-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I BOB. TINCH VA XOTIRJAM YASHASH BAXTI",
+        "index": 1,
+        "subtopics": [
+          { "name": "IFTIXORIMSAN - JANNATMAKON O'ZBEKISTON!", "index": 1 },
+          { "name": "MILLATLARARO HAMJIHATLIK", "index": 2 },
+          { "name": "HAR BIR FARZAND VATAN HIMOYACHISI", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "II BOB. O'Z-O'ZINI ANGLASH",
+        "index": 2,
+        "subtopics": [
+          { "name": "HAYOTDA O'Z ISTAKLARIMIZNI ANGLASH", "index": 1 },
+          { "name": "QAT'IY FE'L-ATVORNING MUHIMLIGI", "index": 2 },
+          { "name": "QIYIN VAZIYATDA HISSIYOTLARNI BOSHQARISH", "index": 3 },
+          { "name": "HAYOT - BETAKROR NE'MAT", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "III BOB. O'ZGARISH, MASHAQQATLARNI YENGISH",
+        "index": 3,
+        "subtopics": [
+          { "name": "TUSHKUNLIK VA BESARANJOMLIKNI BOSHQARISH", "index": 1 },
+          { "name": "MASHAQQATLARNI YENGIB O'TISH", "index": 2 },
+          { "name": "TANQID VA TANQIDIY FIKRLASHNING MUHIMLIGI", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "IV BOB. TARAQQIYOT VA BIZNES - ILM-FAN VA YARATUVCHANLIK MEVASI",
+        "index": 4,
+        "subtopics": [
+          { "name": "FAN-TEXNIKA TARAQQIYOTI VA INSON MA'NAVIYATI", "index": 1 },
+          { "name": "ILM VA ZAKOVAT", "index": 2 },
+          { "name": "TIL BILGAN - DUNYO KO'RADI", "index": 3 },
+          { "name": "VAQT - BEBAHO NE'MAT", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "V BOB. OILA VA SALOMATLIK",
+        "index": 5,
+        "subtopics": [
+          { "name": "GO'ZAL TARBIYA TAMOYILLARI", "index": 1 },
+          { "name": "TABIAT VA INSON", "index": 2 },
+          { "name": "TEJAMKORLIK - YAXSHI FAZILAT", "index": 3 },
+          { "name": "XOTIRA - BUYUK QADRIYAT", "index": 4 },
+          { "name": "GLOSSARIY", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "category": "2-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Men va mening Vatanim",
+        "index": 1,
+        "subtopics": [
+          { "name": "Vatanim \u2013 faxrim", "index": 1 },
+          { "name": "Maktab nima uchun kerak?", "index": 2 },
+          { "name": "O'qituvchi va o'quvchilar", "index": 3 },
+          { "name": "Maktabga yo'l", "index": 4 },
+          { "name": "Jamoat transportida", "index": 5 },
+          { "name": "Takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Men va mening do'stlarim",
+        "index": 2,
+        "subtopics": [
+          { "name": "Men va mening sinfdosh do'stlarim", "index": 1 },
+          { "name": "Bir-birimizni tushunishni o'rganamiz", "index": 2 },
+          { "name": "Bir-birimizga yordam beramiz", "index": 3 },
+          { "name": "Ishonamiz va tekshiramiz", "index": 4 },
+          { "name": "Takrorlash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Men va mening fazilatlarim",
+        "index": 3,
+        "subtopics": [
+          { "name": "Men \u2013 insonman", "index": 1 },
+          { "name": "Mehr-oqibat nima?", "index": 2 },
+          { "name": "Halollik nima?", "index": 3 },
+          { "name": "Hurmat va xushmuomalalik", "index": 4 },
+          { "name": "Sog'lom turmush tarzi", "index": 5 },
+          { "name": "Takrorlash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Men va an'analar",
+        "index": 4,
+        "subtopics": [
+          { "name": "Mehmondo'stlik", "index": 1 },
+          { "name": "Hamkorlik an'analari", "index": 2 },
+          { "name": "Kitob \u2013 eng yaxshi do'stimiz!", "index": 3 },
+          { "name": "Bizga telefon, televizor, kompyuter nima uchun kerak?", "index": 4 },
+          { "name": "Madaniyat va ta'lim", "index": 5 },
+          { "name": "Ochiq osmon ostidagi muzey", "index": 6 },
+          { "name": "Jamoat joylarida bo'lish odobi", "index": 7 },
+          { "name": "Takrorlash", "index": 8 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "category": "10-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I BOB. OILAVIY QADRIYATLAR",
+        "index": 1,
+        "subtopics": [
+          { "name": "Vatan yagona", "index": 1 },
+          { "name": "Oila – Vatan ichra Vatan", "index": 2 },
+          { "name": "Oila – baxt qo'rg'oni", "index": 3 },
+          { "name": "Oiladagi burch va mas'uliyat", "index": 4 },
+          { "name": "Baxt manzillari", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "II BOB. INSON VA JAMIYAT",
+        "index": 2,
+        "subtopics": [
+          { "name": "Mahalla – qadriyatlar beshigi", "index": 1 },
+          { "name": "Jamiyatning ma'naviy asoslari", "index": 2 },
+          { "name": "Din va madaniyat", "index": 3 },
+          { "name": "Dunyo dinlarida insonparvarlik g'oyalari", "index": 4 },
+          { "name": "Eng katta meros", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "III BOB. IJTIMOIY TARMOQ: IMKONIYATLAR VA TAHDIDLAR",
+        "index": 3,
+        "subtopics": [
+          { "name": "Buzg'unchi g'oyalar", "index": 1 },
+          { "name": "Jaholatga qarshi ma'rifat", "index": 2 },
+          { "name": "Xavfsiz media ummoni", "index": 3 },
+          { "name": "Soxta xabarlar ortida nima bor?", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "IV BOB. MEHNATSEVARLIK, TADBIRKORLIK VA KASBIY KO'NIKMALAR",
+        "index": 4,
+        "subtopics": [
+          { "name": "Baxtli hayot poydevori", "index": 1 },
+          { "name": "Iste'mol va tadbirkorlik madaniyati", "index": 2 },
+          { "name": "Kasb tanlash sirlari", "index": 3 },
+          { "name": "O'rganishdan to'xtamang", "index": 4 },
+          { "name": "Iroda", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

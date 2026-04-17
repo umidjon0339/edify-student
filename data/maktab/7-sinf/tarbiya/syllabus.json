@@ -1,0 +1,65 @@
+[
+  {
+    "category": "7-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I bob. Oliy maqsad",
+        "index": 1,
+        "subtopics": [
+          { "name": "Inson – ezgulik ijodkori", "index": 1 },
+          { "name": "Oliy maqsadlar bilan yashash", "index": 2 },
+          { "name": "Muvaffaqiyat – qunt va qat'iyat natijasi", "index": 3 },
+          { "name": "Umr-umid-sinov-imkoniyat", "index": 4 },
+          { "name": "Tabiatni asrash – hayotni asrash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "II bob. Axloq va tarbiya asoslari",
+        "index": 2,
+        "subtopics": [
+          { "name": "Inson axloqi bilan go'zal", "index": 1 },
+          { "name": "Inson odobida aks etuvchi fe'l-atvor", "index": 2 },
+          { "name": "Insonlarni birlashtiruvchi umuminsoniy xislatlar", "index": 3 },
+          { "name": "Baxtiyor hayotning ustunlari", "index": 4 },
+          { "name": "Hammasi o'z qo'limizda", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "III bob. Hushyorlik va ogohlik",
+        "index": 3,
+        "subtopics": [
+          { "name": "Inson umri", "index": 1 },
+          { "name": "Ogohlik", "index": 2 },
+          { "name": "Ko'zga ko'rinmas xatarlar", "index": 3 },
+          { "name": "«Men qanday insonman?»", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "IV bob. Muomala va muloqot asoslari",
+        "index": 4,
+        "subtopics": [
+          { "name": "Muomala uchun zarur odoblar", "index": 1 },
+          { "name": "Kommunikativlik – muvaffaqiyat kaliti", "index": 2 },
+          { "name": "Samarali muloqot sirlari", "index": 3 },
+          { "name": "Farzand – oila ko'zgusi", "index": 4 },
+          { "name": "Avval tinglashni o'rganing", "index": 5 },
+          { "name": "Harakat qilmagan baxtga yetolmas", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "V bob. Birlashgan o'zar",
+        "index": 5,
+        "subtopics": [
+          { "name": "Yaxshilik yo'lida hamkorlik", "index": 1 },
+          { "name": "Do'stlik", "index": 2 },
+          { "name": "Insoniylik – xalqimizning eng buyuk fazilati", "index": 3 },
+          { "name": "Bag'rikenglik – tinchlik va totuvlik sari muhim qadam", "index": 4 },
+          { "name": "Daxldorlik", "index": 5 },
+          { "name": "Mahallamiz farovonligi – bizning farovonligimiz", "index": 6 }
+        ]
+      }
+    ]
+  }
+]

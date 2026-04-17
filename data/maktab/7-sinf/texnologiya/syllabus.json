@@ -1,0 +1,117 @@
+[
+  {
+    "category": "7-sinf",
+    "subject": "Texnologiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "01 TEXNOLOGIYA VA DIZAYN YO'NALISHI",
+        "index": 1,
+        "subtopics": [
+          { "name": "Ishlab chiqarishda sanoat texnikasi", "index": 1 },
+          { "name": "Loyiha ishi", "index": 2 },
+          { "name": "II.1. Yog'ochga ishlov berish texnologiyasi", "index": 3 },
+          { "name": "Yog'ochlarni quritish va saqlash qoidalari", "index": 4 },
+          { "name": "Yog'och va yog'och materiallarga ishlov berishning zamonaviy usullari", "index": 5 },
+          { "name": "Konstruksiyalash hujjatlari", "index": 6 },
+          { "name": "Yog'ochga ishlov beruvchi qo'l asboblarini sozlash va ta'mirlash", "index": 8 },
+          { "name": "Yog'ochga ishlov berishda qo'l asboblari", "index": 10 },
+          { "name": "Yog'ochga ishlov beruvchi tokarlik stanogi", "index": 12 },
+          { "name": "Yog'och va yog'och materiallarga badiiy ishlov berish", "index": 14 },
+          { "name": "Yog'och buyumlarni tirnoqli biriktirish", "index": 16 },
+          { "name": "Yog'ochga ishlov beruvchi elektrlashtirilgan qo'l asboblari", "index": 18 },
+          { "name": "Yog'ochlarni pardozlash va pardoz materiallari", "index": 20 },
+          { "name": "II.2. Metallga ishlov berish texnologiyasi", "index": 22 },
+          { "name": "Po'latlar tasnifi. Po'latlarga termik ishlov berish", "index": 23 },
+          { "name": "Metall va qotishmalarga ishlov berishning zamonaviy usullari", "index": 25 },
+          { "name": "Metallga ishlov beruvchi asboblarni sozlash, ta'mirlash va saqlash texnologiyasi", "index": 26 },
+          { "name": "Gorizontal-frezalash stanogining tuzilishi va vazifasi", "index": 28 },
+          { "name": "Metallarga badiiy ishlov berish texnologiyasi", "index": 30 },
+          { "name": "Metall materiallarni rezbali biriktirish texnologiyasi", "index": 32 },
+          { "name": "II.3. Kompozit materiallarga ishlov berish texnologiyasi", "index": 34 },
+          { "name": "Oq sement. Oq sementning tarkibi va xossalari", "index": 35 },
+          { "name": "II.4. Elektrotexnika", "index": 37 },
+          { "name": "Kavsharlash. Kavsharlash asosida buyumlar yasash", "index": 38 },
+          { "name": "Xonadonni kichik ta'mirlash (bo'yash) ishlari texnologiyasi", "index": 40 },
+          { "name": "Sodda elektromontaj ishlarini bajarish", "index": 42 }
+        ]
+      },
+      {
+        "chapter": "02 SERVIS XIZMATI YO'NALISHI",
+        "index": 2,
+        "subtopics": [
+          { "name": "I.1. Umumiy tushunchalar", "index": 1 },
+          { "name": "Oziq-ovqat mahsulotlarining tarkibi", "index": 2 },
+          { "name": "I.2. Asbob-uskuna va moslamalardan foydalanish", "index": 3 },
+          { "name": "Taom tayyorlashning xavfsizlik texnikasi va sanitariya-gigiyena qoidalari. Kechki dasturxonni tuzash", "index": 4 },
+          { "name": "Sabzavot va mevalarni konservalash. Kompot tayyorlash", "index": 6 },
+          { "name": "Ziravorlar", "index": 8 },
+          { "name": "I.3. Taom tayyorlash texnologiyasi", "index": 10 },
+          { "name": "Go'sht va baliq mahsulotlari", "index": 11 },
+          { "name": "Go'shtdan tayyorlanadigan yarimfabrikatlar", "index": 12 },
+          { "name": "Baliq va dengiz mahsulotlaridan taom tayyorlash", "index": 14 },
+          { "name": "II.1. Umumiy tushunchalar", "index": 16 },
+          { "name": "Kimyoviy tolalar. Kimyoviy tolalarning olinishi va xossalari", "index": 17 },
+          { "name": "Kimyoviy tolali gazlamalar va ularning xususiyatlari", "index": 19 },
+          { "name": "II.2. Asbob-uskunalar va ulardan foydalanish", "index": 21 },
+          { "name": "Kiyim haqida umumiy ma'lumot", "index": 22 },
+          { "name": "Tikiladigan kiyim uchun gazlama va fason tayyorlash", "index": 23 },
+          { "name": "Qo'lda bajariladigan ishlarning texnik shartlari", "index": 25 },
+          { "name": "III.3. Mashina, mexanizm, stanoklar va ulardan foydalanish", "index": 27 },
+          { "name": "Ixtisoslashtirilgan tikuv mashinalari, tuzilishi va ishlash prinsipi", "index": 28 },
+          { "name": "Parallel, zigzag, mayda va yirik baxyaqator choklarini tikish texnologiyasi. Mashinada izma (petlya) tikish", "index": 29 },
+          { "name": "II.4. Mahsulot ishlab chiqarish texnologiyasi", "index": 31 },
+          { "name": "Kiyim turlari. Milliy liboslardan ko'ylak va uning turlari haqida ma'lumot", "index": 32 },
+          { "name": "Gavdadan o'lchov olish", "index": 33 },
+          { "name": "Modellashtirish va andaza tayyorlash", "index": 35 },
+          { "name": "Andazani gazlama ustiga joylashtirish. Gazlamani bichishga tayyorlash va bichish", "index": 37 },
+          { "name": "Ko'ylakning bichiq bo'laklariga ishlov berish. Dazmollash", "index": 39 },
+          { "name": "Xalq hunarmandchiligida quroqchilik san'ati va tarixi", "index": 41 },
+          { "name": "Interyerda tekstil mahsulotlari. Tekstil mahsulotlarida ranglar jilosi", "index": 43 },
+          { "name": "Loyiha ishi", "index": 44 },
+          { "name": "Interyerda o'simliklar dunyosi. Xonadon va ofislar interyeri", "index": 45 },
+          { "name": "Loyiha ishi", "index": 46 }
+        ]
+      },
+      {
+        "chapter": "03 QISHLOQ XO'JALIGI TEXNOLOGIYASI YO'NALISHI",
+        "index": 3,
+        "subtopics": [
+          { "name": "Ekinlarni almashlab ekish texnologiyasi", "index": 1 },
+          { "name": "Donli va moyli ekinlar", "index": 2 },
+          { "name": "Tuproqsiz ekin yetishtirish (gidroponika)", "index": 3 },
+          { "name": "Urug'chilik va ko'chat yetishtirish usullari", "index": 4 },
+          { "name": "Yashil o'simliklar klassifikatsiyasi", "index": 6 },
+          { "name": "O'simlik kasalliklari va zararkunandalariga qarshi kurashish usullari", "index": 8 },
+          { "name": "Loyiha ishi", "index": 10 },
+          { "name": "Yerga ishlov beruvchi texnika turlari. Xavfsizlik texnikasi qoidalari", "index": 11 },
+          { "name": "Ekinlarni ekish va ko'chat o'tqazish mashinalari", "index": 12 },
+          { "name": "O'g'it solishda ishlatiladigan mashinalar", "index": 14 },
+          { "name": "Ekinlarni sug'orishda ishlatiladigan moslama va mashinalar", "index": 15 },
+          { "name": "Ekin hosilini yig'ishtirishda ishlatiladigan mashina turlari", "index": 17 },
+          { "name": "Mevali daraxtlar (urug'li, yong'oqli, danakli, rezavor va subtropik mevalar)", "index": 18 },
+          { "name": "Mevali daraxtlarni parvarish qilish usullari (sug'orish, o'g'itlash, shakl berish, butalash)", "index": 20 },
+          { "name": "Manzarali daraxt va buta o'simliklar", "index": 21 },
+          { "name": "Loyiha ishi", "index": 22 },
+          { "name": "Yashil va barg qalamcha tayyorlash usullari", "index": 23 },
+          { "name": "Toklarni parvarish qilish", "index": 25 },
+          { "name": "Qoramolchilik", "index": 27 },
+          { "name": "Qo'ychilik", "index": 29 },
+          { "name": "Parrandachilik", "index": 31 },
+          { "name": "Asalarichilik", "index": 33 },
+          { "name": "Loyiha ishi", "index": 35 }
+        ]
+      },
+      {
+        "chapter": "04 TEXNOLOGIYA VA DIZAYN, SERVIS XIZMATI VA QISHLOQ XO'JALIGI TEXNOLOGIYASI YO'NALISHLARI",
+        "index": 4,
+        "subtopics": [
+          { "name": "Fotorezistor va uning imkoniyatlari", "index": 1 },
+          { "name": "Loyiha ishi", "index": 3 },
+          { "name": "Loyiha ishi", "index": 5 },
+          { "name": "Foydalanilgan adabiyotlar ro'yxati", "index": 6 }
+        ]
+      }
+    ]
+  }
+]

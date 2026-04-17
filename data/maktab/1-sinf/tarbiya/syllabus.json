@@ -1,0 +1,61 @@
+[
+  {
+    "category": "1-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Kirish",
+        "index": 1,
+        "subtopics": [
+          { "name": "Kirish", "index": 1 }
+        ]
+      },
+      {
+        "chapter": "Mening Vatanim – O‘zbekiston",
+        "index": 2,
+        "subtopics": [
+          { "name": "Men yashaydigan O‘zbekiston", "index": 1 },
+          { "name": "Men kimman?", "index": 2 },
+          { "name": "Maktabga sayohat", "index": 3 },
+          { "name": "Maktabim – ikkinchi uyim", "index": 4 },
+          { "name": "Uydan maktabgacha yo‘l", "index": 5 },
+          { "name": "Biz ahil jamoamiz", "index": 6 },
+          { "name": "Mustahkamlash", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "Men va do‘stlarim",
+        "index": 3,
+        "subtopics": [
+          { "name": "So‘zlashish odobi", "index": 1 },
+          { "name": "O‘zaro yordam", "index": 2 },
+          { "name": "Minnatdorlik", "index": 3 },
+          { "name": "Mustahkamlash", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Men va fazilatlarim",
+        "index": 4,
+        "subtopics": [
+          { "name": "Ishonch nima?", "index": 1 },
+          { "name": "Men mustaqil bo‘laman", "index": 2 },
+          { "name": "Halollik", "index": 3 },
+          { "name": "Asrab-avaylaymiz", "index": 4 },
+          { "name": "Mustahkamlash", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Bizning madaniyatimiz",
+        "index": 5,
+        "subtopics": [
+          { "name": "Mening xatti-harakatlarim", "index": 1 },
+          { "name": "Mehmondorchilik odobi", "index": 2 },
+          { "name": "Bag‘rikeng yurtim", "index": 3 },
+          { "name": "Mustahkamlash", "index": 4 },
+          { "name": "Yakuniy dars", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

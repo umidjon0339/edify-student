@@ -1,0 +1,53 @@
+[
+  {
+    "category": "3-sinf",
+    "subject": "Texnologiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Texnologiya",
+        "index": 1,
+        "subtopics": [
+          { "name": "Rangli qog'ozdan qush yasash", "index": 1 },
+          { "name": "Origami kit", "index": 2 },
+          { "name": "Rangli qog'ozdan chumoli yasash", "index": 3 },
+          { "name": "Qurbaqa", "index": 4 },
+          { "name": "Kaktus", "index": 5 },
+          { "name": "Plastilin kamalak", "index": 6 },
+          { "name": "Sher", "index": 7 },
+          { "name": "Kiyik", "index": 8 },
+          { "name": "Toshbaqa", "index": 9 },
+          { "name": "O'rdakcha", "index": 10 },
+          { "name": "Kapalak qurti", "index": 11 },
+          { "name": "Kapalaklar", "index": 12 },
+          { "name": "Gullar", "index": 13 },
+          { "name": "Ayyor tulki", "index": 14 },
+          { "name": "Mandarin daraxti", "index": 15 },
+          { "name": "Qorbolalar", "index": 16 },
+          { "name": "Asalari", "index": 17 },
+          { "name": "O'yinchoq yasaymiz", "index": 18 },
+          { "name": "Ramka", "index": 19 },
+          { "name": "O'zingiz yasang", "index": 20 },
+          { "name": "Xonqizi", "index": 21 },
+          { "name": "Asalari", "index": 22 },
+          { "name": "Mushukcha", "index": 23 },
+          { "name": "Tarvuz-yelpig'ich", "index": 24 },
+          { "name": "Guldasta", "index": 25 },
+          { "name": "Robot", "index": 26 },
+          { "name": "\"Quyosh tizimi\" loyihasi", "index": 27 },
+          { "name": "Buterbrod tayyorlaymiz", "index": 28 },
+          { "name": "Salat tayyorlaymiz", "index": 29 },
+          { "name": "Paxtadan qo'zichoq yasaymiz", "index": 30 },
+          { "name": "Skvish o'yinchog'i", "index": 31 },
+          { "name": "To'quvchilik ipidan kuchukcha", "index": 32 },
+          { "name": "Fetrdan stakan tagligi", "index": 33 },
+          { "name": "Tikishni o'rganamiz", "index": 34 },
+          { "name": "Barg naqshli kashta", "index": 35 },
+          { "name": "Gul naqshli kashta", "index": 36 },
+          { "name": "Tugma qadaymiz", "index": 37 },
+          { "name": "Tugmalardan naqsh yasash", "index": 38 }
+        ]
+      }
+    ]
+  }
+]

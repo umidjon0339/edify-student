@@ -1,0 +1,93 @@
+[
+  {
+    "category": "6-sinf",
+    "subject": "Texnologiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "TEXNOLOGIYA VA DIZAYN YO'NALISHI",
+        "index": 1,
+        "subtopics": [
+          { "name": "Zamonaviy materiallarga ishlov beruvchi texnika va texnologiyalar. Maishiy texnika", "index": 1 },
+          { "name": "Xonani tozalash hamda namlikni saqlashda qo'llaniladigan maishiy texnika va texnologiyalar", "index": 2 },
+          { "name": "Yog'och va yog'och materiallarni tayyorlash jarayoni", "index": 3 },
+          { "name": "Yog'ochning fizik va mexanik xossalari", "index": 4 },
+          { "name": "Zamonaviy o'lchash va rejalash asboblari", "index": 5 },
+          { "name": "Yog'ochga ishlov beruvchi qo'l va elektr (o'yish-teshish) asboblaridan foydalanish texnologiyasi", "index": 6 },
+          { "name": "Yog'och va yog'och materiallariga badiiy ishlov berish", "index": 7 },
+          { "name": "Yog'och buyumlarni bo'yash texnologiyasi", "index": 8 },
+          { "name": "Yog'och buyumlarni duradgorlik usulida biriktirish texnologiyasi", "index": 9 },
+          { "name": "Metallarning fizik, mexanik va texnologik xossalari", "index": 10 },
+          { "name": "Nazorat-o'lchash asboblari", "index": 11 },
+          { "name": "Metall va plastmassa materiallarini chilangarlik arrasi bilan kesish", "index": 12 },
+          { "name": "Metallarni qirqish", "index": 13 },
+          { "name": "Metall va plastmassa materiallarni egovlash", "index": 14 },
+          { "name": "Kauchuk to'g'risida umumiy ma'lumot", "index": 15 },
+          { "name": "Rezina. Rezina turlari va xossalari", "index": 16 },
+          { "name": "Keramika. Keramika turlari va xossalari", "index": 17 },
+          { "name": "Plastmassa. Uning turlari, ishlatilish sohalari, olinish usullari", "index": 18 },
+          { "name": "Devorga o'rnatiladigan buyumlarni qotirish usullari", "index": 19 },
+          { "name": "Santexnika elementlarini ta'mirlash texnikasi. Sifon", "index": 20 }
+        ]
+      },
+      {
+        "chapter": "SERVIS XIZMATI YO'NALISHI",
+        "index": 2,
+        "subtopics": [
+          { "name": "Ovqatlanish ratsioni. Oziq-ovqat mahsulotlarining ozuqaviy qiymati. Ovqatlanish me'yori. Oshpazlik mutaxassisligi haqida ma'lumot", "index": 1 },
+          { "name": "Taom tayyorlashning xavfsizlik texnikasi va sanitariya-gigiyena qoidalari. Oshxona jihozlaridan (chinni, shisha, sopol, metall kabi) to'g'ri foydalanish tartibi", "index": 2 },
+          { "name": "Dasturxon tuzash. Tushlik dasturxonini tayyorlash qoidalari", "index": 3 },
+          { "name": "Sut va sut mahsulotlari turlari, sifatiga bo'lgan talablar, saqlanishi va muddati", "index": 4 },
+          { "name": "Un va don mahsulotlari. Ularning ozuqaviy qiymati. Ularning sifatini aniqlash va saqlash tartibi. Makaron mahsulotlarining turlari", "index": 5 },
+          { "name": "Milliy taolar tayyorlash. Tushlik dasturxoni uchun suyuq va quyuq taomlar tayyorlash texnologiyasi", "index": 6 },
+          { "name": "Dasturxon, salfetka-sochiqlarning turlari, ulardan foydalanish, saqlash va yuvish. Tushlik uchun dasturxon tuzash", "index": 7 },
+          { "name": "Jun va ipak tolali gazlamalar, ularning olinishi. Jun va ipak tolalarning xossalari", "index": 8 },
+          { "name": "Gazlamalarning to'qilishi. Atlas va satin to'qish", "index": 9 },
+          { "name": "Furnitura va uning turlari haqida umumiy ma'lumot", "index": 10 },
+          { "name": "Tikuv mashina ignasi. Mashina ignasi turlari haqida ma'lumot berish. Mashina ignasini o'rnatish tartibi. Xavfsizlik texnikasi qoidalariga rioya qilish", "index": 11 },
+          { "name": "Tikuv mashinasida ishlatiladigan kichik mexanik vositalardan foydalanish", "index": 12 },
+          { "name": "Tikuv mashinasida choklarni bajarish texnologiyasi. Tikuvchilik buyumlari chetlari, burmalari, buklovlari, molniyalariga ishlov berish qoidalari", "index": 13 },
+          { "name": "Beldan kiyiladigan kiyim turlari. Yubkalar. O'lchov olish", "index": 14 },
+          { "name": "Zardo'zlik san'ati. Zardo'zlikda ishlatiladigan asbob-uskunalar. Zardo'zlikda ishlatiladigan naqsh turlari. Kartonga naqsh (gul) tushirish va qirqish", "index": 15 },
+          { "name": "Zar ipni o'rash. Zamindo'zi yoki guldo'zi usulida tikish", "index": 16 },
+          { "name": "Nozmunchoq (biser). Nozmunchoq to'qish uchun zarur xomashyo va moslamalar. Nozmunchoqdan gul, geometrik va boshqa shakllar to'qish", "index": 17 },
+          { "name": "Sumkaning turlari. Sumkaga andaza tayyorlash va bichish", "index": 18 },
+          { "name": "Oilaviy xarajatlarni hisoblash. Oziq-ovqat xarajatlari va ularni iqtisod qilish yo'llari", "index": 19 },
+          { "name": "Maishiy kimyoviy vositalar. Ulardan foydalanish texnologiyasi, xavfsizlik texnikasi qoidalari", "index": 20 }
+        ]
+      },
+      {
+        "chapter": "QISHLOQ XO'JALIGI TEXNOLOGIYALARI YO'NALISHI",
+        "index": 3,
+        "subtopics": [
+          { "name": "Tuproq turi, sifati va hosildorligi", "index": 1 },
+          { "name": "Mahalliy hududda keng tarqalgan qishloq xo'jaligi ekinlarining agrotexnik jarayonlari", "index": 2 },
+          { "name": "O'simliklarni parvarish qilish va oziqlantirish qoidalari", "index": 3 },
+          { "name": "O'simliklarning o'sish tezligi va sog'lomligini nazorat qilish usullari", "index": 4 },
+          { "name": "Qishloq xo'jaligida ishlatiladigan texnika turlari", "index": 5 },
+          { "name": "Traktor, uning turlari va tuzilishi", "index": 6 },
+          { "name": "Qishloq xo'jaligida ishlatiladigan kultivator turlari va vazifalari", "index": 7 },
+          { "name": "Mahalliy hududda keng tarqalgan qishloq xo'jaligi yo'nalishlari (bog'dorchilik, uzumchilik, gulchilik)", "index": 8 },
+          { "name": "Bog'dorchilikda qo'llaniladigan asbob-uskunalar (bog'dorchilik pichog'i va tok qaychilari)", "index": 9 },
+          { "name": "Bog'dorchilikda qo'llaniladigan maxsus asbob-uskunalar", "index": 10 },
+          { "name": "Chorvachilik, chorva hayvonlarni saqlash va parvarish qilish", "index": 11 },
+          { "name": "Hayvonlarga ozuqa tayyorlash va ularni boqish", "index": 12 },
+          { "name": "Otlarni parvarish qilish texnologiyasi", "index": 13 },
+          { "name": "Quyonlarni parvarish qilish texnologiyasi", "index": 14 },
+          { "name": "Baliqlarni parvarish qilish texnologiyasi", "index": 15 }
+        ]
+      },
+      {
+        "chapter": "TEXNOLOGIYA VA DIZAYN, SERVIS XIZMATI BA QISHLOQ XO'JALIGI TEXNOLOGIYASI YO'NALISHLARI",
+        "index": 4,
+        "subtopics": [
+          { "name": "Arduino. Arduino va uning imkoniyatlari", "index": 1 },
+          { "name": "1-loyiha ishi", "index": 2 },
+          { "name": "If shart operatori bilan tanishish", "index": 3 },
+          { "name": "2-loyiha ishi", "index": 4 },
+          { "name": "Foydalanilgan adabiyotlar ro'yxati", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "category": "1-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Texnologiya",
+        "index": 1,
+        "subtopics": [
+          { "name": "Tabiiy olam va inson mehnati mahsuli", "index": 1 },
+          { "name": "Texnologiya darsida ishlash qoidalari", "index": 2 },
+          { "name": "Kapalak qurti", "index": 3 },
+          { "name": "Kamalak", "index": 4 },
+          { "name": "Olma", "index": 5 },
+          { "name": "Quyoncha", "index": 6 },
+          { "name": "Guldon", "index": 7 },
+          { "name": "Fotosurat uchun ramka", "index": 8 },
+          { "name": "Olma olib ketayotgan tipratikan", "index": 9 },
+          { "name": "Xonqizi", "index": 10 },
+          { "name": "Kashtandan o'yinchoqlar yasash", "index": 11 },
+          { "name": "Qirqib, yelimlaymiz", "index": 12 },
+          { "name": "Yangi yil archasi", "index": 13 },
+          { "name": "Bulutcha", "index": 14 },
+          { "name": "Baliqchalar", "index": 15 },
+          { "name": "Rang-barang uycha", "index": 16 },
+          { "name": "Akvarium", "index": 17 },
+          { "name": "Jo'ja", "index": 18 },
+          { "name": "Oqqush", "index": 19 },
+          { "name": "Kemacha", "index": 20 },
+          { "name": "Quvnoq hasharotlar", "index": 21 },
+          { "name": "Plastilindan yeguliklar tayyorlaymiz", "index": 22 },
+          { "name": "8-mart sovg'asi", "index": 23 },
+          { "name": "Erkin mavzu", "index": 24 },
+          { "name": "\"Domino\" o'yini", "index": 25 },
+          { "name": "Bahorgi bog'", "index": 26 },
+          { "name": "Rang-barang lolalar", "index": 27 },
+          { "name": "Naqsh", "index": 28 },
+          { "name": "Erkin mavzu", "index": 29 },
+          { "name": "Dengiz jonivorlari", "index": 30 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "category": "6-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I bob.Men insonman",
+        "index": 1,
+        "subtopics": [
+          { "name": "Men \"oltin qoida\" bo'yicha yashayman", "index": 1 },
+          { "name": "Rostgo'ylik va burchni his etib yashash", "index": 2 },
+          { "name": "Adolat – hayot haqiqati", "index": 3 },
+          { "name": "Minnatdorlik yuragimda yashaydi", "index": 4 },
+          { "name": "Kechirimlilik kuchlilar xislatidir", "index": 5 },
+          { "name": "Sabr-toqatlilik", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "II bob. Men fuqaroman",
+        "index": 2,
+        "subtopics": [
+          { "name": "Ona yurtim – oltin beshigim", "index": 1 },
+          { "name": "Mening mahallam – mening faxrim", "index": 2 },
+          { "name": "Xatti-harakat qanday bo'lsa, oqibat ham shunday bo'ladi", "index": 3 },
+          { "name": "Bilim ol, kasb-hunar tanla!", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "III bob. Men va mening do'stlarim",
+        "index": 3,
+        "subtopics": [
+          { "name": "Zamonaviy texnologiyalar ezgulik xizmatida", "index": 1 },
+          { "name": "Salomatlik – ulkan boylik", "index": 2 },
+          { "name": "Do'stlik va mehr-oqibat", "index": 3 },
+          { "name": "Rostgo'ylik va halollik", "index": 4 },
+          { "name": "Ishonchli va ishonchsiz axborotlar", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "IV bob. Oila – kichik Vatan",
+        "index": 4,
+        "subtopics": [
+          { "name": "Oila – qadriyatlar beshigi", "index": 1 },
+          { "name": "Oilaviy kitobxonlik", "index": 2 },
+          { "name": "To'g'ri ovqatlanish qoidalari", "index": 3 },
+          { "name": "Ekologik xavflar", "index": 4 }
+        ]
+      }
+    ]
+  }
+]

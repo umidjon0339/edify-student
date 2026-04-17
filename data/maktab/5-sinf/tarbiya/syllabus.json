@@ -1,0 +1,51 @@
+[
+  {
+    "category": "5-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "I bob. Men fuqaroman",
+        "index": 1,
+        "subtopics": [
+          { "name": "Vatanga muhabbat", "index": 1 },
+          { "name": "Biz o'z xatti-harakatlarimiz uchun javobgarmiz", "index": 2 },
+          { "name": "Insonning huquq va majburiyatlari", "index": 3 },
+          { "name": "Ona tabiatni asrash – bizning burchimiz", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "II bob. Men insonman",
+        "index": 2,
+        "subtopics": [
+          { "name": "Bir-birimizni tushunishni o'rganamiz", "index": 1 },
+          { "name": "Mehr qadri", "index": 2 },
+          { "name": "Ezgu orzular ro'yobi", "index": 3 },
+          { "name": "Maqsadim – mening ishtiyoqim", "index": 4 },
+          { "name": "Har bir inson hurmatga loyiq", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "III bob. Men va mening do'stlarim",
+        "index": 3,
+        "subtopics": [
+          { "name": "O'zgalarga yordam berib, o'zingda insoniylikni kashf et", "index": 1 },
+          { "name": "Hamkorlik – muvaffaqiyat garovi", "index": 2 },
+          { "name": "Jonivorlarga g'amxo'rlik qilish", "index": 3 },
+          { "name": "Xulq-atvor qoidalari – hayot tarzi", "index": 4 },
+          { "name": "Sog'lig'imiz – boyligimiz", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "IV bob. Men va mening ajdodlarim",
+        "index": 4,
+        "subtopics": [
+          { "name": "Xotira – abadiy, qadr – muqaddas", "index": 1 },
+          { "name": "Merosimiz – faxrimiz", "index": 2 },
+          { "name": "Milliy an'ana va qadriyatlarimiz", "index": 3 },
+          { "name": "Kitoblarda olam sirlari", "index": 4 }
+        ]
+      }
+    ]
+  }
+]

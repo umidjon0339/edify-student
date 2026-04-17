@@ -1,0 +1,109 @@
+[
+  {
+    "category": "8-sinf",
+    "subject": "Texnologiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "1-BOB. XALQ HUNARMANDCHILIGI TEXNOLOGIYASI",
+        "index": 1,
+        "subtopics": [
+          { "name": "O'zbekistonda xalq hunarmandchiligining turlari, rivojlanish tarixi va istiqbollari", "index": 1 },
+          { "name": "Xalq hunarmandchiligi bo'yicha ko'rgazma va tanlovlarni tashkil qilish, ishtirokchilarni tanlash qoidalari", "index": 2 },
+          { "name": "1-amaliy mashg'ulot. Sovg'a uchun quticha yasash", "index": 3 },
+          { "name": "2-amaliy mashg'ulot. Yig'iladigan stulcha yasash", "index": 4 },
+          { "name": "3-amaliy mashg'ulot. Shashka doskasi va donalarini yasash", "index": 5 },
+          { "name": "4-amaliy mashg'ulot. Yog'ochdan dekorativ soat yasash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "2-BOB. ISHLAB CHIQARISH VA RO'ZG'ORSHUNOSLIK ASOSLARI",
+        "index": 2,
+        "subtopics": [
+          { "name": "O'zbekistondagi ishlab chiqarish turlari", "index": 1 },
+          { "name": "Texnologik jarayon haqida tushuncha", "index": 2 },
+          { "name": "Suv quvurlari va kanalizatsiya", "index": 3 },
+          { "name": "5-amaliy mashg'ulot. tel qurilmalarini tuzatish va ta'mirlash ishlari", "index": 4 },
+          { "name": "Zamonaviy qo'l elektr asboblari", "index": 5 },
+          { "name": "6-amaliy mashg'ulot. Qo'l elektr asboblarini tuzatish ishlari", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "3-BOB. ELEKTRONIKA ASOSLARI",
+        "index": 3,
+        "subtopics": [
+          { "name": "Elektronikaning iqtisodiyot tarmoqlaridagi o'rni", "index": 1 },
+          { "name": "Elektr yoritish asboblari", "index": 2 },
+          { "name": "7-amaliy mashg'ulot. Vijigatel yasash", "index": 3 },
+          { "name": "Sanoat robotlari haqida tushuncha", "index": 4 },
+          { "name": "8-amaliy mashg'ulot. Harakatlanuvchi sodda robot yasash", "index": 5 },
+          { "name": "9-amaliy mashg'ulot. Sodda ko'rinishdagi harakatlanuvchi avtomobil yasash", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "4-BOB. IJODIY LOYIHA TAYYORLASH TEXNOLOGIYASI",
+        "index": 4,
+        "subtopics": [
+          { "name": "Ijodiy loyiha va ijodiy faoliyat sohasini loyihalash", "index": 1 },
+          { "name": "Mustaqil ijodiy loyiha ishi. Plafon yasash texnologiyasini loyihalash", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "1-BOB. XALQ HUNARMANDCHILIGI TEXNOLOGIYASI",
+        "index": 5,
+        "subtopics": [
+          { "name": "O'zbekistonda xalq hunarmandchiligining turlari,", "index": 1 },
+          { "name": "Xalq hunarmandchiligi bo'yicha ko'rgazma va tanlovlarni tashkil qilish, ishtirokchilarni tanlash qoidalari", "index": 2 },
+          { "name": "1-amaliy mashg'ulot. Sun'iy gullardan guldasta yasash", "index": 3 },
+          { "name": "Izonit va uning turlari", "index": 4 },
+          { "name": "2-amaliy mashg'ulot. Izonit usulida panno (gulsavat) tikish", "index": 5 },
+          { "name": "3-amaliy mashg'ulot. Bluzka bichish va tikish texnologiyasi", "index": 6 },
+          { "name": "To'qish san'ati", "index": 7 },
+          { "name": "4-amaliy mashg'ulot. Bolalar ponchosini to'qish texnologiyasi", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "2-BOB. ISHLAB CHIQARISH VA RO'ZG'ORSHUNOSLIK ASOSLARI",
+        "index": 6,
+        "subtopics": [
+          { "name": "O'zbekistondagi ishlab chiqarish turlari", "index": 1 },
+          { "name": "Texnologik jarayon haqida tushuncha", "index": 2 },
+          { "name": "5-amaliy mashg'ulot. To'yimli salatlar tayyorlash texnologiyasi", "index": 3 },
+          { "name": "6-amaliy mashg'ulot. Lag'mon tayyorlash texnologiyasi", "index": 4 },
+          { "name": "Konservalash va mavsumiy tuzlamalar", "index": 5 },
+          { "name": "7-amaliy mashg'ulot. Kiyimlarni dazmollash", "index": 6 },
+          { "name": "Maishiy kimyoviy vositalardan foydalanish usullari", "index": 7 },
+          { "name": "Issiqlik, elektr, suv ta'minoti va oqova suv quvurlari tizimidan to'g'ri foydalanish qoidalari", "index": 8 }
+        ]
+      },
+      {
+        "chapter": "3-BOB. ELEKTRONIKA ASOSLARI",
+        "index": 7,
+        "subtopics": [
+          { "name": "Elektronikaning iqtisodiyot tarmoqlaridagi o'rni", "index": 1 },
+          { "name": "8-amaliy mashg'ulot. Tungi yoritgich yasash", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "4-BOB. IJODIY LOYIHA TAYYORLASH TEXNOLOGIYASI",
+        "index": 8,
+        "subtopics": [
+          { "name": "Ijodiy loyiha va ijodiy faoliyat sohasini loyihalash", "index": 1 },
+          { "name": "Mustaqil ijodiy loyiha ishi. Bilaguzuk yasash texnologiyasini loyihalash", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "5-BOB. KASB TANLASHGA YO'LLASH",
+        "index": 9,
+        "subtopics": [
+          { "name": "Inson hayotida kasbning o'rni", "index": 1 },
+          { "name": "Kasblar tasnifi, kasblarda mehnat turlarining ta'rifi", "index": 2 },
+          { "name": "Kasbni to'g'ri tanlashning mohiyati va istiqboli", "index": 3 },
+          { "name": "Kasb tanlashdagi onglilik va mustaqillik", "index": 4 },
+          { "name": "Kasbga yaroqlilikni belgilash va moyillikni tarbiyalash usullari", "index": 5 },
+          { "name": "Amaliy mashg'ulot. Kasbiy o'z-o'zini anglash va kasbiy qiziqishni aniqlash usullari", "index": 6 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "category": "3-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Men va atrofimdagi olam",
+        "index": 1,
+        "subtopics": [
+          { "name": "VATANIM HAQIDA NIMALARNI BILAMAN?", "index": 1 },
+          { "name": "O'zbekiston xalqi \u2013 Vatanimiz faxri", "index": 2 },
+          { "name": "Men yashayotgan olam", "index": 3 },
+          { "name": "Sayyoramizga nimalar xavf solmoqda?", "index": 4 },
+          { "name": "Biz qanday dunyoda yashashni istaymiz?", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "Insonlar orasida",
+        "index": 2,
+        "subtopics": [
+          { "name": "Tenglik nima?", "index": 1 },
+          { "name": "Kamsitish nima?", "index": 2 },
+          { "name": "Sinfdagi muhit", "index": 3 },
+          { "name": "Volontyorlik", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Men o'zimni boshqaraman!",
+        "index": 3,
+        "subtopics": [
+          { "name": "Men hayotni sevaman!", "index": 1 },
+          { "name": "His-tuyg'ularimiz", "index": 2 },
+          { "name": "Mening odatlarim", "index": 3 },
+          { "name": "Mening sog'lig'im", "index": 4 },
+          { "name": "O'zimni boshqaraman", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "An'analar va madaniyat",
+        "index": 4,
+        "subtopics": [
+          { "name": "An'analar \u2013 xalq xotirasidir", "index": 1 },
+          { "name": "O'zbekiston xalqlari madaniyati", "index": 2 },
+          { "name": "O'zbekiston shaharlari", "index": 3 },
+          { "name": "Muzeylar \u2013 moziy ko'zgusi", "index": 4 },
+          { "name": "O'zbekiston bo'ylab sayohat", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "category": "2-sinf",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Texnologiya",
+        "index": 1,
+        "subtopics": [
+          { "name": "Yomg'irli kun", "index": 1 },
+          { "name": "Kuz mavsumi", "index": 2 },
+          { "name": "Hosilni yig'ib olamiz", "index": 3 },
+          { "name": "Oltin kuz", "index": 4 },
+          { "name": "Tabiiy materiallardan ijodiy ishlar", "index": 5 },
+          { "name": "Tipratikan", "index": 6 },
+          { "name": "Toshbaqa", "index": 7 },
+          { "name": "Doiralardan jonivorlar yasaymiz", "index": 8 },
+          { "name": "Paxtali disklardan jonivorli pannolar yasaymiz", "index": 9 },
+          { "name": "Tovus", "index": 10 },
+          { "name": "Rang-barang pannolar", "index": 11 },
+          { "name": "Shirin nok", "index": 12 },
+          { "name": "Prujinali o'yinchoqlar", "index": 13 },
+          { "name": "Halqacha-ninachilar", "index": 14 },
+          { "name": "Rang-barang toshbaqa", "index": 15 },
+          { "name": "Afsonaviy qahramonlar", "index": 16 },
+          { "name": "Tipratikan-xatcho'p", "index": 17 },
+          { "name": "Suvosti olami", "index": 18 },
+          { "name": "Mushukcha", "index": 19 },
+          { "name": "G'aroyib sakkizoyoq", "index": 20 },
+          { "name": "Mevali daraxt", "index": 21 },
+          { "name": "Shashka taxtasi", "index": 22 },
+          { "name": "Tulkichalar", "index": 23 },
+          { "name": "Kemachalar", "index": 24 },
+          { "name": "Sovg'ani o'raymiz", "index": 25 },
+          { "name": "Quyoncha shaklidagi o'yinchoq", "index": 26 },
+          { "name": "Lotto o'yini", "index": 27 },
+          { "name": "Soat", "index": 28 },
+          { "name": "Akvarium", "index": 29 },
+          { "name": "Organayzer yasaymiz", "index": 30 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "category": "9-sinf",
+    "subject": "Texnologiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "1-bob. Hunarmandchilik mahsulotlarini tayyorlash texnologiyasi",
+        "index": 1,
+        "subtopics": [
+          { "name": "Xalq hunarmandlari tomonidan eksport va ichki bozor uchun ishlab chiqarilayotgan mahsulotlar. Hunarmandchilikda foydalaniladigan nodir materiallar va asbob-uskunalar", "index": 1 },
+          { "name": "Hunarmandchilik mahsulotlarini tashqi ko'rinishi, shakli uzviyligi va yaxlitligining ta'minlanishiga ko'ra baholash", "index": 2 },
+          { "name": "Kompozitsion yaxlitlik. Kichik hajmli belanchak yasash", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "2-bob. Ishlab chiqarish va ro'zg'orshunoslik asoslari",
+        "index": 2,
+        "subtopics": [
+          { "name": "Texnika va uning zamonaviy ishlab chiqarishdagi roli", "index": 1 },
+          { "name": "Ishlab chiqarishda fan-texnika taraqqiyotini jadallashtirish omillari va istiqbollari. Zamonaviy texnologiyalar va yangi materiallar", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "3-bob. Elektronika asoslari",
+        "index": 3,
+        "subtopics": [
+          { "name": "Avtomatika va avtomatik qurilmalar haqida umumiy tushuncha", "index": 1 },
+          { "name": "Raqamli hisoblash qurilmalari va ularning vazifasi. Raqamli hisoblash qurilmalarida qo'llaniladigan sxemalar", "index": 2 },
+          { "name": "«Lego» konstruktoridan sodda robot yasash", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "4-bob. Ijodiy loyiha tayyorlash texnologiyasi",
+        "index": 4,
+        "subtopics": [
+          { "name": "Dizayn komponentlari asosida turli buyumlarning loyiha variantlarini tayyorlash usullari", "index": 1 },
+          { "name": "Loyiha taqdimotini tayyorlash va o'tkazish", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "1-bob. Hunarmandchilik mahsulotlarini tayyorlash texnologiyasi",
+        "index": 5,
+        "subtopics": [
+          { "name": "Xalq hunarmandlari tomonidan eksport va ichki bozor uchun ishlab chiqarilayotgan mahsulotlar", "index": 1 },
+          { "name": "Hunarmandchilik mahsulotlarini tashqi ko'rinishi, shakli uzviyligi va yaxlitligining ta'minlanishiga ko'ra baholash", "index": 2 },
+          { "name": "Ayollar shimini bichish va tikish", "index": 3 },
+          { "name": "Burmali yostiqcha tikish texnologiyasi", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "2-bob. Ishlab chiqarish va ro'zg'orshunoslik asoslari",
+        "index": 6,
+        "subtopics": [
+          { "name": "Texnika va uning zamonaviy ishlab chiqarishdagi roli", "index": 1 },
+          { "name": "Ishlab chiqarishda fan-texnika taraqqiyotini jadallashtirish omillari va istiqboli. Yangi materiallar va zamonaviy texnologiyalar", "index": 2 },
+          { "name": "Kir yuvish mashinasi. Kir yuvish mashinasining turlari, tuzilishi, ishlash prinsipi, foydalanishda xavfsizlik texnikasi qoidalari", "index": 3 },
+          { "name": "To'qishning murakkab usullari", "index": 4 },
+          { "name": "Dizayn va modellashtirish", "index": 5 },
+          { "name": "Karving san'ati", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "3-bob. Ijodiy loyiha tayyorlash texnologiyasi",
+        "index": 7,
+        "subtopics": [
+          { "name": "Dizayn komponentlari asosida turli buyumlarning loyiha variantlarini tayyorlash usullari", "index": 1 },
+          { "name": "Loyiha taqdimotini tayyorlash va o'tkazish", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "4-bob. Kasb tanlashga yo'llash",
+        "index": 8,
+        "subtopics": [
+          { "name": "Kasb tanlashga yo'llash texnologiyasi", "index": 1 },
+          { "name": "Kasbga doir shaxsiy reja tuzish. Kasbiy qiziqish va moyilliklarni aniqlash bo'yicha amaliy mashqlar bajarish", "index": 2 },
+          { "name": "Tanlangan kasb-hunarga doir ma'lumotlar to'plash va tahlil qilish", "index": 3 },
+          { "name": "«Men tanlagan kasbni egallashda kelgusi rejalarim» mavzusida ijodiy ish taqdimoti", "index": 4 }
+        ]
+      }
+    ]
+  }
+]

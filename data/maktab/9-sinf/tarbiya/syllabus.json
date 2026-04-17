@@ -1,0 +1,57 @@
+[
+  {
+    "category": "9-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "YASHASHDAN MAQSAD – MUNOSIB HAYOT",
+        "index": 1,
+        "subtopics": [
+          { "name": "Ulug'imsan, Vatanim!", "index": 1 },
+          { "name": "Yashamoq – o'zidan yaxshi nom qoldirmoq", "index": 2 },
+          { "name": "Yuksalish – o'zingni anglashdan boshlanadi", "index": 3 },
+          { "name": "Faol o'quvchidan faol fuqarolikkacha", "index": 4 },
+          { "name": "Kelajakka sarmoya – vaqtni mazmunli o'tkazish", "index": 5 },
+          { "name": "Baxt – oilada", "index": 6 },
+          { "name": "Baxtiyorlik – umrning bosh maqsadi", "index": 7 }
+        ]
+      },
+      {
+        "chapter": "ILM-MA'RIFAT. INNOVATSIYA",
+        "index": 2,
+        "subtopics": [
+          { "name": "Buyuklarni aziz qilgan – bilim", "index": 1 },
+          { "name": "Tafakkur – kelajakka yetaklovchi vosita", "index": 2 },
+          { "name": "Bilimga asoslangan jamiyatda muvaffaqiyat qozonish", "index": 3 },
+          { "name": "Innovatsiya va ilg'or fikrlash – taraqqiyot g'ildiragi", "index": 4 },
+          { "name": "Tanqidiy fikrlash", "index": 5 },
+          { "name": "Liderlikka xos xususiyatlar", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "ORZU, MAQSAD VA MUVAFFAQIYAT",
+        "index": 3,
+        "subtopics": [
+          { "name": "Bizning kuchli va kuchsiz tomonlarimiz", "index": 1 },
+          { "name": "Maqsadga qanday erishiladi?", "index": 2 },
+          { "name": "Muvaffaqiyat – qimmatli tajriba mevasi", "index": 3 },
+          { "name": "O'ziga ishonch – mo'jizakor kuch", "index": 4 },
+          { "name": "Muloqot va ijtimoiy ko'nikmalar", "index": 5 },
+          { "name": "Kelajak kasblari", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "TADBIRKORLIK, G'OYA VA BOYLIKDAN FOYDALANISH MEZONLARI",
+        "index": 4,
+        "subtopics": [
+          { "name": "Tadbirkorlik mezonlari", "index": 1 },
+          { "name": "Biznesni boshlash uchun zamonaviy g'oyalar", "index": 2 },
+          { "name": "Frilanserlik – qo'shimcha daromad manbai", "index": 3 },
+          { "name": "Insonni boy va qashshoq qiluvchi omillar", "index": 4 },
+          { "name": "Boylikdan foydalanish mezonlari", "index": 5 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "category": "4-sinf",
+    "subject": "Texnologiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "Ip",
+        "index": 1,
+        "subtopics": [
+          { "name": "Ip", "index": 1 },
+          { "name": "Ipak tola ishlab chiqarish", "index": 2 },
+          { "name": "Jun ip ishlab chiqarish", "index": 3 },
+          { "name": "Zig'ir tolasini ishlab chiqarish", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Tugun",
+        "index": 2,
+        "subtopics": [
+          { "name": "Tugun nima?", "index": 1 }
+        ]
+      },
+      {
+        "chapter": "Narsa-buyum yasash",
+        "index": 3,
+        "subtopics": [
+          { "name": "Soyabon", "index": 1 },
+          { "name": "Parrandachilik fermasi", "index": 2 },
+          { "name": "Murvatli o'yinchoq", "index": 3 }
+        ]
+      },
+      {
+        "chapter": "Loyiha. Bayramga tayyorgarlik ko'ramiz",
+        "index": 4,
+        "subtopics": [
+          { "name": "Bayramga tayyorgarlik ko'ramiz", "index": 1 },
+          { "name": "Quvnoq o'yin", "index": 2 },
+          { "name": "Qandolat fabrikasi", "index": 3 },
+          { "name": "Taom pishirish qoidalari", "index": 4 },
+          { "name": "Shirinlik tayyorlaymiz", "index": 5 }
+        ]
+      },
+      {
+        "chapter": "O'z qo'lingiz bilan qo'g'irchoq teatri",
+        "index": 5,
+        "subtopics": [
+          { "name": "Qo'g'irchoq teatri", "index": 1 }
+        ]
+      },
+      {
+        "chapter": "Tikuvchilik",
+        "index": 6,
+        "subtopics": [
+          { "name": "Tikuvchilik fabrikasi", "index": 1 }
+        ]
+      },
+      {
+        "chapter": "Yog'ochga ishlov berish",
+        "index": 7,
+        "subtopics": [
+          { "name": "Yog'och", "index": 1 },
+          { "name": "Qog'oz fabrikasi", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Aviatsiya",
+        "index": 8,
+        "subtopics": [
+          { "name": "Aviatsiya sanoati", "index": 1 },
+          { "name": "Varrak", "index": 2 }
+        ]
+      },
+      {
+        "chapter": "Chiroq",
+        "index": 9,
+        "subtopics": [
+          { "name": "Elektr chiroq", "index": 1 },
+          { "name": "Chiroqning tuzilishi", "index": 2 }
+        ]
+      }
+    ]
+  }
+]

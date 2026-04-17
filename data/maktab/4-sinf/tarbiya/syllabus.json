@@ -1,0 +1,51 @@
+[
+  {
+    "category": "4-sinf",
+    "subject": "Tarbiya",
+    "index": 1,
+    "chapters": [
+      {
+        "chapter": "O'zbekiston - mening Vatanim",
+        "index": 1,
+        "subtopics": [
+          { "name": "Biz - O'zbekiston fuqarolarimiz", "index": 1 },
+          { "name": "Fuqarolik fazilatlari", "index": 2 },
+          { "name": "Biz \u2013 yo'l harakati qatnashchilarimiz", "index": 3 },
+          { "name": "Temir yo'l yaqin bo'lsa", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Ekologiya va salomatlik",
+        "index": 2,
+        "subtopics": [
+          { "name": "Havoning ifloslanishi", "index": 1 },
+          { "name": "Suv zaxiralari", "index": 2 },
+          { "name": "Cho'lga aylanayotgan hududlar", "index": 3 },
+          { "name": "Chiqindini qayta ishlash", "index": 4 },
+          { "name": "Sog'lom turmush tarzi", "index": 5 },
+          { "name": "Xavfli vaziyatlarda qanday harakat qilish kerak?", "index": 6 }
+        ]
+      },
+      {
+        "chapter": "Ulg'ayaman va rivojlanaman",
+        "index": 3,
+        "subtopics": [
+          { "name": "Qobiliyatlarni rivojlantiramiz", "index": 1 },
+          { "name": "Saboq olishni o'rganamiz", "index": 2 },
+          { "name": "Bizning xatti-harakatlarimiz", "index": 3 },
+          { "name": "Shaxsiy chegaralar", "index": 4 }
+        ]
+      },
+      {
+        "chapter": "Fan va madaniyat",
+        "index": 4,
+        "subtopics": [
+          { "name": "Ilmning qiziqarli olami", "index": 1 },
+          { "name": "Dunyoga yuz ochgan internet", "index": 2 },
+          { "name": "Chet tillari nima uchun o'rganiladi", "index": 3 },
+          { "name": "Cheksiz olam", "index": 4 }
+        ]
+      }
+    ]
+  }
+]
