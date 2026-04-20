@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, CheckCircle2, BookOpen,Minus,Wand2, Trash2, Layers, EyeOff, Eye, Menu, X, ChevronRight, Calculator, Atom, BookA, Globe, FlaskConical, Leaf, Landmark, Bot, Zap, Plus, Database, Gavel } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, CheckCircle2, BookOpen, Minus, Wand2, Trash2, Layers, EyeOff, Eye, Menu, X, ChevronRight, Calculator, Atom, BookA, Globe, FlaskConical, Leaf, Landmark, Bot, Zap, Plus, Database, Gavel, Crown } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -12,8 +12,10 @@ import 'katex/dist/katex.min.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
-import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
-import { useAiLimits } from "@/hooks/useAiLimits";
+
+// 🟢 NEW MONTHLY LIMIT IMPORTS
+import { useMonthlyLimit } from "@/hooks/useMonthlyLimit";
+import AiMonthlyLimitCard from "@/app/teacher/create/_components/AiMonthlyLimitCard"; 
 
 // 🟢 ALL UZBEKISTAN SUBJECTS
 const UZB_SUBJECTS = [
@@ -26,7 +28,6 @@ const UZB_SUBJECTS = [
   { id: "Geografiya", icon: Globe, color: "text-sky-600", bg: "bg-sky-50", border: "border-sky-200" },
   { id: "Informatika", icon: Bot, color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-200" },
   { id: "Huquqshunoslik", icon: Gavel, color: "text-slate-600", bg: "bg-slate-50", border: "border-slate-200" }
-
 ];
 
 interface AIQuestion { 
@@ -200,7 +201,8 @@ export default function GeneralAIGeneratorPage() {
   const { user } = useAuth();
   const bottomRef = useRef<HTMLDivElement>(null);
   
-  const aiData = useAiLimits(); 
+  // 🟢 NEW: Fetching the monthly limits instead of daily
+  const aiData = useMonthlyLimit(); 
 
   const difficulties = [
     { id: "easy", label: "Oson", color: "hover:border-emerald-400 hover:bg-emerald-50", active: "border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/20" },
@@ -225,6 +227,7 @@ export default function GeneralAIGeneratorPage() {
 
   const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [limitModalMessage, setLimitModalMessage] = useState(""); // 🟢 NEW
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -238,7 +241,9 @@ export default function GeneralAIGeneratorPage() {
   const handleGenerate = async () => {
     if (!isReadyToGenerate) return toast.error("Iltimos, fan va mavzuni kiriting.");
 
-    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+    // 🟢 NEW: Pre-check monthly limits
+    if (!aiData.isUnlimited && aiData.remaining < count) {
+      setLimitModalMessage(`Sizda oylik limitdan ${aiData.remaining} ta savol qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
       setIsLimitModalOpen(true);
       return; 
     }
@@ -261,7 +266,16 @@ export default function GeneralAIGeneratorPage() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      
+      // 🟢 NEW: Gatekeeper error handling
+      if (!response.ok) {
+        if (data.code === 'LIMIT_REACHED') {
+          setLimitModalMessage("Oylik AI limitingiz yetarli emas. Tarifingizni oshiring yoki keyingi oyni kuting.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        throw new Error(data.error);
+      }
 
       let diffVal = 2;
       if (difficulty === "easy") diffVal = 1;
@@ -461,21 +475,30 @@ export default function GeneralAIGeneratorPage() {
         document.body
       )}
 
-      {/* LIMIT MODAL */}
+      {/* 🟢 NEW PREMIUM LIMIT MODAL */}
       <AnimatePresence>
         {isLimitModalOpen && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
             <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
               <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 md:mb-5 border border-rose-100 shadow-inner"><Zap size={24} className="text-rose-500 md:w-7 md:h-7" /></div>
-              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1.5 md:mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
-              <p className="text-[12px] md:text-[14px] text-slate-500 mb-5 md:mb-6 font-medium leading-relaxed">
-                {aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi. Iltimos, so'ralayotgan miqdorni kamaytiring yoki limitni oshiring.`}
+              
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-indigo-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 border border-indigo-100 shadow-inner">
+                <Crown size={28} className="text-amber-500" />
+              </div>
+              
+              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-2">Premium Xususiyat</h3>
+              <p className="text-[13px] md:text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {limitModalMessage}
               </p>
-              <div className="w-full flex flex-col gap-2 md:gap-3">
-                <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3 md:py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">Limitni oshirish</button>
-                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">Orqaga qaytish</button>
+              
+              <div className="w-full flex flex-col gap-2">
+                <button onClick={() => router.push('/teacher/subscription')} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                  Tariflarni ko'rish <ArrowLeft className="w-4 h-4 rotate-180" />
+                </button>
+                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">
+                  Orqaga qaytish
+                </button>
               </div>
             </motion.div>
           </div>
@@ -601,28 +624,36 @@ export default function GeneralAIGeneratorPage() {
                   <div className="flex-1 text-center flex items-center justify-center flex-col">
                     <span className="text-[12px] md:text-[15px] font-black text-slate-800 leading-none">{count}</span>
                   </div>
-                  <button onClick={() => setCount(prev => Math.min(15, aiData?.remaining ?? 15, prev + 1))} className="w-8 md:w-10 h-full flex items-center justify-center rounded-md md:rounded-lg text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-sm transition-all disabled:opacity-40" disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}>
+                  {/* 🟢 NEW: Disable Plus button if count exceeds monthly limit */}
+                  <button 
+                    onClick={() => setCount(prev => Math.min(15, aiData?.isUnlimited ? 15 : (aiData?.remaining ?? 15), prev + 1))} 
+                    className="w-8 md:w-10 h-full flex items-center justify-center rounded-md md:rounded-lg text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-sm transition-all disabled:opacity-40" 
+                    disabled={count >= 15 || (!aiData?.isUnlimited && count >= (aiData?.remaining ?? 15))}
+                  >
                     <Plus size={14} className="md:w-4 md:h-4" strokeWidth={2.5} />
                   </button>
                 </div>
               </div>
 
-              {aiData && !aiData.isLimitReached && aiData.remaining < 15 && (
+              {/* 🟢 NEW: Show warning if running low on monthly limits */}
+              {aiData && !aiData.isUnlimited && aiData.remaining < 15 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-lg md:rounded-xl p-2 md:p-3 flex gap-2 md:gap-3 items-start">
                   <Zap size={14} className="text-amber-500 shrink-0 mt-0.5 md:w-4 md:h-4" />
                   <p className="text-[9px] md:text-[11px] font-bold text-amber-700 leading-snug">
-                    Sizda faqat <span className="font-black text-amber-900">{aiData.remaining} ta</span> savol yaratish limiti qoldi.
+                    Sizda oylik limitdan faqatgina <span className="font-black text-amber-900">{aiData.remaining} ta</span> savol qoldi.
                   </p>
                 </div>
               )}
               
             </div>
 
-            {/* 🟢 STICKY BOTTOM GENERATE BUTTON (Inside Sidebar - Visible on all screens) */}
+            {/* 🟢 STICKY BOTTOM GENERATE BUTTON */}
             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 bg-gradient-to-t from-white via-white to-white/0 pt-8 md:pt-10 z-20">
               <button 
                 onClick={() => {
-                  if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+                  // 🟢 NEW: Pre-check monthly limits
+                  if (!aiData.isUnlimited && aiData.remaining < count) {
+                    setLimitModalMessage(`Sizda ${aiData.remaining} ta savol yaratish uchun limit qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
                     setIsLimitModalOpen(true);
                     return; 
                   }
@@ -653,7 +684,8 @@ export default function GeneralAIGeneratorPage() {
           </div>
           
           <div className="flex items-center gap-3">
-            <AiLimitCard aiData={aiData} />
+            {/* 🟢 NEW: AiMonthlyLimitCard Replaces the old card */}
+            <AiMonthlyLimitCard aiData={aiData} />
             
             <button 
               onClick={handleSaveToBank} 
@@ -681,7 +713,8 @@ export default function GeneralAIGeneratorPage() {
             <div className="space-y-4 md:space-y-6 lg:pb-12">
               <div className="lg:hidden flex items-center justify-between mb-1 px-1">
                 <span className="text-[10px] md:text-[12px] font-bold text-slate-500 uppercase tracking-widest">{generatedQuestions.length} ta savol</span>
-                <AiLimitCard aiData={aiData} />
+                {/* 🟢 NEW: Mobile Monthly Limit Card */}
+                <AiMonthlyLimitCard aiData={aiData} />
               </div>
 
               {generatedQuestions.map((q, idx) => (
@@ -711,7 +744,7 @@ export default function GeneralAIGeneratorPage() {
         </div>
       </main>
 
-      {/* 🟢 MOBILE FLOATING ACTIONS (3 Buttons Layout) */}
+      {/* 🟢 MOBILE FLOATING ACTIONS */}
       {mounted && !isSidebarOpen && generatedQuestions.length > 0 && createPortal(
         <div className="lg:hidden fixed bottom-6 left-0 right-0 px-4 flex items-center gap-3 z-[100] animate-in slide-in-from-bottom-10">
           

@@ -4,6 +4,7 @@ import { getFirestore } from "firebase/firestore";
 // 🟢 1. Added Remote Config imports
 import { getRemoteConfig, RemoteConfig } from 'firebase/remote-config';
 import { getStorage } from 'firebase/storage';
+import { getFunctions } from "firebase/functions";
 
 
 const firebaseConfig = {
@@ -24,6 +25,7 @@ export const storage = getStorage(app); // Add this if you don't have it!
 
 // 🟢 2. Safely initialize Remote Config for Next.js (Client-only)
 export let remoteConfig: RemoteConfig | null = null;
+export const functions = getFunctions(app);
 
 if (typeof window !== 'undefined') {
   remoteConfig = getRemoteConfig(app);

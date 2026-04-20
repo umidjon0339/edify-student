@@ -9,10 +9,11 @@ import {
   GraduationCap, Smartphone, Wand2, BrainCircuit, Lightbulb, 
   LineChart, FileDown, CheckCircle2, UserCheck, Layout,
   FileText, CheckCircle,Sparkles,
-  BarChart2,Bot,UserPlus,Trophy,Crown,ArrowUpRight,Flame,Star,ShieldAlert,Target
+  BarChart2,Bot,UserPlus,Trophy,Crown,ArrowUpRight,Flame,Star,ShieldAlert,Target,XCircle,PhoneCall
 } from 'lucide-react';
 import Link from 'next/link';
 import { LanguageContext } from './layout';
+import { PLANS_CONFIG, FEATURE_REGISTRY, FeatureKey } from '@/app/teacher/subscription/plansData';
 
 const TRANSLATIONS = {
   uz: {
@@ -363,6 +364,33 @@ const aiIcons = [
 export default function LandingPage() {
   const { lang } = useContext(LanguageContext) as { lang: 'uz'|'en'|'ru' }; 
   const t = TRANSLATIONS[lang] || TRANSLATIONS['uz']; 
+
+  // 🟢 Dinamik narxlar uchun State
+  const [isSixMonth, setIsSixMonth] = useState(false);
+  const plansArray = Object.values(PLANS_CONFIG);
+  const allFeatureKeys = Object.keys(FEATURE_REGISTRY) as FeatureKey[];
+  const formatNumber = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  // Xuddi SubscriptionPage dagi kabi dizayn mavzulari
+  const getTheme = (planId: string) => {
+    switch(planId) {
+      case 'pro': return {
+        gradient: 'bg-gradient-to-br from-purple-600 to-indigo-600',
+        btn: 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg shadow-indigo-500/30',
+        highlightBorder: 'border-2 border-indigo-500 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.3)] lg:-translate-y-4'
+      };
+      case 'vip': return {
+        gradient: 'bg-gradient-to-br from-orange-500 to-amber-400',
+        btn: 'bg-gradient-to-r from-orange-500 to-amber-400 hover:from-orange-600 hover:to-amber-500 text-white shadow-lg shadow-orange-500/30',
+        highlightBorder: 'border border-slate-200'
+      };
+      default: return { 
+        gradient: 'bg-gradient-to-br from-blue-500 to-cyan-500',
+        btn: 'bg-slate-100 text-slate-700 hover:bg-slate-200',
+        highlightBorder: 'border border-slate-200 shadow-sm'
+      };
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 overflow-hidden font-sans selection:bg-blue-100 selection:text-blue-900">
@@ -1326,6 +1354,169 @@ export default function LandingPage() {
                 <span className="text-slate-500 font-bold text-sm flex items-center gap-2">
                   <CheckCircle2 size={16} className="text-emerald-500" /> Mutlaqo bepul
                 </span>
+              </div>
+            </motion.div>
+
+          </div>
+        </section>
+
+        {/* ================================================================= */}
+        {/* 🟢 DYNAMIC PRICING SECTION (Sourced from plansData.ts) */}
+        {/* ================================================================= */}
+        <section className="py-20 lg:py-32 relative z-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            {/* Header & Toggle */}
+            <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-xs uppercase tracking-widest mb-4">
+                {(t as any).pricing?.badge || "TARIFLAR VA NARXLAR"}
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-8">
+                {(t as any).pricing?.title || "O'zingizga mos tarifni tanlang"}
+              </h2>
+
+              {/* Dynamic Period Toggle */}
+              <div className="inline-flex items-center p-1.5 bg-slate-200/60 rounded-xl md:rounded-2xl border border-slate-200/80 backdrop-blur-md shadow-inner">
+                <button onClick={() => setIsSixMonth(false)} className={`px-6 py-3 rounded-lg md:rounded-xl text-[14px] font-bold transition-all ${!isSixMonth ? 'bg-white text-slate-900 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}>
+                  {(t as any).pricing?.monthly || "Oylik to'lov"}
+                </button>
+                <button onClick={() => setIsSixMonth(true)} className={`px-6 py-3 rounded-lg md:rounded-xl text-[14px] font-bold transition-all flex items-center gap-2 ${isSixMonth ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}>
+                  {(t as any).pricing?.sixMonth || "6 Oylik"}
+                  <span className={`text-[10px] uppercase px-2 py-0.5 rounded-md font-black ${isSixMonth ? 'bg-indigo-400/30 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
+                    {(t as any).pricing?.discount || "Chegirma"}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Pricing Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+              {plansArray.map((plan, index) => {
+                
+                // Mantiqiy hisob kitoblar (plansData'dan olinadi)
+                const currentPricing = isSixMonth ? plan.pricing.sixMonth : plan.pricing.monthly;
+                const finalPrice = currentPricing.price;
+                const oldPrice = currentPricing.originalPrice || 0;
+                const hasDiscount = oldPrice > finalPrice && !plan.pricing.isFree;
+                const savings = oldPrice - finalPrice;
+                const discountPercent = hasDiscount ? Math.round(((oldPrice - finalPrice) / oldPrice) * 100) : 0;
+                
+                const theme = getTheme(plan.id);
+                const isHighlighted = plan.id === 'pro'; // Pro tarifini asosiy qilib ajratib ko'rsatamiz
+
+                return (
+                  <motion.div 
+                    key={plan.id}
+                    initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                    transition={{ delay: index * 0.15, type: 'spring', stiffness: 100, damping: 15 }}
+                    className={`relative bg-white rounded-3xl transition-all duration-500 flex flex-col overflow-hidden ${theme.highlightBorder}`}
+                  >
+                    {/* Gradient Header */}
+                    <div className={`p-8 text-center text-white relative ${theme.gradient}`}>
+                      
+                      {/* Badge / Discount */}
+                      {(plan.ui.badge || hasDiscount) && (
+                        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                          {hasDiscount ? `${discountPercent}% TEJANG` : plan.ui.badge}
+                        </div>
+                      )}
+
+                      <h3 className="text-xl font-bold uppercase tracking-widest mb-4 opacity-90">{plan.ui.name}</h3>
+                      
+                      <div className="flex flex-col items-center justify-center min-h-[90px]">
+                        {plan.pricing.isFree ? (
+                          <span className="text-5xl font-black tracking-tight drop-shadow-sm">BEPUL</span>
+                        ) : (
+                          <>
+                            {hasDiscount && (
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-[14px] font-bold text-white/70 line-through decoration-rose-400 decoration-2">
+                                  {formatNumber(oldPrice)} so'm
+                                </span>
+                                <span className="bg-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-md uppercase">
+                                  -{formatNumber(savings)} so'm
+                                </span>
+                              </div>
+                            )}
+                            <div className="flex items-end justify-center gap-1.5">
+                              <span className="text-5xl font-black tracking-tight drop-shadow-sm leading-none">{formatNumber(finalPrice)}</span>
+                            </div>
+                            <span className="text-[13px] font-bold text-white/80 mt-2 block">{currentPricing.periodLabel}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* White Body (Limits & Features mapped from plansData) */}
+                    <div className="p-8 flex-1 flex flex-col bg-white">
+                      
+                      <div className="space-y-4 mb-6 pb-6 border-b border-slate-100">
+                        <div className="flex justify-between items-center text-[13px]">
+                          <span className="font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Layout size={16}/> Sinflar</span>
+                          <span className="font-black text-slate-900">{plan.displayLimits.classes}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-[13px]">
+                          <span className="font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Users size={16}/> O'quvchilar</span>
+                          <span className="font-black text-slate-900">{plan.displayLimits.students}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-[13px]">
+                          <span className="font-bold text-indigo-500 uppercase tracking-widest flex items-center gap-2"><Bot size={16}/> AI so'rovlar</span>
+                          <span className="font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">{plan.displayLimits.aiQuestions}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex-1 space-y-4 mb-8">
+                        {allFeatureKeys.map((featureKey) => {
+                          const isIncluded = plan.includedFeatures.includes(featureKey);
+                          const featureInfo = FEATURE_REGISTRY[featureKey];
+
+                          return (
+                            <div key={featureKey} className={`flex items-start gap-3 text-[13px] font-bold group ${isIncluded ? 'text-slate-700' : 'text-slate-400 opacity-50'}`}>
+                              {isIncluded ? <CheckCircle2 size={18} className="text-emerald-500 shrink-0" /> : <XCircle size={18} className="text-slate-300 shrink-0" />}
+                              <span className="leading-snug flex items-center gap-1.5">
+                                {featureInfo.label}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Action Button -> Barchasi ro'yxatdan o'tishga eltadi */}
+                      <Link href="/auth/signup" className="mt-auto">
+                        <button className={`w-full py-4 rounded-full font-black text-[14px] uppercase tracking-wider transition-all active:scale-[0.98] flex items-center justify-center gap-2 ${theme.btn}`}>
+                          {plan.id === 'pro' && <Star size={18} className="fill-current" />}
+                          {plan.pricing.isFree ? "Bepul Boshlash" : (plan.id === 'pro' ? "30 Kun Bepul Sinash" : "Ulanish")}
+                        </button>
+                      </Link>
+                    </div>
+
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Custom B2B Banner */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden"
+            >
+              <div className="absolute right-0 top-0 w-80 h-80 bg-indigo-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+              <div className="absolute left-1/4 bottom-0 w-60 h-60 bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+              
+              <div className="relative z-10 text-center lg:text-left flex-1">
+                <div className="inline-flex px-4 py-1.5 rounded-lg bg-white/10 text-white text-[11px] font-black uppercase tracking-widest mb-5 border border-white/10 backdrop-blur-md">
+                  B2B / Ta'lim markazlari uchun
+                </div>
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight">Maxsus Litsenziya (Custom)</h3>
+                <p className="text-slate-300 font-medium text-[14px] md:text-[16px] max-w-2xl leading-relaxed mx-auto lg:mx-0">
+                  Maktablar, o'quv markazlari va ko'p sonli o'qituvchilarga ega jamoalar uchun mo'ljallangan. Cheklovsiz o'quvchilar, alohida super-admin paneli va maxsus arzonlashtirilgan narxlar kafolatlanadi.
+                </p>
+              </div>
+              
+              <div className="relative z-10 w-full lg:w-auto shrink-0">
+                <a href="https://t.me/Umidjon0339" target="_blank" className="w-full lg:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-900 font-black text-[15px] uppercase tracking-wider rounded-full shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2.5">
+                  <PhoneCall size={18} /> Admin bilan bog'lanish
+                </a>
               </div>
             </motion.div>
 

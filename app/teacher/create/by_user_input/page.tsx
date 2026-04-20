@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2,X, CheckCircle2, Wand2, BookOpen, Trash2, Layers, EyeOff, Eye, Minus, Plus, ChevronRight, Bot, Zap, Target, Database, Lightbulb } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, X, CheckCircle2, Wand2, BookOpen, Trash2, Layers, EyeOff, Eye, Minus, Plus, ChevronRight, Bot, Zap, Target, Database, Lightbulb, Crown } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -15,18 +15,18 @@ import { createPortal } from "react-dom";
 import { useTeacherLanguage } from "@/app/teacher/layout"; 
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
 
-// 🟢 AI LIMIT BLOCK START
-import { useAiLimits } from "@/hooks/useAiLimits";
-import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
-// 🔴 AI LIMIT BLOCK END
+// 🟢 NEW AI MONTHLY LIMIT BLOCK START
+import { useMonthlyLimit } from "@/hooks/useMonthlyLimit";
+import AiMonthlyLimitCard from "@/app/teacher/create/_components/AiMonthlyLimitCard"; 
+// 🔴 NEW AI MONTHLY LIMIT BLOCK END
 
 // --- 1. TRANSLATION DICTIONARY ---
 const PAGE_TRANSLATIONS = {
   uz: {
     headerTitle: "AI Maxsus Prompt",
     publishBtn: "Nashr Qilish",
-    saveToBankBtn: "Bazaga Saqlash", // 🟢 NEW
-    savedToBankSuccess: "Savollar bazangizga muvaffaqiyatli saqlandi!", // 🟢 NEW
+    saveToBankBtn: "Bazaga Saqlash", 
+    savedToBankSuccess: "Savollar bazangizga muvaffaqiyatli saqlandi!", 
     modalTitle: "Test nomini kiriting",
     modalDesc: "Yangi yaratilgan testni saqlash va sozlashdan oldin unga nom bering.",
     modalCancel: "Bekor qilish",
@@ -47,7 +47,7 @@ const PAGE_TRANSLATIONS = {
     },
     resultsTitle: "Tayyorlangan Savollar",
     addMore: "Yana savol qo'shish",
-    addMoreInstructions: "Matnni o'zgartiring va 'Test Yaratish' tugmasini bosing.", // 🟢 NEW
+    addMoreInstructions: "Matnni o'zgartiring va 'Test Yaratish' tugmasini bosing.", 
     solutionLogic: "Yechim Mantiqi",
     hideExp: "Yashirish",
     showExp: "Yechim"
@@ -55,8 +55,8 @@ const PAGE_TRANSLATIONS = {
   en: {
     headerTitle: "AI Prompt Builder",
     publishBtn: "Publish Test",
-    saveToBankBtn: "Save to Bank", // 🟢 NEW
-    savedToBankSuccess: "Questions successfully saved to your bank!", // 🟢 NEW
+    saveToBankBtn: "Save to Bank", 
+    savedToBankSuccess: "Questions successfully saved to your bank!", 
     modalTitle: "Name Your Test",
     modalDesc: "Give your newly generated test a clear title before configuring the settings.",
     modalCancel: "Cancel",
@@ -77,7 +77,7 @@ const PAGE_TRANSLATIONS = {
     },
     resultsTitle: "Generated Questions",
     addMore: "Add More",
-    addMoreInstructions: "Modify the text and click 'Generate Test' to append more.", // 🟢 NEW
+    addMoreInstructions: "Modify the text and click 'Generate Test' to append more.", 
     solutionLogic: "Solution Logic",
     hideExp: "Hide",
     showExp: "Explanation"
@@ -85,8 +85,8 @@ const PAGE_TRANSLATIONS = {
   ru: {
     headerTitle: "AI Промпты",
     publishBtn: "Опубликовать",
-    saveToBankBtn: "Сохранить в базу", // 🟢 NEW
-    savedToBankSuccess: "Вопросы успешно сохранены в вашу базу!", // 🟢 NEW
+    saveToBankBtn: "Сохранить в базу", 
+    savedToBankSuccess: "Вопросы успешно сохранены в вашу базу!", 
     modalTitle: "Назовите свой тест",
     modalDesc: "Дайте вашему новому тесту понятное название перед настройкой.",
     modalCancel: "Отмена",
@@ -107,7 +107,7 @@ const PAGE_TRANSLATIONS = {
     },
     resultsTitle: "Сгенерированные",
     addMore: "Добавить",
-    addMoreInstructions: "Измените текст и нажмите 'Создать Тест', чтобы добавить еще.", // 🟢 NEW
+    addMoreInstructions: "Измените текст и нажмите 'Создать Тест', чтобы добавить еще.", 
     solutionLogic: "Логика решения",
     hideExp: "Скрыть",
     showExp: "Решение"
@@ -273,7 +273,8 @@ export default function AIUserInputPage() {
 
   useEffect(() => setMounted(true), []);
 
-  const aiData = useAiLimits(); 
+  // 🟢 NEW: Fetching the monthly limits instead of daily
+  const aiData = useMonthlyLimit(); 
 
   const [testTitle, setTestTitle] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
@@ -286,8 +287,9 @@ export default function AIUserInputPage() {
   const [isTitleModalOpen, setIsTitleModalOpen] = useState(false);
   const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
-  const [isSavingToBank, setIsSavingToBank] = useState(false); // 🟢 NEW STATE
+  const [isSavingToBank, setIsSavingToBank] = useState(false); 
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [limitModalMessage, setLimitModalMessage] = useState(""); // 🟢 NEW STATE
 
   const wordCount = userPrompt.trim() ? userPrompt.trim().split(/\s+/).length : 0;
   const wordsNeeded = Math.max(0, 5 - wordCount);
@@ -300,17 +302,21 @@ export default function AIUserInputPage() {
 
   const handleScrollToPrompt = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    toast(t.addMoreInstructions, { icon: "💡", duration: 4000 }); // 🟢 NEW TOAST
+    toast(t.addMoreInstructions, { icon: "💡", duration: 4000 }); 
     setTimeout(() => { promptInputRef.current?.focus(); }, 500);
   };
 
   // --- GENERATE API CALL ---
   const handleGenerate = async () => {
     if (wordCount < 5) return toast.error("Please provide a more detailed prompt (at least 5 words).");
-    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+    
+    // 🟢 NEW: Pre-check monthly limits
+    if (!aiData.isUnlimited && aiData.remaining < count) {
+      setLimitModalMessage(`Sizda ${aiData.remaining} ta savol yaratish uchun limit qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
       setIsLimitModalOpen(true);
       return; 
     }
+    
     setIsGenerating(true);
 
     try {
@@ -327,7 +333,21 @@ export default function AIUserInputPage() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      
+      // 🟢 NEW: Gatekeeper error handling
+      if (!response.ok) {
+        if (data.code === 'FEATURE_LOCKED') {
+          setLimitModalMessage("Bu xususiyat joriy tarifingizda mavjud emas. Funksiyani ochish uchun tarifingizni oshiring.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        if (data.code === 'LIMIT_REACHED') {
+          setLimitModalMessage("Oylik AI limitingiz yetarli emas. Tarifingizni oshiring yoki keyingi oyni kuting.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        throw new Error(data.error);
+      }
 
       const diffLower = difficulty.toLowerCase();
       const diffVal = diffLower === "easy" ? 1 : diffLower === "medium" ? 2 : 3;
@@ -354,7 +374,7 @@ export default function AIUserInputPage() {
     }
   };
 
-  // --- 🟢 NEW: SAVE TO BANK LOGIC ---
+  // --- SAVE TO BANK LOGIC ---
   const handleSaveToBank = async () => {
     if (generatedQuestions.length === 0) return toast.error("Iltimos, oldin savol yarating.");
     if (!user) return;
@@ -453,18 +473,30 @@ export default function AIUserInputPage() {
         <div className="w-8"></div>
       </div>
 
+      {/* 🟢 NEW: Premium Limitation Warning Modal */}
       <AnimatePresence>
         {isLimitModalOpen && (
           <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
             <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
               <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 md:mb-5 border border-rose-100 shadow-inner"><Zap size={24} className="text-rose-500 md:w-7 md:h-7" /></div>
-              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1.5 md:mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
-              <p className="text-[12px] md:text-[14px] text-slate-500 mb-5 md:mb-6 font-medium leading-relaxed">{aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi.`}</p>
-              <div className="w-full flex flex-col gap-2 md:gap-3">
-                <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3 md:py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">Limitni oshirish</button>
-                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">Orqaga qaytish</button>
+              
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-indigo-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 border border-indigo-100 shadow-inner">
+                <Crown size={28} className="text-amber-500" />
+              </div>
+              
+              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-2">Premium Xususiyat</h3>
+              <p className="text-[13px] md:text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {limitModalMessage}
+              </p>
+              
+              <div className="w-full flex flex-col gap-2">
+                <button onClick={() => router.push('/teacher/subscription')} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                  Tariflarni ko'rish <ArrowLeft className="w-4 h-4 rotate-180" />
+                </button>
+                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">
+                  Orqaga qaytish
+                </button>
               </div>
             </motion.div>
           </div>
@@ -475,7 +507,7 @@ export default function AIUserInputPage() {
         {isTitleModalOpen && (
           <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsTitleModalOpen(false)} />
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-5 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl border border-slate-100 z-10">
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-5 md:p-8 w-full max-w-[320px] md:max-w-md shadow-2xl border border-slate-100 z-10">
               <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1.5 md:mb-2">{t.modalTitle}</h3>
               <p className="text-[12px] md:text-[14px] text-slate-500 mb-5 md:mb-6 font-medium">{t.modalDesc}</p>
               <input type="text" value={testTitle} onChange={e => setTestTitle(e.target.value)} placeholder="Masalan: 1-chorak nazorati" className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 border border-slate-200 rounded-xl text-[13px] md:text-[14px] font-bold text-slate-900 outline-none focus:bg-white focus:border-indigo-500 transition-all mb-6 md:mb-8" autoFocus/>
@@ -505,9 +537,9 @@ export default function AIUserInputPage() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <AiLimitCard aiData={aiData} />
+            {/* 🟢 NEW: Using Monthly Limit Card */}
+            <AiMonthlyLimitCard aiData={aiData} />
             
-            {/* 🟢 SAVE TO BANK BUTTON (Desktop) */}
             <button 
               onClick={handleSaveToBank} 
               disabled={isPublishing || isSavingToBank || isGenerating || generatedQuestions.length === 0} 
@@ -558,7 +590,12 @@ export default function AIUserInputPage() {
                 <div className="w-8 md:w-10 text-center flex flex-col justify-center">
                   <span className="text-[12px] md:text-[14px] font-black text-slate-800 leading-none">{count}</span>
                 </div>
-                <button onClick={() => setCount(prev => Math.min(15, aiData?.remaining ?? 15, prev + 1))} className="w-8 md:w-10 h-full flex items-center justify-center rounded-md text-slate-500 hover:bg-white hover:text-slate-900 transition-all disabled:opacity-40" disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}>
+                {/* 🟢 NEW: Disable Plus button if count exceeds monthly limit */}
+                <button 
+                  onClick={() => setCount(prev => Math.min(15, aiData?.isUnlimited ? 15 : (aiData?.remaining ?? 15), prev + 1))} 
+                  className="w-8 md:w-10 h-full flex items-center justify-center rounded-md text-slate-500 hover:bg-white hover:text-slate-900 transition-all disabled:opacity-40" 
+                  disabled={count >= 15 || (!aiData?.isUnlimited && count >= (aiData?.remaining ?? 15))}
+                >
                   <Plus size={14} className="md:w-4 md:h-4" strokeWidth={2.5} />
                 </button>
               </div>
@@ -582,7 +619,7 @@ export default function AIUserInputPage() {
           </div>
         </div>
 
-        {/* 🟢 HORIZONTAL SCROLLING TIPS (MOBILE SAVES SPACE) */}
+        {/* 🟢 HORIZONTAL SCROLLING TIPS */}
         <div className="flex flex-nowrap md:grid md:grid-cols-3 gap-2.5 md:gap-4 mb-6 md:mb-8 overflow-x-auto snap-x snap-mandatory custom-scrollbar pb-3 md:pb-0 -mx-3 px-3 md:mx-0 md:px-0">
           <div className="bg-white p-3 md:p-5 rounded-xl md:rounded-2xl border border-slate-200 flex items-start gap-2 md:gap-3 shadow-sm w-[75vw] md:w-auto shrink-0 snap-center">
              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0"><Target size={16} className="md:w-5 md:h-5" /></div>
@@ -617,7 +654,6 @@ export default function AIUserInputPage() {
                    {t.resultsTitle} ({generatedQuestions.length})
                  </h2>
                </div>
-               <div className="lg:hidden"><AiLimitCard aiData={aiData} /></div>
             </div>
             
             {generatedQuestions.map((q, idx) => (
@@ -638,7 +674,7 @@ export default function AIUserInputPage() {
 
       </div>
 
-      {/* 🟢 MOBILE FLOATING ACTIONS (Sticky bottom with both Save & Publish) */}
+      {/* 🟢 MOBILE FLOATING ACTIONS */}
       {mounted && generatedQuestions.length > 0 && createPortal(
         <div className="lg:hidden fixed bottom-5 left-0 right-0 px-3 flex justify-between gap-2 z-[100] animate-in slide-in-from-bottom-10">
           <button 

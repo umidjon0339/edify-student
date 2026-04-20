@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,7 +17,7 @@ export default function IxtisosControlPanel({
   difficulty, setDifficulty,
   count, setCount,
   isLoadingSyllabus, isReadyToGenerate, isGenerating, handleGenerate,
-  aiData, setIsLimitModalOpen
+  aiData, setIsLimitModalOpen, setLimitModalMessage // 🟢 NEW PROP RECEIVED
 }: any) {
   
   const difficulties = [
@@ -27,7 +28,11 @@ export default function IxtisosControlPanel({
   ];
 
   const onGenerateClick = () => {
-    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+    // 🟢 Pre-check limits
+    if (!aiData?.isUnlimited && aiData?.remaining < count) {
+      if (setLimitModalMessage) {
+        setLimitModalMessage(`Sizda oylik limitdan faqatgina ${aiData.remaining} ta savol qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
+      }
       setIsLimitModalOpen(true);
       return; 
     }
@@ -164,14 +169,23 @@ export default function IxtisosControlPanel({
                     <div className="flex items-center gap-4">
                       <button onClick={() => setCount((prev: number) => Math.max(1, prev - 1))} className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors disabled:opacity-40" disabled={count <= 1}><Minus size={16} strokeWidth={3} /></button>
                       <span className="text-[16px] font-black text-slate-900 w-4 text-center">{count}</span>
-                      <button onClick={() => setCount((prev: number) => Math.min(15, aiData?.remaining ?? 15, prev + 1))} className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors disabled:opacity-40" disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}><Plus size={16} strokeWidth={3} /></button>
+                      
+                      {/* 🟢 NEW: Limits applied to Plus button */}
+                      <button 
+                        onClick={() => setCount((prev: number) => Math.min(15, aiData?.isUnlimited ? 15 : (aiData?.remaining ?? 15), prev + 1))} 
+                        className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors disabled:opacity-40" 
+                        disabled={count >= 15 || (!aiData?.isUnlimited && count >= (aiData?.remaining ?? 15))}
+                      >
+                        <Plus size={16} strokeWidth={3} />
+                      </button>
                     </div>
                   </div>
 
-                  {aiData && !aiData.isLimitReached && aiData.remaining < 15 && (
+                  {/* 🟢 NEW: Premium Limitation Warning Banner */}
+                  {aiData && !aiData.isUnlimited && aiData.remaining < 15 && (
                     <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-3 items-start">
                       <Zap size={16} className="text-amber-500 shrink-0 mt-0.5" />
-                      <p className="text-[11px] font-bold text-amber-700 leading-snug">
+                      <p className="text-[10px] font-bold text-amber-700 leading-snug">
                         Sizda faqat <span className="font-black text-amber-900">{aiData.remaining} ta</span> savol yaratish limiti qoldi.
                       </p>
                     </div>

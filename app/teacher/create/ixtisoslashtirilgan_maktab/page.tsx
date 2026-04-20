@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, CheckCircle2, BookOpen, Trash2, Layers, EyeOff, Eye, Menu, X, ChevronRight, BookMarked, Search, Bot, Zap, Plus, GraduationCap, Database } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, CheckCircle2, BookOpen, Trash2, Layers, EyeOff, Eye, Menu, X, ChevronRight, BookMarked, Search, Bot, Zap, Plus, GraduationCap, Database, Crown } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -12,15 +12,14 @@ import 'katex/dist/katex.min.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
-import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
-import { useAiLimits } from "@/hooks/useAiLimits";
 
-// 🟢 IMPORT THE CONTROL PANEL
+// 🟢 NEW MONTHLY LIMIT IMPORTS
+import { useMonthlyLimit } from "@/hooks/useMonthlyLimit";
+import AiMonthlyLimitCard from "@/app/teacher/create/_components/AiMonthlyLimitCard"; 
+
 import IxtisosControlPanel from "./_components/IxtisosControlPanel";
-
 import structureMap from "@/data/ixtisoslashtirilgan_maktab/structure.json";
 
-// --- TYPES & HELPERS ---
 interface AIQuestion { 
   id: string; uiDifficulty: string; 
   question: { uz: string; ru: string; en: string }; 
@@ -97,7 +96,6 @@ const AiThinkingModal = ({ isVisible }: { isVisible: boolean }) => {
   );
 };
 
-// 🟢 NEW ULTRA-MINIMAL TELEGRAM-STYLE COMPONENT
 const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRemove: (id: string) => void }) => {
   const [showOptions, setShowOptions] = useState(true);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -111,8 +109,6 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
 
   return (
     <div className="bg-white p-3.5 md:p-5 rounded-[1.25rem] md:rounded-3xl border border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-amber-200 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 relative group">
-      
-      {/* HEADER: Ultra-compact on mobile, spacious on PC */}
       <div className="flex justify-between items-center gap-2 mb-3 md:mb-5 md:pb-4 md:border-b border-slate-100">
         <div className="flex items-center flex-wrap gap-1.5 md:gap-2 flex-1 min-w-0">
           <span className="bg-amber-50 text-amber-700 text-[9px] md:text-[11px] font-black px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-xl uppercase tracking-widest flex items-center gap-1 md:gap-1.5 border border-amber-100/50 shrink-0">
@@ -125,7 +121,6 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
           <span className="hidden sm:inline-flex bg-slate-900 text-white text-[10px] md:text-[11px] font-bold px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-xl uppercase tracking-widest shadow-sm shrink-0">{q.uiDifficulty}</span>
         </div>
 
-        {/* ACTIONS: Telegram-style tight icons */}
         <div className="flex items-center bg-slate-50 md:bg-transparent border border-slate-200 md:border-transparent rounded-lg md:rounded-none p-0.5 md:p-0 shrink-0">
           <button onClick={() => setShowOptions(!showOptions)} className="text-slate-400 hover:text-slate-900 hover:bg-white md:hover:bg-slate-100 p-1 md:p-2 rounded-md md:rounded-xl transition-colors"><Eye size={14} className="md:w-[18px] md:h-[18px]" /></button>
           
@@ -141,10 +136,8 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
         </div>
       </div>
       
-      {/* QUESTION TEXT */}
       <div className="font-semibold text-[12px] md:text-[15.5px] text-slate-900 mb-3 md:mb-6 leading-snug md:leading-relaxed"><FormattedText text={getText(q.question)} /></div>
       
-      {/* OPTIONS: Telegram Poll style on mobile */}
       {showOptions && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 md:gap-3 mb-1 md:mb-2">
           {Object.entries(q.options).map(([key, value]) => {
@@ -159,7 +152,6 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
         </div>
       )}
       
-      {/* EXPLANATION */}
       {getText(q.explanation).trim().length > 0 && (
         <div className="mt-2.5 md:mt-4 pt-2.5 md:pt-4 border-t border-slate-50 flex justify-start">
           <button onClick={() => setShowExplanation(!showExplanation)} className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[11px] md:text-[13px] font-bold transition-all duration-300 ${showExplanation ? 'bg-amber-100 text-amber-700 shadow-inner' : 'bg-amber-50 text-amber-600 hover:bg-amber-100 hover:shadow-sm'}`}>
@@ -179,22 +171,14 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
   );
 };
 
-
-// --- MAIN PAGE ---
 export default function IxtisoslashtirilganGeneratorPage() {
   const router = useRouter();
   const { user } = useAuth();
   const bottomRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const aiData = useAiLimits(); 
-
-  const difficulties = [
-    { id: "easy", label: "Oson", color: "hover:border-emerald-400 hover:bg-emerald-50", active: "border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/20" },
-    { id: "medium", label: "O'rtacha", color: "hover:border-blue-400 hover:bg-blue-50", active: "border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-500/20" },
-    { id: "hard", label: "Murakkab", color: "hover:border-amber-400 hover:bg-amber-50", active: "border-amber-500 bg-amber-50 text-amber-700 ring-2 ring-amber-500/20" },
-    { id: "olympiad", label: "Olimpiada", color: "hover:border-purple-400 hover:bg-purple-50", active: "border-purple-500 bg-purple-50 text-purple-700 ring-2 ring-purple-500/20" }
-  ];
+  // 🟢 NEW: Monthly Limit Logic
+  const aiData = useMonthlyLimit(); 
 
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -218,13 +202,14 @@ export default function IxtisoslashtirilganGeneratorPage() {
   const [isTitleModalOpen, setIsTitleModalOpen] = useState(false);
   const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
-  const [isSavingToBank, setIsSavingToBank] = useState(false); // 🟢 NEW STATE
+  const [isSavingToBank, setIsSavingToBank] = useState(false); 
   const [testTitle, setTestTitle] = useState("");
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [isClassModalOpen, setIsClassModalOpen] = useState(false);
   const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [limitModalMessage, setLimitModalMessage] = useState(""); // 🟢 NEW STATE
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -274,7 +259,9 @@ export default function IxtisoslashtirilganGeneratorPage() {
   const handleGenerate = async () => {
     if (!isReadyToGenerate) return toast.error("Iltimos, barcha maydonlarni tanlang.");
 
-    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+    // 🟢 NEW: Pre-check monthly limits
+    if (!aiData.isUnlimited && aiData.remaining < count) {
+      setLimitModalMessage(`Sizda oylik limitdan faqatgina ${aiData.remaining} ta savol qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
       setIsLimitModalOpen(true);
       return; 
     }
@@ -300,7 +287,16 @@ export default function IxtisoslashtirilganGeneratorPage() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      
+      // 🟢 NEW: Gatekeeper Error Handling
+      if (!response.ok) {
+        if (data.code === 'LIMIT_REACHED') {
+          setLimitModalMessage("Oylik AI limitingiz yetarli emas. Tarifingizni oshiring yoki keyingi oyni kuting.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        throw new Error(data.error);
+      }
 
       let diffVal = 1;
       if (difficulty === "easy") diffVal = 1;
@@ -330,7 +326,6 @@ export default function IxtisoslashtirilganGeneratorPage() {
 
   const removeQuestion = (idToDelete: string) => setGeneratedQuestions(prev => prev.filter(q => q.id !== idToDelete));
   
-  // --- 🟢 NEW: SAVE TO BANK LOGIC ---
   const handleSaveToBank = async () => {
     if (generatedQuestions.length === 0) return toast.error("Oldin savol yarating.");
     if (!user) return;
@@ -462,7 +457,6 @@ export default function IxtisoslashtirilganGeneratorPage() {
       
       <AiThinkingModal isVisible={isGenerating} />
 
-      {/* 🟢 TOP BAR (Mobile) */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-[60px] bg-white/90 backdrop-blur-xl border-b border-slate-200 z-[100000] flex items-center justify-between px-3 shadow-sm">
         <button onClick={() => router.push('/teacher/create')} className="p-2 -ml-1 text-slate-500 rounded-lg"><ArrowLeft size={18} /></button>
         <span className="font-black text-slate-800 text-[14px]">Savol Yaratish</span>
@@ -493,14 +487,15 @@ export default function IxtisoslashtirilganGeneratorPage() {
                  count={count} setCount={setCount}
                  isLoadingSyllabus={isLoadingSyllabus} 
                  isReadyToGenerate={isReadyToGenerate} isGenerating={isGenerating} handleGenerate={handleGenerate}
-                 aiData={aiData} setIsLimitModalOpen={setIsLimitModalOpen}
+                 aiData={aiData} 
+                 setIsLimitModalOpen={setIsLimitModalOpen}
+                 setLimitModalMessage={setLimitModalMessage} // 🟢 PASSED HERE
                />
             </div>
           </aside>
         </>
       )}
 
-      {/* --- MAIN CANVAS --- */}
       <main className="flex-1 overflow-y-auto custom-scrollbar relative w-full pt-[60px] lg:pt-0 pb-24 lg:pb-0">
         
         <div className="hidden lg:flex sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-8 py-3 justify-between items-center shadow-sm">
@@ -514,9 +509,9 @@ export default function IxtisoslashtirilganGeneratorPage() {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <AiLimitCard aiData={aiData} />
+            {/* 🟢 NEW: Monthly Limit Card */}
+            <AiMonthlyLimitCard aiData={aiData} />
 
-            {/* 🟢 SAVE TO BANK BUTTON (Desktop) */}
             <button 
               onClick={handleSaveToBank} 
               disabled={isPublishing || isSavingToBank || isGenerating || generatedQuestions.length === 0} 
@@ -544,7 +539,8 @@ export default function IxtisoslashtirilganGeneratorPage() {
             <div className="space-y-4 md:space-y-6 lg:pb-12">
               <div className="lg:hidden flex items-center justify-between mb-1 px-1">
                 <span className="text-[10px] md:text-[12px] font-bold text-slate-500 uppercase tracking-widest">{generatedQuestions.length} ta savol</span>
-                <AiLimitCard aiData={aiData} />
+                {/* 🟢 NEW: Mobile Monthly Limit Card */}
+                <AiMonthlyLimitCard aiData={aiData} />
               </div>
 
               {generatedQuestions.map((q, idx) => (
@@ -574,11 +570,9 @@ export default function IxtisoslashtirilganGeneratorPage() {
         </div>
       </main>
 
-      {/* 🟢 MOBILE FLOATING ACTIONS (3 Buttons Layout) */}
+      {/* 🟢 MOBILE FLOATING ACTIONS */}
       {mounted && !isSidebarOpen && generatedQuestions.length > 0 && createPortal(
         <div className="lg:hidden fixed bottom-5 left-0 right-0 px-3 flex items-center gap-2 z-[100] animate-in slide-in-from-bottom-10">
-          
-          {/* + Button */}
           <button 
             onClick={() => setIsSidebarOpen(true)} 
             className="w-[46px] h-[46px] bg-amber-500 text-white rounded-full shadow-lg shadow-amber-500/30 flex items-center justify-center active:scale-95 transition-transform shrink-0"
@@ -586,7 +580,6 @@ export default function IxtisoslashtirilganGeneratorPage() {
             <Plus size={20} strokeWidth={2.5}/>
           </button>
           
-          {/* Action Buttons Container */}
           <div className="flex-1 flex gap-2">
             <button 
               onClick={handleSaveToBank} 
@@ -596,7 +589,6 @@ export default function IxtisoslashtirilganGeneratorPage() {
               {isSavingToBank ? <Loader2 size={14} className="animate-spin" /> : <Database size={14} />} 
               Saqlash
             </button>
-            
             <button 
               onClick={handleInitiatePublish} 
               disabled={isPublishing || isSavingToBank || isGenerating} 
@@ -610,10 +602,39 @@ export default function IxtisoslashtirilganGeneratorPage() {
         document.body
       )}
 
+      {/* 🟢 NEW PREMIUM LIMIT MODAL */}
+      <AnimatePresence>
+        {isLimitModalOpen && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
+              <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
+              
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-amber-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 border border-amber-100 shadow-inner">
+                <Crown size={28} className="text-amber-500" />
+              </div>
+              
+              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-2">Premium Xususiyat</h3>
+              <p className="text-[13px] md:text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {limitModalMessage}
+              </p>
+              
+              <div className="w-full flex flex-col gap-2">
+                <button onClick={() => router.push('/teacher/subscription')} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                  Tariflarni ko'rish <ArrowLeft className="w-4 h-4 rotate-180" />
+                </button>
+                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">
+                  Orqaga qaytish
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* ===================================================================== */}
-      {/* 🟢 ALL MODALS (PORTALIZED FOR 100% Z-INDEX SAFETY ON MOBILE)          */}
+      {/* ALL OTHER MODALS (Class, Subject, Syllabus, Title)                    */}
       {/* ===================================================================== */}
-      
       {mounted && createPortal(
         <>
           {/* CLASS SELECTION MODAL */}
@@ -735,25 +756,6 @@ export default function IxtisoslashtirilganGeneratorPage() {
             )}
           </AnimatePresence>
 
-          {/* LIMIT MODAL */}
-          <AnimatePresence>
-            {isLimitModalOpen && (
-              <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
-                <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
-                  <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
-                  <div className="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 md:mb-5 border border-rose-100 shadow-inner"><Zap size={24} className="text-rose-500 md:w-7 md:h-7" /></div>
-                  <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1.5 md:mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
-                  <p className="text-[12px] md:text-[14px] text-slate-500 mb-5 md:mb-6 font-medium leading-relaxed">{aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi.`}</p>
-                  <div className="w-full flex flex-col gap-2 md:gap-3">
-                    <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3 md:py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">Limitni oshirish</button>
-                    <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">Orqaga qaytish</button>
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>
-
           {/* TITLE SAVE MODAL */}
           <AnimatePresence>
             {isTitleModalOpen && (
@@ -778,11 +780,7 @@ export default function IxtisoslashtirilganGeneratorPage() {
         document.body
       )}
 
-      {mounted && createPortal(
-        <TestConfigurationModal isOpen={isConfigModalOpen} onClose={() => setIsConfigModalOpen(false)} onConfirm={handleFinalPublish} questionCount={generatedQuestions.length} testTitle={testTitle} isSaving={isPublishing} />,
-        document.body
-      )}
-
     </div>
   );
 }
+

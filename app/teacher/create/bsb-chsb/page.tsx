@@ -8,23 +8,23 @@ import {
   BookOpen, Plus, Minus, AlignLeft, Type, 
   GripVertical, Check, Zap, X, ChevronDown, ChevronRight, 
   Trash2, Building2, GraduationCap, CheckSquare, Bot,
-  FileText
+  FileText, Crown
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { useAuth } from "@/lib/AuthContext";
-import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard";
-import { useAiLimits } from "@/hooks/useAiLimits";
 import { db } from "@/lib/firebase";
 import { doc, collection, writeBatch, serverTimestamp } from "firebase/firestore";
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
-// --- IMPORT BOTH CURRICULUMS ---
+// 🟢 NEW MONTHLY LIMIT IMPORTS
+import { useMonthlyLimit } from "@/hooks/useMonthlyLimit";
+import AiMonthlyLimitCard from "@/app/teacher/create/_components/AiMonthlyLimitCard"; 
+
 import maktabMap from "@/data/maktab/structure.json";
 import ixtisosMap from "@/data/ixtisoslashtirilgan_maktab/structure.json";
 
-// --- TYPES ---
 type SchoolType = "maktab" | "ixtisos";
 type AssessmentType = "BSB" | "CHSB";
 type Difficulty = "Aralash" | "Oson" | "O'rta" | "Qiyin";
@@ -38,9 +38,6 @@ interface QuestionConfig {
   points: number;
 }
 
-// ============================================================================
-// 1. AI THINKING MODAL (PORTAL)
-// ============================================================================
 const AiThinkingModal = ({ isVisible }: { isVisible: boolean }) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -93,9 +90,6 @@ const AiThinkingModal = ({ isVisible }: { isVisible: boolean }) => {
   );
 };
 
-// ============================================================================
-// 2. HELPER COMPONENTS (LATEX & EXAM CARD)
-// ============================================================================
 const FormattedText = ({ text }: { text: any }) => {
   if (!text) return null;
   let content = typeof text === 'string' ? text : JSON.stringify(text);
@@ -212,19 +206,15 @@ const ExamQuestionCard = ({ q, idx, onRemove }: { q: any, idx: number, onRemove:
 };
 
 
-// ============================================================================
-// 3. MAIN PAGE
-// ============================================================================
 export default function BsbChsbGeneratorPage() {
   const router = useRouter();
   const { user } = useAuth();
-  const aiData = useAiLimits();
+  const aiData = useMonthlyLimit(); // 🟢 NEW LIMIT HOOK
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // --- STATE ---
   const [schoolType, setSchoolType] = useState<SchoolType>("maktab");
   const [assessmentType, setAssessmentType] = useState<AssessmentType>("BSB");
   const [selectedClass, setSelectedClass] = useState<string>("");
@@ -247,16 +237,15 @@ export default function BsbChsbGeneratorPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState<any[]>([]);
   
-  // MODALS STATE
   const [isClassSubjectModalOpen, setIsClassSubjectModalOpen] = useState(false);
   const [isTopicsModalOpen, setIsTopicsModalOpen] = useState(false);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [limitModalMessage, setLimitModalMessage] = useState(""); // 🟢 NEW MODAL STATE
   const [isTitleModalOpen, setIsTitleModalOpen] = useState(false);
   
   const [testTitle, setTestTitle] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);
 
-  // --- DERIVED DATA ---
   const currentStructureMap = schoolType === "maktab" ? maktabMap : ixtisosMap;
   const availableClasses = Object.keys(currentStructureMap).sort((a, b) => parseInt(a) - parseInt(b));
   // @ts-ignore
@@ -265,7 +254,6 @@ export default function BsbChsbGeneratorPage() {
   const totalQuestions = distribution.filter(d => d.enabled).reduce((acc, curr) => acc + curr.count, 0);
   const totalPoints = distribution.filter(d => d.enabled).reduce((acc, curr) => acc + (curr.count * curr.points), 0);
 
-  // --- EFFECTS ---
   useEffect(() => {
     setSelectedClass(""); setSelectedSubject(""); setSyllabusData(null); setSelectedScopes([]);
   }, [schoolType]);
@@ -293,7 +281,6 @@ export default function BsbChsbGeneratorPage() {
     if (generatedQuestions.length > 0 && !isGenerating) bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [generatedQuestions, isGenerating]);
 
-  // --- HANDLERS ---
   const toggleChapterExpand = (chapterName: string) => setExpandedChapters(prev => prev.includes(chapterName) ? prev.filter(c => c !== chapterName) : [...prev, chapterName]);
   const toggleSubtopic = (subtopicName: string) => setSelectedScopes(prev => prev.includes(subtopicName) ? prev.filter(s => s !== subtopicName) : [...prev, subtopicName]);
   const handleChapterCheckbox = (chapter: any) => {
@@ -319,7 +306,13 @@ export default function BsbChsbGeneratorPage() {
     if (!selectedClass || !selectedSubject) return toast.error("Sinf va fanni tanlang.");
     if (selectedScopes.length === 0) return toast.error(`Kamida bitta mavzuni tanlang.`);
     if (totalQuestions === 0) return toast.error("Kamida bitta savol turini faollashtiring.");
-    if (aiData?.isLimitReached || (aiData && totalQuestions > aiData.remaining)) return setIsLimitModalOpen(true);
+    
+    // 🟢 PRE-CHECK LIMITS
+    if (!aiData.isUnlimited && aiData.remaining < totalQuestions) {
+      setLimitModalMessage(`Ushbu imtihon uchun ${totalQuestions} ta savol kerak, lekin sizda ${aiData.remaining} ta limit qolgan. Matritsani qisqartiring yoki tarifni oshiring.`);
+      setIsLimitModalOpen(true);
+      return;
+    }
 
     setIsGenerating(true);
 
@@ -347,21 +340,25 @@ export default function BsbChsbGeneratorPage() {
 
         data = await response.json();
         
-        if (response.ok) break;
-
-        if (data.error?.includes("high demand") || response.status === 503) {
-          retries--;
-          if (retries === 0) throw new Error("Tarmoq hozirda band. Iltimos bir ozdan so'ng qayta urinib ko'ring.");
-          await new Promise(resolve => setTimeout(resolve, 2000));
-        } else {
-          throw new Error(data.error || "Xatolik yuz berdi");
+        // 🟢 GATEKEEPER ERROR HANDLING
+        if (!response.ok) {
+          if (data.code === 'LIMIT_REACHED') {
+            setLimitModalMessage("Oylik AI limitingiz yetarli emas. Tarifingizni oshiring yoki keyingi oyni kuting.");
+            setIsLimitModalOpen(true);
+            return;
+          }
+          throw new Error(data.error);
         }
+
+        break;
       } catch (error: any) {
         if (retries === 1) {
           toast.error(error.message);
           setIsGenerating(false);
           return;
         }
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        retries--;
       }
     }
 
@@ -406,7 +403,6 @@ export default function BsbChsbGeneratorPage() {
       
       <AiThinkingModal isVisible={isGenerating} />
       
-      {/* 🟢 UNIFIED TOP BAR PORTAL (Hides Global Top Nav & Holds the Publish Button) */}
       {mounted && createPortal(
         <div className="fixed top-0 left-0 right-0 h-[64px] md:h-[72px] bg-white/95 backdrop-blur-xl border-b border-slate-200/80 z-[99999] px-4 sm:px-6 flex items-center justify-between shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
           <div className="flex items-center gap-2 sm:gap-4">
@@ -420,12 +416,10 @@ export default function BsbChsbGeneratorPage() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* AI Limit integrated cleanly into top bar */}
             <div className="scale-[0.85] sm:scale-100 origin-right">
-               <AiLimitCard aiData={aiData} />
+               <AiMonthlyLimitCard aiData={aiData} />
             </div>
 
-            {/* Seamless Publish Button visible on Mobile & PC */}
             <AnimatePresence>
               {generatedQuestions.length > 0 && !isGenerating && (
                 <motion.button
@@ -445,7 +439,6 @@ export default function BsbChsbGeneratorPage() {
         document.body
       )}
 
-      {/* 🟢 HIDE GLOBAL BOTTOM NAV PORTAL ON MOBILE (Immersive Studio Mode) */}
       {mounted && createPortal(
         <div className="fixed bottom-0 left-0 right-0 h-[calc(env(safe-area-inset-bottom)+70px)] bg-[#FAFAFA] z-[99998] sm:hidden flex items-center justify-center border-t border-slate-200">
            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest relative -top-3">Studiya Rejimi</span>
@@ -455,7 +448,6 @@ export default function BsbChsbGeneratorPage() {
 
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6 mt-6 flex flex-col lg:flex-row gap-6 md:gap-8">
         
-        {/* --- LEFT: SETTINGS (MINIMAL APP LAYOUT) --- */}
         <div className="w-full lg:w-[40%] flex flex-col gap-4 md:gap-6">
           <div className="bg-white rounded-[2rem] border border-slate-200/80 p-5 md:p-6 shadow-sm">
             <div className="flex bg-slate-100/80 p-1.5 rounded-xl mb-6">
@@ -495,7 +487,6 @@ export default function BsbChsbGeneratorPage() {
           </div>
         </div>
 
-        {/* --- RIGHT: MATRIX BUILDER --- */}
         <div className="w-full lg:w-[60%] flex flex-col">
           <div className="bg-white rounded-[2rem] border border-slate-200/80 shadow-sm flex flex-col h-full overflow-hidden">
             
@@ -511,7 +502,6 @@ export default function BsbChsbGeneratorPage() {
               </div>
             </div>
 
-            {/* COMPACT MOBILE MATRIX LIST */}
             <div className="p-4 md:p-6 flex-1 bg-white">
               <div className="space-y-3">
                 {distribution.map((item) => (
@@ -562,7 +552,6 @@ export default function BsbChsbGeneratorPage() {
         </div>
       </div>
 
-      {/* --- RENDER RESULTS --- */}
       <AnimatePresence>
         {generatedQuestions.length > 0 && !isGenerating && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-[900px] mx-auto px-4 sm:px-6 mt-12">
@@ -585,26 +574,24 @@ export default function BsbChsbGeneratorPage() {
         )}
       </AnimatePresence>
 
-      {/* ===================================================================== */}
-      {/* POPUP MODALS (WRAPPED IN PORTALS FOR Z-INDEX SAFETY) */}
-      {/* ===================================================================== */}
-
-      {/* 1. LIMIT MODAL */}
+      {/* 🟢 PREMIUM LIMIT MODAL */}
       {mounted && createPortal(
         <AnimatePresence>
           {isLimitModalOpen && (
             <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
-              <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[2rem] p-8 w-full max-w-sm shadow-2xl z-10 flex flex-col items-center text-center border border-slate-100">
+              <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[2rem] p-6 md:p-8 w-full max-w-sm shadow-2xl z-10 flex flex-col items-center text-center border border-slate-100">
                 <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-4 right-4 p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
-                <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mb-5 border border-rose-100 shadow-inner"><Zap size={28} className="text-rose-500" /></div>
-                <h3 className="text-[18px] font-black text-slate-900 mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
-                <p className="text-[13px] text-slate-500 mb-8 font-medium leading-relaxed px-2">
-                  {aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta limit qoldi. Iltimos, matritsani kamaytiring.`}
+                <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4 border border-indigo-100 shadow-inner">
+                  <Crown size={28} className="text-amber-500" />
+                </div>
+                <h3 className="text-[18px] font-black text-slate-900 mb-2">Premium Xususiyat</h3>
+                <p className="text-[13px] text-slate-500 mb-6 font-medium leading-relaxed px-2">
+                  {limitModalMessage}
                 </p>
                 <div className="w-full flex flex-col gap-2.5">
-                  <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black rounded-xl shadow-md transition-all active:scale-[0.98] text-[14px]">PRO ga o'tish</button>
-                  <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3.5 bg-slate-100 text-slate-600 font-bold rounded-xl active:scale-[0.98] text-[14px]">Yopish</button>
+                  <button onClick={() => router.push('/teacher/subscription')} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-black rounded-xl shadow-md transition-all active:scale-[0.98] text-[14px]">Tariflarni ko'rish</button>
+                  <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3.5 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl active:scale-[0.98] text-[14px]">Yopish</button>
                 </div>
               </motion.div>
             </div>
@@ -613,7 +600,7 @@ export default function BsbChsbGeneratorPage() {
         document.body
       )}
 
-      {/* 2. CLASS & SUBJECT MODAL */}
+      {/* OTHER MODALS */}
       {mounted && createPortal(
         <AnimatePresence>
           {isClassSubjectModalOpen && (
@@ -654,7 +641,6 @@ export default function BsbChsbGeneratorPage() {
         document.body
       )}
 
-      {/* 3. TOPICS (SYLLABUS) MODAL */}
       {mounted && createPortal(
         <AnimatePresence>
           {isTopicsModalOpen && (
@@ -728,7 +714,6 @@ export default function BsbChsbGeneratorPage() {
         document.body
       )}
 
-      {/* 4. TITLE SAVE MODAL */}
       {mounted && createPortal(
         <AnimatePresence>
           {isTitleModalOpen && (

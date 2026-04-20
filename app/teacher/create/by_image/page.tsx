@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, DragEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, Wand2, CheckCircle2, Trash2, EyeOff, Eye, BookOpen, Layers, Minus, Plus, UploadCloud, Image as ImageIcon, X, Bot, Zap, Lightbulb, Database } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, Wand2, CheckCircle2, Trash2, EyeOff, Eye, BookOpen, Layers, Minus, Plus, UploadCloud, Image as ImageIcon, X, Bot, Zap, Lightbulb, Database, Crown } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -14,10 +14,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTeacherLanguage } from "@/app/teacher/layout"; 
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
 
-// 🟢 AI LIMIT BLOCK START
-import { useAiLimits } from "@/hooks/useAiLimits";
-import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
-// 🔴 AI LIMIT BLOCK END
+// 🟢 NEW AI MONTHLY LIMIT BLOCK START
+import { useMonthlyLimit } from "@/hooks/useMonthlyLimit";
+import AiMonthlyLimitCard from "@/app/teacher/create/_components/AiMonthlyLimitCard"; 
+// 🔴 NEW AI MONTHLY LIMIT BLOCK END
+
+import imageCompression from 'browser-image-compression';
 
 // --- TRANSLATION DICTIONARY ---
 const PAGE_TRANSLATIONS = {
@@ -43,11 +45,11 @@ const PAGE_TRANSLATIONS = {
     generateBtn: "Test Yaratish",
     resultsTitle: "Tayyorlangan Savollar",
     addMore: "Yana savol qo'shish",
-    addMoreInstructions: "Yangi rasm yuklang yoki joriysidan foydalanib 'Test Yaratish' tugmasini bosing.", // 🟢 NEW
+    addMoreInstructions: "Yangi rasm yuklang yoki joriysidan foydalanib 'Test Yaratish' tugmasini bosing.",
     solutionLogic: "Yechim Mantiqi",
     hideExp: "Yechimni yashirish",
     showExp: "Yechimni ko'rish",
-    invalidImageError: "Iltimos, faqat matematika yoki ta'limga oid rasmlarni yuklang.",
+    invalidImageError: "Iltimos, faqat ta'limga oid rasmlarni yuklang.",
     maxImagesError: "Maksimal 2 ta rasm yuklash mumkin."
   },
   en: {
@@ -72,11 +74,11 @@ const PAGE_TRANSLATIONS = {
     generateBtn: "Generate Test",
     resultsTitle: "Generated Questions",
     addMore: "Add More Questions",
-    addMoreInstructions: "Upload a new photo or use the current one, then click 'Generate Test'.", // 🟢 NEW
+    addMoreInstructions: "Upload a new photo or use the current one, then click 'Generate Test'.",
     solutionLogic: "Solution Logic",
     hideExp: "Hide Explanation",
     showExp: "Show Explanation",
-    invalidImageError: "Please upload an image related to math or education.",
+    invalidImageError: "Please upload an image related to education.",
     maxImagesError: "You can upload a maximum of 2 images."
   },
   ru: {
@@ -101,7 +103,7 @@ const PAGE_TRANSLATIONS = {
     generateBtn: "Создать Тест",
     resultsTitle: "Сгенерированные Вопросы",
     addMore: "Добавить вопросы",
-    addMoreInstructions: "Загрузите новое фото или используйте текущее, затем нажмите 'Создать Тест'.", // 🟢 NEW
+    addMoreInstructions: "Загрузите новое фото или используйте текущее, затем нажмите 'Создать Тест'.",
     solutionLogic: "Логика решения",
     hideExp: "Скрыть объяснение",
     showExp: "Показать объяснение",
@@ -200,11 +202,9 @@ const FormattedText = ({ text }: { text: any }) => {
   );
 };
 
-// 🟢 BUG FIX: UI Crash oldi olindi. Xavfsiz getText funksiyasi qo'shildi.
 const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove: (id: string) => void, t: any }) => {
   const [showExplanation, setShowExplanation] = useState(false);
 
-  // 🛠 Yangi xavfsiz o'qish funksiyasi
   const getText = (field: any): string => {
     if (!field) return "";
     if (typeof field === "string") return field;
@@ -224,7 +224,6 @@ const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove
         <button onClick={() => onRemove(q.id)} className="text-slate-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-md transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100"><Trash2 size={14} className="md:w-4 md:h-4" /></button>
       </div>
       
-      {/* 🛠 Q.QUESTION.UZ o'rniga getText() ishlatildi */}
       <div className="font-semibold text-[12px] md:text-[15px] text-slate-900 mb-3 md:mb-6 leading-relaxed">
         <FormattedText text={getText(q.question)} />
       </div>
@@ -235,8 +234,6 @@ const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove
           return (
             <div key={key} className={`flex items-start p-2 md:p-3 rounded-xl border-2 transition-all ${isCorrect ? 'bg-indigo-50/40 border-indigo-500/30' : 'bg-white border-slate-100'}`}>
               <div className={`w-5 h-5 md:w-6 md:h-6 rounded-md flex items-center justify-center text-[10px] md:text-[11px] font-black mr-2 md:mr-3 mt-0.5 ${isCorrect ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500'}`}>{key}</div>
-              
-              {/* 🛠 VALUE.UZ o'rniga getText() ishlatildi */}
               <div className={`text-[11px] md:text-sm font-medium pt-0.5 ${isCorrect ? 'text-indigo-950' : 'text-slate-700'}`}>
                 <FormattedText text={getText(value)} />
               </div>
@@ -256,8 +253,6 @@ const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove
       {showExplanation && getText(q.explanation).trim() && (
         <div className="bg-slate-50 border border-slate-100 p-2.5 md:p-4 rounded-xl mt-2.5 md:mt-4">
           <p className="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2 flex items-center gap-1 md:gap-1.5"><BookOpen size={12} className="text-indigo-400 md:w-3.5 md:h-3.5" /> {t.solutionLogic}</p>
-          
-          {/* 🛠 Q.EXPLANATION.UZ o'rniga getText() ishlatildi */}
           <p className="text-[11px] md:text-[13.5px] text-slate-700 font-medium leading-relaxed">
             <FormattedText text={getText(q.explanation)} />
           </p>
@@ -266,6 +261,7 @@ const AIQuestionCard = ({ q, idx, onRemove, t }: { q: any, idx: number, onRemove
     </div>
   );
 };
+
 export default function AIImageInputPage() {
   const router = useRouter();
   const { user } = useAuth();
@@ -275,7 +271,8 @@ export default function AIImageInputPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const aiData = useAiLimits(); 
+  // 🟢 NEW: Fetching the monthly limits instead of daily
+  const aiData = useMonthlyLimit(); 
 
   const [testTitle, setTestTitle] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
@@ -292,22 +289,52 @@ export default function AIImageInputPage() {
   const [isPublishing, setIsPublishing] = useState(false);
   const [isSavingToBank, setIsSavingToBank] = useState(false); 
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [limitModalMessage, setLimitModalMessage] = useState("");
+  const [isCompressing, setIsCompressing] = useState(false);
 
   useEffect(() => {
     if (generatedQuestions.length > 0 && !isGenerating) bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [generatedQuestions, isGenerating]);
 
-  // --- IMAGE UPLOAD HANDLERS ---
-  const processFile = (file: File) => {
-    if (images.length >= 2) return toast.error(t.maxImagesError);
-    if (!file.type.startsWith("image/")) return toast.error("Please upload valid image files.");
+  const processFile = async (file: File) => {
+  if (images.length >= 2) return toast.error(t.maxImagesError);
+  if (!file.type.startsWith("image/")) return toast.error("Please upload valid image files.");
 
+  setIsCompressing(true); // Start loading spinner
+
+  try {
+    // --- THE ACCURACY vs ECONOMY SETTINGS ---
+    const options = {
+      maxSizeMB: 0.5,             // ECONOMY: Strictly compress down to max 500 KB
+      maxWidthOrHeight: 1920,     // ACCURACY: Keep resolution high (1080p/1920p) so AI can read tiny math text!
+      useWebWorker: true,         // ECONOMY: Uses a separate CPU thread so the browser UI doesn't freeze
+      initialQuality: 0.85        // ACCURACY: Start with 85% quality before dialing down to hit 500KB
+    };
+
+    // Wait for the library to compress the file
+    const compressedFile = await imageCompression(file, options);
+
+    // Logging for your debugging (you can remove this later)
+    console.log(`Original: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+    console.log(`Compressed: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+
+    // Convert the compressed file to Base64 to send to your API
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImages(prev => [...prev, { id: Math.random().toString(36).substr(2, 9), base64: reader.result as string }]);
+      setImages(prev => [
+        ...prev, 
+        { id: Math.random().toString(36).substr(2, 9), base64: reader.result as string }
+      ]);
+      setIsCompressing(false); // Stop loading spinner
     };
-    reader.readAsDataURL(file);
-  };
+    reader.readAsDataURL(compressedFile);
+
+  } catch (error) {
+    console.error("Compression error:", error);
+    toast.error("Rasmni yuklashda xatolik yuz berdi (Image compression failed).");
+    setIsCompressing(false);
+  }
+};
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) Array.from(e.target.files).forEach(processFile);
@@ -324,7 +351,6 @@ export default function AIImageInputPage() {
   const removeQuestion = (id: string) => setGeneratedQuestions(prev => prev.filter(q => q.id !== id));
   const handleScrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // 🟢 NEW: "Yana Savol Qo'shish" Handler
   const handleAddMoreClick = () => {
     handleScrollTop();
     toast(t.addMoreInstructions, { icon: "💡", duration: 4000 });
@@ -334,10 +360,13 @@ export default function AIImageInputPage() {
   const handleGenerate = async () => {
     if (images.length === 0) return toast.error("Please upload at least 1 image.");
 
-    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) {
+    // 🟢 NEW: Check against Monthly Limits before calling the API to save time
+    if (!aiData.isUnlimited && aiData.remaining < count) {
+      setLimitModalMessage(`Sizda ${aiData.remaining} ta savol yaratish uchun limit qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
       setIsLimitModalOpen(true);
       return; 
     }
+    
     setIsGenerating(true);
 
     try {
@@ -356,12 +385,23 @@ export default function AIImageInputPage() {
 
       const data = await response.json();
       
-      if (response.status === 400 && data.error === "invalid_image") {
-        setIsGenerating(false);
-        return toast.error(t.invalidImageError, { duration: 4000, style: { fontWeight: 'bold' } });
+      if (!response.ok) {
+        // 🟢 NEW: Handle specific Gatekeeper errors gracefully
+        if (data.code === 'FEATURE_LOCKED') {
+          setLimitModalMessage("Rasm orqali test yaratish faqat Pro va VIP tariflarida mavjud. Funksiyani ochish uchun tarifingizni oshiring.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        if (data.code === 'LIMIT_REACHED') {
+          setLimitModalMessage("Oylik AI limitingiz yetarli emas. Tarifingizni oshiring yoki keyingi oyni kuting.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        if (response.status === 400 && data.error === "invalid_image") {
+          return toast.error(t.invalidImageError, { duration: 4000, style: { fontWeight: 'bold' } });
+        }
+        throw new Error(data.error);
       }
-      
-      if (!response.ok) throw new Error(data.error);
 
       const diffVal = difficulty === "Easy" ? 1 : difficulty === "Medium" ? 2 : 3;
 
@@ -378,7 +418,6 @@ export default function AIImageInputPage() {
 
       setGeneratedQuestions(prev => [...prev, ...enrichedQuestions]);
       toast.success(`${count} ta savol yaratildi!`);
-      // Images intentionally NOT cleared here, so they can be reused!
       setUserPrompt(""); 
       
     } catch (error: any) {
@@ -428,8 +467,6 @@ export default function AIImageInputPage() {
 
       await batch.commit();
       toast.success(t.savedToBankSuccess);
-      
-      // 🟢 Redirect user directly to their My Questions bank
       router.push('/teacher/create/my_questions');
     } catch (error) {
       console.error("Save to bank error:", error);
@@ -515,20 +552,30 @@ export default function AIImageInputPage() {
       
       <AiThinkingModal isVisible={isGenerating} />
 
+      {/* 🟢 NEW: Enhanced Premium Warning Modal for Limitations */}
       <AnimatePresence>
         {isLimitModalOpen && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
             <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
               <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 md:mb-5 border border-rose-100 shadow-inner"><Zap size={24} className="text-rose-500 md:w-7 md:h-7" /></div>
-              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1.5 md:mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
-              <p className="text-[12px] md:text-[14px] text-slate-500 mb-5 md:mb-6 font-medium leading-relaxed">
-                {aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi. Iltimos, so'ralayotgan miqdorni kamaytiring yoki limitni oshiring.`}
+              
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-indigo-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 border border-indigo-100 shadow-inner">
+                <Crown size={28} className="text-amber-500" />
+              </div>
+              
+              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-2">Premium Xususiyat</h3>
+              <p className="text-[13px] md:text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {limitModalMessage}
               </p>
-              <div className="w-full flex flex-col gap-2 md:gap-3">
-                <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3 md:py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">Limitni oshirish</button>
-                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">Orqaga qaytish</button>
+              
+              <div className="w-full flex flex-col gap-2">
+                <button onClick={() => router.push('/teacher/subscription')} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                  Tariflarni ko'rish <ArrowLeft className="w-4 h-4 rotate-180" />
+                </button>
+                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">
+                  Orqaga qaytish
+                </button>
               </div>
             </motion.div>
           </div>
@@ -563,9 +610,9 @@ export default function AIImageInputPage() {
           </div>
           
           <div className="flex items-center gap-1.5 md:gap-3">
-            <div className="hidden sm:block"><AiLimitCard aiData={aiData} /></div>
+            {/* 🟢 NEW: AiMonthlyLimitCard Replaces the old card */}
+            <div className="hidden sm:block"><AiMonthlyLimitCard aiData={aiData} /></div>
             
-            {/* 🟢 NEW: SAVE TO BANK BUTTON */}
             <button 
               onClick={handleSaveToBank} 
               disabled={isPublishing || isSavingToBank || isGenerating || generatedQuestions.length === 0} 
@@ -575,7 +622,6 @@ export default function AIImageInputPage() {
               <span>{t.saveToBankBtn}</span>
             </button>
 
-            {/* EXISTING PUBLISH BUTTON */}
             <button 
               onClick={handleInitiatePublish} 
               disabled={isPublishing || isSavingToBank || isGenerating || generatedQuestions.length === 0} 
@@ -614,10 +660,11 @@ export default function AIImageInputPage() {
             <div className="w-8 md:w-12 text-center flex items-center justify-center">
               <span className="text-[12px] md:text-[15px] font-black text-slate-800 leading-none">{count}</span>
             </div>
+            {/* 🟢 NEW: Ensure the plus button disables if requested count > remaining limits */}
             <button 
-              onClick={() => setCount(prev => Math.min(15, aiData?.remaining ?? 15, prev + 1))} 
+              onClick={() => setCount(prev => Math.min(15, aiData?.isUnlimited ? 15 : (aiData?.remaining ?? 15), prev + 1))} 
               className="w-7 md:w-9 h-full flex items-center justify-center rounded-lg text-slate-500 hover:bg-white hover:shadow-sm transition-all disabled:opacity-40" 
-              disabled={count >= 15 || count >= (aiData?.remaining ?? 15)}
+              disabled={count >= 15 || (!aiData?.isUnlimited && count >= (aiData?.remaining ?? 15))}
             >
               <Plus size={12} className="md:w-4 md:h-4" strokeWidth={2.5} />
             </button>
@@ -655,7 +702,6 @@ export default function AIImageInputPage() {
       </div>
     </div>
 
-          {/* HOW IT WORKS INFO BANNER */}
           <div className="mb-4 md:mb-6 bg-blue-50/50 border border-blue-100 rounded-xl p-2.5 md:p-4 flex items-start gap-2.5 md:gap-3 shadow-sm mx-1 md:mx-0">
             <div className="bg-blue-100 text-blue-600 p-1.5 md:p-2 rounded-lg shrink-0 mt-0.5">
               <Lightbulb size={16} className="md:w-[18px] md:h-[18px]" />
@@ -666,18 +712,27 @@ export default function AIImageInputPage() {
             </p>
           </div>
 
-          <div 
-            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={handleDrop}
-            className={`w-full min-h-[120px] md:min-h-[160px] border-2 border-dashed rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-3 md:p-6 transition-all mb-4 md:mb-6 relative overflow-hidden ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-slate-300 bg-slate-50/50 hover:bg-slate-50'}`}
-          >
-            {images.length < 2 && (
+         <div 
+          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragLeave={() => setIsDragging(false)}
+          onDrop={handleDrop}
+          className={`w-full min-h-[120px] md:min-h-[160px] border-2 border-dashed rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-3 md:p-6 transition-all mb-4 md:mb-6 relative overflow-hidden ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-slate-300 bg-slate-50/50 hover:bg-slate-50'}`}
+        >
+          {/* Add the compressing spinner state here */}
+          {isCompressing ? (
+            
+            <div className="text-center absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4 z-20 bg-white/50 backdrop-blur-sm">
+              <Loader2 size={28} className="mb-2 text-indigo-600 animate-spin" />
+              <p className="text-[11px] md:text-[13px] font-bold text-indigo-600">Rasm optimallashtirilmoqda...</p>
+            </div>
+          ) : (
+            images.length < 2 && (
               <div className="text-center absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4">
                 <UploadCloud size={24} className={`mb-1.5 md:mb-3 transition-colors md:w-8 md:h-8 ${isDragging ? 'text-indigo-500' : 'text-slate-400'}`} />
                 <p className="text-[10px] md:text-[13px] font-bold text-slate-600">{t.dragDrop}</p>
               </div>
-            )}
+            )
+          )}
             
             <input type="file" multiple accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" onChange={handleFileSelect} disabled={images.length >= 2} />
 
@@ -703,9 +758,9 @@ export default function AIImageInputPage() {
           <div className="flex flex-col sm:flex-row justify-between sm:items-center border-t border-slate-100 pt-3 md:pt-5 mt-2 gap-2.5 md:gap-3 px-1 md:px-0">
             
             <div className="flex-1 order-2 sm:order-1 text-center sm:text-left">
-              {aiData && !aiData.isLimitReached && aiData.remaining < 15 && (
+              {aiData && !aiData.isUnlimited && aiData.remaining < 15 && (
                 <p className="text-[10px] md:text-[12px] font-medium text-amber-600 px-1">
-                  Sizda <span className="font-bold">{aiData.remaining} ta</span> savol limit qoldi.
+                  Sizda oylik limitdan <span className="font-bold">{aiData.remaining} ta</span> savol qoldi.
                 </p>
               )}
             </div>

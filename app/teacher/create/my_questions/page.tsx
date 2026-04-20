@@ -406,7 +406,7 @@ export default function MyQuestionsPage() {
                 onClick={handleCreateTestInitiate}
                 className="flex-1 bg-white text-slate-900 px-4 py-2.5 md:py-3 rounded-xl font-black text-[12px] md:text-[13px] active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm"
               >
-                <CheckCircle2 size={16}/> Test Yaratish
+                <CheckCircle2 size={16}/> Topshiriq yaratish
               </button>
             </div>
           </motion.div>

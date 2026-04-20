@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowLeft, Loader2, CheckCircle2, BookOpen, Trash2, Layers, EyeOff, Eye, Menu, X, ChevronRight, BookMarked, Search, Bot, Zap, Plus, GraduationCap, Database } from "lucide-react";
+import { Sparkles, ArrowLeft, Loader2, CheckCircle2, BookOpen, Trash2, Layers, EyeOff, Eye, Menu, X, ChevronRight, BookMarked, Search, Bot, Zap, Plus, GraduationCap, Database, Crown } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, doc, writeBatch, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
@@ -12,16 +12,14 @@ import 'katex/dist/katex.min.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
-import AiLimitCard from "@/app/teacher/create/_components/AiLimitCard"; 
-import { useAiLimits } from "@/hooks/useAiLimits";
 
-// 🟢 IMPORT THE CONTROL PANEL
+// 🟢 NEW MONTHLY LIMIT IMPORTS
+import { useMonthlyLimit } from "@/hooks/useMonthlyLimit";
+import AiMonthlyLimitCard from "@/app/teacher/create/_components/AiMonthlyLimitCard"; 
+
 import GeneratorControlPanel from "./_components/GeneratorControlPanel";
-
-// 🟢 IMPORT THE MASTER MAP FOR MAKTAB
 import structureMap from "@/data/maktab/structure.json";
 
-// --- TYPES ---
 interface AIQuestion { 
   id: string; uiDifficulty: string; 
   question: { uz: string; ru: string; en: string }; 
@@ -36,7 +34,6 @@ const formatSubjectName = (rawSubject: string) => {
   return cleanedStr.charAt(0).toUpperCase() + cleanedStr.slice(1).toLowerCase();
 };
 
-// --- COMPONENTS ---
 const AiThinkingModal = ({ isVisible }: { isVisible: boolean }) => {
   const phrases = ["Mavzu tahlil qilinmoqda...", "Maktab dasturi tekshirilmoqda...", "Konteks o'qilmoqda...", "Qiyinlik darajasi moslashtirilmoqda...", "Savollar va javoblar yozilmoqda..."];
   const [phraseIndex, setPhraseIndex] = useState(0);
@@ -166,15 +163,14 @@ const AIQuestionCard = ({ q, idx, onRemove }: { q: AIQuestion, idx: number, onRe
   );
 };
 
-
-// --- MAIN PAGE ---
 export default function MaktabGeneratorPage() {
   const router = useRouter();
   const { user } = useAuth();
   const bottomRef = useRef<HTMLDivElement>(null);
-  const aiData = useAiLimits(); 
+  
+  // 🟢 NEW: Fetching the monthly limits instead of daily
+  const aiData = useMonthlyLimit(); 
 
-  // --- STATES ---
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [syllabusData, setSyllabusData] = useState<any>(null);
@@ -188,9 +184,8 @@ export default function MaktabGeneratorPage() {
   const [generatedQuestions, setGeneratedQuestions] = useState<AIQuestion[]>([]);
   const [testTitle, setTestTitle] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);
-  const [isSavingToBank, setIsSavingToBank] = useState(false); // 🟢 NEW STATE
+  const [isSavingToBank, setIsSavingToBank] = useState(false); 
 
-  // --- MODAL STATES ---
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isClassModalOpen, setIsClassModalOpen] = useState(false);
   const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
@@ -198,7 +193,9 @@ export default function MaktabGeneratorPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isTitleModalOpen, setIsTitleModalOpen] = useState(false);
   const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
+  
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+  const [limitModalMessage, setLimitModalMessage] = useState(""); // 🟢 NEW STATE
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -230,7 +227,6 @@ export default function MaktabGeneratorPage() {
     if (generatedQuestions.length > 0 && !isGenerating) bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [generatedQuestions, isGenerating]);
 
-  // 🟢 WATERFALL UX HANDLERS
   const handleClassSelect = (c: string) => {
     setSelectedClass(c);
     // @ts-ignore
@@ -241,32 +237,47 @@ export default function MaktabGeneratorPage() {
       setSelectedSubtopicIndex("");
     }
     setIsClassModalOpen(false);
-    setTimeout(() => setIsSubjectModalOpen(true), 300); // Auto-open Subject modal
+    setTimeout(() => setIsSubjectModalOpen(true), 300);
   };
 
   const handleSubjectSelect = (s: string) => {
     setSelectedSubject(s);
     setIsSubjectModalOpen(false);
-    setTimeout(() => setIsSyllabusModalOpen(true), 300); // Auto-open Syllabus modal
+    setTimeout(() => setIsSyllabusModalOpen(true), 300);
   };
 
   const handleGenerate = async () => {
     if (!isReadyToGenerate) return toast.error("Iltimos, barcha maydonlarni tanlang.");
-    if (aiData?.isLimitReached || (aiData && count > aiData.remaining)) { setIsLimitModalOpen(true); return; }
+    
+    // 🟢 NEW: Pre-check monthly limits
+    if (!aiData.isUnlimited && aiData.remaining < count) {
+      setLimitModalMessage(`Sizda oylik limitdan faqatgina ${aiData.remaining} ta savol qoldi. Iltimos so'ralayotgan miqdorni kamaytiring yoki tarifni oshiring.`);
+      setIsLimitModalOpen(true);
+      return; 
+    }
 
     setIsGenerating(true);
-    if (window.innerWidth < 1024) setIsSidebarOpen(false); // Auto-close sidebar on mobile
+    if (window.innerWidth < 1024) setIsSidebarOpen(false); 
 
     try {
-      const response = await fetch("/teacher/create/maktab/api", {
+      const response = await fetch("/teacher/create/maktab/api", { // 🟢 Ensure path matches your setup
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user?.uid, topic: selectedClass, subject: selectedSubject, chapter: activeChapter.chapter, subtopic: activeSubtopic.name, context: activeSubtopic.context || "", difficulty, count, language: "uz" }),
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      
+      // 🟢 NEW: Gatekeeper Error Handling
+      if (!response.ok) {
+        if (data.code === 'LIMIT_REACHED') {
+          setLimitModalMessage("Oylik AI limitingiz yetarli emas. Tarifingizni oshiring yoki keyingi oyni kuting.");
+          setIsLimitModalOpen(true);
+          return;
+        }
+        throw new Error(data.error);
+      }
 
-      let diffVal = 2; // Default to medium
+      let diffVal = 2; 
       if (difficulty === "easy") diffVal = 1;
       else if (difficulty === "medium") diffVal = 2;
       else if (difficulty === "hard") diffVal = 3;
@@ -290,7 +301,6 @@ export default function MaktabGeneratorPage() {
 
   const removeQuestion = (idToDelete: string) => setGeneratedQuestions(prev => prev.filter(q => q.id !== idToDelete));
 
-  // --- 🟢 NEW: SAVE TO BANK LOGIC ---
   const handleSaveToBank = async () => {
     if (generatedQuestions.length === 0) return toast.error("Oldin savol yarating.");
     if (!user) return;
@@ -335,7 +345,6 @@ export default function MaktabGeneratorPage() {
     }
   };
 
-  // --- PUBLISH LOGIC ---
   const handleInitiatePublish = () => {
     if (generatedQuestions.length === 0) return toast.error("Oldin savol yarating.");
     setIsTitleModalOpen(true); 
@@ -389,7 +398,6 @@ export default function MaktabGeneratorPage() {
       
       <AiThinkingModal isVisible={isGenerating} />
 
-      {/* 🟢 TOP BAR (Mobile) */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-[60px] bg-white/90 backdrop-blur-xl border-b border-slate-200 z-[100000] flex items-center justify-between px-3 shadow-sm">
         <button onClick={() => router.push('/teacher/create')} className="p-2 -ml-1 text-slate-500 rounded-lg"><ArrowLeft size={18} /></button>
         <span className="font-black text-slate-800 text-[14px]">Savol Yaratish</span>
@@ -402,7 +410,6 @@ export default function MaktabGeneratorPage() {
             {isSidebarOpen && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="lg:hidden fixed top-[60px] left-0 right-0 bottom-0 bg-slate-900/60 backdrop-blur-sm z-[99998]" onClick={() => setIsSidebarOpen(false)} />}
           </AnimatePresence>
           
-          {/* 🟢 SIDEBAR CONTROL PANEL */}
           <aside className={`fixed lg:relative top-[60px] lg:top-0 left-0 w-full sm:w-[400px] h-[calc(100dvh-60px)] lg:h-[100dvh] bg-white border-r border-slate-200 shadow-2xl lg:shadow-none z-[99998] lg:z-10 transition-transform duration-300 ease-in-out flex flex-col ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
             
             <div className="flex justify-between items-center p-3 md:p-5 border-b border-slate-100 bg-white shrink-0 sticky top-0 z-10">
@@ -432,17 +439,17 @@ export default function MaktabGeneratorPage() {
                  count={count} setCount={setCount}
                  isLoadingSyllabus={isLoadingSyllabus} 
                  isReadyToGenerate={isReadyToGenerate} isGenerating={isGenerating} handleGenerate={handleGenerate}
-                 aiData={aiData} setIsLimitModalOpen={setIsLimitModalOpen}
+                 aiData={aiData} 
+                 setIsLimitModalOpen={setIsLimitModalOpen}
+                 setLimitModalMessage={setLimitModalMessage} // 🟢 PASSED DOWN
                />
             </div>
           </aside>
         </>
       )}
 
-      {/* --- MAIN CANVAS --- */}
       <main className="flex-1 overflow-y-auto custom-scrollbar relative w-full pt-[60px] lg:pt-0 pb-24 lg:pb-0">
         
-        {/* 🟢 TOP BAR (Desktop) */}
         <div className="hidden lg:flex sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-8 py-3 justify-between items-center shadow-sm">
           <div className="flex items-center gap-4">
             <h1 className="text-[16px] font-bold text-slate-900 tracking-tight">AI Qoralama</h1>
@@ -454,9 +461,9 @@ export default function MaktabGeneratorPage() {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <AiLimitCard aiData={aiData} />
+            {/* 🟢 NEW: AiMonthlyLimitCard */}
+            <AiMonthlyLimitCard aiData={aiData} />
             
-            {/* 🟢 SAVE TO BANK BUTTON (Desktop) */}
             <button 
               onClick={handleSaveToBank} 
               disabled={isPublishing || isSavingToBank || isGenerating || generatedQuestions.length === 0} 
@@ -484,7 +491,8 @@ export default function MaktabGeneratorPage() {
             <div className="space-y-4 md:space-y-6 lg:pb-12">
               <div className="lg:hidden flex items-center justify-between mb-1 px-1">
                 <span className="text-[10px] md:text-[12px] font-bold text-slate-500 uppercase tracking-widest">{generatedQuestions.length} ta savol</span>
-                <AiLimitCard aiData={aiData} />
+                {/* 🟢 NEW: Mobile Monthly Limit Card */}
+                <AiMonthlyLimitCard aiData={aiData} />
               </div>
 
               {generatedQuestions.map((q, idx) => (
@@ -514,7 +522,7 @@ export default function MaktabGeneratorPage() {
         </div>
       </main>
 
-      {/* 🟢 MOBILE FLOATING ACTIONS (3 Buttons Layout) */}
+      {/* 🟢 MOBILE FLOATING ACTIONS */}
       {mounted && !isSidebarOpen && generatedQuestions.length > 0 && createPortal(
         <div className="lg:hidden fixed bottom-5 left-0 right-0 px-3 flex justify-between gap-2 z-[100] animate-in slide-in-from-bottom-10">
           <button 
@@ -545,10 +553,39 @@ export default function MaktabGeneratorPage() {
         document.body
       )}
 
+      {/* 🟢 NEW PREMIUM LIMIT MODAL */}
+      <AnimatePresence>
+        {isLimitModalOpen && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
+              <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
+              
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-indigo-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 border border-indigo-100 shadow-inner">
+                <Crown size={28} className="text-amber-500" />
+              </div>
+              
+              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-2">Premium Xususiyat</h3>
+              <p className="text-[13px] md:text-[14px] text-slate-500 mb-6 font-medium leading-relaxed">
+                {limitModalMessage}
+              </p>
+              
+              <div className="w-full flex flex-col gap-2">
+                <button onClick={() => router.push('/teacher/subscription')} className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                  Tariflarni ko'rish <ArrowLeft className="w-4 h-4 rotate-180" />
+                </button>
+                <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">
+                  Orqaga qaytish
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* ===================================================================== */}
-      {/* 🟢 ALL MODALS (PORTALIZED FOR 100% Z-INDEX SAFETY ON MOBILE)          */}
+      {/* ALL OTHER MODALS (Class, Subject, Syllabus, Title)                    */}
       {/* ===================================================================== */}
-      
       {mounted && createPortal(
         <>
           {/* CLASS SELECTION MODAL */}
@@ -670,25 +707,6 @@ export default function MaktabGeneratorPage() {
             )}
           </AnimatePresence>
 
-          {/* LIMIT MODAL */}
-          <AnimatePresence>
-            {isLimitModalOpen && (
-              <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsLimitModalOpen(false)} />
-                <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative bg-white rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 w-full max-w-[320px] md:max-w-sm shadow-2xl z-10 flex flex-col items-center text-center">
-                  <button onClick={() => setIsLimitModalOpen(false)} className="absolute top-3 right-3 md:top-4 md:right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"><X size={18} className="md:w-5 md:h-5" /></button>
-                  <div className="w-12 h-12 md:w-16 md:h-16 bg-rose-50 rounded-[1rem] md:rounded-2xl flex items-center justify-center mb-4 md:mb-5 border border-rose-100 shadow-inner"><Zap size={24} className="text-rose-500 md:w-7 md:h-7" /></div>
-                  <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1.5 md:mb-2">{aiData?.isLimitReached ? "Kunlik limit tugadi" : "Limit yetarli emas"}</h3>
-                  <p className="text-[12px] md:text-[14px] text-slate-500 mb-5 md:mb-6 font-medium leading-relaxed">{aiData?.isLimitReached ? "Siz bugungi bepul kunlik limitingizni tugatdingiz. Cheklovsiz foydalanish uchun profilingizni yangilang." : `Sizda bugun uchun faqatgina ${aiData?.remaining} ta bepul limit qoldi.`}</p>
-                  <div className="w-full flex flex-col gap-2 md:gap-3">
-                    <button onClick={() => window.open('https://t.me/Umidjon0339', '_blank')} className="w-full py-3 md:py-3.5 bg-[#0088cc] hover:bg-[#0077b3] text-white text-[13px] md:text-[14px] font-bold rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">Limitni oshirish</button>
-                    <button onClick={() => setIsLimitModalOpen(false)} className="w-full py-3 md:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[13px] md:text-[14px] font-bold rounded-xl transition-colors active:scale-[0.98]">Orqaga qaytish</button>
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>
-
           {/* TITLE SAVE MODAL */}
           <AnimatePresence>
             {isTitleModalOpen && (
@@ -710,11 +728,6 @@ export default function MaktabGeneratorPage() {
             )}
           </AnimatePresence>
         </>,
-        document.body
-      )}
-
-      {mounted && createPortal(
-        <TestConfigurationModal isOpen={isConfigModalOpen} onClose={() => setIsConfigModalOpen(false)} onConfirm={handleFinalPublish} questionCount={generatedQuestions.length} testTitle={testTitle} isSaving={isPublishing} />,
         document.body
       )}
 

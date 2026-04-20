@@ -12,6 +12,7 @@
     "@google/generative-ai": "^0.24.1",
     "@heroicons/react": "^2.2.0",
     "@react-pdf/renderer": "^4.3.2",
+    "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
     "firebase": "^12.8.0",
     "firebase-admin": "^13.7.0",

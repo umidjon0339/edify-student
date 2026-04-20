@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
-import { jsonrepair } from 'jsonrepair';
-
-// 🟢 AI LIMIT BLOCK START
-import { consumeAiCredits } from "@/lib/ai/aiLimitsHelper"; 
-// 🔴 AI LIMIT BLOCK END
+import { adminDb } from '@/lib/firebaseAdmin'; 
+import { deductMonthlyAiCredits } from "@/lib/ai/featureGatekeeper"; 
 
 export async function POST(req: Request) {
   try {
@@ -12,64 +9,97 @@ export async function POST(req: Request) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) return NextResponse.json({ error: "API Key missing" }, { status: 500 });
 
-    // =========================================================================
-    // 🟢 AI LIMIT BLOCK START: Step 1 - GATEKEEPER CHECK (Do NOT deduct yet)
-    // =========================================================================
     if (!userId) {
-      return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi (User ID missing)" }, { status: 401 });
+      return NextResponse.json({ error: "Foydalanuvchi tasdiqlanmadi" }, { status: 401 });
     }
+
+    // =========================================================================
+    // 🟢 LIMIT CHECK ONLY (Checks Monthly Limits, No Feature Lock)
+    // =========================================================================
+    const userRef = adminDb.collection("users").doc(userId);
+    const userSnap = await userRef.get();
     
-    const limitCheck = await consumeAiCredits(userId, count, false); 
-    
-    if (!limitCheck.allowed) {
-      return NextResponse.json({ error: limitCheck.error }, { status: 402 }); 
+    if (userSnap.exists) {
+      const userData = userSnap.data();
+      const monthlyLimit = userData?.currentLimits?.monthlyAiQuestions || 100;
+      const aiUsed = userData?.usage?.aiQuestionsUsed || 0;
+      const isUnlimited = monthlyLimit >= 5000;
+
+      if (!isUnlimited && (aiUsed + count > monthlyLimit)) {
+        return NextResponse.json({ 
+          error: "Oylik AI limitingiz yetarli emas.",
+          code: 'LIMIT_REACHED' 
+        }, { status: 403 }); 
+      }
     }
-    // 🔴 AI LIMIT BLOCK END
     // =========================================================================
 
     // 🟢 Calculate numeric difficulty safely
     const diffLower = difficulty.toLowerCase();
     const diffVal = diffLower === "easy" ? 1 : diffLower === "hard" ? 3 : diffLower === "olympiad" ? 4 : 2;
 
-    // 🟢 REFINED PROMPT: Gifted student logic + Strict LaTeX Formatting
-    let systemPrompt = `Act as an expert examiner for the Uzbekistan Specialized Schools and Presidential Schools curriculum.
+    // 🟢 DYNAMIC SUBJECT RULES FOR GIFTED STUDENTS (Ixtisoslashtirilgan)
+    let subjectSpecificRule = "";
+    const lowerSubject = subject.toLowerCase();
+
+    if (["matematika", "fizika", "kimyo", "informatika"].some(s => lowerSubject.includes(s))) {
+      subjectSpecificRule = "- Yechilishi qiyin bo'lgan, bir necha bosqichli (multi-step) masalalar va mantiqiy boshqotirmalar tuzing. O'quvchi formulani shunchaki yodlagan emas, uni qo'llay oladigan bo'lishi shart.";
+    } else if (["tarix", "huquq"].some(s => lowerSubject.includes(s))) {
+      subjectSpecificRule = "- Ma'lumotlarni yodlashni emas, balki voqea-hodisalarni tahlil qilishni, sabab-oqibat bog'lanishlarini topishni talab qiladigan qiyosiy savollar tuzing.";
+    } else if (["ona tili", "ingliz tili", "adabiyot", "language"].some(s => lowerSubject.includes(s))) {
+      subjectSpecificRule = "- Murakkab grammatik qoidalar, istisnolar (exceptions), matnni chuqur tushunish (reading comprehension) va mantiqiy tahlilga oid savollar tuzing.";
+    } else {
+      subjectSpecificRule = "- O'quvchining tanqidiy fikrlashini (critical thinking) tekshiradigan va chuqur tahlilni talab qiluvchi murakkab savollar tuzing.";
+    }
+
+    // 🟢 REFINED TOKEN-SAVER PROMPT
+    let systemPrompt = `Act as an expert examiner for the Uzbekistan Specialized Schools curriculum.
 Generate exactly ${count} multiple-choice questions.
 
-TARGET AUDIENCE:
-Class/Grade: ${topic}
-Subject: ${subject}
-Chapter: ${chapter}
-Subtopic: ${subtopic}
-Difficulty Level: ${difficulty}
-Language: ${language}
+TARGET AUDIENCE: Class ${topic}, Subject: ${subject}. Difficulty: ${difficulty}. Language: ${language}.
 
 CURRICULUM BOUNDARIES & SPECIALIZED LOGIC:
 You are generating questions for gifted students. 
 - Avoid simple memory recall questions.
-- Create questions that require multi-step logic, deep analytical thinking, or real-world application of the concept.
-- The distractor options (wrong answers) MUST represent logical traps or common miscalculations made by advanced students.
+- ${subjectSpecificRule}
 
-STRICT MATH/SCIENCE FORMATTING (CRITICAL):
-1. Wrap ALL math, numbers, variables, and equations in $ (for inline) or $$ (for display/blocks). NEVER use \\( \\) or \\[ \\].
-2. Systems of equations MUST use: $$ \\\\begin{cases} x+y=2 \\\\\\\\ x-y=0 \\\\end{cases} $$
-3. JSON ESCAPING: You MUST double-escape all LaTeX commands to ensure valid JSON (e.g., write \\\\frac instead of \\frac).
-4. NO NEWLINES: Do not use \\n. Write explanations as a single continuous line. Max 40 words.
+STRICT MATH & FORMAT RULES:
+1. Wrap ALL math/variables in $ (inline) or $$ (blocks). Double-escape backslashes (e.g., \\\\frac).
+2. The 3 incorrect options MUST represent logical traps or common miscalculations. Randomize the correct answer index (0-3).
+3. EXPLANATION: Max 15 words! Extremely concise core logic.
 
-Output ONLY a RAW JSON array. No markdown.
-Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","explanation":"(no more than 15 words)"}]`;
+OUTPUT SCHEMA EXPLANATION:
+"q" = Question text.
+"o" = Array of exactly 4 option strings.
+"a" = Index of correct option (0, 1, 2, or 3).
+"e" = Explanation (Max 15 words).`;
 
     if (context && context.trim() !== "") {
       systemPrompt += `\nSTRICT CONTEXT RULES FOR THIS SUBTOPIC:\n${context}`;
     }
 
+    // 🟢 GEMINI API WITH MINIFIED RESPONSE SCHEMA
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: systemPrompt }] }],
         generationConfig: { 
-            temperature: 0.4, 
-            responseMimeType: "application/json" 
+            temperature: 0.35, 
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: "ARRAY",
+              items: {
+                type: "OBJECT",
+                properties: {
+                  q: { type: "STRING" },
+                  o: { type: "ARRAY", items: { type: "STRING" } }, // 🟢 Options are now an Array!
+                  a: { type: "INTEGER" }, // 🟢 Answer is just a number (0-3)
+                  e: { type: "STRING" }
+                },
+                required: ["q", "o", "a", "e"]
+              }
+            }
         }
       })
     });
@@ -77,7 +107,6 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || "Gemini Error");
 
-    // 🟢 BUG FIX 2: SAFETY CHECK - Handles Gemini Safety Filter Blocks
     const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!generatedText) {
       throw new Error(data.candidates?.[0]?.finishReason === "SAFETY" 
@@ -85,33 +114,13 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
         : "AI kutilmagan javob qaytardi. Qayta urinib ko'ring.");
     }
 
-    let parsedJSON;
+    // 🟢 Safe Direct Parsing
+    const rawAiQuestions = JSON.parse(generatedText);
 
-    // 🟢 BULLETPROOF PARSING
-    try {
-      parsedJSON = JSON.parse(generatedText);
-    } catch (initialParseError) {
-      let sanitizedText = generatedText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      sanitizedText = sanitizedText.replace(/\\\\\\\\/g, '\\\\'); 
-      sanitizedText = sanitizedText.replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1'); 
-      sanitizedText = sanitizedText.replace(/\\'/g, "'"); 
-      sanitizedText = sanitizedText.replace(/\\n/g, ' ').replace(/\n/g, ' '); 
+    // 🟢 MAP TO STANDARD FRONTEND FORMAT (A, B, C, D)
+    const letterMap = ["A", "B", "C", "D"];
 
-      try {
-        parsedJSON = JSON.parse(sanitizedText);
-      } catch (parseError) {
-        try {
-          parsedJSON = JSON.parse(jsonrepair(sanitizedText));
-        } catch (repairError) {
-          throw new Error("AI output was too corrupted to repair.");
-        }
-      }
-    }
-
-    let rawAiQuestions = Array.isArray(parsedJSON) ? parsedJSON : (parsedJSON.questions || [parsedJSON]);
-
-    // 🟢 BUG FIX 1: Strict Object Mapping { uz: "" } + injecting difficulty
-    const enrichedQuestions = rawAiQuestions.map((q: any) => ({
+    const enrichedQuestions = rawAiQuestions.map((item: any) => ({
       id: `tq_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
       type: "mcq",
       points: 2,
@@ -121,23 +130,21 @@ Schema: [{"question":"","options":{"A":"","B":"","C":"","D":""},"answer":"A","ex
       topic: topic,
       chapter: chapter,
       subtopic: subtopic,
-      question: { uz: q.question || "" },
+      question: { uz: item.q || "" },
       options: {
-        A: { uz: q.options?.A || "" },
-        B: { uz: q.options?.B || "" },
-        C: { uz: q.options?.C || "" },
-        D: { uz: q.options?.D || "" }
+        A: { uz: item.o[0] || "" },
+        B: { uz: item.o[1] || "" },
+        C: { uz: item.o[2] || "" },
+        D: { uz: item.o[3] || "" }
       },
-      answer: q.answer || "A",
-      explanation: { uz: q.explanation || "" } 
+      answer: letterMap[item.a] || "A", // Map index back to letter
+      explanation: { uz: item.e || "" } 
     }));
 
     // =========================================================================
-    // 🟢 AI LIMIT BLOCK START: Step 2 - SUCCESS! DEDUCT THE CREDITS NOW
+    // 🟢 AI LIMIT DEDUCTION
     // =========================================================================
-    await consumeAiCredits(userId, enrichedQuestions.length, true);
-    // 🔴 AI LIMIT BLOCK END
-    // =========================================================================
+    await deductMonthlyAiCredits(userId, enrichedQuestions.length);
 
     return NextResponse.json({ questions: enrichedQuestions });
 
