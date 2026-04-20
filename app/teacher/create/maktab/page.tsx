@@ -385,7 +385,7 @@ export default function MaktabGeneratorPage() {
     try {
       await batch.commit();
       toast.success("Test muvaffaqiyatli nashr qilindi!");
-      router.push("/teacher/dashboard");
+      router.push("/teacher/library/tests");
     } catch (error) {
       toast.error("Nashr qilishda xatolik.");
     } finally {
@@ -612,6 +612,21 @@ export default function MaktabGeneratorPage() {
               </div>
             )}
           </AnimatePresence>
+
+          <AnimatePresence>
+          {isConfigModalOpen && (
+            <TestConfigurationModal 
+              isOpen={isConfigModalOpen}
+              onClose={() => setIsConfigModalOpen(false)}
+              onConfirm={handleFinalPublish}
+              
+              // 🟢 YOU MUST ADD THESE 3 LINES:
+              isSaving={isPublishing} 
+              testTitle={testTitle}
+              questionCount={generatedQuestions.length}
+            />
+          )}
+        </AnimatePresence>,
 
           {/* SUBJECT SELECTION MODAL */}
           <AnimatePresence>
