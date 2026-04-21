@@ -321,11 +321,18 @@ export default function MaktabGeneratorPage() {
           number: "", 
           subject: formattedSubject,
           topic: formattedTopic,
-          chapter: q.chapter,
-          subtopic: q.subtopic,
-          difficulty: q.uiDifficulty.toLowerCase(),
-          difficultyId: q.difficultyId, 
-          tags: ["maktab_ai", q.subtopic.toLowerCase(), q.chapter.toLowerCase()],
+          chapter: q.chapter || "Aralash",
+          subtopic: q.subtopic || "Aralash",
+          
+          // 🟢 FIX: Safely call toLowerCase()
+          difficulty: q.uiDifficulty?.toLowerCase() || "medium",
+          difficultyId: q.difficultyId || 2, 
+          tags: [
+            "maktab_ai", 
+            (q.subtopic || "aralash").toLowerCase(), 
+            (q.chapter || "aralash").toLowerCase()
+          ],
+          
           language: ["uz"],
           solutions: [], 
           uploadedAt: currentTimestampString, 
@@ -362,16 +369,34 @@ export default function MaktabGeneratorPage() {
     const batch = writeBatch(db);
     const finalQuestionsToSave = [];
 
-    const formattedTopic = syllabusData.category;                
-    const formattedSubject = formatSubjectName(selectedSubject); 
+    const formattedTopic = syllabusData?.category || "Maktab Dasturi";                
+const formattedSubject = formatSubjectName(selectedSubject) || "Umumiy"; 
     const currentTimestampString = new Date().toISOString();
 
     for (const q of generatedQuestions) {
       const secureFirebaseId = doc(collection(db, "teacher_questions")).id;
       const finalQ = {
-        ...q, id: `tq_${secureFirebaseId}`, creatorId: user.uid, number: "", 
-        subject: formattedSubject, topic: formattedTopic, chapter: q.chapter, subtopic: q.subtopic, difficulty: q.uiDifficulty.toLowerCase(), difficultyId: q.difficultyId, 
-        tags: ["maktab_ai", q.subtopic.toLowerCase(), q.chapter.toLowerCase()], language: ["uz"], solutions: [], uploadedAt: currentTimestampString, 
+        ...q, 
+        id: `tq_${secureFirebaseId}`, 
+        creatorId: user.uid, 
+        number: "", 
+        subject: formattedSubject, 
+        topic: formattedTopic, 
+        chapter: q.chapter || "Aralash", 
+        subtopic: q.subtopic || "Aralash", 
+        
+        // 🟢 FIX: Safely call toLowerCase()
+        difficulty: q.uiDifficulty?.toLowerCase() || "medium", 
+        difficultyId: q.difficultyId || 2, 
+        tags: [
+          "maktab_ai", 
+          (q.subtopic || "aralash").toLowerCase(), 
+          (q.chapter || "aralash").toLowerCase()
+        ], 
+        
+        language: ["uz"], 
+        solutions: [], 
+        uploadedAt: currentTimestampString, 
       };
       finalQuestionsToSave.push(finalQ);
       batch.set(doc(db, "teacher_questions", finalQ.id), { ...finalQ, createdAt: serverTimestamp() }); 
@@ -613,20 +638,7 @@ export default function MaktabGeneratorPage() {
             )}
           </AnimatePresence>
 
-          <AnimatePresence>
-          {isConfigModalOpen && (
-            <TestConfigurationModal 
-              isOpen={isConfigModalOpen}
-              onClose={() => setIsConfigModalOpen(false)}
-              onConfirm={handleFinalPublish}
-              
-              // 🟢 YOU MUST ADD THESE 3 LINES:
-              isSaving={isPublishing} 
-              testTitle={testTitle}
-              questionCount={generatedQuestions.length}
-            />
-          )}
-        </AnimatePresence>,
+          
 
           {/* SUBJECT SELECTION MODAL */}
           <AnimatePresence>
@@ -742,6 +754,21 @@ export default function MaktabGeneratorPage() {
               </div>
             )}
           </AnimatePresence>
+
+          <AnimatePresence>
+          {isConfigModalOpen && (
+            <TestConfigurationModal 
+              isOpen={isConfigModalOpen}
+              onClose={() => setIsConfigModalOpen(false)}
+              onConfirm={handleFinalPublish}
+              
+              // 🟢 YOU MUST ADD THESE 3 LINES:
+              isSaving={isPublishing} 
+              testTitle={testTitle}
+              questionCount={generatedQuestions.length}
+            />
+          )}
+        </AnimatePresence>
         </>,
         document.body
       )}

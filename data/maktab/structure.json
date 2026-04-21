@@ -3,11 +3,11 @@
   "2-sinf": ["matematika","ona tili","tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik","o'qish savodxonligi"],
   "3-sinf": ["matematika","ona tili","tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik","o'qish savodxonligi"],
   "4-sinf": ["matematika","ona tili","tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik","o'qish savodxonligi"],
-  "5-sinf": ["matematika", "tabiiy fanlar (Science)","ona tili","geografiya","tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik"],
+  "5-sinf": ["matematika", "tabiiy fanlar (Science)","geografiya","tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik"],
   "6-sinf": ["matematika", "tabiiy fanlar (Science)", "tarix", "ona tili", "geografiya", "tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik"],
   "7-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika", "tarbiya","texnologiya","tasviriy san'at","musiqiy savodxonlik"],
   "8-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika", "tarbiya","texnologiya","chizmachilik"],
   "9-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya", "fizika", "tarbiya","texnologiya","chizmachilik"],
-  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "geografiya","fizika", "tarbiya"],
+  "10-sinf": ["algebra", "geometriya", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "geografiya","fizika", "tarbiya"],
   "11-sinf": ["matematika", "biologiya", "kimyo", "o'zbekiston tarixi", "jahon tarixi", "ona tili", "fizika"]
 }
