@@ -22,7 +22,18 @@ export const SIGNUP_TRANSLATIONS = {
     inputs: { email: "Email manzili", username: "Foydalanuvchi nomi", password: "Parol", fullname: "To'liq ism (F.I.O)" },
     buttons: { next: "Keyingi qadam", back: "Ortga", complete: "Ro'yxatdan o'tish", loginLink: "Hisobingiz bormi? Kirish" },
     validation: { fillAll: "Iltimos, barcha maydonlarni to'ldiring.", userTaken: "Bu nom band qilingan.", welcome: "Xush kelibsiz, {role}!" },
-    terms: "Foydalanish shartlari va Maxfiylik siyosatiga roziman."
+    terms: {
+      text1: "Men qabul qilaman: ",
+      link1: "Foydalanish shartlari",
+      text2: " va ",
+      link2: "Maxfiylik siyosatiga",
+      text3: "."
+    },
+    policyModals: {
+      termsTitle: "Foydalanish Shartlari",
+      privacyTitle: "Maxfiylik Siyosati",
+      close: "Yopish"
+    }
   },
   en: {
     steps: {
@@ -37,7 +48,18 @@ export const SIGNUP_TRANSLATIONS = {
     inputs: { email: "Email Address", username: "Username", password: "Password", fullname: "Full Name" },
     buttons: { next: "Next Step", back: "Back", complete: "Complete Registration", loginLink: "Already have an account? Log in" },
     validation: { fillAll: "Please fill in all fields.", userTaken: "Username is taken.", welcome: "Welcome, {role}!" },
-    terms: "I agree to the Terms of Service and Privacy Policy."
+    terms: {
+      text1: "I agree to the ",
+      link1: "Terms of Service",
+      text2: " and ",
+      link2: "Privacy Policy",
+      text3: "."
+    },
+    policyModals: {
+      termsTitle: "Terms of Service",
+      privacyTitle: "Privacy Policy",
+      close: "Close"
+    }
   },
   ru: {
     steps: {
@@ -52,7 +74,18 @@ export const SIGNUP_TRANSLATIONS = {
     inputs: { email: "Эл. почта", username: "Имя пользователя", password: "Пароль", fullname: "Ф.И.О" },
     buttons: { next: "Далее", back: "Назад", complete: "Завершить", loginLink: "Уже есть аккаунт? Войти" },
     validation: { fillAll: "Пожалуйста, заполните все поля.", userTaken: "Имя пользователя занято.", welcome: "Добро пожаловать, {role}!" },
-    terms: "Я согласен с Условиями и Политикой."
+    terms: {
+      text1: "Я согласен с ",
+      link1: "Условиями использования",
+      text2: " и ",
+      link2: "Политикой конфиденциальности",
+      text3: "."
+    },
+    policyModals: {
+      termsTitle: "Условия Использования",
+      privacyTitle: "Политика Конфиденциальности",
+      close: "Закрыть"
+    }
   }
 };
 
