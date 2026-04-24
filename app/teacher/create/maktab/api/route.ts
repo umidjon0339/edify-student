@@ -137,11 +137,28 @@ export async function POST(req: Request) {
     // 🟢 DINAMIK FAN QOIDALARI
     let subjectSpecificRule = "";
     if (["matematika", "fizika", "kimyo", "informatika"].some(s => safeSubject.includes(s))) {
-      subjectSpecificRule = "- Yechilishi kerak bo'lgan amaliy masalalar, tenglamalar yoki mantiqiy hisoblashlarni tuzing. Shunchaki qoidani so'ramang.";
+      subjectSpecificRule = "- Yechilishi kerak bo'lgan amaliy masalalar, tenglamalar yoki mantiqiy hisoblashlarni tuzing.";
     } else if (["tarix", "huquq"].some(s => safeSubject.includes(s))) {
-      subjectSpecificRule = "- Aniq sanalar, tarixiy shaxslar va voqealarning sabab-oqibatlarini tahlil qiluvchi savollar tuzing.";
-    } else if (["ona tili", "ingliz tili", "adabiyot"].some(s => safeSubject.includes(s))) {
-      subjectSpecificRule = "- Grammatika qoidalari, so'z boyligi, tahlil yoki bo'sh joylarni to'ldirishga oid (fill-in-the-blanks) savollar tuzing.";
+      subjectSpecificRule = "- Aniq sanalar, tarixiy shaxslar va voqealarni tahlil qiluvchi savollar tuzing.";
+    } else if (["ona tili"].some(s => safeSubject.includes(s))) {
+      subjectSpecificRule = "- Grammatika qoidalari va tahlilga oid savollar tuzing.";
+    } else if (["english", "ingliz tili", "ingliz"].some(s => safeSubject.includes(s))) {
+      
+      // 🚀 EXTREMELY STRICT ENGLISH RULES
+      subjectSpecificRule = `You MUST generate a diverse mix of exactly these 4 question types. Do not use the same type for all questions.
+
+      THE 4 ALLOWED QUESTION TYPES (t):
+      1. "pure_grammar": Fill-in-the-blanks or choose the correct verb/preposition. 
+      2. "pure_vocab": Match a definition to a word, or logical deduction based on vocabulary. 
+      3. "translate_uz_en": Translate an Uzbek word/phrase into English.
+      4. "translate_en_uz": Translate an English word/phrase into Uzbek.
+
+      CRITICAL LANGUAGE ISOLATION RULES:
+      - If 't' is "pure_grammar" or "pure_vocab": The question (q), options (o), and explanation (e) MUST BE 100% IN ENGLISH. Do NOT use a single word of Uzbek.
+      - If 't' is "translate_uz_en": The question (q) is in Uzbek, but the options (o) MUST be in English.
+      - If 't' is "translate_en_uz": The question (q) is in English, but the options (o) MUST be in Uzbek.
+      - Never use phrases like "in the picture" or "according to the audio".`;
+      
     } else {
       subjectSpecificRule = "- O'quvchini mantiqiy fikrlashga undaydigan va darslikka to'liq mos keladigan savollar tuzing.";
     }

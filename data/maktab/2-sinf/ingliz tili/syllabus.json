@@ -1,0 +1,303 @@
+[
+    {
+  "category": "2-sinf",
+  "subject": "English",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "Unit 0: Hello again",
+      "index": 1,
+      "subtopics": [
+        {
+          "name": "Introductions",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Hello, Goodbye, fine, thank you. 2. Asosiy grammatika: O'zini tanishtirish va hol-ahvol so'rash. 'I'm (ism).', 'How are you? I'm fine, thank you'. MASHQLAR USLUBI: 1. Pure English Format: Dialoglardagi tushirib qoldirilgan so'zlarni mantiqan to'ldirish (Namuna: How ___ you? I am fine. Javob: are). 2. Dictionary Format: 'Men yaxshiman, rahmat', 'Xayr' iboralarining o'zbekcha-inglizcha tarjimasini topish. CHEKLOVLAR: Darslik personajlarining ismlarini yoddan topishga qaratilgan savollar tuzilmasin. Hech qanday vizual rasmlarga ishora qilinmasin."
+        },
+        {
+          "name": "Family",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Oila a'zolari - mom, dad, brother, sister, grandma, grandpa, aunt, uncle, cousin. 2. Asosiy grammatika: Oila a'zolarini ko'rsatib tanishtirish. 'This is my (brother).' MASHQLAR USLUBI: 1. Pure English Format: Mantiqiy qarindoshlik aloqalariga tayanib bo'sh joyni to'ldirish (Masalan: My mom's sister is my ___. Javob: aunt. My dad's dad is my ___. Javob: grandpa). 2. Dictionary Format: Berilgan oila a'zolari nomlarining o'zbekcha tarjimasini topish. CHEKLOVLAR: Darslik ro'yxatida yo'q bo'lgan 'nephew', 'niece', 'parents' kabi so'zlar umuman ishlatilmasin. Rasmga tayanuvchi savollar berilmasin."
+        },
+        {
+          "name": "Alphabet",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Ingliz alifbosi harflari (A dan Z gacha). 2. Asosiy maqsad: Harflar ketma-ketligini va alfavit tartibini to'g'ri bilish. MASHQLAR USLUBI: 1. Pure English Format: Alfavit ketma-ketligidagi tushib qoldirilgan harfni topish (Namuna: A, B, _, D, E. Javob: C. X, _, Z. Javob: Y). 2. Dictionary Format: Ingliz alifbosidagi unli yoki undosh harflarni to'g'ri sanash yoki tartiblashga oid o'zbekcha mantiqiy savollar. CHEKLOVLAR: Transkripsiya (IPA) belgilari testda so'ralmasin. Faqat ochiq harflar qatnashsin."
+        },
+        {
+          "name": "What's this?",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Maktab anjomlari - pen, pencil, book, bag. 2. Asosiy grammatika: Yaqindagi birlik narsani so'rash va unga javob berish. 'What's this? It's a (book).' MASHQLAR USLUBI: 1. Pure English Format: 'What', 'this', 'It's' yoki 'a' artiklini to'g'ri joylashtirish (Namuna: ___ is this? It is a pen. Javob: What. What's this? It ___ a bag. Javob: is). 2. Dictionary Format: 'Bu nima? Bu sumka' kabi qisqa so'roq-javob gaplarining inglizcha tarjimasini topish. CHEKLOVLAR: Uzoqni ko'rsatuvchi 'That' va ko'plikdagi 'These/Those' bu subtopikda so'ralmasin. Faqat 'this' va ko'rsatilgan 4 ta anjom doirasida qoling."
+        },
+        {
+          "name": "Play together (Value)",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Story Value): Birgalikda o'ynash va hamkorlik. 'Play together', 'Let's play', 'Good idea'. 2. Asosiy maqsad: Taklif bildiruvchi iboralarni mantiqan to'g'ri qo'llash. MASHQLAR USLUBI: 1. Pure English Format: Taklif va rozi bo'lish gaplarini to'ldirish (Namuna: ___ play together! Javob: Let's. Good ___. Javob: idea). 2. Dictionary Format: 'Birga o'ynaymiz', 'Yaxshi fikr' kabi qadriyatga oid gaplarning to'g'ri tarjimasini topish. CHEKLOVLAR: Darslikdagi komiks personajlarining harakatlari haqida syujetga asoslangan xotira savollari berilmasin."
+        },
+        {
+          "name": "Pronunciation: r and l",
+          "index": 6,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'r' va 'l' tovushlari qatnashgan maxsus so'zlar: red, rabbit, run, leg, lion, look. 2. Asosiy maqsad: /r/ va /l/ tovushlari kelgan so'zlarni imloda va ma'noda farqlash. MASHQLAR USLUBI: 1. Pure English Format: So'zlarga r yoki l harflaridan mantiqan va imlo jihatdan mosini qo'yish (Namuna: A _ed _abbit can _un. Javob: r, r, r. A _ion has _egs. Javob: l, l). 2. Dictionary Format: Ushbu fonetika darsiga kiritilgan so'zlarning (quyon, sher, yugurmoq, oyoq) o'zbekcha tarjimasini topish. CHEKLOVLAR: Boshqa r va l harfli, lekin ro'yxatda yo'q so'zlar kiritilmasin."
+        },
+        {
+          "name": "Exam 1 (Unit 0)",
+          "index": 7,
+          "context": "MAVZU QOIDALARI: Unit 0 dagi barcha leksika va grammatikani umumlashtirish. Asosiy leksika: Hello, Goodbye, fine, thank you, mom, dad, brother, sister, grandma, grandpa, aunt, uncle, cousin, pen, pencil, book, bag, red, rabbit, run, leg, lion, look. Asosiy grammatika: I'm..., How are you?, This is my..., What's this? It's a... MASHQLAR USLUBI: Barcha formatlarning sintezi (Pure English + Dictionary format). CHEKLOVLAR: Keyingi bo'limlarning (transport, hayvonlar) so'zlari aralashtirilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 1: Transportation",
+      "index": 2,
+      "subtopics": [
+        {
+          "name": "Transportation",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Transport vositalari - boat, bus, car, helicopter, motorcycle, plane, tractor, train, truck. 2. Asosiy maqsad: Transport turlarining yozilishini va ma'nosini to'liq bilish. MASHQLAR USLUBI: 1. Pure English Format: Transport nomlaridagi harflar ketma-ketligini to'g'rilash (anagramma) yoki mantiqan ifodalash (It flies in the sky. It is a ___. Javob: plane/helicopter. It works on a farm. It is a ___. Javob: tractor). 2. Dictionary Format: 'Qayiq', 'yuk mashinasi', 'vertolyot' kabi nomlarning inglizcha tarjimasini topish. CHEKLOVLAR: Darslikka kiritilmagan transport turlari (ship, subway, taxi) umuman ishlatilmasin."
+        },
+        {
+          "name": "She has / He has",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Transport vositalari - boat, bus, car, helicopter, motorcycle, plane, tractor, train, truck. 2. Asosiy grammatika: Uchinchi shaxs birlikda (he/she) egalikni ifodalash. 'He has a (car).', 'She has a (plane).' Va ularning so'roq shakli: 'Does he have a (bus)? Yes, he does / No, he doesn't.' MASHQLAR USLUBI: 1. Pure English Format: 'He' yoki 'She' olmoshlaridan keyin darak gaplarda 'has' fe'lini qo'llashni tekshirish (He ___ a boat. Javob: has). So'roq gaplarda 'Does' va qisqa javobda 'does/doesn't' ni to'g'ri joylashtirish (___ she have a train? No, she ___. Javob: Does / doesn't). 2. Dictionary Format: 'Unda (qiz bolada) mototsikl bor', 'Unda (o'g'il bolada) traktor bormi?' gaplarining tarjimasini so'rash. CHEKLOVLAR: 'I have' yoki 'You have' kabi 1/2-shaxslar bu dars qoidasiga kiritilmasin."
+        },
+        {
+          "name": "Take turns (Value)",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): Navbat kutish va almashish qadriyati. 'Take turns', 'My turn', 'Your turn', 'Here you are'. 2. Asosiy maqsad: O'yin yoki faoliyat davomida navbatlashish iboralarini to'g'ri ishlata olish. MASHQLAR USLUBI: 1. Pure English Format: Muloqotdagi egalik sifatlari yoki fe'llarni mantiqan to'ldirish (Namuna: It is ___ turn. Javob: my/your. ___ you are. Javob: Here). 2. Dictionary Format: 'Mening navbatim', 'Sening navbating', 'Navbat bilan bajaring' iboralarining to'g'ri o'zbekcha tarjimasini belgilash. CHEKLOVLAR: Hech qanday rasm tasvirlab berilmasin."
+        },
+        {
+          "name": "Pronunciation: g and h",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'g' va 'h' tovushlari qatnashgan so'zlar: goat, girl, green, hat, house, horse. 2. Asosiy maqsad: /g/ va /h/ tovushlari bor so'zlarni imloda aniq farqlash. MASHQLAR USLUBI: 1. Pure English Format: Bo'sh joylarga mantiqan 'g' yoki 'h' harfini to'g'ri qo'yish (Namuna: A _oat in a _ouse. Javob: g, h. A _irl with a _at. Javob: g, h). 2. Dictionary Format: Ushbu qoidaga tegishli so'zlarning (echki, shlyapa, ot, qiz) tarjimasini topish. CHEKLOVLAR: /dʒ/ deb o'qiladigan g harfi qatnashgan so'zlar (giraffe) kiritilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 2: Pets",
+      "index": 3,
+      "subtopics": [
+        {
+          "name": "Pets",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Uy hayvonlari va bolalari - baby, bird, cat, dog, fish, frog, mouse, puppy, rabbit, turtle. 2. Asosiy maqsad: Hayvon nomlarining imlosini va ma'nosini to'g'ri o'zlashtirish. MASHQLAR USLUBI: 1. Pure English Format: Hayvon nomidagi tushib qoldirilgan unlilarni to'ldirish yoki harflari aralashgan so'zni to'g'rilash (r_bb_t -> rabbit, p_pp_ -> puppy). 2. Dictionary Format: 'Toshbaqa', 'kuchukcha', 'baqa' kabi so'zlarning o'zbekchadan inglizchaga tarjimasini so'rash. CHEKLOVLAR: Yovvoyi hayvonlar (lion, elephant) bu guruhga aslo qo'shilmasin."
+        },
+        {
+          "name": "Plural nouns",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: cats, dogs, frogs, rabbits, turtles, mice (mouse ko'pligi), puppies (puppy ko'pligi), fish (ko'pligi o'zgarmaydi). 2. Asosiy grammatika: Birlik (One cat) va ko'plik (Two cats) otlarni to'g'ri farqlash. Noto'g'ri otlarning qoidalari (mouse -> mice, fish -> fish). MASHQLAR USLUBI: 1. Pure English Format: Miqdor ko'rsatkichiga qarab otdan to'g'ri ko'plik yasash (Namuna: One mouse, three ___. Javob: mice. One puppy, four ___. Javob: puppies. One fish, two ___. Javob: fish). 2. Dictionary Format: Ko'plikdagi hayvonlarning (masalan: sichqonlar, kuchukchalar) tarjimasini topish. CHEKLOVLAR: Darslik ro'yxatidan tashqaridagi murakkab istisno otlar (geese, oxen) so'ralmasin."
+        },
+        {
+          "name": "Adjectives",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Sifatlar - big, small, long, short; Hayvonlar - bird, cat, dog, fish, frog, mouse, puppy, rabbit, turtle. 2. Asosiy grammatika: Sifatlarni otdan oldin ishlatib tasvirlash ('A big dog', 'A long snake'). MASHQLAR USLUBI: 1. Pure English Format: Qarama-qarshi sifatlarni mantiqan joylashtirish (big antonimi -> small, long antonimi -> short) yoki sifatlarni ot oldiga to'g'ri biriktirish. 2. Dictionary Format: 'Kichkina quyon', 'Uzun baliq' kabi Sifat+Ot iboralarining o'zbekcha tarjimasini topish. CHEKLOVLAR: Darslikda berilmagan sifatlar (dangerous, beautiful) ishlatilmasin."
+        },
+        {
+          "name": "Yes, it is. No, it isn't",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Hayvonlar - bird, cat, dog, fish, frog, mouse, puppy, rabbit, turtle. 2. Asosiy grammatika: Birlikdagi jonsiz yoki hayvonni aniqlash uchun so'roq va qisqa javob. 'Is it a (frog)? Yes, it is. / No, it isn't.' MASHQLAR USLUBI: 1. Pure English Format: 'Is it' so'rog'ini yoki javobdagi 'is/isn't' inkor fe'lini to'g'ri joylashtirish (Namuna: ___ it a cat? No, it ___. Javob: Is / isn't). 2. Dictionary Format: 'Bu toshbaqami? Yo'q, unday emas' gapining inglizcha tarjimasini topish. CHEKLOVLAR: Ko'plik shaklidagi 'Are they...?' so'rovlari bu yerda qo'llanilmasin."
+        },
+        {
+          "name": "Be helpful (Value)",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): Yordamkashlik va boshqalarga ko'maklashish. 'Be helpful', 'I can help'. MASHQLAR USLUBI: 1. Pure English Format: Qadriyat iborasidagi so'zni mantiqan to'ldirish (Be ___. Javob: helpful). 2. Dictionary Format: 'Yordamkash bo'ling' iborasining to'g'ri tarjimasini belgilash. CHEKLOVLAR: Voqealar rivojiga asoslangan komiks savollari kiritilmasin."
+        },
+        {
+          "name": "Pronunciation: f and v",
+          "index": 6,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'f' va 'v' tovushlari qatnashgan so'zlar: fish, frog, five, van, vet, volcano. 2. Asosiy maqsad: Jarangli /v/ va jarangsiz /f/ tovushlarini so'z ichida to'g'ri topish. MASHQLAR USLUBI: 1. Pure English Format: So'zlarga f yoki v harfini imloga ko'ra mantiqan joylashtirish (Namuna: A _et has _ive _rogs. Javob: v, f, f). 2. Dictionary Format: 'Vulqon', 'veterinar', 'baqa' so'zlarining inglizcha tarjimasini so'rash. CHEKLOVLAR: 'w' harfiga oid chalg'ituvchi so'zlar kiritilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 3: Clothes",
+      "index": 4,
+      "subtopics": [
+        {
+          "name": "Clothes",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Kiyimlar - boots, dress, hat, jacket, pants, shirt, shoes, skirt, socks, T-shirt. 2. Asosiy maqsad: Kiyim-kechak nomlarini farqlash, ayniqsa doimiy ko'plikda keladigan otlarni (pants, shoes, socks, boots) bilish. MASHQLAR USLUBI: 1. Pure English Format: Kiyim nomining harflarini tartibga solish yoki inson tanasining qaysi qismiga kiyilishiga qarab kiyimni topish (Namuna: You wear them on your feet. Javob: shoes/boots/socks). 2. Dictionary Format: 'Ko'ylak', 'tuflilar', 'shim', 'kurtka' kabi so'zlarning to'g'ri o'zbekcha/inglizcha tarjimasini topish. CHEKLOVLAR: 'Sweater', 'coat', 'jeans' kabi darslikdan tashqari atamalar ishlatilmasin."
+        },
+        {
+          "name": "What are you wearing?",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: boots, dress, hat, jacket, pants, shirt, shoes, skirt, socks, T-shirt. 2. Asosiy grammatika: Hozirgi davomiy zamonda 2-shaxsdan ustidagi kiyimni so'rash va 1-shaxsda javob berish. 'What are you wearing? I'm wearing a (skirt).' yoki ko'plikdagi kiyimlar uchun artiklsiz 'I'm wearing (pants).' MASHQLAR USLUBI: 1. Pure English Format: 'wearing' fe'lini, yordamchi 'are/am' fe'llarini va 'a' artiklining o'rnini tekshirish (Namuna: What ___ you wearing? I ___ wearing a hat. Javob: are / am. I am wearing ___ jacket. Javob: a). 2. Dictionary Format: 'Sen nima kiyib olgansan?', 'Men shim kiyib olganman' gaplarining tarjimasini aniqlash. CHEKLOVLAR: 3-shaxs birlikdagi ('What is he wearing?') so'roq-javoblar tuzilmasin."
+        },
+        {
+          "name": "Yes, I am. No, I'm not",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Kiyim turlari. 2. Asosiy grammatika: Hozirgi davomiy zamonda egnidagi kiyimni qisqa so'rash va tasdiqlash. 'Are you wearing a (hat)? Yes, I am. / No, I'm not.' MASHQLAR USLUBI: 1. Pure English Format: 'Are you' savol strukturasi va javobdagi inkor 'not' qismini mantiqan to'ldirish (Namuna: ___ you wearing a shirt? No, I am ___. Javob: Are / not). 2. Dictionary Format: 'Sen yubka kiyib olganmisan? Ha' kabi qisqa muloqot tarjimasini so'rash. CHEKLOVLAR: Hozirgi oddiy zamondagi 'Do you wear...?' strukturalari qo'shilmasin."
+        },
+        {
+          "name": "Share things (Value)",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): Narsalarni bo'lishish va baham ko'rish. 'Share things', 'Here', 'Thank you'. MASHQLAR USLUBI: 1. Pure English Format: Bo'lishishga oid iboralarni mantiqan joyiga qo'yish (Namuna: ___ things. Javob: Share. Here you are. - ___ you. Javob: Thank). 2. Dictionary Format: 'Narsalarni bo'lishing' gapining inglizcha tarjimasini topish. CHEKLOVLAR: Hech qanday rasmlar ta'riflanmasin."
+        },
+        {
+          "name": "Pronunciation: j and y",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'j' va 'y' tovushlari /dʒ/ va /j/ talaffuzi qatnashgan so'zlar: jump, jacket, juice, yo-yo, yogurt, yellow. MASHQLAR USLUBI: 1. Pure English Format: j va y harflaridan mosini so'zga yozish (Namuna: A _ellow _acket. Javob: y, j. I like _ogurt and _uice. Javob: y, j). 2. Dictionary Format: 'Sharbat', 'sariq', 'sakramoq' so'zlarining inglizcha tarjimasini so'rash. CHEKLOVLAR: Fonetik transkripsiya (IPA) ishlatilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 4: Rooms",
+      "index": 5,
+      "subtopics": [
+        {
+          "name": "Rooms",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Uy xonalari - bathroom, bedroom, dining room, hall, kitchen, living room. 2. Asosiy maqsad: Uy xonalari nomlarining imlosi va mantiqiy vazifasini o'zlashtirish. MASHQLAR USLUBI: 1. Pure English Format: Kundalik yumush orqali xonani topish (Namuna: You cook food in the ___. Javob: kitchen. You wash your hands in the ___. Javob: bathroom. You sleep in the ___. Javob: bedroom). 2. Dictionary Format: Xonalarning (oshxona, mehmonxona, yotoqxona) o'zbekcha tarjimasini topish. CHEKLOVLAR: 'Attic', 'basement', 'garage' kabi qo'shimcha xonalar kiritilmasin."
+        },
+        {
+          "name": "There's / There are",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: bathroom, bedroom, dining room, hall, kitchen, living room, bed, chair, table (tayanch narsalar). 2. Asosiy grammatika: Mavjudlikni bildiruvchi 'There is' (birlik uchun) va 'There are' (ko'plik uchun) qoidalari. 'There's a (bed) in the bedroom.', 'There are two (chairs) in the kitchen.' MASHQLAR USLUBI: 1. Pure English Format: Otning birlik yoki ko'pligiga qarab 'is' / 'are' ni tanlash yoxud 'There' so'zini joylashtirish (Namuna: ___ are two tables. Javob: There. There ___ a bed. Javob: is). 2. Dictionary Format: 'Oshxonada ikkita stul bor' gapining to'g'ri inglizcha tarjimasini belgilash. CHEKLOVLAR: Inkor shakllari (There isn't / There aren't) darslikning bu mavzusida so'ralmasin, asosan darak gaplar qiling."
+        },
+        {
+          "name": "How many?",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Xonalar nomlari va sonlar. 2. Asosiy grammatika: Miqdorni 'How many' yordamida so'rash. 'How many (rooms) are there? There are (three).' MASHQLAR USLUBI: 1. Pure English Format: So'roq tuzilmasidagi 'How many' yoki 'are there' so'zlarining o'rnini topish (Namuna: How ___ bedrooms ___ there? Javob: many / are). 2. Dictionary Format: 'U yerda nechta yotoqxona bor?' kabi so'roq gaplarning tarjimasini topish. CHEKLOVLAR: Sanalmaydigan otlarga oid 'How much' umuman kiritilmasin."
+        },
+        {
+          "name": "Be tidy (Value)",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): Xonalarni toza saqlash va ozoda bo'lish qadriyati. 'Be tidy', 'Put away your toys'. MASHQLAR USLUBI: 1. Pure English Format: Qadriyat iborasini to'ldirish (Be ___. Javob: tidy. Put ___ your toys. Javob: away). 2. Dictionary Format: 'Ozoda bo'ling', 'O'yinchoqlaringni yig'ishtirib qo'y' so'zlarining tarjimasini topish. CHEKLOVLAR: Xotiraga asoslangan hikoya tafsilotlari so'ralmasin."
+        },
+        {
+          "name": "Pronunciation: m and n",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): Burun tovushlari 'm' va 'n' kelgan so'zlar: mouse, monkey, milk, nine, nose, nut. MASHQLAR USLUBI: 1. Pure English Format: So'zlarning bosh harfi sifatida 'm' yoki 'n' harfini mantiqan joylashtirish (Namuna: A _onkey has a _ose. Javob: m, n. _ine _ice. Javob: n, m). 2. Dictionary Format: Fonetik qoidadagi so'zlarning (maymun, yong'oq, to'qqiz, burun) tarjimasini so'rash. CHEKLOVLAR: Rasmlar asosida harf topish kiritilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 5: Meals",
+      "index": 6,
+      "subtopics": [
+        {
+          "name": "Food and Meals",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Oziq-ovqatlar va ovqatlanish vaqtlari - breakfast, lunch, dinner, beans, carrots, cereal, fish, meat, peas, potatoes, rice, sausages. 2. Asosiy maqsad: Oziq-ovqat nomlarini o'zlashtirish hamda ularning yozilishini to'g'ri bilish. MASHQLAR USLUBI: 1. Pure English Format: Oziq-ovqat nomining mantiqiy guruhini yoki tushirib qoldirilgan harflarini topish (Namuna: Carrots and peas are ___. Javob: vegetables. r_c_ -> rice). 2. Dictionary Format: 'Nonushta', 'tushlik', 'kechki ovqat', 'guruch', 'go'sht' kabi kundalik so'zlarning o'zbekcha-inglizcha tarjimasini topish. CHEKLOVLAR: Darslik ro'yxatida yo'q bo'lgan 'pasta', 'soup', 'bread' kabi qo'shimcha atamalar ishlatilmasin."
+        },
+        {
+          "name": "likes / doesn't like",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Oziq-ovqatlar - beans, carrots, cereal, fish, meat, peas, potatoes, rice, sausages. 2. Asosiy grammatika: Uchinchi shaxs birlikda (he/she) yoqtirish va yoqtirmaslikni darak/inkor gaplarda ifodalash. 'He likes (fish).', 'She doesn't like (meat).' MASHQLAR USLUBI: 1. Pure English Format: 3-shaxs uchun 'likes' va 'doesn't like' fe'llarini mantiqan va grammatik jihatdan to'g'ri joylashtirish (Namuna: He ___ carrots. Javob: likes. She ___ like beans. Javob: doesn't). 2. Dictionary Format: 'U (o'g'il bola) baliqni yaxshi ko'radi', 'U (qiz bola) go'shtni yoqtirmaydi' kabi gaplarning tarjimasini so'rash. CHEKLOVLAR: 1 va 2-shaxs ('I like', 'You like') aralashtirilmasin, chunki asosiy e'tibor 3-shaxs qoidasida."
+        },
+        {
+          "name": "Does she/he like?",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Oziq-ovqatlar ro'yxati (beans, carrots, cereal, fish, meat, peas, potatoes, rice, sausages). 2. Asosiy grammatika: Uchinchi shaxs birlikda (he/she) so'roq tuzish va qisqa javob berish. 'Does he like (rice)? Yes, he does. / No, he doesn't.' MASHQLAR USLUBI: 1. Pure English Format: So'roq gap boshidagi 'Does' yordamchi fe'lini, yoxud qisqa javoblardagi 'does/doesn't' so'zlarini to'ldirish (Namuna: ___ she like peas? Yes, she ___. Javob: Does / does. No, he ___. Javob: doesn't). 2. Dictionary Format: 'U guruchni yaxshi ko'radimi? Yo'q' kabi muloqot gaplarining tarjimasini topish. CHEKLOVLAR: 'Do' yordamchi fe'liga oid savollar kiritilmasin."
+        },
+        {
+          "name": "Eat healthy food (Value)",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): Sog'lom ovqatlanish qadriyati. 'Eat healthy food', 'This is good for you', 'Breakfast is important'. 2. Asosiy maqsad: Foydali va sog'lom oziq-ovqatni targ'ib qiluvchi iboralarni ishlata bilish. MASHQLAR USLUBI: 1. Pure English Format: Sog'lom ovqatlanish iboralarini mantiqan to'ldirish (Namuna: Eat ___ food. Javob: healthy. It is ___ for you. Javob: good). 2. Dictionary Format: 'Sog'lom ovqatlaning', 'Bu siz uchun foydali' iboralarining tarjimasini topish. CHEKLOVLAR: Murakkab biologik terminlar yoki diyetaga oid so'zlar kiritilmasin."
+        },
+        {
+          "name": "Pronunciation: s and z",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 's' va 'z' harflari (tovushlari) qatnashgan so'zlar: sun, sad, snake, zoo, zebra, zero. 2. Asosiy maqsad: Jarangsiz /s/ va jarangli /z/ tovushlarini imloda farqlash. MASHQLAR USLUBI: 1. Pure English Format: Berilgan so'zlarga mantiqan mos 's' yoki 'z' harfini joylashtirish (Namuna: A _ebra in the _oo. Javob: z, z. A _ad _nake. Javob: s, s). 2. Dictionary Format: Fonetika mashqida berilgan so'zlarning (quyosh, xafa, ilon, hayvonot bog'i, nol) o'zbekcha tarjimasini topish. CHEKLOVLAR: Boshqa bo'g'in va tovushlar aralashtirilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 6: Activities",
+      "index": 7,
+      "subtopics": [
+        {
+          "name": "Activities",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Harakatlar va o'yin faoliyatlari - catch, fly, hit, jump, kick, ride, run, throw. 2. Asosiy maqsad: Jismoniy harakatlarni ifodalovchi asosiy fe'llarning ma'nosi va yozilishini bilish. MASHQLAR USLUBI: 1. Pure English Format: Tana a'zolari yordamida qilinadigan mantiqiy harakatni topish yoxud sport anjomiga qarab fe'lni tanlash (Namuna: You ___ a ball with your foot. Javob: kick. You ___ a ball with your hands. Javob: catch/throw). 2. Dictionary Format: 'Ushlab olmoq', 'tepmoq', 'otmoq', 'sakramoq' kabi fe'llarning tarjimasini topish. CHEKLOVLAR: 'Play', 'do', 'go' fe'llari umuman qo'shilmasin, faqat darslikdagi maxsus jismoniy harakatlar ishlatilsin."
+        },
+        {
+          "name": "I can / I can't",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Harakat fe'llari - catch, fly, hit, jump, kick, ride, run, throw. 2. Asosiy grammatika: Qobiliyatni ifodalovchi 'can' (qila olaman) va 'can't' (qila olmayman) modal fe'llarining qo'llanilishi. 'I can (jump)', 'I can't (fly)'. MASHQLAR USLUBI: 1. Pure English Format: Mantiqiy imkoniyatga baho berib 'can' yoki 'can't' ni joylashtirish (Namuna: I have no wings. I ___ fly. Javob: can't. I have two legs. I ___ run. Javob: can). 2. Dictionary Format: 'Men yugura olaman', 'Men ucha olmayman' gaplarining tarjimasini so'rash. CHEKLOVLAR: 3-shaxs ('He can', 'She can't') aralashtirilmasin."
+        },
+        {
+          "name": "I like (swim)ing / Does she like?",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Harakat fe'llari (catch, fly, hit, jump, kick, ride, run, throw, swim). 2. Asosiy grammatika: Biror harakatni bajarishni yoqtirishni 'like + V-ing' orqali ifodalash va u haqida so'rash. 'I like (swimming)', 'Does he like (running)? Yes, he does / No, he doesn't.' MASHQLAR USLUBI: 1. Pure English Format: 'like' fe'lidan keyin asosiy fe'lga '-ing' qo'shimchasini qo'shish yoki so'roq qolipini to'ldirish (Namuna: I like ___. Javob: jumping. ___ she like running? Javob: Does). 2. Dictionary Format: 'Men suzishni yoqtiraman', 'U yugurishni yaxshi ko'radimi?' gaplarining tarjimasini topish. CHEKLOVLAR: Imlo istisnolari (masalan, running so'zidagi qo'sh 'n') o'quvchilarga qiyin bo'lmaydigan darajada berilishi kerak."
+        },
+        {
+          "name": "Play nicely (Value)",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): O'yin davomida ahil va adolatli o'ynash qadriyati. 'Play nicely', 'Good catch', 'Thank you', 'Well done'. 2. Asosiy maqsad: Sport va o'yin vaqtidagi maqtov va rag'batlantirish iboralarini ishlatish. MASHQLAR USLUBI: 1. Pure English Format: Dalda berish va ahillik iboralarini to'ldirish (Namuna: Play ___. Javob: nicely. Well ___. Javob: done). 2. Dictionary Format: 'Ahil o'ynang', 'Barakalla', 'Yaxshi ushlading' iboralarining o'zbekcha tarjimasini topish. CHEKLOVLAR: Hikoyaning o'ziga xos voqealari asosida test yozilmasin."
+        },
+        {
+          "name": "Pronunciation: c and k",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'c' va 'k' harflarining /k/ tarzida o'qilishiga oid so'zlar: cat, car, cow, kite, kangaroo, key. 2. Asosiy maqsad: Ikkala harf ham /k/ tovushini berishini tushunib, to'g'ri imloni bilish. MASHQLAR USLUBI: 1. Pure English Format: 'c' yoki 'k' harflaridan so'zning imlosiga qarab to'g'risini joylashtirish (Namuna: A _at drives a _ar. Javob: c, c. A _angaroo with a _ite. Javob: k, k). 2. Dictionary Format: 'Kalit', 'sigir', 'avtomobil', 'varrak' so'zlarining inglizcha tarjimasini so'rash. CHEKLOVLAR: 'c' harfi /s/ deb o'qiladigan so'zlar (city, ice) testga mutlaqo kiritilmasin."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 7: In town",
+      "index": 8,
+      "subtopics": [
+        {
+          "name": "Places in town",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Shahar infratuzilmasi va joylari - cafe, hospital, library, movie theater, park, school, store, street, swimming pool, train station. 2. Asosiy maqsad: Binolarning maqsadi, funksiyasi va ularning nomlarini to'g'ri bog'lash. MASHQLAR USLUBI: 1. Pure English Format: Muassasaning vazifasiga asoslangan ta'rif berib uni topish (Namuna: You read books here. It is a ___. Javob: library. Doctors work here. It is a ___. Javob: hospital). 2. Dictionary Format: 'Kutubxona', 'shifoxona', 'kinoteatr', 'poyezd stansiyasi' kabi so'zlarning inglizcha tarjimasini aniqlash. CHEKLOVLAR: 'Supermarket', 'police station', 'bank' kabi darslikdan tashqari atamalarni ishlatmang."
+        },
+        {
+          "name": "Where?",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: cafe, hospital, library, movie theater, park, school, store, street, swimming pool, train station. 2. Asosiy grammatika: Joylashuvni qisqa tarzda 'Where's' bilan so'rash va unga javob berish. 'Where's the (park)? It's in the (street).' MASHQLAR USLUBI: 1. Pure English Format: 'Where' so'roq so'zini, 'the' artiklini yoki 'in' predlogini mantiqan joylashtirish (Namuna: ___ is the library? It is ___ the street. Javob: Where / in). 2. Dictionary Format: 'Kutubxona qayerda? U ko'chada' so'roq-javobining inglizcha tarjimasini topish. CHEKLOVLAR: 'Next to', 'behind', 'between' kabi predloglar aralashtirilmasin, 'Where/in' qoidasi yetarli."
+        },
+        {
+          "name": "Is there a...?",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Shahar joylari (hospital, library, park, etc.). 2. Asosiy grammatika: Qandaydir joy bor yoki yo'qligini so'rash. 'Is there a (cafe)? Yes, there is. / No, there isn't.' MASHQLAR USLUBI: 1. Pure English Format: 'Is there' qurilmasi qismlarini yoki qisqa javoblarni to'ldirish (Namuna: ___ there a hospital? Yes, there ___. Javob: Is / is. No, there ___. Javob: isn't). 2. Dictionary Format: 'Bu yerda park bormi? Yo'q' shaklidagi dialogning tarjimasini topish. CHEKLOVLAR: Ko'plikdagi 'Are there any...?' strukturasi umuman qo'shilmasin."
+        },
+        {
+          "name": "Be safe (Value)",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): Ko'chada xavfsizlik va ehtiyotkorlik. 'Be safe', 'Look left and right', 'Stop'. 2. Asosiy maqsad: Xavfsizlik bo'yicha eng muhim yo'l-yo'riq iboralarini farqlash. MASHQLAR USLUBI: 1. Pure English Format: Buyruq gaplardagi fe'l yoki mantiqiy qismni topish (Namuna: ___ left and right. Javob: Look. Be ___. Javob: safe). 2. Dictionary Format: 'Xavfsiz bo'ling', 'O'ngga va chapga qarang', 'To'xtang' so'zlarining tarjimasini belgilash. CHEKLOVLAR: Yo'l harakati qoidalariga oid chuqurlashtirilgan atamalar kiritilmasin."
+        },
+        {
+          "name": "Pronunciation: q and x",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'q' /kw/ va 'x' /ks/ tovushlari qatnashgan so'zlar: queen, quiet, quack, fox, box, six. 2. Asosiy maqsad: Q va X harflarini o'z o'rnida ishlata bilish. MASHQLAR USLUBI: 1. Pure English Format: Harflarni mantiqan to'g'ri joylashtirish (Namuna: A fo_ in a bo_. Javob: x, x. A _uiet _ueen. Javob: q, q). 2. Dictionary Format: 'Qirolicha', 'tulki', 'quti', 'jim/tinch' so'zlarining o'zbekcha-inglizcha tarjimasini so'rash. CHEKLOVLAR: Rasmsiz, faqat o'qiladigan matnga suyaning."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 8: On the farm",
+      "index": 9,
+      "subtopics": [
+        {
+          "name": "Farm animals",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Ferma muhiti va hayvonlari - barn, cow, donkey, duck, field, goat, horse, pond, sheep. 2. Asosiy maqsad: Ferma hayvonlari nomlarini imlo va mantiq asosida to'g'ri farqlash. MASHQLAR USLUBI: 1. Pure English Format: Hayvonning qanday ovoz chiqarishi, nima berishi yoki yashash muhiti orqali uning nomini topish (Namuna: It gives milk. It is a ___. Javob: cow. It swims in a pond. It is a ___. Javob: duck). 2. Dictionary Format: 'Eshak', 'qo'y', 'ot', 'hovuz', 'omborxona' so'zlarining inglizcha tarjimasini topish. CHEKLOVLAR: Yovvoyi (jungle) hayvonlari bu muhitga qo'shilmasin."
+        },
+        {
+          "name": "What's it doing?",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Ferma hayvonlari (cow, duck, goat, horse, sheep, etc.). 2. Asosiy grammatika: Hozirgi davomiy zamonda bitta hayvonning qanday harakat qilayotganini so'rash va tasvirlash. 'What's it doing? It's (eating).' MASHQLAR USLUBI: 1. Pure English Format: So'roqdagi 'doing' fe'lini va darak gapdagi asosiy fe'lga qo'shiladigan '-ing' qo'shimchasini to'g'ri yozish (Namuna: What is it ___? Javob: doing. The horse is runn___. Javob: ing). 2. Dictionary Format: 'U (hayvon) nima qilyapti?', 'U uxlab yotibdi' kabi gaplarning tarjimasini aniqlash. CHEKLOVLAR: Odamlarga nisbatan (What is he doing?) shakli bu joyda test qilinmasin."
+        },
+        {
+          "name": "Is it (sleep)ing?",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika: Ferma hayvonlari ro'yxati. 2. Asosiy grammatika: Hozirgi davomiy zamonda hayvonning harakatini tasdiqlash uchun so'roq va qisqa javob. 'Is it (sleeping)? Yes, it is. / No, it isn't.' MASHQLAR USLUBI: 1. Pure English Format: 'Is it' bilan boshlanuvchi so'roq va uning qisqa javobini to'ldirish (Namuna: ___ it flying? No, it ___. Javob: Is / isn't). 2. Dictionary Format: 'U sakrayaptimi? Ha' muloqotining inglizcha tarjimasini topish. CHEKLOVLAR: Ko'plikdagi hayvonlarga nisbatan 'Are they doing...?' umuman ishlatilmasin."
+        },
+        {
+          "name": "Love your home (Value)",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Value): O'z yashab turgan uyingni/muhitingni sevish qadriyati. 'Love your home', 'This is my home'. 2. Asosiy maqsad: Vatanparvarlik va uyni qadrlash iboralarini tushunish. MASHQLAR USLUBI: 1. Pure English Format: Qadriyat doirasidagi iboralarni to'ldirish (Namuna: ___ your home. Javob: Love). 2. Dictionary Format: 'O'z uyingni sev', 'Bu mening uyim' gaplarining tarjimasini so'rash. CHEKLOVLAR: Komiks voqealari asosida test yozilmasin."
+        },
+        {
+          "name": "Pronunciation: w",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Asosiy leksika (Phonics): 'w' /w/ tovushi kelgan maxsus so'zlar: window, water, walk. 2. Asosiy maqsad: 'w' harfining o'qilishini bilish va uni to'g'ri joylashtirish. MASHQLAR USLUBI: 1. Pure English Format: 'w' harfini to'g'ri so'z boshiga joylashtirish (Namuna: Drink _ater near the _indow. Javob: w, w). 2. Dictionary Format: 'Suv', 'deraza', 'yurmoq' so'zlarining inglizcha tarjimasini topish. CHEKLOVLAR: O'qilmaydigan 'w' qatnashgan (write, wrong) chalg'ituvchi so'zlar qo'shilmasin."
+        },
+        {
+          "name": "Exam 8 (Unit 4-8)",
+          "index": 6,
+          "context": "MAVZU QOIDALARI: 2-yarim yillikning barcha (Unit 4, 5, 6, 7, 8) materiallari takrorlanishi. Xonalar (There is/are), Oziq-ovqat (likes/doesn't like), Harakatlar (I like swimming, can), Shahar joylari (Where, Is there), Ferma hayvonlari (What's it doing?) aralash formatda keladi. MASHQLAR USLUBI: Barcha formatlarning sintezi (Pure English + Dictionary). CHEKLOVLAR: Darslikning 1-yarim yilligidan ham test olish mumkin, ammo murakkab darslikdan tashqari qoidalar so'ralmaydi."
+        }
+      ]
+    }
+  ]
+}
+]

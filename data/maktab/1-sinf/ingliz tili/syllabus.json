@@ -1,0 +1,228 @@
+[
+{
+  "category": "1-sinf",
+  "subject": "English",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "Unit 0. Hello",
+      "index": 1,
+      "subtopics": [
+        {
+          "name": "Introductions/ Names",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu kichik mavzuning asosiy maqsadi o'quvchilarni ingliz tilida o'zini tanishtirish va boshqalarning ismini so'rashga o'rgatishdan iborat. Darslikda berilgan asosiy leksika quyidagilardan iborat: 'Hello' (Salom), 'Goodbye' (Xayr), shuningdek, darslik qahramonlarining ismlari (Anna, Lily, Lucas, Max, Tom). Asosiy grammatik qoliplar: 'Hello, I'm [name]' (Salom, men [ism]man) va 'What's your name?' (Sening isming nima?). Savol tuzishda quyidagi MASHQLAR USLUBI qo'llanilishi shart: 1. Pure English Format (Bo'sh joylarni to'ldirish): Muloqot va dialoglarda tushirib qoldirilgan so'roq so'zlari ('What'), olmoshlar ('I') yoki ismga ishora qiluvchi so'zlarni mantiqan topish va o'rniga qo'yish talab etiladi. (Namuna: '___ is your name?' Javobi: 'What'). 2. Dictionary Format: 'Salom', 'Xayr', 'Sening isming nima?' kabi asosiy tanishuv so'zlarining o'zbekchadan inglizchaga yoki inglizchadan o'zbekchaga aniq tarjimasini topish. CHEKLOVLAR VA QAT'IY TALABLAR: Barcha savollar va test variantlari faqat matnga va yozma mantiqqa asoslanishi kerak. Rasmlarga ishora qilish yoki vizual elementlardan foydalanish ('Rasmdagi bola kim?') qat'iyan taqiqlanadi. Faqat darslikda o'tilgan doiradagi so'zlar ishtirok etishi shart, murakkab so'zlar qo'shilmasin."
+        },
+        {
+          "name": "Numbers/ Colors",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu qismda o'quvchilar ingliz tilida 1 dan 10 gacha bo'lgan raqamlarni (one, two, three, four, five, six, seven, eight, nine, ten) va asosiy ranglarni (blue, green, orange, pink, purple, red, yellow) o'rganadilar. Asosiy grammatik strukturalar shaxsning yoshini va sevimli rangini so'rashga qaratilgan bo'lib, 'How old are you?' (Sen necha yoshdasan?) va unga javoban 'I'm six' (Men olti yoshdaman) hamda 'What's your favorite color?' (Sening sevimli ranging qaysi?) va unga javoban 'My favorite color's blue' (Mening sevimli rangim ko'k) kabi gaplarni o'z ichiga oladi. MASHQLAR USLUBI: Barcha test savollari matnli mantiqqa tayanishi kerak. 1. Pure English Format: Gaplardagi tushirib qoldirilgan so'zlarni topish. Masalan, '___ old are you?' yoki 'My favorite ___ is red' kabi gaplarda to'g'ri so'zni tanlash talab qilinadi. 2. Dictionary Format: Ranglar va raqamlarning o'zbekcha-inglizcha tarjimalarini topish (masalan, 'sariq' -> 'yellow', 'sakkiz' -> 'eight'). CHEKLOVLAR VA QAT'IY TALABLAR: Savollarda hech qanday vizual rasm yoki rangli tasvirlardan foydalanish mumkin emas. Barcha raqamlar va ranglar faqat yozuv orqali matn shaklida ifodalanishi, savollar esa darslikdagi so'z boyligidan tashqariga chiqmasligi qat'iyan belgilab qo'yilgan."
+        },
+        {
+          "name": "Be curious/ Pronunciation: p",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Darslikning ushbu mavzusida diqqat asosan ingliz tilidagi 'p' undosh tovushining to'g'ri talaffuziga va shu harf bilan boshlanadigan lug'at boyligiga qaratilgan. Asosiy leksika 'p' harfi ishtirokidagi so'zlar: pink (pushti), purple (siyohrang), panda (panda), pen (qalam). Fonetik jihatdan o'quvchilar 'p' tovushini so'z boshida to'g'ri ajrata olishlari kerak bo'ladi ('A pink and purple panda'). MASHQLAR USLUBI: Test tuzishda turli yondashuvlardan foydalanish talab etiladi. 1. Phonics Format (Tovush mantiqiy testi): Qaysi so'z 'p' harfi yoki tovushi bilan boshlanishini so'zlar orasidan topish (Namuna savol: Qaysi so'z 'p' bilan boshlanadi? A) panda, B) blue, C) green. To'g'ri javob: A). 2. Logic Format (Mantiqiy yondashuv): Berilgan gaplar yoki iboralar qatoridan 'p' harfi eng ko'p qatnashgan iborani yoki so'zlarni tanlash. Dictionary Format ham shu so'zlarni tarjima qilish uchun kiritilishi mumkin. CHEKLOVLAR VA QAT'IY TALABLAR: AI savol tuzish jarayonida darslikka umuman kiritilmagan murakkab 'p' harfli so'zlarni (masalan, psychology, philosophy kabi) umuman ishlatmasligi kerak. Savollar faqat 1-sinf o'quvchisi darajasidagi darslik so'zlariga tayanib yaratilishi shart."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 1. School",
+      "index": 2,
+      "subtopics": [
+        {
+          "name": "Rainbow/ School",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu birinchi rasmiy bob maktabga oid dastlabki tushunchalar va atrof-muhitni tasvirlashdan boshlanadi. Asosiy e'tibor 'Rainbow' (Kamalak) tushunchasi va maktab muhitining umumiy so'zlariga qaratilgan. O'quvchilar kamalak ranglarini (red, orange, yellow, green, blue, purple, pink) takrorlaydi va mantiqiy tarzda tabiat tushunchalari bilan bog'lashni o'rganadi. Shuningdek, maktabga xush kelibsiz qabilidagi dastlabki matnlar uchraydi. MASHQLAR USLUBI: 1. Dictionary Format: 'Kamalak' so'zining va undagi o'tilgan 7 ta asosiy rangning tarjimalarini o'zbekchadan inglizchaga yoki teskarisiga aniqlash. 2. Logic Match (Mantiqiy muvofiqlik): Kamalakdagi ranglar ketma-ketligi yoki berilgan ranglar ichidan kamalakka oidlarini matn orqali saralash. Masalan, 'Qaysi biri kamalakning rangi emas?' qabilidagi savollar. CHEKLOVLAR VA QAT'IY TALABLAR: AI test yaratayotganda ekranda kamalak rasmini ko'rsatib savol bera olmaydi, shuning uchun 'Rasmdagi kamalakda qaysi rang tushirib qoldirilgan?' degan savol emas, balki 'Ingliz tilida yashil va ko'k o'rtasida qaysi rang nomlanishi mumkin?' degan matnli ta'riflar bilan ishlashi kerak. Barcha yondashuv toza yozma ingliz tili qoidalariga rioya qilishi zarur."
+        },
+        {
+          "name": "School/ How many?",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu mavzuda asosiy e'tibor maktab va sinfxona anjomlariga, shuningdek sanash qoidalariga qaratiladi. Asosiy lug'at boyligi quyidagilardir: board (doska), book (kitob), chair (stul), desk (parta), door (eshik), eraser (o'chirg'ich), pen (ruchka), pencil (qalam), pencil case (qalamdon), window (deraza). Asosiy grammatik mavzu bu narsalarning sonini so'rashga qaratilgan 'How many...?' (Qancha) so'roq konstruksiyasidir. Masalan: 'How many chairs can you see?' (Siz qancha stullarni ko'ryapsiz?). O'tgan mavzudagi 1-10 gacha raqamlar javob qaytarishda qo'llanadi. MASHQLAR USLUBI: 1. Pure English Format: '___ many books can you see?' kabi savollarda bo'sh o'rinni 'How' bilan to'ldirish yoki 'two book___' deb ko'plik qo'shimchasi '-s' ni aniqlash. 2. Dictionary Format: Yuqoridagi 10 ta maktab anjomining tarjimasini topish. CHEKLOVLAR VA QAT'IY TALABLAR: O'quvchilardan chalg'ituvchi va murakkab ko'plik qoidalari ('-es', '-ies', noto'g'ri ko'plik) so'ralmasligi qat'iy belgilangan. Faqat so'zlarning oddiy '-s' qo'shimchasi orqali yasaladigan ko'pliklari tushuntiriladi. Sinovlar mutlaqo rasmlarsiz amalga oshirilishi shart."
+        },
+        {
+          "name": "Actions/ Make friends",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu kichik mavzuda o'quvchilar sinfxona ichidagi oddiy harakatlarni va ijtimoiy xulq-atvor qoidalarini o'rganishadi. Asosiy leksika va iboralar (Actions): 'Stand up, please' (Iltimos, o'rningdan tur), 'Sit down' (O'tir), 'Open your book' (Kitobingni och), 'Close your door' (Eshikni yop) kabi harakat buyruqlari. Story value (Ijtimoiy xulq-atvor qoidasi) sifatida: 'Make friends' (Do'stlashmoq / Do'stlar orttirish) iborasi o'rgatiladi, bu orqali hamjihatlik targ'ib qilinadi. MASHQLAR USLUBI: 1. Pure English Format: Buyruq gaplardagi tushirib qoldirilgan qismlarni topish. Masalan, 'Stand ___, please' (Javob: up) yoki '___ your book' (Javob: Open). 2. Dictionary Format: 'Do'stlashmoq', 'Iltimos, o'rningdan tur' kabi gaplarning eng to'g'ri inglizcha tarjimasini berilgan variantlar orasidan ajratib olish. CHEKLOVLAR VA QAT'IY TALABLAR: Darslik doirasidan tashqarida bo'lgan murakkab buyruq fe'llarini (masalan, 'Write down', 'Listen carefully' kabi o'tilmagan so'zlarni) kiritish man etiladi. Bolalarning tasavvurini faqat matnli topshiriqlar va kundalik sinfxona harakatlari bilan cheklash va mustahkamlash ko'zda tutilgan."
+        },
+        {
+          "name": "Pronunciation: b/ Classroom",
+          "index": 4,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Darsning ushbu yakuniy qismida fonetika va fanning boshqa tarmoqlari bilan aloqasi (CLIL) jamlangan. Fonetika markazida 'b' harfi va tovushi turadi. Bunga oid lug'at: bear (ayiq), blue (ko'k), book (kitob), board (doska) kabi so'zlardir. CLIL: Science (Ilm-fan) doirasida 'What material is it?' (Bu qanday materialdan qilingan?) savoli va uning javoblari: wood (yog'och), plastic (plastmassa), glass (shisha), metal (metall) so'zlari o'tiladi. MASHQLAR USLUBI: 1. Phonics Format: 'b' harfidan boshlanadigan maktab anjomini topish. (Namuna: A) pencil, B) book, C) pen. To'g'ri javob: B). 'A bear with a blue book' iborasini tushunish. 2. CLIL Match (Mantiqiy-ilmiy yondashuv): Narsalarning qanday materialdan qilinganini matnli tushuntirish orqali aniqlash. Masalan, 'Deraza asosan nimadan yasaladi?' -> 'glass'. 'Parta asosan nimadan yasaladi?' -> 'wood'. CHEKLOVLAR VA QAT'IY TALABLAR: Vizual elementlar qat'iyan man etiladi. Materiallarni topishga oid barcha savollar faqat matn va tasvirlar orqali berilishi kerak."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 2. Toys",
+      "index": 3,
+      "subtopics": [
+        {
+          "name": "Toys",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu bob butunlay yosh bolalar uchun eng qiziqarli bo'lgan mavzulardan biri – o'yinchoqlarga bag'ishlangan. Darsning bu birinchi kichik mavzusida lug'at boyligini oshirish asosiy vazifa qilib belgilangan. Asosiy leksikaga quyidagi o'n xil o'yinchoq nomi kiradi: art set (rassomchilik to'plami), ball (koptok), bike (velosiped), camera (fotoapparat), computer (kompyuter), computer game (kompyuter o'yini), doll (qo'g'irchoq), kite (uchurtma), robot (robot), teddy bear (ayiqcha). MASHQLAR USLUBI: AI tomonidan savol tuzishda quyidagi yondashuvlar kerak bo'ladi. 1. Dictionary Format: O'yinchoqlarning nomlarini o'zbekchadan ingliz tiliga yoki aksincha tarjima qilish qobiliyatini sinovdan o'tkazish. Masalan, 'Qo'g'irchoq ingliz tilida nima deyiladi?'. 2. Word Scramble (Mantiqiy yondashuv): Harflari aralashtirib berilgan o'yinchoq nomini to'g'ri yozish yoki tushirib qoldirilgan harflarni topish matnli usulda berilishi (masalan, k_te -> kite). CHEKLOVLAR VA QAT'IY TALABLAR: Hech bir test savolida koptok yoki robotning rasmi berilmasligi shart. Ta'rif berib topish ('Osmonda uchadi -> kite') kabi ijodiy, mantiqqa tayangan savollarni ko'paytirish maqsadga muvofiq, bu o'quvchini matn ustida ishlashga mukammal o'rgatadi."
+        },
+        {
+          "name": "What is it?",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu mavzu grammatik qoidalarni muloqotga tatbiq etishga asoslangan. Asosiy e'tibor noaniq buyumlarga nisbatan savol berish va javob qaytarishga qaratilgan. Asosiy grammatika: 'What's this?' (Bu nima?) so'rog'i va unga javob 'It's a (ball)' (Bu koptok). Shuningdek, aniqlovchi so'roq gaplari: 'Is it a (robot)?' (Bu robotmi?) va ularga mos qisqa javoblar: 'Yes, it is' (Ha, shunday) yoki 'No, it isn't' (Yo'q, unday emas). MASHQLAR USLUBI: 1. Pure English Format: Eng muhim mashq turi sifatida so'roq so'zlari yoki yordamchi fe'llarni bo'sh o'rinlarga joylashtirishni so'rash (Masalan: '___ is this? It is a doll' -> What, yoki 'Is it a bike? Yes, it ___' -> is, inkor shaklida -> isn't). Bular qisqa muloqotlarni to'liq tushunishni tekshiradi. CHEKLOVLAR VA QAT'IY TALABLAR: 1-sinf doirasida faqat 'What's this?' qoidasi o'tilgan. Shu sababli, uzoqlikdagi narsalar uchun ishlatiladigan 'What's that?' bu mavzuda qo'llanilmasligi qat'iyan talab qilinadi. Barcha testlar ko'rsatish olmoshisiz tasvirlarga asoslanishi kerak."
+        },
+        {
+          "name": "Thank you/ Pronunciation: t",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Mavzuning uchinchi qismi talaffuz (phonics) va ijtimoiy xulq-atvor normalari (story value) darslarini o'z ichiga oladi. Asosiy xulq-atvor mavzusi: 'Say thank you' (Rahmat aytish, minnatdorchilik bildirish). Bolalarga ijtimoiy muhitda qanday qilib o'z minnatdorchiligini ko'rsatish o'rgatiladi. Fonetika bo'limida asosiy diqqat 't' undoshi ishtirokidagi so'zlarga qaratiladi. Berilgan so'zlar ro'yxati: turtle (toshbaqa), two (ikki), teddy bear (ayiqcha) va toys (o'yinchoqlar). 'A turtle with two teddy bears' kabi o'quv iboralari fonetik mashq uchun asos bo'ladi. MASHQLAR USLUBI: 1. Phonics Format: Berilgan so'zlar orasidan qaysi biri 't' harfi bilan boshlanishini topish, yoki matndagi 't' tovushlarini sanash kabi fonetik mantig'ini tekshirish. 2. Dictionary Format: 'Rahmat' so'zining ingliz tilidagi ifodasini yoki 't' harfi ishtirok etgan leksika qismini to'g'ri tarjima qilish. CHEKLOVLAR VA QAT'IY TALABLAR: Savollar faqat va faqat o'quv rejasida bor bo'lgan shu 3 ta aniq 't' harfli so'z doirasida shakllantirilishi shart, fanga kirmagan murakkab so'zlar taqiqlanadi."
+        },
+        {
+          "name": "Electric/ Review",
+          "index": 4,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu to'rtinchi subtopic bobning CLIL (Content and Language Integrated Learning) hamda takrorlash (Review) qismlaridan iborat. Ilm-fan (Science) rukni doirasida yosh bolalarga atrof-muhitdagi narsalarning elektr orqali ishlashi yoki ishlamasligi haqida ma'lumot beriladi. Asosiy iboralar: 'Electric' (Elektr yordamida ishlaydigan) va 'Not electric' (Elektrsiz ishlaydigan). Bunga o'yinchoqlar va maktab anjomlaridan misollar keltiriladi (masalan, computer - electric; ball - not electric). Shuningdek, 1 va 2-boblarda o'tilgan barcha leksika (maktab, o'yinchoqlar, raqamlar) takrorlanadi. MASHQLAR USLUBI: 1. Logic Format: Mantiqan elektr bilan ishlaydigan narsalarni aniqlash testi. (Masalan, Qaysi o'yinchoq elektr toki bilan ishlaydi? A) teddy bear, B) computer game, C) kite. To'g'ri javob: B). 2. Review Match: Birinchi va ikkinchi bobdagi lug'atlarni bir-biri bilan farqlash. CHEKLOVLAR VA QAT'IY TALABLAR: Bolalar darajasida elektr tushunchasini juda murakkab texnik atamalar bilan emas, sodda o'yinchoqlar misolida ko'rsatish shart. O'tilgan barcha gaplar va qoidalar test yaratish uchun mustahkam baza vazifasini o'taydi."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 3. Family",
+      "index": 4,
+      "subtopics": [
+        {
+          "name": "Family/Family 2",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Oila - jamiyatning asosiy qismi bo'lganidek, ushbu bob o'quvchilarning ingliz tilida o'z oila a'zolarini tasvirlashi uchun maxsus ishlab chiqilgan. O'rganilishi shart bo'lgan tayanch oilaviy atamalar quyidagilardir: aunt (xola yoki amma), brother (aka yoki uka), cousin (amakivachcha yoki xolavachcha), dad (ota/dada), grandpa (bobo), grandma (buvi), mom (ona/oyi), sister (opa yoki singil), uncle (amaki yoki tog'a). MASHQLAR USLUBI: AI tomonidan juda ko'plab savollar ishlab chiqilishi mumkin bo'lgan sermahsul mavzu. 1. Dictionary Format: 'Bobo', 'Opa', 'Xola' kabi qarindoshlik atamalarini inglizcha tarjimasiga moslashtirish. 2. Logic Match (Mantiqiy aloqa): Eng mashhur mashq uslubi - sodda oilaviy munosabatlarni mantiqan topish. Masalan, 'My dad's brother is my...' (Mening otamning akasi mening...) -> uncle. 'My mom's mom is my...' -> grandma. CHEKLOVLAR VA QAT'IY TALABLAR: Savollar yosh bolalarning idrokiga mos va qisqa bo'lishi talab etiladi. 'Mother' va 'Father' kabi so'zlar akademik jihatdan to'g'ri bo'lsa-da, 1-sinf darsligida aniq 'mom' va 'dad' berilgani uchun faqat shu qisqartma shakllardan foydalanib test tuzish qat'iyan belgilab qo'yilgan."
+        },
+        {
+          "name": "Who’s this? / Who’s this? 2",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Oilaviy munosabatlarni tushuntirish uchun darslikka shaxslarga nisbatan ishlatiladigan asosiy grammatik qoidalar kiritilgan. Asosiy e'tibor 'Who' (Kim) so'roq olmoshiga, xususan 'Who's this?' (Bu kim?) va 'Who's that?' (Ana u kim?) degan so'rov konstruksiyalariga qaratiladi. Javoblar esa 'It's my (brother)' yoki 'It is my (grandpa)' tarzida to'liq bo'lishi o'rganiladi. MASHQLAR USLUBI: 1. Pure English Format: Eng asosiy topshiriq shaxslar uchun 'Who' va jonsiz narsalar/hayvonlar uchun 'What' so'roqlarini farqlashdir. Gap tarkibidagi tushib qolgan so'zni topish (Masalan: '___ is this? It is my mom' -> Who. '___ is this? It is a book' -> What). Yoki yordamchi 'is' fe'lini to'g'ri joylashtirish topshiriqlari. CHEKLOVLAR VA QAT'IY TALABLAR: 'Whose' (kimning) degan so'roq olmoshi hozircha 1-sinf o'quv dasturiga kiritilmaganligi sababli testlarda qo'llash taqiqlanadi. Savollar faqat shaxslar haqida ekanligi yaqqol ko'rinib turadigan, shaxsiy mantiqqa e'tibor qaratiladigan, toza matnli bo'lishi shart."
+        },
+        {
+          "name": "Love your family/ Pronunciation: d",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Uchinchi bobning ushbu xulosaviy kichik mavzusi ta'lim-tarbiya (Story value), fonetika va CLIL qismlarini yagona nuqtada birlashtiradi. Xulq-atvor va qadriyatlar (Story value): 'Love your family' (O'z oilangni sev) iborasi o'rgatiladi. Fonetika (Pronunciation) jihatdan e'tibor 'd' undosh harfiga va tovushiga bag'ishlanadi. So'zlar qatori: dolphin (delfin), desk (parta), dad (dada). Fonetik mashq: 'A dolphin in a red desk'. CLIL darsligi orqali bolalar geografiya tushunchasi - 'What continent is it?' (Bu qaysi qit'a?) qabilida ilk qadamlarni tashlaydi, lekin bu qism asosan tinglash orqali bo'ladi. MASHQLAR USLUBI: 1. Phonics Format: Qaysi so'z 'd' tovushi bilan boshlanishini topish. (Masalan, A) mom, B) desk, C) pen. Javob: B). 'D' harfi ishtirokidagi gaplarni matn ichidan izlash. 2. Dictionary Format: 'Oilangni sev' tarbiyaviy so'zining ingliz tilidagi ekvivalentini aniqlash. CHEKLOVLAR VA QAT'IY TALABLAR: Har qanday qit'alar nomini yodlatish kabi qiyin savollar berish aslo ruxsat etilmaydi, CLIL qismi testdan chetlatilib, asosiy diqqat 'd' fonetikasi va 'Love your family' mantiqiy tarjimasiga berilishi shart."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 4. At home",
+      "index": 5,
+      "subtopics": [
+        {
+          "name": "At home",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bolalar uchun o'z yashash joyini tasvirlash muhim muloqot bosqichidir. Shu maqsadda, darslikning uchinchi bobi to'liq uy va uyning qismlarini o'rganishga bag'ishlangan. Asosiy leksik boylik: apartment (kvartira/ko'p qavatli uy), balcony (balkon), bathroom (yuvinish xonasi), bedroom (yotoqxona), dining room (ovqatlanish xonasi), hallway (yo'lak/karidor), house (hovli uy), kitchen (oshxona), living room (mehmonxona), yard (hovli sahni/bog'). MASHQLAR USLUBI: 1. Dictionary Format: Berilgan xonalar nomini o'zbek tilidagi ekvivalentlariga muvofiqlashtirish. 2. Logic Match (Mantiqiy funksiya): Xonalarning funksiyasiga qarab to'g'ri nomni topish qobiliyatini tekshirish. (Masalan, 'Men ovqatlanadigan xona...' -> dining room, 'Men tunda uxlayman...' -> bedroom, 'Oila bilan televizor ko'ramiz...' -> living room). CHEKLOVLAR VA QAT'IY TALABLAR: Uyning chizmalari, planlari yoki xonalar rasmi tushirilgan vizual materiallardan foydalanish qa'tiyan taqiqlanadi. Uy qismlarining ta'rifi faqat bolalar darajasidagi juda qisqa mantiqiy matnlar (Sodda fe'llar bilan) orqali berilishi shart qilib belgilangan."
+        },
+        {
+          "name": "At home/ Where are you?",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Insonlarning uyning qaysi qismida, joylashuvida ekanligini so'rash va tasvirlash ushbu mavzuning grammatik asosini tashkil qiladi. Asosiy grammatika qoidasi - 'Where' (Qayerda) so'roq so'zi. Maktab yoshidagi bolalarga dastlabki joylashuv predlogi bo'lmish 'in' (ichida) ni to'g'ri ishlatish o'rgatiladi. Shaxsiy olmoshlar ishtirokida: 'Where are you?' (Siz qayerdasiz?) va 'I'm in the (kitchen)' (Men oshxonadaman) yoki 'I am in the (bedroom)'. MASHQLAR USLUBI: 1. Pure English Format: 'Where', 'are', 'am' va 'in' so'zlarini joyi kelganda gapda to'g'ri qo'llash. Masalan, '___ are you? I ___ in the living room' (Javoblar ketma-ketligi: Where / am). 'I am ___ the dining room' (Javob: in). CHEKLOVLAR VA QAT'IY TALABLAR: Barcha savollar birinchi shaxs (I am) va ikkinchi shaxs (You are) doirasida bo'lishi, He/She qatnashgan uchinchi shaxsga doir joylashuv savollari kiritilmasligi talab etiladi. Boshqa joylashuv predloglari (on, at) bu o'rinda testlarga aslo kiritilmasin."
+        },
+        {
+          "name": "Where are you?/ Look after things",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Uy ichidagi shaxslarni emas, balki aniq narsalar va buyumlarning joylashuv o'rnini so'rash ushbu darsning maqsadidir. Asosiy grammatika: Birlikdagi narsalar uchun 'Where's the (doll)?' (Qo'g'irchoq qayerda?) yoki 'Where is the book?'. Bunga javoblar asosan uchinchi shaxs orqali qisqartirilgan holda 'It's in the (bedroom)' shaklida keladi. Story value (Xulq-atvor qoidasi) sifatida: 'Look after things' / 'Take care of things' (Narsalaringni asra / ehtiyot qil) kabi muhim tarbiyaviy tushunchalar kiritilgan. MASHQLAR USLUBI: 1. Pure English Format: Narsalar uchun 'Where is' ifodasini uning qisqartirilgan 'Where's' shakli bilan farqlash. 2. Dictionary Format: 'Narsalaringni asra' iborasining to'g'ri inglizcha tarjimasini topish. CHEKLOVLAR VA QAT'IY TALABLAR: Yuqorida aytib o'tilganidek, 'under', 'next to', 'on' kabi boshqa murakkab predloglar darslikda bo'lmagani uchun test tuzishda ulardan aslo foydalanilmasin. Faqat 'in' qatnashgan sodda matnli topshiriqlar tuzilsin."
+        },
+        {
+          "name": "Pronunciation: a / Shapes",
+          "index": 4,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu to'rtinchi qism an'anaviy ravishda fonetika va CLIL mavzularini jamlaydi. Fonetikaning asosiy maqsadi 'a' unli harfining qisqa /æ/ talaffuziga o'rgatishdir. Ushbu ochiq tovush qatnashgan asosiy lug'atlar: ant (chumoli), apple (olma). Ularni yodda saqlash uchun 'An ant with an apple' gapi berilgan. CLIL: Math (Matematika) yo'nalishida o'quvchilar geometrik shakllar, jumladan, 'What shape is it?' (Bu qanday shakl?) mavzusini ko'rib chiqishadi va uchta asosiy shaklni o'rganishadi: circle (doira), square (kvadrat), triangle (uchburchak). MASHQLAR USLUBI: 1. Phonics Format: Berilgan so'zlar ro'yxatidan qisqa 'a' tovushi bilan boshlanuvchi yoxud unda 'a' unlisi qatnashgan so'zni ajratib topish. 2. CLIL Match: Mantiqan yoki matn orqali geometrik shakllarning inglizcha atamalarini topish (masalan, koptokning shakli qanday? -> circle). CHEKLOVLAR VA QAT'IY TALABLAR: Vizual yondashuvlardan, ya'ni uchburchak va doira rasmlarini ko'rsatib test so'rash qat'iyan taqiqlanadi. Faqat so'zlarning o'zini tahlil qilish (matn tarjimasi, matn ta'rifi) yoki shaklni so'zli analogiyalar bilan yozish shart qilingan."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 5. My body",
+      "index": 6,
+      "subtopics": [
+        {
+          "name": "Review /My body",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: O'quvchilarga o'z tana a'zolarini o'rganish juda qiziq va interaktiv bo'lgan mavzulardandir. Beshinchi bobning bu birinchi bo'limi inson tana a'zolari (My body) atamalarini boyitishga qaratilgan. Asosiy leksik qatlam: arms (qo'llar/qo'lning tirsak qismi), ears (quloqlar), eyes (ko'zlar), feet (oyoq panjalari), head (bosh), hair (soch), hands (qo'l panjalari), legs (oyoqlar), mouth (og'iz), nose (burun). Shuningdek, Review (Takrorlash) bo'limida avvalgi barcha boblardagi tushunchalar yodga olinadi. MASHQLAR USLUBI: 1. Dictionary Format: Eng aniq uslub tana a'zolari tarjimasini so'rash (masalan, burun -> nose, soch -> hair). 2. Logic Match (Mantiq): Tana a'zosining asosiy kundalik funksiyasini aytib, uning qaysi a'zo ekanligini topish. (Namuna savol: 'Biz xid bilamiz...' -> nose, 'Yurish uchun ishlatamiz...' -> legs). CHEKLOVLAR VA QAT'IY TALABLAR: Ko'plik shaklida kelgan ba'zi maxsus istisno so'zlarni (masalan, foot-feet o'zgarishi) o'quvchilarni qiynamaydigan holda mantiq doirasida ishlatish. Tasvirli testlarsiz faqat funksional mantiq asosida AI savollar tuzishi lozim."
+        },
+        {
+          "name": "My body / I have",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Tana a'zolariga eganlikni tasvirlash darslikning muhim grammatik yutug'i hisoblanadi. Grammatik asos: Egalik qilishni bildiruvchi 'I have' (Menda bor / Menda ... mavjud) iborasi orqali jumlalar tuzish. Darslikdagi maxsus konstruksiyalarda ranglar va tana a'zolari qo'shib tasvirlanadi. Masalan, mahluqlar yoki rasmda tasvirlangan mavjudotlar ustida 'I have a red head and green eyes' (Menda qizil bosh va yashil ko'zlar bor) kabi qiziqarli va ijodiy gaplar tuzish amaliyoti bajariladi. MASHQLAR USLUBI: 1. Pure English Format: 'I ___ two hands' gapida 'have' fe'lini topish yoki to'ldirish. Yoki sifatlar, raqamlar, ranglar va otlarni (tana a'zolari) ingliz tili qoidalariga mos tarzda ketma-ketligini (word order) to'g'ri joylashtirish (masalan, 'two green eyes'). CHEKLOVLAR VA QAT'IY TALABLAR: Hech qanday sharoitda 'he has', 'she has' kabi uchinchi shaxs uchun mo'ljallangan shakllar savollarga qo'shilmasin. Dastur to'liq faqatgina birinchi shaxs 'I have' birligida jumlalar va mantiqiy savollar tuzishiga ruxsat etiladi."
+        },
+        {
+          "name": "I have / Be clean",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu kichik mavzuda boshqa shaxsning egaligida nima borligini so'rash grammatikasi va tozalik muhimligi o'rgatiladi. Asosiy grammatika: Do yordamchi fe'li orqali beriladigan umumiy so'rov. 'Do you have (a yellow nose)?' (Senda sariq burun bormi?). Ushbu savollarga mos keluvchi qisqa 'Yes, I do' (Ha, menda bor) va 'No, I don't' (Yo'q, menda yo'q) shakllari kiritiladi. Story value (Tarbiyaviy xulq-atvor qoidasi): 'Be clean' (Toza bo'l / Ozoda yur), aniqroq qilib aytganda 'Wash your feet, please' (Iltimos, oyoqlaringizni yuving) yoki 'Wash your hands' iboralari orqali tozalik targ'ib etiladi. MASHQLAR USLUBI: 1. Pure English Format: Yordamchi fe'llarni bo'sh o'rinlarga joylashtirish. '___ you have two ears? Yes, I ___' (Javoblar: Do / do). 2. Dictionary Format: Shaxsiy gigiyenaga oid 'Toza bo'ling', 'Qo'llaringni yuv' gaplarining matnli tarjimasini topish. CHEKLOVLAR VA QAT'IY TALABLAR: Inkor savollar yoki murakkab fe'l zamonlari so'ralmaydi, faqat mavzuda nima aniq kelgan bo'lsa, o'shanga asoslanib sodda gigiyena qoidalari tushuntirilishi shart."
+        },
+        {
+          "name": "Pronunciation: i /5 senses",
+          "index": 4,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu bo'lim bolalarga nafaqat harflarning ohangini, balki inson tana a'zolari bilan bog'liq bo'lgan ilm-fan sohasining (CLIL) ilk elementlarini ham tushuntiradi. Fonetika: Qisqa 'i' unlisining o'qilishi va ajratilishi. So'zlar: iguana (iguana - kaltakesak turi), ink (siyoh). Buni yodlash uchun maxsus 'An iguana with pink ink' iborasi o'qiladi. CLIL: Science yo'nalishida '5 senses' (Besh xil tuyg'u / sezgi a'zolari) tasvirlanadi. Bular sight (ko'rish - eyes), hearing (eshitish - ears), smell (hid bilish - nose), taste (ta'm bilish - mouth/tongue), touch (ushlash/seza olish - hands/skin). MASHQLAR USLUBI: 1. Phonics Format: Qisqa 'i' harfi va tovushi qatnashgan so'zlarni berilgan guruhdan ajratib olish (ink, pink, iguana). 2. CLIL Match: Har bir tana a'zosini uning his-tuyg'usiga matnli ta'riflar yordamida mantiqan muvofiqlashtirish. 'Eyes are for...' (Ko'zlar nima uchun?) -> see, 'Ears are for...' -> hear. CHEKLOVLAR VA QAT'IY TALABLAR: Ilmiy tibbiyot terminlari mutlaqo ishlatilmaydi, tuyg'ular juda soddalashtirilgan, bolalar lug'ati (see, hear, smell, taste, touch) orqaligina taqdim etilishi kerak. Rasm orqali qaysi tuyg'u ekanini so'rash qoidalarga ziddir."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 6. Food",
+      "index": 7,
+      "subtopics": [
+        {
+          "name": "Food / I like",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Inson ehtiyojlari qatorida oziq-ovqatlarni tasvirlash bolalarga so'z boyliklarini yanada mustahkamlashga yordam beradi. Darslikning oltinchi bobi to'liq mevalar, ozuqalar va ichimliklar ro'yxati asosiga qurilgan. O'rganiladigan asosiy leksika doirasi juda aniq belgilab berilgan: apple (olma), banana (banan), bread (non), cheese (pishloq), chicken (tovuq go'shti), egg (tuxum), juice (sharbat), milk (sut), orange (apelsin), water (suv). Asosiy grammatik baza yoqtirish yoki ma'qul ko'rishni ifodalashni o'rgatadi: 'I like (bananas)' (Men bananlarni yoqtiraman). Inkor shakli: 'I don't like (apples)' (Men olmalarni yoqtirmayman). MASHQLAR USLUBI: 1. Dictionary Format: Barcha sanab o'tilgan oziq-ovqat va ichimlik atamalarining to'g'ri o'zbekcha / inglizcha tarjimalarini topish. 2. Pure English Format: 'I ___ apples' yoki uning inkor shakli bo'lmish 'I ___ like bread' kabi gaplarni mantiqan mos keladigan 'like' va 'don't' fe'llari yordamida to'ldirish qobiliyatini tekshirish. CHEKLOVLAR VA QAT'IY TALABLAR: Faqat darslikda rasman sanab o'tilgan 10 tagina ozuqa va ichimlik kiritilsin (kartoshka, go'sht, baliq kabi o'tilmagan atamalar AI tomondan qo'shilishi qat'iyan taqiqlangan). Tarjima savollari eng qulay format hisoblanadi."
+        },
+        {
+          "name": "Be patient / Pronunciation: e",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu o'quv birligi muloqot jarayonida birovning nimani yoqtirishini so'rashga, to'g'ri xulq-atvorni shakllantirishga va unli harf talaffuzini mukammallashtirishga asoslanadi. Asosiy grammatika umumiy so'roq gap hisoblanadi: 'Do you like (eggs)?' (Siz tuxumni yoqtirasizmi?). Javoblar asosi qisqa tartibda: 'Yes, I do' yoki 'No, I don't'. Xulq-atvor va tarbiya asosi (Story value) - 'Be patient' (Sabrli bo'l). Fonetika bo'limi: qisqa ohangdor 'e' unlisi (phonics). Asosiy tayaniladigan lug'at so'zlari: elephant (fil), egg (tuxum), ten (o'n). Ushbu qoidani o'zlashtirish uchun 'An elephant with ten eggs' gapi o'qiladi. MASHQLAR USLUBI: 1. Pure English Format: Savol-javob muloqotida uzviylikni sinash. 'Do you like cheese?' savoliga eng to'g'ri bog'lanadigan ijobiy 'Yes, I do' yoki inkor javoblarni mantiqan topish va o'rniga qo'yish. 2. Phonics Format: Qisqa 'e' tovushi aniq va ravshan eshitiladigan so'zlarni guruhlar orasidan ajratib olish (masalan, elephant, pen). CHEKLOVLAR VA QAT'IY TALABLAR: Uchinchi shaxs (Does he/she like) bo'yicha so'roq shakli butunlay taqiqlangan. Testlar faqat muloqotchi (I va You) atrofida qurilishi shart."
+        },
+        {
+          "name": "Food and drink/ Review",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu takrorlash qismi fanga va mantiqqa eng boy tushunchalarni farqlash bo'yicha CLIL qismini (Science: Where is food from?) va 5-6 boblar umumiy takrorlashini qamrab oladi. Ilmiy tushuncha darajasi ozuqalarning qayerdan – hayvonlardan yoki o'simliklardan olinishini o'rganishga bag'ishlangan. Ikkita tayanch so'z va tushuncha o'rgatiladi: 'plant' (o'simlik, daraxt) va 'animal' (hayvon). Darslikdagi misollarga ko'ra, mevalar o'simliklardan, sut yoki tuxum esa hayvonlardan kelishi bolalarga sodda qilib mantiqan tushuntiriladi. MASHQLAR USLUBI: 1. Logic Format: Ozuqalarni guruhlashtirish. 'Qaysi oziq-ovqat hayvonlardan olinadi? A) milk, B) apple, C) bread. Javob: A)'. Yoki 'Olma qayerdan o'sadi? -> plant'. 2. Review Match: Tana a'zolari va oziq-ovqatlarni yagona test ichida farqlash. Qaysi biri tana a'zosi va qaysi biri yegulik ekanini aqliy saralash. CHEKLOVLAR VA QAT'IY TALABLAR: Biologik jarayonlarni chuqur va ilmiy murakkab darajada so'rash qat'iy cheklanadi. Darslikdagi kabi, shunchaki eng oson mantiq (Plant vs Animal) ustida ishlash buyuriladi."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 7. Actions",
+      "index": 8,
+      "subtopics": [
+        {
+          "name": "Actions / Actions 2",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Yettinchi bob harakatlanish (actions), sport turlari va jismoniy faoliyatlarga aloqador fe'llarga yo'naltirilgan. Asosiy lug'at boyligi quyidagi 10 ta asosiy harakatni ifodalovchi fe'llardan tashkil topadi: climb (tirmashib chiqmoq, tirmashmoq), dance (raqsga tushmoq), draw (rasm chizmoq), jump (sakramoq), paint (bo'yoq bilan rasm chizmoq), play soccer (futbol o'ynamoq), ride a bike (velosiped haydamoq), run (yugurmoq), sing (kuylamoq, ashula aytmoq), swim (suzmoq). MASHQLAR USLUBI: AI matnli savol tuzish uchun quyidagi uslublardan keng foydalana oladi. 1. Dictionary Format: Ushbu kundalik harakat fe'llarining barchasini o'zbekchadan ingliz tiliga yoxud inglizchadan o'zbekchaga to'g'ri tarjima qilinishini aniqlash. 2. Logic Match (Mantiqiy muvofiqlik): Ma'lum bir buyum bilan bajarilishi mumkin bo'lgan harakatni moslashtirish. Masalan, koptok bilan odatda qanday harakat qilinadi? -> 'play soccer' (futbol o'ynaladi). Musiqa eshitilganda asosan nima qilinadi? -> 'dance' (raqsga tushiladi) yoki 'sing' (qo'shiq aytiladi). Velosiped ko'rganda -> 'ride a bike'. CHEKLOVLAR VA QAT'IY TALABLAR: Harakatlar bolalarga eng noaniq va oddiy o'zak shaklida (Infinitive / V1) o'rgatiladi, shuning uchun 'playing', 'swimming' kabi 'ing' qo'shimchasi bilan keluvchi davomiy (continuous) zamon shakllari savollarga aslo kiritilmasligi lozim."
+        },
+        {
+          "name": "I can / I can 2",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu kichik mavzuda harakat fe'llari bilan ishlatiluvchi muhim modal fe'l – inson o'z qobiliyatini, nimalarga qodirligini va nima qila olishini ifodalash gramatikasi tushuntiriladi. Asosiy e'tibor 'can' (qila olmoq) modal fe'liga qaratiladi. Darajalar: Tasdiq gap - 'I can (swim)' (Men suza olaman). So'roq gap va o'zganing qobiliyatini so'rash - 'Can you (ride a bike)?' (Sen velosiped hayday olasanmi?). Qisqa javoblar: 'Yes, I can' (Ha, uddalayman) yoki 'No, I can't' (Yo'q, uddalay olmayman). MASHQLAR USLUBI: 1. Pure English Format: 'can' modal fe'lining to'g'ri joylashuvini yoki tushirib qoldirilganligini so'rash. Masalan, savolni to'ldirish: '___ you swim? Yes, I can' (Javob: Can). Yoki eng mantiqiy inkor javoblarini to'ldirish qobiliyati, masalan 'No, I ___' -> can't. Gapning so'z tartibi (Word order) ustida ishlash. CHEKLOVLAR VA QAT'IY TALABLAR: 'Can' dan boshqa umuman hech qanday modal fe'llar (must, should, may, could) 1-sinf doirasida o'tilmasligi va savollarga aslo aralashtirilmasligi qat'iyan belgilab qo'yiladi."
+        },
+        {
+          "name": "Help your friends / Help your friends",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bu mavzuda asosiy diqqat yana bir bor ma'naviy xulq-atvor qoidalarini shakllantirishga hamda muloqot vaqtida insonlarga ijobiy ruhiyat baxsh etuvchi so'zlarga bag'ishlanadi. Xulq-atvor asosi (Story value): 'Help your friends' (O'z do'stlaringga yordam ber) tushunchasidir. Buni dalillovchi ijtimoiy ko'nikma va rag'batlantiruvchi asosiy ibora: 'You can do it!' (Sen buni uddalaysan! / Qo'lingdan keladi). MASHQLAR USLUBI: 1. Dictionary Format: Ushbu qism asosan iboralarning aniq ma'nosini va mohiyatini tarjima qilishga tayangan savollarni afzal ko'radi. 'Do'stlaringga yordam ber' iborasining to'g'ri inglizcha tarjimasini berilgan 3 xil (masalan: Be clean, Make friends, Help your friends) xulq-atvor qoidalari ichidan aniqlab topish asosiy mashq hisoblanadi. CHEKLOVLAR VA QAT'IY TALABLAR: Bu yerda mantiqan murakkab grammatik chuqurlashuv yoki fe'llar tahlili bo'lmasligi, faqat rag'batlantiruvchi iboraning umumiy va o'quvchilarga tushunarli bo'lgan ijtimoiy tarjimasigagina tayangan savollar tuzilishi buyurilgan."
+        },
+        {
+          "name": "Pronunciation: u / Addition",
+          "index": 4,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Yettinchi bobning oxirgi qismida 'u' harfining fonetik asoslari hamda mantiqiy-matematik bilimlar birlashtirilgan holda taqdim etiladi. Fonetika (Pronunciation): Asosiy e'tibor qisqa /ʌ/ tovushini beruvchi 'u' undoshiga qaratiladi. Buni namoyon etuvchi darslik so'zlari ro'yxati: umbrella (soyabon), up (yuqori, tepa), jump (sakramoq). CLIL qismi (Ilm-fan): 'Math' (Matematika) bo'yicha 'Addition' (Qo'shish) amaliyoti va 'What's the number?' (Bu qaysi raqam?) savoli kiritilgan. Bu yerda 'plus' (+) va 'equals' (=) kabi asosiy ishoralar o'rgatilib, 1 dan 10 gacha bo'lgan ingliz raqamlarini yozma holda bir-biriga qo'shish o'rgatiladi. MASHQLAR USLUBI: 1. Phonics Format: Qaysi so'zda 'u' harfi yoki qisqa /ʌ/ tovushi qatnashganini belgilash (Masalan: pen, book, jump -> jump). 2. CLIL Match: Ingliz tilida matn ko'rinishida berilgan oddiy matematik qo'shish jarayonining to'g'ri natijasini topish. Masalan: 'Two plus three equals...' (Ikki qo'shuv uch teng...) -> 'five'. CHEKLOVLAR VA QAT'IY TALABLAR: Matematik ko'nikmalar aslo 1 dan 10 gacha bo'lgan raqamlar doirasidan va oddiy qo'shish (+) amaliyotidan tashqariga chiqib ketmasligi, ya'ni bolalar yoshiga munosib darajada qolishi shart qilingan."
+        }
+      ]
+    },
+    {
+      "chapter": "Unit 8. Animals",
+      "index": 9,
+      "subtopics": [
+        {
+          "name": "Animals / Animals",
+          "index": 1,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Yakuniy sakkizinchi bob yovvoyi tabiat va olamni o'rganish maqsadida yovvoyi hayvonlarni tasvirlashga yo'naltirilgan. Ushbu leksika ro'yxati uy hayvonlarini emas, balki asosan hayvonot bog'i va changalzor hayvonlari nomlarini o'z ichiga oladi: bird (qush), crocodile (timsoh), elephant (fil), giraffe (jirafa), hippo (begemot), lion (sher), monkey (maymun), snake (ilon), spider (o'rgimchak), zebra (zebra). O'quvchilardan shu jonivorlar nomini to'liq o'zlashtirish talab etiladi. MASHQLAR USLUBI: AI tomonidan juda ko'plab savollar ishlab chiqish uchun eng optimal vosita. 1. Dictionary Format: Yuqorida sanalgan 10 ta yovvoyi hayvonlarning nomlarini o'zbekchadan ingliz tiliga yoki aksincha yozma holda to'g'ri tarjima qilinishini so'rash. 2. Logic Format (Mantiq): Ushbu hayvonlarga nisbatan ularning eng e'tiborli bo'lgan a'zolariga yoki xususiyatlariga (darslik doirasida) nisbatan sodda ta'riflar berish orqali aniqlash. Masalan, 'Uning bo'yni juda uzun' -> giraffe (jirafa), yoki 'U sakraydigan va banan yeydigan hayvon' -> monkey kabi aqliy xulosalar. CHEKLOVLAR VA QAT'IY TALABLAR: O'tilmagan va boshqa o'rmon hayvonlari (tiger, bear, fox kabi bu mavzuda qayd etilmagan atamalar) umuman testlarga yoxud variantlar tarkibiga kiritilmasligi juda qat'iy tushuntirilgan."
+        },
+        {
+          "name": "Adjectives / Adjectives",
+          "index": 2,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Ushbu mavzuda o'quvchilarga hayvonlarni nafaqat nomlash, balki ularning xususiyatlari va nimalarga ega ekanligini sifatlar yordamida to'liq tavsiflash imkoniyati ochiladi. Asosiy grammatik holatlar ko'plik qo'shimchasida (-s) yasalgan hayvonlar doirasida: 1. Qanday ekanligini ifodalash - '(Elephants) are (big)' (Fillar kattadir). 2. A'zolarga ega ekanligini ifodalash - '(Elephants) have (long trunks)' (Fillar uzun xartumlarga ega). Asosiy sifatlar darslik doirasida big (katta), small (kichik), long (uzun), tall (baland bo'yli) kabilar hisoblanadi. MASHQLAR USLUBI: 1. Pure English Format: 'to be' fe'lining ko'plikdagi 'are' shaklini va egalik bildruvchi 'have' fe'lini gapdagi otning birlik/ko'plik shakliga (word combination) to'g'ri muvofiqlashtirish va tanlash. Masalan, 'Giraffes ___ tall' iborasida (Javob: are), yoki 'Monkeys ___ long tails' da (Javob: have) qismlarini mantiqan moslashtirib belgilash so'raladi. CHEKLOVLAR VA QAT'IY TALABLAR: Hayvonlar ta'riflanayotganda faqat oddiy, standart sifatlardan foydalanishga ruxsat etiladi. Qiyosiy yoki orttirma darajalar (bigger, tallest, the most dangerous kabi iboralar) ishlatilmasligi kerak, sababi bular 1-sinf chegarasidan juda olisda joylashgan."
+        },
+        {
+          "name": "Respect animals/ Respect animals",
+          "index": 3,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Bobning ijtimoiy qadriyatlar (Story value) qismida atrof-muhitga, xususan hayvonlarga ehtiyotkorlik bilan munosabatda bo'lish masalalari ilgari surilgan. Xulq-atvor qoidasi o'laroq asosiy shior: 'Respect animals' (Hayvonlarni hurmat qil / Tabiatni ehtiyot qil) qilib belgilangan. Qo'shimcha ravishda 'It's small' (U kichkina, shuning uchun ehtiyot bo'l) mazmunidagi sodda, rahmdillikni uyg'otuvchi ta'riflar berib o'tiladi. MASHQLAR USLUBI: 1. Dictionary / Logic Format: Ushbu qismda asosan to'g'ri xulq-atvorni tanlash bo'yicha matnli tahlil (reading comprehension orqali yengil tarjima) so'raladi. 'Hayvonlarni hurmat qiling' tarbiyaviy tushunchasi o'zbek tiliga qay tarzda o'girilishi yoki umuman 8-bobning eng asosiy ijtimoiy qoidasi nima ekanligi uchta ehtimoliy variant ichidan farqlash tarzida beriladi. CHEKLOVLAR VA QAT'IY TALABLAR: Bunga oid matnlarda chuqur va yirik ekologik hikoyalar, hikoyaviy detallashtirishlar kiritilishi aslo ruxsat etilmaydi, asosiy ijtimoiy qoida darslikda berilganidek, ixcham shior doirasidagina o'rgatilishi qat'iyan talab qilinadi."
+        },
+        {
+          "name": "Pronunciation: o",
+          "index": 4,
+          "context": "MAVZU QOIDALARI VA ASOSIY MA'LUMOTLAR: Sakkizinchi bob va yilning yakuniy mavzularida yana fonetika asoslari bilan bir qatorda ilm-fanga (CLIL) murojaat etiladi. Fonetikaning asosiy tahlil predmeti qisqa 'o' (/ɒ/ - inglizcha ochiq talaffuzli) tovushi hamda shu harf ifodalangan leksikalarga bag'ishlanadi. Bu doiradagi berilgan darslik so'zlari: octopus (sakkizoyoq), orange (apelsin / to'q sariq rang), box (quti). Shu so'zlar ishtirokida 'An octopus in an orange box' gapi tuzilib, talaffuz mustahkamlanadi. CLIL (Science) mavzusi doirasida: 'How do animals move?' (Hayvonlar qanday harakatlanadi?) jarayoni 7-bobda o'tilgan harakat fe'llariga (run, jump, swim, climb) bog'lanib har bir hayvonning faolligi aniqlanadi. MASHQLAR USLUBI: 1. Phonics Format: Qisqa 'o' tovushi bor bo'lgan, matn orasidan bitta ajralib turuvchi so'zni tanlash. Misol uchun: Qaysi so'zda 'o' unlisi qatnashgan? A) box, B) pen, C) desk. To'g'ri javob: A). 2. CLIL Match: Har bir alohida hayvon uchun eng xos bo'lgan harakatlarni o'tgan mavzulardagi fe'llar bilan birlashtirish (masalan: Birds -> fly, Frogs -> jump). CHEKLOVLAR VA QAT'IY TALABLAR: Fonetika testlarida barcha qoidalar vizual elementlarsiz o'tkazilishi hamda faqat va faqat darslikda qatnashgan 'o' harfli sanalgan 3 ta so'zlar doirasida tuzilishi belgilab qo'yilgan."
+        }
+      ]
+    }
+  ]
+}
+]
