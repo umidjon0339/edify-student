@@ -1,58 +1,55 @@
-[
-  {
-    "category": "2-sinf",
-    "subject": "Tarbiya",
-    "index": 1,
-    "chapters": [
-      {
-        "chapter": "Men va mening Vatanim",
-        "index": 1,
-        "subtopics": [
-          { "name": "Vatanim \u2013 faxrim", "index": 1 },
-          { "name": "Maktab nima uchun kerak?", "index": 2 },
-          { "name": "O'qituvchi va o'quvchilar", "index": 3 },
-          { "name": "Maktabga yo'l", "index": 4 },
-          { "name": "Jamoat transportida", "index": 5 },
-          { "name": "Takrorlash", "index": 6 }
-        ]
-      },
-      {
-        "chapter": "Men va mening do'stlarim",
-        "index": 2,
-        "subtopics": [
-          { "name": "Men va mening sinfdosh do'stlarim", "index": 1 },
-          { "name": "Bir-birimizni tushunishni o'rganamiz", "index": 2 },
-          { "name": "Bir-birimizga yordam beramiz", "index": 3 },
-          { "name": "Ishonamiz va tekshiramiz", "index": 4 },
-          { "name": "Takrorlash", "index": 5 }
-        ]
-      },
-      {
-        "chapter": "Men va mening fazilatlarim",
-        "index": 3,
-        "subtopics": [
-          { "name": "Men \u2013 insonman", "index": 1 },
-          { "name": "Mehr-oqibat nima?", "index": 2 },
-          { "name": "Halollik nima?", "index": 3 },
-          { "name": "Hurmat va xushmuomalalik", "index": 4 },
-          { "name": "Sog'lom turmush tarzi", "index": 5 },
-          { "name": "Takrorlash", "index": 6 }
-        ]
-      },
-      {
-        "chapter": "Men va an'analar",
-        "index": 4,
-        "subtopics": [
-          { "name": "Mehmondo'stlik", "index": 1 },
-          { "name": "Hamkorlik an'analari", "index": 2 },
-          { "name": "Kitob \u2013 eng yaxshi do'stimiz!", "index": 3 },
-          { "name": "Bizga telefon, televizor, kompyuter nima uchun kerak?", "index": 4 },
-          { "name": "Madaniyat va ta'lim", "index": 5 },
-          { "name": "Ochiq osmon ostidagi muzey", "index": 6 },
-          { "name": "Jamoat joylarida bo'lish odobi", "index": 7 },
-          { "name": "Takrorlash", "index": 8 }
-        ]
-      }
-    ]
-  }
-]
+{
+  "category": "Tarbiya",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "Men va mening Vatanim",
+      "index": 1,
+      "subtopics": [
+        { "name": "Vatanim – faxrim", "index": 1, "context": "MAVZU QOIDALARI: 1. Vatan biz tug'ilgan, yashaydigan joydir. Biz uni juda sevamiz, uzoqqa ketsak darrov sog'inib qolamiz. 2. Zahiriddin Muhammad Bobur Hindistonda ulug' podshoh bo'lsa ham, o'z ona Vatanini sog'inib, Andijondan keltirilgan qovunni hidlab yig'lagan. MASHQLAR USLUBI: Matn asosida qisqa savollarga javob berish. Masalan: Nima uchun Bobur mirzo qovunni hidlab yig'ladi? Yoki o'zingiz yashaydigan joy haqida kichik hikoya tuzing. CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Maktab nima uchun kerak?", "index": 2, "context": "MAVZU QOIDALARI: 1. Maktabda o'qish, yozish, hisoblashni va dunyodagi yangi qiziqarli narsalarni doimo o'rganamiz. 2. Ilmlar bizga tabiatni tushunishga yordam beradi. Masalan, Mirzo Ulug'bek bobomiz ham rasadxona qurib, yulduzlarni o'rgangan va kitob yozgan. MASHQLAR USLUBI: Rasmlarga qarab olimlarga tegishli asboblarni topish. Masalan: Qaysi asboblar olimlarga o'z tadqiqoti uchun kerak bo'ladi? Yoki bilim haqida maqollar topib daftarga yozing. CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "O'qituvchi va o'quvchilar", "index": 3, "context": "MAVZU QOIDALARI: 1. Ustozlar hammamizga o'qishni, atrof-muhitni sevishni va yaxshi inson bo'lishni o'rgatadi. 2. Iskandar podshoh o'z ustozi Arastuni qattiq hurmat qilgan, chunki ustoz unga ta'lim va odob bergan. Abdulla Avloniy bobomiz ham mashhur ustoz bo'lganlar. MASHQLAR USLUBI: O'quvchiga kerakli xislatlarni tanlash. Masalan: Bilim olish uchun o'quvchiga qaysi fazilatlar yordam beradi? Dangasalikmi yoki mehnatsevarlikmi? Sabrmi yoki asabiylikmi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Maktabga yo'l", "index": 4, "context": "MAVZU QOIDALARI: 1. Yo'lda doimo svetofor va yo'l belgilariga qarab harakatlanish kerak. Qizil chiroq yonganda to'xtash, yashilda esa yurish lozim. 2. Mashinaga chiqqanda har doim xavfsizlik kamarini taqib olish shart, u falokatdan saqlaydi (Dilnoza bilan bo'lgan voqea kabi). MASHQLAR USLUBI: Rasmlarga qarab qoidalarni izohlash. Masalan: Qaysi bola yo'ldan to'g'ri o'tyapti? Nima uchun yo'ldan o'tayotganda telefonda gaplashish aslo mumkin emas? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Jamoat transportida", "index": 5, "context": "MAVZU QOIDALARI: 1. Avtobus yoki metroga chiqqanda doimo keksalarga, yosh bolali kishilarga joy berish kerak. O'zini uxlab yotganga solib olish juda yomon odatdir. 2. Transportga chiqishdan oldin tushadiganlarni o'tkazib yuborish, yo'l haqini vaqtida to'lash zarur. MASHQLAR USLUBI: To'g'ri va noto'g'ri xulq-atvorni ajratish. Masalan: Jamoat transportida yo'lovchi o'zini qanday tutishi kerakligini aniqlang. Birovning oyog'ini bexosdan bosib olsa nima deyish kerak? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Takrorlash", "index": 6, "context": "MAVZU QOIDALARI: 1. Birinchi bo'limda o'rganganimizdek, davlatimiz ramzlarini bilish, ustozlarni har doim hurmat qilish va jamoat transportida odobli bo'lish juda muhim qoidalardir. 2. Har bir bola maktabga boradigan yo'lda qoidalarga va xavfsizlik belgilariga albatta amal qilishi shart. MASHQLAR USLUBI: O'tilgan barcha darslar bo'yicha qisqa testlarni yechish. Masalan: O'zbekiston bayrog'ida qaysi ranglar bor? Mirzo Ulug'bek qaysi fanlarga ko'proq qiziqqan? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." }
+      ]
+    },
+    {
+      "chapter": "Men va mening do'stlarim",
+      "index": 2,
+      "subtopics": [
+        { "name": "Men va mening sinfdosh do'stlarim", "index": 1, "context": "MAVZU QOIDALARI: 1. Maktabda yaxshi xulqli bolalar bilan do'stlashish lozim. Asalari va chivin masalidagi kabi, do'st tanlashda juda e'tiborli bo'lish kerak. 2. Do'stlik o'zaro ishonch va yordam berishdan boshlanadi, bir-birini doim qo'llab-quvvatlash odamga ishonch beradi. MASHQLAR USLUBI: Sinfdoshidan kichik intervyu olish va turli vaziyatlarni tahlil qilish. Masalan: Sinfdosh do'stingiz bir hafta maktabga kelmasa nima qilasiz? Yoki eng yaqin do'stingizning ismi nima? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Bir-birimizni tushunishni o'rganamiz", "index": 2, "context": "MAVZU QOIDALARI: 1. Odamlarning kayfiyati doim har xil bo'ladi. Agar qattiq jahlimiz chiqib o'rtog'imizni xafa qilib qo'ysak, tezda tushunib, kechirim so'rashimiz kerak. 2. Yaxshi do'stlik har qanday araz, xafagarchilik va janjaldan doim ustun turadi. MASHQLAR USLUBI: Yuz tuzilishiga qarab kayfiyatni aniqlash mashqi. Masalan: Kayfiyati yaxshi odam nimalarni his qiladi? Yomon kayfiyatdagi odam qanday harakatlar qiladi? O'z kayfiyatingizni qanday qilib bilasiz? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Bir-birimizga yordam beramiz", "index": 3, "context": "MAVZU QOIDALARI: 1. Atrofdagilarga chin dildan yordam berish kerak. Kichkina sichqon katta sherga yordam bera olganidek, har kimning o'z o'rnida yordami tegishi mumkin. 2. Ammo dangasa bolaga uy vazifasini ko'chirtirish hech qanday yordam emas, balki kattakon zarardir. MASHQLAR USLUBI: Vaziyatni o'rganib tahlil qilish. Masalan: O'rtog'ingiz maktab guldonini sindirib qo'yib uni yashirmoqchi bo'lsa, unga qanday yordam berasiz? Ustozga rostini aytish kerakmi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Ishonamiz va tekshiramiz", "index": 4, "context": "MAVZU QOIDALARI: 1. Biz o'zimizning oila a'zolarimizga doim ishonamiz, lekin mutlaqo tanimaydigan begonalardan qattiq ehtiyot bo'lishimiz zarur. 2. Notanish odam shirinlik bersa aslo olmaslik, uyga chaqirsa bormaslik va uyda yolg'iz qolganda eshikni begonalarga umuman ochmaslik kerak. MASHQLAR USLUBI: To'g'ri xulq qoidalarini gapirib berish. Masalan: Begona odam ko'chada menga nimadir sovg'a bersa, men nima qilaman? Yoki notanish mashina meni olib ketmoqchi bo'lsa nima deyman? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Takrorlash", "index": 5, "context": "MAVZU QOIDALARI: 1. Ikkinchi bo'limda bilganimizdek, do'stlarni bir-biriga doim yaxshilik va mehr-oqibat birlashtirib turadi. Agar kimdir nohaq ish qilayotganini ko'rsak, uzoqlashmay kattalarga xabar berishimiz kerak. 2. Odamlar bir-birining qiyin holatini tushunishi insoniy fazilatdir. MASHQLAR USLUBI: Ikkinchi bo'lim yuzasidan turli testlarni yechish. Masalan: Do'stlarni nima birlashtiradi? Birovga yordam berayotganda eng avvalo nimaga e'tibor berish kerak? Ota-onadan nimani so'rash kerak? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." }
+      ]
+    },
+    {
+      "chapter": "Men va mening fazilatlarim",
+      "index": 3,
+      "subtopics": [
+        { "name": "Men – insonman", "index": 1, "context": "MAVZU QOIDALARI: 1. Barcha odamlar bir-biridan har xil bo'ladi. Har bir insonning faqat o'ziga xos zo'r iste'dodi va qobiliyati bo'ladi. 2. O'zimizdagi bunday qobiliyatni rivojlantirib (masalan, musiqachi Behzod Abduraimov kabi), odamlarga doim foyda keltiradigan yaxshi ishlar qilishimiz kerak. MASHQLAR USLUBI: Iste'dod turlarini aniqlash mashqi. Masalan: Siz aynan qaysi ishlarni hammadan juda yaxshi bajarasiz? O'z iste'dodingizni qanday qilib atrofdagilarga foydali ishga yo'naltirasiz? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Mehr-oqibat nima?", "index": 2, "context": "MAVZU QOIDALARI: 1. Yaxshilik bu insonlarga yordam berish va ularning ko'nglini ko'tarishdir. Yaxshilikni nafaqat odamlarga, balki ko'chadagi jonivorlarga ham ko'rsatishimiz kerak. 2. Uysiz mushuklarga mahsus uy qurib bergan bolalar kabi tabiatga hamisha mehr-oqibatli bo'lishimiz zarur. MASHQLAR USLUBI: Yaxshi va yomon ishlarni to'g'ri ajratish. Masalan: Nima yaxshi-yu, nima yomon? Birovning ustidan kulib xafa qilishmi yoki qiynalganda unga beminnat yordam berishmi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Halollik nima?", "index": 3, "context": "MAVZU QOIDALARI: 1. Doimo bor haqiqatni gapirish, birovning narsasini so'ramasdan umuman olmaslik xaqiqiy halollikdir. Halol odamning tili va dili doim bir bo'ladi. 2. Agar bilmasdan xato qilib qo'ysak, yashirmasdan rostini aytishimiz kerak, chunki ichki vijdonimiz shuni talab qiladi. MASHQLAR USLUBI: Rostgo'ylikka oid turli vaziyatlarni yechish mashqi. Masalan: O'rtog'ingiz birovni aldaganini ko'rib qolsangiz, unga qanday yo'l tutishni maslahat berasiz? Birovning telefonini topib olsangiz nima qilasiz? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Hurmat va xushmuomalalik", "index": 4, "context": "MAVZU QOIDALARI: 1. Atrofimizdagi barcha kasb egalari va yoshi ulug' insonlar doim hurmatga loyiqdir. Ularning mashaqqatli mehnatini doim qadrlashimiz zarur. 2. Qo'pol gaplar bilan do'stlarni xafa qilish aslo mumkin emas, hamisha shirinso'z va xushmuomala bo'lishimiz kerak. MASHQLAR USLUBI: Turli vaziyatlardagi so'zlashuv odobini baholash. Masalan: Futbol o'ynashga kelgan yangi bolani qanday qilib xushmuomalalik bilan o'z jamoaga qo'shish yoki chiroyli rad etish mumkin? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Sog'lom turmush tarzi", "index": 5, "context": "MAVZU QOIDALARI: 1. Sog'lom bo'lib o'sish uchun har kuni ko'p suv ichish, shirinlik o'rniga meva-sabzavotlar yeyish va sport bilan shug'ullanish kerak. 2. Ertalab va kechqurun tish yuvish, vaqtida uxlash va qomatingizni tik tutib yurish muhim salomatlik qoidalaridir. MASHQLAR USLUBI: O'zining kun tartibini tekshirish mashqi. Masalan: Kun davomida qancha suv ichdingiz, o'yin o'ynadingiz va soat nechada uxladingiz? Sog'lom bo'lish uchun yana qanday qoidalarni bilasiz? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Takrorlash", "index": 6, "context": "MAVZU QOIDALARI: 1. Inson o'z vijdoniga quloq tutishi, yaqinlari hamda do'stlari oldida doimo halol va samimiy bo'lishi juda katta fazilatdir. 2. O'zgalarning yutug'idan chin dildan quvonish, nohaq bo'lganda aybini tan olib uzr so'rash hammaga o'rnakdir. MASHQLAR USLUBI: Uchinchi bo'lim yuzasidan o'tilgan testlarni ishlash. Masalan: Darsda o'qituvchi uy vazifasini so'rab qolsa-yu tayyor bo'lmasangiz, yolg'on gapirasizmi yoki rostini aytasizmi? Qanday odamni hamma hurmat qiladi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." }
+      ]
+    },
+    {
+      "chapter": "Men va an'analar",
+      "index": 4,
+      "subtopics": [
+        { "name": "Mehmondo'stlik", "index": 1, "context": "MAVZU QOIDALARI: 1. Kelgan mehmonlarni ostonada chiroyli tabassum bilan kutib olib, ularga hurmat ko'rsatish va chiroyli dasturxon yozish bizning mehmondo'stligimizdir. 2. Dasturxon atrofida qoshiq-sanchqilarni o'ynamaslik, ovqatni umuman ovoz chiqarmay yeyish qat'iy dasturxon odobi hisoblanadi. MASHQLAR USLUBI: Berilgan qoidalarni to'g'ri tahlil qilish. Masalan: Dasturxon atrofida o'tirganda nimalar qilish mumkin va nimalar mutlaqo mumkin emasligini tartib bilan sanab bering. Qanday qilib mehmonni to'g'ri kuzatamiz? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Hamkorlik an'analari", "index": 2, "context": "MAVZU QOIDALARI: 1. Mahallada birgalikda hashar qilib, o'yingohlar qurish yoki ko'chalarni tozalash kabi ishlar xalqimizning azaliy hamkorlik an'anasidir. 2. Jamoa bo'lib ishlaganda har bir odamning o'z o'rni bo'ladi, birlashgan kuch barcha qiyinchiliklarni oson yengadi. MASHQLAR USLUBI: Rasmlarga qarab to'g'ri fikr bildirish. Masalan: Qaysi ishlarni yolg'iz o'zi, qaysilarini esa ko'pchilik bo'lib bajargan ma'qul? Nima uchun ba'zi ishlarni yolg'iz qilib bo'lmaydi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Kitob – eng yaxshi do'stimiz!", "index": 3, "context": "MAVZU QOIDALARI: 1. Biz kitobdan ko'plab qiziqarli voqealarni o'qiymiz, u bizga doim bilim beradi va yaxshi yashashni o'rgatadi. 2. Yirtilgan kitoblarni sekin yelimlab tuzatishimiz, ularga juda asrab-avaylab munosabatda bo'lishimiz (Kitoblar shifoxonasi) kerak. MASHQLAR USLUBI: Mantiqiy gaplarni moslashtirib davom ettirish. Masalan: Kitob insonni... qanday qiladi? (ilmli qiladi, tarbiyalaydi). Qog'oz nimalardan tayyorlanadi va u qanchalik mustahkam bo'ladi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Bizga telefon, televizor, kompyuter nima uchun kerak?", "index": 4, "context": "MAVZU QOIDALARI: 1. Telefon, televizor va kompyuter yordamida har kuni dunyo yangiliklaridan xabar topib, uzoqdagi do'stlarimiz bilan muloqot qilamiz. 2. Ular bilim olish va muloqot uchun muhimdir, ammo kompyuter oldida uzoq vaqt o'tirish ko'z va salomatlikka zarar qiladi. MASHQLAR USLUBI: Berilgan atamalarni farqlash mashqi. Masalan: Haqiqiy bo'lgan voqea (fakt) va shaxsiy o'y-xayol (fikr) o'rtasidagi farqni turli misollar bilan tushuntirib bering. CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Madaniyat va ta'lim", "index": 5, "context": "MAVZU QOIDALARI: 1. Kutubxona, muzey, kinoteatr va sirk xalq madaniyat muassasalaridir, bu yerda biz doim san'at bilan tanishamiz. 2. Teatrda va konsertda o'zini tutish odobi bor: hech qachon shovqin solmaslik, oziq-ovqat olib kirmaslik va telefonni o'chirib qo'yish qat'iy shartdir. MASHQLAR USLUBI: Turli madaniyat binolarini aniqlash. Masalan: Suratda ko'rsatilgan muzey, kinoteatr yoki sirklar odamlarga nima uchun kerakligini aytib bering. U yerda qanday qoidalarga amal qilish kerak? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Ochiq osmon ostidagi muzey", "index": 6, "context": "MAVZU QOIDALARI: 1. Hayvonot bog'i biz uchun katta jonli muzey bo'lib, bu yerda nodir hayvonlarni xavfsiz kuzatishimiz mumkin. 2. U yerda hayvonlarning jahlini chiqarmaslik, panjaraga qo'l uzatmaslik qat'iy qoidadir. Noyob hayvonlar doim himoya uchun 'Qizil kitob'ga kiritiladi. MASHQLAR USLUBI: Jonivorlar haqida qisqa savol tuzish va javob topish. Masalan: Nima uchun hayvonot bog'ida maxsus qoidalarga amal qilish shart deb o'ylaysiz? 'Qizil kitob' nega aynan qizil rangda bo'ladi? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Jamoat joylarida bo'lish odobi", "index": 7, "context": "MAVZU QOIDALARI: 1. Do'kon, bozor, kutubxona, maktab va istirohat bog'lari hamma uchun baravar mo'ljallangan jamoat joylaridir. 2. Bunday joylarda baland ovozda gapirmaslik, yosh bolali ayollarga joy berish hamda jamoat mulkini asrab-avaylash hammamizning kundalik vazifamizdir. MASHQLAR USLUBI: Qiziqarli vaziyatni o'rganib to'g'ri xulosa chiqarish. Masalan: Bolalar o'rindiq ustiga chiqib o'ynashi nima uchun noto'g'ri va xunuk ekanligini aytib bering. CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." },
+        { "name": "Takrorlash", "index": 8, "context": "MAVZU QOIDALARI: 1. Yigit va yo'lto'sar hikoyasidan o'rganganimizdek, ilmni faqat qog'ozda emas, balki xotirada eslab qolish kerak, shunda uni bizdan hech kim tortib ololmaydi. 2. Jamoat joylarida va mehmonga borganda barcha ijtimoiy odob qoidalariga xushmuomalalik bilan amal qilishimiz zarur. MASHQLAR USLUBI: Yil oxirida barcha testlarni yechish va muhokama qilish. Masalan: Nima uchun odamlar uylariga mehmon chaqirishadi? Odamlar o'rtasida hamkorlik qilishning qanday foydasi bor? CHEKLOVLAR: Darslikdagi hikoya va qoidalardan tashqariga chiqilmasin, murakkab falsafiy tushunchalar va kattalar muammolari ishlatilmasin." }
+      ]
+    }
+  ]
+}

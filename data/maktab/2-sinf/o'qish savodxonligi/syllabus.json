@@ -1,180 +1,415 @@
+
+
 [
-  {
-    "category": "2-sinf",
-    "subject": "O'qish savodxonligi",
-    "index": 1,
-    "chapters": [
-      {
-        "chapter": "Ona vatan bag'rida baxtiyor avlod!",
-        "index": 1,
-        "subtopics": [
-          { "name": "Vatanim – jannatmakon O'zbekiston", "index": 1 },
-          { "name": "Ona bitta, Vatan yagona", "index": 2 },
-          { "name": "Vatan ostonadan boshlanadi", "index": 3 },
-          { "name": "Maktabim – qutlug' makonim", "index": 4 },
-          { "name": "Toshkent – O'zbekiston poytaxti", "index": 5 },
-          { "name": "Serquyosh o'lka", "index": 6 },
-          { "name": "Yoshi ulug' shaharlarimiz", "index": 7 },
-          { "name": "Til – millat ko'zgusi", "index": 8 },
-          { "name": "Ochiq osmon ostidagi muzey", "index": 9 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 10 }
-        ]
-      },
-      {
-        "chapter": "Kitob – noyob xazina, bilim – tuganmas boylik",
+
+{
+  "category": "2-sinf",
+  "subject": "O'qish savodxonligi",
+  "index": 1,
+  "chapters": [
+    {
+      "chapter": "1-chorak",
+      "index": 1,
+      "subtopics": [
+        {
+          "name": "Vatanim–jannatmakon O'zbekiston",
+          "index": 1,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'zbekistonning betakror tabiati, mehmondo'st xalqi va osuda hayoti haqidagi lirik matn. Yurtimizning beqiyos go'zalligi 'jannatmakon' (jannatga o'xshash) so'zi orqali ifodalanadi. 2. Badiiy tasvirlar: Musaffo osmon, jannatmakon o'lka, yashil dalalar. 3. Tarbiyaviy g'oya (Moral): O'z Vatanini cheksiz sevish, uning tinchligini qadrlash va shunday go'zal yurtda tug'ilganidan faxrlanish. 4. Yangi lug'at: Jannatmakon (jannat kabi go'zal joy), musaffo (top-toza, tiniq), faxrlanmoq (g'ururlanmoq). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Yurt ta'rifini topish (Namuna: Matnda O'zbekistonning betakror tabiati qanday oliy so'z bilan ta'riflanadi? Javob: Jannatmakon o'lka). 2. Lug'at tahlili: 'Musaffo' so'zining tabiatdagi o'rnini aniqlash. CHEKLOVLAR: Matndagi she'riy qofiyalarni yoddan topishga qaratilgan savollar aslo tuzilmasin."
+        },
+        {
+          "name": "Ona bitta, Vatan yagona",
+          "index": 2,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Inson hayotidagi ikkita eng muqaddas tushuncha – Ona va Vatanning o'zaro qiyoslanishi. Inson uchun dunyoda bitta ona bo'lganidek, Vatan ham yagona ekanligi, ularni hech narsaga almashtirib bo'lmasligi ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): Vatan va Onani birdek e'zozlash, asrash hamda ularning qadriga yetish eng oliy insoniy fazilatdir. O'z yurtiga sadoqatli bo'lish uqtiriladi. 3. Yangi lug'at: Yagona (bitta, yakkasi yo'q), e'zozlamoq (qattiq hurmat qilmoq), muqaddas (ulug', e'tiborli). MASHQLAR USLUBI: 1. Mantiqiy qiyoslash: (Namuna: Asarga ko'ra, inson uchun yagona va hech narsaga almashtirib bo'lmaydigan ikkita buyuk ne'mat qaysilar? Javob: Ona va Vatan). 2. G'oya tahlili: Onaga va Vatanga qilinadigan munosabatning o'xshashligini mantiqan aniqlash. CHEKLOVLAR: Shaxslar yoki qahramon ismlari so'ralmasin, matnning falsafiy ma'nosi (Ona va Vatan tengligi) markazda bo'lsin."
+        },
+        {
+          "name": "Vatan – ostonadan boshlanadi",
+          "index": 3,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: \"Vatan\" degan ulkan va murakkab tushunchaning asli juda kichik va qadrdon joylardan – o'zimiz yashab turgan uyimiz ostonasidan, ko'chamiz va mahallamizdan boshlanishi haqida tushuntiruvchi matn. 2. Tarbiyaviy g'oya (Moral): Haqiqiy vatanparvarlik o'z uyi, mahallasi va atrof-muhitini toza saqlash, obod qilish va sevishdan boshlanadi. O'z ostonasini qadrlamagan inson butun Vatanni ham asray olmaydi. 3. Yangi lug'at: Ostona (uyning kirish qismi), vatanparvar (o'z yurtini sevuvchi va unga xizmat qiluvchi), obod (chiroyli, toza, tartibli). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Vatanning boshlanish nuqtasini aniqlash (Namuna: Asarga ko'ra, Vatan degan katta tushuncha inson uchun dastlab qayerdan boshlanadi? Javob: O'z tug'ilib o'sgan uyi ostonasidan va mahallasidan). 2. Lug'at tahlili: 'Vatanparvar' so'zining hayotiy ma'nosini belgilash. CHEKLOVLAR: Matndagi hovli ko'rinishi kabi mayda elementlar savol qilinmasin."
+        },
+        {
+          "name": "Maktabim – qutlug' makonim",
+          "index": 4,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Maktabning inson hayotida ilm va ma'rifat tarqatuvchi qutlug' (muqaddas) dargoh ekanligi haqida hikoya. U yerda mehribon ustozlarning bolalarga yozish, o'qish va yaxshi xulqni o'rgatishi, bolalarning esa bilimga chanqoqligi tasvirlanadi. 2. Tarbiyaviy g'oya (Moral): Maktabni va ustozlarni qattiq hurmat qilish, a'lo baholarga o'qish va vaqtdan unumli foydalanib bilim olish har bir o'quvchining asosiy burchidir. 3. Yangi lug'at: Qutlug' (barakali, muqaddas), makon (joy, maskan), ma'rifat (ilm-fan, yorug'lik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Maktabning jamiyatdagi o'rnini topish (Namuna: Matnga ko'ra, bolalarni ilm va ma'rifat nuri bilan yorituvchi qutlug' dargoh qayer? Javob: Maktab). 2. Sinonimlar: 'Ma'rifat' so'zining ma'nodoshini mantiqan topish. CHEKLOVLAR: Dars jadvallari, fanlar nomi kabi ikkinchi darajali ro'yxatlar test tuzishda ishlatilmasin."
+        },
+        {
+          "name": "Toshkent – O'zbekiston poytaxti",
+          "index": 5,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Davlatimizning bosh shahri – Toshkentning tarixi, obidalari, go'zal ko'chalari va chiroyli metropoliteni (yerosti poyezdi), shuningdek, osmono'par binolari haqida ma'lumot beruvchi matn. Toshkentning tinchlik va do'stlik shahri ekanligi ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): O'z Vatanining poytaxti haqida ma'lumotga ega bo'lish, uning chiroyi bilan g'ururlanish hamda yurtimizning markazi ramzi ekanligini anglash. 3. Yangi lug'at: Poytaxt (davlatning asosiy bosh shahri), metropoliten (yerosti transporti), zamonaviy (bugungi kunga mos, yangicha). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Poytaxt tushunchasini topish (Namuna: O'zbekiston davlatining eng markaziy va bosh shahri qanday ataladi? Javob: Poytaxt - Toshkent shahri). 2. Lug'at tahlili: 'Metropoliten' so'zining o'zbekcha sodda tushuntirishini aniqlash. CHEKLOVLAR: Toshkent minorasining balandligi (375 m) yoki viloyatlar soni kabi raqamli quruq faktlar O'qish fanida so'ralmaydi."
+        },
+        {
+          "name": "Serquyosh o'lka",
+          "index": 6,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'zbekistonning juda issiq va quyoshli kunlarga boy ekanligi, pishiqchilik fasllarida bog'larda g'arq pishadigan shirin-shakar mevalari (qovun-tarvuz, uzum, anjir) madh etiladigan o'quv matni. \"Serquyosh\" degani – quyoshi mo'l, serfayz va serhosil o'lka deganidir. 2. Tarbiyaviy g'oya (Moral): Tabiat in'om etgan quyoshli kunlarning va shirin ne'matlarning qadriga yetish. Serquyosh zaminning mehnatkash dehqonlari mehnati evaziga dasturxonimiz to'kin ekanini anglash. 3. Yangi lug'at: Serquyosh (quyoshi va issig'i ko'p), o'lka (joy, Vatan), serhosil (hosili, mevasi ko'p). MASHQLAR USLUBI: 1. Badiiy tasvirni topish: (Namuna: O'zbekiston nima sababdan matnda \"Serquyosh o'lka\" deb ta'riflanadi? Javob: Yurtimizda quyoshli va ochiq kunlarning ko'pligi, tabiati iliq bo'lgani uchun). 2. G'oya tahlili: Serhosil mevalar ortida kimning mehnati yotganini mantiqan aniqlash (Dehqonlarning). CHEKLOVLAR: Mevalarning vitaminlari (A, B vitamini) haqidagi biologik ma'lumotlarni aslo aralashtirmang."
+        },
+        {
+          "name": "Yoshi ulug' shaharlarimiz",
+          "index": 7,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Samarqand, Buxoro, Xiva va Shahrisabz kabi O'zbekistonning ko'p asrlik qadimiy shaharlari haqidagi matn. Bu shaharlardagi moviy gumbazli madrasalar, baland minoralar asrlar davomida xalqimizning aql-zakovatidan dalolat berishi yoritiladi. 2. Tarbiyaviy g'oya (Moral): Bizning tariximiz juda uzoq o'tmishga taqaladi. Bobokalonlarimiz qurib ketgan qadimiy (yoshi ulug') shaharlar va osori-atiqalarni qadrlash, ular bilan butun dunyo oldida faxrlanish burchimizdir. 3. Yangi lug'at: Obida (tarixiy, ko'hna inshoot), minora (baland qilib qurilgan inshoot), qadimiy (juda eski, o'tmishdan qolgan). MASHQLAR USLUBI: 1. Mantiqiy tahlil: 'Yoshi ulug'' iborasining shaharlarga nisbatan ma'nosini topish (Namuna: Nima uchun Samarqand va Buxoro shaharlari matnda \"yoshi ulug' shaharlar\" deb ataladi? Javob: Chunki ular minglab yillar oldin qurilgan juda qadimiy tarixga ega shaharlardir). 2. Lug'at tahlili: 'Obida' va 'Minora' so'zlarini izohlash. CHEKLOVLAR: Obidalarning aniq asrlari (masalan, XIV asr) yoki qurgan me'morlarning murakkab ismlarini eslab qolishga doir savollar tuzilmasin."
+        },
+        {
+          "name": "Til – millat ko'zgusi",
+          "index": 8,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ona tilimiz bo'lmish o'zbek tilining boyligi, go'zalligi va nafosati haqida ma'lumot beruvchi matn. Har bir xalqning o'z tili uning o'tmishini, madaniyatini va xarakterini ko'rsatib beruvchi oyna (ko'zgu) ekanligi ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): O'z ona tilida toza, chiroyli va xatosiz gapirish, unga chet el so'zlarini asossiz qo'shmaslik qoidasi ilgari suriladi. Ona tilini hurmat qilmagan inson o'z millatini ham qadrlamaydi. 3. Yangi lug'at: Millat (bir xalq), ko'zgu (oyna, aks ettiruvchi narsa), sof (toza, o'zgarmagan). MASHQLAR USLUBI: 1. Badiiy o'xshatishni tahlil qilish: Tilning vazifasini topish (Namuna: Asarga ko'ra, nima uchun til millatning \"ko'zgusi\" deb ataladi? Javob: Chunki insonning qanday gapirishiga va tiliga qarab uning madaniyati va qaysi xalqqa mansubligi ko'rinib turadi). 2. Xulosa yasash: Sof til qanday bo'lishini mantiqan aniqlash. CHEKLOVLAR: Ona tili darsidagi singari 'ot, sifat, fe'l' qoidalariga yoki til qabul qilingan sana (1989) ga oid faktlar so'ralmasin, mantiqan vatanparvarlikni so'rang."
+        },
+        {
+          "name": "Ochiq osmon ostidagi muzey (audiomatn)",
+          "index": 9,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Audiomatnda asosan ko'hna Xiva shahri (Ichan-qal'a) haqida so'z boradi. Bu shahar shu qadar ko'p tarixiy minoralar, qasrlar va masjidlarga egaki, u xuddi bino ichidagi emas, balki to'g'ridan-to'g'ri ochiq osmon ostidagi butun boshli ulkan muzeyga o'xshatiladi. 2. Badiiy tasvirlar: Ochiq osmon, qadimiy devorlar, o'tmish nafasi. 3. Tarbiyaviy g'oya (Moral): O'zbekistondagi tarixiy shaharlar butun dunyo sayyohlarini jalb qiladi. Ushbu betakror \"jonli muzey\" larni toza saqlash, ajdodlar merosini kelajakka buzilmasdan yetkazish. 4. Yangi lug'at: Muzey (tarixiy ashyolar saqlanadigan va ko'rsatiladigan joy), sayyoh (boshqa joylardan tomosha qilish uchun kelgan inson), osori-atiqa (qadimiy buyumlar). MASHQLAR USLUBI: 1. Badiiy o'xshatishni aniqlash: (Namuna: Nima uchun qadimiy shaharlarimiz \"ochiq osmon ostidagi muzey\" deb yuksak baholanadi? Javob: Chunki shaharning o'zi barcha ko'chalari va binolari bilan birgalikda yirik qadimiy ko'rgazmaga o'xshaydi). 2. Lug'at tahlili: 'Sayyoh' so'zining izohini topish. CHEKLOVLAR: Xiva xonlari yoki qal'a devorlari balandligi haqidagi geometrik/tarixiy ma'lumotlar audiomatnda bo'lsa ham testga kiritilmasin."
+        },
+        {
+          "name": "Bo'lim yuzasidan takrorlash",
+          "index": 10,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: 1-chorakning \"Vatan va uning qadriyatlari\" bo'limiga oid barcha mavzular (Ona Vatan yagonaligi, Toshkent, yoshi ulug' shaharlar, ona tili qadri) yakuniy takrorlanadi. Bu asarlar orqali yurtimizning qay darajada ulug'vor ekanligini eslash. 2. Tarbiyaviy g'oya (Moral): Vatanparvarlik oiladan (ostonadan) boshlanib, ona tiliga, qadimiy shaharlarga va poytaxtga bo'lgan cheksiz ehtirom bilan mustahkamlanadi. O'quvchi bu qadriyatlarni himoya qiluvchi vorisdir. 3. Yangi lug'at (Takroriy): jannatmakon, ko'zgu, poytaxt, obida. MASHQLAR USLUBI: 1. G'oyaviy taqqoslash: Asarlar mantiqini birlashtirish (Namuna: 'Vatan ostonadan boshlanadi' va 'Til - millat ko'zgusi' matnlarini o'zaro qanday buyuk tuyg'u birlashtirib turadi? Javob: Ikkalasida ham Vatanga va milliy qadriyatlarga bo'lgan kuchli muhabbat tuyg'usi aks etgan). 2. Xulosalash: Vatan ta'riflarini mantiqan topish. CHEKLOVLAR: Hikoyalarning aniq mualliflari ism-sharifini yoddan topish taqiqlanadi. Tahliliy savollargagina e'tibor bering."
+        },
+        {
+          "name": "Kitob – beminnat do'st",
+          "index": 11,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ushbu mantiqiy-axloqiy matnda kitobning insonga qanchalik yaqin ekanligi ta'riflanadi. Odamzod kitob o'qiyotganda undan doim yaxshi maslahatlar, to'g'ri yo'l va ulkan bilim oladi. Eng muhimi, kitob o'z o'quvchisidan buning evaziga hech narsa talab qilmaydi – u eng beminnat do'stdir. 2. Badiiy tasvirlar: Kitobning jim turib hammasini o'rgatadigan ustozga va sadoqatli do'stga o'xshatilishi. 3. Tarbiyaviy g'oya (Moral): Kitob o'qish orqali idrok o'sadi. Kitobga mehr qo'ygan inson hayotda adashmaydi. Kitobdek yaqin hamrohni asrab-avaylash o'quvchining asosiy burchidir. 4. Yangi lug'at: Beminnat (qilgan yaxshiligi uchun evaz, minnat kutmaydigan), mutolaa (kitob o'qish jarayoni), hamroh (birga yo'l yuruvchi, do'st). MASHQLAR USLUBI: 1. Badiiy tahlil: Kitob nima sababdan do'stga o'xshatilganini topish (Namuna: Asarda nima uchun kitobni \"beminnat do'st\" deb atashgan? Javob: U jimgina bizga bilim beradi va buning evaziga hech narsa talab qilmaydi). 2. Sinonimlar: 'Mutolaa' so'zining tushunarli o'zbekcha sinonimini aniqlash. CHEKLOVLAR: Matndan chekinib, muayyan ertak kitoblar (masalan \"Zangori gilam\") ni eslashga majburlovchi testlar tuzilmasin."
+        },
+        {
+          "name": "Kitob – bebaho boylik",
+          "index": 12,
+          "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Insonlarning turli xil boyliklari – oltinlari, pullari va qasrlari bo'lishi mumkin, biroq ular vaqt o'tishi bilan yo'qoladi, o'g'irlanadi yoki qiymatini yo'qotadi. Lekin kitob orqali olingan ilm shunday 'bebaho boylik'ki, uni insonning miyasidan hech kim tortib ololmaydi va u hayot davomida tobora ko'payib boradi. 2. Tarbiyaviy g'oya (Moral): Chinakam boy bo'lishni xohlagan inson avvalo miyasini bilim bilan boyitishi kerak. Moddiy narsalarga ko'ngil qo'yishdan ko'ra, ma'naviy boylik – kitob o'qishni xohlash ulug' hislatdir. 3. Yangi lug'at: Bebaho (bahosi, narxi yo'q darajada qimmat), aql-idrok (fikrlash va xulosa qilish qobiliyati), ma'naviyat (insonning ichki bilim dunyosi). MASHQLAR USLUBI: 1. Mantiqiy qiyoslash: Moddiy va ma'naviy boylikni farqlash (Namuna: Asarga ko'ra, oltin yoki pul kabi boyliklardan kitob ilmining eng katta ustunligi nimada? Javob: Oltin o'g'irlanishi mumkin, lekin kitobdan olingan bilimni hech kim tortib ololmaydi). 2. Lug'at tahlili: 'Bebaho' so'zining izohini topish. CHEKLOVLAR: Bank ishi yoxud pullarning qanday qadrsizlanishi kabi iqtisodiyotga oid savollar berilmasin. Bilim va moddiyat taqqoslansin."
+        },
+        {
+            "name": "Kitob o'qigan bola…",
+            "index": 13,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ushbu matnda kitob o'qiydigan bola bilan o'qimaydigan bolaning farqi yoritiladi. Kitob o'qigan bolaning fikrlashi keng, nutqi ravon, so'z boyligi ko'p bo'lishi va hayotda duch keladigan har qanday qiyinchiliklarga aql bilan yechim topa olishi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Kitob mutolaasi miyani charxlaydi. Katta yutuqlarga erishish va jamiyatda hurmat qozonish uchun to'xtovsiz kitob o'qish va bilim olish kerak. 3. Yangi lug'at: Ravon (silliq, chiroyli va tutilmasdan gapirish), so'z boyligi (inson biladigan so'zlar miqdori), tafakkur (chuqur o'ylash). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Kitob o'qishning miyaga ta'sirini topish (Namuna: Matnga ko'ra, muntazam kitob o'qigan bolaning nutqi va gapirishi qanday o'zgaradi? Javob: Fikri kengayib, ravon va chiroyli gapiradigan bo'ladi). 2. Lug'at tahlili: 'Ravon' so'zining izohini aniqlash. CHEKLOVLAR: Matnda ishtirok etmaydigan qo'shimcha badiiy kitoblar nomlari test qilinmasin."
+          },
+          {
+            "name": "Gulzor shahrining mittilari",
+            "index": 14,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: N. Nosovning mashhur asari qahramonlari – \"Gulzor\" shahrida yashovchi mittivoylar (Bilmasvoy va Zukkoboy) haqidagi ertak-hikoya. Hikoyada doim kitob o'qiydigan va hamma narsani biladigan Zukkoboy bilan o'qishdan qochib, faqat maqtanishni yaxshi ko'radigan Bilmasvoyning xulqi qiyoslanadi. Bilmasvoy o'zining bilimsizligi tufayli doim kulgili va noqulay ahvolga tushishi kulgi (yumor) bilan tasvirlanadi. 2. Tarbiyaviy g'oya (Moral): Bilimsizlik, dangasalik va o'rinsiz maqtanchoqlik insonni el oldida sharmanda qiladi. Zukkolik va kitobxonlik esa doimo g'alaba qozonadi. 3. Yangi lug'at: Mitti (juda kichkina odamchalar), zukko (aqlli, ko'p o'qigan), noqulay (uyatli holat). MASHQLAR USLUBI: 1. Xarakter tahlili: Qahramonlarni qiyoslash (Namuna: Asarda qaysi qahramon o'zining bilimsizligi va maqtanchoqligi tufayli doim uyatga qoladi? Javob: Bilmasvoy). 2. Mantiqiy xulosa: Zukkoboyning nima uchun hurmatda ekanligini topish. CHEKLOVLAR: Ertak qahramonlarining aniq kiyim rangi kabi xotiraga tayangan vizual detallari so'ralmasin."
+          },
+          {
+            "name": "Uzum J.Rumiy (audiomatn)",
+            "index": 15,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Jaloliddin Rumiyning ibratli rivoyati asosidagi audiomatn. To'rtta turli millatga mansub yo'lovchi (fors, arab, turk, yunon) pul topib olib, nima sotib olish ustida janjallashib qolishadi. Har biri o'z tilida \"uzum\" deydi, lekin tillari boshqa bo'lgani uchun bir-birini tushunmaydi. Oxiri bir dono odam ularga uzum olib kelib bergach, aslida hammalari bitta narsani (uzumni) xohlaganliklarini anglab yetishadi. 2. Tarbiyaviy g'oya (Moral): Odamlar orasidagi tushunmovchilik va janjallar ko'pincha bilimsizlik yoki bir-birini eshitmaslikdan kelib chiqadi. Tillarni bilish va birovning fikrini oxirigacha tinglash ahillik va tinchlik olib keladi. 3. Yangi lug'at: Ixtilof (janjal, tushunmovchilik), ahillik (inoqlik), hikmat (chuqur aql bilan aytilgan ma'no). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Janjal sababini aniqlash (Namuna: Rivoyatda to'rt yo'lovchining o'zaro janjallashib qolishiga nima sabab bo'ldi? Javob: Tili boshqa bo'lgani uchun bir-birini tushunmaganliklari). 2. G'oya tahlili: Rivoyatning asosiy axloqiy xulosasini topish. CHEKLOVLAR: Yo'lovchilar qaysi tillarda gapirganini tartibi bilan yoddan topish taqiqlanadi."
+          },
+          {
+            "name": "Ilm – yorug'lik",
+            "index": 16,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ilm va bilimsizlik o'rtasidagi farq yorug'lik va qorong'ilik orqali majoziy tushuntirilgan matn. Ilmli odamning yo'li doim yorug' ekanligi, u atrofidagi narsalarni aniq ko'ra olishi va adashmasligi aytiladi. Ilmsizlik esa zulmatga (qorong'ilikka) o'xshatiladi. 2. Tarbiyaviy g'oya (Moral): \"Ilm – yorug'lik, johillik – zulmat\". Aql bilan barcha muammolarni yechish mumkin. Har bir bola o'z ongi qorong'i bo'lib qolmasligi uchun ilm nuriga intilishi kerak. 3. Yangi lug'at: Zulmat (qop-qorong'ilik), johillik (bilimsizlik, nodonlik), nur (yorug'lik, aql-zakovat). MASHQLAR USLUBI: 1. Badiiy qiyoslashni topish (Namuna: Matnda o'qimagan, bilim olmagan odamning holati majoziy ma'noda nimaga o'xshatiladi? Javob: Zulmatda (qorong'ida) qolgan odamga). 2. Lug'at tahlili: 'Johillik' va 'Zulmat' so'zlarining hayotiy izohini aniqlash. CHEKLOVLAR: Matnda qo'llanilmagan qo'shimcha maqollarni variantlar orasiga chalg'ituvchi sifatida qo'shmang."
+          },
+          {
+            "name": "Kitobga sodiq bo'ling",
+            "index": 17,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'quvchilarga kitobdan qanday foydalanish va uni asrash haqidagi axloqiy-tarbiyaviy matn. Kitob o'qiyotganda ovqat yemaslik, varaqlarni burklamasdan maxsus xatcho'plar (zakladkalar) ishlatish, kitobni yirtmaslik kerakligi yozilgan. Kitobni toza asragan bolagina uning \"sodiq do'sti\" bo'la olishi ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): Kitob osonlik bilan yaralmaydi, unda yuzlab insonlarning mehnati yotibdi. Kitobga vahshiylarcha munosabatda bo'lish bu ilmga xiyonatdir. Uni ehtiyotlab boshqalarga ham yetkazish muhim burchdir. 3. Yangi lug'at: Sodiq (vafodor, xiyonat qilmaydigan), xatcho'p (kitob sahifasini belgilab qo'yadigan moslama), vahshiylik (yomon, beshafqat munosabat). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Kitob o'qish madaniyatini farqlash (Namuna: Kitob o'qiyotganda qaysi xatti-harakat kitobga nisbatan noto'g'ri va hurmatsizlik hisoblanadi? Javob: Varaqlarini buklash va o'qiyotganda ovqat yeyish). 2. Lug'at: 'Xatcho'p'ning aniq vazifasini topish. CHEKLOVLAR: Kitob nashriyotining ishlash jarayoni (qog'oz qanday yasalishi) kabi atrofimizdagi olam darsiga oid savollar qo'shilmasin."
+          },
+          {
+            "name": "Bo'lim yuzasidan takrorlash",
+            "index": 18,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: 1-chorakning kitob, ilm-fan, Rumiy ertagi va mittivoylar sarguzashtlariga bag'ishlangan bo'limi bo'yicha takrorlash. O'quvchilardan kitob o'qish qoidalari, ilmning nuri va bilimsizlik illatlari o'rtasidagi bog'liqlikni qanday tushunganliklari so'raladi. 2. Tarbiyaviy g'oya (Moral): Ilm – insonni yo'qotishdan asraydigan yagona nurdir. Bilimni faqat kitoblardan to'g'ri mutolaa qilish va ahillik orqali o'zlashtirish mumkin. 3. Yangi lug'at (Takroriy): johillik, sodiq, xatcho'p, zukko. MASHQLAR USLUBI: 1. Qahramonlarni mantiqan moslashtirish (Namuna: Qaysi asar qahramoni ilm o'rganish o'rniga faqat maqtangani uchun jazolanadi? Javob: Gulzor shahrining mittisi Bilmasvoy). 2. G'oya tahlili: 'Ilm yorug'lik' matnidagi umumiy xulosani topish. CHEKLOVLAR: Matn mualliflarini yoddan izlashdan qochib, faqat mantiqiy va tarbiyaviy yakunlarni sinang."
+          },
+          {
+            "name": "Juda foydali ixtiro (audiomatn)",
+            "index": 19,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Insoniyat tarixidagi eng katta va kundalik hayotimizni o'zgartirgan foydali ixtirolardan biri (masalan, qog'oz, g'ildirak yoki yozuv) haqidagi axborotli audiomatn. Ushbu ixtiro qanday paydo bo'lgani va hozirgi kunda insonlarning mushkulini qanday oson qilayotgani qiziqarli hikoya qilinadi. 2. Tarbiyaviy g'oya (Moral): Atrofimizdagi oddiy bo'lib ko'ringan buyumlar asrlar davomida aqlli insonlar tomonidan yaratilgan. Odam aqli tinimsiz izlanish orqali yangi va foydali narsalar ixtiro qilishga qodir. 3. Yangi lug'at: Ixtiro (ilgari bo'lmagan yangi narsani yaratish), foydali (naf keltiruvchi), qadimiy (juda uzoq yillik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ixtironing jamiyatdagi o'rnini topish (Namuna: Matnda aytilganidek, insonlar nima maqsadda yangi va murakkab narsalarni ixtiro qilishgan? Javob: O'z hayotlarini osonlashtirish va og'irini yengil qilish uchun). 2. Lug'at tahlili: 'Ixtiro' tushunchasining o'zbekcha oddiy izohini topish. CHEKLOVLAR: Qaysi davlatda, qachon ixtiro qilingani haqidagi aniq tarixiy son-raqamlar ustida savol tuzmang."
+          },
+          {
+            "name": "Kashfiyotchi bobolar",
+            "index": 20,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'zbekistondan yetishib chiqqan buyuk ajdodlar, kashfiyotchi va olim bobolarimizning bolaligi haqidagi qiziqarli matn. Ular yoshligida qanday qilib tabiatni, yulduzlarni, nabototni o'rgangani va o'z savollariga javob izlaganlari yoritiladi. Aynan shu qiziquvchanlik ularni ulug' alloma qilib yetishtirgan. 2. Tarbiyaviy g'oya (Moral): Buyuk olim bo'lish o'z-o'zidan sodir bo'lmaydi. Kashfiyotlar tinimsiz kitob o'qish, atrofdagi narsalar nega shunday ishlashini o'rganish va kuzatuvchanlik natijasida paydo bo'ladi. 3. Yangi lug'at: Kashfiyotchi (tabiatdagi yashirin sirlarni ochuvchi olim), alloma (katta bilim egasi), kuzatuvchan (atrofni diqqat bilan kuzatuvchi). MASHQLAR USLUBI: 1. Xarakter tahlili: Olimning yoshlikdagi fazilatini topish (Namuna: Buyuk alloma bobolarimiz yoshligida qanday ijobiy hislatga ega bo'lganlar? Javob: Atrofni diqqat bilan kuzatuvchi va ilmga qiziquvchan). 2. Lug'at: 'Alloma' so'zining izohini aniqlash. CHEKLOVLAR: Allomalarning qaysi yili tug'ilgani yoki darslikda yo'q ilmiy asarlarining murakkab nomlari aslo so'ralmasin."
+          },
+          {
+            "name": "O'z aksini ko'rish orzusi",
+            "index": 21,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Insonlarning o'z yuzini (aksini) ko'rishga bo'lgan qadimiy orzusi va oyna (ko'zgu) qanday kashf etilgani haqidagi ibratli hikoya. Qadimda insonlar faqat buloqlardagi tiniq suvga qarabgina o'z aksini ko'ra olishgan. Keyinchalik qattiq mehnat va qiziquvchanlik natijasida silliq qilingan metall, so'ngra hozirgi shishali oynalar yaratilgani aytiladi. 2. Tarbiyaviy g'oya (Moral): Orzular insonni doim olg'a yetaklaydi va yangi ixtirolar yaratishga turtki bo'ladi. Hozirgi kunda oddiygina ko'rinadigan har qanday buyum ortida yuzlab yillik tinimsiz izlanish yotadi. 3. Yangi lug'at: Aks (ko'zguda yoki suvda ko'ringan soya, qiyofa), oyna (yuzni ko'rsatadigan shisha moslama), kashf etish (yangi narsa ixtiro qilish). MASHQLAR USLUBI: 1. Mantiqiy tarixiy tahlil: (Namuna: Qadimda oyna kashf etilmasidan oldin insonlar o'z yuzlarini va akslarini qayerda ko'rishgan? Javob: Tiniq buloq yoki anhor suvlarida). 2. Lug'at: 'Aks' so'zining ma'nosini mantiqan topish. CHEKLOVLAR: Oynaning kimyoviy tarkibi (qum va shisha aralashmasi) kabi fizika va kimyoga doir fanlararo savollar kiritilmasin."
+          },
+          {
+            "name": "Yo'l ko'rsatuvchi mayoq",
+            "index": 22,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Dengizchilar va sayyohlar tunda qorong'i ummonlarda yo'ldan adashmasliklari uchun dengiz bo'ylariga qurilgan baland minoralardagi kuchli chiroqlar – \"mayoq\" (mayak) haqidagi matn. Mayoq qanday qilib kemalarni halokatdan asrab qolishi va ularga to'g'ri yo'lni qanday ko'rsatishi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Odamlarning hayotini qutqarish va ularga yordam berish maqsadida qurilgan har qanday ixtiro eng qadrli hisoblanadi. Ilm va aql doim insonlar xavfsizligiga xizmat qilishi kerak. 3. Yangi lug'at: Mayoq (tunda kemalarga yo'l ko'rsatuvchi nurli minora), ummon (katta dengiz, okean), halokat (kema halok bo'lishi, fojia). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Mayoqning amaliy vazifasini aniqlash (Namuna: Dengiz bo'yida qurilgan baland nurli mayoq asosan qanday maqsadga xizmat qiladi? Javob: Tunda kemalarning adashmasligi va xavfsiz yo'l topishi uchun). 2. Lug'at tahlili: 'Mayoq' va 'Ummon' so'zlarini izohlash. CHEKLOVLAR: Dunyodagi eng katta mayoqning bo'yi kabi raqamli savollar tuzilmasin."
+          },
+          {
+            "name": "Oshxona buyumlari",
+            "index": 23,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Biz har kuni ovqatlanishda ishlatadigan juda oddiy ko'ringan oshxona buyumlari (qoshiq, sanchqi, pichoq, choynak va piyola) qanday paydo bo'lgani va ular insonning ovqatlanish madaniyatini qanchalik o'zgartirgani haqidagi bilim beruvchi matn. Qadimda bu buyumlar yog'ochdan yoxud toshdan juda qo'pol yasalgan bo'lsa, hozirgi kunda go'zal va qulay holatga kelgani tasvirlanadi. 2. Tarbiyaviy g'oya (Moral): Kundalik buyumlarni toza asrash va ovqatlanish odobiga amal qilish. Har bir yasalgan idishda minglab hunarmandlarning mashaqqatli mehnati yashiringanini anglash. 3. Yangi lug'at: Sanchqi (vilka, sanchib yeyiladigan idish), madaniyat (tartib, yaxshi xulq), hunarmand (buyumlar yasaydigan usta). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Oshxona buyumlarining ixtiro qilinish maqsadini topish (Namuna: Qoshiq va sanchqi kabi buyumlar qanday maqsadda ixtiro qilingan? Javob: Odamlarning toza va madaniyatli ovqatlanishi uchun). 2. Lug'at: 'Hunarmand' so'zining izohini aniqlash. CHEKLOVLAR: Buyumlarning qaysi asrda Yevropada yoki Osiyoda ixtiro qilinganiga doir og'ir tarixiy faktlarni qo'shmang."
+          },
+          {
+            "name": "Vaqt qadri",
+            "index": 24,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Insonlar qadim zamonlarda vaqtni qanday o'lchashgani (quyosh soyasiga qarab, keyinchalik qum soati, oxiri esa hozirgi mexanik soatlar) yoritilgan axborot matni. Soat nega eng qimmatli kashfiyotlardan biri ekanligi tushuntiriladi. Chunki u bizga vaqtning tinimsiz o'tib borayotganini eslatib turadi. 2. Tarbiyaviy g'oya (Moral): Vaqt – hayotdagi eng boy xazina va hech qachon qaytib kelmaydigan ne'matdir. Soatning vazifasi faqat vaqtni ko'rsatish emas, balki uni zoye qilmaslikka (bekor o'tkazmaslikka) chorlashdir. 3. Yangi lug'at: Soat (vaqt o'lchovchi asbob), qadr (biror narsaning ahamiyati, narxi), zoye ketmoq (behuda o'tib ketmoq). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qadimgi vaqt o'lchovlarini farqlash (Namuna: Odamlar qadimda, chiroyli mexanik soatlar yo'q vaqtda vaqtni qanday asbob orqali o'lchashgan? Javob: Quyosh va qum soatlari orqali). 2. Falsafiy xulosa: Vaqtni asrash borasida matn nima deyishini aniqlash. CHEKLOVLAR: Mexanik soat ichidagi tishli g'ildiraklar haqida texnologiya faniga o'xshab test tuzilmang. Vaqtning inson umridagi o'rni tahlil qilinsin."
+          }
+      ]
+    },
+     {
+        "chapter": "2-chorak",
         "index": 2,
         "subtopics": [
-          { "name": "Kitob – beminnat do'st", "index": 1 },
-          { "name": "Kitob – bebaho boylik", "index": 2 },
-          { "name": "Kitob o'qigan bola", "index": 3 },
-          { "name": "Gulzor shahrining mittilari – I qism", "index": 4 },
-          { "name": "Gulzor shahrining mittilari – II qism", "index": 5 },
-          { "name": "\"Uzum\" hikoyasi", "index": 6 },
-          { "name": "Ilm – yorug'lik", "index": 7 },
-          { "name": "Kitobga sodiq bo'ling", "index": 8 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
+          {
+            "name": "Hunarmandchilik turlari",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'zbek xalqining milliy hunarmandchilik turlari (kulolchilik, zargarlik, yog'och o'ymakorligi, kashtachilik, kosibchilik) haqida umumiy tushuncha beruvchi matn. Har bir hunar ustasi o'z mehnati orqali odamlarga qanday foyda keltirishi va go'zallik yaratishi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): \"Hunar – hunardan unar\". Ajdodlarimizdan meros bo'lib kelayotgan milliy hunarlarni qadrlash, qo'l mehnati bilan yaratilgan buyumlarni e'zozlash va yoshlikdan biror hunar o'rganishga qiziqish. 3. Yangi lug'at: Hunarmand (qo'l mehnati ustasi), kulol (loydan idish yasovchi), zargar (oltin-kumushdan taqinchoq yasovchi). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Hunar turlari va ularning vazifasini moslashtirish (Namuna: Loydan turli xil chiroyli ko'zalar va piyolalar yasaydigan usta kim deb ataladi? Javob: Kulol). 2. Lug'at tahlili: Hunarmandchilik turlarini mantiqan farqlash. CHEKLOVLAR: Hunarmandchilikning paydo bo'lish asrlari (tarixiy sanalar) kabi murakkab ma'lumotlar so'ralmasin."
+          },
+          {
+            "name": "Har kasbning o'z gashti bor",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Jamiyatdagi turli xil kasb egalari (nonvoy, quruvchi, shifokor, bog'bon) o'z mehnatidan qanday zavq (gasht) olishi haqida hikoya qilinadi. Har bir inson o'zi sevgan kasbi orqali elga xizmat qilganda charchoqni his qilmasligi va baxtli bo'lishi ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): Inson qaysi kasbni tanlamasin, uni chin dildan sevib bajarishi kerak. Halol mehnat va elning duosi insonni ulug'laydi. Mehnatsevarlik eng go'zal fazilatdir. 3. Yangi lug'at: Gasht (zavq, lanjlik, rohat), kasb (doimiy shug'ullaniladigan ish, mutaxassislik), halol (pok, to'g'ri). MASHQLAR USLUBI: 1. Badiiy-mantiqiy tahlil: Kasbning insonga beradigan ruhiy ta'sirini topish (Namuna: Nima uchun inson o'z kasbida tinimsiz ishlasa ham charchamaydi? Javob: Chunki u o'z ishini sevadi va undan zavq (gasht) oladi). 2. Lug'at: 'Gasht' so'zining to'g'ri izohini aniqlash. CHEKLOVLAR: Kasblarning iqtisodiy daromadiga oid (qancha maosh oladi) moddiy savollar mutlaqo kiritilmasin."
+          },
+          {
+            "name": "Yosh musavvir",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Tasviriy san'atga, qog'ozga rasm chizishga qattiq qiziqadigan, tabiatdagi ranglarni o'ziga xos tarzda ko'ra oladigan iste'dodli yosh bola (musavvir) haqidagi hikoya yoki she'r. Uning o'z mo'yqalami orqali bahorning yashilligini yoki kuzning sariq barglarini qanday tasvirlashi yoritiladi. 2. Tarbiyaviy g'oya (Moral): Har bir bolada yashirin iste'dod bo'ladi. Uni yuzaga chiqarish uchun tabiatni sevish, kuzatuvchan bo'lish va tinimsiz mashq qilish zarur. San'at qalbni ezgulikka to'ldiradi. 3. Yangi lug'at: Musavvir (rassom), mo'yqalam (rasm chizish asbobi), manzarali (tabiat ko'rinishi). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qahramonning qiziqishi va iqtidorini topish (Namuna: Asar qahramoni atrof-muhitdagi go'zallikni o'zining qaysi sehrli asbobi orqali oq qog'ozga tushiradi? Javob: Mo'yqalami orqali). 2. Sinonimlar: 'Musavvir' so'zining zamonaviy dildagi ma'nodoshini topish (Rassom). CHEKLOVLAR: Qanday turdagi bo'yoqlar (akvarel, guash) ishlatilgani kabi tasviriy san'at texnikasiga oid savollar qo'shilmasin."
+          },
+          {
+            "name": "Kasbning yomoni yo'q",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Jamiyatda ba'zi kasblar obro'li (direktor, vrach), ba'zilari esa oddiy ko'rinsa-da (farrosh, tikuvchi, etikdo'z), aslida ularning barchasi birdek muhimligi tushuntirilgan ibratli matn. Farrosh bo'lmasa atrof ifloslanishi, etikdo'z bo'lmasa oyoq kiyimsiz qolishimiz orqali hech qaysi kasbni kamsitib bo'lmasligi isbotlanadi. 2. Tarbiyaviy g'oya (Moral): Odamlarni kasbiga qarab ajratish va kamsitish katta nodonlikdir. Jamiyat bir butun tanaga o'xshaydi, unda har bir ishchi muhim. Barcha halol mehnat qiluvchilar hurmatga loyiqdir. 3. Yangi lug'at: Kamsitmoq (pastga urmoq, hurmat qilmaslik), jamiyat (birlashib yashovchi insonlar), sharafli (hurmatli). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Hikoyaning asosiy g'oyasini xulosalash (Namuna: Asarga ko'ra nima uchun farroshlik yoki etikdo'zlik kasbini kamsitish noto'g'ri hisoblanadi? Javob: Chunki bu kasblar bo'lmasa, insonlarning hayoti va tozaligi qiyinlashadi, har bir kasb jamiyat uchun muhim). 2. Lug'at tahlili: 'Kamsitmoq' so'zining izohini aniqlash. CHEKLOVLAR: Muayyan kasb vakillarini bir-biriga solishtirib kamsituvchi (qaysi kasb yaxshiroq) ko'rinishidagi testlar mutlaqo man etiladi."
+          },
+          {
+            "name": "Sharafli kasb",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Insoniyat jamiyatidagi eng sharafli va mashaqqatli kasblar bo'lmish o'qituvchilik (ustozlik) yoxud shifokorlik kasbi haqida o'quv matni. Ustozlarning o'z shogirdlariga harflarni o'rgatishdan boshlab to yuksak ma'naviyatli inson qilib tarbiyalashdagi beqiyos mehnati, tunlari yozgan daftarlari va ko'z nurlari madh etiladi. 2. Tarbiyaviy g'oya (Moral): \"Ustoz otangdek uluğ\". O'qituvchini hurmat qilish, uning o'gitlariga amal qilish farzandlik burchidir. Ular shogirdlarining yutug'idan o'zlarini baxtli his qiladigan fidoiy insonlardir. 3. Yangi lug'at: Sharafli (juda ulug', obro'li), fidoiy (o'zini boshqalar uchun bag'ishlaydigan), mashaqqatli (juda og'ir, qiyin). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ustozlar mehnatini va hissiyotini tushunish (Namuna: Ustozlarning eng katta yutug'i va baxti nima bilan o'lchanadi deb ta'riflanadi? Javob: O'z shogirdlarining hayotda yaxshi va bilimli inson bo'lib yetishishi bilan). 2. Lug'at tahlili: 'Fidoiy' so'zining to'g'ri o'zbekcha izohini topish. CHEKLOVLAR: Aniq kasb bayramlari (1-oktabr) yoki o'qituvchining nechta dars o'tishi kabi raqamli axborotlar so'ralmasin."
+          },
+          {
+            "name": "Bo'lim yuzasidan takrorlash",
+            "index": 6,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: 2-chorakning \"Kasblar va hunarmandchilik\" bo'limiga doir mavzular takrorlanadi. \"Har kasbning o'z gashti bor\", \"Yosh musavvir\", \"Kasbning yomoni yo'q\" va \"Sharafli kasb\" matnlaridagi asosiy xulosalar birlashtirilib, halol mehnatning qadri sinovdan o'tkaziladi. 2. Tarbiyaviy g'oya (Moral): Inson dunyoda yaxshi yashashi uchun albatta biror halol kasb yoki hunar egasi bo'lishi shart. Dangasalik qoralanadi, barcha kasblar o'zaro zanjirdek bog'langani uqtiriladi. 3. Yangi lug'at (Takroriy): hunarmand, musavvir, sharafli, kamsitmoq, gasht. MASHQLAR USLUBI: 1. G'oyaviy taqqoslash: Asarlar mantiqini birlashtirish (Namuna: \"Har kasbning o'z gashti bor\" va \"Kasbning yomoni yo'q\" matnlarining umumiyligi nimada? Javob: Ikkalasida ham har qanday halol kasbning jamiyat uchun muhimligi va hurmatga loyiqligi ta'kidlanadi). 2. Lug'atlarni xulosalash: Turli hunar egalarini aniqlash. CHEKLOVLAR: Matnlarning mualliflarini yoddan sanab berishga oid mexanik xotira savollari tuzilmasin."
+          },
+          {
+            "name": "Ehtiyot bo'ling",
+            "index": 7,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bolalar kundalik hayotida amal qilishi shart bo'lgan xavfsizlik qoidalari to'g'risidagi ogohlantiruvchi matn. Elektr asboblari bilan o'ynamaslik, gugurt va olovdan ehtiyot bo'lish, ko'chani kesib o'tishda svetoforga qarash kabi muhim ehtiyot choralari sanab o'tiladi. 2. Tarbiyaviy g'oya (Moral): Inson o'z hayoti va sog'lig'i uchun avvalo o'zi mas'uldir. Kichik bir ehtiyotsizlik yoki qoidalarni pisand qilmaslik katta yong'inlarga yoxud falokatlarga olib kelishi mumkin. Hushyorlik – hayot garovidir. 3. Yangi lug'at: Ehtiyot (o'zini saqlash), falokat (kutilmagan yomon hodisa), sergak (hushyor, diqqatli). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Xavfsizlik qoidalarini aniqlash (Namuna: Matnga ko'ra, qaysi xatti-harakat uyda yong'in yoki falokat keltirib chiqarishi mumkin? Javob: Kattalarsiz elektr asboblari va gugurt bilan o'ynash). 2. Hayotiy vaziyat: Svetoforsiz yo'ldan qanday o'tish yoki xavfdan qanday saqlanish mantiqini topish. CHEKLOVLAR: Yong'in xavfsizligi telefon raqamlari (101) kabi faktlar matnda bo'lsa olinishi mumkin, ammo qonun moddalari so'ralmasin."
+          },
+          {
+            "name": "Ko'zga ko'rinmas olam",
+            "index": 8,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Atrofimizdagi oddiy ko'z bilan ko'rib bo'lmaydigan, faqatgina maxsus zarrabinlar (mikroskoplar) orqali ko'rinadigan mittigina jonzotlar – mikroblar va bakteriyalar haqida ilmiy-ommabop matn. Ular har joyda: iflos qo'llarda, yuvilmagan mevalarda bo'lishi va inson ichiga tushsa, uni kasal qilishi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Shaxsiy tozalikka (gigiyenaga) qat'iy rioya qilish sog'liq uchun eng muhim qalqondir. Ovqatlanishdan oldin qo'llarni sovunlab yuvish ko'zga ko'rinmas dushmanlardan (mikroblardan) asraydi. 3. Yangi lug'at: Mikrob (kasallik tarqatuvchi mitti jonzot), zarrabin (mikroskop, mayda narsalarni kattalashtirib ko'rsatuvchi asbob), gigiyena (tozalik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Kasallik manbaini topish (Namuna: Yuvilmagan mevalar yoki iflos qo'llar orqali inson tanasiga qanday xavfli narsalar kirib borishi mumkin? Javob: Ko'zga ko'rinmas mikroblar va bakteriyalar). 2. Lug'at tahlili: 'Zarrabin' so'zining vazifasini aniqlash. CHEKLOVLAR: Bakteriyalarning turlari (kokklar, batsillalar) kabi anatomiya/biologiyaga oid murakkab ilmiy atamalar 2-sinflar uchun taqiqlanadi."
+          },
+          {
+            "name": "Mashhur tabib bobomiz",
+            "index": 9,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Tibbiyot olamining sultoni, buyuk vatandoshimiz Abu Ali ibn Sino (Avitsenna) haqida mitti hikoya. Ibn Sinoning yoshligidan juda xotirasi kuchli bo'lgani, kitob o'qishdan charchamagani va yosh bo'lishiga qaramay og'ir kasallarga shifo topuvchi ulug' tabib bo'lib yetishgani aytiladi. Uning \"Tib qonunlari\" kitobi butun dunyoda o'qilishi g'urur bilan tilga olinadi. 2. Tarbiyaviy g'oya (Moral): O'zbek xalqining bunday buyuk allomalari bo'lganidan faxrlanish va ulardek ilmga chanqoq bo'lish. Qat'iyat va mutolaa orqaligina buyuk maqsadlarga erishish mumkin. 3. Yangi lug'at: Tabib (kasallarni davolovchi, shifokor), shifo (darddan qutulish, tuzalish), alloma (katta bilimli shaxs). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ibn Sinoning muvaffaqiyat sirini topish (Namuna: Abu Ali ibn Sino yosh bo'lishiga qaramay qanday qilib mashhur tabib bo'lib yetishdi? Javob: Tinimsiz kitob o'qishi, izlanishi va o'tkir xotirasi tufayli). 2. Lug'at tahlili: 'Tabib' va 'Shifo' so'zlarining bog'liqligini tushuntirish. CHEKLOVLAR: Ibn Sinoning aniq yashagan yillari (980-1037) yoki dorivor giyohlarning Lotincha nomlari so'ralmasin."
+          },
+          {
+            "name": "Tumovdan saqlaning",
+            "index": 10,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Qish va kuz fasllarida havo sovishi natijasida kelib chiqadigan shamollash (tumov) kasalligidan qanday himoyalanish kerakligi haqida maslahat-matn. Issiq va ob-havoga mos kiyinish, sovuq suv ichmaslik, xonalarni tez-tez shamollatib turish va vitaminga boy mevalar yeyish kabi qoidalar sanaladi. 2. Tarbiyaviy g'oya (Moral): O'z salomatligi haqida qayg'urish, kasallikni davolagandan ko'ra uning oldini olish (profilaktika) osonroq ekanligini anglash. Sog'lom bola faol va a'lochi bo'ladi. 3. Yangi lug'at: Tumov (sovuq qotishdan kelib chiqadigan kasallik, shamollash), profilaktika (kasallikning oldini olish choralari), immunitet (tananing kasallikka chidamliligi). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Tumovdan saqlanish qoidalarini aniqlash (Namuna: Havo sovigan kunlarda tumov (shamollash) ga chalinmaslik uchun eng birinchi navbatda nima qilish kerak? Javob: Ob-havoga mos ravishda issiq kiyinish va sovuq ichimliklar ichmaslik kerak). 2. Sinonimlar: 'Tumov' so'zining tushunarli o'zbekcha nomini topish (Shamollash). CHEKLOVLAR: Tibbiy dorilar nomlari (paratsetamol, antibiotik) yoki tana harorati graduslari haqidagi meditsina savollari kiritilmasin."
+          },
+          {
+            "name": "Bo'lim yuzasidan takrorlash",
+            "index": 11,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: \"Salomatlik va ehtiyotkorlik\" bo'limining umumlashtiruvchi takrorlash darsi. \"Ehtiyot bo'ling\", \"Ko'zga ko'rinmas olam\", \"Mashhur tabib bobomiz\" hamda \"Tumovdan saqlaning\" mavzularidagi barcha gigiyena, xavfsizlik va tibbiyot sirlari bitta g'oya ostida birlashtiriladi. 2. Tarbiyaviy g'oya (Moral): \"Sog'lom tanda – sog' aql\". Inson atrof-muhitdagi xavflardan (xoh u yong'in, xoh mikroblar bo'lsin) o'zini aql bilan saqlashi kerak. Sog'lik insonning eng katta boyligidir. 3. Yangi lug'at (Takroriy): mikrob, tabib, tumov, ehtiyot, zarrabin. MASHQLAR USLUBI: 1. G'oyalarni birlashtirish: Ikki xil matnning xulosasini taqqoslash (Namuna: Yuvilmagan mevalarni yeyish va qishda yupun kiyinish insonni qanday umumiy yomon oqibatga olib keladi? Javob: Tananing kasallikka (mikrob yoki tumovga) chalinishiga). 2. Qoidalarni xulosalash: Ibn Sinoning kitob o'qishi va sog'liqni asrash o'rtasidagi mantiqni topish. CHEKLOVLAR: Asarlar mualliflari familiyasini quruq yodlash o'rniga, sog'lom turmush tarzi bo'yicha situatsion (vaziyatli) savollar tuzing."
+          },
+          {
+            "name": "Har faslning o'z ziynati bor",
+            "index": 12,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Yilning to'rt fasli (bahor, yoz, kuz, qish) ketma-ket almashinib kelishi va ularning har biri o'ziga xos tarovatga, foydaga (ziynatga) ega ekanligi haqida ta'rif. Bahor uyg'onish, yoz issiq pishiqchilik, kuz hosil yig'ish, qish esa tabiatning dam olish fasli ekanligi go'zal tabiat manzaralari orqali yoritiladi. 2. Tarbiyaviy g'oya (Moral): Tabiatda yomon fasl yo'q. Kuzning yomg'iri yoki qishning qori ham yer uchun kerakli boylikdir. Tabiatdagi har bir o'zgarishdan zavqlanish va shukr qilish lozim. 3. Yangi lug'at: Ziynat (go'zallik, bezak, ko'rk), pishiqchilik (meva-chevalar g'arq pishadigan vaqt), tarovat (chiroy). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Fasllarning o'ziga xos vazifasini topish (Namuna: Asarga ko'ra dehqonlar pishib yetilgan meva va sabzavotlar hosilini asosan qaysi faslda yig'ib oladilar? Javob: Kuz faslida). 2. Lug'at tahlili: 'Ziynat' so'zining to'g'ri lug'aviy izohini topish. CHEKLOVLAR: Fasllarning oylari nomini sanab berish (Dekabr, Yanvar) singari juda oddiy, darslikning badiiy mazmunidan uzoq savollar berilmasin."
+          },
+          {
+            "name": "Yil fasllari nega almashinadi? (audiomatn)",
+            "index": 13,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Audiomatn orqali yil fasllarining nima sababdan almashinishi ilmiy, ammo bolalarga tushunarli tilda yoritiladi. Yer sayyorasining o'z o'qi atrofida hamda Quyosh atrofida to'xtovsiz aylanishi natijasida quyosh nurlarining yer yuzasiga turlicha tushishi fasllar (sovuq va issiq) o'zgarishiga sabab bo'lishi aytiladi. 2. Tarbiyaviy g'oya (Moral): Olamning tuzilishidagi ilohiy va mantiqiy qonuniyatlarga qiziqish. Koinot hodisalarini bilish o'quvchining tafakkurini kengaytiradi. 3. Yangi lug'at: Sayyora (quyosh atrofida aylanuvchi osmon jismi), koinot (fazo, butun borliq), aylanish o'qi (Yerni kesib o'tuvchi faraziy chiziq). MASHQLAR USLUBI: 1. Mantiqiy-tabiiy tahlil: Fasllar o'zgarishining sababini aniqlash (Namuna: Audiomatnga ko'ra, yil fasllarining ketma-ket almashib turishiga koinotdagi qanday hodisa sabab bo'ladi? Javob: Yer sayyorasining Quyosh atrofida aylanib harakatlanishi). 2. Lug'at: 'Sayyora' so'zining izohini topish. CHEKLOVLAR: Yerning quyosh atrofida necha km/soat tezlikda aylanishi kabi astronomik raqamlar 2-sinf uchun taqiqlanadi."
+          },
+          {
+            "name": "Qish zavqi",
+            "index": 14,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Qish faslining oppoq qori bolalarga qanday quvonch (zavq) olib kelishi haqidagi matn yoki she'r. Atrofni oq qor qoplaganda bolalarning issiq kiyinib ko'chaga chiqishi, qorbobo yasashi, chana uchishi va qorbo'ron o'ynab miriqib dam olishi tasvirlanadi. Qishning sovuq havosida o'ynash salomatlikka foydasi uqtiriladi. 2. Tarbiyaviy g'oya (Moral): Tabiatning eng sovuq kunlarida ham go'zallik ko'ra olish, qishki o'yinlar yordamida tanani chiniqtirish. Do'stlar bilan ahil bo'lib qorbo'ron o'ynash orqali bolalikning qadriga yetish. 3. Yangi lug'at: Qahraton (qattiq sovuqli qish), zavq (xursandchilik, maroq), chiniqish (sovuqqa chidamli, sog'lom bo'lish). MASHQLAR USLUBI: 1. Badiiy-mantiqiy tahlil: Qishki o'yinlarning xususiyatini topish (Namuna: Bolalar qish faslida chana uchib va qorbo'ron o'ynab o'z tanalarini qanday foydali narsaga moslashtiradilar? Javob: Tanani chiniqtiradilar va sog'liqlarini mustahkamlaydilar). 2. Sinonimlar: 'Zavq' so'zining o'zbekcha sinonimini aniqlash (Quvonch). CHEKLOVLAR: Matnda yo'q bo'lgan xokkey yoxud figurali uchish kabi professional qishki sport turlari haqida savol bermang."
+          },
+          {
+            "name": "Zumrad bahor",
+            "index": 15,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: \"Zumrad\" (yashil) rangga burkangan bahor faslining go'zalligi va jo'shqinligi madh etilgan matn. Qishki uyqudan so'ng daraxtlarning kurtak yozishi, maysalarning unib chiqishi, qushlarning xonishlari (sayrashi) hamda dehqonlarning dalalardagi bahorgi mehnatlari boshlanishi chiroyli tasvirlangan. 2. Tarbiyaviy g'oya (Moral): Bahor – yasharish, yangilanish va mehnat faslidir. Bu davrda ekin ekkan kishi yil davomida to'q yashaydi. Tabiatga bo'lgan muhabbat va mehnatsevarlik ulug'lanadi. 3. Yangi lug'at: Zumrad (yashil rangning chiroyli nomi, qimmatbaho tosh), kurtak (daraxt shoxidagi yangi nish), uyg'onish (tabiatning jonlanishi). MASHQLAR USLUBI: 1. Badiiy tahlil: Bahor rangini mantiqan topish (Namuna: Asarda nima uchun bahor fasli aynan \"zumrad bahor\" deb ta'riflanadi? Javob: Chunki bu faslda butun atrof yashil maysalar va barglarga burkanib, xuddi zumraddek tovlanadi). 2. Lug'at tahlili: 'Kurtak' so'zining tabiatdagi o'rnini aniqlash. CHEKLOVLAR: Bahorgi tengkunlik, Navro'z tarixi haqidagi murakkab faktlar ushbu dars tabiat tasviri bo'lgani uchun qo'shilmasin."
+          },
+          {
+            "name": "Yoz seni sog'indik",
+            "index": 16,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Eng issiq, lekin bolalar uchun eng uzoq ta'tilni o'z ichiga oladigan yoz faslining quvonchlari haqida. Yozning uzun issiq kunlarida bolalar oromgohlarga borishi, daryo va hovuzlarda cho'milishi, mevalarning g'arq pishishi ta'riflanadi. Yoz quyoshi tanani toblashi aytib o'tiladi. 2. Tarbiyaviy g'oya (Moral): Yozgi dam olish (ta'til) vaqtini faqat bekorchilik bilan emas, balki tabiat qo'ynida chiniqib, foydali kitoblar o'qib, sog'lom va mazmunli o'tkazish. 3. Yangi lug'at: Miriqib (lazzatlanib, yayrab), toblanmoq (quyosh nurida qorayib sog'lomlashmoq), ta'til (dam olish davri). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Yoz faslining bolalarga foydasini aniqlash (Namuna: Yozning issiq oftobida bolalarning daryolarda cho'milishi ularning tanasiga qanday foyda keltiradi? Javob: Tanasi toblanadi va sog'lom bo'lib chiniqadi). 2. Sinonimlar: 'Miriqib' so'zining to'g'ri lug'aviy izohini topish. CHEKLOVLAR: Oftob urishi sabablari kabi tibbiy xavfsizlik haqidagi ma'lumotlar she'riy zavqni buzmasligi uchun qo'shilmasin."
+          },
+          {
+            "name": "Oltin kuz",
+            "index": 17,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: \"Oltin\" fasl deya ta'riflanadigan kuzning saxovatli (mo'l-ko'l) ne'matlari haqidagi hikoya/she'r. Daraxtlarning sariq-qizil tusga kirib xazonrezgi boshlanishi, dehqonlarning yil davomida qilgan mehnatlari mevasi – paxta, g'alla va mevalarni yig'ishtirib olish jarayoni (pishiqchilik) tasvirlanadi. 2. Tarbiyaviy g'oya (Moral): Kuzning sarg'aygan manzarasi g'amgin ko'rinsa-da, aslida u eng barakali, rizq-ro'z ulashadigan fasldir. Dehqon mehnatini qadrlash, tabiat ne'matlarini isrof qilmaslik uqtiriladi. 3. Yangi lug'at: Oltin kuz (sariq barglar va boylik ramzi bo'lgan kuz), xazonrezgi (barglarning sarg'ayib to'kilish fasli), pishiqchilik (hosilning tayyor bo'lishi). MASHQLAR USLUBI: 1. Badiiy o'xshatishni aniqlash: (Namuna: Nima uchun kuz fasli matnda \"oltin kuz\" deya e'zozlanadi? Javob: Chunki tabiat sariq tilla rangga kiradi va bu fasl dehqonlarning mo'l hosil (boylik) yig'adigan davridir). 2. Lug'at tahlili: 'Xazonrezgi' tushunchasining aniq ma'nosini topish. CHEKLOVLAR: Qushlarning janubga qanday uchib ketishi haqidagi migratsiya mexanizmlari bu dars doirasida emaski, faqat \"kuz hosili va rangi\" so'ralsin."
+          }
         ]
       },
       {
-        "chapter": "Ixtiro va kashfiyotlarga boy olam",
+        "chapter": "3-chorak",
         "index": 3,
         "subtopics": [
-          { "name": "Juda foydali ixtiro", "index": 1 },
-          { "name": "Kashfiyotchi bobolar", "index": 2 },
-          { "name": "O'z aksini ko'rish orzusi", "index": 3 },
-          { "name": "Yo'l ko'rsatuvchi mayoq", "index": 4 },
-          { "name": "Oshxona buyumlari", "index": 5 },
-          { "name": "Vaqt qadri", "index": 6 }
+          {
+            "name": "Ertaklar olami",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Xalq og'zaki ijodining eng qadimiy va sevimli janri bo'lgan ertaklar haqida kirish matni. Ertaklarda hayot haqiqati fantastik (g'aroyib) to'qimalar orqali berilishi, sehrli buyumlar (uchar gilam, ko'rinmas shapka) ishtirok etishi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Ertaklarda asosan ezgulik va yovuzlik kurashi tasvirlanadi. Xulosa doim bir xil: yaxshilik, adolat va halol mehnat yovuzlik va dangasalik ustidan g'alaba qozonadi. 3. Yangi lug'at: Fantastik (hayotda uchramaydigan ajoyibot, to'qima), ezgulik (yaxshilik, oqko'ngillik), yovuzlik (qora niyat, yomonlik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ertaklarning o'zgarmas qonuniyatini topish (Namuna: Barcha xalq ertaklarining yakunida asosan qanday qonuniyat yotadi? Javob: Ezgulik doimo yovuzlik ustidan g'alaba qozonadi). 2. Lug'at tahlili: 'Fantastik' so'zining to'g'ri izohini aniqlash. CHEKLOVLAR: Aniq ertak nomlarini yoddan izlashga majburlamang, nazariy-axloqiy mazmun so'ralsin."
+          },
+          {
+            "name": "Hayvonlar haqida ertaklar",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ertaklarning maxsus bir turi – qahramonlari faqat hayvonlar va qushlardan iborat bo'lgan ertaklar. Ularda hayvonlar huddi insonlar kabi gapiradi, o'ylaydi va harakat qiladi. Bu usul orqali aslida insonlarga xos bo'lgan xarakterlar (masalan: tulkining ayyorligi, bo'rining ochko'zligi, ayiqning qo'polligi yoki quyonning soddaligi) majoziy ma'noda fosh qilinadi. 2. Tarbiyaviy g'oya (Moral): Hayvonlar timsolida inson o'zining yomon illatlarini ko'rib, ulardan qutulishga harakat qiladi. Ayyorlik va maqtovga uchish oqibati qoralanadi. 3. Yangi lug'at: Majoziy (o'xshatish, ko'chma ma'no), timsol (ramz, belgi), illat (yomon odat). MASHQLAR USLUBI: 1. Xarakter tahlili: Hayvonlar nimaning ramzi ekanligini topish (Namuna: Ertaklarda tulki obrazi orqali asosan insonning qanday xususiyati ko'rsatiladi? Javob: Ayyorlik va hiylagarligi). 2. G'oya tahlili: Hayvonlar haqidagi ertaklarning maqsadini aniqlash. CHEKLOVLAR: Hayvonlarning biologik tuzilishiga oid savollar mutlaqo aralashtirilmasin."
+          },
+          {
+            "name": "Boyo'g'li bilan qarg'a Yapon xalq ertagi (audiomatn)",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Audiomatn orqali berilgan ushbu yapon xalq ertagida kaltafahm va o'zini maqtagan qarg'aning, aqlli va jim o'tiradigan boyo'g'li ustidan kulishi, uning ko'zlarini va tungi hayotini masxara qilishi tasvirlanadi. Lekin qiyin vaziyatda (yoki tunda xavf tug'ilganda) aynan boyo'g'lining ziyrakligi ustun kelib, qarg'a uyatga qoladi. 2. Tarbiyaviy g'oya (Moral): Odamlarning tashqi ko'rinishi yoki kamchiligi ustidan kulish katta nodonlikdir. Har bir jonzotning o'ziga xos iqtidori bor. Maqtanchoq va birovni masxara qilgan inson oxiri o'zi sharmanda bo'ladi. 3. Yangi lug'at: Masxara qilmoq (ustidan kulmoq, kamsitmoq), ziyrak (sezgir), nodonlik (aqlsizlik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qarg'aning asosiy xatosini aniqlash (Namuna: Ertakda qarg'a boyo'g'liga nisbatan qanday xunuk ish qildi? Javob: Uning tashqi ko'rinishi ustidan kulib, masxara qildi). 2. Lug'at tahlili: 'Nodonlik' va 'ziyrak' tushunchalarini farqlash. CHEKLOVLAR: Boyo'g'lining qanday qilib tunda ko'rishi haqidagi zoologik ilmiy atamalar qo'shilmasin."
+          },
+          {
+            "name": "Tulkining hiylasi ko'p…",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Xalq ertaklarida eng ko'p uchraydigan salbiy obraz – Tulki va uning tuganmas hiylalari haqidagi matn. Tulki o'z qornini to'ydirish yoki maqsadiga erishish uchun doim yolg'on gapirishi, bo'rini laqillatishi yoki xo'rozlarni maqtov bilan aldashi hikoya qilinadi. Biroq, ko'p ertaklarda oxir-oqibat hiylagar tulkining o'zi tuzoqqa tushib jazolanadi. 2. Tarbiyaviy g'oya (Moral): Hiyla va yolg'on bilan qilingan ishning umri qisqa. Boshqalarga qazilgan chuqurga insonning o'zi tushadi. Maqtovlarga uchavermasdan, hushyor bo'lish zarur. 3. Yangi lug'at: Hiyla (yolg'on, nayrang), laqillatmoq (aldamoq), tuzoq (tutib oluvchi asbob). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Tulkining ertaklardagi oqibatini topish (Namuna: Tulkining ko'plab hiylalari va yolg'onlari unga oxir-oqibat nima olib keladi? Javob: Yolg'onlari fosh bo'lib, o'zi jazolanadi). 2. Xulosa yasash: Tulkiga ishonib aldangan hayvonlarning xatosini (maqtovga uchishini) aniqlash. CHEKLOVLAR: Matndan tashqari aniq bir o'zbek ertagining (masalan, Urto'qmoq) nomini izlashga oid savol bermang."
+          },
+          {
+            "name": "Adabiy ertaklar",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ertaklarning ikkinchi yirik turi – \"Adabiy ertaklar\" haqida tushuncha. Xalq ertaklaridan farqli o'laroq, adabiy ertaklarning aniq yozuvchisi (muallifi) bo'ladi. Ularda xalq tili bilan birga yozuvchining badiiy o'xshatishlari va chiroyli so'zlari ko'p ishlatiladi. Masalan, H.K. Andersen, aka-uka Grimmlar yoki Pushkin qalamiga mansub ertaklar (G'aroyib o'rdakcha, Qizil shapkacha). 2. Tarbiyaviy g'oya (Moral): Adabiy ertaklarda ham asosiy qoida saqlanib qoladi: haqiqat va halollik doim yengadi. Kitob o'qish orqali yozuvchilarning betakror dunyosini kashf qilish. 3. Yangi lug'at: Muallif (asar yozuvchisi), adabiy (kitobiy, badiiy ishlov berilgan), kashf qilmoq (yangi narsani bilib olmoq). MASHQLAR USLUBI: 1. Mantiqiy qiyoslash: Xalq ertaklari va adabiy ertaklarning farqini topish (Namuna: Adabiy ertakning xalq ertaklaridan eng asosiy va katta farqi nimada? Javob: Adabiy ertakning aniq bir muallifi (yozuvchisi) bo'ladi). 2. Lug'at tahlili: 'Muallif' so'zining to'g'ri ta'rifini belgilash. CHEKLOVLAR: Daniya yoki Germaniya yozuvchilarining yashagan yillari haqidagi biografik xotira testlari aslo qo'llanilmasin."
+          },
+          {
+            "name": "Tabiat in'omi",
+            "index": 6,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ona tabiat tomonidan insoniyatga in'om etilgan boyliklar – musaffo havo, zilol suv, yashil o'rmonlar, hayvonot va nabotot olami haqidagi qisqa matn. Inson hayoti to'liq tabiat bilan bog'liqligi, tabiatdagi oziq-ovqat va ne'matlar tufayli tiriklik davom etayotgani tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Tabiatning boyliklari cheksiz emas, u o'z in'omlarini beminnat beradi. Lekin inson bu ne'matlarni isrof qilmasdan, atrof-muhitni toza saqlash va asrab-avaylash burchini ham unutmasligi kerak. 3. Yangi lug'at: In'om (sovg'a, tekin berilgan narsa), zilol (juda toza, tiniq), isrof (behudaga ishlatish, uvol qilish). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Insonning tabiat oldidagi qarzini aniqlash (Namuna: Asarga ko'ra, tabiat o'zining beminnat ne'matlarini bergani uchun inson qanday ish qilishi shart? Javob: Suvni va boyliklarni isrof qilmasdan, tabiatni asrashi kerak). 2. Lug'at tahlili: 'Zilol' so'zi asosan nimaga nisbatan ishlatilishini topish (Suvga). CHEKLOVLAR: Tabiatdagi suv aylanishi kabi atrofimizdagi olam faniga xos jarayonlar o'rniga faqat axloqiy munosabat tahlil qilinsin."
+          },
+          {
+            "name": "Bog'da",
+            "index": 7,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Erta bahorda yoki yoz faslida serhosil mevali daraxtzor bog'ning go'zal manzarasi haqidagi tasviriy matn. Bog'dagi daraxtlarning qanday meva tugishi (olma, anjir, shaftoli), bog'bonning ularni qanday mehr bilan parvarish qilishi, tagini yumshatib suv quyishi bayon qilinadi. 2. Tarbiyaviy g'oya (Moral): Chiroyli bog' va shirin mevalar o'z-o'zidan paydo bo'lmaydi, ularning ortida bog'bonning mashaqqatli va halol mehnati yotadi. Mehnatsevarlik yerga ko'rk bag'ishlaydi. 3. Yangi lug'at: Bog'bon (bog' va daraxtlarni parvarish qiluvchi inson), serhosil (mevasi mo'l), parvarish (qarash, g'amxo'rlik qilish). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Bog'ning yashnash siri va bog'bonning o'rnini topish (Namuna: Bog'dagi daraxtlarning chiroyli o'sib, shirin mevalar berishi asosan nimaga bog'liq? Javob: Bog'bonning mehr bilan qilgan parvarishiga). 2. Xarakter tahlili: Bog'bonni 'mehnatsevar' so'zi bilan mantiqan ulash. CHEKLOVLAR: Daraxtlarni qanday payvand qilish haqida agronomik murakkab savollar qo'shilmasin."
+          },
+          {
+            "name": "Bo'lim yuzasidan takrorlash",
+            "index": 8,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: 3-chorakning \"Ertaklar va Tabiat\" mavzularidagi (Ertaklar olami, Tulkining hiylasi, Adabiy ertaklar, Tabiat in'omi, Bog'da) darslarning qisqacha xulosaviy yig'indisi. O'quvchilardan ertaklarning maqsadi hamda tabiat ne'matlarini e'zozlash qoidalari so'raladi. 2. Tarbiyaviy g'oya (Moral): Ertak va hayotda yomonlik o'zini qanchalik maqtamasin, oxiri mag'lub bo'ladi. Tabiatni sevgan odam yolg'onchi bo'lmaydi. 3. Yangi lug'at (Takroriy): yovuzlik, muallif, in'om, isrof, hiylagar. MASHQLAR USLUBI: 1. G'oyaviy taqqoslash: Asarlar mantiqini birlashtirish (Namuna: Tulkining hiylasi haqidagi ertak bilan bog'dagi bog'bon mehnati o'rtasida qanday katta farq bor? Javob: Biri yolg'on va aldov bilan kun kechirsa, ikkinchisi halol mehnati evaziga hosil oladi). 2. Nazariy xulosa: Adabiy va xalq ertaklari farqini umumiy takrorlash. CHEKLOVLAR: Faqat o'tilgan hikoya g'oyalari atrofida test tuzing, yapon ertagi syujetini o'ziga moslamasdan aralashtirmang."
+          },
+          {
+            "name": "Biz buyuklar avlodimiz (audiomatn)",
+            "index": 9,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Audiomatn orqali O'zbekiston hududidan yetishib chiqqan buyuk ajdodlarimiz – Al-Xorazmiy, Ibn Sino, Alisher Navoiy va Amir Temur kabi siymolarning ismlari va yutuqlari qisqacha g'urur bilan sanab o'tiladi. Biz shunday osmon qadar yuksak zakovatli ota-bobolarning avlodi (davomchisi) ekanligimiz tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Buyuk bobolarning nabirasi ekanligidan cheksiz faxrlanish, o'zlikni anglash. Shunday nomga munosib bo'lish uchun bugungi avlod ham dangasalik qilmay tinimsiz ilm izlashi shart. 3. Yangi lug'at: Avlod (orqadan qoluvchi davomchilar, farzandlar), siymo (buyuk tarixiy shaxs), zakovat (o'tkir aql, ulkan bilim). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Avlodlarning vazifasini aniqlash (Namuna: Matnga ko'ra, buyuk ajdodlarga munosib avlod bo'lish uchun biz nima qilishimiz kerak? Javob: Dangasalik qilmay faqat a'lo baholarga o'qib, ilm olishimiz kerak). 2. Lug'at tahlili: 'Zakovat' tushunchasining o'zbekcha ta'rifini topish. CHEKLOVLAR: Bobolar qayerda dafn etilgani kabi biografiyaga xos bo'lgan joy nomlarini yoddan qidiruvchi testlar tuzilmasin."
+          },
+          {
+            "name": "Buyuk sarkarda",
+            "index": 10,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Jahon tarixida o'chmas iz qoldirgan yengilmas qo'mondon, buyuk sarkarda – Amir Temurning jasorati va uning adolatli davlati (Turon zamin) haqidagi matn. Amir Temurning kuchli ordasi (qo'shini) bo'lgani, lekin u har doim avval aqlni ishlatib, adolat tarozisini ushlagani, \"Kuch – adolatdadir\" shioriga amal qilgani ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): Vatanparvarlik, mardlik va haqiqat. Sarkardalik faqat qilich chopish emas, balki xalqni obod va osoyishta yashatish demakdir. 3. Yangi lug'at: Sarkarda (qo'shinni boshqaruvchi shaxs), adolat (to'g'rilik, haqqoniylik), orda (katta harbiy qo'shin). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Sarkardaning bosh shiorini va tamoyilini topish (Namuna: Amir Temur ulkan davlatini va qo'shinini qanday muhim qoida asosida boshqargan? Javob: \"Kuch – adolatdadir\" tamoyili va to'g'rilik asosida). 2. Lug'at: 'Sarkarda' so'zining to'g'ri vazifasini aniqlash. CHEKLOVLAR: Temuriylar davlatidagi harbiy atamalar (tumanboshi, mingboshi) bu matn darajasiga mos kelmagani uchun so'ralmasin."
+          },
+          {
+            "name": "Mirzo Ulug'bek",
+            "index": 11,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Amir Temurning sevimli nabirasi, buyuk olim va davlat arbobi Mirzo Ulug'bekning hayoti yoritilgan matn. Uning yoshlikdan kitobga oshiq bo'lgani, matematika va yulduzlar ilmini (astronomiyani) qattiq o'rgangani, Samarqandda mashhur rasadxona qurdirtirgani bolalar tilida tushuntiriladi. U osmon xaritasini aniq chizib bergan ulug' bobomizdir. 2. Tarbiyaviy g'oya (Moral): Kitobga bo'lgan chin muhabbat insonni dunyo taniydigan darajaga ko'taradi. Shox bo'lib davlatni boshqarish bilan birga ilm fanga homiylik qilish eng olijanob ishdir. 3. Yangi lug'at: Rasadxona (yulduzlarni kuzatish binosi), astronomiya (koinot sirlarini o'rganuvchi fan), homiy (yordam beruvchi, himoyachi). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Mirzo Ulug'bekning dunyoga tanilish sababini aniqlash (Namuna: Ulug'bek asosan qanday buyuk ishlari bilan jahon tarixida qoldi? Javob: Yulduzlar ilmini o'rgangani va Samarqandda rasadxona qurdirgani bilan). 2. Lug'at tahlili: 'Astronomiya' fanining nimani o'rganishini mantiqan topish. CHEKLOVLAR: Ulug'bekning farzandlari ismlari yoxud o'limi tarixi (fojiasi) haqidagi mudhish detallar bolalar psixologiyasi uchun bu darsda berilmaydi."
+          },
+          {
+            "name": "Ulug' shoir va mutafakkir",
+            "index": 12,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'zbek tili (turkiy til) ning g'ururi va asoschisi, ulug' mutafakkir Alisher Navoiy bobomiz haqida hikoya. Uning 7 yoshidanoq Farididdin Attorning eng qiyin asarlarini yod olgani, kitoblarga umrini bag'ishlab g'azallar va \"Xamsa\" kabi buyuk asarlar yozgani yoritiladi. Navoiy onatili qadrini nihoyatda baland ko'targan inson. 2. Tarbiyaviy g'oya (Moral): Ona tilimiz naqadar go'zal va boy til ekanligini Navoiy asarlari orqali anglash. Zukko va yoshlikdan kitob o'qigan inson ulug' mutafakkirga aylanadi. 3. Yangi lug'at: Mutafakkir (juda chuqur fikrlovchi, faylasuf), g'azal (qofiyali sharq she'riyati turi), turkiy til (o'zbek tilining ajdodi). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Navoiyning o'zbek tili oldidagi xizmatini topish (Namuna: Alisher Navoiy o'zining ko'plab she'r va dostonlarini yozish orqali asosan nimani dunyoga isbotladi? Javob: O'zbek (turkiy) tilining naqadar boy va go'zal til ekanligini). 2. Lug'at tahlili: 'Mutafakkir' so'zining to'g'ri o'zbekcha izohini belgilash. CHEKLOVLAR: \"Xamsa\" dostonining har bir qismining aniq ismini yoddan so'rash kabi filologik savollar qat'iyan man etiladi."
+          },
+          {
+            "name": "Adolatli shoh va buyuk shoir",
+            "index": 13,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ham adolatli shoh, ham qalamkash shoir bo'lgan Zahiriddin Muhammad Boburning hayotidan yorqin lavhalar. Uning Hindistondek ulkan davlatda hukmdor bo'lib tursa-da, adolat bilan davlat boshqargani, ammo qalbida doimo o'z tug'ilgan shahri – Andijon va Movarounnahr sog'inchi olovi yongani hikoya qilinadi. \"Boburnoma\" asari tilga olinadi. 2. Tarbiyaviy g'oya (Moral): Vatan sog'inchi eng baland va o'tli tuyg'udir. Inson chet ellarda qanchalik boy-badavlat bo'lmasin, o'zini baxtli his qilishi uchun unga ona tuprog'i kerak. 3. Yangi lug'at: Hukmdor (davlat boshlig'i, shoh), sog'inch (vatan firoqi), \"Boburnoma\" (Bobur yozgan buyuk tarixiy kitob). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Bobur hayotidagi ziddiyatni (ruhiy og'riqni) aniqlash (Namuna: Zahiriddin Muhammad Bobur Hindistonda ulug' shoh bo'lishiga qaramay, qalbida qanday katta dardi bor edi? Javob: O'z ona Vatanini, Andijonni qattiq sog'inish dardi). 2. Lug'at: 'Hukmdor' so'zini mantiqan topish. CHEKLOVLAR: Hindiston daryolari va viloyatlari nomlari yoxud podsholik sanalari kabi darslik maqsadiga (Vatan sog'inchiga) aloqasi bo'lmagan raqamli geografiya so'ralmasin."
+          },
+          {
+            "name": "Qatag'on qurbonlari xotirasi",
+            "index": 14,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Vatanimizning ozodligi, xalqimizning o'qimishli (ziyoli) va hur fikrli bo'lishi uchun kurashgan, biroq adolatsizlik sababli qamoqqa olingan va o'ldirilgan ajdodlarimiz (Abdulla Qodiriy, Cho'lpon, Fitrat va b.) haqida xotira darsi. Matnda ularning nomi va mehnati hech qachon unutilmasligi bayon qilinadi. 2. Tarbiyaviy g'oya (Moral): Vatan ozodligi va bugungi tinch kunlarimiz osongina kelmagan. Shu yo'lda jon fido qilgan ziyoli bobolarimizning xotirasini mudom yodda saqlash va ularni e'zozlash muqaddas burchimizdir. 3. Yangi lug'at: Qatag'on (nohaq ayblash, jazolash siyosati), qurbon (jonini fido qilgan shaxs), xotira (esda saqlash), ziyoli (o'qimishli odam). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qatag'on qurbonlarining oliy maqsadini topish (Namuna: Qatag'on qilingan ziyoli ajdodlarimiz o'z jonlarini nima yo'lida fido qildilar? Javob: Xalqimizning ozodligi va erkinligi yo'lida). 2. Lug'at tahlili: 'Qurbon' va 'Ziyoli' atamalarini farqlash. CHEKLOVLAR: Aynan kim qay yili va qanday qurol bilan qatl qilingani kabi o'ta fojiali qonli tafsilotlar 2-sinf uchun mos emas, qat'iyan cheklanadi."
+          },
+          {
+            "name": "Mehnatsiz taxt kelmas",
+            "index": 15,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Mantiqiy va ibratli maqollarga yoxud shunday nomdagi matnga bag'ishlangan dars. Quruq orzu qilish va yotish bilan hech qachon baland \"taxt\" ga, ya'ni yuqori martabaga va yutuqqa erishib bo'lmasligi, faqatgina peshona teri va tinimsiz mashaqqatli mehnat insonga obro' va daromad olib kelishi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): \"Mehnat, mehnatning tagi rohat\". Erishilgan har bir narsaning ortida mehnat turadi. Dangasalik qashshoqlikka, mehnatsevarlik esa boylik va hurmatga olib boradi. 3. Yangi lug'at: Taxt (bu yerda: yuqori martaba, obro' ramzi), mashaqqatli (juda qiyin, zahmatli), rohat (dam, xursandchilik). MASHQLAR USLUBI: 1. Mantiqiy xulosa yasash (Namuna: \"Mehnatsiz taxt kelmas\" iborasining asosiy g'oyasi nima? Javob: Inson qattiq mehnat qilmasdan turib yuqori martaba va obro'ga erisha olmaydi). 2. Antonimlarni aniqlash: Mehnatning dushmani bo'lgan xislatni (dangasalikni) topish. CHEKLOVLAR: Matndan uzoqlashgan va darslikka aloqasi bo'lmagan xalqaro masallar aralashtirilmasin."
+          },
+          {
+            "name": "Yuksak ma'naviyatli avlod",
+            "index": 16,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ushbu mavzuda biz qanday ulug'vor ajdodlarning davomchisi ekanligimiz yana bir bor uqtirilib, bugungi kun yoshlari ham ongli, bilimli, o'z tarixini yaxshi biladigan va odobli – ya'ni \"yuksak ma'naviyatli\" bo'lishlari kerakligi aytiladi. Ma'naviyat faqat ilm emas, balki yaxshi xulq-atvordir. 2. Tarbiyaviy g'oya (Moral): Kitob o'qigan va kattalarni hurmat qilgan yoshlar yurt tayanchi bo'ladi. Tarixni unutsak, xato qilamiz. Kelajak o'z odobi va aqli bilan ajralib turadigan yoshlar qo'lida. 3. Yangi lug'at: Ma'naviyat (insonning ichki madaniyati, bilimi va odobi), yuksak (juda baland, zo'r), avlod (kelajak yoshlar). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Yuksak ma'naviyatli yoshlarning ta'rifini topish (Namuna: Matnga ko'ra, yuksak ma'naviyatli avlod qanday fazilatlarga ega bo'lishi kerak? Javob: Ham bilimli, o'z tarixini biladigan, ham go'zal odob-axloqqa ega bo'lishi kerak). 2. Lug'at tahlili: 'Ma'naviyat' so'zining to'liq ko'lamini (ilgari o'tilgan tushunchalarni birlashtirib) izohlash. CHEKLOVLAR: Davlat rahbarlarining siyosiy iqtiboslarini so'zma-so'z to'ldirishga asoslangan ideologik passiv testlar qo'llanilmasin."
+          },
+          {
+            "name": "Bo'lim yuzasidan takrorlash",
+            "index": 17,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: 3-chorakning \"Buyuk ajdodlarimiz\" bo'limiga oid (Ulug'bek, Amir Temur, Bobur, Navoiy hamda qatag'on xotiralari) matnlarning takrorlanishi. Ushbu darsda o'quvchi bobolarimizning barchasiga xos bo'lgan yagona ulug' jihat – yurtga sadoqat va ilmga muhabbatni xulosalaydi. 2. Tarbiyaviy g'oya (Moral): Buyuklarning tarixini o'rganish orqali bugungi avlodning oldiga qanday ulkan vazifa qo'yilganini takror va takror yodga olish. Dangasa bola buyuk ajdodiga noloyiq bo'ladi. 3. Yangi lug'at (Takroriy): sohibqiron, mutafakkir, rasadxona, xotira, ma'naviyat. MASHQLAR USLUBI: 1. Qahramonlarni qiyoslash: (Namuna: Mirzo Ulug'bek va Alisher Navoiy bobolarimizni mantiqan qanday umumiy yuksak fazilat birlashtirib turadi? Javob: Ikkalasi ham yoshligidan ilm olishga, kitob o'qishga cheksiz ishtiyoqmand bo'lishgan). 2. G'oya tahlili: Qatag'on qurbonlari g'oyasi bilan yuksak ma'naviyatni bog'lash. CHEKLOVLAR: O'tmish shaxslarining aynan nechanchi asrda yashaganligiga qaratilgan yod olish (xotira) testlaridan butunlay voz keching."
+          }
         ]
       },
       {
-        "chapter": "Hunar – zar, kasb – gavhar",
+        "chapter": "4-chorak",
         "index": 4,
         "subtopics": [
-          { "name": "Hunarmandchilik turlari", "index": 1 },
-          { "name": "Har kasbning o'z o'rni bor", "index": 2 },
-          { "name": "Yosh musavvir", "index": 3 },
-          { "name": "Kasbning yomoni yo'q", "index": 4 },
-          { "name": "Sharafli kasb", "index": 5 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
-        ]
-      },
-      {
-        "chapter": "Eng katta boylik – salomatlik",
-        "index": 5,
-        "subtopics": [
-          { "name": "Ehtiyot bo'ling!", "index": 1 },
-          { "name": "Ko'zga ko'rinmas olam", "index": 2 },
-          { "name": "Ko'zga ko'rinmas olam", "index": 3 },
-          { "name": "Mashhur tabib bobomiz", "index": 4 },
-          { "name": "Tumovdan saqlaning", "index": 5 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 6 }
-        ]
-      },
-      {
-        "chapter": "Bir-birini kuzatadi fasllar",
-        "index": 6,
-        "subtopics": [
-          { "name": "Har faslning o'z ziynati bor", "index": 1 },
-          { "name": "Fasllar nega almashadi?", "index": 2 },
-          { "name": "Qish zavqi", "index": 3 },
-          { "name": "Zumrad bahor", "index": 4 },
-          { "name": "Yoz, seni sog'indik!", "index": 5 },
-          { "name": "Oltin kuz", "index": 6 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
-        ]
-      },
-      {
-        "chapter": "Ertaklarning sehrli olamidan bahra olamiz!",
-        "index": 7,
-        "subtopics": [
-          { "name": "Ertaklar olami", "index": 1 },
-          { "name": "Hayvonlar haqida ertaklar I", "index": 2 },
-          { "name": "Hayvonlar haqida ertaklar II", "index": 3 },
-          { "name": "Boyo'g'li bilan qarg'a", "index": 4 },
-          { "name": "Tulkining hiylasi ko'p...", "index": 5 },
-          { "name": "Adabiy ertaklar", "index": 6 },
-          { "name": "Tabiat in'omi", "index": 7 },
-          { "name": "Bog'da", "index": 8 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
-        ]
-      },
-      {
-        "chapter": "Buyuklar xotirada mangu yashaydi!",
-        "index": 8,
-        "subtopics": [
-          { "name": "Biz buyuklar avlodimiz", "index": 1 },
-          { "name": "Buyuk sarkarda", "index": 2 },
-          { "name": "Mirzo Ulug'bek", "index": 3 },
-          { "name": "Ulug' shoir va mutafakkir", "index": 4 },
-          { "name": "Adolatli shoh va buyuk shoir", "index": 5 },
-          { "name": "Qatag'on qurbonlari xotirasi", "index": 6 },
-          { "name": "Mehnatsiz taxt kelmas", "index": 7 },
-          { "name": "Yuksak ma'naviyatli avlod", "index": 8 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
-        ]
-      },
-      {
-        "chapter": "Milliy an'ana va qadriyatlarimiz e'zozda",
-        "index": 9,
-        "subtopics": [
-          { "name": "Oila – muqaddas qo'rg'on", "index": 1 },
-          { "name": "Bebaho qadriyatlar", "index": 2 },
-          { "name": "An'ana nima?", "index": 3 },
-          { "name": "Ibratli amallar va go'zal an'analar", "index": 4 },
-          { "name": "Fayzli ko'chalar – mahallamiz ko'rki", "index": 5 },
-          { "name": "Odob salomdan boshlanadi", "index": 6 },
-          { "name": "Bayramlari ko'p yurtim", "index": 7 },
-          { "name": "Navro'z taomlari", "index": 8 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 9 }
-        ]
-      },
-      {
-        "chapter": "Bizning yordamchilar",
-        "index": 10,
-        "subtopics": [
-          { "name": "Aqlli yordamchilar", "index": 1 },
-          { "name": "Elektr manbalari", "index": 2 },
-          { "name": "Transport turlari", "index": 3 },
-          { "name": "Yo'l belgilari tilga kirganda", "index": 4 },
-          { "name": "Ajoyib topilma", "index": 5 }
-        ]
-      },
-      {
-        "chapter": "Do'stlar qancha ko'p bo'lsa, olam nurga to'ladi",
-        "index": 11,
-        "subtopics": [
-          { "name": "Do'stlikda hikmat ko'p", "index": 1 },
-          { "name": "Do'stlikning qudrati", "index": 2 },
-          { "name": "Yovlashmoq – oson, yarashmoq – qiyin", "index": 3 },
-          { "name": "Do'stlik – mustahkam rishta I", "index": 4 },
-          { "name": "Do'stlik – mustahkam rishta II", "index": 5 },
-          { "name": "Do'st har vaqtda qo'llaydi", "index": 6 },
-          { "name": "Bo'lim yuzasidan takrorlash", "index": 7 }
-        ]
-      },
-      {
-        "chapter": "Shirin-shakar so'zlasang, sehrgardek bo'lasan!",
-        "index": 12,
-        "subtopics": [
-          { "name": "Nutq sehri I", "index": 1 },
-          { "name": "Nutq sehri II", "index": 2 },
-          { "name": "Avval o'yla, keyin so'yla", "index": 3 },
-          { "name": "Jumlangiz bo'lsin to'g'ri", "index": 4 },
-          { "name": "Tilga bo'ling hurmatda", "index": 5 }
-        ]
-      },
-      {
-        "chapter": "Tabiatni asraymiz, unga ozor bermaymiz!",
-        "index": 13,
-        "subtopics": [
-          { "name": "Suv – zaminning yuragi", "index": 1 },
-          { "name": "Tabiatni asrash burchimizdir I", "index": 2 },
-          { "name": "Tabiatni asrash burchimizdir II", "index": 3 },
-          { "name": "Tabiat qo'ynida", "index": 4 },
-          { "name": "O'tilganlarni mustahkamlash", "index": 5 }
+          {
+            "name": "Aqlli yordamchilar",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bizning kundalik hayotimizni osonlashtiradigan zamonaviy maishiy texnikalar (changyutgich, muzlatgich, kir yuvish mashinasi, kompyuter) haqida o'quv matni. Ular qanday ishlashi va insonning eng yaqin \"aqlli yordamchilari\" ekanligi tasvirlanadi. 2. Tarbiyaviy g'oya (Moral): Texnika vositalari inson mehnatini yengillashtiradi, lekin ularni ixtiro qilgan inson aqli barcha texnikalardan ustundir. Texnikadan to'g'ri va xavfsiz foydalanish lozim. 3. Yangi lug'at: Maishiy texnika (uy-ro'zg'or asboblari), ixtiro (yangi narsa yaratish), aqlli yordamchi (ishni oson qiluvchi buyum). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Texnikalarning inson hayotidagi o'rnini topish (Namuna: Asarga ko'ra, nima uchun uyimizdagi zamonaviy texnikalarni \"aqlli yordamchilar\" deb ataymiz? Javob: Chunki ular insonning og'ir mehnatini yengillashtirib, vaqtini tejaydi). 2. Lug'at tahlili: Turli texnikalarning vazifasini mantiqan moslashtirish. CHEKLOVLAR: Texnikalarning murakkab ichki mexanizmlari (motor qanday ishlashi) haqida muhandislik savollari aslo kiritilmasin."
+          },
+          {
+            "name": "Elektr manbalari",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Elektr tokining insoniyat uchun naqadar muhimligi va u uyimizgacha uzoq elektr stansiyalaridan qanday qiyinchiliklar bilan yetib kelishi tushuntirilgan matn. Uyimizdagi barcha \"aqlli yordamchilar\" aynan elektr quvvati bilan ishlashi uqtiriladi. 2. Tarbiyaviy g'oya (Moral): Elektr quvvati cheksiz emas, uni tejash va xonadan chiqayotganda chiroqlarni o'chirish har bir insonning burchi. Elektr asboblari bilan muomalada xavfsizlik qoidalariga qat'iy rioya qilish shart. 3. Yangi lug'at: Elektr manbai (tok hosil bo'ladigan joy), tejamkorlik (isrof qilmaslik), xavfsizlik (o'zini asrash). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Elektrni asrash sababini topish (Namuna: Nima uchun xonadan chiqayotganda chiroqlarni va elektr asboblarini o'chirib chiqishimiz kerak? Javob: Elektr energiyasini tejash (isrof qilmaslik) va yong'in xavfsizligi uchun). 2. Lug'at tahlili: 'Tejamkorlik' so'zining to'g'ri izohini aniqlash. CHEKLOVLAR: Fizika faniga oid bo'lgan tokning kuchlanishi (volt) kabi ilmiy terminlar ishlatilmasin."
+          },
+          {
+            "name": "Transport turlari",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Quruqlikda, suvda, havoda va yer ostida harakatlanadigan transport vositalari (avtomobil, kema, samolyot, metropoliten) haqida ma'lumot beruvchi matn. Transportlar odamlarning uzog'ini yaqin qilishi va yuklarni tashishda qulaylik yaratishi yoritiladi. 2. Tarbiyaviy g'oya (Moral): Jamoat transportlarida yurishning o'z odob-axloq qoidalari bor. Kattalarga, keksalar va yosh bolali onalarga joy berish odobli bolaning go'zal xislatidir. 3. Yangi lug'at: Transport (tashuvchi vosita), jamoat (ko'pchilik odamlar), yo'lovchi (transportda ketayotgan shaxs). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Jamoat transportidagi to'g'ri xulqni aniqlash (Namuna: Odobli o'quvchi avtobusga chiqqanda yoshi ulug' qariyalarni ko'rsa nima qilishi kerak? Javob: Darhol o'z joyini ularga bo'shatib berishi kerak). 2. Tasniflash: Suvda yoki havoda yuruvchi transport turlarini farqlash. CHEKLOVLAR: Transport poyezdlarining markalari yoxud samolyot tezligi haqida chalg'ituvchi texnik raqamlar so'ralmasin."
+          },
+          {
+            "name": "Yo'l belgilari so'zga kirganda...",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ko'chalardagi svetofor chiroqlari va yo'l belgilari (piyodalar o'tish joyi, yerosti yo'li) tilga kirib o'zining muhim vazifalarini tushuntirgani haqida qiziqarli hikoya. Yo'l belgilari insonlarning xavfsizligini ta'minlovchi tilsiz yordamchilar ekanligi aytiladi. 2. Tarbiyaviy g'oya (Moral): Yo'l qoidasi – umr foydasi. Ko'chani kesib o'tishda har doim xavfsizlik qoidalariga rioya qilish, svetofor chiroqlariga e'tiborli bo'lish hayotni asraydi. Qoidalarni buzish falokatga olib keladi. 3. Yangi lug'at: Yo'l belgisi (yo'ldagi harakatni tartibga soluvchi ishora), chorraha (yo'llar kesishgan joy), piyoda (o'z oyog'i bilan yuruvchi odam). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Yo'l belgilarining mohiyatini topish (Namuna: Asarga ko'ra, ko'chalarga qo'yilgan turli xil yo'l belgilari va svetoforlar qanday maqsadga xizmat qiladi? Javob: Odamlar va mashinalarning tartibli, xavfsiz harakatlanishi uchun). 2. Xulosa yasash: Svetoforning rangi va mantiqiy qoidasini bog'lash. CHEKLOVLAR: Haydovchilarga oid murakkab tezlik belgilari haqida YHX (GAI) testlaridagidek qiyin savollar tuzilmasin."
+          },
+          {
+            "name": "Ajoyib topilma",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Halollik va to'g'riso'zlikka bag'ishlangan hikoya. Qahramon ko'chadan yoki maktabdan qimmatbaho buyum (yoki pul) topib oladi va uni hech ikkilanmasdan o'z egasiga yoki ustoziga topshiradi. 2. Tarbiyaviy g'oya (Moral): Birovning narsasi hech qachon birovga buyurmaydi, \"birovning haqi – yomon\". Topib olingan narsani o'zlashtirib olish o'g'irlik bilan tengdir. Halollik insonni doimo yorug' yuzli qiladi va atrofdagilar hurmatini qozonadi. 3. Yangi lug'at: Topilma (yo'qotilgan va topib olingan narsa), o'zlashtirmoq (birovning narsasini o'ziniki qilib olmoq), halollik (to'g'rilik, poklik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qahramonning xatti-harakatini axloqiy baholash (Namuna: Ko'chadan tushirib qoldirilgan buyumni topib olgan bola nima qilishi eng to'g'ri va halol yo'l hisoblanadi? Javob: O'zlashtirmasdan, darhol o'z egasiga qaytarib berishi kerak). 2. Lug'at tahlili: 'Halollik' va 'O'zlashtirmoq' so'zlarining ziddiyatini (antonimini) izohlash. CHEKLOVLAR: Bola qancha pul topib olgani yoki buyum qanaqa rangda bo'lganini so'rab xotirani chiniqtirmang, diqqat halollik xislatida bo'lsin."
+          },
+          {
+            "name": "Do'stlikda hikmat ko'p",
+            "index": 6,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Haqiqiy do'stlikning qadr-qimmati va sadoqat haqida matn. Yaxshi do'st kishini to'g'ri yo'lga boshlashi, uning yutuqlaridan quvonib, kamchiliklarini yuziga to'g'ri aytishi misollar bilan tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Do'st orttirish oson, lekin uni saqlab qolish qiyin. Chin do'stlar orasida hasad bo'lmaydi. Yaxshi o'rtoq inson hayotidagi eng katta boyliklardan (hikmatlardan) biridir. 3. Yangi lug'at: Hikmat (falsafa, katta ma'no), chin do'st (sadoqatli o'rtoq), sadoqat (vafodorlik). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Chin do'stning xususiyatlarini topish (Namuna: Hikoyaga ko'ra, haqiqiy sadoqatli do'st qanday fazilatlarga ega bo'lishi kerak? Javob: Xatolaringni o'zingga to'g'ri aytib, doim yordam qo'lini cho'zishi kerak). 2. G'oya tahlili: Nima uchun do'stlikda \"hikmat ko'p\" deyilishini mantiqan aniqlash. CHEKLOVLAR: Matnda yo'q xalq maqollarini to'ldirishga asoslangan adabiyot darsiga xos so'z o'yinlarini testga qo'shmang."
+          },
+          {
+            "name": "Do'stlikning qudrati",
+            "index": 7,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bir nechta o'rtoqlarning birlashib qanday qilib og'ir ishni (masalan, yo'ldagi katta toshni olish yoki og'ir yumushni bajarish) osonlik bilan uddalagani haqidagi ibratli hikoya. Yolg'iz kishining kuchi yetmagan ishga jamoa kuchi bemalol yetishi ko'rsatiladi. 2. Tarbiyaviy g'oya (Moral): \"Birlashgan o'zar, birlashmagan to'zar\". Jamoa bo'lib, do'stona va ahil ishlash har qanday qiyinchilikni yengadi. Qudrat – jismoniy kuchda emas, balki hamjihatlikdadir. 3. Yangi lug'at: Qudrat (kuch-quvvat, imkoniyat), hamjihatlik (bir yoqadan bosh chiqarib ishlash), yumush (ish, vazifa). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Asardagi g'alabaning sababini topish (Namuna: Qahramonlar yolg'iz eplay olmagan og'ir yumushni qanday qilib osonlik bilan bajarishdi? Javob: Do'stlar bilan birlashib, hamjihatlik orqali). 2. Lug'at tahlili: 'Qudrat' so'zining jamoaga nisbatan ishlatilgan ko'chma ma'nosini aniqlash. CHEKLOVLAR: Bolalar og'irligi necha kilolik narsani ko'targani kabi fizik raqamlar so'ralmasligi shart."
+          },
+          {
+            "name": "Yovlashmoq — oson, yarashmoq — qiyin",
+            "index": 8,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Arzimagan sabab (biror o'yinchoq yoki gap) ustida o'zaro janjallashib (yovlashib) arazlab qolgan ikki do'st haqidagi hikoya. O'rtaga sovuqchilik tushgach, do'stsiz qolish qanchalik og'irligi, xatoni tan olib, birinchi bo'lib uzr so'rashga insonning g'ururi yo'l qo'ymay qiynalishi yoritiladi. 2. Tarbiyaviy g'oya (Moral): Urishib qolish judayam oson ish, lekin munosabatlarni qayta tiklash mashaqqat talab etadi. Haqiqiy mard inson aybi bo'lsa darhol kechirim so'ray oladi va g'ururiga qul bo'lmaydi. Kechirimli bo'lish – ulug'likdir. 3. Yangi lug'at: Yovlashmoq (dushmanlashmoq, janjallashmoq), g'urur (kibr, o'zini yuqori tutish), kechirim (uzr so'rash). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Do'stlar mojarosi oqibatini xulosalash (Namuna: Nima uchun yozuvchi \"yarashmoq qiyin\" deb ta'kidlaydi? Javob: Chunki inson o'z xatosini tan olib kechirim so'rashi uchun o'zining kibrini va g'ururini yengishi kerak). 2. Xarakter xususiyati: Kechirim so'rash uchun qanday ijobiy hislat zarurligini topish (Mardlik). CHEKLOVLAR: Bolalar nima ustida urishib qolgani chalg'ituvchi detal sifatida qatnashsa-da, asarning asosiy so'rov maqsadi bo'lmasligi kerak."
+          },
+          {
+            "name": "Do'stlik– mustahkam rishta",
+            "index": 9,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Haqiqiy sadoqatli do'stlarni har qanday yomon so'zlar yoki ig'volar (g'iybat) ayira olmasligi haqida matn yoki rivoyat. Mustahkam iplar (rishtalar) bir-biriga qattiq bog'langani kabi, ishonch ustiga qurilgan do'stlikni dushmanlar buza olmasligi o'xshatishlar orqali tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Do'stga ishonch eng muhim tayanchdir. Uchinchi shaxsning yomon gaplariga (g'iybatiga) ishonib o'z o'rtog'idan yuz o'girish pastkashlikdir. Do'stlik ishonch bo'lsagina mustahkam qoladi. 3. Yangi lug'at: Rishta (bog'lovchi ip, munosabat), ig'vo (yolg'on, g'iybat gap), ishonch (sadoqat va imon). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Do'stlikning buzilmaslik sababini topish (Namuna: Asarga ko'ra, sadoqatli do'stlarni qanday qilib bir-biridan ayirib yuborish imkonsiz? Javob: Chunki ularning o'rtasida mustahkam ishonch va samimiy rishta mavjud). 2. Badiiy tasvir: 'Rishta' so'zi nimaga o'xshatilganini mantiqan topish (Qattiq bog'langan ipga). CHEKLOVLAR: Asardagi uchinchi (yomon) shaxsning ismi yoxud g'iybat tafsilotlarini so'rash o'rniga, asosiy ishonch g'oyasidan savol oling."
+          },
+          {
+            "name": "Do'st har vaqtda qo'llaydi",
+            "index": 10,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Darsda o'zlashtirishga qiynalayotgan yoxud kasal bo'lib qolgan bolaga uning eng yaqin do'sti yordamga (ko'makka) kelgani tasvirlangan hikoya. O'rtoq o'z vaqtini qizg'anmasdan, do'stiga dars tayyorlashga yordamlashishi orqali uning yana a'lochi bo'lib ketishiga sababchi bo'ladi. 2. Tarbiyaviy g'oya (Moral): O'z bilimi va vaqtini do'stidan qizg'anmaslik. Chin do'st faqat bayramda emas, balki qiyinchilik va kulfatda yordam beradigan, suyanchiq bo'ladigan inson ekanligi. 3. Yangi lug'at: Qo'llamoq (yordam bermoq, ko'maklashmoq), kulfat (qiyinchilik, dard), suyanchiq (suyanadigan kishi, dalda). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Hikoya qahramonining xatti-harakatini aniqlash (Namuna: Bolakay o'zining darsda qiynalayotgan o'rtog'iga qanday to'g'ri munosabatda bo'ldi? Javob: Vaqtini qizg'anmasdan unga yordam berdi va qo'llab-quvvatladi). 2. Lug'at tahlili: 'Qo'llamoq' va 'Suyanchiq' so'zlarining insoniy ma'nosini topish. CHEKLOVLAR: Bolalar qaysi fandan (matematika yoki ona tili) qiynalganligi kabi syujet detali asarning axloqiy tahliliga xalaqit bermasligi kerak."
+          },
+          {
+            "name": "Bo'lim yuzasidan takrorlash",
+            "index": 11,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: To'rtinchi chorakning \"Texnika, yo'l qoidalari va Do'stlik\" bo'limlaridagi darslarning qisqacha xulosasi. Bolalar texnikalardan to'g'ri foydalanish, yo'llarda hushyor bo'lish bilan bir qatorda, eng muhimi – insonlararo mehr-oqibat va do'stlik qoidalarini yodga oladilar. 2. Tarbiyaviy g'oya (Moral): Qoidalarga itoat etish insonni xavfdan asrasa, halollik va sadoqatli do'stlar orttirish uning hayotini baxtli qiladi. Do'stlik, ishonch, kechirimli bo'lish hamma narsadan ustun. 3. Yangi lug'at (Takroriy): aqlli yordamchi, xavfsizlik, rishta, qudrat, yovlashmoq. MASHQLAR USLUBI: 1. G'oyaviy taqqoslash: Asarlar mantiqini birlashtirish (Namuna: Do'stlik haqidagi barcha o'tilgan hikoyalarni birlashtiruvchi yagona va eng muhim axloqiy xulosa nima? Javob: Chin do'stlar o'rtasida mustahkam ishonch bo'lishi va ular og'ir kunda ham yordam berishi). 2. Nazariy xulosa: Xavfsizlik qoidalari va insoniylik qoidalarining (do'stlik) hayotdagi ahamiyatini farqlash. CHEKLOVLAR: O'quvchilardan matn syujetlarini ketma-ket yoddan aytib berishni talab qiluvchi savollar tuzilmasin."
+          },
+          {
+            "name": "Nutq sehri",
+            "index": 12,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Insonning so'zlashuv qobiliyati (nutqi) qanday ulkan sehrga va kuchga ega ekanligi haqida matn. Yaxshi muomala, salomlashish odobi va to'g'ri, sokin ohangda gapirish atrofdagilarda qanday hurmat uyg'otishi, qo'pol nutq esa odamlarni qanday bezdirishi ta'kidlanadi. 2. Tarbiyaviy g'oya (Moral): \"Yaxshi so'z – jon ozig'i\". Chiroyli va madaniyatli nutq insonning eng katta ko'rkidir. Go'zal so'zlar mo'jiza yaratib, hatto dushmanlarni ham do'stga aylantirishi mumkin. 3. Yangi lug'at: Nutq (insonning gapirishi, so'zlashuvi), sehr (qudratli kuch, mo'jiza), xushmuomala (shirin so'zli, odobli). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Nutqning qudratini topish (Namuna: Asarga ko'ra inson o'zining chiroyli va xushmuomala nutqi orqali qanday katta yutuqqa erishadi? Javob: Odamlar qalbini topib, hamma joyda hurmat va obro' qozonadi). 2. Lug'at tahlili: 'Nutq sehri' iborasining mantiqiy ma'nosini aniqlash. CHEKLOVLAR: Grammatika qoidalariga oid ona tili savollari emas, faqat nutqning axloqiy-ijtimoiy ta'siri so'ralsin."
+          },
+          {
+            "name": "Avval – o'yla, keyin – so'yla",
+            "index": 13,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Qattiq jahl chiqqanda yoki ehtiyotsizlik qilib birovga yomon so'z aytishning og'ir oqibatlari (masalan, daraxtga yoki taxtaga qadalgan mix misolida) haqidagi ibratli asar. Aytilgan so'z otilgan o'q kabi bo'lib, uning qalbda qoldirgan yarasi (iz) uzr so'ragan bilan butunlay ketmasligi tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Tilga ehtiyot bo'lish, gapirishdan oldin uning oqibatini chuqur o'ylab ko'rish. Jahlni yutish va birovning ko'ngliga ozor beradigan so'zlarni aslo tilga olmaslik lozim. 3. Yangi lug'at: So'ylamoq (gapirmoq, aytmoq), jarohat (qalb yarasi, ozor), pushaymon (qilgan ishidan afsuslanish). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Yomon so'zning oqibatini aniqlash (Namuna: Nima uchun inson gapirishdan avval qattiq o'ylashi kerak deb hisoblanadi? Javob: Chunki o'ylamay aytilgan so'z boshqalar qalbiga tuzalmas jarohat va ozor berishi mumkin). 2. Majozni topish: Otilgan o'qqa mantiqan nima o'xshatilganini topish (Og'izdan chiqqan yomon so'z). CHEKLOVLAR: Matndagi taxta va mix kabi o'xshatish asboblarini o'zini to'g'ridan to'g'ri emas, uning mantiqiy (falsafiy) izohini test qiling."
+          },
+          {
+            "name": "Jumlangiz bo'lsin to'g'ri",
+            "index": 14,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Adabiy tilda to'g'ri, xatosiz, va tushunarli qilib (qisqa va lo'nda) jumlalar tuzib gapirish qoidalari bayon qilingan matn. Pala-partish, ortiqcha va keraksiz so'zlarni ishlatib gapirish insonning bilimsizligidan dalolat berishi aytiladi. 2. Tarbiyaviy g'oya (Moral): Har bir o'quvchi o'z ona tilida chiroyli va savodli gapirishni o'rganishi shart. O'zbek tilining boyligidan to'g'ri foydalanish, kitob o'qish orqali so'z boyligini oshirish madaniyat belgisidir. 3. Yangi lug'at: Jumla (bir qancha so'zlardan iborat tugal gap), lo'nda (qisqa va aniq), pala-partish (tartibsiz, noto'g'ri). MASHQLAR USLUBI: 1. Mantiqiy tahlil: To'g'ri so'zlashuv mezonini topish (Namuna: O'quvchi boshqalar uning gapini yaxshi tushunishi va hurmat qilishi uchun qanday gapirishi kerak? Javob: Qisqa, lo'nda va to'g'ri jumlalar tuzib gapirishi kerak). 2. Lug'at tahlili: 'Lo'nda' so'zining to'g'ri izohini aniqlash. CHEKLOVLAR: Murakkab sintaktik qoidalar (ega, kesim qayerda kelishi) kabi tilshunoslik qoidalari so'ralmasin, dars O'qish savodxonligi hisoblanadi."
+          },
+          {
+            "name": "Tilga bo'ling hurmatda",
+            "index": 15,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ona tili qadri va unga hurmat to'g'risida tarbiyaviy matn. O'z nutqida keraksiz joyda chet tili so'zlarini qo'shib, o'zbek tilini buzib gapirish qoralanadi. Shuningdek, turli xunuk, ko'cha so'zlari va so'kinishlardan tili va qalbini toza saqlash haqida gap boradi. 2. Tarbiyaviy g'oya (Moral): Ona tilini e'zozlash – o'z millatini va ajdodlarini e'zozlashdir. Sof va toza tilda gapirish har bir insonning o'z Vataniga bo'lgan hurmatini ko'rsatadi. 3. Yangi lug'at: Sof (toza, o'zgarmagan, qo'shilmasiz), sheva (mahalliy hududlarga xos so'zlashuv), g'urur (faxr). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Tilga hurmatsizlikni aniqlash (Namuna: O'quvchi o'zining ona tiliga nisbatan qanday holatda hurmatsizlik qilgan hisoblanadi? Javob: Nutqiga keraksiz chet el va xunuk ko'cha so'zlarini qo'shib, tilni buzib gapirganda). 2. G'oyaviy qiyoslash: Til tozaligi va qalb tozaligini bog'lash. CHEKLOVLAR: Qaysi chet el so'zlari noto'g'ri ekanligini izohlovchi quruq lug'at tarjima testlaridan saqlaning."
+          },
+          {
+            "name": "Suv-zaminning yuragi",
+            "index": 16,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Suv tabiatning va butun borliqning eng asosiy hayot manbai ekanligi tushuntirilgan ilmiy-badiiy matn. Yer sharining yuragi deb ta'riflangan suv bo'lmasa, nabotot (o'simliklar), hayvonot olami va insoniyat qirilib ketishi, yer qurib qaqrashi tasvirlanadi. 2. Tarbiyaviy g'oya (Moral): Ochiq qolgan suv jo'mraklarini yopish, ekinlarni sug'orishda suvni isrof qilmaslik. Har bir tomchi suv uchun javobgarlik va shukronalik hissini tuyish yoshlikdan boshlanishi shart. 3. Yangi lug'at: Zamin (yer, ona sayyora), isrof (beqadr, besamar to'kib yuborish), obihayat (hayot va yashash suvi). MASHQLAR USLUBI: 1. Badiiy tasvirni aniqlash: (Namuna: Asarda suvsiz hayot bo'lmasligi va tiriklik manbai ekanligini ifodalash uchun suv nimaga o'xshatilgan? Javob: Zaminning (yerning) yuragiga va obihayatga). 2. Amaliy mantiq: Suvni tejash bo'yicha kundalik qoidani topish (Jo'mrakni bekorga ochiq qoldirmaslik). CHEKLOVLAR: Er yuzining necha foizi suvdan iborat ekanligi kabi geografik raqamlar matnda bo'lmagan taqdirda so'ralmasligi kerak."
+          },
+          {
+            "name": "Tabiatni asrash burchimizdir",
+            "index": 17,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Tabiat va ekologiya musaffoligini saqlash bo'yicha qoidalar jamlanmasi. Daraxtlarning shoxlarini sindirmaslik, qog'oz va plastik chiqindilarni ko'chalarga, ariqlarga tashlamaslik, ko'chatlar ekib atrofni ko'kalamzorlashtirish haqida tushuntiriladi. 2. Tarbiyaviy g'oya (Moral): Biz tabiatning xo'jayini emas, balki farzandimiz. Tabiat bizning umumiy uydir, uni toza va go'zal holda saqlab qolish nafaqat kattalar, balki har bir kichik bolaning ham qat'iy insoniylik burchidir. 3. Yangi lug'at: Burch (bajarilishi shart bo'lgan majburiyat, qarz), ekologiya (tabiat tozaligini o'rganuvchi soha), musaffo (top-toza, beg'ubor). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ekologik xatoni topish (Namuna: Asarga ko'ra quyidagi qaysi xatti-harakat tabiat oldidagi burchimizga butunlay zid va zararli harakat hisoblanadi? Javob: Ariqlarga chiqindi tashlash va ko'kargan daraxt shoxlarini sindirish). 2. Lug'at tahlili: 'Burch' tushunchasining asardagi mantiqiy og'irligini topish. CHEKLOVLAR: Tabiatni asrash tashkilotlari (ekologiya qo'mitasi) nomi kabi rasmiy idoraviy nomlar so'ralmasin."
+          },
+          {
+            "name": "Tabiat qo'ynida...",
+            "index": 18,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'quv yilini (2-sinfni) yakunlayotgan bolalarning yozgi ta'til vaqtida tabiat qo'yniga (tog'larga, o'rmonlarga yoki ko'l bo'yiga) sayohatga chiqishlari va hordiq chiqarishlari haqida yakuniy quvnoq matn. Tabiatdagi musaffo havo inson salomatligini qanchalik mustahkamlashi (chiniqtirishi) tasvirlanadi. Sayohat davomida ham atrofni ifloslantirmasdan, tartibli dam olish eslatib o'tiladi. 2. Tarbiyaviy g'oya (Moral): O'qishdan so'ng to'g'ri dam olishni bilish, o'z yurtining go'zal tabiatidan zavq olish. Tabiat bizga salomatlik ulashgani kabi biz ham unga mehr-muhabbat va tozalik bilan javob qaytarishimiz shart. 3. Yangi lug'at: Tabiat qo'yni (tabiatning bevosita ichi, shahar shovqinidan uzoq joy), sayohat (aylanish, dam olish uchun safar), hordiq (dam, charchoqni chiqarish), chiniqish (salomatlikni mustahkamlash). MASHQLAR USLUBI: 1. Mantiqiy tahlil: Tabiatning inson sog'lig'iga foydasini aniqlash (Namuna: O'quvchilar uzoq o'quv yilidan so'ng yozgi ta'tilni tabiat qo'ynida o'tkazishlari ularga nima beradi? Javob: Toza havoda chiniqib, sog'liqlarini mustahkamlashga va hordiq chiqarishga yordam beradi). 2. Xulq-atvor tahlili: Sayohat paytida gul va giyohlarga munosabat (Tabiat qo'ynida olov yoqmaslik, chiqindi qoldirmaslik). CHEKLOVLAR: Turistik marshrutlar yo'nalishlari kabi murakkab sayohat geografiyasi bu yerda matn predmeti emas."
+          }
         ]
       }
-    ]
-  }
-]
+  ]
+}]

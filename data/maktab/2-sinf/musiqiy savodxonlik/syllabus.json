@@ -8,34 +8,146 @@
         "chapter": "Musiqiy savodxonlik",
         "index": 1,
         "subtopics": [
-          { "name": "O'zbekiston madhiyasi", "index": 1 },
-          { "name": "Vatanjonim – Vatanim!", "index": 2 },
-          { "name": "Shermat Yormatov", "index": 3 },
-          { "name": "Orkestr", "index": 4 },
-          { "name": "Simfonik ertak", "index": 5 },
-          { "name": "Musiqiy ifoda vositalari", "index": 6 },
-          { "name": "Musiqa kayfiyati", "index": 7 },
-          { "name": "Temp va ritm", "index": 8 },
-          { "name": "Raqs", "index": 9 },
-          { "name": "Qo'shiq aytib", "index": 10 },
-          { "name": "Saf qo'shig'i", "index": 11 },
-          { "name": "Balet", "index": 12 },
-          { "name": "Archa atrofida", "index": 13 },
-          { "name": "Yangi yil", "index": 14 },
-          { "name": "Ansambl", "index": 15 },
-          { "name": "O'zbekiston – Vatanim!", "index": 16 },
-          { "name": "Bahorgi improvizatsiya", "index": 17 },
-          { "name": "Registr va tembr", "index": 18 },
-          { "name": "Ayiqpolvonlar bog'chasi", "index": 19 },
-          { "name": "Dinamika", "index": 20 },
-          { "name": "Buvijon", "index": 21 },
-          { "name": "Musiqa va tabiat", "index": 22 },
-          { "name": "Tovush qatori va oktava", "index": 23 },
-          { "name": "Yomg'ir yog'aloq", "index": 24 },
-          { "name": "Harbiy orkestr", "index": 25 },
-          { "name": "Musiqadagi uchta kit", "index": 26 },
-          { "name": "Notalar davomiyligi", "index": 27 },
-          { "name": "Twinkle Twinkle Little Star", "index": 28 }
+          {
+            "name": "O'zbekiston madhiyasi",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: O'zbekiston Respublikasi Davlat madhiyasi. Uning musiqasini O'zbekiston xalq artisti Mutal Burhonov bastalagan, matnini esa O'zbekiston Qahramoni, xalq shoiri Abdulla Oripov yozgan. 2. Asosiy maqsad: Madhiya davlatning asosiy mustaqillik ramzi ekanligini, uni qanday tartib-intizom bilan kuylash kerakligini o'rganish. Madhiya yangraganda hamma o'rnidan tik turishi, o'ng qo'lini ko'krakka qo'yib, faxr bilan jo'r bo'lishi qat'iy qoida hisoblanadi. MASHQLAR USLUBI: 1. Nazariy savollar: Madhiya mualliflarini aniqlash (Namuna: Davlat madhiyasi musiqasini kim bastalagan? Javob: Mutal Burhonov). 2. Mantiqiy tahlil: Madhiya ijro etilayotganda qanday holatda turish kerakligini belgilash (Javob: Tik turib, o'ng qo'l ko'krakda). CHEKLOVLAR: Davlat gerbi yoki bayrog'iga oid qonuniy faktlar bu mavzuda so'ralmasin, diqqat faqat madhiyaning musiqiy va ma'naviy qoidasiga qaratilsin."
+          },
+          {
+            "name": "Vatanjonim – Vatanim!",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Vatan haqidagi yorqin va jo'shqin qo'shiqlardan biri. Asarda O'zbekistonning go'zal tabiati, serhosil dalalari, baland tog'lari va mehnatkash xalqi ulug'lanadi. 2. Tarbiyaviy g'oya (Moral): Ona yurtga bo'lgan muhabbat eng muqaddas tuyg'udir. Vatanni sevish, uni ko'z qorachig'idek asrab-avaylash, uning boyliklarini qadrlash yoshlikdan boshlanadi. Qo'shiq orqali o'quvchilarda milliy g'urur va sadoqat tarbiyalanadi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qo'shiqning ma'naviy maqsadi va obyektini topish (Namuna: Ushbu qo'shiqda asosan qaysi beqiyos va muqaddas makon madh etilgan? Javob: Ona Vatan). 2. Kayfiyat tahlili: Vatan haqidagi qo'shiqlar odatda qanday hissiyot bilan kuylanishini aniqlash (Javob: Faxr, g'urur va jo'shqinlik bilan). CHEKLOVLAR: Vatan haqidagi boshqa shoirlarning murakkab she'rlaridan misollar keltirib, testni chalkashtirmang. Qo'shiqning ma'nosi va vatanparvarlik ruhiyatidangina foydalaning."
+          },
+          {
+            "name": "Shermat Yormatov",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: O'zbek bolalar musiqasining chinakam darg'asi, O'zbekiston xalq artisti Shermat Yormatovning hayoti va ijodi haqida. U o'z umrini bolalar qo'shiqchiligi san'atiga bag'ishlagan zabardast xormeyster va bastakordir. Eng asosiysi, u mashhur \"Bulbulcha\" bolalar xor jamoasining asoschisi va rahbaridir. 2. Asosiy maqsad: Shermat Yormatovning bolalar san'atiga qo'shgan ulkan hissasini, uning qo'shiqlari bolalarni go'zallik, ezgulik va vatanparvarlikka chorlashini bilish. MASHQLAR USLUBI: 1. Nazariy savollar: Bastakor tashkil etgan mashhur musiqiy jamoa nomini topish (Namuna: Shermat Yormatov qaysi mashhur bolalar xor jamoasiga rahbarlik qilgan? Javob: \"Bulbulcha\" xor jamoasiga). 2. Kasbiy tahlil: Bastakor va xormeyster nima ish qilishini mantiqan aniqlash. CHEKLOVLAR: Bastakorning tug'ilgan yili, qaysi maktabda o'qigani kabi biografik quruq raqamlar so'ralmasin, asosiy e'tibor uning bolalar musiqasidagi ijobiy roliga qaratilsin."
+          },
+          {
+            "name": "Orkestr",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Orkestr – bu ko'plab musiqachilar (sozandalar) turli xil musiqa asboblarida birgalikda musiqa ijro etadigan ulkan jamoa. Orkestrlarning simfonik, xalq cholg'ulari va puflama orkestr kabi turlari mavjud. Orkestrni maxsus tayoqcha yordamida boshqaruvchi shaxs 'dirijyor' deb ataladi. 2. Asosiy maqsad: Yolg'iz ijro (yakkaxon) bilan jamoaviy ijro (orkestr) farqini bilish. Dirijyorning qo'l harakatlari butun jamoani bir xil ritmda va uyg'unlikda chalishga majbur qilishini tushunish. MASHQLAR USLUBI: 1. Nazariy savollar: Musiqiy jamoaning nomini aniqlash (Namuna: Ko'plab sozandalardan iborat bo'lgan, birgalikda kuy chaladigan yirik musiqiy jamoa nima deb ataladi? Javob: Orkestr). 2. Mantiqiy tahlil: Orkestrni kim boshqarishini topish (Javob: Dirijyor). CHEKLOVLAR: Orkestrdagi har bir cholg'uning sahnada nechanchi qatorda o'tirish tartibi kabi o'ta professional konservatoriya savollari tuzilmasin."
+          },
+          {
+            "name": "Simfonik ertak",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Simfonik ertak (masalan, S. Prokofyevning \"Petya va bo'ri\" asari) – bu oddiy so'zlar bilan emas, balki musiqa va simfonik orkestr cholg'ulari orqali aytib beriladigan hikoya. Unda har bir qahramonning o'ziga xos musiqa asbobi va musiqiy mavzusi bo'ladi (masalan, qushchani mayin fleyta, bo'rini vahimali uchta valtorna ovozi tasvirlaydi). 2. Asosiy maqsad: O'quvchilarni tembr (ovoz bo'yog'i) orqali personaj xarakterini his qilishga o'rgatish. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Simfonik ertakning mohiyatini topish (Namuna: Simfonik ertakda qahramonlarning ovozi va harakati nima orqali tasvirlanadi? Javob: Turli xil musiqa asboblari orqali). 2. Asbob tahlili: Yorqin va vahimali tovushlar qanday qahramonlarni tasvirlashini mantiqan izohlash. CHEKLOVLAR: S. Prokofyevning to'liq biografiyasi yoxud ertakning oxiri nima bilan tugashi haqidagi adabiy savollar musiqiy tahlildan ustun bo'lib qolmasin."
+          },
+          {
+            "name": "Musiqiy ifoda vositalari",
+            "index": 6,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqani chiroyli, ta'sirchan va tushunarli qiladigan eng muhim unsurlar – kuy, ritm, temp (tezlik) va dinamika (kuch). Kuy – musiqaning qalbi va asosiy ohangi, ritm – tovushlarning uzun-qisqaligi, temp – asarning ijro etilish tezligi, dinamika esa tovushning qattiq yoki sekin chalinishini anglatadi. 2. Asosiy maqsad: Bastakor o'z his-tuyg'ularini aynan shu vositalar yordamida ifodalashini tushunish. Bularsiz musiqa quruq va ma'nosiz tovushlar yig'indisiga aylanib qoladi. MASHQLAR USLUBI: 1. Nazariy savollar: Ifoda vositalarining ta'rifini bir-biridan farqlash (Namuna: Musiqaning asosi va qalbi hisoblangan eng asosiy ifoda vositasi nima? Javob: Kuy). 2. Mantiqiy tahlil: Tovushning qattiq yoki sekin yangrashi musiqada qaysi vosita ekanligini topish (Javob: Dinamika). CHEKLOVLAR: Garmoniya, polifoniya kabi musiqiy oliy ta'lim atamalari kiritilmasin. Faqat darslikda berilgan 4 ta asosiy ifoda vositasi so'ralsin."
+          },
+          {
+            "name": "Musiqa kayfiyati",
+            "index": 7,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqaning kayfiyati (ladi). Musiqada asosan ikkita katta kayfiyat bo'ladi: Mayor (yorqin, shod, quvnoq, tantanavor) va Minor (g'amgin, mungli, sokin, o'ychan). 2. Asosiy maqsad: Odamlarning qalb kechinmalari musiqada qanday aks etishini bilish. Quvonchli bayramlar, g'alabalar va o'yin-kulgilar har doim mayor ladida, aksincha xafagarchilik, uzoq o'yga tolish yoki yomg'irli sokin kuz kunlari minor ladida bastalanishini mantiqan his etish. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Voqealarni musiqiy kayfiyatga moslashtirish (Namuna: Bayramlarda chalinadigan quvnoq, sho'x va yorqin musiqalar asosan qanday kayfiyatda (ladda) yoziladi? Javob: Mayor ladida). 2. Nazariy savollar: G'amgin va mungli ohangni anglatuvchi atamani topish (Javob: Minor). CHEKLOVLAR: Nota yozuvidagi diez, bemol belgilari kabi texnik elementlar so'ralmasin, dars musiqiy emotsiyani farqlashga yo'naltirilgan."
+          },
+          {
+            "name": "Temp va ritm",
+            "index": 8,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Temp va ritm tushunchalarining farqi. Temp – bu musiqaning ijro tezligi bo'lib, u tez (allegro), o'rtacha (moderato) yoki sekin (adajio) bo'lishi mumkin. Ritm esa – uzun va qisqa tovushlarning ma'lum bir tartibda, izchil almashinib kelishidir. 2. Asosiy maqsad: Yaxshi musiqa ijro etish uchun sozanda yoki xonanda asarning tempini to'g'ri tanlashi va ritmdan (usuldan) chiqib ketmasligi shartligini tushunish. Marsh va raqslar asosan aniq ritm va o'rtacha-tez tempda, beshik kuylari (alla) sekin tempda bo'ladi. MASHQLAR USLUBI: 1. Nazariy savollar: Temp va ritm ta'rifini adashtirmay topish (Namuna: Musiqaning ijro etilish tezligi (sekin, o'rtacha, tezligi) nima deb ataladi? Javob: Temp). 2. Mantiqiy tahlil: Alla qo'shig'i qanday tempda chalinishini aniqlash. CHEKLOVLAR: Metronom asbobining tarixi yoki taktlarning matematik o'lchovlari (4/4, 3/4) kabi nazariy chizmachilik testlari kiritilmasin."
+          },
+          {
+            "name": "Raqs",
+            "index": 9,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Raqs musiqasi nima ekanligi va uning turlari. Raqs musiqasi o'zining aniq usuli (ritmi), jozibali va o'ynoqi ohangi bilan odamlarni harakat qilishga, raqsga tushishga undovchi asardir. Xalq milliy raqslari (Andijon polkasi, Xorazm lazgisi, Buxoro raqslari) va Yevropa raqslari (valts, polka). 2. Asosiy maqsad: Raqs kuylari qadimdan insonlarning xursandchilik kunlari, to'y va bayramlarining ajralmas qismi bo'lib kelganini, har bir raqs musiqasi o'sha xalqning milliy ruhini ko'rsatishini tushunish. MASHQLAR USLUBI: 1. Nazariy savollar: Raqs musiqasining xususiyatini topish (Namuna: Odamlarni beixtiyor harakatlanishga, o'yinga chorlaydigan ritmik musiqa turi nima deb ataladi? Javob: Raqs musiqasi). 2. Mantiqiy tahlil: O'zbek milliy raqs kuylarini (masalan, Lazgi) tushunish. CHEKLOVLAR: Raqqosalarning liboslari qanday bo'lishi yoki xoreografiya atamalari (pas, piruet) bu yerda so'ralmasin, asosiy urg'u raqs musiqasiga bo'lsin."
+          },
+          {
+            "name": "Qo'shiq aytib",
+            "index": 10,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Ashula (qo'shiq) kuylashning o'ziga xos qoidalari va vokal madaniyati. Qo'shiq kuylayotganda qomatni to'g'ri (tik) tutish, qisqa va chuqur nafas olib, uni asta-sekin sarflash, shuningdek, so'zlarni tushunarli, dona-dona qilib (diksiya bilan) talaffuz qilish qoidalari. 2. Asosiy maqsad: Qo'shiq faqat baland ovozda baqirish emas, balki musiqa ritmiga va ohangiga tushib, chiroyli ovoz bilan ijro etiluvchi madaniyat ekanligini anglash. Birgalikda jo'r bo'lib (xor bilan) aytganda bir-birini eshitib kuylash muhim. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Kuylash holatini va qoidasini aniqlash (Namuna: Ashula aytayotgan o'quvchining qomati va nafasi qanday holatda bo'lishi kerak? Javob: Qomati tik, nafas olishi chuqur va to'g'ri bo'lishi kerak). 2. Lug'at: Jo'r bo'lib kuylash (xor) nima ekanini topish. CHEKLOVLAR: Nafas yo'llarining anatomik qismlari (diafragma, ovoz paychalari siri) kabi murakkab biometrik tushunchalar testda so'ralmasin."
+          },
+          {
+            "name": "Saf qo'shig'i",
+            "index": 11,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Saf qo'shiqlari (Marsh musiqasi). Ular harbiy tadbirlarda, sport o'yinlarida va paradlarda ko'pchilik odamlarning birdek, saf tortib qadam tashlashi (bir-ikki, chap-o'ng) uchun maxsus yozilgan o'ta ritmik, jo'shqin va qat'iy ohangdagi musiqadir. 2. Asosiy maqsad: Marsh qo'shiqlarining maqsadi insonlarga g'ayrat-shijoat, qat'iyat va ruh bag'ishlash ekanligini, ular doim aniq bir xil usulda chalinishini tushunish. MASHQLAR USLUBI: 1. Nazariy savollar: Marshning qo'llanish o'rnini topish (Namuna: Odamlarning bir tekis qadam tashlab yurishi uchun mo'ljallangan jo'shqin va qat'iy musiqa nima deb ataladi? Javob: Saf (marsh) qo'shig'i). 2. Mantiqiy tahlil: Saf musiqasining kayfiyatini (jo'shqinlik, ruh ko'taruvchi) aniqlash. CHEKLOVLAR: Milliy armiyaning qismlari yoxud siyosiy paradlar tarixi kabi qo'shimcha faktlar musiqa darsiga xos bo'lmaganligi uchun kiritilmasin."
+          },
+          {
+            "name": "Balet",
+            "index": 12,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Balet – musiqa xoreografiyasi san'atining eng oliy ko'rinishlaridan biri. Bu sahna asarida hikoya, voqea va qahramonlarning kechinmalari umuman so'z yoki qo'shiq ishtirokisiz, faqatgina simfonik musiqa, raqs, plastik harakatlar (pantomima) yordamida tomoshabinga yetkazib beriladi. P. Chaykovskiyning \"Oqqush ko'li\", \"Qarsildoq\" asarlari dunyoga mashhur baletlardir. 2. Asosiy maqsad: Opera bilan baletning farqini bilish. Baletda asosiy rolni musiqaga hamohang tarzda raqs tushadigan balerina va raqqoslar bajarishini anglash. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Balet asarining o'ziga xos farqini topish (Namuna: Qaysi musiqiy sahna asarida so'zlashilmaydi va qahramonlar faqat raqs va harakat orqali o'z hislarini tushuntiradi? Javob: Balet). 2. Nazariy savollar: Ayol raqqosalarni nima deb atashlarini belgilash (Javob: Balerina). CHEKLOVLAR: Puanta (balet tuflisi) qachon ixtiro qilingani kabi tarixiy ensiklopedik savollar test orqali so'ralmasin, asosiy e'tibor sahna asarining mantiqiy tuzilishida bo'lsin."
+          },
+          {
+            "name": "Archa atrofida",
+            "index": 13,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Bayram, xususan Yangi yil archasi atrofida bolalar birgalikda qo'l ushlashib, aylana hosil qilib aytadigan qo'shiqlar (xorovodlar). 2. Asosiy maqsad: Birlashib, aylana bo'lib jo'rnavozlikda qo'shiq aytish va raqsga tushish madaniyatini tushunish. Bunday qo'shiqlar odatda ritmik jihatdan silliq, juda sho'x va bolalarbay (hamma qatnashishi oson) tarzda bastalanadi. O'zaro do'stlik, bayramona intizorlik hissini uyg'otadi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Archa atrofidagi ijro qoidasini topish (Namuna: Bolalar Yangi yilda archa atrofida qanday ko'rinishda birgalikda qo'shiq aytadilar? Javob: Qo'l ushlashib, aylana (xorovod) bo'lib). 2. Kayfiyat tahlili: Bunday qo'shiqlar odatda qanday kayfiyatda (ladda) va ritmda kuylanishini aniqlash. CHEKLOVLAR: Boshqa har xil davlatlarning qishki urf-odatlari aralashtirilmasin, bu mavzu faqat jamoaviy archa musiqasi qoidalariga yo'naltirilgan."
+          },
+          {
+            "name": "Yangi yil",
+            "index": 14,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Qishning eng katta bayrami bo'lgan Yangi yil shodiyonasiga bag'ishlangan musiqalar, bayram kayfiyati. Qorbobo, Qorqiz va ezgu tilaklar mavzusi. 2. Asosiy maqsad: Musiqa orqali bolalarga ezgulik, quvonch va yil sarhisobi haqida tushuncha berish. Yangi yil musiqalari asosan jo'shqin, qor parchalarining nafis uchishini yoki chang'i uchishni ifodalovchi sho'x va ba'zan o'ynoqi ohanglarda bo'lishini his etish. MASHQLAR USLUBI: 1. Nazariy savollar: Bayram musiqasining asosiy timsollarini mantiqan aniqlash (Namuna: Yangi yil qo'shiqlarida asosan qaysi sevimli personajlar madh etiladi? Javob: Qorbobo va Qorqiz). 2. Ohang tahlili: Yangi yil qo'shiqlarining xarakterini (quvnoq, bayramona) belgilash. CHEKLOVLAR: Qorboboning kelib chiqish tarixi (Santa Klaus miflasi) kabi nojo'ya va mavzudan tashqari mifologik ma'lumotlarni o'quvchilardan so'ramang."
+          },
+          {
+            "name": "Ansambl",
+            "index": 15,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: \"Ansambl\" fransuzcha so'z bo'lib, \"birgalikda\" degan ma'noni anglatadi. Ansambl – bu orkestrdan farqli o'laroq, uncha katta bo'lmagan sozandalar yoki xonandalar guruhidir. Ijrochilar soniga qarab duet (2 ta), trio (3 ta), kvartet (4 ta) va kvintet (5 ta) kabi turlarga bo'linadi. 2. Asosiy maqsad: Yirik jamoa (orkestr) va kichik jamoa (ansambl) o'rtasidagi musiqiy farqni bilish. Ansamblda har bir sozanda o'zining alohida musiqiy partiyasini ijro etib, bir-birini to'ldiradi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ansambl turlarini ishtirokchilar soniga qarab topish (Namuna: Uch kishidan iborat musiqiy jamoa nima deb ataladi? Javob: Trio. Ikki kishilik ijrochi? Javob: Duet). 2. Nazariy qiyoslash: Orkestr va ansamblning hajmini mantiqan solishtirish. CHEKLOVLAR: Katta simfonik asarlar tarixi kabi mavzudan tashqari ma'lumotlar so'ralmasin. Faqat kichik jamoaviy ijro atamalari ishlatilsin."
+          },
+          {
+            "name": "O'zbekiston – Vatanim!",
+            "index": 16,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Vatan haqidagi yorqin musiqiy asar. Ushbu qo'shiq orqali o'quvchilarda milliy g'urur, Vatanga sadoqat tuyg'ulari tarbiyalanadi. 2. Musiqiy tahlil: Vatan haqidagi qo'shiqlar odatda qanday ladda va tempda ijro etilishini tushunish. Bunday qo'shiqlar asosan mayor (yorqin, ko'tarinki) ladida, o'rtacha yoki shiddatli tempda (marshga yaqin ritmda) faxr bilan kuylanadi. Musiqa orqali yurtning keng dalalari va tog'lari salobati ifodalanadi. MASHQLAR USLUBI: 1. Ohang tahlili: Vatan madhi ifodalangan musiqaning xarakterini topish (Namuna: Vatan haqidagi qo'shiqlar qanday musiqiy kayfiyatda kuylanadi? Javob: Jo'shqin, faxr bilan va ko'tarinki kayfiyatda). 2. Mantiqiy bog'liqlik: Qo'shiqning tarbiyaviy maqsadi va uning musiqiy ohangini o'zaro bog'lash. CHEKLOVLAR: Faqat adabiyot darsiga xos bo'lgan qofiya tahlili o'rniga, musiqiy lad (mayor/minor) va temp (tezlik) tushunchalari orqali savol tuzing."
+          },
+          {
+            "name": "Bahorgi improvizatsiya",
+            "index": 17,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: \"Improvizatsiya\" – bu oldindan yozib olingan notalarsiz, ijro paytida to'satdan (o'z-o'zidan) kuy yoki ritm o'ylab topish va chalish san'ati. Bahorgi improvizatsiya bahor fasli, tabiat uyg'onishi, tomchilar sasi va qushlar sayrashidan ilhomlanib yaratiladigan erkin musiqadir. 2. Asosiy maqsad: O'quvchilarda musiqiy tasavvur va ijodkorlikni rivojlantirish. Musiqada erkinlik nima ekanligini anglash. MASHQLAR USLUBI: 1. Nazariy savollar: Improvizatsiya so'zining musiqiy ma'nosini topish (Namuna: Oldindan tayyorgarliksiz, shu zahoti o'ylab topib chalinadigan musiqa nima deb ataladi? Javob: Improvizatsiya). 2. Tasviriy tahlil: Bahorgi improvizatsiyada qanday tabiat tovushlari musiqaga aylanayotganini mantiqan aniqlash (Yomg'ir tomchilari, qushlar sasi). CHEKLOVLAR: Klassik kompozitorlarning qat'iy nota qoidalari so'ralmasin, chunki mavzu aynan erkin ijodkorlik (badiha) haqida."
+          },
+          {
+            "name": "Registr va tembr",
+            "index": 18,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Registr – tovushning baland-pastlik darajasi. Musiqada uchta registr bor: yuqori (qushlar, nay ovozi), o'rta (insonning oddiy gaplashish ovozi) va past (ayiqning o'kirishi, katta baraban). Tembr – bu har bir ovoz yoki cholg'u asbobining o'ziga xos \"bo'yog'i\", tovush xarakteridir. Aynan tembr orqali biz skripka ovozini trubadan farqlaymiz. 2. Asosiy maqsad: Musiqiy tinglash qobiliyatini o'stirish, asboblarni ko'rmasdan turib ularni faqat ovoz bo'yog'i orqali ajrata bilish. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Hayvonlar va registrni o'zaro bog'lash (Namuna: Kichkina qushchaning sayrashi musiqaning qaysi registrida chalinadi? Javob: Yuqori registrda. Ayiqning polvonona yurishi-chi? Javob: Past registrda). 2. Nazariy savollar: Ovozning bo'yog'i va o'ziga xos xususiyatini anglatuvchi musiqiy atamani topish (Javob: Tembr). CHEKLOVLAR: Akustika faniga xos bo'lgan gerts (Hz) to'lqinlari kabi fizik o'lchovlar qat'iyan man etiladi."
+          },
+          {
+            "name": "Ayiqpolvonlar bog'chasi",
+            "index": 19,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bolalar uchun mo'ljallangan ushbu o'ynoqi musiqiy asarda ayiqlarning harakati musiqa vositalari orqali tasvirlanadi. Ayiqlarning yurishi musiqada past registrda, sekin va og'ir tempda, paf-puf ritmlar yordamida gavdalantiriladi. 2. Asosiy maqsad: Hayvonlar harakatini musiqiy ohang (kuy) va ritm orqali eshitib, tasavvur qila olish. Musiqa orqali xarakter yaratish qobiliyatini tushunish. MASHQLAR USLUBI: 1. Musiqiy o'xshatish: Ayiq harakatining musiqiy elementlarini aniqlash (Namuna: Ayiqpolvonlar harakatini tasvirlash uchun bastakor qanday temp va registrdan foydalanadi? Javob: Sekin temp va past registrdan). 2. Ritm tahlili: Ayiqning qo'pol va og'ir qadamlarini musiqada qanday tovushlar orqali ifodalash mumkinligini topish. CHEKLOVLAR: Zoologiya faniga xos bo'lgan ayiqlarning turlari (masalan, oq ayiq) haqida savollar kiritilmasin. Faqat asardagi musiqiy xarakter va obraz so'ralsin."
+          },
+          {
+            "name": "Dinamika",
+            "index": 20,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqada tovushning qattiq (baland) yoki sekin (past) eshitilishi \"dinamika\" deb ataladi. Asosiy dinamik belgilar: Forte (f) – qattiq, jarangdor va Piano (p) – sekin, mayin. Crescendo – sekin-asta kuchayib borish, Diminuendo – sekin-asta pasayib borish. 2. Asosiy maqsad: Musiqadagi emotsiya va xarakterni o'zgartirish uchun dinamikaning o'rnini anglash. Qattiq tovush qo'rquv, g'alaba yoki yaqinlikni ishlatsa, sekin tovush uzoqlikni, sokinlik va uxlash holatini bildiradi. MASHQLAR USLUBI: 1. Nazariy savollar: Dinamik belgilarni mantiqan farqlash (Namuna: Musiqada \"Forte\" atamasi nimani anglatadi? Javob: Tovushning qattiq va baland chalinishini). 2. Holatni tahlil qilish: Sokin alla qo'shig'i odatda qanday dinamikada chalinishini aniqlash (Javob: Piano - sekin va mayin). CHEKLOVLAR: Mezzo-forte, fortissimo kabi chuqurlashtirilgan atamalar darslikdan tashqari bo'lsa aralashtirmang. Asosiy kontrast (Forte va Piano) ga e'tibor bering."
+          },
+          {
+            "name": "Buvijon",
+            "index": 21,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Buvijonlarga bag'ishlangan mehrga to'la, lirik va sokin qo'shiq. Unda buvilarning mehribonligi, ularning ertak aytib berishi va nevaralariga bo'lgan g'amxo'rligi musiqiy ohang orqali madh etiladi. 2. Musiqiy tahlil: Ushbu qo'shiqning xarakteri juda mayin (piano), tempi o'rtacha yoki sekin, ladi esa ba'zan sokin minor, ba'zan yorqin mayorda bo'lishi mumkin. Qo'shiq alla kuylariga xos tebranuvchan ritmga ega. MASHQLAR USLUBI: 1. Musiqiy kayfiyatni topish: Qo'shiqning ifoda vositalarini belgilash (Namuna: Buvijonlar haqidagi qo'shiqlar odatda qanday tempda va dinamikada kuylanadi? Javob: Sokin tempda va mayin (piano) dinamikada). 2. Ritm tahlili: Mehribonlikni ifodalovchi musiqaning ritmik xususiyatini mantiqan aniqlash (tebranuvchan, silliq). CHEKLOVLAR: Matndagi she'r qatorlarini yoddan topish taqiqlanadi. Savol qo'shiqning 'musiqiy qiyofasi' (temp, dinamika, lad) ga asoslanishi kerak."
+          },
+          {
+            "name": "Musiqa va tabiat",
+            "index": 22,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqa orqali tabiatdagi o'zgarishlarni va hodisalarni tasvirlash. Musiqa tabiat go'zalligini, yomg'ir, shamol, momaqaldiroq kabi hodisalarni asboblar orqali yetkazib bera oladi. (Masalan, fleyta – qush, baraban – momaqaldiroq, arfa – daryo shivirlashi). 2. Asosiy maqsad: O'quvchilarda eshitish va ko'z oldiga keltirish (tasavvur qilish) qobiliyatini shakllantirish. Bastakorlar tabiatni asosan tembr va dinamika yordamida chizishadi. MASHQLAR USLUBI: 1. Mantiqiy o'xshatish: Tabiat hodisasi va cholg'u o'rtasidagi bog'liqlikni topish (Namuna: Qattiq momaqaldiroq ovozini orkestrda qaysi asbob orqali tasvirlash qulayroq? Javob: Zarbli asboblar (baraban) orqali). 2. Musiqiy tahlil: Bahor shabadasi yoki suvning oqishi asosan qanday dinamikada bo'lishini topish (Piano, mayin). CHEKLOVLAR: Aynan qaysi asrning qaysi kompozitori nimani yozganligi haqida tarixiy faktlar cheklansin. Asosiy urg'u \"tovush orqali tabiatni tasvirlash\" mantiqida."
+          },
+          {
+            "name": "Tovush qatori va oktava",
+            "index": 23,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Tovush qatori (gamma) – notalarning birin-ketin, qat'iy tartibda pastdan yuqoriga yoki yuqoridan pastga joylashishi (Do-Re-Mi-Fa-Sol-Lya-Si). Oktava – lotincha \"sakkiz\" degani. Birinchi \"Do\" notasidan boshlab hisoblaganda keyingi sakkizinchi nota yana \"Do\" bo'ladi. Aynan shu bir xil ismli ikki nota (pastki Do va yuqori Do) oralig'i \"oktava\" deyiladi. 2. Asosiy maqsad: Musiqaning matematik va mantiqiy tuzilishini tushunish. Pianino klaviaturasida oktavalarning takrorlanib kelishini bilish. MASHQLAR USLUBI: 1. Nazariy savollar: Oktava atamasining ma'nosini topish (Namuna: Musiqada bir xil ismli ikkita nota oralig'idagi 8 ta pog'ona nima deb ataladi? Javob: Oktava). 2. Tartibni tahlil qilish: Tovush qatori qoidasini aniqlash (Namuna: Notalarning pastdan yuqoriga qarab tartibli ketma-ket tizilishi nima deyiladi? Javob: Tovush qatori / Gamma). CHEKLOVLAR: Notalarning absolyut chastotasi yoxud musiqa maktabiga xos oraliqlar (kvarta, kvinta) mutlaqo so'ralmasin."
+          },
+          {
+            "name": "Yomg'ir yog'aloq",
+            "index": 24,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bahor va tabiatning uyg'onishi haqidagi sho'x, bolalarbop qo'shiq. Yomg'ir tomchilari musiqiy ifoda vositalarida o'ziga xos ritm hosil qiladi. 2. Musiqiy tahlil: Yomg'ir tomchilari asosan stakkato (uzib-uzib, qisqa-qisqa chertish) shtrixida, tez (allegro) yoki o'rtacha (moderato) tempda ijro etiladi. Ritm juda aniq va sakrovchan bo'ladi. Ushbu qo'shiq yordamida bolalar ritmni va tabiatning musiqiy jarangini his qiladilar. MASHQLAR USLUBI: 1. Ritmik tahlil: Yomg'ir qo'shig'ining ijro qoidasini mantiqan topish (Namuna: Musiqada yomg'ir tomchilarini tasvirlash uchun notalar qanday usulda chalinishi kerak? Javob: Qisqa-qisqa, uzib-uzib va sakrovchan (stakkato) holatda). 2. Kayfiyat tahlili: Yomg'ir yog'aloq qo'shig'i asosan qanday ladda kuylanishini aniqlash (Yorqin mayor ladida). CHEKLOVLAR: Yomg'irning vujudga kelish fizikasi so'ralmasin. Savol faqat musiqiy ijro xususiyati (uzib-uzib chalish, ritm) doirasida tuzilsin."
+          },
+          {
+            "name": "Harbiy orkestr",
+            "index": 25,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Harbiy orkestr – ko'chalarda, harbiy paradlarda va bayramlarda xizmat qiladigan maxsus musiqiy jamoa. Bu orkestrda mutlaqo torli asboblar (skripka, g'ijjak) qatnashmaydi. U asosan Misli puflama asboblar (truba, valtorna, tuba) va Zarbli asboblar (katta va kichik barabanlar, tarelka) lardan tashkil topadi. 2. Asosiy maqsad: Nima uchun harbiy orkestrda faqat shu asboblar qatnashishini tushunish. Ular ochiq havoda eng uzoqqa va eng baland (forte) eshitiladigan, mardona va qat'iy ritm beruvchi asboblardir. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Orkestrning tarkibini aniqlash (Namuna: Harbiy orkestrlarda qaysi guruh musiqa asboblari umuman ishlatilmaydi? Javob: Torli asboblar guruhi). 2. Asboblarning vazifasi: Qanday asboblar paradlarda mardona ritmni ushlab turishini topish (Zarbli va puflama asboblar). CHEKLOVLAR: Orkestrdagi cholg'ularning aniq soni yoki harbiy qonuniyatlarga doir raqamli savollar berilmasin."
+          },
+          {
+            "name": "Musiqadagi uchta kit",
+            "index": 26,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Mashhur kompozitor D. Kabalevskiy tomonidan musiqani tushunish uchun yaratilgan sodda qoida. Qadimiy afsonalarga ko'ra Yerni 3 ta kit ko'tarib turgandek, butun musiqa san'ati ham asosan 3 ta ustunga (kitga) suyanadi. Bular: Qo'shiq (kuylash), Raqs (harakat qilish) va Marsh (saf tortib yurish). 2. Asosiy maqsad: Dunyodagi har qanday ohang yoki musiqiy asar shu uchta turdan biriga yoki ularning aralashmasiga asoslanishini tushuntirish. MASHQLAR USLUBI: 1. Nazariy savollar: Uchta asosiy ustun nomlarini mantiqan ketma-ketlikda topish (Namuna: Musiqa san'ati tayanadigan asosiy \"uchta kit\" qaysilar? Javob: Qo'shiq, Raqs va Marsh). 2. Amaliy tahlil: Uchta kitning inson harakatiga ta'sirini aniqlash (Namuna: Musiqadagi qaysi kit odamlarni bir tekisda qadam tashlab yurishga undaydi? Javob: Marsh). CHEKLOVLAR: Musiqa turlari haqida Kabalevskiy emas, boshqa faylasuflarning nazariyalari aralashtirilmasin."
+          },
+          {
+            "name": "Notalar davomiyligi",
+            "index": 27,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqada tovush balandligi bilan birga uning qancha vaqt cho'zilishi ham muhimdir. Bu \"notalar davomiyligi\" deyiladi. Asosiy davomiyliklar: Butun nota (eng uzun nota, 4 gacha sanaladi), Yarim nota (butun notaning yarmi, 2 gacha sanaladi), Chorak nota (qisqaroq, 1 gacha sanaladi) va Nimchorak (sakkizlik) nota (juda tez va qisqa chalinadi). 2. Asosiy maqsad: Musiqadagi ritm va temp aynan shu notalarning davomiylik matematikasi ustiga qurilishini anglash. MASHQLAR USLUBI: 1. Mantiqiy-matematik tahlil: Notalarning uzun-qisqaligini qiyoslash (Namuna: Ikkita yarim nota birlashib musiqada qaysi notaga teng bo'ladi? Javob: Bitta butun notaga). 2. Ta'rif topish: Musiqada tovushlarning cho'zilish vaqti qanday atama bilan aytilishini belgilash (Javob: Nota davomiyligi). CHEKLOVLAR: Notalarning musiqa daftari ustida qanday dumaloq yoki tana qismi qoraytirilganligi haqidagi vizual (chizmachilik) qoidalar matnda ko'rinmasligi sababli testda so'ralmasin."
+          },
+          {
+            "name": "Twinkle Twinkle Little Star",
+            "index": 28,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Jahonga mashhur, sodda ingliz bolalar qo'shig'i (Alla). \"Yarqira, yarqira, kichik yulduzcha\" degan ma'noni anglatadi. 2. Musiqiy tahlil: Ushbu musiqa orqali bolalar sokin ritm, takrorlanuvchi musiqa strukturalari va musiqadagi xotirjamlikni (minorga moyil yorqin ladni) o'rganadilar. Qo'shiqning tempi asosan andante yoki moderato (sekin, o'rtacha) bo'lib, dinamikasi piano (mayin) holatda chalinadi. Ingliz tilidagi matn orqali musiqiy diksiya (talaffuz) ham mashq qilinadi. MASHQLAR USLUBI: 1. Ohang va xarakter tahlili: Asarning qanday janrga yaqinligini topish (Namuna: \"Twinkle Twinkle Little Star\" asari xarakteri va tempi jihatdan asosan qanday qo'shiqlar turiga kiradi? Javob: Alla (beshik qo'shig'i) turiga). 2. Dinamika va tempni bog'lash: Kichik yulduzlar haqidagi qo'shiq qattiq (forte) chalinadimi yoki mayin (piano)mi? Javob: Mayin (piano). CHEKLOVLAR: Qo'shiqning ingliz tilidagi barcha matni tarjimasi ingliz tili darsidagidek chuqur so'ralmasin, asosan uning musiqiy jozibasi tahlil qilinsin."
+          }
         ]
       }
     ]

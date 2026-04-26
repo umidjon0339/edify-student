@@ -159,6 +159,13 @@ export async function POST(req: Request) {
       - If 't' is "translate_en_uz": The question (q) is in English, but the options (o) MUST be in Uzbek.
       - Never use phrases like "in the picture" or "according to the audio".`;
       
+    } else if (["musiqa", "musiqiy savodxonlik", "musiqa madaniyati"].some(s => safeSubject.includes(s))) {
+      subjectSpecificRule = `MUSIQA FANI UCHUN QAT'IY QOIDALAR:
+      1. Qo'shiq yoki she'r qatorlarini yoddan davom ettirishni so'raydigan savollar (masalan: "keyingi qatorni toping") QAT'IYAN TAQIQLANADI. AI o'zbek she'rlarini xato to'qib chiqarishi mumkin.
+      2. Asosiy e'tiborni berilgan Kontekstdagi qahramonlar tahlili, qo'shiqning tarbiyaviy ma'nosi (Moral) va kayfiyatiga qarating.
+      3. Musiqa nazariyasi so'ralganda cholg'u asboblarining turlari (torli, zarbli, puflama), dinamika (qattiq/sekin), temp va registr bo'yicha mantiqiy savollar tuzing.`;
+    // 👆 ============================= 👆
+
     } else {
       subjectSpecificRule = "- O'quvchini mantiqiy fikrlashga undaydigan va darslikka to'liq mos keladigan savollar tuzing.";
     }

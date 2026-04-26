@@ -7,29 +7,121 @@
       {
         "index": 1,
         "subtopics": [
-          { "name": "O'zbekiston Respublikasi Davlat madhiyasi", "index": 1 },
-          { "name": "Musiqa festivali", "index": 2 },
-          { "name": "Takt", "index": 3 },
-          { "name": "Shopen musiqasi", "index": 4 },
-          { "name": "Tovushqator va oktavalar", "index": 5 },
-          { "name": "Tonallik", "index": 6 },
-          { "name": "\"Musiqiy cholg'u asbobini toping\" o'yini", "index": 7 },
-          { "name": "Klavishli cholg'u asboblari", "index": 8 },
-          { "name": "Avaz Mansurov", "index": 9 },
-          { "name": "Jaz tovushlari", "index": 10 },
-          { "name": "Qor", "index": 11 },
-          { "name": "Xalq qo'shiqlari", "index": 12 },
-          { "name": "Bugun bayram", "index": 13 },
-          { "name": "Musiqada ifoda vositalari", "index": 14 },
-          { "name": "Bilmasvoy musiqachi bo'lmoqchi", "index": 15 },
-          { "name": "Aka-singil", "index": 16 },
-          { "name": "Navro'z", "index": 17 },
-          { "name": "Vladimir Shainskiy", "index": 18 },
-          { "name": "Musiqiy manzara", "index": 19 },
-          { "name": "Musiqiy cholg'u asboblari", "index": 20 },
-          { "name": "Tulpor", "index": 21 },
-          { "name": "Navbahor", "index": 22 },
-          { "name": "Karaoke-konsert", "index": 23 }
+          {
+            "name": "O'zbekiston Respublikasi Davlat madhiyasi",
+            "index": 1,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: O'zbekiston Respublikasi Davlat madhiyasining mualliflari. Matnini O'zbekiston Qahramoni, xalq shoiri Abdulla Oripov yozgan (u \"Mitti yulduz\" to'plami muallifi). Musiqasini esa mashhur bastakor Mutal Burxonov bastalagan. 2. Asosiy maqsad: Davlat ramzi bo'lgan madhiyamizning buyukligi, uning mualliflari hayoti va ijodini bilish. Mutal Burxonov birinchi o'zbek xor asarlari muallifi ekanligini yodda saqlash. MASHQLAR USLUBI: 1. Nazariy savollar: Madhiya mualliflarining faoliyatini topish (Namuna: O'zbekistonda ilk xor asarlarini kim yaratgan? Javob: Mutal Burxonov). 2. Lug'at tahlili: Bastakor va shoirning erishgan unvonlarini mantiqan moslashtirish. CHEKLOVLAR: Davlat madhiyasi qabul qilingan sana kabi tarixiy raqamlar yoki musiqiy notalarning texnik yozilishi bu matn doirasidan tashqarida bo'lgani uchun qat'iyan so'ralmasin."
+          },
+          {
+            "name": "Musiqa festivali",
+            "index": 2,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: \"Festival\" so'zi fransuzcha bo'lib, \"bayram\" degan ma'noni anglatadi. Xonanda va sozandalar ishtirok etadigan yirik tadbirdir. Darslikda Samarqanddagi Registon maydonida 1997-yildan beri o'tkaziladigan \"Sharq taronalari\" xalqaro musiqa festivali haqida so'z boradi. Bu festival 2015-yilda UNESCO ro'yxatiga kiritilgan. 2. Asosiy maqsad: Musiqa festivallarining xalqlar madaniyatini asrash va turizmni rivojlantirishdagi ulkan o'rnini anglash. Shuningdek, festival madhiyasini yozgan o'zbek bastakori Dilorom Omonullayeva ijodi bilan tanishish. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Festivalning jamiyatdagi o'rni va o'tkazilish joyini topish (Namuna: Samarqanddagi \"Sharq taronalari\" festivalining asosiy maqsadi nima? Javob: Jahon xalqlarining milliy musiqiy an'analarini asrab-avaylash). 2. Nazariy savollar: \"Festival\" so'zining ma'nosi yoxud madhiya bastakorini aniqlash. CHEKLOVLAR: Ishtirokchi davlatlar soni kabi statistik raqamlar so'ralmasin, madaniy mohiyat va bastakor ismiga urg'u berilsin."
+          },
+          {
+            "name": "Takt",
+            "index": 3,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Takt – musiqiy pyesaning kuchli tovush (zarb)dan boshlanib keyingi kuchli tovushgacha bo'lgan qismi. Taktlarni ajratib turuvchi vertikal chiziq takt chizig'i deyiladi. Takt o'lchami (masalan 3/4 yoki 2/4) musiqa ritmini bildiradi. Polka raqsi 2/4 o'lchamda, Vals esa 3/4 o'lchamda chalinadi. 2. Pauza tushunchasi: Musiqaning vaqtinchalik to'xtashi pauza deyiladi. Ular notalar (butun, yarim, chorak) kabi o'z davomiyligiga ega. MASHQLAR USLUBI: 1. Nazariy savollar: Musiqiy qismlarni va belgilarini ta'rifidan topish (Namuna: Musiqadagi vaqtinchalik jimjitlik, to'xtash nima deb ataladi? Javob: Pauza). 2. Mantiqiy tahlil: Raqslarning takt o'lchamini farqlash (Namuna: 3/4 o'lchami asosan qaysi raqs ritmiga xos? Javob: Vals ritmiga). CHEKLOVLAR: O'n oltitalik notalarning yozilishi qoidalari kabi faqat chizmachilikka doir vizual testlar kiritilmasin."
+          },
+          {
+            "name": "Shopen musiqasi",
+            "index": 4,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: \"Fortepianoning haqiqiy shoiri\" deb nom olgan buyuk polyak bastakori Frederik Shopen hayoti va asarlari. Uning ijodi faqat fortepiano musiqasiga bag'ishlangan. 2. Asosiy maqsad: Shopen yozgan raqs va janrlarni farqlash. Polonez – tantanali jadal raqs (3/4 o'lcham), Mazurka – serharakat polyak xalq raqsi (3/4), Vals – yengil, lirik bal raqsi. Preludiya – kichik mustaqil muqaddima asar. MASHQLAR USLUBI: 1. Janrlar tahlili: Raqsning musiqiy ta'rifini topish (Namuna: Tantanali, ulug'vor va qat'iy tartibdagi raqs Shopen ijodida qanday ataladi? Javob: Polonez). 2. Nazariy savollar: Shopen qaysi musiqiy asbobning chinakam ustasi va \"shoiri\" bo'lganini mantiqan aniqlash (Javob: Fortepiano). CHEKLOVLAR: Bastakorning sayohat qilgan barcha davlatlari ro'yxati (Germaniya, Ispaniya va h.k.) ni yoddan aytishga qaratilgan savollar tuzilmasin."
+          },
+          {
+            "name": "Tovushqator va oktavalar",
+            "index": 5,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Tovushqator – balandligi o'sib yoki kamayib boruvchi yonma-yon musiqiy tovushlar qatori. Oktava – birinchi notadan boshlab hisoblangandagi sakkizinchi nota (Do dan keyingi Do gacha bo'lgan masofa). Fortepianoda jami 88 ta klavish bo'lib, ular to'liq tovushqatorni tashkil qiladi. 2. Oktavalar va Registr: Subkontroktava, kontroktava, katta va kichik oktavalar – pastki registrga; 1-oktava – o'rta registrga; 2, 3, 4, 5-oktavalar – yuqori registrga kiradi. MASHQLAR USLUBI: 1. Nazariy tahlil: Oktava va tovushqator qoidalarini aniqlash (Namuna: Musiqada bir xil ismli ikkita nota orasidagi 8 ta qadamli masofa nima deyiladi? Javob: Oktava). 2. Mantiqiy joylashuv: Oktavalarning qaysi registrga xosligini topish (Namuna: Birinchi oktava fortepianoning qaysi registrida joylashgan? Javob: O'rta registrda). CHEKLOVLAR: Fortepianodagi qora klavishlarning (diez, bemol) aniq soni haqidagi matematik savollar kiritilmasin."
+          },
+          {
+            "name": "Tonallik",
+            "index": 6,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Gamma – birinchi va oxirgi notasi bir xil ismli bo'lgan, bir oktava oralig'ida joylashgan tovushlar qatori (Do dan Do gacha). Gammaning birinchi pog'onasi, ya'ni asosiy tovushi \"Tonika\" deb ataladi. 2. Tonallik qoidasi: Tonallik – bu tonika tomonidan belgilanadigan musiqiy lad. Musiqada jami 24 ta tonallik mavjud: ulardan 12 tasi major (masalan, Do-major, Sol-major), 12 tasi minor (Lya-minor, Re-minor). MASHQLAR USLUBI: 1. Nazariy savollar: Gammaning birinchi va eng asosiy tovushini aniqlash (Namuna: Gammaning birinchi pog'onasi musiqada qanday ataladi? Javob: Tonika). 2. Mantiq-matematik tahlil: Tonalliklar soni va turini topish (Namuna: Fortepianoda jami nechta major va minor tonalliklar mavjud? Javob: 12 ta major va 12 ta minor, jami 24 ta). CHEKLOVLAR: Har bir tonallikdagi alteratsiya (diez, bemol) belgilari nechta ekanligi haqidagi musiqiy maktab darajasidagi savollar so'ralmasin."
+          },
+          {
+            "name": "\"Musiqiy cholg'u asbobini toping\" o'yini",
+            "index": 7,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: O'quvchilarda musiqiy eshitish va asboblarni vizual xotira orqali tanib olish qobiliyatini rivojlantiruvchi dars. Unda turli xil jahon va milliy cholg'u asboblari – trambon, fleyta, skripka, g'ijjak, gitara, ud, doira, gusli, banjo, kastanetalar va surnay kabi asboblar ko'rsatiladi. 2. Asosiy maqsad: Cholg'ularning qaysi guruhga (torli, puflama, zarbli) kirishini va ularning ovozi qaysi registrda yangrashini mantiqan anglash. MASHQLAR USLUBI: 1. Asboblarni mantiqiy farqlash: Berilgan ro'yxatdan asbobning ijro usulini topish (Namuna: Surnay va fleyta qanday usulda chalinadigan asboblar guruhiga kiradi? Javob: Puflab chalinadigan). 2. Milliy va xorijiy asboblarni ajratish: (Namuna: Doira, g'ijjak kabi asboblar qaysi xalqning milliy asboblari hisoblanadi? Javob: O'zbek xalqining). CHEKLOVLAR: Kitobdagi vizual rasmlarsiz topish imkonsiz bo'lgan asboblarning tashqi rangiga oid savollar umuman tuzilmasin."
+          },
+          {
+            "name": "Klavishli cholg'u asboblari",
+            "index": 8,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Klavishli cholg'ular 4 turga bo'linadi: Torli (fortepiano, klavesin), Damli (organ, akkordeon), Elektromexanik (elektropianino) va Elektron (sintezator, keytar). Fortepiano 1709-yilda italiyalik usta Bartolomeo Kristofori tomonidan ixtiro qilingan bo'lib, uning nomi baland-past (forte-piano) chalish imkoniyatidan olingan. Royal uning konsert turidir. 2. Boshqa klavishlilar: Organ – tori yo'q, faqat naychalar orqali damli chalinadigan eng qadimgi ulkan asbob. Bayan – akkordeonning tugmachali (klavish o'rnida) turi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Fortepiano nomining kelib chiqishi va yaratuvchisini topish (Namuna: Baland va past ovoz chiqarish mexanizmiga ega bo'lgan asbobni kim kashf qilgan? Javob: Bartolomeo Kristofori). 2. Asboblarni guruhlash: Organ asbobining farqini aniqlash (Namuna: Klavishli bo'lsa-da, torlari yo'q, ko'pgina naychalar orqali chalinadigan ulkan asbob nima? Javob: Organ). CHEKLOVLAR: Elektromexanik asboblarning ichki elektr sxemalari qanday ishlashi so'ralmasin."
+          },
+          {
+            "name": "Avaz Mansurov",
+            "index": 9,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqiy janrlar: Simfoniya (orkestr uchun yirik asar), Konsert (orkestr jo'rligida yakkaxon uchun), Uvertyura (kirish, muqaddima qismi), Sonata (3-4 qismli asar), Romans (lirik vokal asar). 2. Bastakor ijodi: Taniqli o'zbek bastakori Avaz Mansurov (1957-yilda tug'ilgan). U bolalar uchun \"Muzqaymoq\", \"Bolarilar\", \"Dakang xo'roz\" kabi ko'plab quvnoq qo'shiqlar, simfoniyalar va musiqiy ertaklar yaratgan. Darslikda uning 'Muzqaymoq' (N. Qayumov she'ri) qo'shig'i misol qilib keltirilgan. MASHQLAR USLUBI: 1. Nazariy savollar: Yirik musiqiy atamalarni mantiqiy ta'rifidan topish (Namuna: Musiqali teatr tomoshasining eng boshida chalinadigan kirish qismi (muqaddima) qanday ataladi? Javob: Uvertyura). 2. Asar mantiqini bog'lash: Avaz Mansurovning bolalar uchun yozgan qo'shiqlari (Muzqaymoq) xarakterini topish. CHEKLOVLAR: Bastakorning nechta uvertyura (7 ta) yoki simfoniya yozganligi kabi aniq sonli ko'rsatkichlar xotirani qiynash uchun so'ralmasin."
+          },
+          {
+            "name": "Jaz tovushlari",
+            "index": 10,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: \"Jaz\" – musiqadagi eng o'ziga xos va erkin yo'nalishlardan biri. U qo'shiq tarzida yoki faqat musiqa cholg'u asboblarida yakka yoxud jamoa bilan ijro etilishi mumkin. 2. Mashhur ijrochilar: Jaz tarixida o'chmas iz qoldirgan musiqachilar: Lui Armstrong (truba cholg'usi ustasi), Benni Gudmen (klarnet), Oskar Piterson (fortepiano ustasi), Pol Dezmond (saksofon) va ajoyib vokalchi Ella Fittsjerald. Ushbu darsda jaz ruhidagi \"When you're smiling\" (Sen kulganingda) qo'shig'ining quvnoq va umidbaxsh tabiati o'rganiladi. MASHQLAR USLUBI: 1. Ijrochi va asbobni mantiqan moslashtirish: (Namuna: Mashhur jaz musiqachisi Lui Armstrong asosan qaysi musiqiy asbobda betakror kuylar ijro etgan? Javob: Truba (karnay) asbobida). 2. Ma'no tahlili: Jaz musiqa turining xususiyatini topish. CHEKLOVLAR: \"When you're smiling\" qo'shig'ining inglizcha matnini to'liq yoddan so'rash ingliz tili darsiga aylanib ketmasligi uchun taqiqlanadi."
+          },
+          {
+            "name": "Qor",
+            "index": 11,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Taniqli shoira Zulfiya she'ri va bastakor Sh. Yormatov musiqasi asosida yaratilgan \"Qor\" qo'shig'i. Unda qish faslining go'zalligi, uchib yog'ayotgan oq qor parchalari bahordagi olcha gulining oq barglariga o'xshatiladi. Qor nafaqat tabiatni bezaydi, balki chanada uchib, qiyqirib o'ynayotgan bolalarga bahordek xursandchilik va shodlik bag'ishlaydi. 2. Tarbiyaviy g'oya (Moral): Tabiatning har bir ko'rinishi, hatto sovuq qish ham inson qalbiga issiqlik, quvonch va bayramona kayfiyat bera oladi. MASHQLAR USLUBI: 1. Badiiy tahlil: She'rdagi o'xshatishni (metaforani) mantiqan topish (Namuna: Qo'shiqda osmondan uchib yog'ayotgan qor parchalari nimaga o'xshatib kuylanadi? Javob: Olcha gulining barglariga). 2. Kayfiyat tahlili: Qish qori bolalarga qanday his-tuyg'u berishini aniqlash. CHEKLOVLAR: Musiqa notalari yoki tempiga doir darslikda yo'q ma'lumotlar she'riy matn ustida so'ralmasin."
+          },
+          {
+            "name": "Xalq qo'shiqlari",
+            "index": 12,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Xalq og'zaki ijodi asosi bo'lgan qo'shiqlar turlari. Lapar – tuzilishi oddiy, naqarotsiz, musiqa cholg'usi jo'rligisiz ijro etiladigan qo'shiq turi bo'lib, u yigit-qizlar tomonidan tarafma-taraf (dialog shaklida) kuylanadi. Yalla – lapardan farqli o'laroq, unda albatta misra va naqarot bo'ladi. Ikkala tur ham raqs va o'yinlar hamrohligida, yengil, o'ynoqi kayfiyatda ijro etiladi. 2. Asosiy maqsad: O'zbek xalqining milliy o'yin qo'shiqlari (\"Oq terakmi, ko'k terak\") misolida bolalarning guruhga bo'linib kuylashi va muloqotini tushunish. MASHQLAR USLUBI: 1. Nazariy savollar: Lapar va Yallaning mantiqiy farqini topish (Namuna: Cholg'u jo'rligisiz, naqarotsiz, ikki taraf bo'lib aytishuv shaklida kuylanadigan o'zbek xalq qo'shig'i nima? Javob: Lapar). 2. Mantiqiy tahlil: \"Oq terakmi ko'k terak\" o'yinining mohiyatini aniqlash. CHEKLOVLAR: Boshqa janrlar (masalan, doston, maqom) bu yerda chalg'ituvchi variant bo'lishi mumkin, lekin ularning tarixini chuqur so'ramang."
+          },
+          {
+            "name": "Bugun bayram",
+            "index": 13,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: \"Bugun bayram\" qo'shig'ida jannatmisol Vatanimizdagi tinchlik, oilalar osoyishtaligi va xalqning farovon hayoti bayramona ruhda madh etiladi. Yurt tinch bo'lsagina, mehnatga imkon bo'lishi, bolalar davra qurib o'ynashi mumkinligi uqtiriladi. Shuningdek, mavzu doirasida butun jahonga mashhur bo'lgan \"We wish you happiness\" (Sizga baxt tilaymiz) inglizcha qo'shig'ining ezgu g'oyasi – odamlarga doim quvonch ulashish falsafasi o'rganiladi. 2. Tarbiyaviy g'oya (Moral): Bayramlar – bu tinchlik mevasidir. El-yurt taraqqiyoti, odamlarning halol vijdoni va birdamligi hayotdagi eng katta bayram va baxt hisoblanadi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Asardagi bayram va quvonchning asl sababini topish (Namuna: Qo'shiq xulosasiga ko'ra insonlarning bayram qilishi va xotirjam yashashi uchun eng asosiy shart nima? Javob: Yurtning tinch va oilaning xotirjam bo'lishi). 2. G'oyaviy qiyoslash: Qo'shiqdagi ezgu tilaklarni aniqlash. CHEKLOVLAR: Ingliz tilidagi matnning tarjimasiga oid grammatik savollar qat'iyan cheklanadi."
+          },
+          {
+            "name": "Musiqada ifoda vositalari",
+            "index": 14,
+            "context": "MAVZU QOIDALARI: 1. Asosiy tushunchalar: Musiqani harakatga keltiruvchi 7 ta asosiy vosita (kuy, ritm, temp, tembr, dinamika, registr, lad) ning umumlashtirilgan tahlili. Nemis kompozitori Robert Shuman misolida bu vositalarning qanday ishlashi tushuntiriladi. Shumanning \"Yoshlik albomi\"dagi asarlari – \"Ohang\", \"Askar marshi\", \"Jasur chavandoz\", \"Ovchilar qo'shig'i\" turli xil temp, dinamika (forte/piano) va registrlar orqali bolalarga tushunarli mantiqiy xarakterlarni yaratadi. 2. Asosiy maqsad: Musiqa asboblari orqali inson fe'l-atvori va hayotiy voqealarni (masalan, askar marshini) farqlashni o'rganish. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Ifoda vositalarining asardagi o'rnini topish (Namuna: R. Shumanning \"Askar marshi\" asari qanday ritm va tempda ijro etilishi mantiqan to'g'ri bo'ladi? Javob: Qat'iy ritm va jo'shqin tempda). 2. Nazariy tushunchalar: Shumanning bolalar uchun yozgan mashhur to'plamini topish. CHEKLOVLAR: Shumanning shaxsiy hayoti va biografiyasi musiqiy vositalar tahliliga xalaqit bermasligi kerak."
+          },
+          {
+            "name": "Bilmasvoy musiqachi bo'lmoqchi",
+            "index": 15,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: N. Nosovning ushbu hikoyasida hecham mehnat qilgisi kelmaydigan, hamma narsani osongina o'rganib olaman deb o'ylaydigan Bilmasvoy obrazi berilgan. U do'sti Mashshoqvoy chalayotgan musiqaga havas qilib, undan asbob so'raydi. Skripka va balalaykani ovozi past deb rad etadi-da, eng qattiq ovoz chiqaruvchi ulkan mis karnayni tanlaydi. Musiqani o'rganmasdan turib, bor kuchi bilan puf-puflab qo'pol bo'kirgan ovoz chiqaradi va o'zicha \"men o'rgandim\" deb aytadi. 2. Tarbiyaviy g'oya (Moral): Musiqa san'ati – faqat baland shovqin chiqarish emas, u quloqqa yoqimli ohang taratishdir. Har qanday hunarni, ayniqsa cholg'u asbobini o'zlashtirish uchun qunt, sabr va to'xtovsiz mashq qilish kerak. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Bilmasvoy nega aynan karnayni tanlaganini topish (Namuna: Bilmasvoy nima uchun skripka o'rniga mis karnayni chalishni xohladi? Javob: Uning ovozi barchasidan ko'ra balandroq va qattiq chiqqani uchun). 2. Xarakter tahlili: Yaxshi musiqachi bo'lish uchun asosan nima talab qilinishini mantiqan aniqlash (Sabr va qobiliyat). CHEKLOVLAR: Matndagi ikkinchi darajali qismlarni (karnay qanday qichqirgani kabi taqlidiy so'zlarni) to'g'ridan-to'g'ri yoddan so'rash taqiqlanadi."
+          },
+          {
+            "name": "Aka-singil",
+            "index": 16,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bolalar uchun mo'ljallangan yengil, hazil-mutoyiba va muloqotga asoslangan \"Aka-singil\" qo'shig'i. Bu qo'shiq o'ziga xos duet shaklida kuylanadi. Unda singil o'z akasidan har xil sovg'alar, xususan, qo'g'irchoq va muzqaymoq olib berishini so'rashi, akasining esa bu tinimsiz qo'ng'iroqlar va xarxashalardan biroz qiynalayotgani sho'x va o'ynoqi ohangda ifoda etilgan. 2. Tarbiyaviy g'oya (Moral): Oila a'zolari, ayniqsa, aka va singil o'rtasidagi mehr-oqibat, e'tibor va shirin erkaliklar ulug'lanadi. Shu bilan birga, bolalarga haddan tashqari xarxasha qilmaslik, qanoatli bo'lish va kattalarning holatini to'g'ri tushunish uqtiriladi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Qo'shiq qahramonlarining munosabatini va xarakterini topish (Namuna: Qo'shiqda singil akasidan nimalar so'rab xarxasha qiladi? Javob: Muzqaymoq va qo'g'irchoq kabi sovg'alar). 2. Musiqiy ijro tahlili: Ikkita qahramonning o'zaro savol-javob shaklida kuylaydigan ushbu qo'shig'i qanday ijro etilishini aniqlash (Duet shaklida, sho'x kayfiyatda). CHEKLOVLAR: She'r matnidagi misralarni nuqtalar o'rniga davom ettirish singari adabiyot faniga xos quruq xotira testlari aslo qo'llanilmasin."
+          },
+          {
+            "name": "Navro'z",
+            "index": 17,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: K. Turdiyeva she'ri va N. Qurbonova musiqasi bilan yozilgan \"Navro'z kelibon jumlai jahon\" nomli bayramona, sho'x va o'ta jo'shqin qo'shiq. Qo'shiqda bahor faslining yashnab kelishi, sumalak qaynashi, osmonda varraklar uchishi, yigitlarning davra qurib o'ynashi va qizlarning go'zal kiyinib nozlanishi madh etiladi. Odamlarning dillarida shodlik va quvonch parvoz qiladi. 2. Tarbiyaviy g'oya (Moral): Milliy urf-odat va qadriyatlarimizni e'zozlash. Bahor faslidagi tabiat uyg'onishini, bayram shukuhini musiqiy ohanglar orqali his qilish. Barchani ahillik va ko'tarinki bayram kayfiyatiga chorlash. MASHQLAR USLUBI: 1. Kayfiyat tahlili: Navro'z qo'shig'ining musiqiy ifoda vositalarini mantiqan topish (Namuna: Ushbu Navro'z qo'shig'i asosan qanday ladda va xarakterda kuylanadi? Javob: O'ta jo'shqin, sho'x va yorqin mayor ladida). 2. Tasvir tahlili: Qo'shiq matnida bahorning asosiy xalqona timsollari nima deb berilganini aniqlash (Sumalak va varrak). CHEKLOVLAR: Bahor faslining qaysi sanasida bayram qilinishi kabi kalendar ma'lumotlari so'ralmasin, musiqaning bayramona ta'sir kuchi asosiy obyektdir."
+          },
+          {
+            "name": "Vladimir Shainskiy",
+            "index": 18,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Dunyoga mashhur bolalar bastakori Vladimir Shainskiy (1925-yilda tug'ilgan) hayoti va ijodi. Uning yoshligi va musiqiy ta'limining bir qismi (Toshkent konservatoriyasida o'qigani) o'zbek diyorida kechgani qayd etiladi. U eng ko'p bolalar multfilmlariga yozgan qo'shiqlari orqali tanilgan. Uning \"Ulybka\" (Kroshka Yenot), \"Mamontyonok qo'shig'i\" va \"Chunga-Changa\" kabi ijod namunalari bolalar xotirasida chuqur joy olgan ajoyib, unutilmas musiqalardir. 2. Tarbiyaviy g'oya (Moral): Bolalar kinosi (multfilmlari) aynan musiqalar orqali jonlanadi va odamlarning qalbiga yetib boradi. Masalan, \"Ulybka\" (Tabassum) qo'shig'i eng yaxshi do'stlik tabassumdan boshlanishini, \"Chunga-Changa\" esa g'amsiz yoz kunlarini tarannum etadi. MASHQLAR USLUBI: 1. Mantiqiy bog'liqlik: Bastakor asarlari qaysi janrga oidligini topish (Namuna: Vladimir Shainskiy asosan nimalar uchun qo'shiq va kuylar bastalagan? Javob: Bolalar multfilmlari uchun). 2. G'oyaviy tahlil: \"Ulybka\" qo'shig'i xulosasini mantiqan aniqlash (Dunyodagi katta do'stlik shunchaki ochiq tabassumdan boshlanadi). CHEKLOVLAR: Bastakorning tug'ilgan shahri, aniq yili kabi raqamli faktlar so'ralmasin. Faqat musiqa va multfilmning o'zaro ta'siriga e'tibor qarating."
+          },
+          {
+            "name": "Musiqiy manzara",
+            "index": 19,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Bu mavzuda musiqa san'atining rasm (tasviriy san'at) bilan qanchalik chambarchas bog'liqligi tushuntiriladi. Mashhur rassom I. Ayvazovskiyning dengizdagi kuchli to'lqinlarni tasvirlovchi \"Dengiz\" asari yoxud M. Vrubelning nafis \"Oqqush malika\" asarini tomosha qilganda, miyamizda ularga mos keluvchi simfonik musiqalar jaranglaydi. Musiqa orqali biz qattiq bo'ronni (forte va past registrda) yoki mayin qush parvozini (piano va baland registrda) ko'z oldimizga keltirishimiz mumkin. Shuningdek, mavzuda \"Bayrog'imiz\" nomli vatanparvarlik taronasi yodga olinadi. 2. Tarbiyaviy g'oya (Moral): Musiqa faqat eshitiladigan emas, balki qalb ko'zi bilan ko'riladigan va tasavvur qilinadigan buyuk san'atdir. Yaxshi musiqa rassomning asarini tomoshabin uchun jonlantirib beradi. MASHQLAR USLUBI: 1. Mantiqiy o'xshatish: Rasm tasviri va musiqa dinamikasini bir-biriga moslashtirish (Namuna: Rassomning kuchli bo'ronli dengiz asariga mos musiqa qanday dinamikada bo'lishi kerak? Javob: Juda qattiq, jarangdor – Forte dinamikasida). CHEKLOVLAR: Rasmlar aslini saqlaydigan muzey nomlari yoki bo'yoq turlari haqida tasviriy san'at tarixiga doir faktlarni so'ramang."
+          },
+          {
+            "name": "Musiqiy cholg'u asboblari",
+            "index": 20,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: Ilk musiqa asboblarining qadimgi davrlarda qanday qilib paydo bo'lish tarixi haqidagi qiziqarli dars. Qadimgi insonlar hayvon ovlashda ishlatadigan yoy (kamon) ning torini tortib chertganda yengil tovush chiqishini payqaganlar. Shuning asosida ilk qadimiy torli asbob – arfa yuzaga kelgan. Qushlarning suyaklaridan havoda chalish mumkin bo'lgan ilk fleytalar, ichi bo'sh daraxt va hayvon terilaridan esa qadimiy barabanlar yasalgan. 2. Tarbiyaviy g'oya (Moral): Musiqa san'ati insoniyatning yaralishi bilan birga paydo bo'lgan va hayot-mamot mehnati jarayonida yonma-yon rivojlangan. Eng oddiy mehnat qurollari asrlar o'tib eng murakkab musiqiy asboblarga aylangan. MASHQLAR USLUBI: 1. Tarixiy-mantiqiy bog'liqlik: Asboblarning ibtidoiy kelib chiqishini topish (Namuna: Qadimiy torli musiqa asbobi – arfaning yaratilishiga nima turtki bo'lgan? Javob: Odamlarning ov quroli bo'lgan kamon iplaridan chiqqan tovush). 2. Materialni aniqlash: Qadimgi fleyta va barabanlar nimalardan yasalganini mantiqan belgilash. CHEKLOVLAR: Neolit, paleolit davrlari kabi tarix yoki arxeologiyaga xos murakkab atamalar bilan chalg'ituvchi savollar umuman tuzilmasin."
+          },
+          {
+            "name": "Tulpor",
+            "index": 21,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: O'zbek kinosining sevimli asarlaridan bo'lgan \"Tangalik bolalar\" kinofilmidan olingan mashhur \"Tulpor\" qo'shig'i (U. Azim she'ri, M. Mahmudov musiqasi). Bu asarda yosh yigitning jo'shqin va cheksiz orzulari, uchar tulpor (chopqir ot) singari osmon-u falakka, bulutlarga va quyoshga yetishish istaklari baland ruhda, juda kuchli energiya bilan kuylanadi. 2. Tarbiyaviy g'oya (Moral): Har bir inson hayotda tulpor kabi shiddatli, mard, o'zining katta maqsadlari sari to'xtovsiz qadam tashlaydigan bo'lishi kerak. Qo'shiq bolalarni nekbinlikka, doimo oldinga intilishga va hayotdagi qiyinchiliklardan o'tib yuksaklikka parvoz qilishga chorlaydi. MASHQLAR USLUBI: 1. Musiqiy va badiiy tahlil: Asarning xarakterini hamda qahramonning niyatini topish (Namuna: Qo'shiq qahramonining orzulari va qadamlari nimalarga tenglashtiriladi? Javob: Chopqir tulporga va qattiq shamolga). 2. Ritm va tempni tahlil qilish: Qo'shiqning musiqiy jadal va shiddatli tempda ijro etilish sababini mantiqan bog'lash. CHEKLOVLAR: Asarning qaysi kinodan olinganligi yoki uning syujeti detallari chalg'ituvchi qo'shimcha sifatida kelmasin, diqqat o'z-o'ziga ishonch mantiqida bo'lsin."
+          },
+          {
+            "name": "Navbahor",
+            "index": 22,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: N. Narzullayev she'ri va G. Qo'chqorova musiqasi asosida yaratilgan \"Navbahor\" lirik va xushchaqchaq taronasi. Qo'shiqda yurtimizga kirib kelgan bahor faslining beqiyos go'zalligi, charaqlab nur sochgan quyosh, shoyi yaproqlarini yozib xushbo'y hid taratgan binafsha va lolalar chiroyi kuylanadi. Tabiatning bunday chiroyli tarzda uyg'onishi bolalar qalbida cheksiz quvonch uyg'otadi. 2. Tarbiyaviy g'oya (Moral): Tabiatning oniy tasvirini his qilish, uni asrab-ardoqlash. Bahoriy musiqalar har doim yorqin (mayor) ladda, o'ynoqi yoki lirik tempda ijro etilishini anglab yetish. Ona zaminning in'omlariga ehtirom bilan qarash. MASHQLAR USLUBI: 1. Musiqiy lad tahlili: Bahor qo'shig'ining musiqiy kayfiyatini mantiqan aniqlash (Namuna: \"Navbahor\" singari ko'tarinki, tabiatning uyg'onishi tasvirlangan qo'shiqlar asosan qaysi musiqiy ladda chalinadi? Javob: Yorqin va quvnoq mayor ladida). 2. Badiiy tasvirni topish: She'rda yozlanib xushbo'y hid sochuvchi bahor gullarini aniqlash. CHEKLOVLAR: Bahor faslining astronomik tengkuni kabi atrof-muhit olamiga xos bo'lgan ob-havo omillari haqida mutlaqo savollar berilmasin."
+          },
+          {
+            "name": "Karaoke-konsert",
+            "index": 23,
+            "context": "MAVZU QOIDALARI: 1. Qisqacha mazmun: 4-sinf musiqiy savodxonlik darsligini yakunlovchi maxsus amaliy mashg'ulot bo'lib, unda \"Karaoke\" madaniyati o'rganiladi. \"Karaoke\" – bu matnli tayyor musiqa fonida (xonandasiz) mikrofon orqali o'zi mustaqil qo'shiq kuylash degani. Ushbu ko'ngilochar qurilmani 1971-yilda yaponiyalik musiqachi o'ylab topgan. O'quvchilar bu darsda yil davomida o'rgangan \"Bugun bayram\", \"Handalak\", \"Jingle bells\" kabi asarlarni karaoke usulida kuylaydilar. 2. Tarbiyaviy g'oya (Moral): Ochiq-oydin sahnada yoki do'stlar davrasida qo'shiq aytish o'ziga bo'lgan ishonchni orttiradi, tortinchoqlikni yo'qotadi. Jamoaviy qo'shiq aytish inson miyasidagi charchoqlarni olib tashlab, ajoyib hordiq (dam olish) bag'ishlaydi. MASHQLAR USLUBI: 1. Mantiqiy tahlil: Karaokening nima ekanligini ta'rifidan topish (Namuna: Havaskorlarga tayyor musiqa fonida, o'z ovozi bilan ashula aytish imkonini beruvchi mashg'ulot nima deyiladi? Javob: Karaoke). 2. Xulosa yasash: Karaokening inson psixologiyasi va kayfiyatiga ijobiy ta'sirini mantiqan aniqlash. CHEKLOVLAR: Mikrofonning texnik tuzilishi yoxud yapon musiqachisining tug'ilgan yili kabi texnik xotira savollari aslo kiritilmasin."
+          }
         ]
       }
     ]
