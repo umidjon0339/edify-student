@@ -193,7 +193,79 @@
           "order": "ASCENDING"
         }
       ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      "collectionGroup": "questions1",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subjectId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "chapterId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "difficultyId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "number",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "questions1",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "subjectId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "chapterId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "number",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "questions1",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "topicId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "chapterId",
+          "order": "ASCENDING"
+        }
+      ]
     }
+
   ],
   "fieldOverrides": []
+
+
 }
