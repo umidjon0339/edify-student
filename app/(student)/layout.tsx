@@ -44,19 +44,19 @@ export function useStudentLanguage() {
 // ============================================================================
 const LAYOUT_TRANSLATIONS: any = {
   uz: {
-    menu: { dashboard: "Boshqaruv", classes: "Sinflarim", explore: "Kurslar", library: "Kutubxona", games: "O'yinlar", leaderboard: "Reyting", ielts: "IELTS", profile: "Profil" },
+    menu: { dashboard: "Boshqaruv", classes: "Sinflarim", explore: "Kurslar", library: "Kutubxona", games: "O'yinlar", leaderboard: "Reyting", ielts: "IELTS", profile: "Profil" , rushmodel: "rushmodel"},
     topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til" },
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
   },
   en: {
-    menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", games: "Games", leaderboard: "Rank", ielts: "IELTS", profile: "Profile" },
+    menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", games: "Games", leaderboard: "Rank", ielts: "IELTS", profile: "Profile" , rushmodel: "rushmodel" },
     topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language" },
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
   },
   ru: {
-    menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", games: "Игры", leaderboard: "Рейтинг", ielts: "IELTS", profile: "Профиль" },
+    menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", games: "Игры", leaderboard: "Рейтинг", ielts: "IELTS", profile: "Профиль", rushmodel: "Викторина" },
     topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык" },
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
@@ -183,7 +183,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     { name: t.menu.library, href: '/library', icon: BookMarked, hideOnMobile: true },
     { name: t.menu.games, href: '/games', icon: Gamepad2 },
     { name: t.menu.leaderboard, href: '/leaderboard', icon: Trophy },
-    // { name: t.menu.ielts, href: '/ielts', icon: Target },
+    { name: t.menu.rushmodel, href: '/rushmodel', icon: Target },
     { name: t.menu.profile, href: '/profile', icon: UserIcon },
   ];
 
