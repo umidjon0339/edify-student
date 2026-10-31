@@ -217,7 +217,7 @@ export default function ClassDetailsPage() {
       </AnimatePresence>
 
       {/* 🟢 ULTRA MINIMALISTIC HEADER */}
-      <header className="sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-xl border-b border-outline-variant px-3 md:px-6 py-2.5 md:py-3 flex justify-between items-center shadow-elev-1 shrink-0">
+      <header className="t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-xl border-b border-outline-variant px-3 md:px-6 py-2.5 md:py-3 flex justify-between items-center shadow-elev-1 shrink-0">
 
         <div className="flex items-center gap-2.5 md:gap-4 min-w-0">
           <Link href="/teacher/classes" className="m3-interactive w-8 h-8 md:w-9 md:h-9 rounded-m3-md bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest hover:shadow-elev-1 transition-all shrink-0" title={t.back}>
@@ -246,6 +246,12 @@ export default function ClassDetailsPage() {
               ) : (
                 <span className="flex items-center gap-1 px-1.5 py-0.5 bg-surface-container-high border border-outline-variant rounded-m3-xs text-[9px] md:text-[10px] font-black text-on-surface-variant tracking-widest uppercase shadow-inner">
                   <Hash size={10} className="text-primary"/> {classData.joinCode}
+                </span>
+              )}
+              {/* Moved here from the class card on the list page. */}
+              {classData.description && (
+                <span className="hidden md:inline truncate max-w-[260px] text-[11px] font-medium text-on-surface-variant" title={classData.description}>
+                  {classData.description}
                 </span>
               )}
             </div>

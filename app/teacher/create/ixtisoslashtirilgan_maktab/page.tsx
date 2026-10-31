@@ -638,7 +638,7 @@ export default function IxtisoslashtirilganGeneratorPage() {
   };
 
   return (
-    <div className="flex h-[100dvh] bg-surface overflow-hidden font-t-body selection:bg-tertiary-container selection:text-on-tertiary-container">
+    <div className="t-workspace flex h-[100dvh] bg-surface overflow-hidden font-t-body selection:bg-tertiary-container selection:text-on-tertiary-container">
       
       <AiThinkingModal isVisible={isGenerating} />
 
@@ -662,7 +662,7 @@ export default function IxtisoslashtirilganGeneratorPage() {
             {isSidebarOpen && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="lg:hidden fixed top-[60px] left-0 right-0 bottom-0 bg-scrim backdrop-blur-sm z-[99998]" onClick={() => setIsSidebarOpen(false)} />}
           </AnimatePresence>
 
-          <aside className={`fixed lg:relative top-[60px] lg:top-0 left-0 w-full sm:w-[400px] h-[calc(100dvh-60px)] lg:h-[100dvh] bg-surface-container-low border-r border-outline-variant shadow-elev-3 lg:shadow-none z-[99998] lg:z-10 transition-transform duration-300 ease-in-out flex flex-col ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+          <aside className={`fixed lg:relative top-[60px] lg:top-0 left-0 w-full sm:w-[400px] h-[calc(100dvh-60px)] lg:h-[100dvh] bg-surface-container-low border-r border-outline-variant shadow-elev-3 lg:shadow-none z-[99998] lg:z-10 t-float-panel transition-transform duration-300 ease-in-out flex flex-col ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
             <div className="flex justify-between items-center p-3 md:p-5 border-b border-outline-variant bg-surface-container-low shrink-0 sticky top-0 z-10">
               <div className="flex items-center gap-2 md:gap-3">
                 <button onClick={() => router.push('/teacher/create')} className="hidden lg:flex p-1.5 -ml-1.5 text-on-surface-variant hover:text-on-surface hover:bg-state-hover rounded-m3-sm transition-all"><ArrowLeft size={18} /></button>
@@ -691,7 +691,7 @@ export default function IxtisoslashtirilganGeneratorPage() {
 
       <main className="flex-1 overflow-y-auto custom-scrollbar relative w-full pt-[60px] lg:pt-0 pb-24 lg:pb-0">
         
-        <div className="hidden lg:flex sticky top-0 z-20 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-8 py-3 justify-between items-center shadow-elev-1">
+        <div className="hidden lg:flex t-page-bar t-page-bar-flush sticky top-0 z-20 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-8 py-3 justify-between items-center shadow-elev-1">
           <div className="flex items-center gap-4">
             <h1 className="text-[16px] font-bold text-on-surface tracking-tight">{t.draftTitle}</h1>
             {generatedQuestions.length > 0 && (

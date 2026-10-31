@@ -37,11 +37,12 @@ export const TEACHER_DESIGN: TeacherDesignConfig = {
    *  1. COLOR
    * ────────────────────────────────────────────────────────────────────── */
 
-  /** The panel's color identity. 10 professional Material 3 palettes — each a
+  /** The panel's color identity. 11 professional Material 3 palettes — each a
    *  full light + dark scheme generated from one source color, so every shade
    *  stays in harmony whichever you pick. */
-  Color_palette: 'indigo',
-  // ⭐ indigo   — deep indigo, modern premium SaaS
+  Color_palette: 'sky',
+  // ⭐ sky      — calm sky blue with an aqua accent (nearly monochrome)
+  //    indigo   — deep indigo, modern premium SaaS
   //    ocean    — calm blue, heir to the original teacher look
   //    midnight — muted navy, near-monochrome executive feel
   //    emerald  — deep green, fresh and grounded
@@ -83,8 +84,11 @@ export const TEACHER_DESIGN: TeacherDesignConfig = {
   /** Desktop / tablet navigation. Ten complete personalities — every one is
    *  collapsible to an icon rail with the [ key (except rail, which is born
    *  collapsed, and the two top bars, which have no side chrome). */
-  App_shell_navigation: 'sidebar',
-  // ⭐ sidebar  — full sidebar that collapses to an icon rail ([ key toggles)
+  App_shell_navigation: 'pillbar',
+  // ⭐ pillbar  — sky-washed top bar: a glass pill of grouped hover dropdowns
+  //               (Asosiy · Imtihonlar · Resurslar · Profil va sozlamalar),
+  //               language pill, bell and a "Yangi Test" pill
+  //    sidebar  — full sidebar that collapses to an icon rail ([ key toggles)
   //    classic  — grouped links, sliding left accent bar, softly tinted
   //               active row, user card + logout button in the footer
   //    tonal    — the whole panel washed in the palette's container color,
@@ -101,9 +105,9 @@ export const TEACHER_DESIGN: TeacherDesignConfig = {
   //               showing every destination (no overflow menu)
 
   /** Phone navigation. Ignored on desktop. */
-  Mobile_navigation: 'dock',
-  // ⭐ dock     — edge-to-edge bottom bar with labels, like a native app
-  //    floating — detached rounded pill hovering above the content
+  Mobile_navigation: 'floating',
+  // ⭐ floating — Edify style: detached glass pill hovering above the content
+  //    dock     — edge-to-edge bottom bar with labels, like a native app
   //    iconic   — icon-only compact bottom bar (quietest)
   //    topline  — labeled bar with a sliding accent line along its top edge
   //    drawer   — hamburger menu only, slides in from the left
@@ -216,7 +220,7 @@ export const TEACHER_DESIGN: TeacherDesignConfig = {
  * ========================================================================= */
 
 export type TeacherPaletteName =
-  | 'indigo' | 'ocean' | 'midnight' | 'emerald' | 'teal'
+  | 'sky' | 'indigo' | 'ocean' | 'midnight' | 'emerald' | 'teal'
   | 'plum' | 'wine' | 'bronze' | 'steel' | 'graphite';
 
 export interface TeacherDesignConfig {
@@ -226,7 +230,7 @@ export interface TeacherDesignConfig {
   Font_style: 'manrope' | 'inter' | 'jakarta' | 'plex' | 'grotesk';
   App_shell_navigation:
     | 'sidebar' | 'classic' | 'tonal' | 'inverse' | 'gradient' | 'minimal'
-    | 'rail' | 'floating' | 'topbar' | 'toolbar';
+    | 'rail' | 'floating' | 'topbar' | 'toolbar' | 'pillbar';
   Mobile_navigation: 'dock' | 'floating' | 'iconic' | 'topline' | 'drawer';
   Shape_style: 'soft' | 'sharp' | 'compact' | 'round';
   Density: 'comfortable' | 'compact' | 'airy';
@@ -246,7 +250,7 @@ export interface TeacherDesignConfig {
 
 /** Every palette name, for building pickers/previews without retyping. */
 export const ALL_TEACHER_PALETTES: readonly TeacherPaletteName[] = [
-  'indigo', 'ocean', 'midnight', 'emerald', 'teal',
+  'sky', 'indigo', 'ocean', 'midnight', 'emerald', 'teal',
   'plum', 'wine', 'bronze', 'steel', 'graphite',
 ] as const;
 

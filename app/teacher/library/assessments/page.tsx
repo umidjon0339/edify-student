@@ -507,7 +507,7 @@ export default function MyAssessmentsPage() {
     <div className="min-h-[100dvh] bg-surface font-t-body pb-[100px] md:pb-12">
 
       {/* 🟢 ORIGINAL STICKY TOP BAR */}
-      <div className="bg-surface-container-low border-b border-outline-variant sticky top-0 z-30">
+      <div className="bg-surface-container-low border-b border-outline-variant t-page-bar sticky top-0 z-30">
         <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 md:gap-4">
             <IconButton aria-label={t.back} onClick={() => router.push('/teacher/library')} className="-ml-1 md:-ml-2">

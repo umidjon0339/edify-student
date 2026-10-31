@@ -12,7 +12,7 @@
 
 **Last verified:** 2026-09-16 (**the `sat-matematika` subtopics were replaced
 with the centre's own book structure, and teachers can now bulk-import a SAT
-question dataset from JSON at `/teacher/sat/import`** — §The taxonomy, §Teacher
+question dataset from JSON at `/teacher/create/import`** (was `/teacher/sat/import`, now a redirect; the importer serves every subject since 2026-10-29) — §The taxonomy, §Teacher
 dataset import; earlier the same day: **scoring moved from a straight line to a
 real published conversion CURVE reporting a score BAND, and the score report
 gained the blank-vs-wrong distinction** — §Scoring, §Reporting; previously
@@ -93,10 +93,10 @@ three callers already depending on it).
 | [services/satMathQuizService.ts](../services/satMathQuizService.ts) | Every read and write, plus `reserveSatCode`/`findSatTestByCode`. Nothing else touches the two collections. |
 | [app/(student)/sat/_components/SatScoreSummary.tsx](../app/(student)/sat/_components/SatScoreSummary.tsx) | The score-report banner — band, disclaimer, raw/%, route badge, right/wrong/blank tally, per-module split. **Shared by both student subject pages.** |
 | [lib/SatQuestionImport.ts](../lib/SatQuestionImport.ts) | **Pure** parse/validate for the teacher JSON importer + `SAT_IMPORT_EXAMPLE` (the one true format). No Firestore. |
-| [app/teacher/sat/import/page.tsx](../app/teacher/sat/import/page.tsx) | The import page — subject picker, the printed topic → section tree, the format block, the per-row report, the batched write. |
+| [app/teacher/create/import/page.tsx](../app/teacher/create/import/page.tsx) | The import page (ALL subjects; `/teacher/sat/import` redirects here with `?subject=sat-matematika`) — subject picker, the copyable AI prompt (`buildImportAiPrompt`, lists only that subject's taxonomy ids), the format block, the grouped fix UI, the batched write. |
 | [scripts/setSATMathSubtopics.mjs](../scripts/setSATMathSubtopics.mjs) | Replaced the `sat-matematika` subtopics with the centre's own book sections (2026-09-16). ⚠️ Supersedes the subtopic half of `addSATMathTopics.mjs` — don't re-run that one. |
 | [scripts/addSATMathTopics.mjs](../scripts/addSATMathTopics.mjs) | How the `sat-matematika` taxonomy (4 official College Board Math domains) was appended to `data/question_topics.json`. |
-| `app/teacher/sat/page.tsx` | The teacher's section hub — `SAT_SECTIONS` cards, Math live. |
+| `app/teacher/sat/page.tsx` | The teacher's section hub — `SAT_SECTIONS` cards (icon · name · Ready/Soon only since 2026-10-31; no banner, no import card). The test facts are info pills + the JSON import button on `sat/math` and `sat/english`. |
 | `app/teacher/sat/math/page.tsx` | The teacher's test list: code, status, edit, results, delete. |
 | `app/teacher/sat/math/build/page.tsx` | The builder — three module pickers + settings (`?id=` to edit). |
 | `app/teacher/sat/math/_components/{SatBankPicker,draft}.tsx/.ts` | The one pool (own bank, filtered to `sat-matematika` + `mcq`/`numeric`) and the localStorage stash for the "write a question" round trip. |
@@ -169,7 +169,10 @@ grid-in questions, unlike Math.
 
 ### Building — one document, three item arrays, no refs
 
-The builder (`app/teacher/sat/math/build/page.tsx`) has three tabs, one per
+The builder (`app/teacher/sat/math/build/page.tsx`) has three module tabs (a
+`PillGroup` with per-module counts; routing is drawn as a Module 1 → ≥N →
+Harder / otherwise → Easier flow instead of a hint sentence; the access code
+box appears only once a code exists), one per
 module (`module1`, `module2Easier`, `module2Harder`), each backed by
 `SatBankPicker` — the teacher's own bank, filtered server-side to
 `subject.id == 'sat-matematika'` and client-side to `mcq`/`numeric`
@@ -297,12 +300,13 @@ many students sit it, and freezes the questions so a later correction does not
 re-key a test somebody already answered.
 
 ⚠️ **A Firestore document is capped at 1 MiB.** `satByteSize` sums all THREE
-module arrays; the builder shows the size against `SAT_MAX_BYTES` (900 KB) and
+module arrays; the builder warns (Banner) once the size passes 80 % of
+`SAT_MAX_BYTES` (900 KB) — no meter below that (2026-10-31 simplification) — and
 `saveSatMathTest` refuses to write past it.
 
-### Teacher dataset import — `/teacher/sat/import` (2026-09-16)
+### Teacher dataset import — `/teacher/create/import` (2026-09-16; all subjects 2026-10-29)
 
-A teacher uploads a **JSON file** of SAT questions; every row is validated and
+A teacher picks a subject and uploads a **JSON file** of questions; every row is validated and
 written to `teacher_questions` as ordinary v1 documents, through the SAME
 adapter hand-authored questions use (`toQuestionV1`), so they render, filter
 and grade identically to anything else in the bank.
@@ -310,7 +314,31 @@ and grade identically to anything else in the bank.
 | File | Role |
 |---|---|
 | [lib/SatQuestionImport.ts](../lib/SatQuestionImport.ts) | **Pure** parse + validate + the documented example. No Firestore, no React. |
-| [app/teacher/sat/import/page.tsx](../app/teacher/sat/import/page.tsx) | The page: subject picker, the taxonomy tree, the format block, the report, the commit. |
+| [app/teacher/create/import/page.tsx](../app/teacher/create/import/page.tsx) | The page: subject picker, the AI prompt, the format block, the report, the commit. `?subject=<taxonomy id>` preselects, `?back=` sets the back button. |
+| [app/teacher/sat/import/page.tsx](../app/teacher/sat/import/page.tsx) | Server redirect → `/teacher/create/import?subject=sat-matematika&back=/teacher/sat` (old links). |
+
+**Every subject (2026-10-29).** The subject chips list ALL of
+`data/question_topics.json` (`importSubjects`): biologiya, kimyo, fizika,
+ona-tili, algebra, geometriya, SAT Math, SAT R&W. Entry points: the create hub
+card "JSON orqali import", a "JSON import" button on each SAT section page
+(`/teacher/sat/math` → `sat-matematika`, `/teacher/sat/english` →
+`sat-ingliz-tili`; replaced the SAT hub's import card 2026-10-31), and one on each
+Milliy sertifikat subject page (`/teacher/milliy-sertifikat/[subject]`, preselects
+its `taxonomySlug` — imported rows land in the teacher's own bank, which is that
+paper builder's only pool). What differs per subject is `importProfile`:
+
+| Subject | Types | Text stored in |
+|---|---|---|
+| `sat-matematika` | `mcq`, `numeric` | `.en`, `language: ['en']` |
+| `sat-ingliz-tili` | `mcq` | `.en` |
+| every other subject | `mcq`, `open`, `numeric` | `.uz`, `language: ['uz']` |
+
+A row with no `type` and no `choices` defaults to `open` where allowed. The
+example (`importExampleFor`) and the AI prompt (`buildImportAiPrompt`; Uzbek
+content for non-SAT) use the selected subject's own ids. The "share with other
+teachers" switch (`sharedBank`) is shown and written **for SAT only** — only the
+SAT pickers read that flag. ⚠️ File names (`SatQuestionImport.ts`,
+`SatTaxonomyMatch.ts`) kept on purpose: the Android teacher app mirrors them.
 
 **The file format** (`SAT_IMPORT_EXAMPLE` in the pure module is the single
 source of truth — the UI prints that same constant, so the docs, the screen and
@@ -328,7 +356,73 @@ the validator cannot describe three different shapes):
 A top-level array, or `{"questions": [...]}`. `choices` may also be a plain
 array (→ A, B, C, D). `difficulty` defaults to `medium`. Math accepts
 `mcq`+`numeric`, English `mcq` only (`allowedTypesFor`). Cap: `MAX_IMPORT_ROWS`
-(500) per upload, which is also Firestore's batch cap.
+(5000) per upload; the page writes in chunks of 500 (Firestore's batch cap).
+
+**The extended exported format is accepted too**: `question`/`explanation` may be `{en, uz, ru}` objects (legacy `uk`
+is read as `en`), and the options may come as `options` instead of `choices`,
+each entry a string or a `{en, uz, ru}` object. `normalizeRow` folds `options`
+into `choices` before validation (so reasons and the fix UI see one name);
+`toLocalized` keeps every language present and back-fills the subject's own slot
+(`.en` SAT / `.uz` else) from the first non-empty one, so the runner never reads
+`''`. A plain string still goes only into the subject's language.
+
+**Free-form rows (2026-10-31) — [lib/importAliases.ts](../lib/importAliases.ts), SHARED with the admin questions1 import.** `normalizeRow` = `canonicalizeRow`: field names match loosely (case/`_`/`-`/spaces/apostrophes ignored; Uzbek + Russian names: `savol`, `variantlar`, `javob`, `вопрос`, `ответ`…), each alias only taken when its value fits (`answers: [...]` → choices but `answers: "B"` → answer; `level: "SAT"` is not a difficulty). Choices: array/object, entries text / `{en,uz,ru}` / `{text, isCorrect}` / `{id:"A", content}`, keys `"a)"`/`"option_a"`/`"1"`. Answer: decorated letter → the choice's own TEXT (unique) → position (1-based; 0-based for a field named `…index`) → the choice flagged correct. ⚠️ Text beats position: choices `3,5,8,9` + `"answer": 3` resolves to A ("3"), not C — the preview is where a teacher catches it. A separate `passage` is put in front of the question; `{passage, questions:[…]}` groups expand to one row each (`expandQuestionGroups`); difficulty (`3`, `qiyin`, `сложный`…) and type (`grid-in`, `multiple_choice`, `short_answer`…) synonyms are normalised; a row with no type and no choices is `open`, or `numeric` where the subject has no `open` (SAT Math). Any wrapper is found by `findQuestionList` (`results`, `savollar`, nested). **To accept a new spelling, add it to `FIELD_ALIASES` — one place, both importers.** ⚠️ **Wrong-subject guard**: before fuzzy resolution, a row whose
+topic/subtopic/hint label is an exact id/name of the OTHER SAT subject (or an
+official R&W skill name — "Command of Evidence", "Boundaries"…) is REJECTED with
+`this looks like a … question` and `SatImportError.foreignSubject`. Before this,
+R&W rows imported under SAT Math were silently filed under Problem-Solving →
+Research organizing by the keyword synonyms ("data", "study", "survey"). The page
+groups them in one banner: re-read the file as that subject, or remove them.
+Name matching also accepts a unique ≥ 6-char name PREFIX ("Research organizing").
+
+**Review before writing (2026-10-31).** Preview rows (`_components/PreviewRow.tsx`)
+expand to the full built question — text (LaTeX), image, every choice with the
+correct one marked, typed answer + accepted forms, explanation — and ✕ removes a
+row from the import (`removedOk`, never written). Paged 50 at a time. The
+rejected-rows box has **Remove all errors** (confirm; dismissed rows are simply
+not imported).
+
+**College Board bank rows are accepted as-is** (`{questionId, skill_cd,
+primary_class_cd, difficulty:"E|M|H", content:{stem, stimulus, answerOptions,
+keys, correct_answer, rationale}}`, also a single object). `parseSatImport`
+detects them (`isCollegeBoardRow`) and converts via
+[lib/SatCollegeBoardImport.ts](../lib/SatCollegeBoardImport.ts) BEFORE
+validation: HTML/MathML flattened to plain text (stimulus + stem → `question`,
+`sr-only` spans dropped, first `<img>` → `imageUrl`), `spr` → `numeric` (extra
+`correct_answer` entries → `acceptedAnswers`), `E/M/H` → easy/medium/hard, domain
+code (INI/CAS/EOI/SEC, H/P/Q/S) → topic, plus `hints` (domain/skill text).
+
+**Fuzzy topic matching** ([lib/SatTaxonomyMatch.ts](../lib/SatTaxonomyMatch.ts),
+`resolveSatTaxonomy`, used by `buildRow` for EVERY row, native or College Board):
+exact id → normalised id/name (`"Linear Equations"`, `linear_equations`) → synonym
+keyword regexes (`quadratic`→quadratics, `sine`→trigonometry…) → parent topic of a
+matched subtopic → per-topic default subtopic (`TOPIC_DEFAULT_SUBTOPIC`). ⚠️ The
+default means an unrecognised math skill inside a KNOWN topic is filed under that
+topic's default subtopic, not rejected; only rows with no resolvable topic hit the
+error report. Add a synonym there when a skill is misfiled. Order in
+`SUBTOPIC_SYNONYMS` matters (first match wins). The synonym tables are SAT ids,
+so on other subjects they never fire. Name matching also tries the name without
+its numbering (`"I. Umumiy kimyo"` ← `"Umumiy kimyo"`) and the child half of a
+`"Parent — Child"` name (`"Oksidlar"`), **only when exactly one item matches**.
+The per-topic default subtopic is SAT Math-only; elsewhere a topic with several
+subtopics is never guessed — the row goes to the fix UI.
+
+Field aliases (2026-10-28): topic text is read from the first of `topic`,
+`topicName`, `topic_name`, `domain`, `category`; subtopic text from `subtopic`,
+`subtopicName`, `subtopic_name`, `skill`, `skill_desc`. Each may be a string (id
+OR display name) or a `{id, name}` object (our own exported docs). `hints`,
+`tags` and `name` are passed to the resolver as extra clues. **`tags`** (array or
+comma-separated string, `readTags`) are also **persisted** into the question's
+`tags[]` (merged with `exam_import` by `toQuestionV1`); the page adds an
+import-wide "Tags" field merged into every row at write time.
+
+**Fix UI**: rows the resolver still cannot place are NOT fixed one by one —
+they are grouped by `SatImportError.topic` (the resolved topic id, `''` when the
+topic itself is unknown) and each group gets ONE `BulkTopicFix` picker (display
+names): a known-topic group asks only the subtopic, the `''` group asks both. Answer/difficulty errors stay per row (`FixableRow`). Both re-validate
+through `buildSatImportRow` (the same `buildRow` as the parse), so a fixed row is
+built exactly like a clean one; a row that then fails for another reason stays
+in the list with the new reason.
 
 ⚠️ **Every row is validated against the taxonomy before ANY write.**
 `toQuestionV1` THROWS `InvalidTopicError` on an unknown subject/topic/subtopic
@@ -338,9 +432,12 @@ trustworthy. Rejections name the offending value (`unknown "subtopic": "…"
 under topic "…"`) — a 400-row file is only fixable if the report says which id
 was wrong. Exact-content duplicates **within one file** are dropped and counted.
 
-⚠️ **This is why the page prints the whole topic → section tree beside the file
-picker**: `topic`/`subtopic` are the taxonomy's own ids, they are persisted into
-the document, and nobody can guess `research-organizing-margin-of-error-outliers`.
+⚠️ **This is why the page offers a copyable AI prompt** (`buildImportAiPrompt`, alias `buildSatAiPrompt`, in
+`lib/SatQuestionImport.ts`, 2026-10-17 — replaced the printed topic → section
+tree): `topic`/`subtopic` are the taxonomy's own ids, they are persisted into the
+document, and nobody can guess `research-organizing-margin-of-error-outliers`.
+The prompt is built from `data/question_topics.json` for the selected subject and
+tells the model to use only those ids, in the exact import format.
 
 **Status**: rows are written with `creationMethod: 'exam_import'`, whose default
 status is **`review`** — deliberately NOT overridden to `published` the way the
@@ -351,7 +448,7 @@ curated platform import was (that content was vetted; a teacher's upload is not)
 
 | | `creatorId` | Who can edit/delete | Written by |
 |---|---|---|---|
-| A teacher's import | **the uploader's uid** | the uploader | the client, `/teacher/sat/import` |
+| A teacher's import | **the uploader's uid** | the uploader | the client, `/teacher/create/import` |
 | The platform pool | `''` (`SAT_PLATFORM_CREATOR_ID`) | nobody in-app | an Admin-SDK script only |
 
 The `teacher_questions` create rule is
@@ -375,6 +472,65 @@ different axis; the chips hide in Shared, since adding a `creationMethod in […
 leg would need yet another index). SAT English's picker gained `Shared` as a
 third source beside `Platform bank` and `Me`. Shared rows carry the uploader's
 name.
+
+### The SAT practice bank → generated practice tests (2026-10-31)
+
+The import page has **two tabs** (`kind`): **Savollar (bazaga)** — the bank
+import above, into the teacher's own `teacher_questions` — and **SAT amaliyot
+banki** (`?kind=exam`, SAT subjects only): the questions go into ONE shared
+**practice bank** (`sat_pool`), and every student's SAT page **generates** a new
+real-SAT-shaped test from it on demand. (Superseded the same day: an earlier
+version turned a mock file into ONE fixed test listed via a `catalog` flag — a
+1,845-question file is a bank, not a test. Nothing writes `catalog`.)
+
+| File | Role |
+|---|---|
+| [lib/SatPractice.ts](../lib/SatPractice.ts) | **Pure.** `SAT_MODULE_PLAN` (per module: 22 Q / 35 min Math — Algebra 7, Advanced 7, PSDA 4, Geometry 4; 27 Q / 32 min R&W — C&S 7, I&I 7, SEC 7, EoI 6), `buildSatPoolItems` (validated rows → `SatQuizItem`s with `subtopic`, ids `<batchId>-0001`), `chunkSatPool` (< 700 KB per chunk), `generateSatPractice`. |
+| [services/satPoolService.ts](../services/satPoolService.ts) | `saveSatPoolBatch` (sequential chunk writes), `loadSatPool(subject)` (one `subject ==` query, content-deduped across uploads), `listMySatPoolBatches`, `deleteSatPoolBatch`. |
+| [lib/SatExamImport.ts](../lib/SatExamImport.ts) | **Pure.** File STRUCTURE only: `detectSatExam` finds modules/sections so a whole mock or a Math + R&W file can be imported; `sectionAllRows` / `allExamRows` flatten them. Module boundaries no longer matter. |
+| [app/(student)/sat/_components/SatPracticeGenerator.tsx](../app/(student)/sat/_components/SatPracticeGenerator.tsx) | The student card on `/sat/math` and `/sat/english`: bank size + domain-mix bar, "Generate a practice test", the practice-score chart. Hidden until the bank holds ≥ 2 modules' worth. |
+| `app/teacher/create/import/_components/ModuleMixChart.tsx` | Bank tab: questions by domain, one bar per difficulty. |
+
+**Bank tab.** Any file shape — a question list, a full mock (`module1`/`module2`…),
+a `{data:{items}}` wrapper, a two-section file (`detectSatExam(…, {force: true})`;
+section chips import Math and R&W in turn). Rows are validated by
+`parseSatImportRows` (same checks, fix UI, wrong-subject guard, dedupe on).
+"Add N questions to the practice bank" → one **batch** = chunk docs
+`sat_pool/{batchId}_{part}`; no test is created. **"Also add to the question bank"** (default ON, 2026-10-31) writes the same rows to the teacher's own `teacher_questions` too (`writeToQuestionBank`, the questions tab's writer, `sharedBank` per the share switch) so the SAT test builder can use them for real mock tests. ⚠️ Those are separate docs: deleting the practice-bank upload does NOT remove them. The tab lists the teacher's own uploads with **delete** (a
+correction = delete + re-upload; chunks are never updated).
+
+**Generating (`generateSatPractice`).** Per module and domain: the domain's
+quota, split by the module's difficulty mix (Module 1 ⅓/⅓/⅓; Module 2 Easier
+50/40/10 easy/medium/hard; Harder 10/40/50 — largest remainder, ties rotated per
+domain), a short difficulty borrowing from the nearest one; inside a bucket the
+**subtopic picked least so far in this module goes first** (one per subtopic,
+then round again); **unseen questions first** (`seen` = every item id in the
+student's past results' `items`). Module 1 never repeats in Module 2; the two
+Module 2 pools MAY share questions (a student sits only one). A domain the bank
+can't fill is topped up from others (`shortages`). Order: Math easiest →
+hardest; R&W grouped by domain in plan order, then difficulty.
+
+**The generated test is a normal `sat_*_tests` doc owned by the student**:
+id `satp_…` (Math) / `satep_…` (English), `teacherId` = the student's uid,
+`teacherName: 'Edify practice'`, `accessCode: ''` (never matched by the code
+box), `practice: true`, `status: 'published'`, title
+`SAT Math|Reading and Writing Practice Test N` (N = `count(teacherId == uid) + 1`).
+It then goes through the same pending → Start screen as a code lookup, so
+`SatRunner`, scoring, results, My Mistakes and the past-sittings review work
+unchanged. **No rules change for this part**: `sat_*_tests` create is
+`teacherId == request.auth.uid`, results already allow the student. The
+practice-score chart reads past results whose `testId` starts with the prefix.
+The page's past-sittings cache is cleared on submit so the next generation
+sees the questions just answered.
+
+**Visuals.** Student card: a `bg-primary-container` hero with an original SVG
+subject illustration (`SatArt`, token-coloured, `aria-hidden`), the bank's
+**domain-mix bar** (legend with counts, hover/focus tooltip) and — once the
+student sat a practice test — **"Your practice scores"**: band range bar + score
+dot per sitting, oldest first (single series, recessive 200–800 grid,
+screen-reader table). Teacher bank tab: `ModuleMixChart`, one stacked domain bar
+per difficulty. Domain colours are fixed slots (`satDomainSlot` → `--s-viz-N` /
+`--t-viz-N`), the same on both sides — see STUDENT_UI.md / UI_KIT.md.
 
 ### The access code — its OWN namespace PER SUBJECT
 
@@ -605,6 +761,7 @@ sat_math_tests/{sat_…}
   routingThreshold,                  ← module1 correct-count needed to route "harder"
   shuffle, showAnswers,
   status: 'draft' | 'published' | 'closed',
+  practice?: true,                   ← 2026-10-31, additive: a STUDENT's generated practice test (id satp_/satep_, teacherId = student uid, accessCode '')
   createdAt / updatedAt: serverTimestamp
 
 sat_math_results/{testId}_{uid}
@@ -626,10 +783,18 @@ sat_english_tests/{sate_…}          ← SAME shape as sat_math_tests, own coll
   module1Minutes, module2Minutes,    ← default 32 / 32 (real digital SAT R&W timing)
   routingThreshold, shuffle, showAnswers,
   status: 'draft' | 'published' | 'closed',
+  practice?: true,                   ← 2026-10-31, additive: a STUDENT's generated practice test (id satp_/satep_, teacherId = student uid, accessCode '')
   createdAt / updatedAt: serverTimestamp
 
 sat_english_results/{testId}_{uid}  ← SAME shape as sat_math_results, own collection
   (identical fields; domains keyed by SatRwDomain instead of SatMathDomain)
+
+sat_pool/{batchId}_{part}           ← 2026-10-31, the SAT PRACTICE BANK (chunks)
+  subject: 'sat-matematika' | 'sat-ingliz-tili',
+  batchId, title (file name), teacherId, teacherName,
+  part, parts, count,
+  items: SatQuizItem[],              ← < 700 KB per chunk; items carry `subtopic`
+  createdAt: serverTimestamp
 ```
 
 Rules (`firestore.rules`, sections **12d** and **12e**) mirror each other and
@@ -652,6 +817,18 @@ index every teacher's own bank query already uses (composite indexes aren't
 keyed by VALUE, so no new index was needed for the platform `creatorId`).
 
 ## Invariants & traps
+
+- ⚠️ **`sat_pool` item ids are STABLE (`<batchId>-0001`) on purpose** — "unseen
+  first" matches them against the keys of past results' `items`. Re-uploading
+  the same file makes NEW ids (a new batch); `loadSatPool` content-dedupes
+  across batches so the duplicate doesn't double a question's weight.
+- ⚠️ **The whole subject bank is read per student session** (chunks, cached 5 min
+  module-level; `MAX_CHUNKS` 60 ≈ 18k questions). Past that, add a summary or
+  sample per-domain chunks — don't raise the cap blindly.
+- ⚠️ **Any teacher can add to and delete their own uploads in the shared bank;
+  students cannot write it** (rules check `users.role == 'teacher'` on create).
+  A student CAN create `sat_*_tests` docs as themselves — that is how generated
+  practice tests are stored; they never get an access code.
 
 - ⚠️ **Never write `undefined` to Firestore** — `satQuizItem` spreads optional
   fields (`optionImages`, `acceptedAnswers`, `explanation`, `creatorId`…)

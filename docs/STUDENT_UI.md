@@ -157,6 +157,14 @@ npx tsx scripts/genStudentPalettes.mjs                     # plain node fails �
 
 ## Invariants & traps
 
+- ⚠️ **Chart colours are `--s-viz-1…4`, NOT palette tokens** (2026-10-31, hand-written
+  block after `PALETTES:END` in `theme.css`). Fixed categorical slots, validated
+  (dataviz validator) on all 20 palette surfaces; colour follows the entity via
+  `satDomainSlot` (`lib/SatMathQuiz.ts`), so they must not change with
+  `Color_palette`. Light slots 3–4 are below 3:1 on the surface — a chart using
+  them must show visible labels (legend with counts). Used through
+  `style={{ background: 'var(--s-viz-N)' }}` (no Tailwind mapping). First users:
+  `app/(student)/sat/_components/SatViz.tsx`.
 - ⚠️ **Never hard-code a color, radius or shadow in a student page.** Only token
   utilities (`bg-primary`, `text-on-surface-variant`, `rounded-m3-lg`,
   `shadow-elev-2`). Raw hex belongs in `theme.css`.

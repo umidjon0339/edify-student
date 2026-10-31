@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { Save, FileText, Layout, Grid, SearchX, ChevronDown, X, ShoppingBag, Sparkles, Database, Menu, Trash2, Check, ArrowLeft } from "lucide-react";
 
-import { Button, IconButton } from "@/components/ui";
+import { Button, IconButton, PillGroup } from "@/components/ui";
 
 // --- TRANSLATION DICTIONARY ---
 const CREATE_TRANSLATIONS = {
@@ -221,7 +221,7 @@ export default function CreateTestPage() {
 
       <TestConfigurationModal isOpen={isConfigModalOpen} onClose={() => setIsConfigModalOpen(false)} onConfirm={handleFinalPublish} questionCount={addedQuestions.length} testTitle={testTitle} isSaving={isSaving} />
 
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="t-workspace flex-1 flex overflow-hidden relative">
         
         {/* SIDEBAR COMPONENT */}
         <DatabaseSidebar 
@@ -232,14 +232,14 @@ export default function CreateTestPage() {
         />
 
         {/* MAIN CANVAS */}
-        <main className="flex-1 overflow-hidden flex flex-col relative w-full bg-surface">
+        <main className="flex-1 overflow-hidden flex flex-col relative w-full bg-transparent">
 
           {/* HEADER (Topic + Filters) */}
-          <header className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md px-4 md:px-6 py-3 border-b border-outline-variant z-30 sticky top-0 shadow-elev-1 flex flex-col xl:flex-row xl:items-center justify-between gap-3 md:gap-4 shrink-0">
+          <header className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md px-4 md:px-6 py-3 border-b border-outline-variant z-30 t-page-bar t-page-bar-flush sticky top-0 shadow-elev-1 flex flex-col xl:flex-row xl:items-center justify-between gap-3 md:gap-4 shrink-0">
 
             <div className="flex items-center gap-3 min-w-0">
               <IconButton aria-label="Mundarija" onClick={() => setIsSyllabusOpen(!isSyllabusOpen)} className="lg:hidden -ml-2 shrink-0"><Menu /></IconButton>
-              <div className="w-9 h-9 rounded-m3-md bg-primary-container flex items-center justify-center text-on-primary-container shrink-0 shadow-elev-1">
+              <div className="t-icon-chip w-9 h-9 rounded-m3-md flex items-center justify-center shrink-0">
                 {selectedSubtopic ? <Layout size={18} /> : <Grid size={18} />}
               </div>
               <div className="truncate pr-2">
@@ -249,22 +249,21 @@ export default function CreateTestPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex bg-surface-container p-1 rounded-m3-md border border-outline-variant shadow-inner shrink-0 w-full sm:w-auto">
-                {["Easy", "Medium", "Hard"].map((lvl) => (
-  <button key={lvl} onClick={() => onDifficultyClick(lvl)} className={`m3-interactive flex-1 sm:flex-none px-4 py-1.5 text-[12px] font-bold rounded-m3-sm transition-all ${difficultyFilter === lvl ? "bg-surface-container-lowest text-primary shadow-elev-1 ring-1 ring-outline-variant" : "text-on-surface-variant hover:text-on-surface hover:bg-state-hover"}`}>
-    {t.diff[lvl.toLowerCase() as keyof typeof t.diff]}
-  </button>
-))}
-              </div>
+              <PillGroup
+                ariaLabel="Difficulty"
+                value={difficultyFilter}
+                onChange={(lvl) => onDifficultyClick(lvl)}
+                options={["Easy", "Medium", "Hard"].map((lvl) => ({ id: lvl, label: t.diff[lvl.toLowerCase() as keyof typeof t.diff] }))}
+                className="shrink-0"
+              />
 
               {/* 🟢 UPGRADED AUTO-SELECT WIDGET */}
               {selectedSubtopic && (
-                <div className="flex items-center gap-2 bg-primary-container border border-outline-variant p-1.5 rounded-m3-md shadow-elev-1 w-full sm:w-auto relative overflow-hidden">
-                   <div className="absolute top-0 right-0 w-16 h-16 bg-[color-mix(in_oklab,var(--m3-surface-container-lowest)_40%,transparent)] blur-xl rounded-full mix-blend-overlay"></div>
+                <div className="t-glass-pill flex items-center gap-2 p-1.5 rounded-full w-full sm:w-auto relative">
 
                    <div className="flex items-center gap-1.5 pl-2 pr-1 relative z-10" title={t.topic.auto}>
-                     <Sparkles size={16} className="text-on-primary-container animate-pulse" />
-                     <span className="text-[12px] font-black text-on-primary-container uppercase tracking-wider hidden lg:inline mr-1">
+                     <Sparkles size={16} className="text-primary" />
+                     <span className="text-[12px] font-black text-on-surface uppercase tracking-wider hidden lg:inline mr-1">
                        {t.topic.auto}
                      </span>
                    </div>
@@ -284,12 +283,12 @@ export default function CreateTestPage() {
             <div className="max-w-4xl mx-auto space-y-4">
               
               {!selectedSubtopic ? (
-                <div className="h-[40vh] flex flex-col items-center justify-center text-on-surface-variant border-2 border-dashed border-outline-variant rounded-m3-xl bg-surface-container-low mt-6 p-6 text-center shadow-elev-1 animate-in zoom-in-95 duration-500">
+                <div className="h-[40vh] flex flex-col items-center justify-center text-on-surface-variant border-2 border-dashed border-outline-variant rounded-m3-xl bg-t-glass backdrop-blur-md mt-6 p-6 text-center shadow-elev-1 animate-in zoom-in-95 duration-500">
                   <div className="w-14 h-14 bg-primary-container rounded-m3-lg flex items-center justify-center mb-4"><Layout size={24} className="text-on-primary-container" /></div>
                   <p className="font-bold text-[16px] text-on-surface-variant">{t.list.selectSub}</p>
                 </div>
               ) : availableQuestions.length === 0 && !loadingQuestions ? (
-                <div className="h-[40vh] flex flex-col items-center justify-center text-on-surface-variant border-2 border-dashed border-outline-variant rounded-m3-xl bg-surface-container-low mt-6 p-6 text-center shadow-elev-1 animate-in zoom-in-95 duration-500">
+                <div className="h-[40vh] flex flex-col items-center justify-center text-on-surface-variant border-2 border-dashed border-outline-variant rounded-m3-xl bg-t-glass backdrop-blur-md mt-6 p-6 text-center shadow-elev-1 animate-in zoom-in-95 duration-500">
                   <div className="w-14 h-14 bg-surface-container rounded-m3-lg flex items-center justify-center mb-4"><SearchX size={24} className="text-on-surface-variant" /></div>
                   <p className="font-bold text-[15px] text-on-surface-variant">{t.list.notFound} <span className="text-primary">{t.diff[difficultyFilter.toLowerCase() as keyof typeof t.diff]}</span></p>
                 </div>
@@ -314,7 +313,7 @@ export default function CreateTestPage() {
         {/* CART DRAWER */}
         <aside className={`
             fixed lg:static inset-x-0 bottom-0 lg:inset-y-0 lg:right-0 z-50
-            w-full lg:w-[360px] bg-surface text-on-surface
+            w-full lg:w-[360px] bg-surface text-on-surface t-float-panel
             transform transition-transform duration-300 ease-out
             ${isCartOpen ? "translate-y-0" : "translate-y-full lg:translate-y-0"}
             lg:translate-x-0 flex flex-col border-t lg:border-l border-outline-variant shadow-elev-3 lg:shadow-none

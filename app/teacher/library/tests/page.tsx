@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { collection, query, where, orderBy, limit, getDocs, startAfter, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useAuth } from '@/lib/AuthContext';
-import { FolderOpen, Archive, Library, Sparkles, ChevronDown, Plus } from 'lucide-react';
+import { FolderOpen, Archive, Library, Sparkles, ChevronDown, Plus, Search } from 'lucide-react';
 import TestCard from '../_components/TestCard';
 import EditTestModal from '../_components/EditTestModal';
 import { normalizeQuestions } from '@/lib/questionSchema';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 import toast from 'react-hot-toast';
 import { motion, Variants } from 'framer-motion';
-import { Button, Spinner, SearchBar } from '@/components/ui';
+import { Button, Spinner, PillGroup } from '@/components/ui';
 
 // --- TRANSLATION DICTIONARY ---
 const LIBRARY_TRANSLATIONS: any = {
@@ -161,48 +161,44 @@ export default function LibraryPage() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-8 relative z-10">
 
-        {/* 🟢 PREMIUM UNIFIED HEADER */}
-        <div className="bg-surface-container-low rounded-m3-xl p-5 md:p-6 shadow-elev-1 mb-8">
-
-          <div className="flex flex-col md:flex-row justify-between md:items-center gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-primary-container rounded-m3-lg flex items-center justify-center text-on-primary-container shrink-0">
-                 <Library size={24} strokeWidth={2.5} className="md:w-7 md:h-7" />
-              </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-black text-on-surface tracking-tight leading-tight flex items-center gap-3">
-                  {t.title}
-                  <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-surface-container rounded-full border border-outline-variant animate-in fade-in">
-                    <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${filterStatus === 'active' ? 'bg-success' : 'bg-outline'}`}></div>
-                    <span className="text-[11px] font-bold text-on-surface-variant tracking-wide uppercase">{tests.length} {hasMore ? '+' : ''} {t.items}</span>
-                  </div>
-                </h1>
-              </div>
+        {/* HEADER — pillbar look (docs/UI_KIT.md): gradient icon chip + title
+            + count pill · glass search pill · pill-capsule tabs. */}
+        <div className="mb-8 flex flex-col gap-5">
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="flex items-center gap-3.5 min-w-0">
+              <span className="t-icon-chip grid h-12 w-12 shrink-0 place-items-center rounded-m3-lg">
+                <Library size={22} strokeWidth={2.4} />
+              </span>
+              <h1 className="font-t-display text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface truncate">{t.title}</h1>
+              <span className="t-glass-pill hidden sm:inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-on-surface-variant tabular-nums">
+                <span className={`h-1.5 w-1.5 rounded-full ${filterStatus === 'active' ? 'bg-success' : 'bg-outline'}`} />
+                {tests.length}{hasMore ? '+' : ''} {t.items}
+              </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 md:w-auto w-full">
-              <SearchBar placeholder={t.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full sm:w-64" />
-            </div>
+            <label className="t-glass-pill flex h-11 w-full sm:w-72 items-center gap-2.5 rounded-full px-4 text-on-surface-variant focus-within:ring-2 focus-within:ring-primary">
+              <Search size={17} className="shrink-0" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t.search}
+                aria-label={t.search}
+                className="min-w-0 flex-1 bg-transparent text-[13.5px] font-medium text-on-surface placeholder:text-on-surface-variant outline-none"
+              />
+            </label>
           </div>
 
-          <div className="h-px bg-outline-variant my-6 hidden md:block"></div>
-
-          {/* 🟢 APPLE-STYLE SEGMENTED TABS */}
-          <div className="flex bg-surface-container p-1.5 rounded-m3-lg w-full md:w-max">
-            <button
-              onClick={() => setFilterStatus('active')}
-              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 text-[13px] font-bold rounded-m3-md transition-all duration-300 ${filterStatus === 'active' ? 'bg-surface-container-lowest text-on-surface shadow-elev-1' : 'text-on-surface-variant hover:text-on-surface'}`}
-            >
-              <FolderOpen size={16} strokeWidth={2.5} className={filterStatus === 'active' ? 'text-success' : ''} /> {t.filters.active}
-            </button>
-            <button
-              onClick={() => setFilterStatus('archived')}
-              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 text-[13px] font-bold rounded-m3-md transition-all duration-300 ${filterStatus === 'archived' ? 'bg-surface-container-lowest text-on-surface shadow-elev-1' : 'text-on-surface-variant hover:text-on-surface'}`}
-            >
-              <Archive size={16} strokeWidth={2.5} className={filterStatus === 'archived' ? 'text-on-surface-variant' : ''} /> {t.filters.archived}
-            </button>
-          </div>
-
+          <PillGroup
+            ariaLabel={t.title}
+            value={filterStatus}
+            onChange={setFilterStatus}
+            options={[
+              { id: 'active', label: <span className="flex items-center gap-2"><FolderOpen size={16} strokeWidth={2.4} />{t.filters.active}</span> },
+              { id: 'archived', label: <span className="flex items-center gap-2"><Archive size={16} strokeWidth={2.4} />{t.filters.archived}</span> },
+            ]}
+            className="self-start"
+          />
         </div>
 
         {/* 🟢 EDGE-TO-EDGE GRID */}

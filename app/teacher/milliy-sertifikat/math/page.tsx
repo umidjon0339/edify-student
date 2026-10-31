@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  ArrowLeft, BarChart3, Check, Copy, KeyRound, Pencil, Plus, Target, Trash2,
+  ArrowLeft, BarChart3, Check, Copy, KeyRound, ListChecks, Pencil, Plus, Target, Trash2, Zap,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -28,6 +28,10 @@ const TR: Record<string, Record<string, string>> = {
   uz: {
     back: "Orqaga",
     title: "Rasch testlari",
+    // Details moved here from the Milliy sertifikat hub card.
+    infoProtocol: `DTM protokoli · ${RASCH_QUIZ_TOTAL} ta savol (Y-1, Y-2, O)`,
+    infoScored: "Natija darhol hisoblanadi",
+    infoCode: "6 xonali maxfiy kod",
     subtitle: `Har biri ${RASCH_QUIZ_TOTAL} ta savoldan iborat variant. O'quvchi 6 xonali maxfiy kod bilan ochadi.`,
     create: "Yangi test",
     loading: "Yuklanmoqda…",
@@ -55,6 +59,9 @@ const TR: Record<string, Record<string, string>> = {
   ru: {
     back: "Назад",
     title: "Тесты Rasch",
+    infoProtocol: `Протокол DTM · ${RASCH_QUIZ_TOTAL} вопросов (Y-1, Y-2, O)`,
+    infoScored: "Результат считается сразу",
+    infoCode: "6-значный секретный код",
     subtitle: `Вариант из ${RASCH_QUIZ_TOTAL} вопросов. Ученик открывает его 6-значным секретным кодом.`,
     create: "Новый тест",
     loading: "Загрузка…",
@@ -82,6 +89,9 @@ const TR: Record<string, Record<string, string>> = {
   en: {
     back: "Back",
     title: "Rasch tests",
+    infoProtocol: `DTM protocol · ${RASCH_QUIZ_TOTAL} questions (Y-1, Y-2, O)`,
+    infoScored: "Scored immediately",
+    infoCode: "Private 6-digit code",
     subtitle: `A ${RASCH_QUIZ_TOTAL}-question paper. Students open it with a private 6-digit code.`,
     create: "New test",
     loading: "Loading…",
@@ -200,6 +210,13 @@ export default function RaschQuizHubPage() {
               </Button>
             }
           />
+        </div>
+
+        {/* Paper facts (moved here from the hub card). */}
+        <div className="flex flex-wrap gap-2">
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><ListChecks size={14} /> {t.infoProtocol}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><KeyRound size={14} /> {t.infoCode}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Zap size={14} /> {t.infoScored}</span>
         </div>
 
         {error && <Banner tone="error" title={error} />}

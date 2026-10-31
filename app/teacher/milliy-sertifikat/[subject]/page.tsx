@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  ArrowLeft, BadgeCheck, BarChart3, Check, Copy, KeyRound, Pencil, Plus, Trash2,
+  ArrowLeft, BadgeCheck, BarChart3, Check, Copy, FileJson, KeyRound, Library, Pencil, Plus, Ruler, Trash2, Zap,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -33,6 +33,11 @@ const TR: Record<string, Record<string, string>> = {
   uz: {
     back: "Orqaga",
     subtitle: "Variantlaringiz. O'quvchi 6 xonali maxfiy kod bilan ochadi.",
+    // Details moved here from the Milliy sertifikat hub card.
+    infoBank: "Savollar o'z bazangizdan",
+    infoLength: "Uzunligini o'zingiz belgilaysiz",
+    infoScored: "Natija darhol hisoblanadi",
+    infoCode: "6 xonali maxfiy kod",
     create: "Yangi variant",
     emptyTitle: "Hali variant yaratilmagan",
     emptyDesc: "Savollarni o'z bazangizdan tanlab, variant tuzing. Savol yozish uchun savollar bazasidan foydalanasiz.",
@@ -51,10 +56,15 @@ const TR: Record<string, Record<string, string>> = {
     unknownTitle: "Bu fan hali tayyor emas",
     unknownDesc: "Bu fan uchun variant tuzuvchi hali qo'shilmagan.",
     toHub: "Fanlar ro'yxati",
+    importJson: "JSON import",
   },
   ru: {
     back: "Назад",
     subtitle: "Ваши варианты. Ученик открывает 6-значным секретным кодом.",
+    infoBank: "Вопросы из вашей базы",
+    infoLength: "Длину задаёте сами",
+    infoScored: "Результат считается сразу",
+    infoCode: "6-значный секретный код",
     create: "Новый вариант",
     emptyTitle: "Вариантов пока нет",
     emptyDesc: "Соберите вариант из вопросов своей базы. Новые вопросы создаются в базе вопросов.",
@@ -73,10 +83,15 @@ const TR: Record<string, Record<string, string>> = {
     unknownTitle: "Этот предмет пока не готов",
     unknownDesc: "Конструктор варианта для этого предмета пока не добавлен.",
     toHub: "Список предметов",
+    importJson: "Импорт JSON",
   },
   en: {
     back: "Back",
     subtitle: "Your papers. Students open one with a private 6-digit code.",
+    infoBank: "Questions from your own bank",
+    infoLength: "You set the length",
+    infoScored: "Scored immediately",
+    infoCode: "Private 6-digit code",
     create: "New paper",
     emptyTitle: "No papers yet",
     emptyDesc: "Build a paper from your own question bank. New questions are written in the question bank.",
@@ -95,6 +110,7 @@ const TR: Record<string, Record<string, string>> = {
     unknownTitle: "This subject is not built yet",
     unknownDesc: "There is no paper builder for this subject yet.",
     toHub: "All subjects",
+    importJson: "JSON import",
   },
 };
 
@@ -211,11 +227,31 @@ export default function MilliySubjectPapersPage() {
             title={subjectName(subject, L)}
             subtitle={t.subtitle}
             actions={
-              <Button icon={<Plus />} onClick={() => router.push(`${base}/build`)}>
-                {t.create}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                {/* Bulk-add questions to this subject's bank (the builder's only pool). */}
+                {subject.taxonomySlug && (
+                  <Button
+                    variant="tonal"
+                    icon={<FileJson />}
+                    onClick={() => router.push(`/teacher/create/import?subject=${subject.taxonomySlug}&back=${base}`)}
+                  >
+                    {t.importJson}
+                  </Button>
+                )}
+                <Button icon={<Plus />} onClick={() => router.push(`${base}/build`)}>
+                  {t.create}
+                </Button>
+              </div>
             }
           />
+        </div>
+
+        {/* Paper facts (moved here from the hub card). */}
+        <div className="flex flex-wrap gap-2">
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Library size={14} /> {t.infoBank}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Ruler size={14} /> {t.infoLength}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><KeyRound size={14} /> {t.infoCode}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Zap size={14} /> {t.infoScored}</span>
         </div>
 
         {error && <Banner tone="error" title={error} />}

@@ -78,6 +78,21 @@ export const findSatRwDomain = (id: string): SatRwDomainInfo | undefined =>
 
 export const SAT_RW_TAXONOMY_SLUG = 'sat-ingliz-tili';
 
+/**
+ * A domain's FIXED chart colour slot, 1–4: its position in its own subject's
+ * registry above (Algebra = 1 … Geometry = 4; Information and Ideas = 1 …).
+ * Colour follows the domain, never its rank or count, so a test missing a
+ * domain does not repaint the rest. Each UI kit maps the slot onto its own
+ * validated token — `--s-viz-N` (student theme.css) / `--t-viz-N` (teacher).
+ * 0 = not a SAT domain (draw it neutral).
+ */
+export function satDomainSlot(domain: string): number {
+  const math = SAT_MATH_DOMAINS.findIndex((d) => d.id === domain);
+  if (math >= 0) return math + 1;
+  const rw = SAT_RW_DOMAINS.findIndex((d) => d.id === domain);
+  return rw >= 0 ? rw + 1 : 0;
+}
+
 // ─── the section registry — which SAT sections exist ─────────────────────────
 
 export type SatSectionKind = 'live' | 'soon';

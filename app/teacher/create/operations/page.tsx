@@ -256,7 +256,7 @@ export default function MathOperationsGenerator() {
     <div className="min-h-[100dvh] bg-surface font-t-body pb-[calc(2rem+env(safe-area-inset-bottom))]">
 
       {/* --- TOP HEADER --- */}
-      <div className="bg-[color-mix(in_oklab,var(--m3-surface)_90%,transparent)] backdrop-blur-xl border-b border-outline-variant sticky top-0 z-30 shadow-elev-1">
+      <div className="bg-[color-mix(in_oklab,var(--m3-surface)_90%,transparent)] backdrop-blur-xl border-b border-outline-variant t-page-bar sticky top-0 z-30 shadow-elev-1">
         <div className="max-w-5xl mx-auto px-4 py-3 md:py-4 flex items-center gap-3">
           <Link href="/teacher/create" className="p-2 -ml-2 text-on-surface-variant hover:text-on-surface hover:bg-state-hover rounded-m3-md transition-colors active:scale-95">
             <ArrowLeft size={20} strokeWidth={2.5} />

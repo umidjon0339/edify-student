@@ -27,14 +27,14 @@ export default function DatabaseSidebar({
   return (
     <>
       <aside className={cn(
-        "fixed lg:static inset-y-0 left-0 z-40 w-[320px] bg-surface border-r border-outline-variant transform transition-transform duration-300 shadow-elev-3 lg:shadow-none",
+        "fixed lg:static inset-y-0 left-0 z-40 w-[320px] bg-surface border-r border-outline-variant transform transition-transform duration-300 shadow-elev-3 lg:shadow-none t-float-panel",
         isSyllabusOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         "flex flex-col h-full shrink-0",
       )}>
         {/* Sticky Header */}
         <div className="p-5 border-b border-outline-variant flex items-center justify-between bg-surface-container-lowest sticky top-0 z-10 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="bg-primary-container text-on-primary-container p-2 rounded-m3-md">
+            <div className="t-icon-chip p-2 rounded-m3-md">
               <Layers size={18} />
             </div>
             <div>

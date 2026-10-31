@@ -16,6 +16,7 @@
  * number or a formula) is copied across languages. The server adds rand /
  * uploadedAt / number / subject itself.
  */
+import { canonicalizeRow, expandQuestionGroups, findQuestionList } from '@/lib/importAliases';
 import { getMathTopics, padId } from '@/lib/Mathstructure';
 import { fixMath } from '@/lib/ai/fixMath';
 import type { DifficultyKey, LocalizedText, OptionKey } from '@/types/Math';
@@ -467,14 +468,36 @@ export interface Q1CoerceOptions {
 }
 
 /** Lenient: any JSON item or stored questions1 doc → a draft, the fixes applied, and what is still wrong. */
-export function coerceQuestion1(raw: unknown, opts: Q1CoerceOptions = {}): Q1Check {
+export function coerceQuestion1(input: unknown, opts: Q1CoerceOptions = {}): Q1Check {
   const ctx: Ctx = { errors: [], warnings: [], fixes: [] };
   const draft = emptyQuestion1();
-  if (!isObj(raw)) {
+  if (!isObj(input)) {
     ctx.errors.push({ path: 'question', message: 'Each question must be a JSON object { … }' });
     return finish(draft, ctx);
   }
+  let raw: Raw = input;
 
+  // Import files may name things freely (`stem`, `savol`, `variantlar`,
+  // `{text,isCorrect}[]`, `correct_index`…) — the SHARED reader folds them onto
+  // this schema's names first (lib/importAliases.ts), noting each as a fix.
+  // Stored docs are never rewritten this way.
+  if (opts.fromImport) {
+    const canon = canonicalizeRow(raw, {
+      fields: ['question', 'passage', 'choices', 'answer', 'explanation', 'topic', 'chapter', 'subtopic', 'difficulty'],
+      rename: { choices: 'options' },
+      // Names this schema already reads itself — not "renamed", and `solution`
+      // is its own worked-solution object, never the explanation.
+      exclude: {
+        explanation: ['solution'],
+        answer: ['correct', 'correct_answer'],
+        topic: ['topic_id'], chapter: ['chapter_id'], subtopic: ['subtopic_id'],
+      },
+    });
+    raw = canon.row;
+    for (const note of canon.notes) ctx.fixes.push({ path: 'import', message: note });
+  }
+
+  // After the alias step, so a field it understood is not reported as unknown.
   if (opts.fromImport) {
     for (const k of Object.keys(raw)) {
       if (SERVER_FIELDS.has(k)) ctx.warnings.push({ path: k, message: `"${k}" is set by the server — ignored` });
@@ -690,7 +713,20 @@ export function parseQuestions1Json(text: string, pageDefaults?: Partial<Q1Draft
     header = Object.fromEntries(Object.entries(parsed).filter(([k]) => k !== 'questions'));
   } else if (isObj(parsed) && 'question' in parsed) list = [parsed];
   else {
-    return { items: [], fileFixes, parseError: 'Expected an array of questions, { "questions": [ … ] }, or one question object.' };
+    // Any other wrapper (`items`, `data`, `savollar`, nested…): the shared finder.
+    const found = findQuestionList(parsed);
+    if (!found) {
+      return { items: [], fileFixes, parseError: 'No list of questions found in this file.' };
+    }
+    list = found.list;
+    header = found.header;
+    fileFixes.push({ path: 'file', message: `Questions read from the file's list of ${found.list.length}` });
+  }
+  // `{passage, questions:[…]}` groups → one question each.
+  const expanded = expandQuestionGroups(list);
+  if (expanded.length !== list.length) {
+    fileFixes.push({ path: 'file', message: `${list.length} entries expanded to ${expanded.length} questions (grouped questions)` });
+    list = expanded;
   }
 
   if (!list.length) return { items: [], fileFixes, parseError: 'The file has no questions.' };

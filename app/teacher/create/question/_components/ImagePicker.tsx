@@ -100,7 +100,7 @@ export default function ImagePicker({ previewUrl, onPick, onClear, onError, labe
             <PickButton icon={<ImagePlus size={17} />} label={labels.add} onClick={() => inputRef.current?.click()} />
             <PickButton icon={<Camera size={17} />} label={labels.camera} onClick={openCamera} />
           </div>
-          <span className="text-[11px] font-medium text-outline">{labels.hint}</span>
+          {labels.hint && <span className="text-[11px] font-medium text-outline">{labels.hint}</span>}
         </div>
       )}
     </>

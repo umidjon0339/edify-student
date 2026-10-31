@@ -8,6 +8,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   limit,
@@ -168,6 +169,22 @@ export async function findSatTestByCode(code: string): Promise<SatTestLookup> {
 
   if (matches.some((t) => t.status === 'closed')) return { error: 'closed' };
   return { error: 'not_found' };
+}
+
+// ─── student: generated practice tests (lib/SatPractice.ts) ─────────────────
+
+/** Id for a student's generated practice test — the `satp_` prefix is how
+ *  results/review tell a practice sitting from a teacher's test. */
+export const newSatPracticeTestId = (): string => `satp_${doc(collection(db, TESTS)).id}`;
+
+/**
+ * How many tests this student owns — only generated practice tests (a student
+ * never builds a teacher test) — numbers the next "Practice Test N".
+ * Single-field equality: no composite index.
+ */
+export async function countMySatPracticeTests(uid: string): Promise<number> {
+  const snap = await getCountFromServer(query(collection(db, TESTS), where('teacherId', '==', uid)));
+  return snap.data().count;
 }
 
 // ─── results ─────────────────────────────────────────────────────────────────

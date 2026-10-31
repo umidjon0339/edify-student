@@ -744,7 +744,7 @@ export default function AIImageInputPage() {
       <TestConfigurationModal isOpen={isConfigModalOpen} onClose={() => setIsConfigModalOpen(false)} onConfirm={handleFinalPublish} questionCount={generatedQuestions.length} testTitle={testTitle} isSaving={isPublishing} />
 
       {/* TOP STICKY BAR */}
-      <div className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant sticky top-0 z-30 shadow-elev-1">
+      <div className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant t-page-bar sticky top-0 z-30 shadow-elev-1">
         <div className="max-w-4xl mx-auto px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-between">
           <div className="flex items-center gap-1.5 md:gap-3">
             <IconButton aria-label="Orqaga" size="sm" onClick={() => router.push('/teacher/create')} className="-ml-1 md:-ml-2"><ArrowLeft size={16} className="md:w-[18px] md:h-[18px]" /></IconButton>

@@ -11,6 +11,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // Teacher "one button color in both modes" (components/ui/theme.css):
+      // primary FILLS read --t-fill-primary, which only the teacher tree sets
+      // (to its mode-independent accent); everywhere else the fallback keeps
+      // the plain --m3-* value, so student/manager are unaffected.
+      backgroundColor: {
+        primary: {
+          DEFAULT: "var(--t-fill-primary, var(--m3-primary))",
+          container: "var(--m3-primary-container)",
+        },
+      },
+      textColor: {
+        "on-primary": {
+          DEFAULT: "var(--t-on-fill-primary, var(--m3-on-primary))",
+          container: "var(--m3-on-primary-container)",
+        },
+      },
       // 🟢 Asosiy shrift oilasini Jakarta ga almashtiramiz
       fontFamily: {
         sans: ['var(--font-jakarta)', 'sans-serif'],
@@ -140,6 +156,22 @@ const config: Config = {
         "t-glass-border": "var(--t-glass-border)",
         "t-bar-blur": "var(--t-bar-blur)",
         "t-primary-soft": "var(--t-primary-soft)",
+        "t-primary-tint": "var(--t-primary-tint)",
+        // Mode-independent button accent (identical light + dark).
+        "t-accent": {
+          DEFAULT: "var(--t-accent)",
+          strong: "var(--t-accent-strong)",
+          text: "var(--t-accent-text)",
+          soft: "color-mix(in oklab, var(--t-accent) 14%, transparent)",
+        },
+        "t-on-accent": "var(--t-on-accent)",
+        // Exam accent — the Imtihonlar nav group.
+        "t-exam": {
+          DEFAULT: "var(--t-exam)",
+          container: "var(--t-exam-container)",
+          soft: "var(--t-exam-soft)",
+        },
+        "t-on-exam-container": "var(--t-on-exam-container)",
       },
       // M3 shape scale (new names only — default rounded-* stays untouched).
       borderRadius: {

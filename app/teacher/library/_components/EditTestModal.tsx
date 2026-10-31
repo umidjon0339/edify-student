@@ -5,7 +5,8 @@ import { db } from '@/lib/firebase';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import {
   X, Save, Trash2, Archive, RefreshCw, Settings, FileText,
-  Clock, CheckCircle, Shield, Eye, EyeOff, CalendarClock, AlertTriangle, PenLine
+  Clock, CheckCircle, Shield, Eye, EyeOff, CalendarClock, AlertTriangle, PenLine,
+  Calendar, KeyRound, Layers
 } from 'lucide-react';
 import CartItem from '../../create/_components/CartItem'; // Adjust path if needed
 import { normalizeQuestions } from '@/lib/questionSchema';
@@ -13,12 +14,13 @@ import toast from 'react-hot-toast';
 import { useTeacherLanguage } from '@/app/teacher/layout';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
-import { Button, IconButton, Switch } from '@/components/ui';
+import { Button, IconButton, PillGroup, Switch, cn } from '@/components/ui';
 
 // --- TRANSLATION DICTIONARY ---
 const EDIT_TEST_TRANSLATIONS: Record<string, any> = {
   uz: {
     title: "Testni Boshqarish", tabs: { settings: "Sozlamalar", questions: "Savollar" },
+    info: { active: "Faol", archived: "Arxiv", created: "Yaratilgan", code: "Kod", items: "ta savol" },
     settings: {
       name: "Test Nomi", duration: "Vaqt", mins: "daq", none: "Cheklovsiz", custom: "MAXSUS", unlimited: "(Cheklovsiz)",
       shuffleTitle: "Savollarni Aralashtirish", shuffleDesc: "Har bir o'quvchi uchun tartibni o'zgartirish",
@@ -33,6 +35,7 @@ const EDIT_TEST_TRANSLATIONS: Record<string, any> = {
   },
   en: {
     title: "Manage Test", tabs: { settings: "Settings", questions: "Questions" },
+    info: { active: "Active", archived: "Archived", created: "Created", code: "Code", items: "questions" },
     settings: {
       name: "Test Name", duration: "Time", mins: "min", none: "No limit", custom: "CUSTOM", unlimited: "(No limit)",
       shuffleTitle: "Shuffle Questions", shuffleDesc: "Change the order for every student",
@@ -47,6 +50,7 @@ const EDIT_TEST_TRANSLATIONS: Record<string, any> = {
   },
   ru: {
     title: "Управление Тестом", tabs: { settings: "Настройки", questions: "Вопросы" },
+    info: { active: "Активен", archived: "Архив", created: "Создан", code: "Код", items: "вопр." },
     settings: {
       name: "Название Теста", duration: "Время", mins: "мин", none: "Без лимита", custom: "СВОЁ", unlimited: "(Без лимита)",
       shuffleTitle: "Перемешать Вопросы", shuffleDesc: "Менять порядок для каждого ученика",
@@ -138,6 +142,19 @@ export default function EditTestModal({ test, isOpen, onClose }: Props) {
 
   const durationOptions = [0, 10, 20, 30, 45, 60];
 
+  // The details the library card no longer shows (status · created · code ·
+  // duration · count) are summarised here, under the title.
+  const createdLabel = (() => {
+    if (!test.createdAt) return '';
+    try {
+      const d = test.createdAt?.toDate ? test.createdAt.toDate() : new Date(test.createdAt);
+      const locales: Record<string, string> = { uz: 'uz-UZ', en: 'en-US', ru: 'ru-RU' };
+      return new Intl.DateTimeFormat(locales[lang] || 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }).format(d);
+    } catch { return ''; }
+  })();
+  const isActiveTest = settings.status !== 'archived';
+  const INFO = "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold";
+
   if (!mounted) return null;
 
   return createPortal(
@@ -161,9 +178,27 @@ export default function EditTestModal({ test, isOpen, onClose }: Props) {
                   />
                   <PenLine size={14} className="text-outline group-focus-within:text-primary opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hidden sm:block" />
                 </div>
-                <div className="flex items-center gap-1.5 mt-1">
-                  <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">PIN:</span>
-                  <span className="bg-surface-container text-primary font-mono text-[11px] font-black px-2 py-0.5 rounded-m3-xs border border-outline-variant">{test.accessCode}</span>
+                <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                  <span className={cn(INFO, "t-glass-pill text-on-surface-variant")}>
+                    <span className={cn("h-1.5 w-1.5 rounded-full", isActiveTest ? "bg-success" : "bg-outline")} />
+                    {isActiveTest ? t.info.active : t.info.archived}
+                  </span>
+                  {createdLabel && (
+                    <span className={cn(INFO, "t-glass-pill text-on-surface-variant")} title={t.info.created}>
+                      <Calendar size={12} /> {createdLabel}
+                    </span>
+                  )}
+                  {test.accessCode && (
+                    <span className={cn(INFO, "t-icon-chip-soft")} title={t.info.code}>
+                      <KeyRound size={12} /> <span className="font-mono tracking-wider">{test.accessCode}</span>
+                    </span>
+                  )}
+                  <span className={cn(INFO, "t-glass-pill text-on-surface-variant")}>
+                    <Clock size={12} /> {settings.duration ? `${settings.duration} ${t.settings.mins}` : t.settings.none}
+                  </span>
+                  <span className={cn(INFO, "t-glass-pill text-on-surface-variant tabular-nums")}>
+                    <Layers size={12} /> {rawQuestions.length} {t.info.items}
+                  </span>
                 </div>
               </div>
               <IconButton aria-label={t.buttons.close} onClick={onClose} className="shrink-0">
@@ -172,14 +207,16 @@ export default function EditTestModal({ test, isOpen, onClose }: Props) {
             </div>
 
             {/* 🟢 TABS */}
-            <div className="px-5 flex border-b border-outline-variant z-10 shrink-0 bg-surface-container-low">
-              <button onClick={() => setActiveTab('settings')} className={`py-3 px-2 mr-6 text-[13px] md:text-[14px] font-black flex items-center gap-2 border-b-2 transition-all ${activeTab === 'settings' ? 'border-primary text-primary' : 'border-transparent text-on-surface-variant hover:text-on-surface'}`}>
-                <Settings size={16} strokeWidth={2.5} /> {t.tabs.settings}
-              </button>
-              <button onClick={() => setActiveTab('questions')} className={`py-3 px-2 text-[13px] md:text-[14px] font-black flex items-center gap-2 border-b-2 transition-all ${activeTab === 'questions' ? 'border-primary text-primary' : 'border-transparent text-on-surface-variant hover:text-on-surface'}`}>
-                <FileText size={16} strokeWidth={2.5} /> {t.tabs.questions}
-                <span className={`px-2 py-0.5 rounded-m3-xs text-[10px] ${activeTab === 'questions' ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-highest text-on-surface-variant'}`}>{rawQuestions.length}</span>
-              </button>
+            <div className="px-5 py-3 border-b border-outline-variant z-10 shrink-0 bg-surface-container-low">
+              <PillGroup
+                ariaLabel={t.title}
+                value={activeTab}
+                onChange={setActiveTab}
+                options={[
+                  { id: 'settings', label: <span className="flex items-center gap-2"><Settings size={15} strokeWidth={2.4} /> {t.tabs.settings}</span> },
+                  { id: 'questions', label: <span className="flex items-center gap-2"><FileText size={15} strokeWidth={2.4} /> {t.tabs.questions} <span className="rounded-full bg-[color-mix(in_oklab,currentColor_14%,transparent)] px-2 py-0.5 text-[10px] tabular-nums">{rawQuestions.length}</span></span> },
+                ]}
+              />
             </div>
 
             {/* 🟢 SCROLLABLE BODY */}
@@ -189,25 +226,30 @@ export default function EditTestModal({ test, isOpen, onClose }: Props) {
                 <div className="max-w-2xl mx-auto space-y-6">
 
                   {/* Duration */}
-                  <div className="bg-surface-container-low p-4 md:p-5 rounded-m3-lg shadow-elev-1">
+                  <div className="t-panel p-4 md:p-5 rounded-m3-xl">
                     <label className="text-[12px] font-black text-on-surface-variant uppercase tracking-widest flex items-center gap-1.5 mb-3">
                         <Clock size={14} className="text-primary"/> {t.settings.duration}
                     </label>
-                    <div className="flex flex-wrap gap-2">
-                      {durationOptions.map((mins) => (
-                        <button key={mins} onClick={() => setSettings({ ...settings, duration: mins })} className={`px-4 py-2 rounded-m3-md text-[13px] font-bold transition-all border ${settings.duration === mins ? 'bg-primary border-primary text-on-primary shadow-elev-1' : 'bg-surface-container border-outline-variant text-on-surface-variant hover:border-primary'}`}>
-                          {mins === 0 ? t.settings.none : `${mins} ${t.settings.mins}`}
-                        </button>
-                      ))}
-                      <div className="flex items-center gap-2 px-2 bg-surface-container border border-outline-variant rounded-m3-md focus-within:border-primary focus-within:ring-2 focus-within:ring-[color-mix(in_oklab,var(--m3-primary)_20%,transparent)] transition-all">
-                        <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest pl-2">{t.settings.custom}</span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {/* A custom value outside the presets simply leaves no preset selected. */}
+                      <PillGroup
+                        ariaLabel={t.settings.duration}
+                        value={String(settings.duration)}
+                        onChange={(v) => setSettings({ ...settings, duration: Number(v) })}
+                        options={durationOptions.map((mins) => ({ id: String(mins), label: mins === 0 ? t.settings.none : `${mins} ${t.settings.mins}` }))}
+                      />
+                      <label className={cn(
+                        "t-glass-pill flex h-[52px] items-center gap-2 rounded-full pl-4 pr-2 focus-within:ring-2 focus-within:ring-primary",
+                        !durationOptions.includes(settings.duration) && "ring-2 ring-primary",
+                      )}>
+                        <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{t.settings.custom}</span>
                         <input type="number" min="0" value={settings.duration} onChange={(e) => setSettings({...settings, duration: Number(e.target.value)})} className="w-14 bg-transparent text-[13px] font-bold text-center text-on-surface outline-none py-2" />
-                      </div>
+                      </label>
                     </div>
                   </div>
 
                   {/* Shuffle */}
-                  <div className="bg-surface-container-low p-4 md:p-5 rounded-m3-lg shadow-elev-1 flex items-center justify-between">
+                  <div className="t-panel p-4 md:p-5 rounded-m3-xl flex items-center justify-between">
                     <div>
                         <div className="text-[14px] font-black text-on-surface">{t.settings.shuffleTitle}</div>
                         <p className="text-[12px] text-on-surface-variant font-medium mt-0.5">{t.settings.shuffleDesc}</p>
@@ -216,29 +258,47 @@ export default function EditTestModal({ test, isOpen, onClose }: Props) {
                   </div>
 
                   {/* Visibility */}
-                  <div className="bg-surface-container-low p-4 md:p-5 rounded-m3-lg shadow-elev-1">
+                  <div className="t-panel p-4 md:p-5 rounded-m3-xl">
                     <label className="text-[12px] font-black text-on-surface-variant uppercase tracking-widest flex items-center gap-1.5 mb-3">
                         <Shield size={14} className="text-primary"/> {t.settings.securityTitle}
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <button onClick={() => setSettings({...settings, resultsVisibility: 'never'})} className={`p-3 rounded-m3-md border-2 flex items-center gap-3 text-left transition-all ${settings.resultsVisibility === 'never' ? 'border-inverse-surface bg-inverse-surface text-inverse-on-surface shadow-elev-2' : 'border-outline-variant hover:border-outline bg-surface-container text-on-surface'}`}>
-                        <div className={`p-2 rounded-m3-sm shrink-0 ${settings.resultsVisibility === 'never' ? 'bg-[color-mix(in_oklab,var(--m3-inverse-on-surface)_20%,transparent)] text-inverse-on-surface' : 'bg-surface-container-lowest shadow-elev-1 text-on-surface-variant'}`}><EyeOff size={16} /></div>
-                        <div className="leading-tight"><p className="text-[13px] font-bold mb-0.5">{t.settings.never.title}</p><p className={`text-[10px] font-medium ${settings.resultsVisibility === 'never' ? 'text-inverse-on-surface' : 'text-on-surface-variant'}`}>{t.settings.never.desc}</p></div>
-                      </button>
-                      <button onClick={() => setSettings({...settings, resultsVisibility: 'after_due'})} className={`p-3 rounded-m3-md border-2 flex items-center gap-3 text-left transition-all ${settings.resultsVisibility === 'after_due' ? 'border-success bg-success-container text-on-success-container shadow-elev-2' : 'border-outline-variant hover:border-success bg-surface-container text-on-surface'}`}>
-                        <div className={`p-2 rounded-m3-sm shrink-0 ${settings.resultsVisibility === 'after_due' ? 'bg-success text-surface-container-lowest' : 'bg-surface-container-lowest shadow-elev-1 text-success'}`}><CalendarClock size={16} /></div>
-                        <div className="leading-tight"><p className="text-[13px] font-bold mb-0.5">{t.settings.afterDue.title}</p><p className={`text-[10px] font-medium ${settings.resultsVisibility === 'after_due' ? 'text-on-success-container' : 'text-on-surface-variant'}`}>{t.settings.afterDue.desc}</p></div>
-                      </button>
-                      <button onClick={() => setSettings({...settings, resultsVisibility: 'always'})} className={`p-3 rounded-m3-md border-2 flex items-center gap-3 text-left transition-all ${settings.resultsVisibility === 'always' ? 'border-warning bg-warning-container text-on-warning-container shadow-elev-2' : 'border-outline-variant hover:border-warning bg-surface-container text-on-surface'}`}>
-                        <div className={`p-2 rounded-m3-sm shrink-0 ${settings.resultsVisibility === 'always' ? 'bg-warning text-surface-container-lowest' : 'bg-surface-container-lowest shadow-elev-1 text-warning'}`}><Eye size={16} /></div>
-                        <div className="leading-tight"><p className="text-[13px] font-bold mb-0.5">{t.settings.always.title}</p><p className={`text-[10px] font-medium ${settings.resultsVisibility === 'always' ? 'text-on-warning-container' : 'text-on-surface-variant'}`}>{t.settings.always.desc}</p></div>
-                      </button>
+                      {([
+                        { id: 'never', icon: EyeOff, copy: t.settings.never },
+                        { id: 'after_due', icon: CalendarClock, copy: t.settings.afterDue },
+                        { id: 'always', icon: Eye, copy: t.settings.always },
+                      ] as const).map(({ id, icon: Icon, copy }) => {
+                        const on = settings.resultsVisibility === id;
+                        return (
+                          <button
+                            key={id}
+                            type="button"
+                            aria-pressed={on}
+                            onClick={() => setSettings({ ...settings, resultsVisibility: id })}
+                            className={cn(
+                              "flex items-center gap-3 rounded-m3-xl p-3 text-left transition-all",
+                              on ? "t-icon-chip" : "t-glass-pill text-on-surface hover:ring-1 hover:ring-primary",
+                            )}
+                          >
+                            <span className={cn(
+                              "grid h-9 w-9 shrink-0 place-items-center rounded-full",
+                              on ? "bg-[color-mix(in_oklab,currentColor_18%,transparent)]" : "t-icon-chip-soft",
+                            )}>
+                              <Icon size={16} />
+                            </span>
+                            <span className="leading-tight">
+                              <span className="block text-[13px] font-bold mb-0.5">{copy.title}</span>
+                              <span className={cn("block text-[10.5px] font-medium", on ? "opacity-85" : "text-on-surface-variant")}>{copy.desc}</span>
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
                   {/* Danger Zone */}
-                  <div className="bg-error-container p-4 md:p-5 rounded-m3-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-[11px] font-black text-on-error-container uppercase tracking-widest flex items-center gap-1.5 w-full sm:w-auto"><AlertTriangle size={14} /> {t.settings.danger}</p>
+                  <div className="p-4 md:p-5 rounded-m3-xl border border-error bg-[color-mix(in_oklab,var(--m3-error)_8%,transparent)] flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-[11px] font-black text-error uppercase tracking-widest flex items-center gap-1.5 w-full sm:w-auto"><AlertTriangle size={14} /> {t.settings.danger}</p>
                     <div className="flex gap-2 w-full sm:w-auto">
                        <Button variant="elevated" onClick={handleArchiveToggle} className="flex-1 sm:flex-none" icon={settings.status === 'active' ? <Archive size={16}/> : <RefreshCw size={16}/>}>
                          {settings.status === 'active' ? t.settings.archive : t.settings.restore}

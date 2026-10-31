@@ -547,7 +547,7 @@ export default function OnlineLibraryPage() {
     <div className="min-h-screen bg-surface font-t-body flex flex-col">
 
       {/* HEADER */}
-      <header className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant sticky top-0 z-40 shadow-elev-1">
+      <header className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant t-page-bar sticky top-0 z-40 shadow-elev-1">
         <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
 
           <div className="flex items-center justify-between w-full md:w-auto">

@@ -34,13 +34,19 @@ import {
   SchemeTonalSpot,
   SchemeFidelity,
   SchemeNeutral,
+  TonalPalette,
   MaterialDynamicColors,
   hexFromArgb,
   argbFromHex,
 } from '@material/material-color-utilities';
 
 /**
- * name → [source color, M3 scheme variant]
+ * name → [source color, M3 scheme variant, optional tertiary override]
+ *
+ * The tertiary override `{ shift, chroma }` replaces the scheme's tertiary
+ * palette with one at (source hue + shift). Used by 'sky' so its accent stays
+ * in the blue/aqua family instead of the scheme's distant tertiary — a calm,
+ * nearly monochrome look.
  *
  * ⚠️ Only HUE-PRESERVING variants belong here (SchemeExpressive rotates the
  * primary hue by +240° by design). The teacher panel is a professional tool,
@@ -52,6 +58,7 @@ import {
  * The script asserts the result stayed in the source hue family.
  */
 const SOURCES = [
+  ['sky',      '#1a73e8', SchemeFidelity, { shift: -28, chroma: 30, exam: 'tertiary' }], // Material (Google) blue → aqua tertiary; exams use that tertiary — current default
   ['indigo',   '#4f5bd5', SchemeFidelity],  // deep indigo — premium default
   ['ocean',    '#0a6dd1', SchemeTonalSpot], // heritage blue (calmer than before)
   ['midnight', '#33415c', SchemeFidelity],  // muted navy, near-mono
@@ -65,7 +72,7 @@ const SOURCES = [
 ];
 
 /** The palette `:root` falls back to (must exist in SOURCES). */
-const DEFAULT_PALETTE = 'indigo';
+const DEFAULT_PALETTE = 'sky';
 
 /** M3 dynamic-color roles emitted for every palette, as `--m3-<kebab-name>`. */
 const ROLES = [
@@ -111,9 +118,74 @@ function statusTokens(sourceHct, isDark) {
   };
 }
 
-/** One scheme (light or dark) → the token lines for it. */
-function tokenLines(src, SchemeCtor, isDark) {
+/** Builds the scheme, applying the optional tertiary override. */
+function buildScheme(src, SchemeCtor, isDark, tertiary) {
   const scheme = new SchemeCtor(src, isDark, 0);
+  if (tertiary) {
+    scheme.tertiaryPalette = TonalPalette.fromHueAndChroma(
+      (src.hue + tertiary.shift + 360) % 360,
+      tertiary.chroma,
+    );
+  }
+  return scheme;
+}
+
+/**
+ * Exam accent — marks the Imtihonlar nav group (SAT / Milliy sertifikat /
+ * IELTS). A fixed +70° hue step from the source, so it is distinct from the
+ * panel's own accent yet generated in the same chroma discipline.
+ */
+function examTokens(src, isDark, examHex, scheme) {
+  // 'tertiary' = the exam accent IS the palette's own tertiary roles (sky:
+  // the aqua) — in-system, distinct from the blue accent, both modes.
+  // Standard M3 tones of the tertiary PALETTE (not the scheme's roles —
+  // SchemeFidelity puts tertiaryContainer at a mid tone with near-black ink).
+  if (examHex === 'tertiary') {
+    const tone = (t) => hexFromArgb(scheme.tertiaryPalette.tone(t)).toLowerCase();
+    return isDark
+      ? [`  --t-exam: ${tone(80)};`, `  --t-exam-container: ${tone(30)};`, `  --t-on-exam-container: ${tone(90)};`]
+      : [`  --t-exam: ${tone(40)};`, `  --t-exam-container: ${tone(90)};`, `  --t-on-exam-container: ${tone(10)};`];
+  }
+  // Or pin it to a named Material color: standard M3 roles from its tonal
+  // palette (40/90/10 light, 80/30/90 dark).
+  if (examHex) {
+    const pal = TonalPalette.fromInt(argbFromHex(examHex));
+    const tone = (t) => hexFromArgb(pal.tone(t)).toLowerCase();
+    return isDark
+      ? [`  --t-exam: ${tone(80)};`, `  --t-exam-container: ${tone(30)};`, `  --t-on-exam-container: ${tone(90)};`]
+      : [`  --t-exam: ${tone(40)};`, `  --t-exam-container: ${tone(90)};`, `  --t-on-exam-container: ${tone(10)};`];
+  }
+  const hue = (src.hue + 70) % 360;
+  const chroma = Math.max(28, Math.min(src.chroma, 44));
+  const tone = (t) => hexFromArgb(Hct.from(hue, chroma, t).toInt()).toLowerCase();
+  return isDark
+    ? [`  --t-exam: ${tone(80)};`, `  --t-exam-container: ${tone(30)};`, `  --t-on-exam-container: ${tone(90)};`]
+    : [`  --t-exam: ${tone(45)};`, `  --t-exam-container: ${tone(92)};`, `  --t-on-exam-container: ${tone(20)};`];
+}
+
+/**
+ * Mode-INDEPENDENT accent — the one button color. M3 flips `primary` to a
+ * pale tone in dark mode (correct for text on dark surfaces), but the product
+ * wants buttons/chips identical in both modes, so filled buttons, gradient
+ * chips and the active nav pill paint with --t-accent (tone 45 → ≥4.5:1 with
+ * white) and --t-accent-strong (tone 35, gradient end), white ink. Only
+ * --t-accent-text (ink for tinted, non-filled accent surfaces) follows the
+ * mode: tone 40 light, tone 80 dark.
+ */
+function accentTokens(src, isDark) {
+  const chroma = Math.max(48, src.chroma);
+  const tone = (t) => hexFromArgb(Hct.from(src.hue, chroma, t).toInt()).toLowerCase();
+  return [
+    `  --t-accent: ${tone(45)};`,
+    `  --t-accent-strong: ${tone(35)};`,
+    `  --t-on-accent: #ffffff;`,
+    `  --t-accent-text: ${isDark ? tone(80) : tone(40)};`,
+  ];
+}
+
+/** One scheme (light or dark) → the token lines for it. */
+function tokenLines(src, SchemeCtor, isDark, tertiary) {
+  const scheme = buildScheme(src, SchemeCtor, isDark, tertiary);
   const lines = ROLES.map((r) => `  --m3-${kebab(r)}: ${roleHex(scheme, r)};`);
 
   // NOT the raw M3 scrim role (solid #000): the teacher kit has always baked
@@ -134,13 +206,15 @@ function tokenLines(src, SchemeCtor, isDark) {
   // can never clash with the palette they decorate.
   lines.push(`  --t-grad-a: ${roleHex(scheme, 'primary')};`);
   lines.push(`  --t-grad-b: ${roleHex(scheme, 'tertiary')};`);
+  lines.push(...examTokens(src, isDark, tertiary?.exam, scheme));
+  lines.push(...accentTokens(src, isDark));
   return lines;
 }
 
-function paletteCss(name, sourceHex, SchemeCtor) {
+function paletteCss(name, sourceHex, SchemeCtor, tertiary) {
   const src = Hct.fromInt(argbFromHex(sourceHex));
-  const light = tokenLines(src, SchemeCtor, false);
-  const dark = tokenLines(src, SchemeCtor, true);
+  const light = tokenLines(src, SchemeCtor, false, tertiary);
+  const dark = tokenLines(src, SchemeCtor, true, tertiary);
   const out = [];
   if (name === DEFAULT_PALETTE) {
     out.push(
@@ -188,7 +262,7 @@ function assertHuePreserved(name, sourceHex, SchemeCtor) {
 
 console.table(SOURCES.map(([n, h, S]) => assertHuePreserved(n, h, S)));
 
-const generated = SOURCES.map(([n, h, S]) => paletteCss(n, h, S));
+const generated = SOURCES.map(([n, h, S, tert]) => paletteCss(n, h, S, tert));
 const printBlock =
   `/* Printed pages always use light ink, whatever mode the screen is in.\n` +
   `   (On-screen capture routes — /teacher/print — are additionally pinned to\n` +

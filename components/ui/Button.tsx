@@ -26,15 +26,16 @@ const BUTTON_STYLE: ButtonStyleName = TEACHER_DESIGN.Button_style;
 const RADIUS = BUTTON_STYLE === "pill" ? "rounded-full" : "rounded-m3-btn";
 
 const FILLED_BY_STYLE: Record<ButtonStyleName, string> = {
-  pill: "bg-primary text-on-primary hover:shadow-elev-1",
-  shaped: "bg-primary text-on-primary hover:shadow-elev-1",
-  gradient: "t-gradient text-on-primary hover:shadow-elev-1",
-  glow: "bg-primary text-on-primary shadow-t-glow",
+  // Filled = the mode-independent accent: the same blue in light and dark.
+  pill: "bg-t-accent text-t-on-accent hover:shadow-elev-1",
+  shaped: "bg-t-accent text-t-on-accent hover:shadow-elev-1",
+  gradient: "t-icon-chip hover:shadow-elev-1",
+  glow: "bg-t-accent text-t-on-accent shadow-t-glow",
 };
 
 const VARIANT: Record<ButtonVariant, string> = {
   filled: FILLED_BY_STYLE[BUTTON_STYLE],
-  tonal: "bg-secondary-container text-on-secondary-container",
+  tonal: "bg-t-accent-soft text-t-accent-text",
   elevated: "bg-surface-container-low text-primary shadow-elev-1 hover:shadow-elev-2",
   outlined: "text-primary ring-1 ring-inset ring-outline",
   text: "text-primary",
@@ -113,7 +114,7 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 
 const ICON_VARIANT: Record<NonNullable<IconButtonProps["variant"]>, string> = {
   standard: "text-on-surface-variant",
-  tonal: "bg-secondary-container text-on-secondary-container",
+  tonal: "bg-t-accent-soft text-t-accent-text",
   filled: "bg-primary text-on-primary",
 };
 

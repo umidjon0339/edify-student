@@ -237,7 +237,7 @@ export default function IeltsGroupDetailsPage() {
       </AnimatePresence>
 
       {/* ── Header ── */}
-      <header className="sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-xl border-b border-outline-variant px-4 md:px-6 h-14 flex items-center justify-between shrink-0 gap-3">
+      <header className="t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-xl border-b border-outline-variant px-4 md:px-6 h-14 flex items-center justify-between shrink-0 gap-3">
 
         {/* Left */}
         <div className="flex items-center gap-3 min-w-0">

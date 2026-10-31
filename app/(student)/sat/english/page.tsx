@@ -15,9 +15,10 @@ import {
   saveSatEnglishSnapshot, subscribeSatEnglishSnapshot,
 } from "@/lib/SatEnglishSession";
 import {
-  findSatEnglishTestByCode, getSatEnglishTest, listMySatEnglishResults, saveSatEnglishResult,
+  findSatEnglishTestByCode, countMySatEnglishPracticeTests, newSatEnglishPracticeTestId, saveSatEnglishTest, getSatEnglishTest, listMySatEnglishResults, saveSatEnglishResult,
 } from "@/services/satEnglishQuizService";
 import SatRunner from "../_components/SatRunner";
+import SatPracticeGenerator from "../_components/SatPracticeGenerator";
 import SatReview from "../_components/SatReview";
 import SatScoreSummary from "../_components/SatScoreSummary";
 import { Banner, Button, Card, EmptyState, Page, cn } from "@/components/student-ui";
@@ -217,6 +218,9 @@ export default function SatEnglishPage() {
         onChange={commit}
         onSave={saveSatEnglishResult}
         onSubmit={(result, finished) => {
+          // The past-sittings cache is now stale — the practice generator reads it
+          // to skip questions this student has already seen.
+          pastCache = null;
           const served = finished.route === "harder" ? finished.module2Harder : finished.module2Easier;
           setSubmittedView({
             result,
@@ -289,6 +293,18 @@ export default function SatEnglishPage() {
         {/* ── code entry ──────────────────────────────────────────────────── */}
         {showCode && (
           <>
+            {/* A fresh SAT-shaped test from the shared practice bank (sat_pool). */}
+            <SatPracticeGenerator
+              subject="english"
+              slug="sat-ingliz-tili"
+              uid={uid}
+              past={past}
+              newTestId={newSatEnglishPracticeTestId}
+              countMine={countMySatEnglishPracticeTests}
+              save={saveSatEnglishTest}
+              onReady={setPendingTest}
+            />
+
             <Card className="flex flex-col gap-4 p-5">
               <p className="text-[13px] font-medium text-on-surface-variant">{t.lead}</p>
               <div className="flex gap-2">

@@ -1681,3 +1681,25 @@
 [data-layout='platform'] .s-list-group:not(.s-contain *) > h2 {
   padding-inline: var(--s-page-x);
 }
+
+/* ============================================================================
+ * DATA-VIZ — fixed categorical slots for charts (SAT domains, 2026-10-31)
+ * NOT themed by the palette: colour follows the entity (`satDomainSlot` in
+ * lib/SatMathQuiz.ts), so it must not change when the student switches
+ * palette. Validated with the dataviz validator against every palette's
+ * surface: adjacent CVD ΔE ≥ 9.1 light / 8.4 dark, normal-vision ≥ 22.9 /
+ * 19.8. Light slots 3–4 are below 3:1 on the surface → every chart using them
+ * ships visible labels (a legend with counts). Dark is its own validated step.
+ * ========================================================================= */
+[data-palette] {
+  --s-viz-1: #2a78d6;
+  --s-viz-2: #eb6834;
+  --s-viz-3: #1baf7a;
+  --s-viz-4: #eda100;
+}
+[data-palette][data-mode="dark"], [data-mode="dark"] [data-palette] {
+  --s-viz-1: #3987e5;
+  --s-viz-2: #d95926;
+  --s-viz-3: #199e70;
+  --s-viz-4: #c98500;
+}

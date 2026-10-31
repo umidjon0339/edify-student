@@ -17,7 +17,7 @@ import { backWithQuestion, safeBackTo } from "@/app/teacher/create/_components/r
 import ImagePicker from "./_components/ImagePicker";
 import CreatedQuestionsList from "./_components/CreatedQuestionsList";
 import {
-  MAX_INCORRECT_OPTIONS, OPTION_LETTERS, draftFromQuestion, emptyOption, fetchQuestionById, hasOptions,
+  MAX_INCORRECT_OPTIONS, draftFromQuestion, emptyOption, fetchQuestionById, hasOptions,
   newQuestionId, saveQuestion, updateQuestion, uploadQuestionImage, validateDraft,
   type OptionDraft, type QuestionDraft,
 } from "@/services/questionBankService";
@@ -44,7 +44,7 @@ const T = {
     promptLabel: "Savol matni",
     promptPlaceholder: "Masalan: Tenglamani yeching...",
     image: { add: "Rasm yuklash", camera: "Kamera", change: "Almashtirish", remove: "O'chirish", hint: "PNG, JPG — 5 MB gacha", uploading: "Rasmlar yuklanmoqda..." },
-    backBanner: "Variant tuzilmoqda — savolni saqlaganingizdan keyin variantga qaytasiz.",
+    backBanner: "Saqlagach variantga qaytasiz.",
     backNow: "Variantga qaytish",
     topic: { title: "Mavzu", desc: "Savol qaysi fan, mavzu va ichki mavzuga tegishli.", subject: "Fan", topicLabel: "Mavzu", subtopic: "Ichki mavzu", choose: "Tanlang..." },
     answer: { title: "Savol turi va javob", desc: "Savol turini tanlang, so'ng javobni kiriting." },
@@ -102,7 +102,7 @@ const T = {
     promptLabel: "Question text",
     promptPlaceholder: "e.g. Solve the equation...",
     image: { add: "Upload image", camera: "Camera", change: "Replace", remove: "Remove", hint: "PNG, JPG — up to 5 MB", uploading: "Uploading images..." },
-    backBanner: "You are building a paper — saving this question takes you back to it.",
+    backBanner: "Saving returns you to your paper.",
     backNow: "Back to the paper",
     topic: { title: "Topic", desc: "Which subject, topic and subtopic this question belongs to.", subject: "Subject", topicLabel: "Topic", subtopic: "Subtopic", choose: "Choose..." },
     answer: { title: "Question type & answer", desc: "Pick the question type, then enter the answer." },
@@ -160,7 +160,7 @@ const T = {
     promptLabel: "Текст вопроса",
     promptPlaceholder: "Например: Решите уравнение...",
     image: { add: "Загрузить изображение", camera: "Камера", change: "Заменить", remove: "Удалить", hint: "PNG, JPG — до 5 МБ", uploading: "Загрузка изображений..." },
-    backBanner: "Вы составляете вариант — после сохранения вопроса вернётесь к нему.",
+    backBanner: "После сохранения вернётесь к варианту.",
     backNow: "Вернуться к варианту",
     topic: { title: "Тема", desc: "К какому предмету, теме и подтеме относится вопрос.", subject: "Предмет", topicLabel: "Тема", subtopic: "Подтема", choose: "Выберите..." },
     answer: { title: "Тип вопроса и ответ", desc: "Выберите тип вопроса, затем введите ответ." },
@@ -519,13 +519,14 @@ function QuestionBuilder() {
     }
   };
 
-  const imageLabels = { add: t.image.add, camera: t.image.camera, change: t.image.change, remove: t.image.remove, hint: t.image.hint };
+  // No format hint under the uploader — an oversize/non-image file still errors.
+  const imageLabels = { add: t.image.add, camera: t.image.camera, change: t.image.change, remove: t.image.remove, hint: "" };
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-surface pb-28 lg:pb-12">
 
       {/* HEADER */}
-      <div className="sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-3 md:px-8 py-3 flex justify-between items-center shadow-elev-1">
+      <div className="t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-3 md:px-8 py-3 flex justify-between items-center shadow-elev-1">
         <div className="flex items-center gap-2 md:gap-3">
           <IconButton aria-label="Orqaga" size="sm" onClick={() => router.push(backTo ?? "/teacher/create")}>
             <ArrowLeft />
@@ -557,12 +558,9 @@ function QuestionBuilder() {
         {/* Sent here by a paper builder — the paper is parked in localStorage and
             the way back is always one tap away, saved or not. */}
         {backTo && (
-          <div className="rounded-m3-lg border border-tertiary bg-tertiary-container text-on-tertiary-container px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-[13px] font-bold flex items-center gap-2">
-              <ArrowLeft size={15} className="shrink-0" />
-              {t.backBanner}
-            </p>
-            <Button variant="text" size="sm" onClick={() => router.push(backTo)}>{t.backNow}</Button>
+          <div className="t-glass-pill rounded-full pl-4 pr-1.5 py-1.5 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-[13px] font-semibold text-on-surface">{t.backBanner}</p>
+            <Button variant="tonal" size="sm" icon={<ArrowLeft />} onClick={() => router.push(backTo)}>{t.backNow}</Button>
           </div>
         )}
 
@@ -584,7 +582,7 @@ function QuestionBuilder() {
           <div className="mt-4">
             <RichQuestionInput
               key={`prompt-${formKey}`}
-              label={t.promptLabel}
+              label=""
               value={form.questionText}
               onChange={(latex) => setForm((p) => ({ ...p, questionText: latex }))}
               placeholder={t.promptPlaceholder}
@@ -757,10 +755,7 @@ function QuestionBuilder() {
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
-                <p className="text-[11px] font-medium text-on-surface-variant flex items-start gap-1.5 max-w-[70%]">
-                  <Lightbulb size={13} className="text-warning shrink-0 mt-0.5" />
-                  <span>{t.incorrect.hint} {OPTION_LETTERS.slice(0, incorrectOptions.length + 1).join(", ")}</span>
-                </p>
+                <span />
                 <Button
                   variant="tonal"
                   size="sm"
@@ -803,7 +798,7 @@ function QuestionBuilder() {
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
-                <p className="text-[11px] font-medium text-on-surface-variant">{t.accepted.hint}</p>
+
                 <Button
                   variant="tonal"
                   size="sm"
@@ -941,15 +936,16 @@ export default function CreateQuestionPage() {
   );
 }
 
-function SectionTitle({ icon, title, desc }: { icon: React.ReactNode; title: string; desc?: string }) {
+/** Card heading: icon + title only (subtitles were removed — the controls
+ *  below are self-explanatory). `desc` is accepted but no longer rendered. */
+function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string; desc?: string }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="w-8 h-8 shrink-0 rounded-m3-sm bg-primary-container text-on-primary-container flex items-center justify-center">
+    <div className="flex items-center gap-3">
+      <div className="t-icon-chip w-9 h-9 shrink-0 rounded-m3-md flex items-center justify-center">
         {icon}
       </div>
       <div>
         <h2 className="text-[15px] md:text-[17px] font-extrabold text-on-surface leading-tight">{title}</h2>
-        {desc && <p className="text-[12px] text-on-surface-variant font-medium mt-0.5">{desc}</p>}
       </div>
     </div>
   );

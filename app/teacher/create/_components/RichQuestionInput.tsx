@@ -149,7 +149,7 @@ export default function RichQuestionInput({ label, value = "", onChange, placeho
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">{label}</label>
+      {label && <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest ml-1">{label}</label>}
 
       <div className={`bg-surface-container-lowest rounded-m3-lg overflow-hidden border border-outline-variant shadow-elev-1 focus-within:border-primary transition-all duration-300 rich-wrapper ${compact ? 'is-compact' : 'is-standard'}`}>
 

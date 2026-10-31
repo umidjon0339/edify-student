@@ -104,21 +104,10 @@ const DASHBOARD_TRANSLATIONS: Record<string, any> = {
 // ============================================================================
 // 2. TONES & ANIMATIONS
 // ============================================================================
-// M3 three-tone rotation replaces the old 8-hue rainbow: every accent on this
-// page is primary, secondary or tertiary — status colors stay reserved.
-type Tone = 'primary' | 'secondary' | 'tertiary';
-
-const TONE_TILE: Record<Tone, string> = {
-    primary: "bg-primary-container text-on-primary-container group-hover:bg-primary group-hover:text-on-primary",
-    secondary: "bg-secondary-container text-on-secondary-container group-hover:bg-secondary group-hover:text-on-secondary",
-    tertiary: "bg-tertiary-container text-on-tertiary-container group-hover:bg-tertiary group-hover:text-on-tertiary",
-};
-
-const TONE_TILE_STATIC: Record<Tone, string> = {
-    primary: "bg-primary-container text-on-primary-container",
-    secondary: "bg-secondary-container text-on-secondary-container",
-    tertiary: "bg-tertiary-container text-on-tertiary-container",
-};
+// One hue family, two weights: 'primary' = the gradient chip (t-icon-chip),
+// 'soft' = the tinted chip (t-icon-chip-soft). Calm, near-monochrome — the
+// recipes live in components/ui/theme.css, status colors stay reserved.
+type Tone = 'primary' | 'soft';
 
 const containerVariants: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const itemVariants: Variants = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25 } } };
@@ -206,22 +195,23 @@ function TeacherDashboardInner() {
 
     const getPlanStyle = () => {
         switch (userData.sub.planId) {
-            case 'vip': return { classes: 'bg-tertiary text-on-tertiary', icon: <Crown size={14} />, label: t.subscription.plans.vip };
-            case 'pro': return { classes: 'bg-primary text-on-primary', icon: <Sparkles size={14} />, label: t.subscription.plans.pro };
+            case 'vip': return { classes: 't-icon-chip', icon: <Crown size={14} />, label: t.subscription.plans.vip };
+            case 'pro': return { classes: 't-icon-chip', icon: <Sparkles size={14} />, label: t.subscription.plans.pro };
             default: return { classes: 'bg-surface-container-highest text-on-surface-variant', icon: <Layout size={14} />, label: t.subscription.plans.free };
         }
     };
     const planStyle = getPlanStyle();
 
+    // 'primary' = featured (gradient chip at rest); 'soft' turns gradient on hover.
     const CREATION_TOOLS: { id: string; icon: any; tone: Tone; href: string; data: any; tourId: string }[] = [
         { id: 'bsb', icon: FileText, tone: 'primary', href: '/teacher/create/bsb-chsb', data: t.tools.bsb, tourId: 'tour-bsb-tool' },
-        { id: 'maktab', icon: School, tone: 'secondary', href: '/teacher/create/maktab', data: t.tools.maktab, tourId: '' },
-        { id: 'ixtisos', icon: Award, tone: 'tertiary', href: '/teacher/create/ixtisoslashtirilgan_maktab', data: t.tools.ixtisos, tourId: '' },
-        { id: 'abiturient', icon: GraduationCap, tone: 'primary', href: '/teacher/create/abiturient', data: t.tools.abiturient, tourId: '' },
-        { id: 'aiPrompt', icon: Bot, tone: 'tertiary', href: '/teacher/create/by_user_input', data: t.tools.aiPrompt, tourId: 'tour-ai-prompt-tool' },
-        { id: 'aiImage', icon: ImageIcon, tone: 'secondary', href: '/teacher/create/by_image', data: t.tools.aiImage, tourId: '' },
-        { id: 'mathOps', icon: Calculator, tone: 'secondary', href: '/teacher/create/operations', data: t.tools.mathOps, tourId: '' },
-        { id: 'custom', icon: PenTool, tone: 'primary', href: '/teacher/create/custom', data: t.tools.custom, tourId: '' },
+        { id: 'maktab', icon: School, tone: 'soft', href: '/teacher/create/maktab', data: t.tools.maktab, tourId: '' },
+        { id: 'ixtisos', icon: Award, tone: 'soft', href: '/teacher/create/ixtisoslashtirilgan_maktab', data: t.tools.ixtisos, tourId: '' },
+        { id: 'abiturient', icon: GraduationCap, tone: 'soft', href: '/teacher/create/abiturient', data: t.tools.abiturient, tourId: '' },
+        { id: 'aiPrompt', icon: Bot, tone: 'primary', href: '/teacher/create/by_user_input', data: t.tools.aiPrompt, tourId: 'tour-ai-prompt-tool' },
+        { id: 'aiImage', icon: ImageIcon, tone: 'soft', href: '/teacher/create/by_image', data: t.tools.aiImage, tourId: '' },
+        { id: 'mathOps', icon: Calculator, tone: 'soft', href: '/teacher/create/operations', data: t.tools.mathOps, tourId: '' },
+        { id: 'custom', icon: PenTool, tone: 'soft', href: '/teacher/create/custom', data: t.tools.custom, tourId: '' },
     ];
 
     return (
@@ -233,16 +223,17 @@ function TeacherDashboardInner() {
                     <motion.div
                         variants={itemVariants}
                         data-tour="tour-header"
-                        className="w-full bg-surface-container-low rounded-m3-lg p-5 md:p-6 shadow-elev-1 flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden"
+                        className="t-hero w-full rounded-m3-xl p-5 md:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5 overflow-hidden"
                     >
                         <div className="relative z-10 flex flex-col gap-1">
-                            <span className="text-[11px] font-bold text-primary uppercase tracking-widest flex items-center gap-1.5 mb-1">
-                                <Calendar size={14} /> {currentDate}
+                            <span className="self-start text-[11px] font-bold text-primary uppercase tracking-widest flex items-center gap-1.5 mb-2 rounded-full bg-t-primary-tint px-3 py-1">
+                                <Calendar size={13} /> {currentDate}
                             </span>
-                            <h1 className="text-2xl md:text-3xl font-extrabold text-on-surface tracking-tight">
-                                {greeting}, <span className="text-primary">{user?.displayName?.split(' ')[0] || "O'qituvchi"}</span>!
+                            <h1 className="font-t-display text-2xl md:text-[34px] md:leading-[1.15] font-extrabold text-on-surface tracking-tight">
+                                {greeting}, <span className="t-gradient bg-clip-text text-transparent">{user?.displayName?.split(' ')[0] || "O'qituvchi"}</span>
+                                <span aria-hidden className="t-wave ml-1.5"> 👋</span>
                             </h1>
-                            <p className="text-[13px] text-on-surface-variant font-medium">{t.welcome.subtitle}</p>
+                            <p className="text-[13.5px] text-on-surface-variant font-medium">{t.welcome.subtitle}</p>
                             {/* The center chip that used to live here moved into the
                                 center strip below — one place, not two. */}
                         </div>
@@ -257,7 +248,7 @@ function TeacherDashboardInner() {
                                 onClick={() => router.push('/teacher/subscription')}
                                 title={t.subscription.current}
                                 className={cn(
-                                    "m3-interactive flex items-center justify-center gap-2 px-5 py-2.5 rounded-m3-md text-[13px] font-bold cursor-pointer transition-transform hover:scale-105 active:scale-95 shadow-elev-1",
+                                    "m3-interactive flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-bold cursor-pointer transition-transform hover:scale-105 active:scale-95",
                                     planStyle.classes,
                                 )}
                             >
@@ -271,10 +262,10 @@ function TeacherDashboardInner() {
                         <motion.div variants={itemVariants} className="space-y-4">
                             <Link
                                 href="/teacher/center"
-                                className="group flex items-center gap-4 rounded-m3-lg bg-tertiary-container p-4 text-on-tertiary-container shadow-elev-1 transition-shadow hover:shadow-elev-2 md:p-5"
+                                className="t-accent-strip group flex items-center gap-4 rounded-m3-xl p-4 transition-transform hover:-translate-y-0.5 md:p-5"
                             >
-                                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-m3-md bg-[color-mix(in_oklab,var(--m3-on-tertiary-container)_12%,transparent)]">
-                                    <Building2 size={22} strokeWidth={2.5} />
+                                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-m3-lg bg-[color-mix(in_oklab,currentColor_16%,transparent)] ring-1 ring-[color-mix(in_oklab,currentColor_25%,transparent)] backdrop-blur-sm">
+                                    <Building2 size={22} strokeWidth={2.4} />
                                 </span>
                                 <div className="min-w-0 flex-1">
                                     <h2 className="truncate text-[16px] font-extrabold leading-tight md:text-[18px]">
@@ -286,8 +277,8 @@ function TeacherDashboardInner() {
                                         </p>
                                     )}
                                 </div>
-                                <span className="hidden shrink-0 items-center gap-1 text-[12px] font-bold opacity-80 sm:flex">
-                                    {t.center.open} <ArrowRight size={14} strokeWidth={2.5} />
+                                <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,currentColor_14%,transparent)] px-3.5 py-1.5 text-[12px] font-bold sm:flex">
+                                    {t.center.open} <ArrowRight size={14} strokeWidth={2.5} className="transition-transform group-hover:translate-x-1" />
                                 </span>
                                 <ChevronRight size={18} className="shrink-0 opacity-70 sm:hidden" />
                             </Link>
@@ -307,18 +298,16 @@ function TeacherDashboardInner() {
                         <motion.div variants={itemVariants}>
                             <div
                                 onClick={() => router.push('/teacher/subscription')}
-                                className="relative overflow-hidden w-full rounded-m3-lg bg-primary p-5 md:p-6 cursor-pointer shadow-elev-2 group transition-transform hover:-translate-y-1 active:scale-[0.98]"
+                                className="t-accent-strip w-full rounded-m3-xl p-5 md:p-6 cursor-pointer group transition-transform hover:-translate-y-1 active:scale-[0.98]"
                             >
-                                <div className="absolute right-0 top-0 w-64 h-64 bg-[color-mix(in_oklab,var(--m3-on-primary)_10%,transparent)] rounded-full blur-3xl pointer-events-none group-hover:bg-[color-mix(in_oklab,var(--m3-on-primary)_18%,transparent)] transition-colors"></div>
-                                <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-[color-mix(in_oklab,var(--m3-on-primary)_10%,transparent)] rounded-full blur-2xl pointer-events-none"></div>
                                 <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                     <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-[color-mix(in_oklab,var(--m3-on-primary)_18%,transparent)] flex items-center justify-center text-on-primary backdrop-blur-md shrink-0 group-hover:scale-110 transition-transform">
+                                        <div className="w-12 h-12 rounded-full bg-[color-mix(in_oklab,currentColor_16%,transparent)] flex items-center justify-center backdrop-blur-md shrink-0 group-hover:scale-110 transition-transform">
                                             <Gift size={24} strokeWidth={2.5} />
                                         </div>
                                         <div>
-                                            <h3 className="text-[18px] md:text-2xl font-extrabold text-on-primary leading-tight">{t.subscription.trialTitle}</h3>
-                                            <p className="text-[12px] md:text-[14px] text-on-primary opacity-85 font-medium mt-1 max-w-lg leading-snug">{t.subscription.trialDesc}</p>
+                                            <h3 className="text-[18px] md:text-2xl font-extrabold leading-tight">{t.subscription.trialTitle}</h3>
+                                            <p className="text-[12px] md:text-[14px] opacity-85 font-medium mt-1 max-w-lg leading-snug">{t.subscription.trialDesc}</p>
                                         </div>
                                     </div>
                                     <Button variant="elevated" className="w-full md:w-auto shrink-0">
@@ -332,21 +321,23 @@ function TeacherDashboardInner() {
                     {/* ═══════════════ 3. STATS GRID ═══════════════ */}
                     <motion.div variants={itemVariants} className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                         <StatCard label={t.stats.tests} value={userData.stats.tests} icon={FileText} tone="primary" tourId="tour-stat-tests" />
-                        <StatCard label={t.stats.classes} value={displayStats.classes} icon={Layout} tone="secondary" tourId="tour-stat-classes" />
-                        <StatCard label={t.stats.students} value={displayStats.students} icon={Users} tone="tertiary" tourId="tour-stat-students" />
+                        <StatCard label={t.stats.classes} value={displayStats.classes} icon={Layout} tone="soft" tourId="tour-stat-classes" />
+                        <StatCard label={t.stats.students} value={displayStats.students} icon={Users} tone="soft" tourId="tour-stat-students" />
 
                         {/* AI limit card */}
                         <motion.div
                             variants={itemVariants}
                             data-tour="tour-ai-limit"
                             onClick={() => router.push('/teacher/subscription')}
-                            className="p-4 bg-surface-container-low rounded-m3-lg shadow-elev-1 hover:shadow-elev-2 flex flex-col justify-between cursor-pointer transition-shadow group"
+                            className="t-panel t-ring-hover relative overflow-hidden p-4 md:p-5 rounded-m3-xl flex flex-col justify-between cursor-pointer group"
                         >
-                            <div className="flex justify-between items-start mb-2">
+                            <div className="relative flex justify-between items-start mb-2">
                                 <span className="text-[10px] md:text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">{t.headers.limits}</span>
-                                <Zap size={16} className="text-warning group-hover:scale-110 transition-transform" />
+                                <span className="t-icon-chip-soft grid h-7 w-7 place-items-center rounded-full">
+                                    <Zap size={14} className="group-hover:scale-110 transition-transform" />
+                                </span>
                             </div>
-                            <div>
+                            <div className="relative">
                                 <div className="flex items-end gap-1 mb-1.5">
                                     <span className="text-[20px] md:text-[24px] font-extrabold text-on-surface leading-none tabular-nums">{userData.usage.aiUsed}</span>
                                     <span className="text-[11px] md:text-[13px] font-bold text-on-surface-variant mb-0.5">/ {userData.usage.aiLimit >= 5000 ? '∞' : userData.usage.aiLimit}</span>
@@ -363,19 +354,14 @@ function TeacherDashboardInner() {
 
                         {/* ═══════════════ 4. CREATION TOOLS ═══════════════ */}
                         <div className="lg:col-span-2 space-y-4">
-                            <div className="flex items-center gap-2 px-1">
-                                <Target size={18} className="text-primary" />
-                                <h2 className="text-[16px] md:text-[18px] font-extrabold text-on-surface">{t.headers.create}</h2>
-                            </div>
+                            <SectionTitle icon={Target} title={t.headers.create} />
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                 {CREATION_TOOLS.map((tool) => (
                                     <CreateToolCard
                                         key={tool.id}
                                         icon={tool.icon}
                                         title={tool.data.title}
-                                        desc={tool.data.desc}
-                                        badge={tool.data.badge}
-                                        tone={tool.tone}
+                                        featured={tool.tone === 'primary'}
                                         tourId={tool.tourId}
                                         onClick={() => router.push(tool.href)}
                                     />
@@ -385,16 +371,13 @@ function TeacherDashboardInner() {
 
                         {/* ═══════════════ 5. MANAGEMENT HUB ═══════════════ */}
                         <div className="space-y-4 mt-6 lg:mt-0">
-                            <div className="flex items-center gap-2 px-1">
-                                <BookOpen size={18} className="text-on-surface-variant" />
-                                <h2 className="text-[16px] md:text-[18px] font-extrabold text-on-surface">{t.headers.manage}</h2>
-                            </div>
+                            <SectionTitle icon={BookOpen} title={t.headers.manage} />
                             <div className="flex flex-col gap-2.5 md:gap-3">
-                                <ManagementRow icon={Library} title={t.actions.library.title} desc={t.actions.library.desc} tourId="tour-library" onClick={() => router.push('/teacher/library')} />
-                                <ManagementRow icon={Users} title={t.actions.classes.title} desc={t.actions.classes.desc} tourId="tour-classes-row" onClick={() => router.push('/teacher/classes')} />
-                                <ManagementRow icon={ClipboardList} title={t.actions.assignments.title} desc={t.actions.assignments.desc} tourId="" onClick={() => router.push('/teacher/library/tests')} />
-                                <ManagementRow icon={BarChart2} title={t.actions.analytics.title} desc={t.actions.analytics.desc} tourId="tour-analytics-row" onClick={() => router.push('/teacher/analytics')} />
-                                <ManagementRow icon={Settings} title={t.actions.settings.title} desc={t.actions.settings.desc} tourId="" onClick={() => router.push('/teacher/profile')} />
+                                <ManagementRow icon={Library} title={t.actions.library.title} tourId="tour-library" onClick={() => router.push('/teacher/library')} />
+                                <ManagementRow icon={Users} title={t.actions.classes.title} tourId="tour-classes-row" onClick={() => router.push('/teacher/classes')} />
+                                <ManagementRow icon={ClipboardList} title={t.actions.assignments.title} tourId="" onClick={() => router.push('/teacher/library/tests')} />
+                                <ManagementRow icon={BarChart2} title={t.actions.analytics.title} tourId="tour-analytics-row" onClick={() => router.push('/teacher/analytics')} />
+                                <ManagementRow icon={Settings} title={t.actions.settings.title} tourId="" onClick={() => router.push('/teacher/profile')} />
                             </div>
                         </div>
 
@@ -409,72 +392,87 @@ function TeacherDashboardInner() {
 // 4. SUB-COMPONENTS
 // ============================================================================
 
+const SectionTitle = ({ icon: Icon, title }: { icon: typeof Target; title: string }) => (
+    <div className="flex items-center gap-2.5 px-1">
+        <span className="t-icon-chip-soft grid h-8 w-8 place-items-center rounded-m3-sm">
+            <Icon size={16} strokeWidth={2.4} />
+        </span>
+        <h2 className="font-t-display text-[16px] md:text-[18px] font-extrabold text-on-surface tracking-tight">{title}</h2>
+        <span aria-hidden className="ml-2 h-px flex-1 bg-gradient-to-r from-outline-variant to-transparent" />
+    </div>
+);
+
 /** tourId prop: if provided, adds data-tour="..." to the element */
 const StatCard = ({ label, value, icon: Icon, tone, tourId }: { label: string; value: number; icon: any; tone: Tone; tourId?: string }) => (
     <motion.div
         variants={itemVariants}
         {...(tourId ? { 'data-tour': tourId } : {})}
-        className="p-4 bg-surface-container-low rounded-m3-lg shadow-elev-1 flex flex-col items-start gap-2 relative overflow-hidden"
+        className="t-panel t-ring-hover group p-4 md:p-5 rounded-m3-xl flex flex-col items-start gap-2 relative overflow-hidden"
     >
-        <div className={cn("w-8 h-8 md:w-10 md:h-10 rounded-m3-md flex items-center justify-center", TONE_TILE_STATIC[tone])}>
-            <Icon size={18} className="md:w-5 md:h-5" strokeWidth={2.5} />
+        <div className={cn("relative w-9 h-9 md:w-11 md:h-11 rounded-m3-md flex items-center justify-center", tone === 'primary' ? 't-icon-chip' : 't-icon-chip-soft')}>
+            <Icon size={18} className="md:w-5 md:h-5" strokeWidth={2.3} />
         </div>
-        <div className="mt-1">
-            <span className="text-[20px] md:text-[24px] font-extrabold text-on-surface leading-none block mb-1 tabular-nums">{value}</span>
+        <div className="relative mt-1">
+            <span className="font-t-display text-[24px] md:text-[30px] font-extrabold text-on-surface leading-none block mb-1.5 tabular-nums tracking-tight">{value}</span>
             <span className="text-[10px] md:text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">{label}</span>
         </div>
     </motion.div>
 );
 
-const CreateToolCard = ({ icon: Icon, title, desc, badge, tone, tourId, onClick }: { icon: any; title: string; desc: string; badge: string; tone: Tone; tourId?: string; onClick: () => void }) => (
+const CreateToolCard = ({ icon: Icon, title, featured, tourId, onClick }: { icon: any; title: string; featured: boolean; tourId?: string; onClick: () => void }) => (
     <motion.button
-        whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
+        whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}
         onClick={onClick}
         {...(tourId ? { 'data-tour': tourId } : {})}
-        className="relative flex items-center p-3.5 md:p-5 bg-surface-container-low rounded-m3-lg text-left shadow-elev-1 hover:shadow-elev-2 transition-shadow group overflow-hidden"
+        className="t-panel t-ring-hover relative flex items-center p-3.5 md:p-5 rounded-m3-xl text-left group overflow-hidden"
     >
-        <div className={cn("w-12 h-12 md:w-14 md:h-14 rounded-m3-md flex items-center justify-center shrink-0 transition-colors duration-300 mr-3 md:mr-4 z-10", TONE_TILE[tone])}>
-            <Icon size={24} strokeWidth={2} className="md:w-7 md:h-7" />
+        {/* Soft sky wash that blooms from the icon on hover */}
+        <span aria-hidden className="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full bg-t-primary-tint blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+        <div className="relative w-12 h-12 md:w-14 md:h-14 shrink-0 mr-3 md:mr-4 z-10">
+            <span className={cn("absolute inset-0 rounded-m3-lg flex items-center justify-center transition-opacity duration-300", featured ? "t-icon-chip" : "t-icon-chip-soft group-hover:opacity-0")}>
+                <Icon size={24} strokeWidth={2} className="md:w-7 md:h-7" />
+            </span>
+            {!featured && (
+                <span className="t-icon-chip absolute inset-0 rounded-m3-lg flex items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:rotate-[-4deg]">
+                    <Icon size={24} strokeWidth={2} className="md:w-7 md:h-7" />
+                </span>
+            )}
         </div>
 
-        <div className="flex-1 min-w-0 pr-1 z-10">
-            <div className="flex items-center gap-2 mb-1">
-                <h4 className="text-[14px] md:text-[16px] font-extrabold text-on-surface group-hover:text-primary truncate transition-colors">{title}</h4>
-                <span className="text-[8px] md:text-[9px] font-extrabold px-1.5 py-0.5 rounded-m3-xs uppercase tracking-wider shrink-0 bg-surface-container-high text-on-surface-variant hidden sm:inline-block">
-                    {badge}
-                </span>
-            </div>
-            <p className="text-[11px] md:text-[13px] text-on-surface-variant font-medium line-clamp-2 leading-snug">{desc}</p>
-        </div>
+        <h4 className="flex-1 min-w-0 pr-6 z-10 text-[14px] md:text-[16px] font-extrabold text-on-surface group-hover:text-primary truncate transition-colors">{title}</h4>
+
+        <ArrowRight aria-hidden size={18} strokeWidth={2.4} className="absolute right-4 top-1/2 -mt-[9px] z-10 text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
     </motion.button>
 );
 
-const ManagementRow = ({ icon: Icon, title, desc, tourId, onClick }: { icon: any; title: string; desc: string; tourId?: string; onClick: () => void }) => (
+const ManagementRow = ({ icon: Icon, title, tourId, onClick }: { icon: any; title: string; tourId?: string; onClick: () => void }) => (
     <motion.button
         whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}
         onClick={onClick}
         {...(tourId ? { 'data-tour': tourId } : {})}
-        className="w-full flex items-center justify-between p-3 md:p-3.5 bg-surface-container-low rounded-m3-md shadow-elev-1 hover:shadow-elev-2 transition-shadow group"
+        className="t-panel t-ring-hover relative w-full flex items-center justify-between p-3 md:p-3.5 rounded-m3-lg group overflow-hidden"
     >
+        {/* Accent rail that grows in on hover */}
+        <span aria-hidden className="absolute left-0 top-1/2 h-0 w-1 -translate-y-1/2 rounded-r-full t-gradient transition-all duration-300 group-hover:h-3/5" />
         <div className="flex items-center gap-3">
-            <div className="w-9 h-9 md:w-10 md:h-10 rounded-m3-sm bg-surface-container-high flex items-center justify-center shrink-0 group-hover:bg-primary-container transition-colors">
-                <Icon size={16} className="md:w-[18px] md:h-[18px] text-on-surface-variant group-hover:text-on-primary-container transition-colors" />
+            <div className="t-icon-chip-soft w-9 h-9 md:w-10 md:h-10 rounded-m3-md flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
+                <Icon size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
-            <div className="text-left">
-                <h4 className="text-[13px] md:text-[14px] font-bold text-on-surface mb-0.5">{title}</h4>
-                <p className="text-[10px] md:text-[11px] text-on-surface-variant font-medium">{desc}</p>
-            </div>
+            <h4 className="text-left text-[13px] md:text-[14px] font-bold text-on-surface">{title}</h4>
         </div>
-        <ChevronRight size={16} className="text-outline group-hover:text-primary mr-1 transition-colors md:w-[18px] md:h-[18px]" />
+        <span className="grid h-7 w-7 place-items-center rounded-full transition-colors group-hover:bg-t-primary-tint">
+            <ChevronRight size={16} className="text-outline group-hover:text-primary transition-colors md:w-[18px] md:h-[18px]" />
+        </span>
     </motion.button>
 );
 
 const DashboardSkeleton = () => (
     <div className="min-h-screen bg-surface p-4 max-w-[1200px] mx-auto space-y-6 pt-8">
         <Skeleton className="h-12 w-64 rounded-m3-md" />
-        <Skeleton className="h-32 w-full rounded-m3-lg" />
+        <Skeleton className="h-36 w-full rounded-m3-xl" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28 rounded-m3-lg" />)}
+            {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-32 rounded-m3-xl" />)}
         </div>
     </div>
 );

@@ -81,7 +81,7 @@ export default function AbiturientSelectionPage() {
   const t = ABITURIENT_TRANSLATIONS[lang] || ABITURIENT_TRANSLATIONS['en'];
 
   return (
-    <div className="min-h-[100dvh] bg-surface flex flex-col font-t-body relative overflow-hidden pb-24">
+    <div className="min-h-[100dvh] bg-surface flex flex-col font-t-body relative overflow-clip pb-24">
 
       {/* 🟢 PREMIUM BACKGROUND GLOWS */}
       <div className="absolute top-0 inset-x-0 h-[60vh] bg-gradient-to-b from-[color-mix(in_oklab,var(--m3-surface-container)_80%,transparent)] via-[color-mix(in_oklab,var(--m3-surface)_50%,transparent)] to-transparent pointer-events-none z-0"></div>
@@ -89,7 +89,7 @@ export default function AbiturientSelectionPage() {
       <div className="absolute -right-40 top-[20%] w-[500px] h-[500px] bg-[color-mix(in_oklab,var(--m3-tertiary)_10%,transparent)] rounded-full blur-[100px] pointer-events-none z-0"></div>
 
       {/* --- HEADER --- */}
-      <header className="sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-4 md:px-8 py-3 flex items-center shadow-elev-1">
+      <header className="t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-4 md:px-8 py-3 flex items-center shadow-elev-1">
         <IconButton
           aria-label="Orqaga"
           size="sm"

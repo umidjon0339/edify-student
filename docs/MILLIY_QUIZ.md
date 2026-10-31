@@ -87,7 +87,7 @@ label. Same rule the maths paper follows.
 | [types/MilliyQuiz.ts](../types/MilliyQuiz.ts) | Document shapes: `MilliyQuiz`, `MilliyQuizItem`, `MilliyQuizResult`, `MilliySubjectId`. |
 | [lib/MilliyQuiz.ts](../lib/MilliyQuiz.ts) | Pure layer — **`MILLIY_SUBJECTS` (the subject registry)**, picked-question → stored item, `hydrateMilliyQuiz`, slot/topic/difficulty/kind counts, `checkMilliyAdd`, size guard. No Firestore. |
 | [services/milliyQuizService.ts](../services/milliyQuizService.ts) | Every read and write, **plus `findPaperByCode`** — the cross-collection code lookup. Nothing else touches the two collections. |
-| `app/teacher/milliy-sertifikat/page.tsx` | The subject hub (teacher). Maths card → `math/`. |
+| `app/teacher/milliy-sertifikat/page.tsx` | The subject hub (teacher). Maths card → `math/`. Cards are minimal since 2026-10-31 — icon · name · Ready/Soon only; the paper facts (DTM protocol / own bank, length, 6-digit code, scored immediately) are info pills on `math/page.tsx` and `[subject]/page.tsx`. |
 | `app/teacher/milliy-sertifikat/math/*` | **The maths paper builder — moved here from `create/rasch` on 2026-07-30.** Still `teacher_rasch_quizzes` and still documented by [RASCH_QUIZ.md](RASCH_QUIZ.md). ⚠️ The static `math` segment beats the sibling `[subject]` route, which is why `genericSubject` also refuses `'math'`. |
 | [lib/MilliyDefaultPaper.ts](../lib/MilliyDefaultPaper.ts) | The **sample paper** — validates `data/<subject>-default-paper.json` and turns it into `MilliyQuizItem`s. Pure; no Firestore. `SAMPLE_FILES` is the registry of which subjects ship one. |
 | [data/biology-default-paper.json](../data/biology-default-paper.json) | **The biology sample paper's content — the only file to edit to change it.** 31 questions. |
@@ -190,6 +190,11 @@ subtopics**, the Milliy sertifikat biology programme's own numbered sections.
   by subject id), but reordering or inserting an algebra/geometry topic silently
   re-files every bank question. Biology has no `questions1` mirror, so `bankIds`
   falls back to the document's own ids — which is exactly what these papers want.
+
+**Bulk add (2026-10-29):** each subject page has a **JSON import** button →
+`/teacher/create/import?subject=<taxonomySlug>` — rows land in the teacher's own
+bank as `.uz` v1 docs (`mcq`/`open`/`numeric`), i.e. straight into this
+builder's pool. Contract: [SAT_QUIZ.md](SAT_QUIZ.md) §Teacher dataset import.
 
 **Creating a biology question needed no new code**: `/teacher/create/question`
 and `/teacher/create/block` read `SUBJECTS`, so both open/typed and closed

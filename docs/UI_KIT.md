@@ -5,7 +5,7 @@
 > any `app/teacher/*` page; update it in the same change whenever you alter
 > behavior described here. Index: [README.md](README.md).
 
-**Last verified:** 2026-07-23 (switchboard introduced; whole teacher tree already token-based since 2026-07-13).
+**Last verified:** 2026-10-31 (`sky` palette made default, decorative surface recipes + exam accent added; switchboard since 2026-07-23).
 
 ## The one thing to know
 
@@ -16,7 +16,7 @@ styles, page background, loading style, motion, page transitions. Nothing else
 needs editing.
 
 ```ts
-Color_palette: 'indigo',        // 10 professional M3 palettes
+Color_palette: 'sky',           // 11 professional M3 palettes
 App_shell_navigation: 'sidebar',// 10 shells: 6 side recipes + rail/floating/topbar/toolbar
 Mobile_navigation: 'dock',      // dock | floating | iconic | topline | drawer
 Card_style: 'elevated',
@@ -30,8 +30,8 @@ a "did you mean" hint, and editors autocomplete the legal values.
 `as const` narrows every value to its own literal and TS flags all untaken kit
 branches as dead code).
 
-**Premium default (2026-07-23):** indigo · system mode + in-app toggle ·
-Manrope · sidebar/dock · soft shapes · comfortable density · elevated cards ·
+**Premium default (2026-10-31: palette indigo → sky, shell sidebar → pillbar; rest since 2026-07-23):** sky · system mode + in-app toggle ·
+Manrope · pillbar/floating · soft shapes · comfortable density · elevated cards ·
 pill buttons · outlined fields · aurora canvas · expressive motion.
 
 ## Scope
@@ -73,13 +73,52 @@ see [STUDENT_UI.md](STUDENT_UI.md)), manager and admin trees are unaffected.
    `Loading_style`) are read by the components as their **default variant**;
    any single usage can override with a prop (`<Card variant="glass">`).
 3. **Shell switches** are rendered by `app/teacher/layout.tsx`.
-   `App_shell_navigation` has **10 desktop personalities**: 6 *side recipes*
+   `App_shell_navigation` has **11 desktop personalities**: 6 *side recipes*
    (`sidebar` ⭐ — gliding soft-tinted rounded row (`bg-t-primary-soft`, primary text) · `classic` — grouped links, sliding left
    accent bar, tinted active row, user-card+logout footer · `tonal` —
    container-colored panel · `inverse` — always-contrast chrome · `gradient`
    — primary→tertiary panel · `minimal` — chromeless dot) plus 4 *containers*
    (`rail` pinned-collapsed, `floating` glass card, `topbar` 5+"More" single
-   row, `toolbar` two-deck full nav row). The side recipes are pure data in
+   row, `toolbar` two-deck full nav row) plus **`pillbar` ⭐ (default since
+   2026-10-31)**: floating frosted pills — no header band — the brand pill (just the Edify logo image `public/brand/edify-logo.webp` — cropped from the "Edify Math" artwork without "Math"; brightened in dark mode via `.t-brand-logo`), a frosted
+   `.t-glass-pill` capsule — Boshqaruv link + hover dropdowns (`.t-mega`) for
+   Asosiy · Imtihonlar (violet exam accent) · Resurslar, then a "Yangi Test"
+   link — and a right cluster of language pill, the light/dark **wave switch**
+   (`ThemeWaveToggle`, replaced the bell — notifications live under Asosiy) and the profile pill
+   (first name + avatar; dropdown = user card, AI meter, theme switch,
+   profile/settings/subscription, logout).
+   Only the pills are fixed: the header is `absolute` over `<main>`
+   (transparent, `pointer-events-none` except its pills) and `<main>` gets
+   `md:pt-[76px]`, so the page and its canvas scroll *behind* the pills; once
+   scrolled the pills turn more opaque (`.t-bar-scrolled`). ⚠️ `<main>` also
+   gets `.t-under-bar`. Page-level sticky toolbars must carry the
+   **`t-page-bar`** marker (19 pages today, incl. `CreateHeader`; the create
+   hub dropped its bar on md+): under the bar they're re-pinned to `top: 8px`
+   and restyled as a floating glass bar (md+). ⚠️ Sticky offsets are measured
+   inside `<main>`'s padding box, so its 76 px top padding already clears the
+   pills — `top: 84px` (first attempt) parked bars ~160 px down. Never offset *unmarked* `sticky top-0` — inner headers in modals,
+   side panels and lists stick inside their own scrollers (the first blanket
+   rule shoved them 76 px down). A page bar that sticks in the page's own
+   full-height scroller (maktab, ixtisos, database) adds `t-page-bar-flush`
+   (documentary — same `top: 8px`), and `h-[100dvh]` page roots shrink to `100dvh - 76px`. A page
+   root with `overflow-hidden` kills its sticky bar — use `overflow-clip`.
+   ⚠️ The root is `h-[100dvh]` and the main column `h-[100dvh] min-h-0` for
+   **every** shell, so `<main>` is the only scroller and the header never
+   moves. In top shells the root is a flex *column*: without `min-h-0` the
+   column's `min-height:auto` grows it to the page's full length, the window
+   scrolls and the bar scrolls away. Don't drop `min-h-0` or reintroduce
+   `min-h-[100dvh]`, and listen for scroll on `<main>`, not `window`.
+   **Phones (all shells):** the mobile header is Edify style too — floating
+   glass pills (logo · AI chip · `ThemeWaveToggle` instead of the bell ·
+   avatar), `absolute` over `<main>` (`pt-[60px]`; class `.t-under-bar-m`
+   gives page bars the same glass treatment and `h-[100dvh]` page roots
+   `100dvh - 60px`). Bottom nav default is `floating` (`.t-dock` glass pill,
+   active tab = accent pill). Notifications stay in the Menu drawer.
+   Dropdowns open on hover (160 ms close delay; the panel's `pt-3` wrapper
+   bridges the gap) and on click for touch/keyboard; Escape/outside click/route
+   change close them. ⚠️ The dashboard tour's `tour-sidebar-*` targets live in
+   closed dropdowns here — the shell's `tour-step-change` handler opens the
+   matching group; map any new sidebar tour id there too.. The side recipes are pure data in
    `components/ui/shellStyles.ts` — consumed by BOTH the real shell and the
    gallery's static previews, so they can't drift. Every side shell (except
    rail) collapses with the `[` key (state in localStorage `edify-sb-rail`).
@@ -102,10 +141,10 @@ selector to light values.
 
 ## Palettes
 
-10 palettes × light + dark = 20 complete M3 dynamic-color schemes, generated
+11 palettes × light + dark = 22 complete M3 dynamic-color schemes, generated
 from one source color each by `@material/material-color-utilities` (HCT):
 
-`indigo` (default) · `ocean` · `midnight` · `emerald` · `teal` · `plum` ·
+`sky` (default) · `indigo` · `ocean` · `midnight` · `emerald` · `teal` · `plum` ·
 `wine` · `bronze` · `steel` · `graphite` (mono)
 
 To change or add one: edit `SOURCES` in `scripts/genTeacherPalettes.mjs`, then
@@ -115,6 +154,31 @@ npm install --no-save @material/material-color-utilities
 npx tsx scripts/genTeacherPalettes.mjs     # tsx, not node — ESM resolution
 ```
 
+- A SOURCES row may carry a 4th element `{ shift, chroma }` — replaces the
+  scheme's tertiary palette with one at source hue + shift. `sky` uses it
+  (`-28°`, chroma 30 → aqua) so the panel stays in one calm blue family.
+  `sky` is seeded from Material/Google blue `#1a73e8` (since 2026-10-31;
+  light primary `#005bbf`, dark primary `#adc7ff`).
+- **One button color in both modes.** Every palette also emits a
+  mode-INDEPENDENT accent: `--t-accent` (tone 45, ≥4.5:1 with white),
+  `--t-accent-strong` (tone 35), `--t-on-accent` (#fff) — identical in light
+  and dark — plus `--t-accent-text` (tone 40 light / 80 dark, ink for tinted
+  accent surfaces). Kit `Button` filled = `bg-t-accent`, tonal =
+  `bg-t-accent-soft text-t-accent-text`; `.t-icon-chip` / `.t-on-chip` /
+  `.t-accent-strip` paint with it. ⚠️ Tailwind maps `bg-primary` (+ all
+  variants) to `var(--t-fill-primary, var(--m3-primary))` and `text-on-primary`
+  to `var(--t-on-fill-primary, …)` (`extend.backgroundColor/textColor`); only
+  the teacher tree sets those vars (= the accent), so the ~290 hand-rolled
+  primary fills in teacher pages match too, while student/manager fall back
+  unchanged. Text/border/ring `primary` stay mode-aware on purpose.
+- Every palette also emits `--t-exam` / `--t-exam-container` /
+  `--t-on-exam-container` (source hue + 70°, light + dark; a palette may pin it
+  with `exam: '#hex'` (a named Material seed) or `exam: 'tertiary'` (the palette's
+  own tertiary tonal palette) in its 4th SOURCES element — `sky` uses
+  `'tertiary'` (its aqua) → M3 tones 40/90/10 light, 80/30/90 dark) — the **exam
+  accent** for the sidebar's Imtihonlar group (`EXAM_HREFS` in
+  `app/teacher/layout.tsx`; light-panel recipes only). Tailwind: `text-t-exam`,
+  `bg-t-exam-container`, `bg-t-exam-soft` (derived), `text-t-on-exam-container`.
 - ⚠️ Only hue-preserving scheme variants (`SchemeTonalSpot`, `SchemeFidelity`,
   `SchemeNeutral` for mono). The script asserts hue drift ≤ 45° — keep the guard.
 - `success`/`warning` are derived at fixed hues with clamped chroma (32–48);
@@ -123,8 +187,43 @@ npx tsx scripts/genTeacherPalettes.mjs     # tsx, not node — ESM resolution
   light / 0.6 dark), NOT the solid M3 scrim role — ~25 teacher call sites use
   `bg-scrim` directly as an overlay and rely on the translucency.
 
+## Decorative surface recipes
+
+Hand-written in `theme.css` (after `.t-gradient`), all token-built, so they work
+in every palette and both modes. First used by the dashboard
+(`app/teacher/dashboard/page.tsx`) and the side-nav brand/CTA; reuse them
+instead of re-inventing gradients per page.
+
+| Class | Look |
+|---|---|
+| `.t-hero` | Hero card: two radial sky washes + masked dot grid (`::before`), lit top edge, hairline border. Sets `position: relative; isolation: isolate`. |
+| `.t-accent-strip` | Bold gradient banner (center strip, trial prompt). Sets its own text color (on-primary / dark: on-primary-container) — children should inherit (`currentColor`), not set `text-on-*`. |
+| `.t-panel` | Everyday card: `surface-container-low` + hairline + lit edge (`--t-sheen`) + elev-1. |
+| `.t-icon-chip` / `.t-icon-chip-soft` | Gradient icon chip with glow / tinted same-hue chip. Use these two weights instead of rotating primary/secondary/tertiary containers. |
+| `.t-ring-hover` | Primary hairline + soft halo on hover. |
+| `.t-watermark` | Big faded corner icon (`absolute`, 7%/10% opacity); parent needs `relative overflow-hidden`. Currently unused — removed from the dashboard on request (2026-10-31). |
+| `.t-wave` | One-shot greeting wave (reduced-motion safe). |
+| `.t-workspace` / `.t-float-panel` | Full-height 3-panel create tools (database, maktab, ixtisoslashtirilgan_maktab), **desktop ≥1024px only**: the panel row gets a 12px gap + inset and each side panel becomes a floating glass card (rounded-xl, white hairline, blur); its direct `bg-surface*` children go transparent. Raised specificity (`:root[data-t-palette] …`) so it beats the panels' own `lg:` border/height/bg utilities; phone drawers/sheets untouched. |
+| `PillGroup` | One-of-N choice in the nav-capsule look: a `.t-glass-pill` capsule of rounded-full options, the selected one in a gliding `.t-icon-chip` gradient pill (`role=radiogroup`). Wraps onto more lines. Used by the subject picker on `/teacher/create/import`, the library tabs (`/teacher/library/tests`) and EditTestModal's tabs + time presets; use it for other chip rows instead of hand-rolled `bg-primary` chips. |
+| `ThemeWaveToggle` + `.t-theme-toggle` / `.t-theme-wave` | Round light/dark switch (sun in dark, moon in light, tilts 20° on hover). Click = circular reveal of the new theme from the button: View Transitions API + `clip-path: circle()` on `::view-transition-new(root)`, 650 ms; `.t-theme-wave` on `<html>` suspends other transitions meanwhile. Instant switch without the API / under reduced motion / Motion_level none. Goes through `setPreference` (per-device override); `flushSync` makes the provider's layout effect stamp `data-t-mode` inside the transition. |
+| `.t-glass-pill` / `.t-mega` / `.t-on-chip` / `.t-bar-scrolled` / `.t-under-bar` | Pillbar shell: frosted pill (brand, nav capsule, language, bell, profile) / hover dropdown panel / text color for content on a `.t-icon-chip` fill / more-opaque pills once scrolled / re-pins `sticky top-0` below the bar. |
+
+New tokens: `--t-primary-tint` (`bg-t-primary-tint`), `--t-sheen`, `--t-exam-soft`.
+
+**Sky light canvas (2026-10-31):** with `sky` + `aurora` in light mode the
+`.t-canvas` is a periwinkle-blue mesh (palette-specific hex stops in
+theme.css). ⚠️ ~40 teacher pages paint `bg-surface` on their root wrapper; a
+rule clears it **only on the page root** (`.t-canvas > div > .bg-surface`) so
+the mesh shows — new pages should simply not paint a page-level background.
+`/teacher/print*` gets `.t-canvas-plain` and keeps the plain surface.
+
 ## Invariants & traps
 
+- ⚠️ **Chart colours are `--t-viz-1…4`** (2026-10-31, appended at the end of
+  `components/ui/theme.css`): the same validated fixed slots as the student kit's
+  `--s-viz-N`, NOT palette-themed (colour follows the SAT domain via
+  `satDomainSlot`). Light slots 3–4 and dark slot 4 can sit below 3:1 → always
+  ship visible labels. First user: `app/teacher/create/import/_components/ModuleMixChart.tsx`.
 - ⚠️ **Never hard-code a color, radius or shadow in a teacher page.** Only
   token utilities (`bg-primary`, `rounded-m3-lg`, `shadow-elev-2`, …) or
   `var(--m3-…)`/`var(--t-…)` in unavoidable inline styles.

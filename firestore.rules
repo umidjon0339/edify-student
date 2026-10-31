@@ -738,6 +738,27 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // SAT PRACTICE BANK — `sat_pool/{batchId}_{part}` (docs/SAT_QUIZ.md §Practice
+    // bank). Chunks of embedded SAT items a teacher uploads; every student's SAT
+    // page reads the subject's chunks and GENERATES a practice test from them.
+    //
+    // Read: any signed-in user — the generator is a `subject ==` list query, so
+    // no per-doc get(). Create: only a user whose own `users.role` is 'teacher'
+    // (a single get() on a write is fine), as themselves, for a SAT subject.
+    // Never updated (a correction = delete the batch and re-upload); deleted
+    // only by the uploader. ⚠️ Same known trade as sat_*_tests: items embed
+    // their answers behind `read: if isAuth()`.
+    match /sat_pool/{chunkId} {
+      allow read: if isAuth();
+      allow create: if isAuth()
+                    && request.resource.data.teacherId == request.auth.uid
+                    && request.resource.data.subject in ['sat-matematika', 'sat-ingliz-tili']
+                    && request.resource.data.items is list
+                    && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher';
+      allow update: if false;
+      allow delete: if isAuth() && resource.data.teacherId == request.auth.uid;
+    }
+
     // --- 13. EXAMS ---
     match /bsb_chsb_tests/{testId} {
       allow read: if isAuth();

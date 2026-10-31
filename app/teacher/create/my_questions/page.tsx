@@ -446,7 +446,7 @@ export default function MyQuestionsPage() {
     <div className="min-h-[100dvh] bg-surface font-t-body pb-32">
 
       {/* 🟢 TOP HEADER */}
-      <div className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant sticky top-0 z-30 shadow-elev-1">
+      <div className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant t-page-bar sticky top-0 z-30 shadow-elev-1">
         <div className="max-w-4xl mx-auto px-3 md:px-4 py-3 md:py-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 md:gap-3">

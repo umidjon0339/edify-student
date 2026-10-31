@@ -676,7 +676,7 @@ export default function AIUserInputPage() {
       )}
 
       {/* 🟢 TOP BAR (Desktop) */}
-      <div className="hidden lg:flex bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant sticky top-0 z-30 shadow-elev-1">
+      <div className="hidden lg:flex bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant t-page-bar sticky top-0 z-30 shadow-elev-1">
         <div className="max-w-4xl w-full mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button onClick={() => router.push('/teacher/create')} className="m3-interactive p-2 -ml-2 text-on-surface-variant hover:text-on-surface bg-surface-container hover:bg-state-hover rounded-m3-sm transition-colors">

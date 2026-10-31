@@ -4,7 +4,7 @@ import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
-  ArrowDown, ArrowLeft, ArrowUp, BadgeCheck, Database, HelpCircle, KeyRound,
+  ArrowDown, ArrowLeft, ArrowRight, ArrowUp, BadgeCheck, HelpCircle, KeyRound,
   Save, Send, Trash2, Wand2,
 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -25,7 +25,7 @@ import {
 import SatBankPicker, { type SatPickerStrings } from "../_components/SatBankPicker";
 import { clearSatMathDraft, readSatMathDraft, writeSatMathDraft } from "../_components/draft";
 import {
-  Banner, Button, Card, IconButton, PageHeader, ProgressBar, Spinner, Switch, Tabs,
+  Banner, Button, Card, IconButton, PageHeader, PillGroup, Spinner, Switch,
   TextField, cn,
 } from "@/components/ui";
 import type { SatMathTestStatus, SatQuizItem } from "@/types/SatQuiz";
@@ -64,7 +64,10 @@ const TR: Record<string, Record<string, string>> = {
     description: "Tavsif (ixtiyoriy)",
     module1Minutes: "Modul 1 vaqti (daqiqa)",
     module2Minutes: "Modul 2 vaqti (daqiqa)",
-    threshold: "O'tish chegarasi",
+    threshold: "Qiyin modul uchun to'g'ri javoblar",
+    flowIf: "≥ {n} to'g'ri",
+    flowElse: "aks holda",
+    sizeWarn: "Test hajmi chegaraga yaqin: {used} / {max} KB",
     thresholdHint: "Modul 1'da shuncha yoki ko'proq to'g'ri javob — Qiyin Modul 2'ga yo'naltiradi; kamroq bo'lsa — Oson Modul 2'ga.",
     shuffle: "Savollarni aralashtirish",
     shuffleHint: "Har bir o'quvchi savollarni boshqa tartibda ko'radi.",
@@ -125,7 +128,10 @@ const TR: Record<string, Record<string, string>> = {
     description: "Описание (необязательно)",
     module1Minutes: "Время Модуля 1 (минут)",
     module2Minutes: "Время Модуля 2 (минут)",
-    threshold: "Порог перехода",
+    threshold: "Верных для Трудного модуля",
+    flowIf: "≥ {n} верных",
+    flowElse: "иначе",
+    sizeWarn: "Тест почти достиг предела размера: {used} / {max} KB",
     thresholdHint: "Столько или больше верных в Модуле 1 — направляет в Трудный Модуль 2; меньше — в Лёгкий.",
     shuffle: "Перемешивать вопросы",
     shuffleHint: "Каждый ученик увидит вопросы в своём порядке.",
@@ -186,7 +192,10 @@ const TR: Record<string, Record<string, string>> = {
     description: "Description (optional)",
     module1Minutes: "Module 1 time (minutes)",
     module2Minutes: "Module 2 time (minutes)",
-    threshold: "Routing threshold",
+    threshold: "Correct answers for Harder",
+    flowIf: "≥ {n} correct",
+    flowElse: "otherwise",
+    sizeWarn: "The test is close to its size limit: {used} / {max} KB",
     thresholdHint: "This many (or more) correct in Module 1 routes to the Harder Module 2; fewer routes to the Easier one.",
     shuffle: "Shuffle questions",
     shuffleHint: "Each student sees the questions in their own order.",
@@ -610,87 +619,78 @@ function BuilderInner() {
               onChange={(e) => { setThresholdTouched(true); setRoutingThreshold(Math.max(0, Number(e.target.value) || 0)); }}
             />
           </div>
-          <p className="-mt-1 text-[11px] font-medium text-on-surface-variant">{t.thresholdHint}</p>
+          {/* How routing works, drawn instead of explained in a sentence. */}
+          <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold">
+            <span className="t-icon-chip rounded-full px-3 py-1.5">{TAB_LABEL.module1}</span>
+            <ArrowRight size={14} className="text-on-surface-variant" />
+            <span className="text-on-surface-variant">{fmt(t.flowIf, { n: routingThreshold })}</span>
+            <ArrowRight size={14} className="text-on-surface-variant" />
+            <span className="t-glass-pill rounded-full px-3 py-1.5 text-on-surface">{TAB_LABEL.module2Harder}</span>
+            <span className="text-on-surface-variant">· {t.flowElse}</span>
+            <ArrowRight size={14} className="text-on-surface-variant" />
+            <span className="t-glass-pill rounded-full px-3 py-1.5 text-on-surface">{TAB_LABEL.module2Easier}</span>
+          </div>
 
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <label className="flex items-center gap-2 text-[13px] font-medium text-on-surface">
               <Switch checked={shuffle} onChange={(e) => setShuffle(e.target.checked)} />
-              <span>
-                {t.shuffle}
-                <span className="block text-[11px] font-normal text-on-surface-variant">{t.shuffleHint}</span>
-              </span>
+              <span>{t.shuffle}</span>
             </label>
 
             <label className="flex items-center gap-2 text-[13px] font-medium text-on-surface">
               <Switch checked={showAnswers} onChange={(e) => setShowAnswers(e.target.checked)} />
-              <span>
-                {t.showAnswers}
-                <span className="block text-[11px] font-normal text-on-surface-variant">{t.showAnswersHint}</span>
-              </span>
+              <span>{t.showAnswers}</span>
             </label>
 
-            <div className="ml-auto flex items-center gap-2 rounded-m3-md border border-outline-variant bg-surface-container px-3 py-2">
-              <KeyRound size={14} className="text-primary" />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">{t.code}</span>
-              <span className="text-[18px] font-black tracking-[0.2em] text-on-surface">
-                {accessCode || (
-                  <span className="text-[11px] font-medium tracking-normal text-on-surface-variant">{t.codePending}</span>
-                )}
-              </span>
-            </div>
-          </div>
-        </Card>
-
-        {/* ── progress + domain make-up ────────────────────────────────── */}
-        <Card className="flex flex-col gap-4 p-4">
-          <div className="grid gap-3 sm:grid-cols-3">
-            {MODULE_KEYS.map((key) => (
-              <div key={key}>
-                <div className="mb-1.5 flex items-end justify-between gap-3">
-                  <span className="text-[12px] font-bold text-on-surface-variant">{TAB_LABEL[key]}</span>
-                  <span className={cn("text-[15px] font-black", modules[key].length > 0 ? "text-success" : "text-on-surface-variant")}>
-                    {modules[key].length}
-                  </span>
-                </div>
-                <ProgressBar value={modules[key].length > 0 ? 100 : 0} />
+            {/* The code exists only after the first save — no placeholder box before. */}
+            {accessCode && (
+              <div className="t-glass-pill ml-auto flex items-center gap-2 rounded-full px-4 py-2">
+                <KeyRound size={14} className="text-primary" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">{t.code}</span>
+                <span className="text-[17px] font-black tracking-[0.2em] text-on-surface">{accessCode}</span>
               </div>
-            ))}
-          </div>
-          <p className="flex items-center gap-1.5 text-[11px] font-medium text-on-surface-variant">
-            <Database size={11} /> {t.size}: {Math.round(bytes / 1024)} KB / {Math.round(SAT_MAX_BYTES / 1024)} KB
-          </p>
-
-          <div className="border-t border-outline-variant pt-3">
-            <p className="mb-2 text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">{t.domains}</p>
-            {Object.keys(domainCounts).length === 0 ? (
-              <p className="text-[11px] font-medium text-on-surface-variant">{t.domainsEmpty}</p>
-            ) : (
-              <ul className="flex flex-col gap-1">
-                {SAT_MATH_DOMAINS.filter((d) => domainCounts[d.id]).map((d) => (
-                  <li key={d.id} className="flex items-center justify-between gap-3 text-[12px] font-medium">
-                    <span className="min-w-0 truncate text-on-surface-variant">{d.name[L] || d.name.uz}</span>
-                    <span className="flex-none font-bold tabular-nums text-on-surface">{domainCounts[d.id]}</span>
-                  </li>
-                ))}
-              </ul>
             )}
           </div>
         </Card>
 
+        {/* Size: only worth showing when it is about to become a problem. */}
+        {bytes > SAT_MAX_BYTES * 0.8 && (
+          <Banner
+            tone="warning"
+            title={fmt(t.sizeWarn, { used: Math.round(bytes / 1024), max: Math.round(SAT_MAX_BYTES / 1024) })}
+          />
+        )}
+
         {/* ── per-module editor ────────────────────────────────────────── */}
-        <Tabs
-          tabs={MODULE_KEYS.map((key) => ({
-            id: key,
-            label: TAB_LABEL[key],
-            badge: modules[key].length > 0 ? (
-              <span className="rounded-full bg-surface-container-high px-1.5 py-0.5 text-[10px] font-black tabular-nums">
-                {modules[key].length}
-              </span>
-            ) : undefined,
-          }))}
+        <PillGroup
+          ariaLabel={t.progress}
           value={activeTab}
-          onChange={(id) => setActiveTab(id as ModuleKey)}
+          onChange={setActiveTab}
+          options={MODULE_KEYS.map((key) => ({
+            id: key,
+            label: (
+              <span className="flex items-center gap-2">
+                {TAB_LABEL[key]}
+                <span className="rounded-full bg-[color-mix(in_oklab,currentColor_14%,transparent)] px-2 py-0.5 text-[11px] font-black tabular-nums">
+                  {modules[key].length}
+                </span>
+              </span>
+            ),
+          }))}
+          className="self-start"
         />
+
+        {/* Spread across SAT domains (all modules) — only once there is one. */}
+        {Object.keys(domainCounts).length > 0 && (
+          <div className="flex flex-wrap gap-1.5" aria-label={t.domains}>
+            {SAT_MATH_DOMAINS.filter((d) => domainCounts[d.id]).map((d) => (
+              <span key={d.id} className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-semibold text-on-surface-variant">
+                {d.name[L] || d.name.uz}
+                <span className="font-black tabular-nums text-on-surface">{domainCounts[d.id]}</span>
+              </span>
+            ))}
+          </div>
+        )}
 
         <Card className="p-4">
           <div className="mb-1 flex flex-wrap items-start justify-between gap-3">
@@ -704,8 +704,7 @@ function BuilderInner() {
               {t.fillDefault}
             </Button>
           </div>
-          <p className="mb-3 text-[12px] font-medium leading-relaxed text-on-surface-variant">{t.addHint}</p>
-          <p className="-mt-2 mb-3 text-[11px] font-normal leading-snug text-on-surface-variant">{t.fillDefaultHint}</p>
+          <div className="mb-3" />
 
           {/* ⚠️ Writing a question happens in the REAL builder, never in a
               cut-down form embedded here — see docs/QUESTIONS.md. The link
@@ -720,10 +719,7 @@ function BuilderInner() {
             <span className="flex h-9 w-9 flex-none items-center justify-center rounded-m3-sm bg-tertiary-container text-on-tertiary-container">
               <HelpCircle size={17} />
             </span>
-            <span className="min-w-0">
-              <span className="block text-[13px] font-bold text-on-surface">{t.newSingle}</span>
-              <span className="mt-0.5 block text-[11px] font-medium leading-snug text-on-surface-variant">{t.newSingleHint}</span>
-            </span>
+            <span className="min-w-0 self-center text-[13px] font-bold text-on-surface">{t.newSingle}</span>
           </Link>
 
           <div className="border-t border-outline-variant pt-3">
@@ -742,7 +738,7 @@ function BuilderInner() {
 
         <Card className="p-4">
           <h2 className="mb-3 flex items-center gap-2 text-[14px] font-bold text-on-surface">
-            <BadgeCheck size={15} className="text-primary" /> {TAB_LABEL[activeTab]} — {t.thisModule}
+            <BadgeCheck size={15} className="text-primary" /> {TAB_LABEL[activeTab]}
           </h2>
 
           {items.length === 0 ? (
@@ -784,8 +780,10 @@ function BuilderInner() {
       {/* ── sticky save bar ──────────────────────────────────────────────── */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-outline-variant bg-surface-container-low px-4 py-3">
         <div className="mx-auto flex max-w-5xl items-center gap-3">
-          <span className={cn("text-[13px] font-black", complete ? "text-success" : "text-on-surface-variant")}>
-            {modules.module1.length} / {modules.module2Easier.length} / {modules.module2Harder.length}
+          <span className={cn("hidden sm:flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] font-bold", complete ? "text-success" : "text-on-surface-variant")}>
+            {MODULE_KEYS.map((key) => (
+              <span key={key} className="tabular-nums">{TAB_LABEL[key]}: {modules[key].length}</span>
+            ))}
           </span>
           <Button variant="outlined" icon={<Save />} loading={saving} onClick={() => persist(false)} className="ml-auto">
             {t.save}

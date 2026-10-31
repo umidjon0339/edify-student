@@ -39,4 +39,8 @@ export type { EmptyStateProps } from "./EmptyState";
 export { StatTile } from "./StatTile";
 export type { StatTileProps } from "./StatTile";
 export { PageHeader } from "./PageHeader";
+export { ThemeWaveToggle } from "./ThemeWaveToggle";
+export { PillGroup } from "./PillGroup";
+export type { PillGroupProps, PillGroupOption } from "./PillGroup";
+export type { ThemeWaveToggleProps } from "./ThemeWaveToggle";
 export type { PageHeaderProps } from "./PageHeader";

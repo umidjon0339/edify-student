@@ -87,7 +87,7 @@ export default function IeltsGroupsPage() {
       <CreateIeltsGroupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       {/* ── Premium top bar ── */}
-      <div className="bg-surface-container-low border-b border-outline-variant sticky top-0 z-30">
+      <div className="bg-surface-container-low border-b border-outline-variant t-page-bar sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header Row */}

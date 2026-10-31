@@ -3,12 +3,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  ArrowLeft, BarChart3, Check, Copy, KeyRound, Pencil, Plus, Sigma, Trash2,
+  ArrowLeft, BarChart3, Check, Copy, FileJson, KeyRound, Layers, Library, Pencil, Plus, Shuffle, Sigma, Trash2,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { useTeacherLanguage } from "@/app/teacher/layout";
 import { useAuth } from "@/lib/AuthContext";
+import { SAT_MATH_TAXONOMY_SLUG } from "@/lib/SatMathQuiz";
 import {
   deleteSatMathTest, listMySatMathTests, setSatTestStatus,
 } from "@/services/satMathQuizService";
@@ -29,6 +30,12 @@ const TR: Record<string, Record<string, string>> = {
     title: "SAT Matematika",
     subtitle: "Testlaringiz. O'quvchi 6 xonali maxfiy kod bilan ochadi.",
     create: "Yangi test",
+    // Moved here from the SAT hub (banner + card hint + import card).
+    importJson: "JSON import",
+    infoModules: "2 modulli adaptiv test",
+    infoAdaptive: "Modul 2 (Oson/Qiyin) Modul 1 natijasiga qarab",
+    infoBank: "O'z bazangizdan yoki yangi savollar",
+    infoCode: "6 xonali maxfiy kod",
     emptyTitle: "Hali test yaratilmagan",
     emptyDesc: "Har uchala modulni — Modul 1, Modul 2 Oson, Modul 2 Qiyin — o'zingiznikilardan yoki yangi yozib to'ldiring.",
     draft: "Qoralama", published: "Faol", closed: "Yopilgan",
@@ -50,6 +57,11 @@ const TR: Record<string, Record<string, string>> = {
     title: "SAT Математика",
     subtitle: "Ваши тесты. Ученик открывает 6-значным секретным кодом.",
     create: "Новый тест",
+    importJson: "Импорт JSON",
+    infoModules: "Адаптивный тест из 2 модулей",
+    infoAdaptive: "Модуль 2 (Лёгкий/Трудный) — по итогам Модуля 1",
+    infoBank: "Из своей базы или новые вопросы",
+    infoCode: "6-значный секретный код",
     emptyTitle: "Тестов пока нет",
     emptyDesc: "Заполните все три модуля — Модуль 1, Модуль 2 Лёгкий, Модуль 2 Трудный — своими или новыми вопросами.",
     draft: "Черновик", published: "Активен", closed: "Закрыт",
@@ -71,6 +83,11 @@ const TR: Record<string, Record<string, string>> = {
     title: "SAT Math",
     subtitle: "Your tests. Students open one with a private 6-digit code.",
     create: "New test",
+    importJson: "JSON import",
+    infoModules: "2-module adaptive test",
+    infoAdaptive: "Module 2 (Easier/Harder) from the Module 1 result",
+    infoBank: "From your own bank or new questions",
+    infoCode: "Private 6-digit code",
     emptyTitle: "No tests yet",
     emptyDesc: "Fill all three modules — Module 1, Module 2 Easier, Module 2 Harder — from your own bank or by writing new questions.",
     draft: "Draft", published: "Live", closed: "Closed",
@@ -178,11 +195,29 @@ export default function SatMathTestsPage() {
             title={t.title}
             subtitle={t.subtitle}
             actions={
-              <Button icon={<Plus />} onClick={() => router.push(`${base}/build`)}>
-                {t.create}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                {/* Bulk-add questions to this section's bank (was a card on the SAT hub). */}
+                <Button
+                  variant="tonal"
+                  icon={<FileJson />}
+                  onClick={() => router.push(`/teacher/create/import?subject=${SAT_MATH_TAXONOMY_SLUG}&back=${base}`)}
+                >
+                  {t.importJson}
+                </Button>
+                <Button icon={<Plus />} onClick={() => router.push(`${base}/build`)}>
+                  {t.create}
+                </Button>
+              </div>
             }
           />
+        </div>
+
+        {/* Test facts (moved here from the SAT hub). */}
+        <div className="flex flex-wrap gap-2">
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Layers size={14} /> {t.infoModules}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Shuffle size={14} /> {t.infoAdaptive}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><Library size={14} /> {t.infoBank}</span>
+          <span className="t-glass-pill inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant"><KeyRound size={14} /> {t.infoCode}</span>
         </div>
 
         {error && <Banner tone="error" title={error} />}

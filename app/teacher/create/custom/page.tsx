@@ -446,7 +446,7 @@ export default function CreateCustomTestPage() {
       )}
 
       {/* 🟢 UNIFIED HEADER (Desktop) */}
-      <div className="hidden lg:flex sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-4 md:px-8 py-3 justify-between items-center shadow-elev-1 w-full">
+      <div className="hidden lg:flex t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-4 md:px-8 py-3 justify-between items-center shadow-elev-1 w-full">
         <div className="flex items-center gap-3">
           <IconButton aria-label="Orqaga" size="sm" className="-ml-2" onClick={() => router.push('/teacher/create')}><ArrowLeft /></IconButton>
           <h1 className="text-[16px] md:text-[18px] font-bold text-on-surface tracking-tight flex items-center gap-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowRight, Bot, PenTool, Image as ImageIcon, School, Award, GraduationCap, Zap, FileText, Calculator, Database, HelpCircle, Blocks } from "lucide-react";
+import { ArrowRight, Bot, PenTool, Image as ImageIcon, School, Award, GraduationCap, Zap, FileText, Calculator, Database, HelpCircle, Blocks, FileJson } from "lucide-react";
 import { useTeacherLanguage } from "@/app/teacher/layout";
 import { motion, Variants } from "framer-motion";
 
@@ -25,6 +25,7 @@ const HUB_TRANSLATIONS: Record<string, any> = {
     custom: { badge: "Qo'l Mehnati", title: "Oq Qog'oz", desc: "Matematik klaviatura yordamida o'z savollaringizni noldan yozing.", btn: "Ochish" },
     question: { badge: "Bitta Savol", title: "Savol Yaratish", desc: "Rasm yoki matnli savol; javob ochiq yoki variantli bo'lishi mumkin.", btn: "Yaratish" },
     block: { badge: "Blok", title: "Ko'p savolli test", desc: "Bitta shart ostida bir nechta savol — yopiq (umumiy variantli) yoki ochiq (yozma javob).", btn: "Yaratish" },
+    jsonImport: { badge: "JSON", title: "JSON orqali import", desc: "Biologiya, kimyo, fizika, ona tili, matematika yoki SAT — ko'p savolni bitta fayl bilan bazaga qo'shing.", btn: "Yuklash" },
   },
   en: {
     heroBadge: "Studio 2.0 ✨", title: "Creation Hub", subtitle: "Select the fastest workflow for your teaching goals.",
@@ -40,6 +41,7 @@ const HUB_TRANSLATIONS: Record<string, any> = {
     custom: { badge: "Manual", title: "Blank Canvas", desc: "Write questions from scratch using our built-in math keyboard.", btn: "Open" },
     question: { badge: "Single", title: "Create Question", desc: "One question from an image or text; open or multiple-choice answer.", btn: "Create" },
     block: { badge: "Block", title: "Multi-question test", desc: "Several questions under one stem — closed (shared A–F variants) or open (written answers).", btn: "Create" },
+    jsonImport: { badge: "JSON", title: "Import from JSON", desc: "Biology, chemistry, physics, Uzbek, maths or SAT — add many questions to your bank with one file.", btn: "Upload" },
   },
   ru: {
     heroBadge: "Студия 2.0 ✨", title: "Центр Создания", subtitle: "Выберите самый быстрый способ для ваших целей.",
@@ -55,6 +57,7 @@ const HUB_TRANSLATIONS: Record<string, any> = {
     custom: { badge: "Вручную", title: "Чистый Лист", desc: "Создавайте тесты с нуля, используя математическую клавиатуру.", btn: "Открыть" },
     question: { badge: "Один вопрос", title: "Создать Вопрос", desc: "Вопрос из картинки или текста; открытый ответ или варианты.", btn: "Создать" },
     block: { badge: "Блок", title: "Тест с несколькими вопросами", desc: "Несколько вопросов под одним условием — закрытый (общие варианты A–F) или открытый (письменные ответы).", btn: "Создать" },
+    jsonImport: { badge: "JSON", title: "Импорт из JSON", desc: "Биология, химия, физика, родной язык, математика или SAT — добавьте много вопросов одним файлом.", btn: "Загрузить" },
   }
 };
 
@@ -118,15 +121,18 @@ export default function CreateHubPage() {
       items: [
         { id: 'question', icon: HelpCircle, tone: 'tertiary', href: '/teacher/create/question', data: t.question },
         { id: 'block', icon: Blocks, tone: 'primary', href: '/teacher/create/block', data: t.block },
+        { id: 'jsonImport', icon: FileJson, tone: 'secondary', href: '/teacher/create/import', data: t.jsonImport },
       ]
     }
   ];
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col relative overflow-hidden pb-[100px]">
+    <div className="min-h-screen bg-surface flex flex-col relative overflow-clip pb-[100px]">
 
-      {/* STICKY GLOBAL HEADER */}
-      <header className="sticky top-0 z-50 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-4 md:px-8 py-3 flex justify-end items-center w-full">
+      {/* STICKY GLOBAL HEADER — phones: a sticky bar; md+: no bar, just the
+          button at the top-right (a full-width bar around one button read as
+          an empty strip under the floating top-bar pills). */}
+      <header className="sticky top-0 z-50 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-4 md:px-8 py-3 flex justify-end items-center w-full md:static md:bg-transparent md:backdrop-blur-none md:border-b-0 md:pb-0">
         <Button variant="tonal" size="sm" icon={<Database />} onClick={() => router.push('/teacher/create/my_questions')}>
           {t.myBank}
         </Button>

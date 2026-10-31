@@ -407,7 +407,7 @@ function BlockBuilder() {
     <div className="flex flex-col min-h-[100dvh] bg-surface pb-28 lg:pb-12">
 
       {/* HEADER */}
-      <div className="sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-3 md:px-8 py-3 flex justify-between items-center shadow-elev-1">
+      <div className="t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant px-3 md:px-8 py-3 flex justify-between items-center shadow-elev-1">
         <div className="flex items-center gap-2 md:gap-3">
           <IconButton aria-label="Orqaga" size="sm" onClick={() => router.push(backTo ?? "/teacher/create")}>
             <ArrowLeft />

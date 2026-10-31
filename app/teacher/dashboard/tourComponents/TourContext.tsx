@@ -289,24 +289,24 @@ function TourOverlay() {
           position:     'fixed',
           zIndex:        100000,
           borderRadius:  14,
-          border:        '2.5px solid #6366f1',
+          border:        '2.5px solid var(--t-accent, var(--m3-primary))',
           // REMOVED: boxShadow: '0 0 0 9999px rgba(0,0,0,0.52)',
           pointerEvents: 'none',
         }}
       >
         {/* Active Breathing Ring */}
         <div style={{
-          position: 'absolute', inset: -7, borderRadius: 20,
-          border: '2px solid rgba(99,102,241,0.55)',
+          position: 'absolute', inset: -7, borderRadius: 'var(--m3-shape-xl)',
+          border: '2px solid color-mix(in oklab, var(--t-accent, var(--m3-primary)) 55%, transparent)',
           animation: 'tourPulse 1.8s ease-in-out infinite',
           pointerEvents: 'none',
         }} />
         {/* Corner Brackets */}
         {[
-          { top: -4, left: -4,   borderTop: '3px solid #6366f1', borderLeft: '3px solid #6366f1' },
-          { top: -4, right: -4,  borderTop: '3px solid #6366f1', borderRight: '3px solid #6366f1' },
-          { bottom: -4, left: -4,  borderBottom: '3px solid #6366f1', borderLeft: '3px solid #6366f1' },
-          { bottom: -4, right: -4, borderBottom: '3px solid #6366f1', borderRight: '3px solid #6366f1' },
+          { top: -4, left: -4,   borderTop: '3px solid var(--t-accent, var(--m3-primary))', borderLeft: '3px solid var(--t-accent, var(--m3-primary))' },
+          { top: -4, right: -4,  borderTop: '3px solid var(--t-accent, var(--m3-primary))', borderRight: '3px solid var(--t-accent, var(--m3-primary))' },
+          { bottom: -4, left: -4,  borderBottom: '3px solid var(--t-accent, var(--m3-primary))', borderLeft: '3px solid var(--t-accent, var(--m3-primary))' },
+          { bottom: -4, right: -4, borderBottom: '3px solid var(--t-accent, var(--m3-primary))', borderRight: '3px solid var(--t-accent, var(--m3-primary))' },
         ].map((s, i) => (
           <div key={i} style={{ position: 'absolute', width: 13, height: 13, borderRadius: 2, ...s }} />
         ))}
@@ -466,17 +466,17 @@ let top = 0, left = 0;
         position:  'fixed',
         width:      TOOLTIP_W,
         zIndex:     100001,        
-        background: '#ffffff',
-        borderRadius: 20,
+        background: 'var(--m3-surface-container-lowest)',
+        borderRadius: 'var(--m3-shape-xl)',
         overflow:   'hidden',
-        boxShadow:  '0 24px 64px rgba(0,0,0,0.22), 0 4px 16px rgba(99,102,241,0.14)',
-        border:     '0.5px solid rgba(99,102,241,0.18)',
+        boxShadow:  '0 24px 64px rgba(0,0,0,0.22), 0 4px 16px color-mix(in oklab, var(--t-accent, var(--m3-primary)) 14%, transparent)',
+        border:     '0.5px solid color-mix(in oklab, var(--t-accent, var(--m3-primary)) 18%, transparent)',
         pointerEvents: 'auto',
       }}
     >
       {/* ── Header gradient ── */}
       <div style={{
-        background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+        background: 'linear-gradient(135deg, var(--t-accent, var(--m3-primary)) 0%, var(--t-accent-strong, var(--m3-primary)) 100%)',
         padding:    '14px 16px 12px',
         position:   'relative',
         overflow:   'hidden',
@@ -485,7 +485,7 @@ let top = 0, left = 0;
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
           <div style={{ display:'flex', alignItems:'center', gap:8 }}>
             {step.emoji && <span style={{ fontSize:20, lineHeight:1 }}>{step.emoji}</span>}
-            <span style={{ fontSize:14, fontWeight:800, color:'#fff', letterSpacing:'-0.2px' }}>{step.title}</span>
+            <span style={{ fontSize:14, fontWeight:800, color:'var(--t-on-accent, #fff)', letterSpacing:'-0.2px' }}>{step.title}</span>
           </div>
           <button
             onClick={handleSkip}
@@ -501,7 +501,7 @@ let top = 0, left = 0;
               alignItems:'center', 
               justifyContent:'center',
               cursor:'pointer', 
-              color:'#fff', 
+              color:'var(--t-on-accent, #fff)', 
               flexShrink:0,
               transition: 'background 0.2s ease',
               pointerEvents: 'auto',
@@ -524,12 +524,12 @@ let top = 0, left = 0;
       </div>
 
       {/* ── Progress bar ── */}
-      <div style={{ height:3, background:'#f1f5f9' }}>
+      <div style={{ height:3, background:'var(--m3-surface-container-high)' }}>
         <motion.div
           initial={{ width: `${(stepIndex / totalSteps) * 100}%` }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          style={{ height:'100%', background:'linear-gradient(90deg,#6366f1,#8b5cf6)' }}
+          style={{ height:'100%', background:'linear-gradient(90deg, var(--t-accent, var(--m3-primary)), var(--t-accent-strong, var(--m3-primary)))' }}
         />
       </div>
 
@@ -540,7 +540,7 @@ let top = 0, left = 0;
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2, delay: 0.05 }}
-          style={{ fontSize:13, color:'#475569', lineHeight:1.65, margin:'0 0 14px' }}
+          style={{ fontSize:13, color:'var(--m3-on-surface-variant)', lineHeight:1.65, margin:'0 0 14px' }}
         >
           {step.description}
         </motion.p>
@@ -552,7 +552,7 @@ let top = 0, left = 0;
               width:        i === stepIndex ? 20 : 6,
               height:       6,
               borderRadius: 3,
-              background:   i === stepIndex ? '#6366f1' : i < stepIndex ? '#c7d2fe' : '#e2e8f0',
+              background:   i === stepIndex ? 'var(--t-accent, var(--m3-primary))' : i < stepIndex ? 'color-mix(in oklab, var(--t-accent, var(--m3-primary)) 35%, transparent)' : 'var(--m3-outline-variant)',
               transition:   'all 0.25s ease',
             }} />
           ))}
@@ -566,16 +566,16 @@ let top = 0, left = 0;
               type="button"
               style={{
                 display:'flex', alignItems:'center', gap:5,
-                background:'#f8fafc', border:'0.5px solid #e2e8f0',
+                background:'var(--m3-surface-container)', border:'0.5px solid var(--m3-outline-variant)',
                 borderRadius:10, padding:'8px 14px',
-                fontSize:12, fontWeight:700, color:'#64748b', cursor:'pointer',
+                fontSize:12, fontWeight:700, color:'var(--m3-on-surface-variant)', cursor:'pointer',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#f1f5f9';
+                e.currentTarget.style.background = 'var(--m3-surface-container-high)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#f8fafc';
+                e.currentTarget.style.background = 'var(--m3-surface-container)';
               }}
             >
               <ArrowLeft size={13} /> {t.prev}
@@ -585,13 +585,13 @@ let top = 0, left = 0;
               onClick={handleSkip}
               type="button"
               style={{
-                background:'none', border:'0.5px solid #e2e8f0',
+                background:'none', border:'0.5px solid var(--m3-outline-variant)',
                 borderRadius:10, padding:'8px 14px',
-                fontSize:12, color:'#94a3b8', cursor:'pointer',
+                fontSize:12, color:'var(--m3-outline)', cursor:'pointer',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#f8fafc';
+                e.currentTarget.style.background = 'var(--m3-surface-container)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = 'none';
@@ -606,10 +606,10 @@ let top = 0, left = 0;
             type="button"
             style={{
               display:'flex', alignItems:'center', gap:6,
-              background:'linear-gradient(135deg,#6366f1,#8b5cf6)',
-              border:'none', borderRadius:10, padding:'8px 18px',
-              fontSize:12, fontWeight:800, color:'#fff', cursor:'pointer',
-              boxShadow:'0 4px 14px rgba(99,102,241,0.38)',
+              background:'linear-gradient(135deg, var(--t-accent, var(--m3-primary)), var(--t-accent-strong, var(--m3-primary)))',
+              border:'none', borderRadius:9999, padding:'8px 18px',
+              fontSize:12, fontWeight:800, color:'var(--t-on-accent, #fff)', cursor:'pointer',
+              boxShadow:'0 4px 14px color-mix(in oklab, var(--t-accent, var(--m3-primary)) 38%, transparent)',
               transition: 'all 0.2s ease',
             }}
             onMouseEnter={(e) => {

@@ -83,6 +83,10 @@ export interface SatQuizItem {
   /** `numeric` only — other spellings/forms that also count as correct. */
   acceptedAnswers?: string[];
 
+  /** Subtopic id — set on SAT practice-bank items (`lib/SatPractice.ts`), which
+   *  the generator spreads picks across. Absent on teacher-built test items. */
+  subtopic?: string;
+
   explanation?: LocalizedText;
 
   /** Who wrote it, shown even mid-test — mirrors the rest of the app
@@ -138,6 +142,14 @@ export interface SatMathTest {
   showAnswers: boolean;
 
   status: SatMathTestStatus;
+
+  /**
+   * A student's own GENERATED practice test (2026-10-31): built on their SAT
+   * page from the shared practice bank (`sat_pool`, lib/SatPractice.ts) and
+   * owned by the student (`teacherId` = the student's uid, no access code).
+   * Ids are `satp_…` (Math) / `satep_…` (English). Absent on teacher tests.
+   */
+  practice?: true;
 
   createdAt: unknown | null;
   updatedAt: unknown | null;
