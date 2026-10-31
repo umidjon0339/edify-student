@@ -104,7 +104,7 @@ export const DESIGN: DesignConfig = {
    *  platform = lists run edge-to-edge and meet the shell with a hairline, the
    *  way macOS/Android software looks. floating = every card is its own island
    *  with margin around it, the way a website looks. */
-  Layout_density: 'platform',
+  Layout_density: 'floating',
   // ⭐ platform | floating
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ export const DESIGN: DesignConfig = {
 
   /** Default card treatment. (Hero cards can still opt into gradient/glass
    *  individually — this sets what a plain <Card> looks like.) */
-  Card_style: 'filled',
+  Card_style: 'glass',
   // ⭐ filled   — tinted surface, no shadow (flattest, most modern)
   //    elevated — white surface + soft shadow (classic Material)
   //    outlined — hairline border, no shadow (crispest, most desktop)

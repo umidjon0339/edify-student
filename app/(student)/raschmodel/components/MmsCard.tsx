@@ -142,7 +142,7 @@ export default function MmsCard({ lang, className = '' }: { lang: Lang; classNam
       className={className}
     >
       {/* Edify style: a glass panel with the accent chip as its only colour. */}
-      <div className="s-glass rounded-m3-lg p-s-card">
+      <div className="s-panel rounded-m3-lg p-s-card">
         <div className="flex items-center gap-3">
           <span className="s-chip grid h-10 w-10 shrink-0 place-items-center rounded-full">
             <ShieldCheck size={19} strokeWidth={2.5} />
@@ -214,7 +214,7 @@ export default function MmsCard({ lang, className = '' }: { lang: Lang; classNam
           )}
           <Link
             href="/raschmodel/quiz"
-            className="s-glass s-press inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-[14.5px] font-extrabold text-on-surface"
+            className="s-panel s-press inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-[14.5px] font-extrabold text-on-surface"
           >
             <KeyRound size={16} strokeWidth={3} />
             {t.byCode}

@@ -94,7 +94,7 @@ export default function MathLevelSummary({
     >
       <Link href="/raschmodel/progress" className="group block">
         {/* Edify style: a frosted glass panel on the mesh, not a filled card. */}
-        <div className="s-glass rounded-m3-lg p-s-card transition-shadow group-hover:shadow-elev-2">
+        <div className="s-panel rounded-m3-lg p-s-card transition-shadow group-hover:shadow-elev-2">
           <div className="flex items-center gap-3">
             <Tile tone={tone.tile} size="sm">
               <Gauge size={17} strokeWidth={2.5} />

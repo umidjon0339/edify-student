@@ -56,7 +56,7 @@ export interface StatTileProps {
 }
 
 const TILE_TONES = {
-  surface: 'bg-surface-container text-on-surface',
+  surface: 's-panel text-on-surface',
   primary: 'bg-primary-container text-on-primary-container',
   secondary: 'bg-secondary-container text-on-secondary-container',
   gold: 'bg-gold-container text-on-gold-container',
@@ -136,12 +136,13 @@ export interface StatBandProps {
   className?: string;
 }
 
-/** The "player card" — a row of headline numbers on an inverse surface. */
+/** The "player card" — a row of headline numbers. Edify style (2026-11-01):
+ *  a glass panel with accent numbers, not a dark inverse slab. */
 export function StatBand({ stats, className }: StatBandProps) {
   return (
     <div
       className={cn(
-        'flex flex-wrap justify-around gap-x-6 gap-y-5 rounded-m3-lg bg-inverse-surface px-6 py-6 text-inverse-on-surface',
+        's-panel flex flex-wrap justify-around gap-x-6 gap-y-5 rounded-m3-lg px-6 py-6 text-on-surface',
         className,
       )}
     >
@@ -157,7 +158,7 @@ function StatBandCell({ label, value }: { label: string; value: number | string 
   const { ref, shown } = useCountUp(numeric ? value : 0, numeric && MOTION_ON);
   return (
     <div className="text-center">
-      <div className="s-display s-num text-[clamp(24px,3.6vw,34px)] font-bold leading-tight">
+      <div className="s-display s-num text-[clamp(24px,3.6vw,34px)] font-bold leading-tight text-primary">
         {numeric ? <span ref={ref}>{shown.toLocaleString()}</span> : value}
       </div>
       <div className="mt-0.5 text-[11.5px] font-bold opacity-70">{label}</div>

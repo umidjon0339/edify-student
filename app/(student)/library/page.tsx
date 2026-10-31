@@ -624,7 +624,7 @@ export default function OnlineLibraryPage() {
 
           <div className="flex justify-center mb-10 overflow-x-auto pb-2">
             {/* Level filter — Edify pill capsule (accent pill on the selection). */}
-            <div className="s-glass inline-flex gap-0.5 rounded-full p-1.5" role="group">
+            <div className="s-panel inline-flex gap-0.5 rounded-full p-1.5" role="group">
               {(['all', ...uniqueSchoolTypes] as string[]).map((typeKey) => {
                 const on = schoolTypeFilter === typeKey;
                 return (

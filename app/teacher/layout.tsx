@@ -196,6 +196,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
   // 'pillbar' shell: which hover dropdown is open (group key, 'profile' or 'lang').
   const [openNavGroup, setOpenNavGroup] = useState<string | null>(null);
   const navCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastNavPointer = useRef('');
   // 'pillbar' shell: the bar never moves — once the page is scrolled it gains
   // a soft shadow so it reads as floating above the content.
   const [navScrolled, setNavScrolled] = useState(false);
@@ -873,6 +874,17 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
     if (navCloseTimer.current) clearTimeout(navCloseTimer.current);
     navCloseTimer.current = setTimeout(() => setOpenNavGroup(null), 160);
   };
+  // ⚠️ Dropdown fixes (2026-11-01) — keep them:
+  // 1. A MOUSE click only opens: hover already opened the menu, so a toggling
+  //    click shut it again. Touch/keyboard clicks still toggle (`lastNavPointer`).
+  // 2. A closed panel wrapper is pointer-events-none — a menu fading out sat
+  //    under the pointer, re-fired mouseenter and reopened (the flicker).
+  // 3. Menus close on a short tween (`menuTween`), not the expressive spring.
+  const clickNav = (key: string) => {
+    if (lastNavPointer.current === 'mouse') openNav(key);
+    else toggleNav(key);
+    lastNavPointer.current = '';
+  };
   const toggleNav = (key: string) => {
     if (navCloseTimer.current) clearTimeout(navCloseTimer.current);
     setOpenNavGroup((cur) => (cur === key ? null : key));
@@ -893,7 +905,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
     return (
       <button
         type="button"
-        onClick={() => toggleNav(key)}
+        onClick={() => clickNav(key)}
         aria-expanded={open}
         aria-haspopup="menu"
         className={cn(
@@ -914,13 +926,14 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
 
   /** Hover zone: trigger + its dropdown. The panel wrapper's top padding
    *  bridges the gap so moving the pointer down never closes it. */
+  const menuTween = MOTION_ON ? { duration: 0.14, ease: [0.2, 0, 0, 1] as const } : { duration: 0 };
   const pillDropdown = (key: string, trigger: React.ReactNode, panel: React.ReactNode, width: string, align: 'center' | 'right' = 'center') => (
     <div key={key} className="relative" onMouseEnter={() => openNav(key)} onMouseLeave={closeNavSoon}>
       {trigger}
-      <div className={cn("absolute top-full pt-3 z-[60]", align === 'center' ? "left-1/2 -translate-x-1/2" : "right-0")}>
+      <div className={cn("absolute top-full pt-3 z-[60]", align === 'center' ? "left-1/2 -translate-x-1/2" : "right-0", openNavGroup !== key && "pointer-events-none")}>
         <AnimatePresence>
           {openNavGroup === key && (
-            <motion.div {...popIn} role="menu" className={cn("t-mega rounded-m3-xl p-2", align === 'center' ? "origin-top" : "origin-top-right", width)}>
+            <motion.div {...popIn} transition={menuTween} role="menu" className={cn("t-mega rounded-m3-xl p-2", align === 'center' ? "origin-top" : "origin-top-right", width)}>
               {panel}
             </motion.div>
           )}
@@ -1003,6 +1016,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
   const desktopPillbar = SHELL === 'pillbar' && (
     <header
       ref={deskHeaderRef}
+      onPointerDownCapture={(e) => { lastNavPointer.current = e.pointerType; }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpenNavGroup(null); }}
       className={cn(
         "hidden md:grid grid-cols-[1fr_auto_1fr] items-center gap-4 absolute top-0 inset-x-0 z-40 h-[76px] px-4 lg:px-8",
@@ -1070,7 +1084,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
           'lang',
           <button
             type="button"
-            onClick={() => toggleNav('lang')}
+            onClick={() => clickNav('lang')}
             aria-expanded={openNavGroup === 'lang'}
             aria-label="Til"
             className="t-glass-pill flex items-center gap-2 h-11 pl-2 pr-3 rounded-full text-[13px] font-bold uppercase text-on-surface"
@@ -1112,7 +1126,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
           'profile',
           <button
             type="button"
-            onClick={() => toggleNav('profile')}
+            onClick={() => clickNav('profile')}
             aria-expanded={openNavGroup === 'profile'}
             aria-haspopup="menu"
             aria-label={t.groups.profile}

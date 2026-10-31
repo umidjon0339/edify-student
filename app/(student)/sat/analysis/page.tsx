@@ -110,14 +110,14 @@ export default function SatAnalysisPage() {
       <div className="mx-auto flex max-w-3xl flex-col gap-4 py-2">
         {/* ── header ── */}
         <div className="flex flex-wrap items-center gap-3">
-          <Link href="/sat" aria-label={t.back} className="s-glass grid h-10 w-10 place-items-center rounded-full text-on-surface s-press">
+          <Link href="/sat" aria-label={t.back} className="s-panel grid h-10 w-10 place-items-center rounded-full text-on-surface s-press">
             <ArrowLeft size={18} />
           </Link>
           <h1 className="s-display text-[22px] font-bold text-on-surface">{t.title}</h1>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <div className="s-glass inline-flex gap-0.5 rounded-full p-1" role="group">
+          <div className="s-panel inline-flex gap-0.5 rounded-full p-1" role="group">
             {(["math", "english"] as SatSubjectKey[]).map((s) => (
               <button
                 key={s}
@@ -134,7 +134,7 @@ export default function SatAnalysisPage() {
               </button>
             ))}
           </div>
-          <div className="s-glass inline-flex gap-0.5 rounded-full p-1" role="group">
+          <div className="s-panel inline-flex gap-0.5 rounded-full p-1" role="group">
             {(["all", "mock", "teacher"] as SatSource[]).map((s) => (
               <button
                 key={s}
@@ -153,13 +153,13 @@ export default function SatAnalysisPage() {
         </div>
 
         {failed ? (
-          <div className="s-glass rounded-m3-lg p-5 text-[13px] font-bold text-error">{t.failed}</div>
+          <div className="s-panel rounded-m3-lg p-5 text-[13px] font-bold text-error">{t.failed}</div>
         ) : !data ? (
           <div className="flex flex-col gap-3">
             {[0, 1, 2].map((i) => <Skeleton key={i} height={96} className="w-full rounded-m3-lg" />)}
           </div>
         ) : rows.length === 0 ? (
-          <div className="s-glass rounded-m3-lg">
+          <div className="s-panel rounded-m3-lg">
             <EmptyState
               icon={<Target size={28} />}
               title={t.empty}
@@ -287,7 +287,7 @@ export default function SatAnalysisPage() {
 
 function Panel({ title, icon, hint, children }: { title: string; icon: React.ReactNode; hint?: string; children: React.ReactNode }) {
   return (
-    <section className="s-glass rounded-m3-lg p-4">
+    <section className="s-panel rounded-m3-lg p-4">
       <h2 className="flex items-center gap-2 text-[14px] font-bold text-on-surface">{icon} {title}</h2>
       {hint && <p className="mb-3 text-[11px] font-medium text-on-surface-variant">{hint}</p>}
       <div className={cn(!hint && "mt-3")}>{children}</div>
@@ -297,7 +297,7 @@ function Panel({ title, icon, hint, children }: { title: string; icon: React.Rea
 
 function Tile({ label, value, children }: { label: string; value: string; children?: React.ReactNode }) {
   return (
-    <div className="s-glass flex flex-col gap-1 rounded-m3-lg p-3.5">
+    <div className="s-panel flex flex-col gap-1 rounded-m3-lg p-3.5">
       <span className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">{label}</span>
       <span className="s-num text-[22px] font-black leading-none text-on-surface">{value}</span>
       {children}

@@ -236,9 +236,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     // reason as Milliy sertifikat. A different exam programme, not a subject
     // inside that one. See docs/SAT_QUIZ.md.
     { href: '/sat', label: t.menu.sat, icon: Target, hideOnMobile: true, group: 'exams' },
-    // My Mistakes (docs/MISTAKES.md) — fed by SAT / Milliy / Rasch, so it sits
-    // with them rather than under Classes.
-    { href: '/mistakes', label: t.menu.mistakes, icon: Brain, hideOnMobile: true, group: 'resources' },
+    // My Mistakes (docs/MISTAKES.md) — fed by SAT / Milliy / Rasch. In the
+    // pillbar it is the capsule's FEATURED link (icon chip + label, like the
+    // teacher's "Yangi Test"), not a dropdown row; `group` still files it under
+    // Resources for any shell that uses groups without `pillCta`.
+    { href: '/mistakes', label: t.menu.mistakes, icon: Brain, hideOnMobile: true, group: 'resources', pillCta: true },
     // Hidden from the mobile dock: M3 caps a bottom bar at 5 destinations, and
     // Profile is already one tap away in the avatar menu.
     { href: '/profile', label: t.menu.profile, icon: UserIcon, hideOnMobile: true, hideInPillbar: true },

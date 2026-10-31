@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Gamepad2, ChevronRight, Crown, Sparkles, Brain } from 'lucide-react';
+import { Gamepad2, ChevronRight, Crown, Sparkles } from 'lucide-react';
 import { Page, PageHeader, Card, Tile, Chip } from '@/components/student-ui';
 import { useStudentLanguage } from '../layout'; // Assuming your context is exported from the layout
 
@@ -54,16 +54,10 @@ export default function GamesPage() {
       <PageHeader
         title={
           <span className="inline-flex items-center gap-3">
-            <Tile tone="primary">
+            <span className="s-chip grid h-11 w-11 place-items-center rounded-full">
               <Gamepad2 size={22} strokeWidth={2.5} />
-            </Tile>
+            </span>
             {t.title}
-          </span>
-        }
-        subtitle={
-          <span className="inline-flex items-center gap-2">
-            <Brain size={16} />
-            {t.subtitle}
           </span>
         }
       />
@@ -92,11 +86,11 @@ export default function GamesPage() {
               </p>
             </div>
 
-            <div className="mt-auto flex items-center justify-between border-t border-outline-variant pt-4">
+            <div className="mt-auto flex items-center justify-between pt-2">
               <span className="text-[15px] font-extrabold text-primary">
                 {t.games.checkers.play}
               </span>
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-surface-container-high text-on-surface-variant transition-colors duration-m3-fast group-hover:bg-primary-container group-hover:text-on-primary-container">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-state-hover text-on-surface-variant transition-colors duration-m3-fast group-hover:bg-primary group-hover:text-on-primary">
                 <ChevronRight size={18} strokeWidth={3} />
               </span>
             </div>

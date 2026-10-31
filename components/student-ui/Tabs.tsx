@@ -21,13 +21,17 @@ export interface TabsProps<T extends string> {
   className?: string;
 }
 
-/** Scrollable tab bar with a sliding active indicator. */
+/**
+ * Scrollable tab bar. Edify style (2026-11-01): a glass pill capsule with the
+ * accent chip gliding under the selected tab (was an underlined strip with a
+ * full-width divider).
+ */
 export function Tabs<T extends string>({ tabs, value, onChange, label, className }: TabsProps<T>) {
   return (
     <div
       role="tablist"
       aria-label={label}
-      className={cn('s-no-scrollbar flex gap-1 overflow-x-auto border-b border-outline-variant', className)}
+      className={cn('s-panel s-no-scrollbar flex w-fit max-w-full gap-0.5 overflow-x-auto rounded-full p-1', className)}
     >
       {tabs.map((tab) => {
         const on = tab.value === value;
@@ -39,24 +43,23 @@ export function Tabs<T extends string>({ tabs, value, onChange, label, className
             aria-selected={on}
             onClick={() => onChange(tab.value)}
             className={cn(
-              'relative flex shrink-0 items-center gap-2 px-4 py-3 text-[14px] font-extrabold',
+              'relative flex h-10 shrink-0 items-center gap-2 rounded-full px-4 text-[13.5px] font-extrabold',
               'transition-colors duration-m3-fast ease-m3-std',
-              on ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface',
+              on ? 's-on-chip' : 'text-on-surface-variant hover:text-on-surface',
             )}
           >
-            {tab.icon}
-            {tab.label}
-            {tab.badge != null && tab.badge > 0 && (
-              <span className="s-num grid h-5 min-w-5 place-items-center rounded-full bg-error px-1.5 text-[10.5px] font-black text-on-error">
-                {tab.badge > 99 ? '99+' : tab.badge}
-              </span>
-            )}
             {on && (
               <motion.span
                 layoutId="s-tab-indicator"
                 transition={MOTION_ON ? springTransition : { duration: 0 }}
-                className="absolute inset-x-2 bottom-0 h-[3px] rounded-t-full bg-primary"
+                className="s-chip absolute inset-0 rounded-full"
               />
+            )}
+            <span className="relative flex items-center gap-2">{tab.icon}{tab.label}</span>
+            {tab.badge != null && tab.badge > 0 && (
+              <span className="relative s-num grid h-5 min-w-5 place-items-center rounded-full bg-error px-1.5 text-[10.5px] font-black text-on-error">
+                {tab.badge > 99 ? '99+' : tab.badge}
+              </span>
             )}
           </button>
         );

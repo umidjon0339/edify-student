@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { cn } from './cn';
@@ -19,6 +19,10 @@ export interface NavItem {
   group?: string;
   /** pillbar only: not shown in the capsule (e.g. Profile — it has its own pill). */
   hideInPillbar?: boolean;
+  /** pillbar only: a FEATURED link at the end of the capsule — round accent
+   *  icon chip + label, the student twin of the teacher's "Yangi Test" pill.
+   *  Ignores `group`. Other shells render it as a normal item. */
+  pillCta?: boolean;
 }
 
 export interface NavGroup {
@@ -92,10 +96,14 @@ export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNa
         {pill ? (
           /* Edify style: only the pills are pinned — the page (and its canvas)
              scrolls behind them; no band, no border. */
-          <header className="sticky top-0 z-40 grid h-[68px] shrink-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-3 sm:px-4">
-            <div className="s-glass flex h-11 items-center rounded-full px-4">{brand}</div>
+          <header className="sticky top-0 z-40 grid h-[68px] shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-3 sm:px-4">
+            {/* Equal 1fr side columns put the capsule on the page's centre line,
+                however wide the brand and the right-hand pills are. */}
+            <div className="s-glass flex h-11 items-center justify-self-start rounded-full px-4">{brand}</div>
             <PillTabs items={items} isActive={isActive} groups={groups} />
-            <div className="justify-self-end">{topbar}</div>
+            {/* col-start-3: on phones the capsule is display:none and would
+                otherwise let these slide into the middle column. */}
+            <div className="col-start-3 justify-self-end">{topbar}</div>
           </header>
         ) : (
         <header
@@ -289,13 +297,41 @@ function RecipeDrawer({
    (Asosiy · Imtihonlar · Resurslar …), like the teacher panel's top bar. The
    trigger of the group holding the current page wears the gliding accent
    pill. Hover opens (with a short close delay so the pointer can reach the
-   panel), click toggles for touch/keyboard, Escape closes. */
+   panel), click toggles for touch/keyboard, Escape or an outside tap closes.
+
+   ⚠️ Dropdown fixes (2026-11-01) — keep all three:
+   1. A MOUSE click only opens. Hover has already opened the menu, so a
+      toggling click shut it again ("click does nothing"). Touch / keyboard
+      clicks (no hover) still toggle — `lastPointer` tells them apart.
+   2. The closed panel wrapper is `pointer-events-none`. A menu fading out
+      still sat under the pointer, re-fired the group's mouseenter and opened
+      again — the flicker.
+   3. Menus use a short tween, not the page spring, so they don't linger. */
 
 function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isActive' | 'groups'>) {
   const transition = MOTION_ON ? springTransition : { duration: 0 };
+  const menuTransition = MOTION_ON ? { duration: 0.14, ease: [0.2, 0, 0, 1] as const } : { duration: 0 };
   const [open, setOpen] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastPointer = useRef('');
+  const navRef = useRef<HTMLElement>(null);
   const openNow = (k: string) => { if (closeTimer.current) clearTimeout(closeTimer.current); setOpen(k); };
+  const clickGroup = (k: string) => {
+    if (lastPointer.current === 'mouse') openNow(k);
+    else setOpen((cur) => (cur === k ? null : k));
+    lastPointer.current = '';
+  };
+
+  // An outside tap closes (touch has no mouseleave to do it).
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!navRef.current?.contains(e.target as Node)) setOpen(null);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [open]);
+  useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
   const closeSoon = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 160);
@@ -303,9 +339,10 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
 
   const visible = items.filter((i) => !i.hideInPillbar);
   const known = new Set((groups ?? []).map((g) => g.key));
-  const direct = visible.filter((i) => !i.group || !known.has(i.group));
+  const ctas = visible.filter((i) => i.pillCta);
+  const direct = visible.filter((i) => !i.pillCta && (!i.group || !known.has(i.group)));
   const grouped = (groups ?? [])
-    .map((g) => ({ ...g, items: visible.filter((i) => i.group === g.key) }))
+    .map((g) => ({ ...g, items: visible.filter((i) => !i.pillCta && i.group === g.key) }))
     .filter((g) => g.items.length > 0);
 
   const pillLink = (item: NavItem) => {
@@ -326,9 +363,41 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
     );
   };
 
+  // The featured link: accent icon chip + label (teacher "Yangi Test" recipe).
+  // On its own page the gliding chip slides under it and the icon chip turns
+  // into a translucent disc so it doesn't vanish into the accent.
+  const ctaLink = (item: NavItem) => {
+    const on = isActive(item.href);
+    const Icon = item.icon;
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        aria-current={on ? 'page' : undefined}
+        className={cn(
+          'group relative flex h-10 shrink-0 items-center gap-2 rounded-full pl-1.5 pr-4 text-[13.5px] font-extrabold transition-colors',
+          on ? 's-on-chip' : 'text-on-surface-variant hover:text-on-surface',
+        )}
+      >
+        {on && <motion.span layoutId="s-pb-active" transition={transition} className="s-chip absolute inset-0 rounded-full" />}
+        <span
+          className={cn(
+            'relative grid h-7 w-7 place-items-center rounded-full transition-transform duration-300 group-hover:scale-110',
+            on ? 'bg-[color-mix(in_oklab,currentColor_18%,transparent)]' : 's-chip',
+          )}
+        >
+          <Icon size={15} strokeWidth={2.6} />
+        </span>
+        <span className="relative">{item.label}</span>
+      </Link>
+    );
+  };
+
   return (
     <nav
+      ref={navRef}
       aria-label="Main"
+      onPointerDownCapture={(e) => { lastPointer.current = e.pointerType; }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpen(null); }}
       className="s-glass hidden min-w-0 items-center gap-0.5 justify-self-center rounded-full p-1.5 md:flex"
     >
@@ -342,7 +411,7 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
               type="button"
               aria-expanded={isOpen}
               aria-haspopup="menu"
-              onClick={() => setOpen(isOpen ? null : g.key)}
+              onClick={() => clickGroup(g.key)}
               className={cn(
                 'relative flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-[13.5px] font-extrabold transition-colors',
                 on ? 's-on-chip' : isOpen ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface',
@@ -354,7 +423,7 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
               <ChevronDown size={14} strokeWidth={2.6} className={cn('relative transition-transform duration-200', isOpen && 'rotate-180')} />
             </button>
             {/* pt-3 bridges the gap so moving down never closes the panel. */}
-            <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
+            <div className={cn('absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3', !isOpen && 'pointer-events-none')}>
               <AnimatePresence>
                 {isOpen && (
                   <motion.div
@@ -362,7 +431,7 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
                     initial={MOTION_ON ? { opacity: 0, y: 6, scale: 0.97 } : false}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.97 }}
-                    transition={transition}
+                    transition={menuTransition}
                     className={cn(
                       's-menu origin-top rounded-m3-lg p-2',
                       g.items.length > 3 ? 'grid w-[440px] grid-cols-2 gap-0.5' : 'flex w-[260px] flex-col gap-0.5',
@@ -395,6 +464,7 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
           </div>
         );
       })}
+      {ctas.map(ctaLink)}
     </nav>
   );
 }

@@ -139,34 +139,37 @@ student should read first, and the programme's door is where they go afterwards.
   a number here would be wrong for most papers.
 - **Zero Firestore reads** — bundled constant. That is what makes it acceptable to
   spend the dashboard's hero on news.
-- ⚠️ It spends the student kit's **one `gradient` card** for the screen (which is
-  why `MmsCard` had to leave rather than sit beside it). White text ⇒ opacity
-  modifiers use plain palette colours (`border-white/30`), never `border-current/25`
-  and never an M3 token — neither can take a Tailwind opacity modifier.
-- **Rotation:** 8s, and it stops on hover, on keyboard focus, while the tab is
-  hidden, and permanently under `prefers-reduced-motion` (read with `matchMedia`,
-  which the browser can change mid-session). There is an explicit pause/play
-  control because APG requires one of any auto-moving content; the dots and arrows
-  keep working when it is paused, so nothing becomes unreachable.
-- ⚠️ **Every slide stays mounted in ONE grid cell** (`[grid-area:1/1]`), so the
-  card is as tall as the tallest slide and the page cannot jump mid-rotation.
-  Inactive slides are `aria-hidden` **and `inert`** — invisible content whose CTAs
-  still take Tab is a worse bug than a height jump.
-- **The transition is a directional slide, not a crossfade.** `shortestDelta()`
-  gives each slide its signed distance from the active one *the short way round*,
-  and that single number parks every waiting slide on the side it will arrive from
-  — so advancing always travels left→right and going back right→left, **including
-  across the wrap** from the last announcement to the first. `transform`
-  (`translate3d` + `scale` in one string, or they overwrite each other) and
-  `opacity` only: no layout, no paint, so it stays on the compositor on a cheap
-  phone. ⚠️ The 560ms/easeOutQuint is a deliberate arbitrary value, not a missing
-  token — `duration-m3-med`'s 200ms reads as a flicker over a 44px travel. Every
-  other transition on the card still uses the tokens.
-- **Phones swipe** (pointer events, 44px threshold) and get stacked full-width
-  CTAs; the side arrows appear from `sm` up. ⚠️ The swipe handler must not use
-  capture or `preventDefault` — a pointerdown on a CTA has to reach the link.
-- Controls are hidden entirely when only one announcement is active: dots and
-  arrows on a carousel of one read as broken.
+- **It is an endless marquee of compact cards (2026-11-01).** Every
+  announcement is its OWN card (`.s-deck-card` in the student `theme.css`, ~17rem
+  wide) in its own `tone` — a deep, mode-independent `[data-tone]` pair
+  (`--s-deck-a/-b`, white text ≥ 4.5:1) + a bright `--s-deck-tint`. A card is
+  Edify-minimal (2026-11-01): icon orb + badge · title · at most 2 `meta` facts
+  on one plain line · ONE CTA (the `filled` one's `href`, else the first's) whose
+  label is ALWAYS "Try yourself" (`UI.try` — "Sinab ko'ring" / "Попробуйте
+  сами"), not the CTA's own `label`. `body` and any
+  secondary CTA stay in `lib/announcements.ts` but are NOT shown here — don't
+  re-add them. Hovering lifts a card and sweeps a sheen. `tone` and
+  `short` are optional `Announcement` fields. White text on cards ⇒ opacity
+  modifiers use plain palette colours (`bg-white/15`), never an M3 token.
+- **Motion is pure CSS** (`.s-marquee`): the track renders the list TWICE and
+  slides by exactly −50%, so the loop seam is invisible; spacing is per-card
+  `pr-3`, never `gap` (a trailing gap would make the −50% land off by one gap).
+  A copy shorter than 6 cards is repeated so a short list leaves no hole. Speed
+  = 6s per card per loop. It **never stops on its own and stops under the
+  cursor** (`:hover`) and while anything inside has focus (`:focus-within`);
+  there is an explicit pause/play button (APG + touch screens have no hover).
+- ⚠️ **The repeats are presentation only**: `aria-hidden` wrapper + their links
+  `tabIndex=-1`, so a screen reader hears each card once and Tab visits each
+  once. They are deliberately NOT `inert` — a mouse user must be able to click
+  whichever copy is on screen.
+- **`prefers-reduced-motion` (read through `useSyncExternalStore`) or
+  `Motion_level: 'none'` renders no marquee** — one copy in a sideways-scrolling
+  snap row. A single active announcement renders the same static row.
+- The stage is `overflow-x-clip` (not `hidden`, which would clip the hover lift
+  and shadow) with a mask fading its edges, plus two `.s-marquee-edge`
+  backdrop-blur strips (masked to fade inward, inset to the cards' height — a
+  full-height strip shows the frosted canvas as a faint box) so cards blur as
+  they enter/leave. Two fixed blurs, never a per-card filter.
 
 ## `MilliyCard` — the dashboard's door to the programme (2026-07-30)
 

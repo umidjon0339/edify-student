@@ -96,11 +96,11 @@ export default function SatHubPage() {
               </>
             );
             return ready ? (
-              <Link key={section.id} href={section.studentHref!} className="s-glass s-press flex items-center gap-4 rounded-m3-lg p-4">
+              <Link key={section.id} href={section.studentHref!} className="s-panel s-press flex items-center gap-4 rounded-m3-lg p-4">
                 {body}
               </Link>
             ) : (
-              <div key={section.id} className="s-glass flex items-center gap-4 rounded-m3-lg p-4 opacity-60">
+              <div key={section.id} className="s-panel flex items-center gap-4 rounded-m3-lg p-4 opacity-60">
                 {body}
               </div>
             );
@@ -108,7 +108,7 @@ export default function SatHubPage() {
         </div>
 
         {/* ── the student's own mocks, analysed (/sat/analysis) ── */}
-        <Link href="/sat/analysis" className="s-glass s-press flex items-center gap-4 rounded-m3-lg p-4">
+        <Link href="/sat/analysis" className="s-panel s-press flex items-center gap-4 rounded-m3-lg p-4">
           <span className="grid h-11 w-11 flex-none place-items-center rounded-full bg-primary-container text-on-primary-container">
             <BarChart3 size={20} strokeWidth={2.4} />
           </span>

@@ -209,13 +209,14 @@ export default function LeaderboardPage() {
 
   return (
     <Page>
-      <PageHeader title={t.title} subtitle={t.subtitle} />
+      <PageHeader title={t.title} />
 
       {/* ========================================= */}
       {/* PERIOD FILTER */}
       {/* ========================================= */}
-      {/* Sticks directly under the shell topbar, which is sticky at z-40. */}
-      <div className="sticky top-[var(--s-topbar-h)] z-30 -mx-s-page-x mb-s-gap-lg bg-background px-s-page-x py-2">
+      {/* Sticks just under the shell's pills (z-40). Edify style: no band —
+          the glass capsule floats on its own. */}
+      <div className="sticky top-[calc(var(--s-topbar-h)_+_6px)] z-30 mb-s-gap-lg">
         <div className="s-no-scrollbar overflow-x-auto">
           <SegmentedControl
             label={t.title}

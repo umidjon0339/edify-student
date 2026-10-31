@@ -157,7 +157,7 @@ function ChapterRow({
           aria-expanded={isOpen}
           className="flex min-w-0 flex-1 items-center gap-3 text-left"
         >
-          <span className="s-num grid h-8 w-8 shrink-0 place-items-center rounded-full s-glass text-[12px] font-black text-on-surface-variant">
+          <span className="s-num grid h-8 w-8 shrink-0 place-items-center rounded-full s-panel text-[12px] font-black text-on-surface-variant">
             {index + 1}
           </span>
 
@@ -254,7 +254,7 @@ function SectionAccordion({
       transition={{ ...springTransition, delay: MOTION_ON ? index * 0.08 : 0 }}
     >
       {/* Edify style: a frosted glass panel on the mesh. */}
-      <div className="s-glass overflow-hidden rounded-m3-lg">
+      <div className="s-panel overflow-hidden rounded-m3-lg">
         <button
           onClick={() => setManualOpen((v) => !v)}
           aria-expanded={isOpen}
@@ -358,7 +358,7 @@ export default function MathematicsCard({ lang = 'uz' }: { lang?: Lang }) {
       </div>
 
       {searching && matchCount === 0 ? (
-        <div className="s-glass rounded-m3-lg">
+        <div className="s-panel rounded-m3-lg">
           <EmptyState icon={<SearchX size={28} strokeWidth={2.5} />} title={t.noResults} />
         </div>
       ) : (
