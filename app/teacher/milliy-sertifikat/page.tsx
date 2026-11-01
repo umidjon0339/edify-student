@@ -8,7 +8,6 @@ import { MILLIY_SUBJECTS, subjectName } from "@/lib/MilliyQuiz";
 import { PageHeader, StatusChip, cn } from "@/components/ui";
 import type { Lang } from "@/types/Math";
 
-
 /**
  * Milliy sertifikat — the subject hub.
  *
