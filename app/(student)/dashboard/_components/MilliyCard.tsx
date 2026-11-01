@@ -83,7 +83,6 @@ export default function MilliyCard({ lang, className = '' }: { lang: Lang; class
         />
       </Link>
 
-      <p className="text-[12.5px] font-bold leading-snug text-on-surface-variant">{t.lead}</p>
 
       {/* Every subject, one tap each — a phone user should not have to open the
           hub to reach the subject they actually sit. An unbuilt subject is shown

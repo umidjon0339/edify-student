@@ -184,6 +184,33 @@ export async function countMySatEnglishPracticeTests(uid: string): Promise<numbe
   return snap.data().count;
 }
 
+/**
+ * Every student's generated mock, newest first — SHARED (2026-10-31): any
+ * student can sit any mock, any teacher can copy one into their own tests.
+ * `sat_*_tests` is already `read: if isAuth()`, so no rules change.
+ *
+ * Reads FULL documents (embedded items), so it is capped like the teacher list.
+ * Needs the composite index `sat_*_tests (practice ASC, createdAt DESC)`; until
+ * it is deployed the query fails with failed-precondition and this falls back
+ * to the equality-only query (single-field index, sorted in memory) so the
+ * list still renders.
+ */
+export async function listSharedSatEnglishMocks(max = 20): Promise<SatMathTest[]> {
+  const newest = (a: SatMathTest, b: SatMathTest) =>
+    ((b.createdAt as { toMillis?: () => number } | null)?.toMillis?.() ?? 0) -
+    ((a.createdAt as { toMillis?: () => number } | null)?.toMillis?.() ?? 0);
+  try {
+    const snap = await getDocs(
+      query(collection(db, TESTS), where('practice', '==', true), orderBy('createdAt', 'desc'), limit(max)),
+    );
+    return snap.docs.map((d) => fromDoc(d.id, d.data()));
+  } catch (err) {
+    if ((err as { code?: string }).code !== 'failed-precondition') throw err;
+    const snap = await getDocs(query(collection(db, TESTS), where('practice', '==', true), limit(max * 2)));
+    return snap.docs.map((d) => fromDoc(d.id, d.data())).sort(newest).slice(0, max);
+  }
+}
+
 // ─── results ─────────────────────────────────────────────────────────────────
 
 /**

@@ -248,12 +248,13 @@ export default function MyCenterPage() {
         <PageHeader title={t.title} className="pb-0" />
 
         {/* ── CENTER HEADER ── */}
-        <Card variant="gradient" className="flex items-center gap-4">
-          <Building2 size={30} strokeWidth={2.5} className="shrink-0" />
-          <div className="min-w-0">
-            <p className="text-[11px] font-black uppercase tracking-[0.1em] opacity-80">{t.title}</p>
-            <h2 className="s-display truncate text-[22px] font-bold">{center.name || '—'}</h2>
-          </div>
+        {/* Edify style: glass panel + accent icon chip; the page title already
+            says "My center", so no eyebrow label repeating it. */}
+        <Card className="flex items-center gap-4">
+          <span className="s-chip grid h-12 w-12 shrink-0 place-items-center rounded-full">
+            <Building2 size={22} strokeWidth={2.5} />
+          </span>
+          <h2 className="s-display min-w-0 truncate text-[22px] font-bold">{center.name || '—'}</h2>
         </Card>
 
         {/* ── CENTER SWITCHER (only when the student is in 2+ centers) ── */}
@@ -267,8 +268,8 @@ export default function MyCenterPage() {
                 className={cn(
                   'shrink-0 rounded-full px-4 py-2 text-[13px] font-extrabold s-press',
                   i === activeCenter
-                    ? 'bg-primary text-on-primary'
-                    : 'bg-surface-container-high text-on-surface-variant',
+                    ? 's-chip'
+                    : 's-panel text-on-surface-variant',
                 )}
               >
                 {c.name || '—'}

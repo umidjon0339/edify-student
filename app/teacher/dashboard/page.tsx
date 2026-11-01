@@ -264,7 +264,7 @@ function TeacherDashboardInner() {
                                 href="/teacher/center"
                                 className="t-accent-strip group flex items-center gap-4 rounded-m3-xl p-4 transition-transform hover:-translate-y-0.5 md:p-5"
                             >
-                                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-m3-lg bg-[color-mix(in_oklab,currentColor_16%,transparent)] ring-1 ring-[color-mix(in_oklab,currentColor_25%,transparent)] backdrop-blur-sm">
+                                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-m3-lg bg-[color-mix(in_oklab,currentColor_16%,transparent)] ring-1 ring-[color-mix(in_oklab,currentColor_25%,transparent)]">
                                     <Building2 size={22} strokeWidth={2.4} />
                                 </span>
                                 <div className="min-w-0 flex-1">
@@ -302,7 +302,7 @@ function TeacherDashboardInner() {
                             >
                                 <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                     <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-[color-mix(in_oklab,currentColor_16%,transparent)] flex items-center justify-center backdrop-blur-md shrink-0 group-hover:scale-110 transition-transform">
+                                        <div className="w-12 h-12 rounded-full bg-[color-mix(in_oklab,currentColor_16%,transparent)] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                                             <Gift size={24} strokeWidth={2.5} />
                                         </div>
                                         <div>

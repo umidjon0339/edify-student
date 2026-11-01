@@ -19,7 +19,8 @@
 export { cn } from './cn';
 export { DESIGN, themeAttributes, MOTION_ON, springTransition, fadeUp } from './config';
 export type { DesignConfig } from './config';
-export { StudentThemeProvider } from './StudentThemeProvider';
+export { StudentThemeProvider, useStudentTheme } from './StudentThemeProvider';
+export { ThemeWaveToggle } from './ThemeWaveToggle';
 export { useRipple } from './useRipple';
 
 export { Button, IconButton, Fab, SegmentedControl } from './Button';
@@ -64,7 +65,7 @@ export { Tabs } from './Tabs';
 export type { TabsProps, TabItem } from './Tabs';
 
 export { Shell, MobileDrawer } from './Shell';
-export type { ShellProps, NavItem } from './Shell';
+export type { ShellProps, NavItem, NavGroup } from './Shell';
 export { SIDE_STYLES, resolveSideStyle } from './shellStyles';
 export type { SideStyle, SideVariant, IndicatorKind } from './shellStyles';
 

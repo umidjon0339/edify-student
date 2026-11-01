@@ -167,7 +167,7 @@ export default function MyMistakesPage() {
   return (
     <Page>
       <div className="mx-auto flex max-w-2xl flex-col gap-4 px-4 py-6">
-        <PageHeader title={t.title} subtitle={t.subtitle} />
+        <PageHeader title={t.title} />
 
         <Tabs
           label={t.title}
@@ -278,7 +278,7 @@ function MistakeRow({
       </button>
 
       {open && (
-        <div className="flex flex-col gap-3 border-t border-outline-variant p-3.5">
+        <div className="flex flex-col gap-3 px-3.5 pb-3.5">
           {m.stem && (
             <p className="text-[12.5px] font-medium text-on-surface-variant">
               <LatexRenderer latex={localized(m.stem, lang)} />
@@ -316,7 +316,7 @@ function MistakeRow({
           )}
 
           {localized(m.explanation, lang) && (
-            <div className="rounded-m3-sm bg-surface-container-low p-2.5 text-[12px] font-medium text-on-surface-variant">
+            <div className="rounded-m3-sm bg-state-hover p-2.5 text-[12px] font-medium text-on-surface-variant">
               <b className="mb-1 block">{t.explanation}:</b>
               <SolutionSteps text={localized(m.explanation, lang)} />
             </div>

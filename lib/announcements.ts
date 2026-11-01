@@ -32,16 +32,20 @@
 // runs per render so a card left open overnight still ages correctly.
 
 import {
-  Atom, BadgeCheck, BookText, FlaskConical, Sigma, Sparkles, Target,
+  Atom, BadgeCheck, BookText, Dna, FlaskConical, Sigma, Sparkles, Target,
   type LucideIcon,
 } from 'lucide-react';
 
 import { EXAM_DURATION_MINUTES, EXAM_TOTAL_QUESTIONS } from './Examblueprint';
+import { MILLIY_SUBJECTS } from './MilliyQuiz';
 import { PAPER_TOTAL } from './RASCHmarks';
 import type { Lang, LocalizedText } from '@/types/Math';
 
 /** A bare string means "the same text in all three languages" (see `say`). */
 export type Sayable = string | LocalizedText;
+
+/** A card colour on the dashboard deck — the deep, mode-independent pairs live in components/student-ui/theme.css (`[data-tone]`, `.s-deck-card`). */
+export type AnnouncementTone = 'sky' | 'violet' | 'green' | 'teal' | 'amber' | 'rose' | 'indigo';
 
 export interface AnnouncementCta {
   label: Sayable;
@@ -54,6 +58,11 @@ export interface Announcement {
   /** Stable slug — the React key. Renaming it re-announces the item. */
   id: string;
   icon: LucideIcon;
+  /** The card's colour on the dashboard deck (a `data-tone` in the student
+   *  theme.css). Omit for the plain accent blue. */
+  tone?: AnnouncementTone;
+  /** Short name for the hero's feature rail ("Biologiya"). Falls back to `title`. */
+  short?: Sayable;
   /** Tiny all-caps pill: `MMS`, `YANGI`, `BETA`… Omit for no pill. */
   badge?: Sayable;
   title: Sayable;
@@ -71,6 +80,9 @@ export interface Announcement {
 export const say = (text: Sayable, lang: Lang): string =>
   typeof text === 'string' ? text : text[lang] || text.uz;
 
+/** Subjects a student can sit today — derived, so the hub's fact can't drift. */
+const LIVE_SUBJECTS = MILLIY_SUBJECTS.filter((s) => s.kind !== 'soon').length;
+
 // ─── the announcements ───────────────────────────────────────────────────────
 //
 // ⚠️ Order IS the display order. Newest first.
@@ -78,6 +90,8 @@ export const say = (text: Sayable, lang: Lang): string =>
 export const ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'sat-math-2026',
+    tone: 'amber',
+    short: 'SAT Math',
     icon: Target,
     badge: { uz: 'Yangi', ru: 'Новое', en: 'New' },
     title: {
@@ -93,6 +107,11 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ru: 'Двухмодульный адаптивный тест, как настоящий цифровой SAT: по результату Модуля 1 Модуль 2 будет труднее или легче. Войдите по коду учителя.',
       en: "A two-module adaptive test, just like the real digital SAT: your Module 1 result decides whether Module 2 is harder or easier. Enter your teacher's code.",
     },
+    meta: [
+      { uz: '2 modul', ru: '2 модуля', en: '2 modules' },
+      { uz: 'Adaptiv', ru: 'Адаптивный', en: 'Adaptive' },
+      { uz: '200–800 ball', ru: '200–800 баллов', en: '200–800 score' },
+    ],
     ctas: [
       {
         label: { uz: 'Kod bilan kirish', ru: 'Войти по коду', en: 'Enter a code' },
@@ -103,6 +122,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'mms-math-2026',
+    tone: 'violet',
+    short: { uz: 'Matematika', ru: 'Математика', en: 'Maths' },
     icon: Sigma,
     badge: 'MMS',
     title: {
@@ -136,7 +157,9 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'mms-biologiya-2026',
-    icon: FlaskConical,
+    tone: 'green',
+    short: { uz: 'Biologiya', ru: 'Биология', en: 'Biology' },
+    icon: Dna,
     badge: { uz: 'Yangi', ru: 'Новое', en: 'New' },
     title: {
       uz: 'Biologiya Milliy Sertifikat',
@@ -151,6 +174,11 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ru: 'Откройте вариант 6-значным кодом от учителя и пройдите его в условиях экзамена.',
       en: "Open your teacher's paper with its 6-digit code and sit it under exam conditions.",
     },
+    meta: [
+      { uz: '6 xonali kod', ru: '6-значный код', en: '6-digit code' },
+      { uz: 'Imtihon sharoiti', ru: 'Условия экзамена', en: 'Exam conditions' },
+      { uz: `${PAPER_TOTAL} ball`, ru: `${PAPER_TOTAL} баллов`, en: `${PAPER_TOTAL} points` },
+    ],
     ctas: [
       {
         label: { uz: 'Kod bilan kirish', ru: 'Войти по коду', en: 'Enter a code' },
@@ -161,6 +189,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'mms-kimyo-2026',
+    tone: 'teal',
+    short: { uz: 'Kimyo', ru: 'Химия', en: 'Chemistry' },
     icon: FlaskConical,
     badge: { uz: 'Yangi', ru: 'Новое', en: 'New' },
     title: {
@@ -173,6 +203,11 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ru: 'Варианты по химии готовы — откройте по коду учителя. Расчётные ответы проверяются как числа.',
       en: 'Chemistry papers are live — open one by your teacher’s code. Calculated answers are graded as numbers.',
     },
+    meta: [
+      { uz: '6 xonali kod', ru: '6-значный код', en: '6-digit code' },
+      { uz: 'Raqamli javoblar', ru: 'Числовые ответы', en: 'Numeric answers' },
+      { uz: `${PAPER_TOTAL} ball`, ru: `${PAPER_TOTAL} баллов`, en: `${PAPER_TOTAL} points` },
+    ],
     ctas: [
       {
         label: { uz: 'Kod bilan kirish', ru: 'Войти по коду', en: 'Enter a code' },
@@ -183,6 +218,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'mms-fizika-2026',
+    tone: 'sky',
+    short: { uz: 'Fizika', ru: 'Физика', en: 'Physics' },
     icon: Atom,
     badge: { uz: 'Yangi', ru: 'Новое', en: 'New' },
     title: {
@@ -195,6 +232,11 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ru: 'Варианты по физике открыты — войдите по коду учителя. Расчётные ответы проверяются как числа.',
       en: 'Physics papers are live — open one by your teacher’s code. Calculated answers are graded as numbers.',
     },
+    meta: [
+      { uz: '6 xonali kod', ru: '6-значный код', en: '6-digit code' },
+      { uz: 'Raqamli javoblar', ru: 'Числовые ответы', en: 'Numeric answers' },
+      { uz: `${PAPER_TOTAL} ball`, ru: `${PAPER_TOTAL} баллов`, en: `${PAPER_TOTAL} points` },
+    ],
     ctas: [
       {
         label: { uz: 'Kod bilan kirish', ru: 'Войти по коду', en: 'Enter a code' },
@@ -205,6 +247,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'mms-ona-tili-2026',
+    tone: 'rose',
+    short: { uz: 'Ona tili', ru: 'Родной язык', en: 'Uzbek' },
     icon: BookText,
     badge: { uz: 'Yangi', ru: 'Новое', en: 'New' },
     title: {
@@ -217,6 +261,11 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ru: 'Фонетика, лексикология, морфология, синтаксис и орфография — откройте вариант по коду учителя.',
       en: 'Phonetics, lexicology, morphology, syntax and spelling — open a paper with your teacher’s code.',
     },
+    meta: [
+      { uz: '6 xonali kod', ru: '6-значный код', en: '6-digit code' },
+      { uz: 'Imtihon sharoiti', ru: 'Условия экзамена', en: 'Exam conditions' },
+      { uz: `${PAPER_TOTAL} ball`, ru: `${PAPER_TOTAL} баллов`, en: `${PAPER_TOTAL} points` },
+    ],
     ctas: [
       {
         label: { uz: 'Kod bilan kirish', ru: 'Войти по коду', en: 'Enter a code' },
@@ -227,6 +276,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'milliy-hub-2026',
+    tone: 'indigo',
+    short: { uz: 'Barcha fanlar', ru: 'Все предметы', en: 'All subjects' },
     icon: BadgeCheck,
     title: {
       uz: 'Barcha fanlar bir joyda',
@@ -238,6 +289,10 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ru: 'В разделе Milliy sertifikat выберите предмет, пройдите вариант и смотрите результаты. Английский — скоро.',
       en: 'In the Milliy sertifikat section you pick a subject, sit a paper and see your results. English is coming.',
     },
+    meta: [
+      { uz: `${LIVE_SUBJECTS} ta fan`, ru: `${LIVE_SUBJECTS} предметов`, en: `${LIVE_SUBJECTS} subjects` },
+      { uz: 'Natijalar tarixi', ru: 'История результатов', en: 'Results history' },
+    ],
     ctas: [
       {
         label: { uz: 'Bo‘limni ochish', ru: 'Открыть раздел', en: 'Open the section' },

@@ -1,79 +1,61 @@
 // app/(student)/dashboard/_components/AnnouncementCarousel.tsx
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowRight, Pause, Play, Sparkles } from 'lucide-react';
 
 import {
   ANNOUNCEMENTS, ANNOUNCEMENT_FALLBACK_ICON, activeAnnouncements, say,
   type Announcement,
 } from '@/lib/announcements';
-import { Button, Card, MOTION_ON, cn } from '@/components/student-ui';
+import { MOTION_ON, cn } from '@/components/student-ui';
 import type { Lang } from '@/types/Math';
 
 /**
- * **The dashboard's one announcement card.** It rotates through
+ * **The dashboard's announcement strip.** It shows every entry of
  * [lib/announcements.ts](../../../../lib/announcements.ts) — that array is the
  * only thing to edit to announce the next feature; nothing here knows what an
  * announcement is *about*.
  *
  * It took the slot the hardcoded `MmsCard` held until 2026-07-30. A card welded
  * to one feature had to be rewritten (and re-reviewed, and re-translated) every
- * time the platform shipped something else, so the maths paper, biology and
- * chemistry are now three entries in a list instead of three components.
+ * time the platform shipped something else, so every subject is now an entry in
+ * a list instead of a component.
  *
  * ⚠️ **Zero Firestore reads.** The content is a bundled constant. That is what
  * makes it acceptable for the dashboard to spend its hero slot on news.
  *
- * ⚠️ It spends the student kit's **one `gradient` card** per screen
- * (`components/student-ui/Card.tsx`). On that card the text is white, so every
- * opacity modifier uses a plain palette colour (`border-white/25`) — never
- * `border-current/25` and never an M3 token, neither of which can take a Tailwind
- * opacity modifier (see the cross-cutting trap in CLAUDE.md).
+ * **An endless marquee of compact cards (2026-11-01).** Every announcement is
+ * its own card in its own `tone` (`.s-deck-card` in the student theme.css); the
+ * strip glides left without stopping and **stops under the cursor** (and while
+ * anything inside has keyboard focus) — pure CSS (`.s-marquee`), no timers. The
+ * track renders the list twice and slides by exactly one copy, so the loop seam
+ * is invisible. White text on the cards ⇒ every opacity modifier uses a plain
+ * palette colour (`bg-white/15`), never an M3 token (see the cross-cutting trap
+ * in CLAUDE.md).
  *
  * Accessibility / behaviour, all deliberate:
- * - **Auto-rotation is pausable** (APG requires it of any moving content) and
- *   pauses itself on hover, on keyboard focus and while the tab is hidden.
- * - **`prefers-reduced-motion` stops the rotation entirely** — the dots and
- *   arrows still work, so nothing becomes unreachable.
- * - **Every slide stays mounted** so the card's height is the tallest slide's and
- *   it cannot jump mid-rotation; inactive ones are `inert` + `aria-hidden`, or
- *   their buttons would be focusable while invisible.
- * - **The transition is a directional slide**, not a crossfade: `shortestDelta`
- *   parks each waiting slide on the side it will arrive from, so advancing always
- *   moves left→right and going back always moves right→left — including across the
- *   wrap from the last announcement to the first. It is transform + opacity only
- *   (no layout, no paint), so it stays on the compositor.
- * - Phones swipe (pointer events, 44px threshold) and get full-width buttons; the
- *   side arrows appear from `sm` up, where a pointer exists.
+ * - **There is an explicit pause/play control** (APG requires one of any
+ *   auto-moving content, and touch screens have no hover).
+ * - **`prefers-reduced-motion` / `Motion_level: 'none'` render no marquee at
+ *   all** — one copy in a sideways-scrolling row, so nothing moves on its own
+ *   and nothing becomes unreachable.
+ * - **The repeats are presentation only**: `aria-hidden` and their link is
+ *   `tabIndex=-1`, so a screen reader hears each card once and Tab visits each
+ *   card once. They are NOT `inert` — a mouse user must still be able to click
+ *   whichever copy happens to be on screen.
  */
 
-const ROTATE_MS = 8_000;
-/** A horizontal drag past this many pixels is a swipe, not a tap on a button. */
-const SWIPE_PX = 44;
-/** How far a neighbouring slide is parked to the side while it waits its turn. */
-const SLIDE_PX = 44;
-
-/**
- * The signed distance from the active slide **by the short way round**, so the
- * last announcement is parked to the LEFT of the first one instead of a full
- * list-width away. This one number gives the whole transition its direction:
- * advancing makes every slide's offset drop, so the outgoing one leaves left and
- * the incoming one arrives from the right — including across the wrap.
- */
-function shortestDelta(i: number, active: number, count: number): number {
-  const raw = i - active;
-  if (raw > count / 2) return raw - count;
-  if (raw < -count / 2) return raw + count;
-  return raw;
-}
+/** Seconds per card in one loop — sets the strip's speed. */
+const SECONDS_PER_CARD = 6;
+/** A copy shorter than this is repeated so the strip never shows a gap. */
+const MIN_PER_COPY = 6;
 
 // ─── browser-owned state ─────────────────────────────────────────────────────
-// ⚠️ These three are read with `useSyncExternalStore`, never mirrored into state
-// from an effect: the browser owns them, and a synchronous setState in an effect
-// body is a lint error with the React Compiler on. Same rule the exam lockdown's
-// `isFullscreen` follows (see hooks/useExamLockdown.ts).
+// ⚠️ Read with `useSyncExternalStore`, never mirrored into state from an effect:
+// the browser owns them, and a synchronous setState in an effect body is a lint
+// error with the React Compiler on.
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
@@ -83,18 +65,13 @@ const subscribeReducedMotion = (onChange: () => void) => {
   return () => mq.removeEventListener('change', onChange);
 };
 
-const subscribeVisibility = (onChange: () => void) => {
-  document.addEventListener('visibilitychange', onChange);
-  return () => document.removeEventListener('visibilitychange', onChange);
-};
-
 /** No-op store: the snapshot flips from the server value to the client one at hydration. */
 const subscribeNever = () => () => {};
 
 const UI: Record<Lang, Record<string, string>> = {
-  uz: { region: 'Yangiliklar', prev: 'Oldingi', next: 'Keyingi', pause: "To'xtatish", play: 'Davom etish', of: '{i} / {n}' },
-  ru: { region: 'Новости', prev: 'Назад', next: 'Далее', pause: 'Остановить', play: 'Продолжить', of: '{i} / {n}' },
-  en: { region: 'Announcements', prev: 'Previous', next: 'Next', pause: 'Pause', play: 'Play', of: '{i} of {n}' },
+  uz: { region: 'Yangiliklar', pause: "To'xtatish", play: 'Davom etish', try: "Sinab ko'ring" },
+  ru: { region: 'Новости', pause: 'Остановить', play: 'Продолжить', try: 'Попробуйте сами' },
+  en: { region: 'Announcements', pause: 'Pause', play: 'Play', try: 'Try yourself' },
 };
 
 export default function AnnouncementCarousel({
@@ -110,268 +87,157 @@ export default function AnnouncementCarousel({
   // clock during render is server/client-divergent by nature, and `/dashboard` is
   // statically prerendered — its HTML is baked at BUILD time. Today nothing here
   // reaches that prerender (the student layout renders an auth gate until the
-  // profile resolves), but a card that starts silently mismatching the moment that
-  // changes is not worth two saved lines. Until the store flips, the full list
-  // renders; the client narrows it to today's on the next commit, so at worst a
-  // just-expired entry is on screen for one frame.
+  // profile resolves), but a strip that starts silently mismatching the moment
+  // that changes is not worth two saved lines. Until the store flips, the full
+  // list renders; the client narrows it to today's on the next commit.
   const hydrated = useSyncExternalStore(subscribeNever, () => true, () => false);
   const items = useMemo(() => (hydrated ? activeAnnouncements() : ANNOUNCEMENTS), [hydrated]);
 
-  const [index, setIndex] = useState(0);
   const [userPaused, setUserPaused] = useState(false);
-  const [hovered, setHovered] = useState(false); // pointer over / keyboard focus inside
-
   const reduced = useSyncExternalStore(
     subscribeReducedMotion,
     () => window.matchMedia(REDUCED_MOTION).matches,
     () => false,
   );
-  const hiddenTab = useSyncExternalStore(
-    subscribeVisibility,
-    () => document.visibilityState === 'hidden',
-    () => false,
-  );
 
   const count = items.length;
-  const go = useCallback(
-    (delta: number) => setIndex((i) => (count === 0 ? 0 : (i + delta + count) % count)),
-    [count],
-  );
-
-  // Rotation. ⚠️ A hidden tab must not burn through the whole list unseen, and
-  // `hovered` is kept separate from `hiddenTab` — one flag for both would resume
-  // the rotation under a stationary cursor as soon as the tab came back.
-  const running = count > 1 && !userPaused && !hovered && !hiddenTab && !reduced;
-  useEffect(() => {
-    if (!running) return;
-    const id = window.setInterval(() => go(1), ROTATE_MS);
-    return () => window.clearInterval(id);
-  }, [running, go]);
-
-  // Swipe. `capture` is deliberately NOT used — a pointerdown on a CTA must still
-  // reach the link; only a drag past the threshold navigates the carousel.
-  const dragX = useRef<number | null>(null);
-  const onPointerDown = (e: React.PointerEvent) => { dragX.current = e.clientX; };
-  const onPointerUp = (e: React.PointerEvent) => {
-    const from = dragX.current;
-    dragX.current = null;
-    if (from === null) return;
-    const dx = e.clientX - from;
-    if (Math.abs(dx) >= SWIPE_PX) go(dx < 0 ? 1 : -1);
-  };
-
   if (count === 0) return null;
 
-  const safeIndex = Math.min(index, count - 1);
+  // A single card, or no motion allowed: a plain row, nothing moves.
+  const moving = MOTION_ON && !reduced && count > 1;
+
+  // One copy of the loop: the list, repeated until it is long enough to fill a
+  // wide screen (a 2-card loop would otherwise show an empty gap).
+  const copy: Announcement[] = [];
+  while (moving && copy.length < MIN_PER_COPY) copy.push(...items);
 
   return (
-    <section
-      aria-roledescription="carousel"
-      aria-label={t.region}
-      className={className}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocusCapture={() => setHovered(true)}
-      onBlurCapture={() => setHovered(false)}
-      onKeyDown={(e) => {
-        if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-        if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-      }}
-    >
-      <Card variant="gradient" className="relative overflow-hidden">
-        {/* Decoration only — plain white at low opacity, never a token. */}
-        <div className="pointer-events-none absolute inset-0 opacity-10" aria-hidden>
-          <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full border-8 border-white" />
-          <div className="absolute -bottom-12 right-24 h-24 w-24 rounded-full border-8 border-white" />
+    <section aria-label={t.region} className={cn('relative min-w-0', className)}>
+      {moving ? (
+        // ⚠️ `overflow-x-clip`, not `hidden`: the strip must not widen the page,
+        // but `hidden` would also clip the cards' hover lift and shadow.
+        <div className="s-marquee-stage overflow-x-clip py-3">
+          <div
+            className="s-marquee flex"
+            data-paused={userPaused}
+            style={{ '--s-marquee-dur': `${copy.length * SECONDS_PER_CARD}s` } as React.CSSProperties}
+          >
+            {[0, 1].map((half) =>
+              copy.map((item, k) => {
+                // Only the first appearance of each item is "real" — every
+                // repeat is read once and tabbed once (i.e. not at all).
+                const primary = half === 0 && k < count;
+                return (
+                  <div
+                    key={`${half}-${k}-${item.id}`}
+                    // Spacing is padding, not `gap`: a gap after the last card
+                    // of a copy would make the -50% slide land off by one gap.
+                    className="flex shrink-0 pr-3"
+                    aria-hidden={primary ? undefined : true}
+                  >
+                    <PromoCard item={item} lang={lang} focusable={primary} cta={t.try} />
+                  </div>
+                );
+              }),
+            )}
+          </div>
         </div>
-
-        <div
-          className="relative grid"
-          onPointerDown={onPointerDown}
-          onPointerUp={onPointerUp}
-          onPointerCancel={() => { dragX.current = null; }}
-        >
-          {items.map((item, i) => (
-            <Slide
-              key={item.id}
-              item={item}
-              lang={lang}
-              active={i === safeIndex}
-              delta={shortestDelta(i, safeIndex, count)}
-              animate={MOTION_ON && !reduced}
-              position={`${i + 1}`}
-              total={`${count}`}
-              label={t.of}
-            />
+      ) : (
+        <div className="s-no-scrollbar flex snap-x gap-3 overflow-x-auto py-3">
+          {items.map((item) => (
+            <div key={item.id} className="flex shrink-0 snap-start">
+              <PromoCard item={item} lang={lang} focusable cta={t.try} />
+            </div>
           ))}
         </div>
+      )}
 
-        {/* Controls. Hidden entirely for a single announcement — a carousel of one
-            with dots and arrows reads as broken. */}
-        {count > 1 && (
-          <div className="relative mt-4 flex items-center gap-2">
-            <div className="flex flex-1 items-center gap-1.5">
-              {items.map((item, i) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  aria-label={t.of.replace('{i}', `${i + 1}`).replace('{n}', `${count}`)}
-                  aria-current={i === safeIndex}
-                  onClick={() => setIndex(i)}
-                  className={cn(
-                    'h-2 rounded-full bg-white transition-all duration-m3-med',
-                    i === safeIndex ? 'w-6 opacity-100' : 'w-2 opacity-45 hover:opacity-75',
-                  )}
-                />
-              ))}
-            </div>
+      {/* Frosted side edges — cards blur as they enter and leave. */}
+      {moving && <div aria-hidden data-side="left" className="s-marquee-edge" />}
+      {moving && <div aria-hidden data-side="right" className="s-marquee-edge" />}
 
-            <CtrlButton
-              label={userPaused || reduced ? t.play : t.pause}
-              onClick={() => setUserPaused((p) => !p)}
-              disabled={reduced}
-            >
-              {userPaused || reduced ? <Play size={14} strokeWidth={3} /> : <Pause size={14} strokeWidth={3} />}
-            </CtrlButton>
-            <CtrlButton label={t.prev} onClick={() => go(-1)} className="hidden sm:grid">
-              <ChevronLeft size={16} strokeWidth={3} />
-            </CtrlButton>
-            <CtrlButton label={t.next} onClick={() => go(1)} className="hidden sm:grid">
-              <ChevronRight size={16} strokeWidth={3} />
-            </CtrlButton>
-          </div>
-        )}
-      </Card>
+      {moving && (
+        <button
+          type="button"
+          aria-label={userPaused ? t.play : t.pause}
+          title={userPaused ? t.play : t.pause}
+          onClick={() => setUserPaused((p) => !p)}
+          className="s-glass absolute bottom-0 right-1 z-10 grid h-8 w-8 place-items-center rounded-full text-on-surface-variant hover:text-on-surface s-press"
+        >
+          {userPaused ? <Play size={13} strokeWidth={3} /> : <Pause size={13} strokeWidth={3} />}
+        </button>
+      )}
     </section>
   );
 }
 
-/** A control on the gradient card — white on white-at-low-opacity, not a token. */
-function CtrlButton({
-  label, onClick, children, className, disabled,
-}: {
-  label: string;
-  onClick: () => void;
-  children: React.ReactNode;
-  className?: string;
-  disabled?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      title={label}
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        'grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 border-white/30 text-white',
-        'hover:bg-white/15 disabled:opacity-40 s-press',
-        className,
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
-function Slide({
-  item, lang, active, delta, animate, position, total, label,
+/**
+ * One compact announcement card — Edify-minimal: icon, badge, title, at most two
+ * facts on one line, ONE action. The long `body` and any secondary CTA stay in
+ * lib/announcements.ts for the feature's own page; they are not repeated here.
+ *
+ * ⚠️ The button always reads the same "Try yourself" (`UI.try`, 2026-11-01) —
+ * one inviting verb across the strip instead of "Enter a code" / "Start a
+ * paper". Only its `href` comes from the announcement's primary CTA; the CTA's
+ * own `label` is not shown here.
+ */
+function PromoCard({
+  item, lang, focusable, cta: ctaLabel,
 }: {
   item: Announcement;
   lang: Lang;
-  active: boolean;
-  /** Signed distance from the active slide, the short way round (`shortestDelta`). */
-  delta: number;
-  /** False under `prefers-reduced-motion` or a `Motion_level: 'none'` design. */
-  animate: boolean;
-  position: string;
-  total: string;
-  label: string;
+  /** False on the marquee's visual repeats: their link leaves the Tab order. */
+  focusable: boolean;
+  /** The button's label — the same on every card. */
+  cta: string;
 }) {
   const Icon = item.icon ?? ANNOUNCEMENT_FALLBACK_ICON;
-  const meta = (item.meta ?? []).map((m) => say(m, lang));
+  const facts = (item.meta ?? []).slice(0, 2).map((m) => say(m, lang));
+  const cta = item.ctas?.find((c) => c.variant === 'filled') ?? item.ctas?.[0];
 
   return (
-    <div
-      // ⚠️ All slides share ONE grid cell, so the card is as tall as the tallest
-      // and the page cannot shift as it rotates. The inactive ones must be
-      // `inert` — invisible content whose buttons still take Tab is worse than a
-      // height jump.
-      role="group"
-      aria-roledescription="slide"
-      aria-label={label.replace('{i}', position).replace('{n}', total)}
-      aria-hidden={!active}
-      inert={!active}
-      className={cn(
-        '[grid-area:1/1] min-w-0',
-        // ⚠️ A bespoke duration/easing rather than the `duration-m3-med` token:
-        // this is the one hero transition on the screen and the token's 200ms
-        // reads as a flicker over a 44px travel. easeOutQuint — fast out of the
-        // gate, long settle, which is what makes it feel like glass rather than
-        // a slideshow. The tokens still own every other transition here.
-        animate && 'transition-[transform,opacity] duration-[560ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-        active ? 'opacity-100' : 'pointer-events-none opacity-0',
-      )}
-      style={{
-        // ⚠️ `translate3d` + `scale` in ONE transform string: two competing
-        // transform utilities would overwrite each other, and promoting the layer
-        // is what keeps a 4-slide crossfade off the main thread on a cheap phone.
-        transform: `translate3d(${Math.sign(delta) * SLIDE_PX}px, 0, 0) scale(${active ? 1 : 0.965})`,
-        willChange: animate ? 'transform, opacity' : undefined,
-      }}
+    <article
+      data-tone={item.tone}
+      className="s-deck-card flex w-[16rem] flex-col rounded-m3-lg p-4 sm:w-[17rem]"
     >
-      <div className="flex items-center gap-2">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-m3-sm border-2 border-white/40">
-          <Icon size={18} strokeWidth={2.5} />
+      <span aria-hidden className="s-deck-sheen" />
+
+      <div className="flex items-center gap-2.5">
+        <span aria-hidden className="s-deck-orb grid h-10 w-10 shrink-0 place-items-center rounded-full">
+          <Icon size={19} strokeWidth={2.4} />
         </span>
         {item.badge && (
-          <span className="s-num rounded-m3-xs border-2 border-white/40 px-2 py-0.5 text-[11px] font-black uppercase tracking-[0.14em]">
+          <span className="s-num inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10.5px] font-black uppercase tracking-[0.12em] text-[var(--s-deck-a)]">
+            <Sparkles size={11} strokeWidth={3} aria-hidden />
             {say(item.badge, lang)}
           </span>
         )}
       </div>
 
-      <h3 className="s-display mt-3 text-[19px] font-bold leading-tight tracking-tight sm:text-[21px]">
+      <h3 className="s-display mt-3 line-clamp-2 text-[17px] font-bold leading-tight tracking-tight">
         {say(item.title, lang)}
       </h3>
-      <p className="mt-1.5 max-w-2xl text-[13px] font-bold leading-snug opacity-90">
-        {say(item.body, lang)}
-      </p>
 
-      {meta.length > 0 && (
-        <p className="s-num mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-black opacity-85">
-          {meta.map((m, i) => (
-            <span key={m} className="flex items-center gap-2">
-              {i > 0 && <span aria-hidden className="opacity-60">·</span>}
-              {m}
-            </span>
-          ))}
+      {facts.length > 0 && (
+        <p className="s-num mt-1 truncate text-[12px] font-bold text-white/75">
+          {facts.join(' · ')}
         </p>
       )}
 
-      {item.ctas && item.ctas.length > 0 && (
-        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-          {item.ctas.map((cta) => {
-            const filled = cta.variant === 'filled';
-            return (
-              // A flex item in a column, so the anchor stretches and the button
-              // fills the phone's width; from `sm` it shrinks to its label.
-              <Link key={cta.href} href={cta.href} className="sm:flex-none">
-                <Button
-                  fullWidth
-                  size="lg"
-                  variant={filled ? 'filled' : 'outlined'}
-                  tone={filled ? 'gold' : 'primary'}
-                  className={filled ? undefined : 'border-white/60 text-white'}
-                  trailingIcon={filled ? <ArrowRight size={17} strokeWidth={3} /> : undefined}
-                >
-                  {say(cta.label, lang)}
-                </Button>
-              </Link>
-            );
-          })}
+      {cta && (
+        // `mt-auto`: cards in the strip are stretched to the tallest, so the
+        // buttons line up along one edge.
+        <div className="mt-auto pt-3.5">
+          <Link
+            href={cta.href}
+            tabIndex={focusable ? undefined : -1}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-3.5 text-[12.5px] font-black text-[var(--s-deck-a)] shadow-elev-1 hover:shadow-elev-2 s-press"
+          >
+            {ctaLabel}
+            <ArrowRight size={14} strokeWidth={3} aria-hidden />
+          </Link>
         </div>
       )}
-    </div>
+    </article>
   );
 }

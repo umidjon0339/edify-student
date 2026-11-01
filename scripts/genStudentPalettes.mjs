@@ -19,6 +19,7 @@ import {
   SchemeVibrant,
   SchemeFidelity,
   SchemeNeutral,
+  TonalPalette,
   MaterialDynamicColors,
   hexFromArgb,
   argbFromHex,
@@ -37,7 +38,10 @@ import {
  * The script asserts the result stayed in the source hue family.
  */
 const SOURCES = [
-  ['nebula',   '#6A4DE0', SchemeVibrant],   // violet — default
+  // Edify style (2026-10-31): Material/Google blue, aqua tertiary, and a
+  // mode-independent button accent (`edify: true`) — matches the teacher panel.
+  ['sky',      '#1a73e8', SchemeFidelity, { shift: -28, chroma: 30, edify: true }], // default
+  ['nebula',   '#6A4DE0', SchemeVibrant],   // violet
   ['ocean',    '#0A6DD1', SchemeVibrant],   // blue, kin to the teacher panel
   ['meadow',   '#3E8B10', SchemeVibrant],   // green
   ['sunset',   '#DE4D0A', SchemeVibrant],   // orange
@@ -95,12 +99,35 @@ function statusTokens(sourceHct, isDark) {
   };
 }
 
-function paletteCss(name, sourceHex, SchemeCtor) {
+/**
+ * Edify accent — ONE button color in both modes (mirrors the teacher
+ * generator): tone 45 → tone 35 gradient, white ink; only the ink for tinted
+ * accent surfaces follows the mode. `--t-fill-primary` re-points Tailwind's
+ * `bg-primary` / `text-on-primary` (tailwind.config.ts) at the accent inside
+ * this palette's wrapper only.
+ */
+function accentLines(src, isDark) {
+  const chroma = Math.max(48, src.chroma);
+  const tone = (t) => hexFromArgb(Hct.from(src.hue, chroma, t).toInt()).toLowerCase();
+  return [
+    `  --s-accent: ${tone(45)};`,
+    `  --s-accent-strong: ${tone(35)};`,
+    `  --s-on-accent: #ffffff;`,
+    `  --s-accent-text: ${isDark ? tone(80) : tone(40)};`,
+    `  --t-fill-primary: var(--s-accent);`,
+    `  --t-on-fill-primary: var(--s-on-accent);`,
+  ];
+}
+
+function paletteCss(name, sourceHex, SchemeCtor, opts) {
   const src = Hct.fromInt(argbFromHex(sourceHex));
   const out = [];
 
   for (const [mode, isDark] of [['light', false], ['dark', true]]) {
     const scheme = new SchemeCtor(src, isDark, 0);
+    if (opts?.shift !== undefined) {
+      scheme.tertiaryPalette = TonalPalette.fromHueAndChroma((src.hue + opts.shift + 360) % 360, opts.chroma);
+    }
     const lines = ROLES.map((r) => `  --m3-${kebab(r)}: ${roleHex(scheme, r)};`);
 
     const st = statusTokens(src, isDark);
@@ -115,6 +142,7 @@ function paletteCss(name, sourceHex, SchemeCtor) {
     // clash with the palette it decorates.
     lines.push(`  --s-grad-a: ${roleHex(scheme, 'primary')};`);
     lines.push(`  --s-grad-b: ${roleHex(scheme, 'tertiary')};`);
+    if (opts?.edify) lines.push(...accentLines(src, isDark));
 
     const sel =
       mode === 'light'
@@ -162,7 +190,7 @@ function assertHuePreserved(name, sourceHex, SchemeCtor) {
 
 console.table(SOURCES.map(([n, h, S]) => assertHuePreserved(n, h, S)));
 
-const css = [banner, ...SOURCES.map(([n, h, S]) => paletteCss(n, h, S))].join('\n\n');
+const css = [banner, ...SOURCES.map(([n, h, S, o]) => paletteCss(n, h, S, o))].join('\n\n');
 
 const FILE = new URL('../components/student-ui/theme.css', import.meta.url);
 const START = '/* <<< PALETTES:START >>> */';

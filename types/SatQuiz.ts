@@ -151,6 +151,15 @@ export interface SatMathTest {
    */
   practice?: true;
 
+  /**
+   * A TEACHER's copy of a shared student mock (2026-10-31): the source mock's
+   * id, set by "Copy to my tests" (app/teacher/sat/_components/StudentMocks.tsx)
+   * so the list can show "already in your tests". Additive; a later save from
+   * the builder may drop it (the builder writes its own draft) — it is a hint,
+   * never a reference anything depends on.
+   */
+  sourceMockId?: string;
+
   createdAt: unknown | null;
   updatedAt: unknown | null;
 }

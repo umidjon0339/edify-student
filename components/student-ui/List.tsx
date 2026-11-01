@@ -30,9 +30,9 @@ export const ListGroup = forwardRef<HTMLDivElement, ListGroupProps>(function Lis
       {header && (
         <h2
           className={cn(
-            // Sticks below the shell topbar, not at viewport top — at top-0 it
-            // would slide underneath the topbar and be invisible.
-            'sticky top-[var(--s-topbar-h)] z-10 bg-background-blur py-2 backdrop-blur',
+            // Edify style: a plain label above the glass group — no sticky
+            // blurred band across the mesh canvas.
+            'py-2',
             'text-[12px] font-black uppercase tracking-[0.1em] text-on-surface-variant',
             grouped && 'px-s-row-x',
           )}
@@ -44,10 +44,9 @@ export const ListGroup = forwardRef<HTMLDivElement, ListGroupProps>(function Lis
         className={cn(
           grouped
             ? cn(
-                's-surface-group overflow-hidden border border-outline-variant bg-surface',
-                'rounded-m3-md',
-                // divide-y gives the hairline separation without per-row borders
-                'divide-y divide-outline-variant',
+                // Edify style: one frosted glass island, faint row hairlines.
+                's-surface-group s-panel overflow-hidden rounded-m3-lg',
+                'divide-y divide-[color-mix(in_oklab,var(--m3-outline-variant)_55%,transparent)]',
               )
             : 'flex flex-col gap-s-gap',
         )}

@@ -21,7 +21,7 @@ export function PageHeader({ title, subtitle, actions, onBack, className }: Page
           type="button"
           onClick={onBack}
           aria-label="Go back"
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-on-surface-variant s-press hover:bg-state-hover"
+          className="s-panel grid h-10 w-10 shrink-0 place-items-center rounded-full text-on-surface s-press"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.6" aria-hidden>
             <polyline points="15 5 8 12 15 19" />

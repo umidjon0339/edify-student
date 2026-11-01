@@ -153,7 +153,7 @@ export function LevelChip({ lang, className }: { lang: Lang; className?: string 
 
   const shell = cn(
     // Matches the navbar chips it sits beside: 32px on a phone, 36px from `sm`.
-    'inline-flex h-8 shrink-0 items-center gap-1 rounded-m3-btn px-2 sm:h-9 sm:gap-1.5 sm:px-3',
+    'inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-2.5 sm:h-9 sm:gap-1.5 sm:px-3',
     'transition-colors duration-m3-fast ease-m3-std',
     className,
   );

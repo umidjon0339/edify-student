@@ -554,7 +554,7 @@ export default function OnlineLibraryPage() {
 
       {/* HEADER */}
       {/* Sticks below the shell topbar, never on top of it. */}
-      <header className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant sticky top-[var(--s-topbar-h)] z-30 shadow-elev-1">
+      <header className="s-glass sticky top-[calc(var(--s-topbar-h)_+_6px)] z-30 mx-3 mt-2 rounded-m3-lg md:mx-6">
         <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
 
           <div className="flex items-center justify-between w-full md:w-auto">
@@ -578,7 +578,7 @@ export default function OnlineLibraryPage() {
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-surface-container border-none text-on-surface py-2 pl-9 pr-4 rounded-m3-sm text-sm focus:bg-surface-container-lowest focus:ring-2 focus:ring-[color-mix(in_oklab,var(--m3-primary)_30%,transparent)] transition-all outline-none"
+                className="w-full bg-surface-container-lowest border border-outline-variant text-on-surface py-2.5 pl-9 pr-4 rounded-full text-sm focus:ring-2 focus:ring-primary transition-all outline-none"
               />
               {searchQuery && (
                 <button onClick={() => setSearchQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface p-1">
@@ -595,7 +595,7 @@ export default function OnlineLibraryPage() {
       <div className="max-w-[1400px] mx-auto w-full px-4 md:px-6 pt-6 pb-12 flex flex-col lg:flex-row gap-8">
 
         {/* DESKTOP SIDEBAR */}
-        <aside className="hidden lg:block w-[260px] shrink-0 h-[calc(100dvh_-_var(--s-topbar-h)_-_100px)] sticky top-[calc(var(--s-topbar-h)_+_84px)] overflow-y-auto s-scroll bg-surface-container-low p-5 rounded-m3-sm border border-outline-variant shadow-elev-1">
+        <aside className="s-glass hidden lg:block w-[260px] shrink-0 h-[calc(100dvh_-_var(--s-topbar-h)_-_100px)] sticky top-[calc(var(--s-topbar-h)_+_84px)] overflow-y-auto s-scroll p-5 rounded-m3-lg">
           {renderSidebarContent()}
         </aside>
 
@@ -623,22 +623,22 @@ export default function OnlineLibraryPage() {
         <main className="flex-1 min-w-0">
 
           <div className="flex justify-center mb-10 overflow-x-auto pb-2">
-            <div className="inline-flex bg-surface-container-lowest rounded-m3-sm overflow-hidden border border-outline shadow-elev-1" role="group">
-              <button
-                onClick={() => setSchoolTypeFilter('all')}
-                className={`px-5 py-2.5 text-[14px] font-bold border-r border-outline transition-colors ${schoolTypeFilter === 'all' ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-state-hover'}`}
-              >
-                {t.tabs.allLevels}
-              </button>
-              {uniqueSchoolTypes.map((typeKey, index) => (
-                <button
-                  key={typeKey}
-                  onClick={() => setSchoolTypeFilter(typeKey)}
-                  className={`px-5 py-2.5 text-[14px] font-bold capitalize transition-colors ${index !== uniqueSchoolTypes.length - 1 ? 'border-r border-outline' : ''} ${schoolTypeFilter === typeKey ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-state-hover'}`}
-                >
-                  {getLoc(filterDictionaries.schoolTypes[typeKey])}
-                </button>
-              ))}
+            {/* Level filter — Edify pill capsule (accent pill on the selection). */}
+            <div className="s-panel inline-flex gap-0.5 rounded-full p-1.5" role="group">
+              {(['all', ...uniqueSchoolTypes] as string[]).map((typeKey) => {
+                const on = schoolTypeFilter === typeKey;
+                return (
+                  <button
+                    key={typeKey}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setSchoolTypeFilter(typeKey)}
+                    className={`h-10 shrink-0 rounded-full px-5 text-[14px] font-bold capitalize transition-colors ${on ? 's-chip' : 'text-on-surface-variant hover:text-on-surface'}`}
+                  >
+                    {typeKey === 'all' ? t.tabs.allLevels : getLoc(filterDictionaries.schoolTypes[typeKey])}
+                  </button>
+                );
+              })}
             </div>
           </div>
 

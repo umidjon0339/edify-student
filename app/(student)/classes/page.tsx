@@ -106,7 +106,7 @@ export default function MyClassesPage() {
   if (loading) {
     return (
       <Page width="wide">
-        <PageHeader title={t.title} subtitle={t.subtitle} />
+        <PageHeader title={t.title} />
         <LoadingState rows={3} />
       </Page>
     );
@@ -117,7 +117,7 @@ export default function MyClassesPage() {
       {/* MODAL */}
       <JoinClassModal isOpen={isJoinModalOpen} onClose={() => setIsJoinModalOpen(false)} lang={lang} />
 
-      <PageHeader title={t.title} subtitle={t.subtitle} actions={joinButton} />
+      <PageHeader title={t.title} actions={joinButton} />
 
       {/* CLASS GRID */}
       {classes.length === 0 ? (
@@ -151,7 +151,7 @@ export default function MyClassesPage() {
                       <Chip status="neutral" className="uppercase tracking-widest">
                         {cls.joinCode || 'CLASS'}
                       </Chip>
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-m3-sm bg-surface-container-high text-on-surface-variant transition-colors group-hover:bg-primary group-hover:text-on-primary">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-state-hover text-on-surface-variant transition-colors group-hover:bg-primary group-hover:text-on-primary">
                         <ChevronRight size={20} strokeWidth={3} />
                       </span>
                     </div>
@@ -159,12 +159,15 @@ export default function MyClassesPage() {
                     <h3 className="s-display mb-2 line-clamp-2 text-[20px] font-bold leading-tight text-on-surface transition-colors group-hover:text-primary">
                       {cls.title}
                     </h3>
-                    <p className="line-clamp-2 h-10 text-[13.5px] font-bold leading-relaxed text-on-surface-variant">
-                      {cls.description || t.noDesc}
-                    </p>
+                    {/* Edify style: no "No description" filler — only a real one. */}
+                    {cls.description && (
+                      <p className="line-clamp-2 text-[13.5px] font-bold leading-relaxed text-on-surface-variant">
+                        {cls.description}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="mt-auto flex items-center justify-between gap-3 border-t border-outline-variant px-s-card py-4">
+                  <div className="mt-auto flex items-center justify-between gap-3 px-s-card pb-s-card">
                     <span className="flex items-center gap-2 text-[12px] font-black uppercase tracking-widest text-on-surface-variant">
                       <Users size={16} strokeWidth={3} />
                       {cls.studentIds?.length || 0} {t.students}

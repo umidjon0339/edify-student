@@ -14,10 +14,11 @@ import {
   clearSatSnapshot, getSatSnapshot, getServerSatSnapshot, saveSatSnapshot, subscribeSatSnapshot,
 } from "@/lib/SatSession";
 import {
-  findSatTestByCode, countMySatPracticeTests, newSatPracticeTestId, saveSatMathTest, getSatMathTest, listMySatMathResults, saveSatMathResult,
+  findSatTestByCode, listMySatMathTests, countMySatPracticeTests, newSatPracticeTestId, saveSatMathTest, getSatMathTest, listMySatMathResults, saveSatMathResult, listSharedSatMathMocks,
 } from "@/services/satMathQuizService";
 import SatRunner from "../_components/SatRunner";
-import SatPracticeGenerator from "../_components/SatPracticeGenerator";
+import SatMockMaker from "../_components/SatMockMaker";
+import { clearMySatResults } from "../_components/satAnalysis";
 import SatReview from "../_components/SatReview";
 import SatScoreSummary from "../_components/SatScoreSummary";
 import { Banner, Button, Card, EmptyState, Page, cn } from "@/components/student-ui";
@@ -179,7 +180,10 @@ export default function SatMathPage() {
       examLang: "en",
       testId: test.id,
       testTitle: test.title,
-      teacherId: test.teacherId,
+      // A shared student mock (`practice`) is nobody's class test: the result
+      // is stamped with the SITTER's uid, so the mock's creator — another
+      // student — can never read who sat it or what they scored.
+      teacherId: test.practice ? uid : test.teacherId,
       teacherName: test.teacherName,
       module1: test.shuffle ? shuffleSatItems(test.module1) : test.module1,
       module2Easier: test.shuffle ? shuffleSatItems(test.module2Easier) : test.module2Easier,
@@ -226,6 +230,7 @@ export default function SatMathPage() {
           // The past-sittings cache is now stale — the practice generator reads it
           // to skip questions this student has already seen.
           pastCache = null;
+          clearMySatResults();
           const served = finished.route === "harder" ? finished.module2Harder : finished.module2Easier;
           setSubmittedView({
             result,
@@ -298,13 +303,15 @@ export default function SatMathPage() {
         {/* ── code entry ──────────────────────────────────────────────────── */}
         {showCode && (
           <>
-            {/* A fresh SAT-shaped test from the shared practice bank (sat_pool). */}
-            <SatPracticeGenerator
+            {/* Create a full SAT mock (this subject only) — saved under My mocks. */}
+            <SatMockMaker
               subject="math"
               slug="sat-matematika"
               uid={uid}
               past={past}
               newTestId={newSatPracticeTestId}
+              listMine={listMySatMathTests}
+              listShared={listSharedSatMathMocks}
               countMine={countMySatPracticeTests}
               save={saveSatMathTest}
               onReady={setPendingTest}

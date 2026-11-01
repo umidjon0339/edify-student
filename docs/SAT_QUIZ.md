@@ -108,7 +108,10 @@ three callers already depending on it).
 | `app/teacher/sat/english/build/page.tsx` | The English builder — same shape as Math's, minus the "Namunaviy variant" sample-paper button (no bundled sample for English; the platform bank IS the ready content). |
 | `app/teacher/sat/english/_components/{SatEnglishBankPicker,draft}.tsx/.ts` | The picker (Platform bank / Mine tabs, filtered to `sat-ingliz-tili` + `mcq` only) and the localStorage stash for the "write a question" round trip. |
 | `app/teacher/sat/english/results/[testId]/page.tsx` | Sibling of Math's results page, `SAT_RW_DOMAINS` breakdown. |
-| `app/(student)/sat/page.tsx` | The student's section hub. |
+| `app/(student)/sat/page.tsx` | The student's section hub — glass section cards with the student's **latest score** per section + an **Analysis** card (2026-10-31). |
+| `app/(student)/sat/analysis/page.tsx` | **SAT analysis** (2026-10-31) — the SAT twin of `/raschmodel/diagnosis`. See §Analysis. |
+| `app/(student)/sat/_components/satAnalysis.ts` | `loadMySatResults(uid)` (both subjects, 60s cache shared by hub + analysis; `clearMySatResults()` on submit) + pure `summarise` / `domainStats` / `filterBySource`. |
+| `app/teacher/sat/_components/StudentMocks.tsx` | **Student mocks** on both teacher test lists — every shared mock, "Copy to my tests". See §Student mocks. |
 | `app/(student)/sat/math/page.tsx` | Code box, intro, the sitting, results, past sittings — Math. |
 | `app/(student)/sat/english/page.tsx` | Code box, intro, the sitting, results, past sittings — English. Sibling of the Math page: own session store, own service, but passes the SAME `SatRunner`. |
 | `app/(student)/sat/_components/SatRunner.tsx` | **The Bluebook-style runner, SHARED by Math and English** — module screens, timer, navigator, cross-out, flag, calculator, reference panel, a draggable two-pane split (question column / workspace column, plots/images in the workspace pane), an A-/A+ text-size control. English-only chrome. Takes `subjectName` (labels the module header) and `onSave` (which collection the result lands in) so it never imports a subject-specific Firestore write itself. |
@@ -488,7 +491,8 @@ version turned a mock file into ONE fixed test listed via a `catalog` flag — a
 | [lib/SatPractice.ts](../lib/SatPractice.ts) | **Pure.** `SAT_MODULE_PLAN` (per module: 22 Q / 35 min Math — Algebra 7, Advanced 7, PSDA 4, Geometry 4; 27 Q / 32 min R&W — C&S 7, I&I 7, SEC 7, EoI 6), `buildSatPoolItems` (validated rows → `SatQuizItem`s with `subtopic`, ids `<batchId>-0001`), `chunkSatPool` (< 700 KB per chunk), `generateSatPractice`. |
 | [services/satPoolService.ts](../services/satPoolService.ts) | `saveSatPoolBatch` (sequential chunk writes), `loadSatPool(subject)` (one `subject ==` query, content-deduped across uploads), `listMySatPoolBatches`, `deleteSatPoolBatch`. |
 | [lib/SatExamImport.ts](../lib/SatExamImport.ts) | **Pure.** File STRUCTURE only: `detectSatExam` finds modules/sections so a whole mock or a Math + R&W file can be imported; `sectionAllRows` / `allExamRows` flatten them. Module boundaries no longer matter. |
-| [app/(student)/sat/_components/SatPracticeGenerator.tsx](../app/(student)/sat/_components/SatPracticeGenerator.tsx) | The student card on `/sat/math` and `/sat/english`: bank size + domain-mix bar, "Generate a practice test", the practice-score chart. Hidden until the bank holds ≥ 2 modules' worth. |
+| [app/(student)/sat/_components/SatMockMaker.tsx](../app/(student)/sat/_components/SatMockMaker.tsx) | **"Full SAT mock"** card, ALWAYS shown on `/sat/math` (Math-only mock) and `/sat/english` (R&W-only): source counts, domain-mix bar, "Create a … mock" (disabled with "N of 44/54" when short), **My mocks** (every created mock stays: start / retake), mock-score chart. |
+| [services/satMockSourceService.ts](../services/satMockSourceService.ts) | `loadSatMockSources(slug)` — the mock's question pool, see §Student mocks. |
 | `app/teacher/create/import/_components/ModuleMixChart.tsx` | Bank tab: questions by domain, one bar per difficulty. |
 
 **Bank tab.** Any file shape — a question list, a full mock (`module1`/`module2`…),
@@ -510,9 +514,50 @@ Module 2 pools MAY share questions (a student sits only one). A domain the bank
 can't fill is topped up from others (`shortages`). Order: Math easiest →
 hardest; R&W grouped by domain in plan order, then difficulty.
 
+### Student mocks — sources and persistence (2026-10-31)
+
+`loadSatMockSources(slug)` merges, content-deduped in this priority:
+**(1) practice bank** `sat_pool` (imports, incl. whole mock files); **(2) question
+bank** — `teacher_questions` of the SAT subject that is meant to be shared:
+`fetchSharedQuestionsPage(slug, 300)` (`sharedBank == true`) +
+`fetchMyQuestionsPage('', 300, …, slug)` (anonymous platform pool), each via
+`satQuizItem` + `subtopic`; **(3) full mocks** — PLATFORM ones only:
+`sat_*_tests where teacherId == ''` (≤ 10) + the bundled Namunaviy paper (Math).
+⚠️ Teachers' own code-gated tests are deliberately NOT mined (their questions
+would reach students before the exam). Sources load with `allSettled` — one
+failing (e.g. `sat_pool` rules not deployed → permission-denied) only shows a
+"some sources unavailable" hint. Cached 5 min per subject; bank queries capped
+at 300 newest each (reads per session ≈ pool chunks + ≤ 600 + ≤ 10).
+
+**Sharing (2026-10-31).** Every generated mock is **public to all signed-in
+users** — `listSharedSat{Math,English}Mocks(20)` = `practice == true` +
+`createdAt desc` (composite index `practice ASC, createdAt DESC` on both test
+collections; until it is deployed the query falls back to equality-only + an
+in-memory sort, so the list still renders).
+- **Students** see **Community mocks** (everyone else's, own ones excluded —
+  those are under My mocks) and can start any of them.
+- ⚠️ **A practice mock's result is stamped with the SITTER's uid as `teacherId`**
+  (`startTest`: `teacherId: test.practice ? uid : test.teacherId`). Without that,
+  the result would carry the CREATOR's uid and the results read rule would let
+  one student read every other student's name and score on their mock. For the
+  creator's own sitting the two are the same uid, so nothing changed there.
+- **Teachers** see **Student mocks** under their own SAT tests
+  (`StudentMocks`): "Copy to my tests" writes a NEW teacher-owned test (fresh
+  `sat_`/`sate_` id, reserved code, `published`, `sourceMockId` = the mock id)
+  with the mock's three modules; their students open it by code and results
+  land on the teacher's normal results page. The student's doc is never
+  written (rules: owner only). `sourceMockId` only drives the "In your tests"
+  chip — the builder's own save may drop it.
+
+**Persistence:** each created mock is saved (below) and listed under **My
+mocks** — `listMySat*Tests(uid, 20)` (`teacherId ==` + `createdAt desc`, the
+teacher index) filtered to `practice`/the id prefix; the module cache is patched
+on create. Start/Retake → the normal pending screen. Title
+`SAT Math|Reading and Writing Mock N`, `teacherName: 'Edify mock'`.
+
 **The generated test is a normal `sat_*_tests` doc owned by the student**:
 id `satp_…` (Math) / `satep_…` (English), `teacherId` = the student's uid,
-`teacherName: 'Edify practice'`, `accessCode: ''` (never matched by the code
+`accessCode: ''` (never matched by the code
 box), `practice: true`, `status: 'published'`, title
 `SAT Math|Reading and Writing Practice Test N` (N = `count(teacherId == uid) + 1`).
 It then goes through the same pending → Start screen as a code lookup, so
@@ -531,6 +576,19 @@ dot per sitting, oldest first (single series, recessive 200–800 grid,
 screen-reader table). Teacher bank tab: `ModuleMixChart`, one stacked domain bar
 per difficulty. Domain colours are fixed slots (`satDomainSlot` → `--s-viz-N` /
 `--t-viz-N`), the same on both sides — see STUDENT_UI.md / UI_KIT.md.
+
+### Analysis — `/sat/analysis` (2026-10-31)
+
+The student's own sittings, per subject (Math / Reading and Writing pills) and
+source (All / Mocks = `satp_`/`satep_` ids / Teacher tests). Reads only
+`listMySat*Results(uid, 60)` (`studentId ==`), via `satAnalysis.ts`.
+- Tiles: latest (band), best, average, sittings; change latest − first.
+- Score history (`ScoreHistoryChart`), domains summed from `domains`, weakest
+  first with a "Focus next" chip (colours = `--s-viz-N` via `satDomainSlot`).
+- Right / wrong / blank — ⚠️ only sittings WITH `omitted` count (older ones
+  can't tell a blank from a wrong answer) — plus a blank-vs-wrong tip.
+- Module 2 routing (harder in X of N), Module 1 vs Module 2 accuracy, average
+  minutes used vs `SAT_MODULE_PLAN` minutes × 2, recent sittings.
 
 ### The access code — its OWN namespace PER SUBJECT
 
@@ -761,7 +819,8 @@ sat_math_tests/{sat_…}
   routingThreshold,                  ← module1 correct-count needed to route "harder"
   shuffle, showAnswers,
   status: 'draft' | 'published' | 'closed',
-  practice?: true,                   ← 2026-10-31, additive: a STUDENT's generated practice test (id satp_/satep_, teacherId = student uid, accessCode '')
+  practice?: true,                   ← 2026-10-31, additive: a STUDENT's generated practice test (id satp_/satep_, teacherId = student uid, accessCode '') — SHARED: listed to every student and teacher
+  sourceMockId?: string,             ← 2026-10-31, additive: on a TEACHER's copy of a shared mock (hint only)
   createdAt / updatedAt: serverTimestamp
 
 sat_math_results/{testId}_{uid}
@@ -809,7 +868,8 @@ either collection can read the key without ever entering a code. The 6-digit
 code is a sharing convenience, not a security boundary.
 
 Indexes: `sat_math_tests (teacherId ASC, createdAt DESC)` and
-`sat_english_tests (teacherId ASC, createdAt DESC)`. Every other query is
+`sat_english_tests (teacherId ASC, createdAt DESC)`; plus (2026-10-31, shared
+mocks) `practice ASC, createdAt DESC` on both. Every other query is
 equality-only, served from single-field indexes — including the platform
 question-bank query (`teacher_questions` filtered to `creatorId == ''`), which
 rides the SAME existing `creatorId + subject.id + createdAt desc` composite
