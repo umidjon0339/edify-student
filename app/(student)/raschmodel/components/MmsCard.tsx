@@ -10,13 +10,11 @@ import { useAuth } from '@/lib/AuthContext';
 import { dimensions, getRASCHLevels, mathLevel } from '@/services/RASCHProgressService';
 import { EXAM_DURATION_MINUTES, EXAM_TOTAL_QUESTIONS } from '@/lib/Examblueprint';
 import { PAPER_TOTAL } from '@/lib/RASCHmarks';
-import {
-  EXAMS_PER_DAY, examQuota, formatCooldown, formatUnlockTime, lastExamAt,
-} from '@/lib/RASCHquota';
+import { examQuota, formatCooldown, formatUnlockTime, lastExamAt } from '@/lib/RASCHquota';
 import { expectedScore } from '@/lib/RASCHtheta';
 import { MASTER_LEVEL, formatLevel } from '@/lib/RASCHscale';
 import { RASCH_TOPICS } from '@/lib/RASCHtopics';
-import { Button, Card, MOTION_ON, springTransition } from '@/components/student-ui';
+import { MOTION_ON, springTransition } from '@/components/student-ui';
 import type { RASCHLevels } from '@/types/RASCH';
 import type { Lang } from '@/types/Math';
 
@@ -47,42 +45,37 @@ import type { Lang } from '@/types/Math';
  * names their weakest dimension with a one-tap route into practising it.
  */
 
+// Edify style (2026-10-31): name + two facts, no lead sentence.
 const UI: Record<Lang, Record<string, string>> = {
   uz: {
-    badge: 'MMS',
     title: 'Matematika Milliy Sertifikat',
-    lead: `DTM formatidagi to'liq variant: ${EXAM_TOTAL_QUESTIONS} ta savol, ${EXAM_DURATION_MINUTES} daqiqa, ${PAPER_TOTAL} ball.`,
-    expected: 'Hozirgi darajangizda kutilayotgan natija',
-    firstTime: "Darajangiz hali o'lchanmagan — birinchi variant uni aniqlaydi.",
+    facts: `${EXAM_TOTAL_QUESTIONS} savol · ${EXAM_DURATION_MINUTES} daqiqa`,
+    expected: 'Kutilayotgan natija',
+    firstTime: 'Birinchi variant darajangizni aniqlaydi.',
     weakest: 'Eng zaif',
     start: 'Variantni boshlash',
     byCode: "O'qituvchi kodi",
     // The 2-a-day cap — lib/RASCHquota.ts owns the rule, this only reports it.
-    perDay: 'Kuniga {n} marta',
     locked: '{time} da ochiladi',
   },
   ru: {
-    badge: 'MMS',
     title: 'Национальный сертификат по математике',
-    lead: `Полный вариант формата ДТМ: ${EXAM_TOTAL_QUESTIONS} вопросов, ${EXAM_DURATION_MINUTES} минут, ${PAPER_TOTAL} баллов.`,
-    expected: 'Ожидаемый результат на вашем уровне',
-    firstTime: 'Ваш уровень ещё не измерен — первый вариант его определит.',
+    facts: `${EXAM_TOTAL_QUESTIONS} вопросов · ${EXAM_DURATION_MINUTES} минут`,
+    expected: 'Ожидаемый результат',
+    firstTime: 'Первый вариант определит ваш уровень.',
     weakest: 'Слабее всего',
     start: 'Начать вариант',
     byCode: 'Код учителя',
-    perDay: '{n} раза в день',
     locked: 'Откроется в {time}',
   },
   en: {
-    badge: 'MMS',
     title: 'Mathematics National Certificate',
-    lead: `A full DTM-format paper: ${EXAM_TOTAL_QUESTIONS} questions, ${EXAM_DURATION_MINUTES} minutes, ${PAPER_TOTAL} points.`,
-    expected: 'Expected result at your current level',
-    firstTime: 'Your level is not measured yet — your first paper sets it.',
+    facts: `${EXAM_TOTAL_QUESTIONS} questions · ${EXAM_DURATION_MINUTES} min`,
+    expected: 'Expected result',
+    firstTime: 'Your first paper sets your level.',
     weakest: 'Weakest',
     start: 'Start a paper',
     byCode: "Teacher's code",
-    perDay: '{n} papers a day',
     locked: 'Unlocks at {time}',
   },
 };
@@ -148,117 +141,86 @@ export default function MmsCard({ lang, className = '' }: { lang: Lang; classNam
       transition={springTransition}
       className={className}
     >
-      {/* `gradient` is the one hero treatment the student kit allows per screen
-          (components/student-ui/Card.tsx) — the dashboard spends it here, on the
-          single action worth interrupting for. */}
-      <Card variant="gradient" className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 opacity-10" aria-hidden>
-          <div className="absolute -right-6 -top-6 h-32 w-32 rounded-full border-8 border-current" />
-          <div className="absolute -bottom-10 right-24 h-24 w-24 rounded-full border-8 border-current" />
+      {/* Edify style: a glass panel with the accent chip as its only colour. */}
+      <div className="s-panel rounded-m3-lg p-s-card">
+        <div className="flex items-center gap-3">
+          <span className="s-chip grid h-10 w-10 shrink-0 place-items-center rounded-full">
+            <ShieldCheck size={19} strokeWidth={2.5} />
+          </span>
+          <div className="min-w-0">
+            <h3 className="s-display text-[17px] font-bold leading-tight tracking-tight text-on-surface">{t.title}</h3>
+            <p className="s-num mt-0.5 text-[12.5px] font-bold text-on-surface-variant">{t.facts}</p>
+          </div>
         </div>
 
-        <div className="relative">
-          <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-m3-sm border-2 border-current">
-              <ShieldCheck size={18} strokeWidth={2.5} />
-            </span>
-            <span className="s-num rounded-m3-xs border-2 border-current px-2 py-0.5 text-[11px] font-black tracking-[0.14em]">
-              {t.badge}
-            </span>
-          </div>
+        {/* ── the useful half ─────────────────────────────────────────── */}
+        <div className="mt-4 rounded-m3-md bg-state-hover px-3.5 py-3">
+          {measured ? (
+            <>
+              <p className="text-[11px] font-black uppercase tracking-wider text-on-surface-variant">{t.expected}</p>
+              <p className="s-num mt-1 flex items-baseline gap-1.5 text-[28px] font-black leading-none text-on-surface">
+                {expectedScore(math.theta)}
+                <span className="text-[13px] font-black text-on-surface-variant">/ {PAPER_TOTAL}</span>
+              </p>
 
-          <h3 className="s-display mt-3 text-[19px] font-bold leading-tight tracking-tight">{t.title}</h3>
-          <p className="mt-1 text-[12.5px] font-bold leading-snug opacity-85">
-            {t.lead} {t.perDay.replace('{n}', String(EXAMS_PER_DAY))}.
-          </p>
-
-          {/* ── the useful half ─────────────────────────────────────────── */}
-          <div className="mt-4 rounded-m3-sm border-2 border-white/20 bg-black/10 px-3 py-2.5">
-            {measured ? (
-              <>
-                <p className="text-[10.5px] font-black uppercase tracking-wider opacity-75">{t.expected}</p>
-                <p className="s-num mt-0.5 flex items-baseline gap-1.5 text-[26px] font-black leading-none">
-                  {expectedScore(math.theta)}
-                  <span className="text-[13px] font-black opacity-75">/ {PAPER_TOTAL}</span>
-                  <span className="ml-auto text-[12px] font-black opacity-85">
-                    {formatLevel(math.level)}<span className="opacity-70">/{MASTER_LEVEL}</span>
-                  </span>
-                </p>
-
-                {weakest && (
-                  <Link
-                    href={`/raschmodel/topic/${weakest.key}`}
-                    className="mt-2.5 flex items-center gap-1.5 text-[11.5px] font-black opacity-90 hover:opacity-100"
-                  >
-                    <span
-                      className="h-2.5 w-2.5 flex-none rounded-full ring-2 ring-white/40"
-                      style={{ backgroundColor: weakest.topic.hex }}
-                    />
-                    <span className="min-w-0 truncate">
-                      {t.weakest}: {weakest.topic.label[lang]}
-                    </span>
-                    <span className="s-num flex-none">{formatLevel(weakest.level)}/{MASTER_LEVEL}</span>
-                    <ArrowRight size={13} strokeWidth={3} className="flex-none" />
-                  </Link>
-                )}
-              </>
-            ) : (
-              <p className="text-[12px] font-bold leading-snug opacity-90">{t.firstTime}</p>
-            )}
-          </div>
-
-          {/* ⚠️ Two routes, and both are needed: a student sits the SAMPLED paper
-              from here, or opens the one their teacher built by code. The code
-              screen was previously reachable only from the RASCH sub-nav. */}
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-            {/* ⚠️ Locked ⇒ NO <Link> at all. A disabled <Button> inside an anchor
-                still navigates on click, which is how a "disabled" CTA lands the
-                student on a screen that refuses them. */}
-            {quota.allowed || quota.nextAt === null ? (
-              <Link href="/raschmodel/exam" className="sm:flex-1">
-                <Button
-                  fullWidth
-                  size="lg"
-                  variant="filled"
-                  tone="gold"
-                  icon={<Play size={17} strokeWidth={3} />}
-                  trailingIcon={<ArrowRight size={17} strokeWidth={3} />}
+              {weakest && (
+                <Link
+                  href={`/raschmodel/topic/${weakest.key}`}
+                  className="mt-2.5 flex items-center gap-1.5 text-[12px] font-bold text-on-surface-variant hover:text-primary"
                 >
-                  {t.start}
-                </Button>
-              </Link>
-            ) : (
-              <div className="sm:flex-1">
-                <Button
-                  fullWidth
-                  size="lg"
-                  variant="filled"
-                  tone="gold"
-                  disabled
-                  icon={<Timer size={17} strokeWidth={3} />}
-                >
-                  <span className="s-num">
-                    {t.locked.replace('{time}', formatUnlockTime(quota.nextAt, lang))}
-                    {' · '}
-                    {formatCooldown(quota.msLeft, lang)}
+                  <span
+                    className="h-2.5 w-2.5 flex-none rounded-full"
+                    style={{ backgroundColor: weakest.topic.hex }}
+                  />
+                  <span className="min-w-0 truncate">
+                    {t.weakest}: {weakest.topic.label[lang]}
                   </span>
-                </Button>
-              </div>
-            )}
-            <Link href="/raschmodel/quiz" className="sm:flex-none">
-              <Button
-                fullWidth
-                size="lg"
-                variant="outlined"
-                className="border-white/60 text-white"
-                icon={<KeyRound size={17} strokeWidth={3} />}
-              >
-                {t.byCode}
-              </Button>
+                  <span className="s-num flex-none font-black">{formatLevel(weakest.level)}/{MASTER_LEVEL}</span>
+                  <ArrowRight size={13} strokeWidth={3} className="flex-none" />
+                </Link>
+              )}
+            </>
+          ) : (
+            <p className="text-[13px] font-bold leading-snug text-on-surface-variant">{t.firstTime}</p>
+          )}
+        </div>
+
+        {/* ⚠️ Two routes, and both are needed: a student sits the SAMPLED paper
+            from here, or opens the one their teacher built by code. */}
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          {/* ⚠️ Locked ⇒ NO <Link> at all, so a "disabled" CTA can never land the
+              student on a screen that refuses them. */}
+          {quota.allowed || quota.nextAt === null ? (
+            <Link
+              href="/raschmodel/exam"
+              className="s-chip s-press inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-[14.5px] font-extrabold sm:flex-1"
+            >
+              <Play size={16} strokeWidth={3} />
+              {t.start}
+              <ArrowRight size={16} strokeWidth={3} />
             </Link>
-          </div>
+          ) : (
+            <span
+              aria-disabled
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-disabled-bg px-5 text-[14px] font-extrabold text-disabled-fg sm:flex-1"
+            >
+              <Timer size={16} strokeWidth={3} />
+              <span className="s-num">
+                {t.locked.replace('{time}', formatUnlockTime(quota.nextAt, lang))}
+                {' · '}
+                {formatCooldown(quota.msLeft, lang)}
+              </span>
+            </span>
+          )}
+          <Link
+            href="/raschmodel/quiz"
+            className="s-panel s-press inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-[14.5px] font-extrabold text-on-surface"
+          >
+            <KeyRound size={16} strokeWidth={3} />
+            {t.byCode}
+          </Link>
         </div>
-      </Card>
+      </div>
     </motion.div>
   );
 }

@@ -266,7 +266,8 @@ export function SegmentedControl<T extends string>({
       role="group"
       aria-label={label}
       className={cn(
-        'inline-flex gap-0.5 rounded-m3-btn bg-surface-container p-1',
+        // Edify style (2026-11-01): glass pill capsule, accent chip on the pick.
+        's-glass inline-flex gap-0.5 rounded-full p-1',
         className,
       )}
     >
@@ -279,11 +280,11 @@ export function SegmentedControl<T extends string>({
             aria-pressed={on}
             onClick={() => onChange(o.value)}
             className={cn(
-              'rounded-m3-btn px-4 py-2 text-[13.5px] font-extrabold',
+              'rounded-full px-4 py-2 text-[13.5px] font-extrabold',
               'transition-colors duration-m3-fast ease-m3-std',
               on
-                ? 'bg-surface text-on-surface shadow-elev-1'
-                : 'text-on-surface-variant hover:bg-state-hover',
+                ? 's-chip'
+                : 'text-on-surface-variant hover:text-on-surface',
             )}
           >
             {o.label}

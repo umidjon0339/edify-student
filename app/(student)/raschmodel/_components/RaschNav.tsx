@@ -25,9 +25,10 @@ import type { Lang } from '@/types/Math';
  *
  * It is sticky, not static: these pages are long (a heptagon, thirty-four skill
  * rows, a question archive), and a nav that scrolls away means scrolling back to
- * the top to leave. `top-[var(--s-topbar-h)]` parks it directly under the shell's
- * own app bar, and z-20 keeps it below that bar (z-40) and below the shell's
- * desktop tab row (z-30) so it can never overlap either.
+ * the top to leave. It parks just under the shell's pill bar (`--s-topbar-h`
+ * + 6px), and z-20 keeps it below that bar (z-40) and below the shell's desktop
+ * tab row (z-30) so it can never overlap either. Edify style (2026-10-31): a
+ * glass capsule of pills with the accent chip on the current page — no band.
  */
 
 const UI: Record<Lang, Record<string, string>> = {
@@ -97,16 +98,14 @@ export default function RaschNav({ lang, className }: { lang: Lang; className?: 
         className={cn(
           // Phone: a 32px icon-only chip, so all six items plus the level chip
           // fit 360px without scrolling. Labels come back at `sm`.
-          'inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-m3-btn px-2 sm:h-9 sm:px-3.5',
+          'inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full px-2.5 sm:h-9 sm:px-3.5',
           'text-[13px] font-extrabold leading-none s-press',
           'transition-colors duration-m3-fast ease-m3-std',
-          cta
-            ? 'bg-primary text-on-primary'
-            : active
-              // The current page is a tonal chip, never an outline: the student
-              // should be able to tell where they are without reading the labels.
-              ? 'bg-primary-container text-on-primary-container'
-              : 'border-[1.5px] border-outline text-on-surface-variant hover:bg-state-hover',
+          // Edify style: the current page wears the accent chip inside the glass
+          // capsule; the CTA is its own accent pill outside it.
+          cta || active
+            ? 's-chip'
+            : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface',
         )}
       >
         <Icon size={16} strokeWidth={2.75} className="h-4 w-4 shrink-0 sm:h-3.5 sm:w-3.5" />
@@ -119,11 +118,8 @@ export default function RaschNav({ lang, className }: { lang: Lang; className?: 
     <nav
       aria-label="Rasch"
       className={cn(
-        'sticky top-[var(--s-topbar-h)] z-20 -mx-s-page-x mb-s-gap-lg px-s-page-x py-1.5 sm:py-2',
-        // Translucent via the prebuilt token: M3 colors are plain hex inside
-        // var(), so `bg-surface/85` would render fully opaque.
-        'bg-surface-blur backdrop-blur-md',
-        'border-b border-outline-variant',
+        // Edify style: floating glass pills, no band — content scrolls behind.
+        'sticky top-[calc(var(--s-topbar-h)_+_6px)] z-20 mb-s-gap-lg',
         className,
       )}
     >
@@ -133,7 +129,9 @@ export default function RaschNav({ lang, className }: { lang: Lang; className?: 
           the whole bar fits without moving. `overflow-x-auto` stays as the
           safety net for a 320px screen or a long-word language. */}
       <div className="s-no-scrollbar flex items-center gap-1.5 overflow-x-auto sm:gap-2">
-        {ITEMS.filter((i) => !i.cta).map(link)}
+        <div className="s-glass flex shrink-0 items-center gap-0.5 rounded-full p-1">
+          {ITEMS.filter((i) => !i.cta).map(link)}
+        </div>
 
         {/* The right-hand group. Two explicit groups rather than an `ml-auto` on
             the CTA: the level chip has to sit BEFORE the call to action (a

@@ -13,13 +13,14 @@ const STYLES: Record<CardStyle, string> = {
   outlined: 'border border-outline-variant bg-surface',
   gradient:
     'bg-[linear-gradient(135deg,var(--s-grad-a),var(--s-grad-b))] text-white border-none',
-  glass:
-    'bg-surface-glass backdrop-blur-xl border border-outline-variant supports-[not(backdrop-filter:blur(0))]:bg-surface',
+  // Edify style (2026-11-01, the default): `.s-panel` from theme.css — the
+  // glass look without a live blur (see the perf note there).
+  glass: 's-panel',
 };
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Overrides design.config.ts › Card_style for this one card. Use `gradient`
-   *  or `glass` for at most one hero card per screen. */
+   *  for at most one hero card per screen. `glass` is the Edify default. */
   variant?: CardStyle;
   /** Adds hover lift + pointer cursor. Set on cards that navigate somewhere. */
   interactive?: boolean;
@@ -56,6 +57,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
             style === 'elevated' && 'hover:shadow-elev-2',
             style === 'filled' && 'hover:bg-surface-container-high',
             style === 'outlined' && 'hover:border-outline',
+            style === 'glass' && 'hover:shadow-elev-2',
           ),
         className,
       )}

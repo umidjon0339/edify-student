@@ -337,7 +337,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userId
                 src={userData.photoURL}
                 name={userData.displayName || 'Student'}
                 shape="square"
-                className="h-28 w-28 rounded-m3-lg text-[44px] md:h-36 md:w-36 md:text-[54px]"
+                className="h-28 w-28 rounded-full text-[44px] md:h-36 md:w-36 md:text-[54px]"
               />
             </button>
 
@@ -388,7 +388,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userId
                   </div>
 
                   {userData.bio ? (
-                    <p className="mx-auto mt-4 max-w-lg break-words rounded-m3-md bg-surface-container-high px-5 py-4 text-[14.5px] font-bold leading-relaxed text-on-surface-variant md:mx-0">
+                    <p className="mx-auto mt-4 max-w-lg break-words rounded-m3-md bg-state-hover px-5 py-4 text-[14.5px] font-bold leading-relaxed text-on-surface-variant md:mx-0">
                       {userData.bio}
                     </p>
                   ) : (
@@ -408,7 +408,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userId
                       key={s.key}
                       type="button"
                       onClick={() => setSocialListType(s.key)}
-                      className="s-press rounded-m3-md bg-surface-container-high px-4 py-3 text-center hover:bg-state-hover"
+                      className="s-press rounded-m3-md bg-state-hover px-4 py-3 text-center hover:bg-state-press"
                     >
                       <span className="s-display s-num block text-[26px] font-bold leading-none">{s.value}</span>
                       <span className="mt-1.5 block text-[10.5px] font-black uppercase tracking-[0.09em] text-on-surface-variant">{s.label}</span>

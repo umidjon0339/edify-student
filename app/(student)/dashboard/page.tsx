@@ -213,6 +213,23 @@ export default function StudentDashboard() {
     );
   }
 
+  // Recent activity rows that can actually be shown: a question count to
+  // divide by and a parsable date (Firestore Timestamp, {seconds}, ISO or ms).
+  // Malformed entries used to render "Invalid Date" + "NaN%".
+  type RecentActivity = { testTitle?: string; score?: number; totalQuestions?: number; submittedAt?: unknown };
+  const toDate = (v: unknown): Date | null => {
+    const o = v as { toDate?: () => Date; seconds?: number } | null | undefined;
+    const d = typeof o?.toDate === 'function' ? o.toDate()
+      : typeof o?.seconds === 'number' ? new Date(o.seconds * 1000)
+      : typeof v === 'string' || typeof v === 'number' ? new Date(v)
+      : null;
+    return d && !Number.isNaN(d.getTime()) ? d : null;
+  };
+  const recentValid = ((profile?.recentActivity ?? []) as RecentActivity[])
+    .map((activity) => ({ activity, date: toDate(activity?.submittedAt) }))
+    .filter((r): r is { activity: RecentActivity & { score: number; totalQuestions: number }; date: Date } =>
+      !!r.date && Number(r.activity?.totalQuestions) > 0 && Number.isFinite(Number(r.activity?.score)));
+
   return (
     <Page width="wide">
       <Stack>
@@ -332,17 +349,17 @@ export default function StudentDashboard() {
               {t.task.title}
             </Chip>
 
-            {profile?.recentActivity && profile.recentActivity.length > 0 ? (
+            {recentValid.length > 0 ? (
               <ListGroup variant="cards">
-                {profile.recentActivity.slice(0, 2).map((activity: any, idx: number) => {
+                {recentValid.slice(0, 2).map(({ activity, date }, idx) => {
                   const percent = Math.round((activity.score / activity.totalQuestions) * 100);
                   const status = percent >= 80 ? 'success' : percent >= 50 ? 'warning' : 'error';
                   return (
                     <ListRow
                       key={idx}
                       variant="cards"
-                      title={activity.testTitle}
-                      subtitle={new Date(activity.submittedAt).toLocaleDateString()}
+                      title={activity.testTitle || '—'}
+                      subtitle={date.toLocaleDateString()}
                       trailing={<Chip status={status} className="s-num">{percent}%</Chip>}
                     />
                   );
@@ -381,17 +398,17 @@ export default function StudentDashboard() {
                 <AreaChart width={width} height={height} data={chartData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorXP" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366F1" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#0067d7" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#0067d7" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#A1A1AA', fontWeight: 900 }} dy={10} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#A1A1AA', fontWeight: 900 }} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#18181B', borderRadius: '16px', border: 'none', color: '#fff', fontWeight: '900', fontSize: '13px', padding: '8px 14px' }}
-                    itemStyle={{ color: '#6366F1' }} cursor={{ stroke: '#E4E4E7', strokeWidth: 2, strokeDasharray: '4 4' }}
+                    itemStyle={{ color: '#0067d7' }} cursor={{ stroke: '#E4E4E7', strokeWidth: 2, strokeDasharray: '4 4' }}
                   />
-                  <Area type="monotone" dataKey="XP" stroke="#6366F1" strokeWidth={4} fillOpacity={1} fill="url(#colorXP)" activeDot={{ r: 6, fill: '#6366F1', stroke: '#fff', strokeWidth: 3 }} />
+                  <Area type="monotone" dataKey="XP" stroke="#0067d7" strokeWidth={4} fillOpacity={1} fill="url(#colorXP)" activeDot={{ r: 6, fill: '#0067d7', stroke: '#fff', strokeWidth: 3 }} />
                 </AreaChart>
               )}
             </ChartFrame>
@@ -405,7 +422,6 @@ export default function StudentDashboard() {
               </Tile>
               <div>
                 <h3 className="s-display text-[20px] font-bold md:text-[23px]">{t.library.title}</h3>
-                <p className="mt-1 max-w-lg text-[14px] font-bold text-on-surface-variant">{t.library.desc}</p>
               </div>
             </div>
             <Link href="/library" className="w-full md:w-auto">

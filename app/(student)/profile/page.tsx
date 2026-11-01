@@ -391,7 +391,7 @@ export default function StudentProfilePage() {
       <PageHeader
         title={t.title}
         actions={!isEditing && (
-          <Button variant="tonal" icon={<Edit2 size={17} strokeWidth={2.6} />} onClick={() => setIsEditing(true)}>
+          <Button icon={<Edit2 size={17} strokeWidth={2.6} />} onClick={() => setIsEditing(true)}>
             {t.edit}
           </Button>
         )}
@@ -411,7 +411,7 @@ export default function StudentProfilePage() {
                 disabled={!avatarUrl || isUploading}
                 aria-label={profile?.displayName || t.student}
                 className={cn(
-                  'relative grid h-28 w-28 place-items-center overflow-hidden rounded-m3-lg md:h-36 md:w-36',
+                  'relative grid h-28 w-28 place-items-center overflow-hidden rounded-full md:h-36 md:w-36',
                   'bg-primary-container text-[44px] font-black text-on-primary-container md:text-[54px]',
                   avatarUrl && !isUploading ? 's-press' : 'cursor-default',
                 )}
@@ -513,7 +513,7 @@ export default function StudentProfilePage() {
                     </div>
 
                     {profile?.bio ? (
-                      <p className="mx-auto mt-4 max-w-lg break-words rounded-m3-md bg-surface-container-high px-5 py-4 text-[14px] font-bold leading-relaxed text-on-surface-variant md:mx-0">
+                      <p className="mx-auto mt-4 max-w-lg break-words rounded-m3-md bg-state-hover px-5 py-4 text-[14px] font-bold leading-relaxed text-on-surface-variant md:mx-0">
                         {profile.bio}
                       </p>
                     ) : (
@@ -531,7 +531,7 @@ export default function StudentProfilePage() {
                         key={s.key}
                         type="button"
                         onClick={() => setSocialListType(s.key)}
-                        className="s-press rounded-m3-md bg-surface-container-high px-4 py-3 text-center hover:bg-state-hover"
+                        className="s-press rounded-m3-md bg-state-hover px-4 py-3 text-center hover:bg-state-press"
                       >
                         <span className="s-display s-num block text-[26px] font-bold leading-none">{s.value}</span>
                         <span className="mt-1.5 block text-[10.5px] font-black uppercase tracking-[0.09em] text-on-surface-variant">{s.label}</span>

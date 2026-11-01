@@ -219,6 +219,17 @@ the mesh shows — new pages should simply not paint a page-level background.
 
 ## Invariants & traps
 
+- ⚠️ **Pillbar dropdowns (2026-11-01, `app/teacher/layout.tsx` + student
+  `Shell.tsx` PillTabs — same three rules in both):** (1) a MOUSE click only
+  opens (`clickNav`; hover already opened it, so toggling shut it again) —
+  touch/keyboard still toggle, told apart by `lastNavPointer` from
+  `onPointerDownCapture`; (2) a closed panel wrapper is `pointer-events-none`
+  (a fading menu re-fired mouseenter → flicker); (3) menus use a 140 ms tween
+  (`menuTween`), not the spring.
+- ⚠️ **No `backdrop-blur` on elements inside cards** (perf): every
+  backdrop-filter re-blurs on each scroll frame of `<main>`. Blur only chrome
+  that floats over scrolling content (the pills, page bars, menus).
+
 - ⚠️ **Chart colours are `--t-viz-1…4`** (2026-10-31, appended at the end of
   `components/ui/theme.css`): the same validated fixed slots as the student kit's
   `--s-viz-N`, NOT palette-themed (colour follows the SAT domain via

@@ -12,12 +12,14 @@ import { useAuth } from "@/lib/AuthContext";
 import { SAT_RW_TAXONOMY_SLUG } from "@/lib/SatMathQuiz";
 import {
   deleteSatEnglishTest, listMySatEnglishTests, setSatEnglishTestStatus,
+  listSharedSatEnglishMocks, newSatEnglishTestId, reserveSatEnglishCode, saveSatEnglishTest,
 } from "@/services/satEnglishQuizService";
 import {
   Banner, Button, Card, ConfirmDialog, EmptyState, IconButton, PageHeader, Skeleton,
   StatusChip, cn,
 } from "@/components/ui";
 import type { SatMathTest, SatMathTestStatus } from "@/types/SatQuiz";
+import StudentMocks from "../_components/StudentMocks";
 
 /**
  * The teacher's own SAT English tests: code, status, edit, results, delete.
@@ -312,6 +314,18 @@ export default function SatEnglishTestsPage() {
               );
             })}
           </div>
+        )}
+
+        {/* Mocks students generated — copy one to give it to your class by code. */}
+        {!loading && (
+          <StudentMocks
+            mine={tests}
+            listShared={listSharedSatEnglishMocks}
+            reserveCode={reserveSatEnglishCode}
+            newTestId={newSatEnglishTestId}
+            save={saveSatEnglishTest}
+            onCopied={load}
+          />
         )}
       </div>
 

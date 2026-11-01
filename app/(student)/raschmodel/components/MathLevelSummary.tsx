@@ -13,7 +13,7 @@ import { BAND_TONE } from '../_components/LevelBadge';
 import { BAND_LABEL } from '@/lib/RASCHband';
 import { RASCH_TOPICS } from '@/lib/RASCHtopics';
 import {
-  Card, Chip, ProgressBar, Tile, cn, MOTION_ON, springTransition,
+  Chip, ProgressBar, Tile, cn, MOTION_ON, springTransition,
 } from '@/components/student-ui';
 import type { RASCHLevels } from '@/types/RASCH';
 import type { Lang } from '@/types/Math';
@@ -23,25 +23,16 @@ const UI: Record<Lang, Record<string, string>> = {
     title: 'Matematika darajangiz',
     empty: 'Darajangizni bilish uchun test topshiring',
     emptyCta: 'Testni boshlash',
-    details: "Batafsil",
-    master: 'master',
-    dims: "o'lchamdan",
   },
   ru: {
     title: 'Ваш уровень по математике',
     empty: 'Пройдите тест, чтобы узнать свой уровень',
     emptyCta: 'Начать тест',
-    details: 'Подробнее',
-    master: 'мастер',
-    dims: 'из измерений',
   },
   en: {
     title: 'Your mathematics level',
     empty: 'Sit an exam to find out your level',
     emptyCta: 'Start an exam',
-    details: 'Details',
-    master: 'master',
-    dims: 'of dimensions',
   },
 };
 
@@ -102,7 +93,8 @@ export default function MathLevelSummary({
       className={className}
     >
       <Link href="/raschmodel/progress" className="group block">
-        <Card interactive>
+        {/* Edify style: a frosted glass panel on the mesh, not a filled card. */}
+        <div className="s-panel rounded-m3-lg p-s-card transition-shadow group-hover:shadow-elev-2">
           <div className="flex items-center gap-3">
             <Tile tone={tone.tile} size="sm">
               <Gauge size={17} strokeWidth={2.5} />
@@ -166,12 +158,9 @@ export default function MathLevelSummary({
                   );
                 })}
               </div>
-              <p className="s-num mt-1 text-[10px] font-bold text-on-surface-variant">
-                {math.measuredDimensions}/7 {t.dims} · θ {math.theta.toFixed(2)}
-              </p>
             </>
           )}
-        </Card>
+        </div>
       </Link>
     </motion.div>
   );

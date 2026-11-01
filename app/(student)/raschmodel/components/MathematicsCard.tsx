@@ -6,55 +6,44 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calculator, ChevronDown, ChevronRight,
-  Pi, Triangle, Sigma, Ruler, BarChart3,
-  Star, Clock, BookOpen, Dumbbell, SearchX,
+  Pi, Triangle, Sigma, BarChart3, Dumbbell, SearchX,
 } from 'lucide-react';
 
 import { getMathTopics } from '@/lib/Mathstructure';
 import {
-  Button, Card, EmptyState, SearchBar, StatTile, Tile, cn, MOTION_ON, springTransition,
-  type StatTileProps, type TileProps,
+  Button, EmptyState, SearchBar, Tile, cn, MOTION_ON, springTransition,
+  type TileProps,
 } from '@/components/student-ui';
 import type { ChapterStructure, Lang, TopicStructure } from '@/types/Math';
 
 // ─── i18n (UI chrome strings only — question content is localized separately) ─
+// Edify style (2026-10-31): no subtitle, stats row or usage tip — the
+// accordion explains itself.
 const UI_STRINGS: Record<Lang, Record<string, string>> = {
   uz: {
-    title: 'Matematika', subtitle: "Barcha mavzular bo'yicha mashq qiling",
-    topicsLabel: 'mavzu', sectionsLabel: "Bo'limlar",
-    lessonsLabel: 'Darslar', avgLabel: "O'rtacha",
-    avgValue: '15 daq',
-    tip: "Mavzuni bosib ichki mavzularini oching, so'ng mashqni boshlang.",
+    title: 'Matematika',
+    topicsLabel: 'mavzu', lessonsLabel: 'dars',
     search: 'Mavzu yoki ichki mavzuni qidiring',
     practice: 'Mashq',
     noResults: 'Hech narsa topilmadi',
-    noResultsHint: "Boshqacha yozib ko'ring — qidiruv mavzu va ichki mavzu nomlari bo'yicha ishlaydi.",
     matches: 'ta natija',
     subtopics: 'ta ichki mavzu',
   },
   ru: {
-    title: 'Математика', subtitle: 'Практикуйтесь по всем темам',
-    topicsLabel: 'тем', sectionsLabel: 'Разделы',
-    lessonsLabel: 'Уроки', avgLabel: 'В среднем',
-    avgValue: '15 мин',
-    tip: 'Нажмите на тему, чтобы раскрыть подтемы, затем начните тренировку.',
+    title: 'Математика',
+    topicsLabel: 'тем', lessonsLabel: 'уроков',
     search: 'Поиск темы или подтемы',
     practice: 'Тренировка',
     noResults: 'Ничего не найдено',
-    noResultsHint: 'Попробуйте другой запрос — поиск идёт по названиям тем и подтем.',
     matches: 'результатов',
     subtopics: 'подтем',
   },
   en: {
-    title: 'Mathematics', subtitle: 'Practice across all topics',
-    topicsLabel: 'topics', sectionsLabel: 'Sections',
-    lessonsLabel: 'Lessons', avgLabel: 'Average',
-    avgValue: '15 min',
-    tip: 'Tap a topic to reveal its subtopics, then start practising.',
+    title: 'Mathematics',
+    topicsLabel: 'topics', lessonsLabel: 'lessons',
     search: 'Search a topic or subtopic',
     practice: 'Practice',
     noResults: 'Nothing found',
-    noResultsHint: 'Try a different query — search matches topic and subtopic names.',
     matches: 'matches',
     subtopics: 'subtopics',
   },
@@ -160,7 +149,7 @@ function ChapterRow({
   }).toString()}`;
 
   return (
-    <div className="overflow-hidden rounded-m3-md border border-outline-variant bg-surface">
+    <div className="overflow-hidden rounded-m3-md bg-state-hover">
       <div className="flex items-center gap-3 px-s-row-x py-2.5">
         <button
           type="button"
@@ -168,7 +157,7 @@ function ChapterRow({
           aria-expanded={isOpen}
           className="flex min-w-0 flex-1 items-center gap-3 text-left"
         >
-          <span className="s-num grid h-8 w-8 shrink-0 place-items-center rounded-m3-sm bg-surface-container-high text-[12px] font-black text-on-surface-variant">
+          <span className="s-num grid h-8 w-8 shrink-0 place-items-center rounded-full s-panel text-[12px] font-black text-on-surface-variant">
             {index + 1}
           </span>
 
@@ -264,7 +253,8 @@ function SectionAccordion({
       animate={{ opacity: 1, y: 0 }}
       transition={{ ...springTransition, delay: MOTION_ON ? index * 0.08 : 0 }}
     >
-      <Card flush className="overflow-hidden">
+      {/* Edify style: a frosted glass panel on the mesh. */}
+      <div className="s-panel overflow-hidden rounded-m3-lg">
         <button
           onClick={() => setManualOpen((v) => !v)}
           aria-expanded={isOpen}
@@ -277,14 +267,14 @@ function SectionAccordion({
           <div className="min-w-0 flex-1">
             <h3 className="s-display text-[17px] font-bold tracking-tight">{topic.name}</h3>
             <p className="s-num mt-0.5 text-[12px] font-bold text-on-surface-variant">
-              {chapters.length} {t.topicsLabel} · {lessonCount} {t.lessonsLabel.toLowerCase()}
+              {chapters.length} {t.topicsLabel} · {lessonCount} {t.lessonsLabel}
             </p>
           </div>
 
           <span
             className={cn(
-              'grid h-9 w-9 shrink-0 place-items-center rounded-m3-sm transition-colors duration-m3-fast',
-              isOpen ? 'bg-primary text-on-primary' : 'bg-surface-container-high text-on-surface-variant',
+              'grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors duration-m3-fast',
+              isOpen ? 's-chip' : 'bg-state-hover text-on-surface-variant',
             )}
           >
             <ChevronDown
@@ -304,7 +294,7 @@ function SectionAccordion({
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               className="overflow-hidden"
             >
-              <div className="flex flex-col gap-2 border-t border-outline-variant px-s-card pb-s-card pt-s-gap">
+              <div className="flex flex-col gap-2 px-s-card pb-s-card">
                 {chapters.map((entry, cIndex) => (
                   <ChapterRow
                     key={entry.chapter.chapterId}
@@ -321,51 +311,8 @@ function SectionAccordion({
             </motion.div>
           )}
         </AnimatePresence>
-      </Card>
+      </div>
     </motion.div>
-  );
-}
-
-// ─── Stats Row (derived from the syllabus — 0 Firestore reads) ────────────
-function StatsRow({ topics, t }: { topics: TopicStructure[]; t: Record<string, string> }) {
-  const { chapterCount, lessonCount } = useMemo(() => {
-    const chapters = topics.flatMap((tp) => tp.chapters);
-    return {
-      chapterCount: chapters.length,
-      lessonCount: chapters.reduce((s, c) => s + c.subtopics.length, 0),
-    };
-  }, [topics]);
-
-  const stats: Array<{
-    icon: React.ElementType;
-    label: string;
-    value: number | string;
-    tone: NonNullable<StatTileProps['tone']>;
-  }> = [
-      { icon: BookOpen, label: t.topicsLabel, value: chapterCount, tone: 'secondary' },
-      { icon: Star, label: t.lessonsLabel, value: lessonCount, tone: 'gold' },
-      { icon: Ruler, label: t.sectionsLabel, value: topics.length, tone: 'primary' },
-      { icon: Clock, label: t.avgLabel, value: t.avgValue, tone: 'surface' },
-    ];
-
-  return (
-    <div className="grid grid-cols-2 gap-s-gap sm:grid-cols-4">
-      {stats.map(({ icon: SIcon, label, value, tone }, i) => (
-        <motion.div
-          key={label}
-          initial={MOTION_ON ? { opacity: 0, y: 12 } : false}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...springTransition, delay: MOTION_ON ? i * 0.06 : 0 }}
-        >
-          <StatTile
-            label={label}
-            value={value}
-            tone={tone}
-            icon={<SIcon size={16} strokeWidth={2.8} />}
-          />
-        </motion.div>
-      ))}
-    </div>
   );
 }
 
@@ -394,23 +341,7 @@ export default function MathematicsCard({ lang = 'uz' }: { lang?: Lang }) {
 
   return (
     <div className="flex flex-col gap-s-section">
-      {/* Header */}
-      <motion.div
-        initial={MOTION_ON ? { opacity: 0, y: -10 } : false}
-        animate={{ opacity: 1, y: 0 }}
-        transition={springTransition}
-        className="flex items-center gap-4"
-      >
-        <Tile tone="secondary" size="lg">
-          <Calculator size={28} strokeWidth={2.5} />
-        </Tile>
-        <div className="min-w-0">
-          <h2 className="s-display text-2xl font-bold tracking-tight md:text-3xl">{t.title}</h2>
-          <p className="mt-0.5 text-[14px] font-bold text-on-surface-variant">{t.subtitle}</p>
-        </div>
-      </motion.div>
-
-      <StatsRow topics={topics} t={t} />
+      <h2 className="s-display px-1 text-2xl font-bold tracking-tight text-on-surface md:text-[26px]">{t.title}</h2>
 
       <div className="flex flex-col gap-s-gap">
         <SearchBar
@@ -427,13 +358,9 @@ export default function MathematicsCard({ lang = 'uz' }: { lang?: Lang }) {
       </div>
 
       {searching && matchCount === 0 ? (
-        <Card>
-          <EmptyState
-            icon={<SearchX size={28} strokeWidth={2.5} />}
-            title={t.noResults}
-            description={t.noResultsHint}
-          />
-        </Card>
+        <div className="s-panel rounded-m3-lg">
+          <EmptyState icon={<SearchX size={28} strokeWidth={2.5} />} title={t.noResults} />
+        </div>
       ) : (
         <div className="flex flex-col gap-s-gap">
           {filtered.map(({ topic, chapters }, index) => (
@@ -450,8 +377,6 @@ export default function MathematicsCard({ lang = 'uz' }: { lang?: Lang }) {
           ))}
         </div>
       )}
-
-      <p className="px-1 text-[12px] font-bold text-on-surface-variant">{t.tip}</p>
     </div>
   );
 }

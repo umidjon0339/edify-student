@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, createContext, useContext, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Firebase & Auth
@@ -15,20 +16,19 @@ import { doc, onSnapshot } from 'firebase/firestore';
 // Icons
 import {
   LayoutDashboard, BookOpen, User as UserIcon,
-  LogOut, GraduationCap, Flame, Trophy, ChevronDown, Check,
+  LogOut, Flame, Trophy, ChevronDown, Check, Bell,
   Settings, BookMarked, Gamepad2, Globe, Building2, BadgeCheck, Target, Brain,
 } from 'lucide-react';
 import { fetchMyCenters } from '@/services/studentCenterService';
 
 // Components
-import NotificationBell from '@/components/NotificationBell';
 
 // 🎓 Student design system. Tokens are imported ONCE here — never in a page.
 // To restyle the whole student app, edit design.config.ts (repo root).
 import '@/components/student-ui/theme.css';
 import {
-  StudentThemeProvider, Shell, MobileDrawer, ConfirmDialog,
-  Avatar, Flag, cn, DESIGN, MOTION_ON, springTransition,
+  StudentThemeProvider, Shell, MobileDrawer, ConfirmDialog, ThemeWaveToggle,
+  Avatar, Flag, cn, MOTION_ON, springTransition,
   type NavItem,
 } from '@/components/student-ui';
 
@@ -56,19 +56,22 @@ export function useStudentLanguage() {
 const LAYOUT_TRANSLATIONS: any = {
   uz: {
     menu: { dashboard: "Boshqaruv", classes: "Sinflarim", explore: "Kurslar", library: "Kutubxona", games: "O'yinlar", leaderboard: "Reyting", ielts: "IELTS", profile: "Profil", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT", center: "Markazim", mistakes: "Xatolarim" },
-    topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til" },
+    groups: { main: "Asosiy", exams: "Imtihonlar", resources: "Resurslar" },
+    topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til", notifications: "Bildirishnomalar", light: "Yorug'", dark: "Tun" },
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
   },
   en: {
-    menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", games: "Games", leaderboard: "Rank", ielts: "IELTS", profile: "Profile", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "My Mistakes" },
-    topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language" },
+    menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", games: "Games", leaderboard: "Rank", ielts: "IELTS", profile: "Profile", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "My Mistakes", center: "My center" },
+    groups: { main: "Main", exams: "Exams", resources: "Resources" },
+    topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language", notifications: "Notifications", light: "Light", dark: "Dark" },
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
   },
   ru: {
-    menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", games: "Игры", leaderboard: "Рейтинг", ielts: "IELTS", profile: "Профиль", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "Мои ошибки" },
-    topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык" },
+    menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", games: "Игры", leaderboard: "Рейтинг", ielts: "IELTS", profile: "Профиль", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "Мои ошибки", center: "Мой центр" },
+    groups: { main: "Главное", exams: "Экзамены", resources: "Ресурсы" },
+    topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык", notifications: "Уведомления", light: "Светлая", dark: "Тёмная" },
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
   }
@@ -216,45 +219,45 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   // Leaderboard's slot — Reyting stays one tap away in the ☰ drawer.
   const menuItems: NavItem[] = [
     { href: '/dashboard', label: t.menu.dashboard, icon: LayoutDashboard },
-    { href: '/classes', label: t.menu.classes, icon: BookOpen },
-    ...(isCenterStudent ? [{ href: '/center', label: t.menu.center, icon: Building2 }] : []),
-    { href: '/library', label: t.menu.library, icon: BookMarked, hideOnMobile: true },
-    { href: '/games', label: t.menu.games, icon: Gamepad2 },
-    { href: '/leaderboard', label: t.menu.leaderboard, icon: Trophy, hideOnMobile: isCenterStudent },
-    { href: '/ielts', label: t.menu.ielts, icon: Globe },
+    { href: '/classes', label: t.menu.classes, icon: BookOpen, group: 'main' },
+    ...(isCenterStudent ? [{ href: '/center', label: t.menu.center, icon: Building2, group: 'main' }] : []),
+    { href: '/library', label: t.menu.library, icon: BookMarked, hideOnMobile: true, group: 'resources' },
+    { href: '/games', label: t.menu.games, icon: Gamepad2, group: 'main' },
+    { href: '/leaderboard', label: t.menu.leaderboard, icon: Trophy, hideOnMobile: isCenterStudent, group: 'main' },
+    { href: '/ielts', label: t.menu.ielts, icon: Globe, group: 'exams' },
     // ⚠️ **Milliy sertifikat is the ONLY entry to the exam programme, including
     // maths.** `/raschmodel` used to sit here beside it, which read as two
     // separate products — it is the maths SECTION of this one, so the hub's
     // Matematika card links there instead (`studentSubjectHref`). Don't add a
     // second nav row for it. See docs/MILLIY_QUIZ.md.
     // Hidden from the mobile dock: M3 caps a bottom bar at 5 destinations.
-    { href: '/milliy-sertifikat', label: t.menu.milliy, icon: BadgeCheck, hideOnMobile: true },
+    { href: '/milliy-sertifikat', label: t.menu.milliy, icon: BadgeCheck, hideOnMobile: true, group: 'exams' },
     // SAT — own nav entry, hidden from the mobile dock for the same M3-cap
     // reason as Milliy sertifikat. A different exam programme, not a subject
     // inside that one. See docs/SAT_QUIZ.md.
-    { href: '/sat', label: t.menu.sat, icon: Target, hideOnMobile: true },
-    // My Mistakes (docs/MISTAKES.md) — fed by SAT / Milliy / Rasch, so it sits
-    // with them rather than under Classes.
-    { href: '/mistakes', label: t.menu.mistakes, icon: Brain, hideOnMobile: true },
+    { href: '/sat', label: t.menu.sat, icon: Target, hideOnMobile: true, group: 'exams' },
+    // My Mistakes (docs/MISTAKES.md) — fed by SAT / Milliy / Rasch. In the
+    // pillbar it is the capsule's FEATURED link (icon chip + label, like the
+    // teacher's "Yangi Test"), not a dropdown row; `group` still files it under
+    // Resources for any shell that uses groups without `pillCta`.
+    { href: '/mistakes', label: t.menu.mistakes, icon: Brain, hideOnMobile: true, group: 'resources', pillCta: true },
     // Hidden from the mobile dock: M3 caps a bottom bar at 5 destinations, and
     // Profile is already one tap away in the avatar menu.
-    { href: '/profile', label: t.menu.profile, icon: UserIcon, hideOnMobile: true },
+    { href: '/profile', label: t.menu.profile, icon: UserIcon, hideOnMobile: true, hideInPillbar: true },
   ];
 
+  // pillbar dropdown groups (Edify style) — items above reference these keys.
+  const navGroups = [
+    { key: 'main', label: t.groups.main },
+    { key: 'exams', label: t.groups.exams, dot: true },
+    { key: 'resources', label: t.groups.resources },
+  ];
+
+  // Edify logo (public/brand). The pillbar shell wraps it in a glass pill;
+  // the drawer/rail shells show it as-is.
   const brand = (
-    <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5">
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-m3-sm bg-[linear-gradient(135deg,var(--s-grad-a),var(--s-grad-b))] text-white shadow-elev-1">
-        <GraduationCap size={20} strokeWidth={2.4} />
-      </span>
-      <span
-        className={cn(
-          's-display truncate text-[17px] font-bold',
-          // The icon rail is too narrow for a wordmark; the drawers and top bar aren't.
-          DESIGN.App_shell_navigation === 'rail' && 'md:hidden',
-        )}
-      >
-        Edify<span className="text-primary">Student</span>
-      </span>
+    <Link href="/dashboard" aria-label="Edify" className="flex min-w-0 items-center">
+      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="s-brand-logo h-[26px] w-auto" />
     </Link>
   );
 
@@ -264,7 +267,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       <Link
         href="/profile"
         aria-label={`${t.topbar.streak}: ${stats.streak}`}
-        className="flex items-center gap-1.5 rounded-full bg-gold-container px-3 py-1.5 text-on-gold-container s-press"
+        className="flex h-10 items-center gap-1.5 rounded-full bg-gold-container px-3.5 text-on-gold-container s-press"
       >
         <Flame size={15} strokeWidth={2.8} className={stats.streak > 0 ? 'fill-current' : 'opacity-50'} />
         <span className="s-num text-[13.5px] font-black">{stats.streak}</span>
@@ -278,8 +281,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           aria-label={t.topbar.language}
           aria-expanded={isLangMenuOpen}
           className={cn(
-            'flex items-center gap-1.5 rounded-full px-3 py-2 s-press',
-            isLangMenuOpen ? 'bg-surface-container-high' : 'hover:bg-state-hover',
+            's-glass flex h-10 items-center gap-1.5 rounded-full px-3.5 s-press',
+            isLangMenuOpen && 'ring-2 ring-primary',
           )}
         >
           <Flag code={activeLang.code} size={14} />
@@ -315,13 +318,12 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </AnimatePresence>
       </div>
 
-      {/* Notifications */}
-      <div
-        onClick={() => { setIsLangMenuOpen(false); setIsProfileMenuOpen(false); }}
-        className="grid h-10 w-10 place-items-center rounded-full text-on-surface-variant hover:bg-state-hover"
-      >
-        <NotificationBell />
-      </div>
+      {/* Light/dark wave switch (Edify style — replaces the bell; notifications
+          moved into the profile menu). */}
+      <ThemeWaveToggle
+        className="s-glass h-10 w-10 text-on-surface"
+        labels={{ toLight: t.topbar.light, toDark: t.topbar.dark }}
+      />
 
       {/* Profile */}
       <div className="relative">
@@ -331,8 +333,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           aria-label={t.topbar.profile}
           aria-expanded={isProfileMenuOpen}
           className={cn(
-            'flex items-center gap-2 rounded-full p-1 s-press md:pr-3',
-            isProfileMenuOpen ? 'bg-surface-container-high' : 'hover:bg-state-hover',
+            's-glass flex h-10 items-center gap-2 rounded-full p-1 s-press md:pr-3',
+            isProfileMenuOpen && 'ring-2 ring-primary',
           )}
         >
           <Avatar src={user?.photoURL} name={user?.displayName ?? 'S'} size="xs" />
@@ -387,6 +389,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               <Link href="/profile" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface">
                 <UserIcon size={18} strokeWidth={2.5} /> {t.topbar.profile}
               </Link>
+              <Link href="/notifications" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface">
+                <Bell size={18} strokeWidth={2.5} /> {t.topbar.notifications}
+              </Link>
               <Link href="/settings" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface">
                 <Settings size={18} strokeWidth={2.5} /> {t.topbar.settings}
               </Link>
@@ -413,6 +418,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           isActive={isActive}
           brand={brand}
           topbar={topbar}
+          groups={navGroups}
           onOpenMobileNav={() => setIsMobileNavOpen(true)}
         >
           {children}
