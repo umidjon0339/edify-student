@@ -13,6 +13,8 @@ import LatexRenderer from '@/components/LatexRenderer';
 import { useAuth } from '@/lib/AuthContext';
 import { useStudentLanguage } from '../../layout';
 import { diagnosticsFor, getRASCHLevels, savePracticeResult } from '@/services/RASCHProgressService';
+import { practiceMistakes } from '@/lib/mistakes';
+import { recordMistakes } from '@/services/mistakeService';
 import { weakestSpots } from '@/lib/RASCHdiagnosis';
 import { buildPractice, buildSkillPractice } from '@/lib/Examquestions';
 import { topicForChapter } from '@/lib/Examblueprint';
@@ -125,6 +127,8 @@ export default function PracticePage() {
   const { user, loading: authLoading } = useAuth();
   const { lang } = useStudentLanguage();
   const t = UI[lang];
+  // The mistake rows' subtitle — a plain string so the save effect depends on it alone.
+  const practiceTitle = t.title;
 
   const [levels, setLevels] = useState<RASCHLevels | null>(null);
   const [stage, setStage] = useState<Stage>('intro');
@@ -309,6 +313,20 @@ export default function PracticePage() {
           durationSec: Math.max(0, Math.round((Date.now() - startedAt.current) / 1000)),
           items: withTopic,
         });
+
+        // My Mistakes (docs/MISTAKES.md) — after the result write, never
+        // awaited; `savedRef` already makes this run once per drill.
+        recordMistakes(
+          user.uid,
+          practiceMistakes({
+            testId: `practice_${startedAt.current}`,
+            testTitle: practiceTitle,
+            examLang: lang,
+            questions,
+            answers,
+          }),
+        ).catch((e) => console.error('recordMistakes failed:', e));
+
         if (cancelled) return;
         setLevels(next);
         setSavedOk(true);
@@ -321,7 +339,7 @@ export default function PracticePage() {
     })();
 
     return () => { cancelled = true; };
-  }, [stage, user, questions, answers, seconds, lang, t.error]);
+  }, [stage, user, questions, answers, seconds, lang, t.error, practiceTitle]);
 
   const reset = useCallback(() => {
     savedRef.current = false;

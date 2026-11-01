@@ -133,9 +133,12 @@ export const DESIGN: DesignConfig = {
   //    squircle — rounded-square that morphs rounder as you press (M3 Expressive)
   //    elevated — raised surface button with a shadow
 
-  /** Text field style used by every form in the app. */
-  Input_style: 'filled',
-  // ⭐ filled | outlined
+  /** Text field style used by every form in the app.
+   *  (Edify style 2026-11-01: glass — was 'filled') */
+  Input_style: 'glass',
+  // ⭐ glass    — frosted rounded field, accent focus ring (Edify)
+  //    filled   — M3 filled field with an underline
+  //    outlined — M3 outlined field
 
   /* ─────────────────────────────────────────────────────────────────────────
    *  5. GAMIFICATION — XP, streaks, ranks, badges
@@ -208,7 +211,7 @@ export interface DesignConfig {
   Card_style: 'filled' | 'elevated' | 'outlined' | 'gradient' | 'glass';
   List_style: 'grouped' | 'cards';
   Button_style: 'game' | 'pill' | 'squircle' | 'elevated';
-  Input_style: 'filled' | 'outlined';
+  Input_style: 'glass' | 'filled' | 'outlined';
   Xp_display: 'gradient_bar' | 'segmented' | 'ring';
   Streak_display: 'week_dots' | 'heat_grid';
   Leaderboard_style: 'podium' | 'rows';

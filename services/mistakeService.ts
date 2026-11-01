@@ -94,16 +94,29 @@ export async function listMistakes(
   studentId: string,
   opts: { resolved?: boolean; max?: number } = {},
 ): Promise<MistakeDoc[]> {
-  const snap = await getDocs(
-    query(
-      collection(db, COLLECTION),
-      where("studentId", "==", studentId),
-      where("resolved", "==", opts.resolved ?? false),
-      orderBy("lastMissedAt", "desc"),
-      fbLimit(opts.max ?? 100),
-    ),
-  );
-  return snap.docs.map((d) => d.data() as MistakeDoc);
+  const max = opts.max ?? 100;
+  const base = [
+    where("studentId", "==", studentId),
+    where("resolved", "==", opts.resolved ?? false),
+  ];
+  try {
+    const snap = await getDocs(
+      query(collection(db, COLLECTION), ...base, orderBy("lastMissedAt", "desc"), fbLimit(max)),
+    );
+    return snap.docs.map((d) => d.data() as MistakeDoc);
+  } catch (err) {
+    // ⚠️ The composite index (studentId + resolved + lastMissedAt desc) was in
+    // firestore.indexes.json but never deployed (found 2026-11-01), so every
+    // load failed with failed-precondition and the page showed "Could not
+    // load". Equality-only on two fields needs no composite index — read the
+    // student's rows and sort here, so the bucket works either way.
+    if ((err as { code?: string }).code !== "failed-precondition") throw err;
+    const snap = await getDocs(query(collection(db, COLLECTION), ...base));
+    return snap.docs
+      .map((d) => d.data() as MistakeDoc)
+      .sort((a, b) => (b.lastMissedAt ?? 0) - (a.lastMissedAt ?? 0))
+      .slice(0, max);
+  }
 }
 
 /** Open-mistake count for the dashboard/nav badge — a COUNT query, so it bills

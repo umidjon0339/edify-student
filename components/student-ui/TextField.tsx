@@ -33,7 +33,9 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
   const fieldId = id ?? autoId;
   const describedBy = error || hint ? `${fieldId}-desc` : undefined;
   const style = variant ?? DESIGN.Input_style;
-  const filled = style === 'filled';
+  const glass = style === 'glass';
+  // Glass floats its label exactly like filled — only the surface differs.
+  const filled = style === 'filled' || glass;
 
   return (
     <div className={cn('w-full', containerClassName)}>
@@ -55,7 +57,9 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
             'transition-colors duration-m3-fast ease-m3-std',
             leading ? 'pl-12' : 'pl-4',
             trailing ? 'pr-12' : 'pr-4',
-            filled
+            glass
+              ? 's-field rounded-m3-md pb-2 pt-6'
+              : filled
               ? cn(
                   'rounded-t-m3-sm bg-surface-container-low pb-2 pt-6',
                   'border-b-2 border-outline focus:border-primary',
@@ -180,6 +184,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
 ) {
   const autoId = useId();
   const fieldId = id ?? autoId;
+  const glass = DESIGN.Input_style === 'glass';
   const filled = DESIGN.Input_style === 'filled';
 
   return (
@@ -195,7 +200,9 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
         className={cn(
           'w-full resize-y rounded-m3-sm px-4 py-3 font-bold text-on-surface outline-none',
           'transition-colors duration-m3-fast ease-m3-std',
-          filled
+          glass
+            ? 's-field rounded-m3-md'
+            : filled
             ? 'border-b-2 border-outline bg-surface-container-low focus:border-primary'
             : 'border-[1.5px] border-outline bg-transparent focus:border-2 focus:border-primary',
           error && 'border-error',
@@ -235,8 +242,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           ref={ref}
           id={fieldId}
           className={cn(
-            'w-full appearance-none rounded-m3-sm border-[1.5px] border-outline bg-surface-container-low',
-            'py-3 pl-4 pr-10 font-bold text-on-surface outline-none focus:border-2 focus:border-primary',
+            'w-full appearance-none py-3 pl-4 pr-10 font-bold text-on-surface outline-none',
+            DESIGN.Input_style === 'glass'
+              ? 's-field rounded-m3-md'
+              : 'rounded-m3-sm border-[1.5px] border-outline bg-surface-container-low focus:border-2 focus:border-primary',
             className,
           )}
           {...rest}

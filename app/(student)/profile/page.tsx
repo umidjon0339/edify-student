@@ -9,11 +9,12 @@ import {
   limit, getDocs, startAfter, QueryDocumentSnapshot, DocumentData
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { updateProfile, signOut } from 'firebase/auth';
+import { updateProfile, signOut, linkWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { googlePhotoURL } from '@/lib/googlePhoto';
 import {
   User as UserIcon, Mail, Activity, Edit2, Check, X, LogOut, Camera,
   GraduationCap, Trash2, Smile,
-  AtSign, RefreshCw, CheckCircle, XCircle, BookOpen, Users, UserMinus, Building2
+  AtSign, RefreshCw, CheckCircle, XCircle, BookOpen, Users, UserMinus, Building2, ImageUp
 } from 'lucide-react';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, Tooltip, YAxis } from 'recharts';
@@ -51,7 +52,7 @@ const PROFILE_TRANSLATIONS: any = {
     status: { minChar: "Kamida 5 ta belgi", regex: "Harf bilan boshlang (a-z, 0-9, _)", taken: "Bu nom band qilingan", avail: "Bu nom bo'sh!" },
     genders: { male: "Erkak", female: "Ayol" },
     logout: "Tizimdan chiqish", logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Yo'q, qolish", confirm: "Ha, chiqish" },
-    photo: { cropTitle: "Rasmni Kesish", apply: "Saqlash", updated: "Rasm yangilandi!", deleted: "Rasm o'chirildi!", errUpload: "Rasm yuklashda xatolik", errDelete: "Rasmni o'chirishda xatolik" },
+    photo: { cropTitle: "Rasmni Kesish", apply: "Saqlash", updated: "Rasm yangilandi!", deleted: "Rasm o'chirildi!", errUpload: "Rasm yuklashda xatolik", errDelete: "Rasmni o'chirishda xatolik", menu: "Rasmni o'zgartirish", upload: "Qurilmadan yuklash", google: "Google rasmini qo'yish", googleInUse: "Bu Google hisobi boshqa Edify profiliga ulangan", noGoogle: "Google hisobingizda rasm yo'q" },
     success: "Profil yangilandi!", error: "Xatolik yuz berdi.",
     social: { followers: "Obunachilar", following: "Kuzatmoqda", unfollow: "Kuzatishni to'xtatish", remove: "Olib tashlash", emptyList: "Foydalanuvchilar topilmadi." }
   },
@@ -63,7 +64,7 @@ const PROFILE_TRANSLATIONS: any = {
     status: { minChar: "Minimum 5 characters", regex: "Start with letter (a-z, 0-9, _)", taken: "Username is taken", avail: "Username is available!" },
     genders: { male: "Male", female: "Female" },
     logout: "Sign Out", logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out?", cancel: "No, stay", confirm: "Yes, sign out" },
-    photo: { cropTitle: "Crop Photo", apply: "Apply", updated: "Photo updated!", deleted: "Photo deleted!", errUpload: "Failed to upload photo", errDelete: "Failed to delete photo" },
+    photo: { cropTitle: "Crop Photo", apply: "Apply", updated: "Photo updated!", deleted: "Photo deleted!", errUpload: "Failed to upload photo", errDelete: "Failed to delete photo", menu: "Change photo", upload: "Upload from device", google: "Use Google photo", googleInUse: "That Google account belongs to another Edify profile", noGoogle: "Your Google account has no photo" },
     success: "Profile updated!", error: "An error occurred.",
     social: { followers: "Followers", following: "Following", unfollow: "Unfollow", remove: "Remove", emptyList: "No users found." }
   },
@@ -75,7 +76,7 @@ const PROFILE_TRANSLATIONS: any = {
     status: { minChar: "Минимум 5 символов", regex: "Начните с буквы (a-z, 0-9, _)", taken: "Имя занято", avail: "Имя доступно!" },
     genders: { male: "Мужской", female: "Женский" },
     logout: "Выйти", logoutConfirm: { title: "Выйти", desc: "Вы уверены, что хотите выйти?", cancel: "Отмена", confirm: "Да, выйти" },
-    photo: { cropTitle: "Обрезать фото", apply: "Применить", updated: "Фото обновлено!", deleted: "Фото удалено!", errUpload: "Ошибка загрузки фото", errDelete: "Ошибка удаления фото" },
+    photo: { cropTitle: "Обрезать фото", apply: "Применить", updated: "Фото обновлено!", deleted: "Фото удалено!", errUpload: "Ошибка загрузки фото", errDelete: "Ошибка удаления фото", menu: "Сменить фото", upload: "Загрузить с устройства", google: "Фото из Google", googleInUse: "Этот Google-аккаунт привязан к другому профилю Edify", noGoogle: "В вашем Google-аккаунте нет фото" },
     success: "Профиль обновлен!", error: "Произошла ошибка.",
     social: { followers: "Подписчики", following: "Подписки", unfollow: "Отписаться", remove: "Удалить", emptyList: "Пользователи не найдены." }
   }
@@ -116,6 +117,7 @@ export default function StudentProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [photoMenu, setPhotoMenu] = useState(false);
 
   const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'valid' | 'taken' | 'invalid'>('idle');
   const [usernameError, setUsernameError] = useState('');
@@ -147,7 +149,8 @@ export default function StudentProfilePage() {
           setProfile({
             ...data,
             displayName: data.displayName || user.displayName || 'Student',
-            photoURL: data.photoURL || data.photoUrl || user.photoURL || null,
+            // Last resort: the Google (Gmail) photo of a Google-linked account.
+            photoURL: data.photoURL || data.photoUrl || user.photoURL || googlePhotoURL(user) || null,
             totalXP: data.totalXP ?? data.xp ?? 0,
             currentStreak: calculateStreak(data.dailyHistory),
             dailyHistory: data.dailyHistory || {},
@@ -366,6 +369,44 @@ export default function StudentProfilePage() {
     } catch (error) { showToast(t.photo.errDelete, 'error'); } finally { setIsUploading(false); }
   };
 
+  /**
+   * "Use Google photo": the Gmail profile picture becomes the avatar. An account
+   * that is not Google-linked yet links Google first (`linkWithPopup`) — that
+   * is the only way to read its photo, and as a side effect the student can
+   * then also sign in with Google. The URL is Google's (lh3), not a copy in
+   * Storage, so a previously uploaded photo file is removed.
+   */
+  const handleUseGooglePhoto = async () => {
+    if (!user) return;
+    setPhotoMenu(false);
+    setIsUploading(true);
+    try {
+      let url = googlePhotoURL(user);
+      if (!url) {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const res = await linkWithPopup(user, provider);
+        url = googlePhotoURL(res.user);
+      }
+      if (!url) { showToast(t.photo.noGoogle, 'error'); return; }
+
+      try { await deleteObject(ref(storage, `profile_images/${user.uid}.jpg`)); } catch { /* none uploaded */ }
+      await updateDoc(doc(db, 'users', user.uid), { photoURL: url });
+      await updateProfile(user, { photoURL: url });
+      setProfile((prev: typeof profile) => ({ ...prev, photoURL: url }));
+      setImgError(false);
+      showToast(t.photo.updated, 'success');
+    } catch (error) {
+      const code = (error as { code?: string } | null)?.code;
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return;
+      if (code === 'auth/credential-already-in-use' || code === 'auth/email-already-in-use') {
+        showToast(t.photo.googleInUse, 'error');
+      } else {
+        showToast(t.photo.errUpload, 'error');
+      }
+    } finally { setIsUploading(false); }
+  };
+
   const chartData = useMemo(() => last7Days(profile?.dailyHistory, lang), [profile, lang]);
   // The same 7 UTC days the chart shows, as dailyHistory keys — lib/xpDays.ts
   // owns the convention; never re-derive a day key from device-local time.
@@ -405,41 +446,93 @@ export default function StudentProfilePage() {
         <Card>
           <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8">
             <div className="relative shrink-0">
+              {/* Edify avatar: accent-gradient ring with a surface gap and a soft
+                  accent glow; the initials fallback is the accent chip. */}
+              <div className="rounded-full bg-[linear-gradient(140deg,var(--s-accent,var(--m3-primary)),var(--m3-tertiary))] p-[3px] shadow-[0_14px_32px_-14px_var(--s-accent,var(--m3-primary))]">
+                <button
+                  type="button"
+                  onClick={() => { if (avatarUrl && !isUploading) setShowPhotoViewer(true); }}
+                  disabled={!avatarUrl || isUploading}
+                  aria-label={profile?.displayName || t.student}
+                  className={cn(
+                    'relative grid h-28 w-28 place-items-center overflow-hidden rounded-full border-4 border-[var(--m3-surface-container-lowest)] md:h-36 md:w-36',
+                    'text-[44px] font-black md:text-[54px]',
+                    !avatarUrl && 's-chip',
+                    avatarUrl && !isUploading ? 's-press' : 'cursor-default',
+                  )}
+                >
+                  {avatarUrl
+                    ? <img src={avatarUrl} alt="" referrerPolicy="no-referrer" className="h-full w-full object-cover" onError={() => setImgError(true)} />
+                    : <span aria-hidden className="s-display">{profile?.displayName?.charAt(0).toUpperCase() || 'S'}</span>}
+                  {isUploading && (
+                    <span className="absolute inset-0 grid place-items-center bg-[color-mix(in_srgb,var(--m3-scrim)_45%,transparent)]">
+                      <Spinner size={26} />
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              {/* Photo menu: upload from the device, or use the Google photo. */}
               <button
                 type="button"
-                onClick={() => { if (avatarUrl && !isUploading) setShowPhotoViewer(true); }}
-                disabled={!avatarUrl || isUploading}
-                aria-label={profile?.displayName || t.student}
-                className={cn(
-                  'relative grid h-28 w-28 place-items-center overflow-hidden rounded-full md:h-36 md:w-36',
-                  'bg-primary-container text-[44px] font-black text-on-primary-container md:text-[54px]',
-                  avatarUrl && !isUploading ? 's-press' : 'cursor-default',
-                )}
-              >
-                {avatarUrl
-                  ? <img src={avatarUrl} alt="" className="h-full w-full object-cover" onError={() => setImgError(true)} />
-                  : <span aria-hidden>{profile?.displayName?.charAt(0).toUpperCase() || 'S'}</span>}
-                {isUploading && (
-                  <span className="absolute inset-0 grid place-items-center bg-[color-mix(in_srgb,var(--m3-scrim)_45%,transparent)]">
-                    <Spinner size={26} />
-                  </span>
-                )}
-              </button>
-              <IconButton
-                aria-label={t.photo.cropTitle}
-                variant="filled"
-                onClick={() => fileInputRef.current?.click()}
+                aria-label={t.photo.menu}
+                aria-haspopup="menu"
+                aria-expanded={photoMenu}
+                title={t.photo.menu}
+                onClick={() => setPhotoMenu((o) => !o)}
                 disabled={isUploading}
-                className="absolute -bottom-1 -right-1 shadow-elev-2"
+                className="s-chip s-press absolute bottom-0 right-0 grid h-10 w-10 place-items-center rounded-full border-[3px] border-[var(--m3-surface-container-lowest)] disabled:opacity-60"
               >
-                <Camera size={18} strokeWidth={2.6} />
-              </IconButton>
+                <Camera size={17} strokeWidth={2.6} />
+              </button>
+              {photoMenu && (
+                <>
+                  <button
+                    type="button"
+                    aria-hidden
+                    tabIndex={-1}
+                    data-no-glint
+                    className="fixed inset-0 z-30 cursor-default"
+                    onClick={() => setPhotoMenu(false)}
+                  />
+                  <div
+                    role="menu"
+                    aria-label={t.photo.menu}
+                    onKeyDown={(e) => { if (e.key === 'Escape') setPhotoMenu(false); }}
+                    className="s-menu absolute left-1/2 top-full z-40 mt-2 w-60 -translate-x-1/2 rounded-m3-lg p-1.5 md:left-0 md:translate-x-0"
+                  >
+                    <button
+                      type="button"
+                      role="menuitem"
+                      autoFocus
+                      onClick={() => { setPhotoMenu(false); fileInputRef.current?.click(); }}
+                      className="flex w-full items-center gap-3 rounded-m3-md px-3 py-2.5 text-left text-[13.5px] font-bold text-on-surface hover:bg-state-hover"
+                    >
+                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-state-hover text-on-surface-variant">
+                        <ImageUp size={16} strokeWidth={2.4} />
+                      </span>
+                      {t.photo.upload}
+                    </button>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={handleUseGooglePhoto}
+                      className="flex w-full items-center gap-3 rounded-m3-md px-3 py-2.5 text-left text-[13.5px] font-bold text-on-surface hover:bg-state-hover"
+                    >
+                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[var(--m3-surface-container-lowest)] shadow-elev-1">
+                        <GoogleMark />
+                      </span>
+                      {t.photo.google}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="min-w-0 flex-1 text-center md:text-left">
 
               {isEditing ? (
-                <div className="mx-auto w-full max-w-md space-y-4 text-left md:mx-0">
+                <div className="mx-auto grid w-full max-w-2xl gap-3 text-left sm:grid-cols-2 md:mx-0">
                   <TextField
                     label={t.labels.name}
                     value={editName}
@@ -459,6 +552,7 @@ export default function StudentProfilePage() {
                       : undefined
                     }
                   />
+                  <div className="sm:col-span-2">
                   <TextArea
                     label={t.labels.bio}
                     value={editBio}
@@ -469,22 +563,23 @@ export default function StudentProfilePage() {
                     hint={`${editBio.length}/100`}
                     className="resize-none"
                   />
-                  <div className="flex gap-3 pt-1">
+                  </div>
+                  <div className="flex flex-col-reverse gap-2 pt-1 sm:col-span-2 sm:flex-row sm:justify-end">
                     <Button
-                      fullWidth
+                      variant="outlined"
+                      className="s-panel border-transparent"
+                      onClick={() => { setIsEditing(false); setEditName(profile?.displayName || ''); setEditBio(profile?.bio || ''); setEditUsername(profile?.username || ''); setUsernameStatus('idle'); }}
+                    >
+                      {t.cancel}
+                    </Button>
+                    <Button
+                      className="s-chip"
                       icon={<Check size={17} strokeWidth={3} />}
                       loading={isSaving}
                       disabled={usernameStatus === 'checking' || usernameStatus === 'invalid' || usernameStatus === 'taken'}
                       onClick={handleSaveProfile}
                     >
                       {t.save}
-                    </Button>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      onClick={() => { setIsEditing(false); setEditName(profile?.displayName || ''); setEditBio(profile?.bio || ''); setEditUsername(profile?.username || ''); setUsernameStatus('idle'); }}
-                    >
-                      {t.cancel}
                     </Button>
                   </div>
                 </div>
@@ -701,7 +796,7 @@ export default function StudentProfilePage() {
         className="max-w-sm overflow-hidden p-0"
       >
         <div className="relative aspect-square w-full">
-          <img src={avatarUrl || ''} alt="" className="h-full w-full object-cover" />
+          <img src={avatarUrl || ''} alt="" referrerPolicy="no-referrer" className="h-full w-full object-cover" />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
             <IconButton aria-label={t.cancel} variant="filled" onClick={() => setShowPhotoViewer(false)}>
               <X size={18} strokeWidth={3} />
@@ -730,5 +825,17 @@ export default function StudentProfilePage() {
       />
 
     </Page>
+  );
+}
+
+/** Google's "G" — the brand mark, so its four colours are the logo's own. */
+function GoogleMark() {
+  return (
+    <svg aria-hidden viewBox="0 0 48 48" className="h-[18px] w-[18px]">
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z" />
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.5z" />
+    </svg>
   );
 }

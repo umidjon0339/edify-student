@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import { cn } from './cn';
 import { DESIGN } from './config';
 
@@ -145,6 +145,13 @@ export function Avatar({ src, name, size = 'md', shape = 'circle', className }: 
     .join('')
     .toUpperCase();
 
+  // ⚠️ A photo that fails (Google's lh3 server 403/429s under load, a deleted
+  // Storage file…) falls back to the initials. Without this the browser drew a
+  // broken-image icon plus the alt text spilling out of the circle. Keyed by
+  // `src`, so a new photo gets a fresh attempt.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const showImg = !!src && failedSrc !== src;
+
   return (
     <div
       className={cn(
@@ -155,9 +162,17 @@ export function Avatar({ src, name, size = 'md', shape = 'circle', className }: 
         className,
       )}
     >
-      {src ? (
+      {showImg ? (
+        // `no-referrer`: Google profile photos (lh3.googleusercontent.com)
+        // intermittently answer 403 to a request carrying a Referer.
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={name ?? ''} className="h-full w-full object-cover" />
+        <img
+          src={src}
+          alt={name ?? ''}
+          referrerPolicy="no-referrer"
+          onError={() => setFailedSrc(src)}
+          className="h-full w-full object-cover"
+        />
       ) : (
         <span aria-hidden>{initials || '?'}</span>
       )}

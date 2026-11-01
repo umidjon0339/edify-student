@@ -4,9 +4,9 @@ import { useState, useEffect, useRef, createContext, useContext, useCallback } f
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AnimatePresence, motion } from 'framer-motion';
 
 // Firebase & Auth
+import { googlePhotoURL } from '@/lib/googlePhoto';
 import { useAuth } from '@/lib/AuthContext';
 import { calculateStreak } from '@/lib/xpDays';
 import { auth, db } from '@/lib/firebase';
@@ -28,7 +28,7 @@ import { fetchMyCenters } from '@/services/studentCenterService';
 import '@/components/student-ui/theme.css';
 import {
   StudentThemeProvider, Shell, MobileDrawer, ConfirmDialog, ThemeWaveToggle,
-  Avatar, Flag, cn, MOTION_ON, springTransition,
+  Avatar, Flag, cn, MOTION_ON,
   type NavItem,
 } from '@/components/student-ui';
 
@@ -178,17 +178,28 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     return () => unsubscribe();
   }, [user]);
 
-  // Close the top-bar menus on any outside click
+  // Close the top-bar menus on an outside press (pointerdown — mouse, touch and
+  // pen alike; `mousedown` alone missed some touch taps) and on Escape. Menu
+  // links close them themselves (`closeMenus`). Listeners exist only while a
+  // menu is open.
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    if (!isLangMenuOpen && !isProfileMenuOpen) return;
+    const onDown = (event: PointerEvent) => {
       if (topbarRef.current && !topbarRef.current.contains(event.target as Node)) {
         setIsLangMenuOpen(false);
         setIsProfileMenuOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setIsLangMenuOpen(false); setIsProfileMenuOpen(false); }
+    };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isLangMenuOpen, isProfileMenuOpen]);
 
   const isActive = useCallback(
     (href: string) => pathname === href || (href !== '/dashboard' && pathname.startsWith(href)),
@@ -261,12 +272,21 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     </Link>
   );
 
+  const closeMenus = () => { setIsLangMenuOpen(false); setIsProfileMenuOpen(false); };
+  // One look for every row of both menus.
+  const menuRow = 'flex w-full items-center gap-3 rounded-m3-md px-3 py-2.5 text-[13.5px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface';
+
+  // ⚠️ Top-bar pills are `.s-pill` (no backdrop blur) and the menus open with a
+  // CSS entrance (`.s-menu-in`), not a framer-motion spring — four live blurs
+  // on a sticky header plus a spring per open was the cluster's lag. See the
+  // TOP-BAR PILLS block in components/student-ui/theme.css.
   const topbar = (
     <div ref={topbarRef} className="flex items-center gap-1.5 sm:gap-2">
       {/* Streak */}
       <Link
         href="/profile"
         aria-label={`${t.topbar.streak}: ${stats.streak}`}
+        title={t.topbar.streak}
         className="flex h-10 items-center gap-1.5 rounded-full bg-gold-container px-3.5 text-on-gold-container s-press"
       >
         <Flame size={15} strokeWidth={2.8} className={stats.streak > 0 ? 'fill-current' : 'opacity-50'} />
@@ -277,51 +297,40 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       <div className="relative hidden md:block">
         <button
           type="button"
-          onClick={() => { setIsLangMenuOpen(!isLangMenuOpen); setIsProfileMenuOpen(false); }}
+          onClick={() => { setIsLangMenuOpen((o) => !o); setIsProfileMenuOpen(false); }}
           aria-label={t.topbar.language}
+          aria-haspopup="menu"
           aria-expanded={isLangMenuOpen}
-          className={cn(
-            's-glass flex h-10 items-center gap-1.5 rounded-full px-3.5 s-press',
-            isLangMenuOpen && 'ring-2 ring-primary',
-          )}
+          className="s-pill flex h-10 items-center gap-1.5 rounded-full px-3.5 s-press"
         >
           <Flag code={activeLang.code} size={14} />
           <span className="text-[12px] font-black uppercase text-on-surface-variant">{lang}</span>
           <ChevronDown size={14} strokeWidth={2.8} className={cn('text-on-surface-variant transition-transform duration-m3-fast', isLangMenuOpen && 'rotate-180')} />
         </button>
-        <AnimatePresence>
-          {isLangMenuOpen && (
-            <motion.div
-              initial={MOTION_ON ? { opacity: 0, y: 8, scale: 0.97 } : false}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.97 }}
-              transition={springTransition}
-              className="absolute right-0 top-full z-50 mt-2 w-40 rounded-m3-md border border-outline-variant bg-surface-container-high p-1.5 shadow-elev-2"
-            >
-              {LANGUAGE_OPTIONS.map((l) => (
-                <button
-                  key={l.code}
-                  type="button"
-                  onClick={() => { setLang(l.code); setIsLangMenuOpen(false); }}
-                  className={cn(
-                    'flex w-full items-center gap-3 rounded-m3-xs px-3 py-2.5 text-[13px] font-extrabold',
-                    lang === l.code ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-state-hover',
-                  )}
-                >
-                  <Flag code={l.code} size={15} />
-                  <span className="flex-1 text-left">{l.label}</span>
-                  {lang === l.code && <Check size={15} strokeWidth={3} />}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {isLangMenuOpen && (
+          <div role="menu" aria-label={t.topbar.language} className="s-menu s-menu-in absolute right-0 top-full z-50 mt-2 w-44 rounded-m3-lg p-1.5">
+            {LANGUAGE_OPTIONS.map((l) => (
+              <button
+                key={l.code}
+                type="button"
+                role="menuitemradio"
+                aria-checked={lang === l.code}
+                onClick={() => { setLang(l.code); setIsLangMenuOpen(false); }}
+                className={cn(menuRow, lang === l.code && 's-chip hover:bg-transparent hover:text-[var(--s-on-accent,var(--m3-on-primary))]')}
+              >
+                <Flag code={l.code} size={15} />
+                <span className="flex-1 text-left">{l.label}</span>
+                {lang === l.code && <Check size={15} strokeWidth={3} />}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Light/dark wave switch (Edify style — replaces the bell; notifications
           moved into the profile menu). */}
       <ThemeWaveToggle
-        className="s-glass h-10 w-10 text-on-surface"
+        className="s-pill h-10 w-10 text-on-surface s-press"
         labels={{ toLight: t.topbar.light, toDark: t.topbar.dark }}
       />
 
@@ -329,83 +338,74 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       <div className="relative">
         <button
           type="button"
-          onClick={() => { setIsProfileMenuOpen(!isProfileMenuOpen); setIsLangMenuOpen(false); }}
+          onClick={() => { setIsProfileMenuOpen((o) => !o); setIsLangMenuOpen(false); }}
           aria-label={t.topbar.profile}
+          aria-haspopup="menu"
           aria-expanded={isProfileMenuOpen}
-          className={cn(
-            's-glass flex h-10 items-center gap-2 rounded-full p-1 s-press md:pr-3',
-            isProfileMenuOpen && 'ring-2 ring-primary',
-          )}
+          className="s-pill flex h-10 items-center gap-2 rounded-full p-1 s-press md:pr-3"
         >
-          <Avatar src={user?.photoURL} name={user?.displayName ?? 'S'} size="xs" />
+          <Avatar src={user?.photoURL || googlePhotoURL(user, 96)} name={user?.displayName ?? 'S'} size="sm" className="h-8 w-8" />
           <span className="hidden max-w-[90px] truncate text-[13px] font-extrabold md:block">
             {user?.displayName?.split(' ')[0] || 'User'}
           </span>
           <ChevronDown size={15} strokeWidth={2.8} className={cn('hidden text-on-surface-variant transition-transform duration-m3-fast md:block', isProfileMenuOpen && 'rotate-180')} />
         </button>
 
-        <AnimatePresence>
-          {isProfileMenuOpen && (
-            <motion.div
-              initial={MOTION_ON ? { opacity: 0, y: 8, scale: 0.97 } : false}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.97 }}
-              transition={springTransition}
-              className="absolute right-0 top-full z-50 mt-2 w-64 rounded-m3-lg border border-outline-variant bg-surface-container-high p-2 shadow-elev-3"
-            >
-              <div className="mb-2 rounded-m3-sm bg-surface-container px-4 py-3">
+        {isProfileMenuOpen && (
+          <div role="menu" aria-label={t.topbar.profile} className="s-menu s-menu-in absolute right-0 top-full z-50 mt-2 w-64 rounded-m3-lg p-1.5">
+            <div className="mb-1 flex items-center gap-3 rounded-m3-md bg-state-hover px-3 py-2.5">
+              <Avatar src={user?.photoURL || googlePhotoURL(user, 96)} name={user?.displayName ?? 'S'} size="sm" />
+              <div className="min-w-0">
                 <p className="truncate text-[14px] font-black">{user?.displayName}</p>
                 <p className="truncate text-[11.5px] font-bold text-on-surface-variant">{user?.email}</p>
               </div>
+            </div>
 
-              {/* Language lives in this menu on phones (no room in the top bar).
-                  A segmented flag control, not a native <select> — emoji flags
-                  and OS pickers looked broken and off-brand. */}
-              <div className="px-3 py-2 md:hidden" role="radiogroup" aria-label={t.topbar.language}>
-                <p className="mb-2 text-[11px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.topbar.language}</p>
-                <div className="grid grid-cols-3 gap-1.5 rounded-m3-sm bg-surface-container p-1.5">
-                  {LANGUAGE_OPTIONS.map(l => (
-                    <button
-                      key={l.code}
-                      type="button"
-                      role="radio"
-                      aria-checked={lang === l.code}
-                      onClick={() => setLang(l.code)}
-                      className={cn(
-                        'flex flex-col items-center gap-1 rounded-m3-xs px-2 py-2 s-press',
-                        lang === l.code
-                          ? 'bg-primary-container text-on-primary-container shadow-elev-1'
-                          : 'text-on-surface-variant hover:bg-state-hover',
-                      )}
-                    >
-                      <Flag code={l.code} size={16} />
-                      <span className="text-[10.5px] font-black uppercase tracking-wide">{l.code}</span>
-                    </button>
-                  ))}
-                </div>
+            {/* Language lives in this menu on phones (no room in the top bar).
+                A segmented flag control, not a native <select> — emoji flags
+                and OS pickers looked broken and off-brand. */}
+            <div className="px-1.5 py-2 md:hidden" role="radiogroup" aria-label={t.topbar.language}>
+              <p className="mb-2 px-1.5 text-[11px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.topbar.language}</p>
+              <div className="grid grid-cols-3 gap-1 rounded-full bg-state-hover p-1">
+                {LANGUAGE_OPTIONS.map(l => (
+                  <button
+                    key={l.code}
+                    type="button"
+                    role="radio"
+                    aria-checked={lang === l.code}
+                    onClick={() => setLang(l.code)}
+                    className={cn(
+                      'flex items-center justify-center gap-1.5 rounded-full px-2 py-1.5 s-press',
+                      lang === l.code ? 's-chip' : 'text-on-surface-variant hover:bg-state-hover',
+                    )}
+                  >
+                    <Flag code={l.code} size={14} />
+                    <span className="text-[10.5px] font-black uppercase tracking-wide">{l.code}</span>
+                  </button>
+                ))}
               </div>
-              <div className="my-1 h-px bg-outline-variant md:hidden" />
+            </div>
 
-              <Link href="/profile" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface">
-                <UserIcon size={18} strokeWidth={2.5} /> {t.topbar.profile}
-              </Link>
-              <Link href="/notifications" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface">
-                <Bell size={18} strokeWidth={2.5} /> {t.topbar.notifications}
-              </Link>
-              <Link href="/settings" onClick={() => setIsProfileMenuOpen(false)} className="flex items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-on-surface-variant hover:bg-state-hover hover:text-on-surface">
-                <Settings size={18} strokeWidth={2.5} /> {t.topbar.settings}
-              </Link>
-              <div className="my-1.5 h-px bg-outline-variant" />
-              <button
-                type="button"
-                onClick={() => { setIsProfileMenuOpen(false); setShowLogoutModal(true); }}
-                className="flex w-full items-center gap-3 rounded-m3-xs px-4 py-3 text-[14px] font-extrabold text-error hover:bg-error-container hover:text-on-error-container"
-              >
-                <LogOut size={18} strokeWidth={2.5} /> {t.topbar.logout}
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            <Link href="/profile" role="menuitem" onClick={closeMenus} className={menuRow}>
+              <UserIcon size={17} strokeWidth={2.5} /> {t.topbar.profile}
+            </Link>
+            <Link href="/notifications" role="menuitem" onClick={closeMenus} className={menuRow}>
+              <Bell size={17} strokeWidth={2.5} /> {t.topbar.notifications}
+            </Link>
+            <Link href="/settings" role="menuitem" onClick={closeMenus} className={menuRow}>
+              <Settings size={17} strokeWidth={2.5} /> {t.topbar.settings}
+            </Link>
+            <div className="mx-2 my-1 h-px bg-outline-variant" />
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => { closeMenus(); setShowLogoutModal(true); }}
+              className="flex w-full items-center gap-3 rounded-m3-md px-3 py-2.5 text-[13.5px] font-extrabold text-error hover:bg-error-container hover:text-on-error-container"
+            >
+              <LogOut size={17} strokeWidth={2.5} /> {t.topbar.logout}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

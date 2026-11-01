@@ -167,6 +167,16 @@ Not yet locked (see docs/STUDENT.md): `totalXP`, `currentStreak`, `dailyHistory`
 - **Google users have no password** — password login/reset simply doesn't apply to them; they must use the Google button. Don't add a "set a password" shortcut without deciding on the linking story deliberately.
 - **Center-managed accounts** (2026-07-15): managers can provision **teacher AND student** accounts via `POST /api/manager/teachers/create` / `POST /api/manager/students/create` — `users.accountType:'center-managed'`, synthetic email `f.surname@edify.uz` (short form, shared fixed domain) (**no inbox — email-based password reset can never work for them**), manager-held password in `center_teacher_credentials/{uid}` (manager-read-only). The manager is the recovery path (`PATCH /api/manager/teachers/[uid]`, password branch restricted to this account type). Login: username or the synthetic email, standard flows. 🟢 The student settings page **hides self-service password change for `accountType:'center-managed'`** (2026-07-20) — a self-change would desync the manager's stored credential. See [MANAGER.md](MANAGER.md).
 - **Account self-deletion is server-side** (2026-07-20): `POST /api/account/delete` (Bearer token, Admin SDK, only ever deletes the caller). Removes attempts (rules forbid student deletes — the old client flow aborted for anyone with attempts), notifications, class membership/leaderboard rows/join requests, current global leaderboard docs, the social graph both directions (clamped counter decrements), `private/*`, RASCH docs, checkers rooms, `center_students` + `center_student_credentials`, `usernames`, storage photo, the user doc, then the Auth user. Finance docs are kept (append-only).
+- **"Use Google photo" on the student profile LINKS Google** (2026-11-01,
+  `app/(student)/profile/page.tsx` › `handleUseGooglePhoto`): if the account has
+  no `google.com` provider it calls `linkWithPopup(user, GoogleAuthProvider)` —
+  the only way to read a Gmail photo — so the student can afterwards also sign in
+  with Google. `auth/credential-already-in-use` (that Google identity is already
+  its own Firebase user) → toast, nothing changes. The photo URL comes from
+  `lib/googlePhoto.ts` (`providerData` google photo, upsized `=s400-c`) and is
+  written to `users.photoURL` + `updateProfile`; any uploaded Storage photo is
+  deleted. The profile also falls back to that Google photo when `users.photoURL`
+  is empty.
 - **`photoURL` written at Google signup is the `lh3.googleusercontent.com` URL** — it can go stale if the user changes their Google photo. Copying it into Firebase Storage is a known future improvement, not done yet.
 - **Username login/reset must stay enumeration-safe**: the `/api/auth/*` routes never reveal whether a username exists (identical generic responses) and never return the account's email to the client. Don't "improve" the error messages into specific ones, and don't put emails in the public-read `usernames/*` docs.
 - **Pending-center gate is triple-enforced**: rules (`isActiveCenterManager`), server (`requireActiveCenterManager`), UX (`ApprovalGate.tsx` overlay). The rules are the security boundary; the component is UX only.

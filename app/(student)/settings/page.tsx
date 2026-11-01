@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useAuth } from '@/lib/AuthContext';
 import { db, auth } from '@/lib/firebase';
 import { doc, getDoc, updateDoc, writeBatch } from 'firebase/firestore';
@@ -12,7 +13,7 @@ import { checkUsernameUnique } from '@/services/userService';
 import { useStudentLanguage } from '../layout';
 import { getOwnContact, setOwnContact } from '@/lib/directory';
 import {
-  Page, PageHeader, Tabs, Card, ListGroup, ListRow, Tile,
+  Page, PageHeader, Tabs, Card,
   TextField, TextArea, Select, Button, Banner, Dialog,
   LoadingState, sToast,
 } from '@/components/student-ui';
@@ -21,7 +22,7 @@ import {
 import {
   User, Shield, Settings as SettingsIcon, AtSign, Phone, Mail,
   Calendar, Building, RefreshCw, CheckCircle, XCircle,
-  AlertTriangle, Key, Trash2, Check, AlertCircle, Info, Send, Github, Linkedin
+  AlertTriangle, Key, Trash2, Check, AlertCircle, Info, Send, Github, Linkedin, Instagram, ArrowUpRight
 } from 'lucide-react';
 
 // --- 1. TRANSLATION DICTIONARY ---
@@ -41,6 +42,9 @@ const SETTINGS_TRANSLATIONS: any = {
       desc: "EdifyStudent - bu o'quvchilar uchun interaktiv ta'lim platformasi. OTMga kirish uchun va Milliy sertifikatga tayyorlarish uchun yaratilgan ilova. XP yig'ing, seriyani saqlang va bilimlaringizni sinab ko'ring!",
       support: "Yordam va Aloqa",
       hotline: "Ishonch telefoni",
+      call: "Qo'ng'iroq",
+      follow: "Bizni kuzating",
+      channel: "Telegram kanal",
       dev: "Dasturchilar",
       version: "Versiya 2.0.0",
       rights: "Barcha huquqlar himoyalangan"
@@ -61,6 +65,9 @@ const SETTINGS_TRANSLATIONS: any = {
       desc: "EdifyStudent is an interactive learning platform for students. Earn XP, keep your streak alive, and test your knowledge!",
       support: "Support & Contact",
       hotline: "Hotline",
+      call: "Call",
+      follow: "Follow Edify",
+      channel: "Telegram channel",
       dev: "Developers",
       version: "Version 2.0.0",
       rights: "All rights reserved"
@@ -82,6 +89,9 @@ const SETTINGS_TRANSLATIONS: any = {
       desc: "EdifyStudent — это интерактивная образовательная платформа. Зарабатывайте XP, держите серию и проверяйте свои знания!",
       support: "Поддержка и Контакты",
       hotline: "Горячая линия",
+      call: "Позвонить",
+      follow: "Подписывайтесь",
+      channel: "Telegram-канал",
       dev: "Разработчики",
       version: "Версия 2.0.0",
       rights: "Все права защищены"
@@ -353,7 +363,9 @@ export default function SettingsPage() {
         className="mb-s-gap-lg"
       />
 
-      {/* 🟢 TAB CONTENT AREA */}
+      {/* 🟢 TAB CONTENT AREA — the form tabs share one glass card; About is
+          laid straight on the canvas (its own panels would nest card-in-card). */}
+      {activeTab !== 'about' && (
       <Card>
 
         {/* ===================================== PROFILE TAB ===================================== */}
@@ -467,7 +479,7 @@ export default function SettingsPage() {
 
         {/* ===================================== SAVE BUTTON (For Profile & Account) ===================================== */}
         {(activeTab === 'profile' || activeTab === 'account') && (
-          <div className="mt-8 border-t border-outline-variant pt-6">
+          <div className="mt-8">
             <Button
               onClick={handleSave}
               loading={isSaving}
@@ -539,7 +551,7 @@ export default function SettingsPage() {
             )}
 
             {/* DANGER ZONE - DELETE ACCOUNT */}
-            <div className="border-t border-outline-variant pt-8">
+            <div className="pt-2">
               <h3 className="mb-4 flex items-center gap-2 text-[16px] font-black uppercase tracking-widest text-error">
                 <AlertTriangle size={18} strokeWidth={3} /> {t.security.danger}
               </h3>
@@ -561,76 +573,90 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* ===================================== ABOUT TAB ===================================== */}
-        {activeTab === 'about' && (
-          <div>
-
-            {/* 🟢 PREMIUM HERO HEADER */}
-            <Card variant="gradient" className="mb-8 flex flex-col items-center py-10 text-center">
-              <div className="mb-4 grid h-16 w-16 place-items-center rounded-m3-md bg-surface text-3xl font-black text-primary">
-                E
-              </div>
-              <h2 className="s-display text-3xl font-bold tracking-tight text-white">EdifyStudent</h2>
-              <p className="mt-1.5 text-[10px] font-black uppercase tracking-widest text-white">
-                {t.aboutContent.title}
-              </p>
-            </Card>
-
-            <div className="mx-auto mb-10 max-w-2xl text-center">
-              <h3 className="s-display mb-3 text-[18px] font-bold tracking-tight">{t.aboutContent.descTitle}</h3>
-              <p className="text-[14px] font-bold leading-relaxed text-on-surface-variant">{t.aboutContent.desc}</p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-s-gap md:grid-cols-2">
-
-              {/* SUPPORT CONTACTS */}
-              <ListGroup header={t.aboutContent.support}>
-                <a href="https://t.me/Umidjon0339" target="_blank" rel="noopener noreferrer" className="block">
-                  <ListRow
-                    clickable
-                    leading={<Tile tone="secondary"><Send size={20} strokeWidth={2.5} /></Tile>}
-                    title="@Umidjon0339"
-                    subtitle="Telegram"
-                  />
-                </a>
-                <ListRow
-                  leading={<Tile tone="success"><Phone size={20} strokeWidth={2.5} /></Tile>}
-                  title="+998 33 860 20 06"
-                  subtitle={t.aboutContent.hotline}
-                />
-              </ListGroup>
-
-              {/* DEVELOPER LINKS */}
-              <ListGroup header={t.aboutContent.dev}>
-                <a href="https://github.com/Wasp-2-AI" target="_blank" rel="noopener noreferrer" className="block">
-                  <ListRow
-                    clickable
-                    leading={<Tile tone="neutral"><Github size={20} strokeWidth={2.5} /></Tile>}
-                    title="Wasp-2-AI"
-                    subtitle="GitHub"
-                  />
-                </a>
-                <a href="https://www.linkedin.com/company/wasp-2-ai" target="_blank" rel="noopener noreferrer" className="block">
-                  <ListRow
-                    clickable
-                    leading={<Tile tone="secondary"><Linkedin size={20} strokeWidth={2.5} /></Tile>}
-                    title="WASP-2 AI Solutions"
-                    subtitle="LinkedIn"
-                  />
-                </a>
-              </ListGroup>
-            </div>
-
-            <div className="mt-8 border-t border-outline-variant pt-6 text-center">
-              <p className="text-[13px] font-black text-on-surface-variant">{t.aboutContent.version}</p>
-              <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-outline">
-                © 2026 WASP-2 AI Solutions. {t.aboutContent.rights}
-              </p>
-            </div>
-          </div>
-        )}
-
       </Card>
+      )}
+
+      {/* ===================================== ABOUT TAB ===================================== */}
+      {activeTab === 'about' && (
+        <div>
+
+          {/* Edify hero (2026-11-01): the dashboard-card recipe (`.s-deck-card`,
+              accent tone) with the logo on a white chip, the portal name and the
+              about text. */}
+          <div data-tone="accent" className="s-deck-card s-static mb-s-gap-lg overflow-hidden rounded-m3-xl px-6 py-8 text-center sm:py-10">
+            <div className="mx-auto mb-4 grid h-16 w-40 place-items-center rounded-m3-lg bg-white px-4 shadow-elev-2">
+              <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} unoptimized className="h-8 w-auto" />
+            </div>
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/75">{t.aboutContent.title}</p>
+            <h2 className="s-display mt-2 text-[22px] font-bold tracking-tight sm:text-[26px]">{t.aboutContent.descTitle}</h2>
+            <p className="mx-auto mt-2 max-w-xl text-[14px] font-semibold leading-relaxed text-white/85">{t.aboutContent.desc}</p>
+          </div>
+
+          {/* SUPPORT — one card per developer with a split Telegram | Call pill
+              (Edify, 2026-11-01). The people live in SUPPORT_PEOPLE below. */}
+          <section className="mb-s-gap">
+            <h3 className="mb-3 px-1 text-[12px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.aboutContent.support}</h3>
+            <div className="grid grid-cols-1 gap-s-gap sm:grid-cols-2">
+              {SUPPORT_PEOPLE.map((p) => (
+                <SupportCard key={p.telegram} person={p} callLabel={t.aboutContent.call} />
+              ))}
+            </div>
+          </section>
+
+          <div className="grid grid-cols-1 gap-s-gap md:grid-cols-2">
+
+            {/* FOLLOW EDIFY — Instagram + the Telegram channel. */}
+            <section>
+              <h3 className="mb-3 px-1 text-[12px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.aboutContent.follow}</h3>
+              <div className="grid grid-cols-1 gap-2.5">
+                <SocialLink
+                  href="https://www.instagram.com/edify_math"
+                  brand="instagram"
+                  icon={<Instagram size={20} strokeWidth={2.4} />}
+                  title="@edify_math"
+                  subtitle="Instagram"
+                />
+                <SocialLink
+                  href="https://t.me/edify_math_ahliyor"
+                  brand="telegram"
+                  icon={<Send size={19} strokeWidth={2.4} />}
+                  title="@edify_math_ahliyor"
+                  subtitle={t.aboutContent.channel}
+                />
+              </div>
+            </section>
+
+            {/* DEVELOPERS — same link cards as Follow Edify. */}
+            <section>
+              <h3 className="mb-3 px-1 text-[12px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.aboutContent.dev}</h3>
+              <div className="grid grid-cols-1 gap-2.5">
+                <SocialLink
+                  href="https://github.com/Wasp-2-AI"
+                  brand="github"
+                  icon={<Github size={20} strokeWidth={2.4} />}
+                  title="Wasp-2-AI"
+                  subtitle="GitHub"
+                />
+                <SocialLink
+                  href="https://www.linkedin.com/company/wasp-2-ai"
+                  brand="linkedin"
+                  icon={<Linkedin size={19} strokeWidth={2.4} />}
+                  title="WASP-2 AI Solutions"
+                  subtitle="LinkedIn"
+                />
+              </div>
+            </section>
+          </div>
+
+          <div className="mt-10 text-center">
+            <p className="text-[13px] font-black text-on-surface-variant">{t.aboutContent.version}</p>
+            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-outline">
+              © 2026 WASP-2 AI Solutions. {t.aboutContent.rights}
+            </p>
+          </div>
+        </div>
+      )}
+
 
       {/* Deletion is irreversible and server-side (POST /api/account/delete) —
           it always goes through this confirmation + reauthentication. */}
@@ -672,5 +698,87 @@ export default function SettingsPage() {
         )}
       </Dialog>
     </Page>
+  );
+}
+
+// ─── Support & social (About tab) ────────────────────────────────────────────
+
+/** The people a student can reach. Order is display order. */
+const SUPPORT_PEOPLE = [
+  { name: 'Umidjon', telegram: 'Umidjon0339', phone: '+998338602006', phoneLabel: '+998 33 860 20 06' },
+  { name: 'Ahliyor', telegram: 'A_tojiboyev', phone: '+998912063140', phoneLabel: '+998 91 206 31 40' },
+] as const;
+
+type SupportPerson = (typeof SUPPORT_PEOPLE)[number];
+
+/** A developer's card: initial avatar, name, handle + number, and a split
+ *  Telegram | Call pill — each half is its own link. */
+function SupportCard({ person, callLabel }: { person: SupportPerson; callLabel: string }) {
+  return (
+    <div className="s-panel rounded-m3-xl p-4 sm:p-5">
+      <div className="flex items-center gap-3.5">
+        <span className="rounded-full bg-[linear-gradient(140deg,var(--s-accent,var(--m3-primary)),var(--m3-tertiary))] p-[2.5px]">
+          <span className="s-chip s-display grid h-12 w-12 place-items-center rounded-full border-[3px] border-[var(--m3-surface-container-lowest)] text-[20px] font-bold">
+            {person.name.charAt(0)}
+          </span>
+        </span>
+        <div className="min-w-0">
+          <p className="s-display truncate text-[17px] font-bold leading-tight">{person.name}</p>
+          <p className="s-num mt-0.5 truncate text-[12.5px] font-bold text-on-surface-variant">
+            @{person.telegram} · {person.phoneLabel}
+          </p>
+        </div>
+      </div>
+
+      <div className="s-pill mt-4 flex h-12 items-stretch overflow-hidden rounded-full p-1">
+        <a
+          href={`https://t.me/${person.telegram}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Telegram @${person.telegram}`}
+          className="s-contact-half group flex flex-1 items-center justify-center gap-2 rounded-full text-[13.5px] font-black text-on-surface s-press"
+          data-kind="telegram"
+        >
+          <Send size={17} strokeWidth={2.5} className="transition-transform duration-m3-fast group-hover:-rotate-12" />
+          Telegram
+        </a>
+        <span aria-hidden className="my-2 w-px bg-outline-variant" />
+        <a
+          href={`tel:${person.phone}`}
+          aria-label={`${callLabel} ${person.phoneLabel}`}
+          className="s-contact-half group flex flex-1 items-center justify-center gap-2 rounded-full text-[13.5px] font-black text-on-surface s-press"
+          data-kind="call"
+        >
+          <Phone size={16} strokeWidth={2.5} className="transition-transform duration-m3-fast group-hover:rotate-12" />
+          {callLabel}
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/** One external link card (Follow Edify, Developers) — a brand-coloured icon
+ *  chip, handle, network, ↗. */
+function SocialLink({ href, brand, icon, title, subtitle }: {
+  href: string;
+  brand: 'instagram' | 'telegram' | 'github' | 'linkedin';
+  icon: React.ReactNode;
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="s-panel group flex items-center gap-3.5 rounded-m3-xl p-3 pr-4 s-press"
+    >
+      <span className={`s-brand-${brand} grid h-11 w-11 shrink-0 place-items-center rounded-m3-md text-white`}>{icon}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[14.5px] font-black">{title}</span>
+        <span className="block truncate text-[12px] font-bold text-on-surface-variant">{subtitle}</span>
+      </span>
+      <ArrowUpRight size={18} strokeWidth={2.5} className="shrink-0 text-on-surface-variant transition-transform duration-m3-fast group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </a>
   );
 }
