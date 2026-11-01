@@ -97,6 +97,14 @@ The student app wears the same look as the teacher panel ("Edify style"):
   `group`. The window scrolls; content passes behind the pills.
 - **Phones** — `Mobile_navigation: 'floating'` = `.s-glass .s-dock` pill with the
   accent pill on the active tab.
+  **The 5th tab is "Menu"** (2026-11-01, teacher parity): when the layout
+  passes `onOpenMobileNav`, dock/floating bars show 4 destinations + a ☰ Menu
+  tab (`menuLabel`, localized) that opens `MobileDrawer`. IELTS left the dock
+  (`hideOnMobile`) for it. With `groups` the drawer mirrors the teacher one:
+  the `pillCta` item (My Mistakes) as a full-width `.s-chip` button, Main /
+  Exams (tinted box + aqua dot) / Resources sections (ungrouped items join the
+  first), and a `footer` user row → /profile. `hideInPillbar` items are left
+  out of the sections (Profile is the footer).
 - **`--s-topbar-h` is 68px under `pillbar`** (set inline on the Shell root) —
   pages' sticky bars use `top-[var(--s-topbar-h)]`, so they clear the pills.
   `Button_style` default is `pill` (was `game`).
@@ -136,8 +144,16 @@ The student app wears the same look as the teacher panel ("Edify style"):
   subtitles, no "No description" filler, no card divider rules).
   ⚠️ `.s-chip` is plain CSS, not a Tailwind utility — `group-hover:s-chip`
   silently does nothing; use `group-hover:bg-primary group-hover:text-on-primary`.
-  Not restyled (focus modes): the IELTS runners, the checkers board, the exam
-  runners.
+  Also restyled 2026-11-01: the **Milliy sertifikat hub** (title + one
+  `.s-panel` tile per subject, `.s-chip` icon, name only — lead, hints,
+  "Ready" badges and the marking footnote removed; "Soon" only on unbuilt
+  subjects), **/raschmodel/diagnosis** (glass source capsule; no subtitle,
+  source hint, θ/logit line, per-behaviour hint copy, "budget" seconds or
+  weakest-list footnote; verdict banner is a title only; behaviour split = a
+  compact dot+count legend) and **checkers** (setup + game: accent-chip picks,
+  phone header/footer = floating `.s-panel` pills, desktop sidebar = floating
+  panel, no "Engine Pro Edition" line; the board keeps its own themes).
+  Not restyled (focus modes): the IELTS runners, the exam runners.
 - **Top-bar cluster perf (2026-11-01)** — the right-hand pills (language,
   light/dark, profile) are **`.s-pill`: the glass look WITHOUT backdrop-filter**
   (four live blurs on the sticky header, re-sampled every scroll and press frame,

@@ -24,7 +24,7 @@ import NotificationBell from '@/components/NotificationBell';
 import {
   LayoutDashboard, Users, FilePlus, FolderOpen, Library,
   Sparkles, Settings, LogOut, Menu, X, Bell,
-  Zap, BookOpen, UserIcon, CreditCard, PanelLeft, MoreVertical,
+  Zap, UserIcon, CreditCard, PanelLeft, MoreVertical,
   MoreHorizontal, Plus, Sun, Moon, Monitor, Globe, BadgeCheck, Building2, GraduationCap, Gamepad2, ChevronDown, ArrowRight,
 } from 'lucide-react';
 import { useTeacherCenter } from '@/hooks/useTeacherCenter';
@@ -65,7 +65,7 @@ const LAYOUT_TRANSLATIONS = {
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Chiqish" }
   },
   en: {
-    brandSubtitle: "INSTRUCTOR PORTAL",
+    brandSubtitle: "TEACHER PORTAL",
     menu: { overview: "Dashboard", library: "Library", classes: "Classes", onlineLibrary: "Online Books", analytics: "Analytics", notifications: "Notifications", subscription: "Subscription", profile: "Profile", ielts: "IELTS Module", milliy: "Milliy sertifikat", sat: "SAT", center: "My Center", games: "Games" },
     menuShort: { library: "Library", onlineLibrary: "Books", notifications: "Alerts", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Home", create: "Create", classes: "Classes", library: "Library", menu: "Menu" },
@@ -499,12 +499,9 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       {/* Header: brand + rail toggle */}
       <div className={cn("flex items-center gap-2.5 px-3.5 pt-4 pb-2 shrink-0 min-h-[64px]", collapsed && "flex-col gap-2 px-0 justify-center")}>
         <div className="flex items-center gap-2.5 overflow-hidden cursor-pointer min-w-0" onClick={() => router.push('/teacher/dashboard')}>
-          <div className={cn("w-9 h-9 rounded-m3-md flex items-center justify-center shrink-0 shadow-elev-1", LIGHT_PANEL ? "t-icon-chip" : STYLE.brandBox)}><BookOpen size={19} /></div>
+          <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="h-8 w-auto shrink-0" />
           {!collapsed && (
-            <div className="min-w-0">
-              <h1 className={cn("font-t-display font-bold text-[15px] leading-none tracking-tight truncate", STYLE.brandTitle)}>Edify<span className={STYLE.brandAccent}>Teacher</span></h1>
-              <p className={cn("text-[8.5px] font-semibold uppercase tracking-[0.14em] mt-1 truncate", STYLE.brandSub)}>{t.brandSubtitle}</p>
-            </div>
+            <p className={cn("min-w-0 truncate text-[9.5px] font-semibold uppercase tracking-[0.14em]", STYLE.brandSub)}>{t.brandSubtitle}</p>
           )}
         </div>
         {isMobile ? (
@@ -743,8 +740,8 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
 
   const brandBlock = (
     <div className="flex items-center gap-2.5 cursor-pointer min-w-0 shrink-0" onClick={() => router.push('/teacher/dashboard')}>
-      <div className="w-9 h-9 bg-primary rounded-m3-md flex items-center justify-center text-on-primary shrink-0 shadow-elev-1"><BookOpen size={19} /></div>
-      <b className="font-t-display text-[15px] text-on-surface tracking-tight truncate hidden lg:block">Edify<span className="text-primary">Teacher</span></b>
+      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="h-7 w-auto shrink-0" />
+      <span className="hidden lg:block truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">{t.brandSubtitle}</span>
     </div>
   );
 
@@ -1027,10 +1024,11 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       )}
     >
       {/* Brand */}
-      <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center h-11 px-5 min-w-0 justify-self-start rounded-full">
+      <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center gap-2.5 h-11 px-5 min-w-0 justify-self-start rounded-full">
         {/* Brand mark = the Edify logo alone (public/brand, cropped from the
             "Edify Math" artwork without "Math"). */}
-        <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[30px] w-auto" />
+        <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[30px] w-auto shrink-0" />
+        <span className="hidden sm:block truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">{t.brandSubtitle}</span>
       </Link>
 
       {/* Centre: the glass pill */}
@@ -1297,8 +1295,9 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
                   <Menu size={20} />
                 </button>
               )}
-              <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center h-10 px-4 rounded-full">
-                <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[24px] w-auto" />
+              <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center gap-2 h-10 px-4 rounded-full">
+                <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[24px] w-auto shrink-0" />
+                <span className="hidden sm:block truncate text-[9px] font-semibold uppercase tracking-[0.12em] text-on-surface-variant">{t.brandSubtitle}</span>
               </Link>
             </div>
 

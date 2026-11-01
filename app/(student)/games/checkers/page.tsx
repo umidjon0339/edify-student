@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Crown, Trophy, Users, Bot, Zap, Brain, Target, ShieldAlert, Skull, Loader2, Wifi, Hash, Flag, Volume2, VolumeX, Handshake } from 'lucide-react';
 import { useStudentLanguage } from '../../layout';
-import { Button, Card, Tile, Page, cn, sToast } from '@/components/student-ui';
+import { Button, Card, Page, cn, sToast } from '@/components/student-ui';
 
 // Firebase
 import { runTransaction, doc, increment, setDoc, onSnapshot, updateDoc, deleteDoc, getDocs, collection, query, where } from 'firebase/firestore';
@@ -535,14 +535,13 @@ export default function CheckersGame() {
   // VIEW: SETUP MENU
   // ============================================================================
   if (appState === 'menu') {
-    const modeButton = (active: boolean, accent: 'primary' | 'secondary') =>
+    const modeButton = (active: boolean) =>
       cn(
-        'flex flex-col items-center justify-center gap-2 rounded-m3-sm border-[1.5px] p-3 s-press transition-colors',
+        // Edify style (2026-11-01): the pick wears the accent chip; no outlines.
+        'flex flex-col items-center justify-center gap-2 rounded-m3-md p-3 s-press transition-colors',
         active
-          ? accent === 'primary'
-            ? 'border-primary bg-primary-container text-on-primary-container'
-            : 'border-secondary bg-secondary-container text-on-secondary-container'
-          : 'border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:bg-state-hover',
+          ? 's-chip'
+          : 'bg-state-hover text-on-surface-variant hover:text-on-surface',
       );
 
     return (
@@ -550,33 +549,33 @@ export default function CheckersGame() {
 
         {/* Permanent Back Button to All Games */}
         <div className="mb-4 w-full max-w-[440px]">
-          <Button
-            variant="outlined"
-            size="sm"
-            icon={<ArrowLeft size={18} strokeWidth={3} />}
+          <button
+            type="button"
             onClick={() => router.push('/games')}
+            className="s-panel s-press inline-flex h-10 items-center gap-2 rounded-full px-4 text-[13px] font-extrabold text-on-surface"
           >
+            <ArrowLeft size={16} strokeWidth={2.8} />
             {t.backToGames}
-          </Button>
+          </button>
         </div>
 
         <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="w-full max-w-[440px]">
           <Card className="w-full sm:p-8">
-            <Tile tone="error" size="lg" className="mx-auto mb-4">
-              <Crown size={32} strokeWidth={2.5} />
-            </Tile>
+            <span className="s-chip mx-auto mb-4 grid h-16 w-16 place-items-center rounded-full">
+              <Crown size={30} strokeWidth={2.5} />
+            </span>
             <h1 className="s-display mb-8 text-center text-[clamp(22px,5vw,28px)] font-bold leading-tight">{t.setup}</h1>
 
             <div className="mb-6">
               <h3 className="mb-3 text-[12px] font-black uppercase tracking-widest text-on-surface-variant">{t.mode}</h3>
               <div className="grid grid-cols-3 gap-2">
-                <button type="button" aria-pressed={mode === 'pve'} onClick={() => setMode('pve')} className={modeButton(mode === 'pve', 'primary')}>
+                <button type="button" aria-pressed={mode === 'pve'} onClick={() => setMode('pve')} className={modeButton(mode === 'pve')}>
                   <Bot size={24} strokeWidth={2.5} /><span className="text-center text-[11px] font-black">{t.pve}</span>
                 </button>
-                <button type="button" aria-pressed={mode === 'pvp_local'} onClick={() => setMode('pvp_local')} className={modeButton(mode === 'pvp_local', 'primary')}>
+                <button type="button" aria-pressed={mode === 'pvp_local'} onClick={() => setMode('pvp_local')} className={modeButton(mode === 'pvp_local')}>
                   <Users size={24} strokeWidth={2.5} /><span className="text-center text-[11px] font-black">{t.pvp_local}</span>
                 </button>
-                <button type="button" aria-pressed={mode === 'pvp_online'} onClick={() => setMode('pvp_online')} className={modeButton(mode === 'pvp_online', 'secondary')}>
+                <button type="button" aria-pressed={mode === 'pvp_online'} onClick={() => setMode('pvp_online')} className={modeButton(mode === 'pvp_online')}>
                   <Wifi size={24} strokeWidth={2.5} /><span className="text-center text-[11px] font-black">{t.pvp_online}</span>
                 </button>
               </div>
@@ -586,7 +585,7 @@ export default function CheckersGame() {
               {mode === 'pve' && (
                 <motion.div key="pve" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="mb-6 overflow-hidden">
                   <h3 className="mb-3 pt-2 text-[12px] font-black uppercase tracking-widest text-on-surface-variant">{t.diff}</h3>
-                  <div className="grid grid-cols-5 gap-1 rounded-m3-sm bg-surface-container-high p-1.5">
+                  <div className="grid grid-cols-5 gap-1 rounded-m3-md bg-state-hover p-1">
                     {[{ l: 1 as const, icon: Zap, c: 'text-success' }, { l: 2 as const, icon: Brain, c: 'text-success' }, { l: 3 as const, icon: Target, c: 'text-gold' }, { l: 4 as const, icon: ShieldAlert, c: 'text-warning' }, { l: 5 as const, icon: Skull, c: 'text-error' }].map((level) => (
                       <button
                         key={level.l}
@@ -594,10 +593,10 @@ export default function CheckersGame() {
                         aria-pressed={difficulty === level.l}
                         onClick={() => setDifficulty(level.l)}
                         className={cn(
-                          'relative flex flex-col items-center justify-center gap-1.5 rounded-m3-xs py-3 transition-all duration-m3-fast',
+                          'relative flex flex-col items-center justify-center gap-1.5 rounded-m3-sm py-3 transition-all duration-m3-fast',
                           difficulty === level.l
-                            ? cn('z-10 scale-105 bg-surface shadow-elev-1', level.c)
-                            : 'text-on-surface-variant',
+                            ? 's-chip'
+                            : cn('text-on-surface-variant', level.c),
                         )}
                       >
                         <level.icon size={18} strokeWidth={difficulty === level.l ? 3 : 2} /><span className="text-[9px] font-black uppercase tracking-tighter">{t.levels[level.l]}</span>
@@ -609,7 +608,7 @@ export default function CheckersGame() {
 
               {mode === 'pvp_online' && (
                 <motion.div key="online" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="mb-6 space-y-3 overflow-hidden pt-2">
-                  <Button tone="secondary" size="lg" fullWidth icon={<Wifi size={18} strokeWidth={3} />} onClick={handleCreateRoom}>
+                  <Button size="lg" fullWidth icon={<Wifi size={18} strokeWidth={3} />} onClick={handleCreateRoom}>
                     {t.createRoom}
                   </Button>
                   <div className="flex items-center gap-2">
@@ -622,7 +621,7 @@ export default function CheckersGame() {
                         aria-label={t.enterCode}
                         value={joinCodeInput}
                         onChange={(e)=>setJoinCodeInput(e.target.value.replace(/\D/g, ''))}
-                        className="h-14 w-full rounded-m3-sm border-[1.5px] border-outline-variant bg-surface-container pl-10 pr-4 font-mono text-xl font-black tracking-[0.4em] text-on-surface outline-none transition-colors focus:border-primary focus:bg-surface-container-lowest"
+                        className="s-panel h-14 w-full rounded-full pl-10 pr-4 font-mono text-xl font-black tracking-[0.4em] text-on-surface outline-none transition-shadow focus:ring-2 focus:ring-primary"
                       />
                     </div>
                     <Button size="lg" onClick={handleJoinRoom} disabled={joinCodeInput.length !== 4} className="h-14 shrink-0">
@@ -646,8 +645,8 @@ export default function CheckersGame() {
                       aria-pressed={boardTheme === th}
                       onClick={() => pickTheme(th)}
                       className={cn(
-                        'flex flex-col items-center gap-1.5 rounded-m3-sm border-[1.5px] p-2 s-press transition-colors',
-                        boardTheme === th ? 'border-primary bg-primary-container' : 'border-outline-variant bg-surface-container-lowest',
+                        'flex flex-col items-center gap-1.5 rounded-m3-md bg-state-hover p-2 s-press transition-shadow',
+                        boardTheme === th && 'ring-2 ring-primary',
                       )}
                     >
                       <span className="grid h-8 w-8 grid-cols-2 grid-rows-2 overflow-hidden rounded" style={{ border: `2px solid ${vars['--bd-frame']}` }}>
@@ -656,7 +655,7 @@ export default function CheckersGame() {
                         <span style={{ background: vars['--bd-dark'] }} />
                         <span style={{ background: vars['--bd-light'] }} />
                       </span>
-                      <span className={cn('text-[10px] font-black', boardTheme === th ? 'text-on-primary-container' : 'text-on-surface-variant')}>{t.themes[th]}</span>
+                      <span className={cn('text-[10px] font-black', boardTheme === th ? 'text-primary' : 'text-on-surface-variant')}>{t.themes[th]}</span>
                     </button>
                   );
                 })}
@@ -721,19 +720,19 @@ export default function CheckersGame() {
   return (
     <div
       style={BOARD_THEMES[boardTheme]}
-      className="flex w-full select-none flex-col overflow-hidden bg-background min-h-[calc(100dvh_-_var(--s-topbar-h)_-_var(--s-dock-h)_-_var(--s-safe-b)_-_16px)] md:min-h-[calc(100dvh_-_var(--s-topbar-h)_-_2rem)] lg:flex-row"
+      className="flex w-full select-none flex-col overflow-hidden min-h-[calc(100dvh_-_var(--s-topbar-h)_-_var(--s-dock-h)_-_var(--s-safe-b)_-_16px)] md:min-h-[calc(100dvh_-_var(--s-topbar-h)_-_2rem)] lg:flex-row"
     >
 
       {/* WAITING OVERLAY */}
       {isWaitingForOpponent && (
         <div className="absolute inset-0 z-[100] flex items-center justify-center bg-[color-mix(in_oklab,var(--m3-scrim)_60%,transparent)] p-4 backdrop-blur-md">
-          <div className="w-full max-w-sm rounded-m3-lg bg-surface-container-high p-8 text-center shadow-elev-3">
-             <Tile tone="secondary" size="lg" className="mx-auto mb-4 animate-pulse">
-               <Wifi size={32} />
-             </Tile>
+          <div className="w-full max-w-sm rounded-m3-xl bg-surface-container-lowest p-8 text-center shadow-elev-3">
+             <span className="s-chip mx-auto mb-4 grid h-16 w-16 animate-pulse place-items-center rounded-full">
+               <Wifi size={30} />
+             </span>
              <h2 className="s-display mb-1 text-[20px] font-bold">{t.waiting}</h2>
              <p className="mb-4 text-[12px] font-bold text-on-surface-variant">{t.roomCode}</p>
-             <div className="mb-6 rounded-m3-sm border border-outline-variant bg-surface-container py-3 font-mono text-3xl font-black tracking-[0.2em] text-on-surface">
+             <div className="mb-6 rounded-full bg-state-hover py-3 font-mono text-3xl font-black tracking-[0.2em] text-on-surface">
                {roomCode}
              </div>
              <Button variant="text" size="sm" onClick={handleExitToMenu}>{t.back}</Button>
@@ -742,16 +741,16 @@ export default function CheckersGame() {
       )}
 
       {/* 📱 MOBILE TOP HEADER */}
-      <header className="z-30 flex h-14 shrink-0 items-center justify-between gap-2 border-b border-outline-variant bg-surface-container px-3 lg:hidden">
+      <header className="s-panel z-30 mx-2 mt-2 flex h-14 shrink-0 items-center justify-between gap-2 rounded-full px-2 lg:hidden">
         <Button variant="tonal" size="sm" icon={<ArrowLeft size={16} />} onClick={handleExitToMenu} className="shrink-0">
           {t.setup}
         </Button>
 
         <div className={cn(
           'flex min-w-0 items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-wider',
-          isMyTurn ? 'bg-primary text-on-primary' : 'bg-surface-container-high text-on-surface-variant',
+          isMyTurn ? 's-chip' : 'bg-state-hover text-on-surface-variant',
         )}>
-          <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', isMyTurn ? 'animate-ping bg-on-primary' : 'bg-outline')} />
+          <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', isMyTurn ? 'animate-ping bg-current' : 'bg-outline')} />
           <span className="truncate">{isBotThinking ? t.botThinking : isMyTurn ? t.turnIndicatorMine : t.turnIndicatorTheirs}</span>
         </div>
 
@@ -764,7 +763,7 @@ export default function CheckersGame() {
       </header>
 
       {/* BOARD */}
-      <div className="relative flex min-h-0 min-w-0 flex-1 items-center justify-center bg-background p-2 sm:p-6">
+      <div className="relative flex min-h-0 min-w-0 flex-1 items-center justify-center p-2 sm:p-6">
 
         <div className="relative flex aspect-square w-full max-w-[min(100vw-1rem,500px)] items-center justify-center rounded-m3-lg border-b-[10px] border-[var(--bd-frame)] bg-[var(--bd-frame)] p-2 shadow-elev-3 sm:p-4 lg:max-w-[min(100vh-3rem,680px)]">
 
@@ -827,18 +826,18 @@ export default function CheckersGame() {
       </div>
 
       {/* 📱 MOBILE BOTTOM VS BAR */}
-      <footer className="z-30 flex h-14 shrink-0 items-center justify-between gap-3 border-t border-outline-variant bg-surface-container px-6 lg:hidden">
+      <footer className="s-panel z-30 mx-2 mb-2 flex h-14 shrink-0 items-center justify-between gap-3 rounded-full px-5 lg:hidden">
          <div className={cn('flex min-w-0 items-center gap-2 transition-opacity', turn !== myColor ? 'font-bold text-on-surface opacity-100' : 'text-on-surface-variant opacity-50')}>
             <div className="grid h-6 w-6 shrink-0 place-items-center rounded border border-[var(--bd-black-rim)] bg-[var(--bd-black)] text-[10px] font-black text-[var(--bd-black-ink)]">
                {mode === 'pve' ? <Bot size={14}/> : 'P2'}
             </div>
-            <span className="truncate text-xs">{mode === 'pve' ? t.opponentBlack : mode === 'pvp_online' ? (myColor === 'red' ? "Raqib (Qora)" : "Raqib (Qizil)") : "Raqib"}</span>
+            <span className="truncate text-xs">{mode === 'pvp_online' && myColor !== 'red' ? t.opponentRed : t.opponentBlack}</span>
          </div>
 
          <span className="shrink-0 text-[10px] font-black tracking-widest text-outline">VS</span>
 
          <div className={cn('flex min-w-0 items-center gap-2 transition-opacity', turn === myColor ? 'font-bold text-on-surface opacity-100' : 'text-on-surface-variant opacity-50')}>
-            <span className="truncate text-xs">{mode === 'pvp_online' && myColor === 'black' ? "Siz (Qora)" : "Siz (Qizil)"}</span>
+            <span className="truncate text-xs">{mode === 'pvp_online' && myColor === 'black' ? t.youBlack : t.youRed}</span>
             <div className="grid h-6 w-6 shrink-0 place-items-center rounded border border-[var(--bd-red-rim)] bg-[var(--bd-red)] text-[10px] font-black text-[var(--bd-red-ink)]">
                <Crown size={14}/>
             </div>
@@ -846,10 +845,10 @@ export default function CheckersGame() {
       </footer>
 
       {/* 💻 PC RIGHT SIDEBAR */}
-      <div className="z-20 hidden w-[380px] shrink-0 flex-col border-l border-outline-variant bg-surface p-6 shadow-elev-2 lg:flex">
+      <div className="s-panel z-20 my-4 mr-4 hidden w-[360px] shrink-0 flex-col rounded-m3-xl p-6 lg:flex">
 
         <div className="mb-8 flex gap-2">
-          <Button variant="outlined" fullWidth icon={<ArrowLeft size={16} strokeWidth={3} />} onClick={handleExitToMenu}>
+          <Button variant="tonal" fullWidth icon={<ArrowLeft size={16} strokeWidth={3} />} onClick={handleExitToMenu}>
             {t.setup}
           </Button>
           <Button variant="text" icon={muted ? <VolumeX size={18} /> : <Volume2 size={18} />} onClick={toggleMute} aria-label="sound" className="shrink-0" />
@@ -859,8 +858,8 @@ export default function CheckersGame() {
         </div>
 
         <div className={cn(
-          'mb-8 flex w-full flex-col items-center justify-center gap-1 rounded-m3-md py-4 transition-colors duration-m3-med',
-          isMyTurn ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-high text-on-surface-variant',
+          'mb-8 flex w-full flex-col items-center justify-center gap-1 rounded-full py-4 transition-colors duration-m3-med',
+          isMyTurn ? 's-chip' : 'bg-state-hover text-on-surface-variant',
         )}>
            <span className="text-[18px] font-black uppercase tracking-wider">
              {isBotThinking ? t.botThinking : isMyTurn ? t.turnIndicatorMine : t.turnIndicatorTheirs}
@@ -869,7 +868,7 @@ export default function CheckersGame() {
         </div>
 
         <div className="flex flex-1 flex-col gap-4">
-          <Card variant="outlined" className={cn('transition-all duration-m3-med', turn !== myColor ? 'border-gold' : 'opacity-60')}>
+          <Card className={cn('transition-all duration-m3-med', turn !== myColor ? 'ring-2 ring-gold' : 'opacity-60')}>
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-4">
                 <div className="grid h-14 w-14 shrink-0 place-items-center rounded-m3-sm border-b-4 border-[var(--bd-black-edge)] bg-[var(--bd-black)] text-lg font-black text-[var(--bd-black-ink)]">
@@ -886,7 +885,7 @@ export default function CheckersGame() {
             </div>
           </Card>
 
-          <Card variant="outlined" className={cn('transition-all duration-m3-med', turn === myColor ? 'border-primary' : 'opacity-60')}>
+          <Card className={cn('transition-all duration-m3-med', turn === myColor ? 'ring-2 ring-primary' : 'opacity-60')}>
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-4">
                 <div className="grid h-14 w-14 shrink-0 place-items-center rounded-m3-sm border-b-4 border-[var(--bd-red-edge)] bg-[var(--bd-red)] text-lg font-black text-[var(--bd-red-ink)]">
@@ -903,10 +902,6 @@ export default function CheckersGame() {
             </div>
           </Card>
         </div>
-
-        <div className="mt-auto border-t border-outline-variant pt-6 text-center text-[11px] font-black uppercase tracking-widest text-outline">
-          {t.title} Engine Pro Edition
-        </div>
       </div>
 
       {/* 🟢 RESULTS MODAL */}
@@ -922,9 +917,9 @@ export default function CheckersGame() {
               </div>
             )}
 
-            <motion.div initial={{ scale: 0.9, opacity: 0, y: 15 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="w-full max-w-sm rounded-m3-lg bg-surface-container-high p-8 text-center shadow-elev-3">
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 15 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="w-full max-w-sm rounded-m3-xl bg-surface-container-lowest p-8 text-center shadow-elev-3">
                <div className={cn(
-                 'mx-auto mb-5 grid h-20 w-20 place-items-center rounded-m3-md',
+                 'mx-auto mb-5 grid h-20 w-20 place-items-center rounded-full',
                  isMyWin ? 'bg-gold-container text-on-gold-container' : 'bg-surface-container-highest text-on-surface-variant',
                )}>
                   {winner === 'draw' ? <Handshake size={40} strokeWidth={2.5} /> : isMyWin ? <Trophy size={40} strokeWidth={2.5} /> : <Skull size={40} strokeWidth={2.5} />}
@@ -935,7 +930,7 @@ export default function CheckersGame() {
                </h2>
 
                {(mode === 'pve' || mode === 'pvp_online') && earnedXP > 0 && isMyWin && (
-                  <div className="mt-6 rounded-m3-md bg-gold p-4 text-on-gold">
+                  <div className="mt-6 rounded-m3-xl bg-gold p-4 text-on-gold">
                      <div className="mb-0.5 flex items-center justify-center gap-1 text-[11px] font-black uppercase tracking-widest"><Zap size={14} fill="currentColor"/> {t.xpEarned}</div>
                      <span className="text-4xl font-black tracking-tighter">+<AnimatedNumber value={earnedXP} /></span>
                   </div>

@@ -17,7 +17,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import {
   LayoutDashboard, BookOpen, User as UserIcon,
   LogOut, Flame, Trophy, ChevronDown, Check, Bell,
-  Settings, BookMarked, Gamepad2, Globe, Building2, BadgeCheck, Target, Brain,
+  Settings, BookMarked, Gamepad2, Globe, Building2, BadgeCheck, Target, Brain, MoreVertical,
 } from 'lucide-react';
 import { fetchMyCenters } from '@/services/studentCenterService';
 
@@ -28,7 +28,7 @@ import { fetchMyCenters } from '@/services/studentCenterService';
 import '@/components/student-ui/theme.css';
 import {
   StudentThemeProvider, Shell, MobileDrawer, ConfirmDialog, ThemeWaveToggle,
-  Avatar, Flag, cn, MOTION_ON,
+  Avatar, Flag, cn, MOTION_ON, DESIGN,
   type NavItem,
 } from '@/components/student-ui';
 
@@ -57,21 +57,27 @@ const LAYOUT_TRANSLATIONS: any = {
   uz: {
     menu: { dashboard: "Boshqaruv", classes: "Sinflarim", explore: "Kurslar", library: "Kutubxona", games: "O'yinlar", leaderboard: "Reyting", ielts: "IELTS", profile: "Profil", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT", center: "Markazim", mistakes: "Xatolarim" },
     groups: { main: "Asosiy", exams: "Imtihonlar", resources: "Resurslar" },
+    mobileMenu: "Menyu",
     topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til", notifications: "Bildirishnomalar", light: "Yorug'", dark: "Tun" },
+    brandSubtitle: "O'QUVCHI PORTALI",
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
   },
   en: {
     menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", games: "Games", leaderboard: "Rank", ielts: "IELTS", profile: "Profile", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "My Mistakes", center: "My center" },
     groups: { main: "Main", exams: "Exams", resources: "Resources" },
+    mobileMenu: "Menu",
     topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language", notifications: "Notifications", light: "Light", dark: "Dark" },
+    brandSubtitle: "STUDENT PORTAL",
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
   },
   ru: {
     menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", games: "Игры", leaderboard: "Рейтинг", ielts: "IELTS", profile: "Профиль", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "Мои ошибки", center: "Мой центр" },
     groups: { main: "Главное", exams: "Экзамены", resources: "Ресурсы" },
+    mobileMenu: "Меню",
     topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык", notifications: "Уведомления", light: "Светлая", dark: "Тёмная" },
+    brandSubtitle: "ПОРТАЛ УЧЕНИКА",
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
   }
@@ -235,7 +241,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     { href: '/library', label: t.menu.library, icon: BookMarked, hideOnMobile: true, group: 'resources' },
     { href: '/games', label: t.menu.games, icon: Gamepad2, group: 'main' },
     { href: '/leaderboard', label: t.menu.leaderboard, icon: Trophy, hideOnMobile: isCenterStudent, group: 'main' },
-    { href: '/ielts', label: t.menu.ielts, icon: Globe, group: 'exams' },
+    // Phones: off the dock since 2026-11-01 — its slot is the "Menu" tab,
+    // and IELTS sits in the drawer's Exams box with Milliy and SAT.
+    { href: '/ielts', label: t.menu.ielts, icon: Globe, hideOnMobile: true, group: 'exams' },
     // ⚠️ **Milliy sertifikat is the ONLY entry to the exam programme, including
     // maths.** `/raschmodel` used to sit here beside it, which read as two
     // separate products — it is the maths SECTION of this one, so the hub's
@@ -267,8 +275,12 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   // Edify logo (public/brand). The pillbar shell wraps it in a glass pill;
   // the drawer/rail shells show it as-is.
   const brand = (
-    <Link href="/dashboard" aria-label="Edify" className="flex min-w-0 items-center">
-      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="s-brand-logo h-[26px] w-auto" />
+    <Link href="/dashboard" aria-label="Edify" className="flex min-w-0 items-center gap-2">
+      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="s-brand-logo h-[26px] w-auto shrink-0" />
+      {/* `rail` is an icon-only strip (docs/STUDENT_UI.md § Shell variants) — no wordmark there. */}
+      {DESIGN.App_shell_navigation !== 'rail' && (
+        <span className="hidden sm:block truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">{t.brandSubtitle}</span>
+      )}
     </Link>
   );
 
@@ -420,6 +432,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           topbar={topbar}
           groups={navGroups}
           onOpenMobileNav={() => setIsMobileNavOpen(true)}
+          menuLabel={t.mobileMenu}
         >
           {children}
         </Shell>
@@ -430,6 +443,21 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           items={menuItems}
           isActive={isActive}
           brand={brand}
+          groups={navGroups}
+          footer={
+            <Link
+              href="/profile"
+              onClick={() => setIsMobileNavOpen(false)}
+              className="flex items-center gap-3 rounded-m3-lg p-1.5 hover:bg-state-hover"
+            >
+              <Avatar src={user?.photoURL || googlePhotoURL(user, 96)} name={user?.displayName ?? 'S'} size="md" />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[14px] font-extrabold text-on-surface">{user?.displayName || t.topbar.profile}</span>
+                <span className="block truncate text-[12px] font-medium text-on-surface-variant">{user?.email}</span>
+              </span>
+              <MoreVertical size={18} className="shrink-0 text-on-surface-variant" />
+            </Link>
+          }
         />
 
         <ConfirmDialog
