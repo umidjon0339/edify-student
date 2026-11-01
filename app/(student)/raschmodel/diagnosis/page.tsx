@@ -12,10 +12,10 @@ import { useAuth } from '@/lib/AuthContext';
 import RaschNav from '../_components/RaschNav';
 import { useStudentLanguage } from '../../layout';
 import { abilityFor, diagnosticsFor, getRASCHLevels, type AnalysisSource } from '@/services/RASCHProgressService';
-import { behaviorTotals, weakestSpots, EXPECTED_SEC } from '@/lib/RASCHdiagnosis';
+import { behaviorTotals, weakestSpots } from '@/lib/RASCHdiagnosis';
 import { expectedRange } from '@/lib/RASCHtheta';
 import {
-  Banner, Card, Chip, EmptyState, ErrorState, FilterChip, ListGroup, ListRow,
+  Banner, Card, Chip, EmptyState, ErrorState, ListGroup, ListRow,
   LoadingState, Page, PageHeader, Stack, cn, type Status,
 } from '@/components/student-ui';
 import type { Behavior, RASCHLevels } from '@/types/RASCH';
@@ -43,7 +43,7 @@ const UI: Record<Lang, Record<string, string>> = {
     gapHint: 'Xato, lekin vaqt sarflangan — haqiqiy bilim bo‘shlig‘i. Aynan shuni o‘rganish kerak.',
     weakest: 'Eng zaif mavzular',
     weakestHint: 'Kamida 2 marta uchragan mavzular. Eng zaifi birinchi.',
-    noData: 'Hali yetarli ma‘lumot yo‘q. Test topshiring — har bir savol vaqti bilan tahlil qilinadi.',
+    noData: 'Hali ma‘lumot yo‘q.',
     startExam: 'Testni boshlash',
     avgTime: 'o‘rtacha',
     budget: 'me‘yor',
@@ -81,7 +81,7 @@ const UI: Record<Lang, Record<string, string>> = {
     gapHint: 'Неверно, но время потрачено — настоящий пробел. Именно это и нужно учить.',
     weakest: 'Самые слабые темы',
     weakestHint: 'Темы, встреченные минимум 2 раза. Самая слабая — первая.',
-    noData: 'Пока недостаточно данных. Пройдите тест — каждый вопрос анализируется вместе со временем.',
+    noData: 'Пока нет данных.',
     startExam: 'Начать тест',
     avgTime: 'в среднем',
     budget: 'норма',
@@ -119,7 +119,7 @@ const UI: Record<Lang, Record<string, string>> = {
     gapHint: 'Wrong after real effort — a genuine gap. This is what to study.',
     weakest: 'Weakest subtopics',
     weakestHint: 'Subtopics you have met at least twice. Weakest first.',
-    noData: 'Not enough data yet. Sit an exam — every question is analysed together with its timing.',
+    noData: 'No data yet.',
     startExam: 'Start an exam',
     avgTime: 'avg',
     budget: 'budget',
@@ -161,11 +161,11 @@ function NavLink({
     <Link
       href={href}
       className={cn(
-        'inline-flex h-9 shrink-0 items-center gap-1.5 rounded-m3-btn px-4',
+        'inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full px-5',
         'text-[13px] font-extrabold leading-none s-press',
         tone === 'filled'
-          ? 'bg-primary text-on-primary'
-          : 'border-[1.5px] border-outline text-on-surface-variant hover:bg-state-hover',
+          ? 's-chip'
+          : 's-panel text-on-surface-variant',
         className,
       )}
     >
@@ -243,29 +243,31 @@ export default function DiagnosisPage() {
     <Page>
       <RaschNav lang={lang} />
       <Stack>
-        <PageHeader title={t.title} subtitle={t.subtitle} className="pb-0" />
+        {/* Edify style (2026-11-01): title only, no subtitle / explainer lines. */}
+        <PageHeader title={t.title} className="pb-0" />
 
         {/* Source: exams and practice are different evidence, so they are
             measured separately — and merged only here, on demand. */}
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            {([
-              ['all', t.srcAll],
-              ['exam', t.srcExam],
-              ['practice', t.srcPractice],
-            ] as [AnalysisSource, string][]).map(([key, label]) => (
-              <FilterChip
-                key={key}
-                selected={source === key}
-                onClick={() => setSource(key)}
-                disabled={key === 'practice' && !hasPractice}
-                className="disabled:pointer-events-none disabled:border-transparent disabled:bg-disabled-bg disabled:text-disabled-fg"
-              >
-                {label}
-              </FilterChip>
-            ))}
-          </div>
-          <p className="mt-1.5 text-[11px] font-bold text-on-surface-variant">{t.srcHint}</p>
+        <div className="s-panel inline-flex w-fit gap-0.5 rounded-full p-1" role="group" aria-label={t.title}>
+          {([
+            ['all', t.srcAll],
+            ['exam', t.srcExam],
+            ['practice', t.srcPractice],
+          ] as [AnalysisSource, string][]).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              aria-pressed={source === key}
+              onClick={() => setSource(key)}
+              disabled={key === 'practice' && !hasPractice}
+              className={cn(
+                'h-9 rounded-full px-4 text-[13px] font-extrabold transition-colors disabled:opacity-40',
+                source === key ? 's-chip' : 'text-on-surface-variant hover:text-on-surface',
+              )}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         {answered === 0 ? (
@@ -292,23 +294,15 @@ export default function DiagnosisPage() {
                     {ability.items} {t.items}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-end gap-5">
-                  <div>
-                    <p className="s-display s-num text-5xl font-bold leading-none tracking-tight text-primary">
-                      {ability.expected}%
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <p className="s-display s-num text-5xl font-bold leading-none tracking-tight text-primary">
+                    {ability.expected}%
+                  </p>
+                  {range && (
+                    <p className="s-num text-[13px] font-black text-on-surface-variant">
+                      {range.low}% – {range.high}%
                     </p>
-                    {range && (
-                      <p className="s-num mt-2 text-[12px] font-black text-on-surface-variant">
-                        {range.low}% – {range.high}%
-                      </p>
-                    )}
-                  </div>
-                  <div className="min-w-[200px] flex-1">
-                    <p className="text-[12px] font-bold leading-relaxed text-on-surface-variant">{t.abilityHint}</p>
-                    <p className="s-num mt-1 text-[11px] font-black text-outline">
-                      θ = {ability.theta.toFixed(2)} ± {ability.se.toFixed(2)} logit
-                    </p>
-                  </div>
+                  )}
                 </div>
               </Card>
             )}
@@ -318,7 +312,6 @@ export default function DiagnosisPage() {
               <Banner
                 status={verdict === 'pacing' ? 'info' : 'error'}
                 title={verdict === 'pacing' ? t.pacing : t.knowledge}
-                description={verdict === 'pacing' ? t.pacingHint : t.knowledgeHint}
               />
             )}
 
@@ -339,21 +332,17 @@ export default function DiagnosisPage() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {/* A legend with counts — the label carries the meaning, so the
+                  long per-type explanations were dropped (2026-11-01). */}
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {(['gap', 'guess', 'fragile', 'solid'] as Behavior[]).map((b) => {
-                  const style = BEHAVIOR_STYLE[b];
-                  const Icon = style.icon;
+                  const Icon = BEHAVIOR_STYLE[b].icon;
                   return (
-                    <div key={b} className={cn('flex items-start gap-2.5 rounded-m3-md p-3', style.tile)}>
-                      <Icon size={16} strokeWidth={3} className="mt-0.5 shrink-0" />
-                      <div className="min-w-0">
-                        <p className="flex items-center gap-2 text-[13px] font-black">
-                          {t[b]} <span className="s-num text-[15px]">{totals[b]}</span>
-                        </p>
-                        <p className="mt-0.5 text-[11px] font-bold leading-snug opacity-80">
-                          {t[`${b}Hint`]}
-                        </p>
-                      </div>
+                    <div key={b} className="flex items-center gap-2 rounded-m3-md bg-state-hover px-3 py-2.5">
+                      <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: BEHAVIOR_STYLE[b].bar }} />
+                      <Icon size={14} strokeWidth={2.6} className="shrink-0 text-on-surface-variant" />
+                      <span className="min-w-0 flex-1 truncate text-[12.5px] font-bold text-on-surface">{t[b]}</span>
+                      <span className="s-num text-[15px] font-black text-on-surface">{totals[b]}</span>
                     </div>
                   );
                 })}
@@ -362,10 +351,7 @@ export default function DiagnosisPage() {
 
             {/* Weakest subtopics */}
             <div>
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <h2 className="s-display text-[15px] font-bold">{t.weakest}</h2>
-                <span className="text-[11px] font-bold text-on-surface-variant">{t.weakestHint}</span>
-              </div>
+              <h2 className="s-display mb-3 px-1 text-[15px] font-bold">{t.weakest}</h2>
 
               {weak.length === 0 ? (
                 <Card>
@@ -374,7 +360,6 @@ export default function DiagnosisPage() {
               ) : (
                 <ListGroup>
                   {weak.map((spot, i) => {
-                    const budget = EXPECTED_SEC[2];
                     const masteryPct = Math.round(spot.mastery * 100);
                     return (
                       <motion.div
@@ -390,7 +375,7 @@ export default function DiagnosisPage() {
                             </span>
                           }
                           title={spot.subtopicName || spot.chapterName}
-                          subtitle={`${spot.chapterName} · ${t.avgTime} ${spot.avgSec}s (${t.budget} ${budget}s)`}
+                          subtitle={`${spot.chapterName} · ${t.avgTime} ${spot.avgSec}s`}
                           trailing={
                             <div className="flex shrink-0 items-center gap-3">
                               <Chip status={BEHAVIOR_STYLE[spot.dominant].status}>{t[spot.dominant]}</Chip>
