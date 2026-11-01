@@ -15,6 +15,8 @@ import { requestExamFullscreen } from '@/hooks/useExamLockdown';
 import ExamReview from '../_components/ExamReview';
 import { useStudentLanguage } from '../../layout';
 import { getRASCHLevels, saveExamResult, toItemResponses } from '@/services/RASCHProgressService';
+import { examMistakes } from '@/lib/mistakes';
+import { recordMistakes } from '@/services/mistakeService';
 import {
   EXAMS_PER_DAY, examQuota, formatCooldown, formatUnlockTime, lastExamAt,
 } from '@/lib/RASCHquota';
@@ -222,6 +224,8 @@ export default function ExamPage() {
   const [lastSittingAt, setLastSittingAt] = useState<number | null>(null);
 
   const t = UI[appLang];
+  // The mistake rows' subtitle — a plain string so the save effect depends on it alone.
+  const examTitle = t.examTitle;
 
   // ── Timer ────────────────────────────────────────────────────────────
   // Nothing is pushed on expiry: `submitted` below is derived from the
@@ -560,6 +564,25 @@ export default function ExamPage() {
           // paper and no other — the account can refuse a duplicate on sight.
           examId: session.endsAt,
         });
+
+        // My Mistakes (docs/MISTAKES.md) — after the result write, never
+        // awaited. `savingRef` already guarantees one save per paper, so this
+        // can't double-count `timesWrong`. Outcomes are the items just saved.
+        const outcomes: Record<string, number> = {};
+        for (const i of items) outcomes[i.id] = i.correct ? 1 : 0;
+        recordMistakes(
+          user.uid,
+          examMistakes({
+            source: 'rasch',
+            testId: `exam_${session.endsAt}`,
+            testTitle: examTitle,
+            examLang: session.examLang,
+            questions: session.questions,
+            outcomes,
+            answers: session.answers,
+          }),
+        ).catch((e) => console.error('recordMistakes failed:', e));
+
         if (cancelled) return;
         setLevels(next);
         setLocal({ session: { ...session, submitted: true, saved: true } });
@@ -572,7 +595,7 @@ export default function ExamPage() {
     })();
 
     return () => { cancelled = true; };
-  }, [submitted, session, user, isCorrect, t.saveFailed]);
+  }, [submitted, session, user, isCorrect, t.saveFailed, examTitle]);
 
   // ── INTRO ────────────────────────────────────────────────────────────
   if (stage === 'intro' || stage === 'loading') {

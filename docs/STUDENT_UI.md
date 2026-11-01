@@ -128,14 +128,29 @@ The student app wears the same look as the teacher panel ("Edify style"):
   label; `StatTile` surface tone + `StatBand` = glass (StatBand was a dark
   inverse slab), accent numbers; `Tabs` + `SegmentedControl` = glass pill
   capsules with the `.s-chip` on the pick; `PageHeader`'s back button = glass.
-  Restyled on top (2026-11-01): profile (round avatar, tinted bio/social
-  blocks), center (glass hero + accent icon chip, glass center switcher),
+  Restyled on top (2026-11-01): profile (round avatar with an accent-gradient
+  ring, `.s-chip` initials fallback, a camera `.s-chip` that opens a `.s-menu`
+  photo menu — upload / "Use Google photo"; edit form = 2-column glass fields +
+  right-aligned glass Cancel / accent Save pills; tinted bio/social blocks), center (glass hero + accent icon chip, glass center switcher),
   leaderboard (period capsule floats, no band), classes/games/mistakes (no
   subtitles, no "No description" filler, no card divider rules).
   ⚠️ `.s-chip` is plain CSS, not a Tailwind utility — `group-hover:s-chip`
   silently does nothing; use `group-hover:bg-primary group-hover:text-on-primary`.
   Not restyled (focus modes): the IELTS runners, the checkers board, the exam
   runners.
+- **Top-bar cluster perf (2026-11-01)** — the right-hand pills (language,
+  light/dark, profile) are **`.s-pill`: the glass look WITHOUT backdrop-filter**
+  (four live blurs on the sticky header, re-sampled every scroll and press frame,
+  were the lag); the open pill gets an accent ring via `[aria-expanded=true]`.
+  The language/profile dropdowns are `.s-menu` + a CSS entrance (`.s-menu-in`) —
+  framer-motion is gone from the layout; closing is instant. They close on an
+  outside `pointerdown` (was `mousedown`, missed touch taps) and on Escape; the
+  listeners are attached only while a menu is open. ⚠️ `ThemeWaveToggle` tilts
+  its ICON on hover, not the button — rotating the button fought `s-press`'s
+  scale (both `transform`). The profile pill's `Avatar` falls back to the
+  Google provider photo (`lib/googlePhoto.ts`) and, on a load error, to initials
+  (`Avatar` keeps a per-`src` failed flag — a failed lh3 photo used to render a
+  broken-image icon with the alt text spilling out).
 - **Light/dark** — `ThemeWaveToggle` (student kit) in the top bar replaces the
   notification bell (circular View-Transition reveal; instant under reduced
   motion). `StudentThemeProvider` now has a per-device override
@@ -289,7 +304,23 @@ npx tsx scripts/genStudentPalettes.mjs                     # plain node fails �
   direct `Sparkline` caller has to make the same check itself.
 - Motion: `Motion_level="none"` **and** the OS `prefers-reduced-motion` setting
   both collapse animation. Guard JS animations with `MOTION_ON` plus a
-  `matchMedia` check (`useRipple` and `Celebration` do).
+  `matchMedia` check (`useRipple`, `useGlint` and `Celebration` do).
+- **The glint** (2026-11-01, `components/student-ui/useGlint.ts`, mounted once by
+  `StudentThemeProvider` — a module refcount keeps it to ONE listener however many
+  providers mount): any `button` / `a[href]` / `[role=button|tab|menuitem|option]`
+  pressed in the student tree gets a light sweep — a `position: fixed` `.s-glint`
+  overlay on the element's box with its border-radius copied, so no element has
+  to opt in or be `overflow: hidden`. ⚠️ Opt an element out with
+  `data-no-glint` (e.g. invisible click-catcher backdrops). Skipped for boxes
+  taller than 140px / wider than 720px (whole-card links) and for disabled ones.
+- **`Input_style: 'glass'` is the default (2026-11-01, Edify)** — `TextField`,
+  `TextArea` and `Select` use `.s-field`: frosted, fully rounded, accent focus
+  ring; the label floats like `filled`. ⚠️ `.s-field` lives entirely in `:where()`
+  with colours in `--s-field-*` vars so a caller's `border-error` /
+  `border-success` utility still wins — keep it zero-specificity.
+- **`Avatar` (and any `<img>` that may show a Google photo) needs
+  `referrerPolicy="no-referrer"`** — lh3.googleusercontent.com intermittently
+  403s a request with a Referer, and the fallback initials then show instead.
 - Digits that sit in columns (XP, scores, ranks, timers, money) get `s-num`
   (`tabular-nums`) so they don't jitter as they change.
 - Status colors are for state only, never decoration, and always ship with a

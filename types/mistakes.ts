@@ -17,7 +17,12 @@
 import type { Lang, LocalizedText } from './Math';
 
 /** Which runner the mistake came out of. */
-export type MistakeSource = 'sat-math' | 'sat-english' | 'milliy' | 'rasch';
+export type MistakeSource =
+  | 'sat-math' | 'sat-english' | 'milliy' | 'rasch'
+  // 2026-11-01: class assignments (the v1-normalized test runner) and the
+  // Rasch hub's own practice drills (legacy `questions1` docs). Additive —
+  // older clients just render the raw key until they learn the label.
+  | 'class' | 'practice';
 
 /** Wrong answer vs never answered. Both scored 0. */
 export type MistakeOutcome = 'wrong' | 'blank';
@@ -109,4 +114,6 @@ export const MISTAKE_SOURCE_LABELS: Record<MistakeSource, { uz: string; ru: stri
   'sat-english': { uz: 'SAT Ingliz tili', ru: 'SAT Английский', en: 'SAT English' },
   milliy: { uz: 'Milliy sertifikat', ru: 'Национальный сертификат', en: 'Milliy sertifikat' },
   rasch: { uz: 'Sinov testi', ru: 'Пробный тест', en: 'Mock test' },
+  class: { uz: 'Sinf topshirig‘i', ru: 'Задание класса', en: 'Class assignment' },
+  practice: { uz: 'Mashq', ru: 'Тренировка', en: 'Practice' },
 };

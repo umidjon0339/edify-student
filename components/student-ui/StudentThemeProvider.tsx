@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { useGlint } from './useGlint';
 import { DESIGN, themeAttributes } from './config';
 
 /**
@@ -63,6 +64,9 @@ export function StudentThemeProvider({
   }, []);
 
   const mode: Mode = override ?? systemMode;
+
+  // The light that sweeps across any pressed button (see useGlint.ts).
+  useGlint();
 
   const setModeOverride = useCallback((m: Mode) => {
     setOverride(m);

@@ -8,7 +8,7 @@
 
 Every question a student gets **wrong** or **leaves blank** is banked into their own private "My Mistakes" pile at `/mistakes`, where they can review the correct answer and pull up **5 similar questions** to practise on.
 
-Fed by three runners: **SAT** (Math + English), **Milliy sertifikat**, and **Rasch** (teacher mock papers). Class assignments/exams (`attempts`) are **not** wired in — see Known issues.
+Fed by every auto-graded runner (2026-11-01): **SAT** (Math + English), **Milliy sertifikat**, **Rasch** (teacher papers by code AND the sampled `/raschmodel/exam` paper), **Rasch practice drills**, and **class assignments**. ⚠️ **Class EXAMS are deliberately not** — see Known issues.
 
 ## Key files
 
@@ -28,7 +28,7 @@ Fed by three runners: **SAT** (Math + English), **Milliy sertifikat**, and **Ras
 {
   id, studentId,
   slotKey, questionId,              // slotKey may be `${questionId}#${partId}`
-  source: 'sat-math'|'sat-english'|'milliy'|'rasch',
+  source: 'sat-math'|'sat-english'|'milliy'|'rasch'|'class'|'practice',  // class/practice 2026-11-01, additive
   outcome: 'wrong' | 'blank',
   testId, testTitle,                // snapshots
   question, stem?, imageUrl?,       // the question SNAPSHOT
@@ -46,7 +46,7 @@ Fed by three runners: **SAT** (Math + English), **Milliy sertifikat**, and **Ras
 
 ⚠️ **A blank is its own `outcome`, not a wrong answer.** Both score zero, but "you skipped 6" and "you misunderstood 6" are different problems, and this is a *learning* surface.
 
-**Index**: `studentId + resolved + lastMissedAt desc`.
+**Index**: `studentId + resolved + lastMissedAt desc`. ⚠️ **Found NOT deployed on 2026-11-01** — every load of `/mistakes` failed ("Could not load your mistakes"). `listMistakes` now falls back on `failed-precondition` to the two equality legs alone (no composite index needed) and sorts by `lastMissedAt` in memory. Deploy `firestore:indexes` anyway — the fallback reads every row of the tab.
 
 ## Flows
 
@@ -56,7 +56,10 @@ Fed by three runners: **SAT** (Math + English), **Milliy sertifikat**, and **Ras
 |---|---|---|
 | SAT Math / English | each page's `onSubmit` (`app/(student)/sat/{math,english}/page.tsx`) | `satMistakes` |
 | Milliy sertifikat | `app/(student)/milliy-sertifikat/[subject]/page.tsx`, after `saveMilliyResult` | `examMistakes` |
-| Rasch | `app/(student)/raschmodel/quiz/page.tsx`, after `saveQuizResult` | `examMistakes` |
+| Rasch (teacher paper) | `app/(student)/raschmodel/quiz/page.tsx`, after `saveQuizResult` | `examMistakes` |
+| Rasch (sampled paper) | `app/(student)/raschmodel/exam/page.tsx`, after `saveExamResult` (2026-11-01; `testId` `exam_<endsAt>`) | `examMistakes` |
+| Rasch practice | `app/(student)/raschmodel/practice/page.tsx`, after `savePracticeResult` (2026-11-01; `practice_<startedAt>`) | `practiceMistakes` — legacy `QuestionDoc`, so no "5 similar" set |
+| Class assignment | `app/(student)/classes/[classId]/test/[assignmentId]/page.tsx`, after the attempt transaction commits (2026-11-01) | `classMistakes` — v1-normalized; asks `isAnswerCorrect`/`isPartCorrect`, blocks filed per part `id#partId` |
 
 ⚠️ **Always FIRE-AND-FORGET, always after the result write.** Each call site is `recordMistakes(...).catch(console.error)`. Banking a study aid must never cost a student their score, and the bucket is reconstructible from the next sitting anyway.
 
@@ -115,7 +118,7 @@ match /student_mistakes/{mistakeId} {
 ## Known issues / dead code (verified 2026-09-16)
 
 - **The rules test suite has not been run** (no Java → no emulator). The one real gap in this change.
-- **Class assignments and exams (`attempts`) do not feed the bucket.** That collection is polymorphic (`type: 'assignment' | 'exam'`, with exam docs overloading `assignmentId`) and would need its own extractor; deliberately out of scope for this pass.
+- **Class EXAMS (`/student/exam/[examId]`, `attempts.type == 'exam'`) do not feed the bucket — on purpose.** Their results stay hidden until the teacher releases them (and `open_ended` answers are teacher-graded), so banking mistakes at submit would show the student the correct answers early. Wire them at release time if ever needed. Class ASSIGNMENTS do feed it (2026-11-01).
 - `countOpenMistakes()` exists and is cheap (a COUNT query) but **nothing renders a badge with it yet** — the nav entry is a plain link.
 - The bucket is capped at 100 rows per tab (`listMistakes`'s `max`); there is no paging UI.
 - Resolving is manual. Nothing auto-resolves a mistake when the student later answers a similar question correctly.

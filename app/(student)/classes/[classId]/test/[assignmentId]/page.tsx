@@ -7,6 +7,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/lib/AuthContext';
+import { classMistakes } from '@/lib/mistakes';
+import { recordMistakes } from '@/services/mistakeService';
 import {
   Clock, CheckCircle, ChevronRight, AlertCircle, Flag, Eye, Lock,
   ChevronLeft, Zap, ShieldAlert, X
@@ -528,6 +530,19 @@ export default function TestRunnerPage() {
 
       // Only now is the local session safe to discard.
       localStorage.removeItem(STORAGE_KEY);
+
+      // My Mistakes (docs/MISTAKES.md) — fire-and-forget, AFTER the attempt is
+      // committed: banking a study aid must never cost the student the score.
+      recordMistakes(
+        userId,
+        classMistakes({
+          testId: state.assignment.testId || assignmentId,
+          testTitle: state.test.title || '',
+          examLang: lang,
+          questions: state.questions,
+          answers: state.answers,
+        }),
+      ).catch((e) => console.error('recordMistakes failed:', e));
       if (result.leveledUp) notifyLevelUp(userId, result.newLevel);
 
       await updateDoc(doc(db, 'classes', classId, 'assignments', assignmentId), { completedBy: arrayUnion(userId) }).catch(() => {});

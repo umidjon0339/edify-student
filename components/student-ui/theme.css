@@ -1888,7 +1888,8 @@ a.s-glass:hover, button.s-glass:hover { background: color-mix(in oklab, var(--m3
    (cards, lists, tiles, tabs). Content sits on the smooth mesh, where a blur
    changes nothing visible but costs a GPU blur per panel per scroll frame.
    Keep `.s-glass` (real blur) for chrome that floats OVER scrolling content:
-   the top-bar pills, the dock, sticky bars, menus. */
+   the nav capsule, the dock, sticky bars, menus. (The small right-hand top-bar
+   pills use `.s-pill` — no blur — since 2026-11-01; see the TOP-BAR block.) */
 .s-panel {
   background: color-mix(in oklab, var(--m3-surface-container-lowest) 60%, transparent);
   border: 1px solid color-mix(in oklab, #fff 65%, transparent);
@@ -1904,8 +1905,10 @@ a.s-panel:hover, button.s-panel:hover { background: color-mix(in oklab, var(--m3
 
 /* Light/dark wave switch: tilts on hover; while the circular reveal runs,
    other transitions and view-transition names are suspended. */
-.s-theme-toggle { transition: transform 0.3s cubic-bezier(.2, 0, 0, 1), background-color 0.2s ease; }
-.s-theme-toggle:hover { transform: rotate(20deg); }
+/* ⚠️ The ICON tilts, not the button: rotating the button fought `s-press`'s
+   scale (both are `transform`) and re-rasterised a blurred pill every frame. */
+.s-theme-toggle svg { transition: transform 0.3s cubic-bezier(.2, 0, 0, 1); }
+.s-theme-toggle:hover svg { transform: rotate(20deg); }
 .s-theme-wave *, .s-theme-wave *::before, .s-theme-wave *::after { transition: none !important; }
 .s-theme-wave * { view-transition-name: none !important; }
 html.s-theme-wave::view-transition-old(root),
@@ -1938,7 +1941,7 @@ html.s-theme-wave::view-transition-new(root) { animation: none; mix-blend-mode: 
    tone is a DEEP, mode-independent pair (white on `--s-deck-a` is ≥ 4.5:1 for
    every tone) plus a bright `--s-deck-tint` for glows/orbs.
    ========================================================================== */
-[data-tone] {
+[data-tone] { /* any unlisted value (e.g. "accent") = the Edify accent blue */
   --s-deck-a: #0067d7; --s-deck-b: #002f6c; --s-deck-tint: #5b9dff;
 }
 [data-tone="sky"]    { --s-deck-a: #0369a1; --s-deck-b: #082f49; --s-deck-tint: #38bdf8; }
@@ -2050,4 +2053,132 @@ html.s-theme-wave::view-transition-new(root) { animation: none; mix-blend-mode: 
   right: 0;
   -webkit-mask-image: linear-gradient(270deg, #000 25%, transparent);
   mask-image: linear-gradient(270deg, #000 25%, transparent);
+}
+
+/* ============================================================================
+   GLASS FIELD (2026-11-01) — `Input_style: 'glass'` (design.config.ts), the
+   Edify text field: frosted, fully rounded, accent focus ring.
+   ⚠️ Every property sits in `:where()` (zero specificity) and colours go through
+   vars, so a caller's Tailwind `border-error` / `border-success` still wins.
+   ========================================================================== */
+[data-palette] {
+  --s-field-bg: color-mix(in oklab, var(--m3-surface-container-lowest) 70%, transparent);
+  --s-field-bg-hover: color-mix(in oklab, var(--m3-surface-container-lowest) 86%, transparent);
+  --s-field-bg-focus: var(--m3-surface-container-lowest);
+  --s-field-bd: color-mix(in oklab, var(--m3-outline-variant) 75%, #fff);
+  --s-field-inset: inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent);
+}
+[data-mode="dark"] {
+  --s-field-bg: color-mix(in oklab, var(--m3-surface-container-high) 70%, transparent);
+  --s-field-bg-hover: color-mix(in oklab, var(--m3-surface-container-highest) 75%, transparent);
+  --s-field-bg-focus: var(--m3-surface-container-high);
+  --s-field-bd: color-mix(in oklab, #fff 12%, transparent);
+  --s-field-inset: inset 0 1px 0 color-mix(in oklab, #fff 5%, transparent);
+}
+:where(.s-field) {
+  background: var(--s-field-bg);
+  border: 1px solid var(--s-field-bd);
+  box-shadow: var(--s-field-inset);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
+}
+:where(.s-field):hover { background: var(--s-field-bg-hover); }
+:where(.s-field):focus {
+  background: var(--s-field-bg-focus);
+  border-color: var(--s-accent, var(--m3-primary));
+  box-shadow: var(--s-field-inset), 0 0 0 3px color-mix(in oklab, var(--s-accent, var(--m3-primary)) 22%, transparent);
+}
+
+/* ============================================================================
+   GLINT (2026-11-01) — the small light that sweeps across whatever button the
+   student presses. One delegated listener (`useGlint`, mounted by
+   StudentThemeProvider) drops a `position: fixed` overlay on the pressed
+   element's box, so no button has to opt in or be `overflow: hidden`.
+   ========================================================================== */
+.s-glint {
+  position: fixed;
+  z-index: 2147483000;
+  overflow: hidden;
+  pointer-events: none;
+}
+.s-glint::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  transform: translateX(-120%) skewX(-16deg);
+  animation: s-glint 560ms cubic-bezier(0.45, 0, 0.25, 1) forwards;
+}
+@keyframes s-glint { to { transform: translateX(330%) skewX(-16deg); } }
+
+/* ============================================================================
+   TOP-BAR PILLS + MENUS (2026-11-01) — the pillbar's right-hand cluster
+   (language, light/dark, profile) in app/(student)/layout.tsx.
+   `.s-pill` = the `.s-glass` look WITHOUT backdrop-filter. These pills are
+   small, sit on the sticky header and pass over scrolling content: four live
+   blurs re-sampled every scroll frame (plus every press-scale frame) was the
+   top bar's lag. A near-opaque fill reads the same at this size.
+   ========================================================================== */
+.s-pill {
+  background: color-mix(in oklab, var(--m3-surface-container-lowest) 82%, transparent);
+  border: 1px solid color-mix(in oklab, #fff 65%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent), 0 6px 18px -8px color-mix(in oklab, var(--s-accent, var(--m3-primary)) 32%, transparent);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+[data-mode="dark"] .s-pill {
+  background: color-mix(in oklab, var(--m3-surface-container-high) 88%, transparent);
+  border-color: color-mix(in oklab, #fff 9%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 6%, transparent), 0 6px 18px -8px rgba(0, 0, 0, 0.5);
+}
+.s-pill:hover { background: var(--m3-surface-container-lowest); }
+[data-mode="dark"] .s-pill:hover { background: var(--m3-surface-container-highest); }
+.s-pill[aria-expanded="true"] {
+  box-shadow: 0 0 0 2px var(--s-accent, var(--m3-primary)), 0 6px 18px -8px color-mix(in oklab, var(--s-accent, var(--m3-primary)) 32%, transparent);
+}
+
+/* A dropdown's entrance — CSS, transform + opacity only (was a framer-motion
+   spring per open). Closing is instant: a menu that lingers on its way out
+   swallows the next click. */
+@keyframes s-menu-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+.s-menu-in {
+  transform-origin: top right;
+  animation: s-menu-in 160ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+[data-motion="none"] .s-menu-in { animation: none; }
+
+/* ============================================================================
+   CONTACT + SOCIAL (2026-11-01) — the About tab of student settings.
+   The split Telegram | Call pill: each half lights up in its own colour on
+   hover. Brand chips use the networks' own colours (logo colours, not palette
+   decoration), so they are the same in light and dark.
+   ========================================================================== */
+.s-contact-half { transition: background-color 0.15s ease, color 0.15s ease; }
+.s-contact-half[data-kind="telegram"]:hover { background: #229ed9; color: #fff; }
+.s-contact-half[data-kind="call"]:hover { background: #16a34a; color: #fff; }
+.s-brand-instagram {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  box-shadow: 0 8px 18px -8px #d6249f;
+}
+.s-brand-telegram {
+  background: linear-gradient(140deg, #37aee2, #1e96c8);
+  box-shadow: 0 8px 18px -8px #1e96c8;
+}
+.s-brand-github {
+  background: linear-gradient(140deg, #3b434b, #1f2328);
+  box-shadow: 0 8px 18px -8px #1f2328;
+}
+.s-brand-linkedin {
+  background: linear-gradient(140deg, #1478d4, #0a5cad);
+  box-shadow: 0 8px 18px -8px #0a66c2;
+}
+/* A `.s-deck-card` used as a static hero (settings › About) — no hover lift. */
+.s-deck-card.s-static:hover {
+  transform: none;
+  box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 28%, transparent),
+    0 16px 32px -18px color-mix(in oklab, var(--s-deck-a) 85%, transparent);
 }
