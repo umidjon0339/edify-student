@@ -167,7 +167,7 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
 
   if (leaderboard.length === 0) {
     return (
-      <div className="py-3 md:py-7 bg-surface-container-low rounded-m3-xl border-2 border-dashed border-outline-variant shadow-elev-1">
+      <div className="py-3 md:py-7 t-glass-card rounded-m3-xl">
         <EmptyState icon={<Trophy />} title={t.emptyTitle} description={t.emptyDesc} />
       </div>
     );
@@ -181,30 +181,19 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
         const avatarUrl = student.photoURL || student.photoUrl || student.avatar || null;
         
         // --- 🟢 DYNAMIC STYLING FOR PODIUM vs REGULAR ---
-        let cardStyle = "bg-surface-container-low border-outline-variant hover:border-primary";
-        let rankColor = "bg-inverse-surface text-inverse-on-surface";
-        let avatarBorder = "border-outline-variant bg-surface-container-high text-on-surface-variant";
-
-        if (rank === 1) {
-          cardStyle = "bg-tertiary-container border-tertiary shadow-elev-1 ring-2 sm:ring-4 ring-[color-mix(in_oklab,var(--m3-tertiary)_10%,transparent)] z-10";
-          rankColor = "bg-tertiary text-on-tertiary";
-          avatarBorder = "border-tertiary bg-tertiary-container text-on-tertiary-container";
-        } else if (rank === 2) {
-          cardStyle = "bg-secondary-container border-secondary";
-          rankColor = "bg-secondary text-on-secondary";
-          avatarBorder = "border-secondary bg-secondary-container text-on-secondary-container";
-        } else if (rank === 3) {
-          cardStyle = "bg-surface-container-highest border-outline";
-          rankColor = "bg-inverse-surface text-inverse-on-surface";
-          avatarBorder = "border-outline bg-surface-container-high text-on-surface-variant";
-        }
+        // Edify style (2026-11-01): every row is the same glass card; the podium
+        // shows on the rank badge (accent for #1) and an accent ring on #1 only —
+        // no full-colour slabs.
+        const cardStyle = rank === 1 ? "ring-2 ring-primary" : "";
+        const rankColor = rank === 1 ? "t-icon-chip" : rank <= 3 ? "t-icon-chip-soft bg-surface-container-lowest" : "bg-surface-container-highest text-on-surface-variant";
+        const avatarBorder = "border-transparent t-icon-chip-soft";
 
         return (
           <div 
             key={student.id} 
             ref={isLastElement ? lastElementRef : null}
             onClick={() => router.push(`/teacher/students/${student.uid}`)}
-            className={`flex items-center justify-between p-2.5 sm:p-3 md:p-4 rounded-m3-lg border-2 border-b-[3px] md:border-b-4 transition-all duration-200 cursor-pointer group active:translate-y-[2px] active:border-b-2 hover:-translate-y-0.5 ${cardStyle}`}
+            className={`t-glass-card flex items-center justify-between p-2.5 sm:p-3 md:p-4 rounded-m3-lg transition-all duration-200 cursor-pointer group active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-elev-2 ${cardStyle}`}
           >
             
             {/* Left side: Avatar + Rank & Name */}
@@ -212,11 +201,11 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
               
               {/* 🟢 Profile Picture with Nested Rank Badge */}
               <div className="relative shrink-0">
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 overflow-hidden flex items-center justify-center font-black text-[16px] md:text-xl shadow-elev-1 ${avatarBorder}`}>
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                  ) : (
-                    student.displayName?.[0]?.toUpperCase() || <UserIcon size={18} strokeWidth={3} className="md:w-5 md:h-5"/>
+                <div className={`relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 overflow-hidden flex items-center justify-center font-black text-[16px] md:text-xl ${avatarBorder}`}>
+                  {student.displayName?.[0]?.toUpperCase() || <UserIcon size={18} strokeWidth={3} className="md:w-5 md:h-5"/>}
+                  {/* Initials underneath; a dead photo URL hides itself (it used to print its alt text). */}
+                  {avatarUrl && (
+                    <img src={avatarUrl} alt="" onError={(e) => { e.currentTarget.style.display = 'none'; }} className="absolute inset-0 w-full h-full object-cover" />
                   )}
                 </div>
                 <div className={`absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center font-black text-[9px] sm:text-[11px] md:text-[12px] border-[1.5px] md:border-2 border-surface-container-lowest shadow-elev-1 z-10 ${rankColor}`}>
@@ -237,14 +226,14 @@ export default function LeaderboardTab({ classId }: { classId: string }) {
 
             {/* Right side: Tactile XP Pill */}
             <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
-              <div className={`border-2 rounded-m3-md px-2.5 md:px-3 py-1 md:py-1.5 flex items-center gap-1 md:gap-1.5 shadow-elev-1 ${rank === 1 ? 'bg-surface-container-lowest border-tertiary' : 'bg-surface-container border-outline-variant'}`}>
-                <span className={`font-black text-[14px] sm:text-[15px] md:text-[18px] leading-none ${rank === 1 ? 'text-tertiary' : 'text-primary'}`}>
+              <div className="t-icon-chip-soft rounded-full px-3 md:px-3.5 py-1 md:py-1.5 flex items-center gap-1 md:gap-1.5">
+                <span className="font-black text-[14px] sm:text-[15px] md:text-[18px] leading-none">
                   {(student.xp || 0).toLocaleString()}
                 </span>
                 <span className="text-[8px] md:text-[9px] font-black text-on-surface-variant uppercase tracking-widest mt-0.5">{t.points}</span>
               </div>
 
-              <div className="w-7 h-7 md:w-8 md:h-8 rounded-m3-md bg-surface-container-lowest border-2 border-outline-variant flex items-center justify-center text-on-surface-variant group-hover:bg-primary group-hover:border-primary group-hover:text-on-primary transition-all hidden sm:flex shrink-0">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:bg-primary group-hover:text-on-primary transition-all hidden sm:flex shrink-0">
                 <ChevronRight size={16} className="md:w-[18px] md:h-[18px]" strokeWidth={3} />
               </div>
             </div>

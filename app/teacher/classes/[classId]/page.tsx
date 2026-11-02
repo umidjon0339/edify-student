@@ -220,7 +220,7 @@ export default function ClassDetailsPage() {
       <header className="t-page-bar sticky top-0 z-30 bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-xl border-b border-outline-variant px-3 md:px-6 py-2.5 md:py-3 flex justify-between items-center shadow-elev-1 shrink-0">
 
         <div className="flex items-center gap-2.5 md:gap-4 min-w-0">
-          <Link href="/teacher/classes" className="m3-interactive w-8 h-8 md:w-9 md:h-9 rounded-m3-md bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest hover:shadow-elev-1 transition-all shrink-0" title={t.back}>
+          <Link href="/teacher/classes" className="t-glass-card m3-interactive w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors shrink-0" title={t.back}>
             <ChevronLeft size={18} strokeWidth={2.5} />
           </Link>
 
@@ -232,20 +232,20 @@ export default function ClassDetailsPage() {
             </h1>
             <div className="flex items-center gap-1.5 mt-0.5">
               {classData.isLocked && (
-                <span className="flex items-center gap-1 px-1.5 py-0.5 bg-error-container rounded-m3-xs text-[9px] md:text-[10px] font-black text-on-error-container tracking-widest uppercase shadow-elev-1">
+                <span className="flex items-center gap-1 px-2 py-0.5 bg-error-container rounded-full text-[9px] md:text-[10px] font-black text-on-error-container tracking-widest uppercase">
                   <Lock size={10} strokeWidth={3}/> {t.locked}
                 </span>
               )}
               {isCenterClass ? (
                 // Markaz guruhi: kirish kodi o'rniga markaz chipi (kod yashiriladi —
                 // o'quvchi qo'shilishi yopiq, faqat menejer qo'shadi).
-                <span title={t.centerManagedHint} className="flex items-center gap-1 px-1.5 py-0.5 bg-tertiary-container rounded-m3-xs text-[9px] md:text-[10px] font-black text-on-tertiary-container tracking-widest uppercase shadow-elev-1 max-w-[180px] md:max-w-[260px]">
+                <span title={t.centerManagedHint} className="flex items-center gap-1 px-2 py-0.5 bg-tertiary-container rounded-full text-[9px] md:text-[10px] font-black text-on-tertiary-container tracking-widest uppercase max-w-[180px] md:max-w-[260px]">
                   <Building2 size={10} strokeWidth={3} className="shrink-0"/>
                   <span className="truncate">{centerName || t.centerGroup}</span>
                 </span>
               ) : (
-                <span className="flex items-center gap-1 px-1.5 py-0.5 bg-surface-container-high border border-outline-variant rounded-m3-xs text-[9px] md:text-[10px] font-black text-on-surface-variant tracking-widest uppercase shadow-inner">
-                  <Hash size={10} className="text-primary"/> {classData.joinCode}
+                <span className="t-icon-chip-soft flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-black tracking-widest uppercase">
+                  <Hash size={10}/> {classData.joinCode}
                 </span>
               )}
               {/* Moved here from the class card on the list page. */}
@@ -263,7 +263,7 @@ export default function ClassDetailsPage() {
             variant="filled"
             onClick={() => setIsPlusMenuOpen(!isPlusMenuOpen)}
             aria-label="Menyu"
-            className="shrink-0"
+            className="t-icon-chip shrink-0 rounded-full"
           >
             <Plus strokeWidth={2.5} className={`transition-transform duration-300 ${isPlusMenuOpen ? 'rotate-45' : ''}`} />
           </IconButton>
@@ -272,7 +272,7 @@ export default function ClassDetailsPage() {
               onClick={() => setIsSettingsOpen(true)}
               aria-label={t.buttons.settings}
               title={t.buttons.settings}
-              className="shrink-0"
+              className="t-glass-card shrink-0 rounded-full"
             >
               <Settings strokeWidth={2.5} />
             </IconButton>
@@ -284,19 +284,23 @@ export default function ClassDetailsPage() {
       {/* --- MAIN BODY (full width) --- */}
       <div className="flex-1 w-full flex flex-col md:px-6 md:py-6">
         
-        {/* --- UNDERLINE TAB BAR (minimalist, scrollable) --- */}
-        <div className="border-b border-outline-variant px-2 md:px-1 shrink-0 z-20 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          <div className="flex items-center gap-1 md:gap-3 min-w-max">
+        {/* --- TAB BAR — Edify style (2026-11-01): a glass pill capsule with the
+            accent chip gliding under the active tab (was an underline strip). */}
+        <div className="px-2 md:px-0 pt-3 md:pt-0 pb-3 md:pb-4 shrink-0 z-20 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          <div className="t-glass-card inline-flex items-center gap-0.5 rounded-full p-1 min-w-max">
             {TABS_CONFIG.map((tab) => {
               const active = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as TabType)}
-                  className={`relative flex items-center gap-2 px-3 md:px-3.5 py-3 text-[13px] font-semibold whitespace-nowrap transition-colors active:scale-95 ${
-                    active ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'
+                  className={`relative flex items-center gap-2 h-10 px-3.5 md:px-4 rounded-full text-[13px] font-semibold whitespace-nowrap transition-colors active:scale-95 ${
+                    active ? 't-on-chip' : 'text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
+                  {active && (
+                    <motion.span layoutId="teacherTabUnderline" className="t-icon-chip absolute inset-0 rounded-full" />
+                  )}
                   <span className="relative flex items-center justify-center">
                     <tab.icon size={17} strokeWidth={active ? 2.5 : 2} />
                     {tab.badge > 0 && (
@@ -305,10 +309,7 @@ export default function ClassDetailsPage() {
                       </span>
                     )}
                   </span>
-                  <span>{tab.label}</span>
-                  {active && (
-                    <motion.div layoutId="teacherTabUnderline" className="absolute left-1 right-1 -bottom-px h-[2.5px] bg-primary rounded-full" />
-                  )}
+                  <span className="relative">{tab.label}</span>
                 </button>
               );
             })}
@@ -316,11 +317,12 @@ export default function ClassDetailsPage() {
         </div>
 
         {/* --- CONTENT CANVAS --- */}
-        {/* Attendance renders edge-to-edge (its grid is already a card); other tabs get the white canvas card. */}
+        {/* Attendance renders edge-to-edge (its grid is already a card). */}
         <div className={`flex-1 min-h-[500px] overflow-x-hidden relative ${
           activeTab === 'attendance'
             ? 'px-2 md:px-0 pt-3 md:pt-4 pb-8'
-            : 'bg-surface md:bg-surface-container-low md:rounded-m3-xl md:border border-outline-variant md:shadow-elev-1 p-3 md:p-8 pb-[100px]'
+            // Edify style: no white canvas card — the tab's own glass rows float on the mesh.
+            : 'px-2 md:px-0 pb-[100px]'
         }`}>
           <AnimatePresence mode="wait">
             <motion.div

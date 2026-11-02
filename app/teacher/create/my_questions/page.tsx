@@ -14,7 +14,7 @@ import { createPortal } from "react-dom";
 
 import { useTeacherLanguage } from "@/app/teacher/layout";
 import TestConfigurationModal from "@/app/teacher/create/_components/TestConfigurationModal";
-import { normalizeQuestion } from "@/lib/questionSchema";
+import { normalizeQuestion, getText as getLocalizedText } from "@/lib/questionSchema";
 import QuestionPartsPreview from "@/components/QuestionPartsPreview";
 import { cacheList, cacheQuestion, getCachedList, invalidateQuestionCache, listKey } from "@/lib/questionCache";
 import {
@@ -24,7 +24,7 @@ import {
   MANUAL_CREATION_METHODS as MANUAL_METHODS,
 } from "@/types/question";
 
-import { Button, IconButton, Spinner, Skeleton } from "@/components/ui";
+import { Button, IconButton, Spinner, Skeleton, PillGroup, StatusChip, EmptyState } from "@/components/ui";
 
 import SolutionSteps from "@/components/SolutionSteps";
 // The bank holds questions from every era. A filter chip must match BOTH the
@@ -433,54 +433,48 @@ export default function MyQuestionsPage() {
   };
 
   // --- HELPERS ---
-  const getText = (field: any): string => {
-    if (!field) return t.noData;
-    if (typeof field === "string") return field;
-    if (field.uz && typeof field.uz === "string") return field.uz;
-    if (field.uz && field.uz.uz) return field.uz.uz; 
-    return JSON.stringify(field); 
-  };
+  // Trilingual {uz,ru,en} → the active UI language, falling back through the
+  // other two — never the raw JSON. Empty string when truly empty (callers
+  // that need a placeholder pass one via FormattedText's `empty` prop).
+  // See lib/questionSchema.ts.
+  const getText = (field: any): string => getLocalizedText(field, lang);
 
   // --- UI RENDER ---
   return (
     <div className="min-h-[100dvh] bg-surface font-t-body pb-32">
 
-      {/* 🟢 TOP HEADER */}
+      {/* 🟢 TOP HEADER — pillbar look (docs/UI_KIT.md): gradient icon chip +
+          title + glass count pill, pill-capsule filters underneath. */}
       <div className="bg-[color-mix(in_oklab,var(--m3-surface)_85%,transparent)] backdrop-blur-md border-b border-outline-variant t-page-bar sticky top-0 z-30 shadow-elev-1">
         <div className="max-w-4xl mx-auto px-3 md:px-4 py-3 md:py-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2 md:gap-3">
-              <IconButton aria-label="Orqaga" size="sm" className="-ml-1 md:-ml-2" onClick={() => router.push('/teacher/create')}>
-                <ArrowLeft />
-              </IconButton>
-              <div>
-                <h1 className="text-[14px] md:text-[16px] font-black text-on-surface tracking-tight flex items-center gap-1.5 md:gap-2">
-                  <Database size={16} className="text-primary" /> {t.bankTitle}
-                </h1>
-              </div>
-            </div>
-            <div className="text-[10px] md:text-[12px] font-bold text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-m3-xs border border-outline-variant">
+          <div className="flex items-center gap-2.5 md:gap-3 mb-4">
+            <IconButton aria-label="Orqaga" size="sm" className="-ml-1 md:-ml-2" onClick={() => router.push('/teacher/create')}>
+              <ArrowLeft />
+            </IconButton>
+            <span className="t-icon-chip grid h-9 w-9 md:h-10 md:w-10 shrink-0 place-items-center rounded-m3-md">
+              <Database size={17} strokeWidth={2.4} />
+            </span>
+            <h1 className="text-[15px] md:text-[18px] font-extrabold text-on-surface tracking-tight truncate">{t.bankTitle}</h1>
+            <span className="t-glass-pill ml-auto shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-wide text-on-surface-variant tabular-nums">
               {questions.length} {t.countSuffix}
-            </div>
+            </span>
           </div>
 
           {/* 🟢 SMART PILL FILTERS */}
-          <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-1 -mx-3 px-3 md:mx-0 md:px-0">
-            <button onClick={() => setActiveFilter("all")} className={`m3-interactive px-3 py-1.5 rounded-m3-sm text-[10px] md:text-[11px] font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeFilter === "all" ? "bg-primary text-on-primary shadow-elev-1" : "bg-surface-container-lowest border border-outline-variant text-on-surface-variant"}`}>
-              <Layers size={12}/> {t.filterAll}
-            </button>
-            <div className="w-px h-4 bg-outline-variant shrink-0 mx-1"></div>
-            <button onClick={() => setActiveFilter("ai")} className={`m3-interactive px-3 py-1.5 rounded-m3-sm text-[10px] md:text-[11px] font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeFilter === "ai" ? "bg-secondary text-on-secondary shadow-elev-1" : "bg-secondary-container border border-transparent text-on-secondary-container"}`}>
-              <Sparkles size={12}/> {t.filterAi}
-            </button>
-            <button onClick={() => setActiveFilter("image")} className={`m3-interactive px-3 py-1.5 rounded-m3-sm text-[10px] md:text-[11px] font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${activeFilter === "image" ? "bg-tertiary text-on-tertiary shadow-elev-1" : "bg-tertiary-container border border-transparent text-on-tertiary-container"}`}>
-              <Eye size={12}/> {t.filterImage}
-            </button>
-            <div className="w-px h-4 bg-outline-variant shrink-0 mx-1"></div>
-            <button onClick={() => setActiveFilter("easy")} className={`m3-interactive px-3 py-1.5 rounded-m3-sm text-[10px] md:text-[11px] font-bold whitespace-nowrap transition-colors ${activeFilter === "easy" ? "bg-inverse-surface text-inverse-on-surface shadow-elev-1" : "bg-surface-container-lowest border border-outline-variant text-on-surface-variant"}`}>{t.easy}</button>
-            <button onClick={() => setActiveFilter("medium")} className={`m3-interactive px-3 py-1.5 rounded-m3-sm text-[10px] md:text-[11px] font-bold whitespace-nowrap transition-colors ${activeFilter === "medium" ? "bg-inverse-surface text-inverse-on-surface shadow-elev-1" : "bg-surface-container-lowest border border-outline-variant text-on-surface-variant"}`}>{t.medium}</button>
-            <button onClick={() => setActiveFilter("hard")} className={`m3-interactive px-3 py-1.5 rounded-m3-sm text-[10px] md:text-[11px] font-bold whitespace-nowrap transition-colors ${activeFilter === "hard" ? "bg-inverse-surface text-inverse-on-surface shadow-elev-1" : "bg-surface-container-lowest border border-outline-variant text-on-surface-variant"}`}>{t.hard}</button>
-          </div>
+          <PillGroup
+            ariaLabel={t.bankTitle}
+            value={activeFilter}
+            onChange={setActiveFilter}
+            className="max-w-full"
+            options={[
+              { id: "all", label: <span className="flex items-center gap-1.5"><Layers size={14} strokeWidth={2.4} />{t.filterAll}</span> },
+              { id: "ai", label: <span className="flex items-center gap-1.5"><Sparkles size={14} strokeWidth={2.4} />{t.filterAi}</span> },
+              { id: "image", label: <span className="flex items-center gap-1.5"><Eye size={14} strokeWidth={2.4} />{t.filterImage}</span> },
+              { id: "easy", label: t.easy },
+              { id: "medium", label: t.medium },
+              { id: "hard", label: t.hard },
+            ]}
+          />
         </div>
       </div>
 
@@ -497,11 +491,13 @@ export default function MyQuestionsPage() {
             ))}
           </div>
         ) : questions.length === 0 ? (
-          <div className="bg-surface-container-low rounded-m3-xl border border-outline-variant p-8 md:p-12 text-center shadow-elev-1 mt-8">
-            <div className="w-14 h-14 bg-surface-container border border-outline-variant rounded-m3-lg flex items-center justify-center mx-auto mb-4"><Filter size={24} className="text-on-surface-variant" /></div>
-            <h2 className="text-[15px] md:text-[16px] font-black text-on-surface mb-1.5">{t.notFound}</h2>
-            <p className="text-[11px] md:text-[13px] text-on-surface-variant mb-6 max-w-sm mx-auto">{t.notFoundDesc}</p>
-            <Button variant="tonal" size="sm" onClick={() => setActiveFilter("all")}>{t.showAll}</Button>
+          <div className="bg-surface-container-low rounded-m3-xl border border-outline-variant shadow-elev-1 mt-8">
+            <EmptyState
+              icon={<Filter />}
+              title={t.notFound}
+              description={t.notFoundDesc}
+              action={<Button variant="tonal" size="sm" onClick={() => setActiveFilter("all")}>{t.showAll}</Button>}
+            />
           </div>
         ) : (
           <div className="space-y-3 md:space-y-4">
@@ -513,11 +509,11 @@ export default function MyQuestionsPage() {
               const method = q.creationMethod || "custom";
 
               // Method styling
-              let methodStyle = "bg-surface-container-high text-on-surface-variant border-transparent";
               let methodLabel = t.methodCustom;
               let MethodIcon = Layers;
-              if (method === "by_image") { methodStyle = "bg-tertiary-container text-on-tertiary-container border-transparent"; methodLabel = t.methodImage; MethodIcon = Eye; }
-              else if (method.includes("ai")) { methodStyle = "bg-secondary-container text-on-secondary-container border-transparent"; methodLabel = t.methodAi; MethodIcon = Sparkles; }
+              if (method === "by_image") { methodLabel = t.methodImage; MethodIcon = Eye; }
+              else if (method.includes("ai")) { methodLabel = t.methodAi; MethodIcon = Sparkles; }
+              const diffTone = diff === 'hard' ? 'error' : diff === 'easy' ? 'success' : 'warning';
 
               const cardContent = (
                 <div className={`bg-surface-container-low p-3.5 md:p-5 rounded-m3-lg border-[2px] transition-all duration-200 group relative ${isSelected ? 'border-primary shadow-elev-2 ring-4 ring-[color-mix(in_oklab,var(--m3-primary)_10%,transparent)]' : 'border-outline-variant shadow-elev-1 hover:shadow-elev-2 hover:border-outline'}`}>
@@ -533,21 +529,19 @@ export default function MyQuestionsPage() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-1.5 md:gap-2 mb-3 pr-10">
-                    <span className={`text-[9px] md:text-[10px] font-black px-2 py-1 rounded-m3-xs uppercase flex items-center gap-1 border ${methodStyle}`}>
-                      <MethodIcon size={10} strokeWidth={2.5}/> {methodLabel}
-                    </span>
-                    <span className="bg-surface-container text-on-surface-variant text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-m3-xs border border-outline-variant uppercase flex items-center gap-1">
-                      <Folder size={10} /> <span className="truncate max-w-[100px]">{subject}</span>
-                    </span>
-                    <span className={`text-[9px] md:text-[10px] font-black px-2 py-1 rounded-m3-xs uppercase border border-transparent ${diff === 'hard' ? 'bg-error-container text-on-error-container' : diff === 'easy' ? 'bg-success-container text-on-success-container' : 'bg-warning-container text-on-warning-container'}`}>
-                      {diff}
-                    </span>
+                    <StatusChip tone="muted" noDot className="uppercase">
+                      <MethodIcon size={11} strokeWidth={2.5}/> {methodLabel}
+                    </StatusChip>
+                    <StatusChip tone="muted" noDot className="uppercase">
+                      <Folder size={11} /> <span className="truncate max-w-[100px]">{subject}</span>
+                    </StatusChip>
+                    <StatusChip tone={diffTone} noDot className="uppercase">{diff}</StatusChip>
                     {/* A block holds several sub-questions — say so, or it looks like a
                         normal question whose answer is missing. */}
                     {q.isBlock && (
-                      <span className="bg-primary-container text-on-primary-container text-[9px] md:text-[10px] font-black px-2 py-1 rounded-m3-xs uppercase flex items-center gap-1">
-                        <Layers size={10} /> {t.blockLabel(q.parts.length)}
-                      </span>
+                      <StatusChip tone="info" noDot className="uppercase">
+                        <Layers size={11} /> {t.blockLabel(q.parts.length)}
+                      </StatusChip>
                     )}
                   </div>
 
@@ -701,10 +695,10 @@ export default function MyQuestionsPage() {
                     
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 md:gap-2 mb-5 md:mb-6">
-                      <span className="bg-surface-container-high text-on-surface-variant text-[10px] md:text-[11px] font-bold px-2.5 py-1.5 rounded-m3-xs border border-outline-variant uppercase"><Folder size={12} className="inline mr-1"/> {infoModalData.subject || t.subjectFallback}</span>
-                      {infoModalData.topic && <span className="bg-surface-container-high text-on-surface-variant text-[10px] md:text-[11px] font-bold px-2.5 py-1.5 rounded-m3-xs border border-outline-variant uppercase"><Target size={12} className="inline mr-1"/> {infoModalData.topic}</span>}
-                      {infoModalData.chapter && <span className="bg-surface-container-high text-on-surface-variant text-[10px] md:text-[11px] font-bold px-2.5 py-1.5 rounded-m3-xs border border-outline-variant uppercase"><BookMarked size={12} className="inline mr-1"/> {infoModalData.chapter}</span>}
-                      <span className="bg-inverse-surface text-inverse-on-surface text-[10px] md:text-[11px] font-bold px-2.5 py-1.5 rounded-m3-xs uppercase">{infoModalData.difficulty || "medium"}</span>
+                      <StatusChip tone="muted" noDot className="uppercase"><Folder size={12}/> {infoModalData.subject || t.subjectFallback}</StatusChip>
+                      {infoModalData.topic && <StatusChip tone="muted" noDot className="uppercase"><Target size={12}/> {infoModalData.topic}</StatusChip>}
+                      {infoModalData.chapter && <StatusChip tone="muted" noDot className="uppercase"><BookMarked size={12}/> {infoModalData.chapter}</StatusChip>}
+                      <StatusChip tone={infoModalData.difficulty === 'hard' ? 'error' : infoModalData.difficulty === 'easy' ? 'success' : 'warning'} noDot className="uppercase">{infoModalData.difficulty || "medium"}</StatusChip>
                     </div>
 
                     {/* Question */}

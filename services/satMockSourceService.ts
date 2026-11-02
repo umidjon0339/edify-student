@@ -106,3 +106,33 @@ export async function loadSatMockSources(slug: SatPracticeSubject): Promise<SatM
   const counts = { bank: add(fromBank), questions: add(fromQuestions), mocks: add(fromMocks) };
   return { items, counts, failed: [...new Set(failed)] };
 }
+
+// ─── shared 5-minute cache (2026-11-02) ──────────────────────────────────────
+// The mock card AND the "Practice by topic" card read the same pool on the
+// same page; one cache (and one in-flight promise) means one set of reads.
+
+const SOURCE_TTL = 5 * 60_000;
+const sourceCache = new Map<string, { at: number; data: SatMockSources }>();
+const inflight = new Map<string, Promise<SatMockSources>>();
+
+/** The cached pool if it is fresh — for synchronous first renders. */
+export function peekSatMockSources(slug: SatPracticeSubject): SatMockSources | null {
+  const hit = sourceCache.get(slug);
+  return hit && Date.now() - hit.at < SOURCE_TTL ? hit.data : null;
+}
+
+/** `loadSatMockSources`, cached 5 min per subject and de-duplicated in flight. */
+export function loadSatMockSourcesCached(slug: SatPracticeSubject): Promise<SatMockSources> {
+  const hit = peekSatMockSources(slug);
+  if (hit) return Promise.resolve(hit);
+  const running = inflight.get(slug);
+  if (running) return running;
+  const p = loadSatMockSources(slug)
+    .then((data) => {
+      sourceCache.set(slug, { at: Date.now(), data });
+      return data;
+    })
+    .finally(() => inflight.delete(slug));
+  inflight.set(slug, p);
+  return p;
+}

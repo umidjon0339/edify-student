@@ -8,6 +8,7 @@ import LatexRenderer from "@/components/LatexRenderer";
 import { fetchMyQuestionsPage, fetchSharedQuestionsPage } from "@/services/questionBankService";
 import { SAT_MATH_TAXONOMY_SLUG, isSatAuthorableType, satQuizItem } from "@/lib/SatMathQuiz";
 import { Button, cn } from "@/components/ui";
+import SatAiGenerator from "./SatAiGenerator";
 import {
   AI_CREATION_METHODS, IMAGE_CREATION_METHODS, MANUAL_CREATION_METHODS,
   isAiWritten, type NormalizedQuestion,
@@ -45,8 +46,12 @@ const SOURCES: Source[] = ["all", "ai", "mine"];
  * ⚠️ The provenance chips are hidden in `shared`: the shared query is
  * `sharedBank + subject.id + createdAt` and adding a `creationMethod in […]`
  * leg would need yet another composite index for a filter nobody asked for.
+ *
+ * `ai` (2026-11-01) is a THIRD kind, not a Firestore query at all — it swaps
+ * the whole area for `SatAiGenerator` (generate → edit text/correct answer →
+ * add straight to the module, no bank write). See docs/SAT_QUIZ.md.
  */
-type Bank = "mine" | "shared";
+type Bank = "mine" | "shared" | "ai";
 
 const methodsFor = (source: Source): string[] | undefined =>
   source === "ai" ? [...AI_CREATION_METHODS, ...IMAGE_CREATION_METHODS]
@@ -58,7 +63,7 @@ export interface SatPickerStrings {
   load: string; loadMore: string; none: string; reads: string;
   add: string; added: string; imageOnly: string; full: string; aiBadge: string;
   mcqBadge: string; numericBadge: string;
-  bank: string; bankMine: string; bankShared: string; by: string;
+  bank: string; bankMine: string; bankShared: string; bankAi: string; by: string;
 }
 
 export default function SatBankPicker({
@@ -141,16 +146,22 @@ export default function SatBankPicker({
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">{t.bank}</span>
-        {(["mine", "shared"] as Bank[]).map((b) => (
+        {(["mine", "shared", "ai"] as Bank[]).map((b) => (
           <button key={b} onClick={() => reset(() => setBank(b))} className={chip(bank === b)}>
-            {b === "mine" ? t.bankMine : t.bankShared}
+            {b === "mine" ? t.bankMine : b === "shared" ? t.bankShared : t.bankAi}
           </button>
         ))}
 
-        <Button size="sm" className="ml-auto" icon={<Search />} loading={loading} onClick={() => load(true)}>
-          {t.load}
-        </Button>
+        {bank !== "ai" && (
+          <Button size="sm" className="ml-auto" icon={<Search />} loading={loading} onClick={() => load(true)}>
+            {t.load}
+          </Button>
+        )}
       </div>
+
+      {bank === "ai" && (
+        <SatAiGenerator lang={lang} disabled={disabled} picked={picked} onAdd={onAdd} />
+      )}
 
       {bank === "mine" && (
         <div className="flex flex-wrap items-center gap-2">

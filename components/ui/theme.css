@@ -2404,6 +2404,22 @@ a.t-glass-pill:hover, button.t-glass-pill:hover {
   background: color-mix(in oklab, var(--m3-surface-container-highest) 70%, transparent);
 }
 
+/* Glass CARD — the glass-pill look WITHOUT backdrop-filter, for content that
+   sits on the mesh canvas (rows, list cards, empty states, in-page tab bars).
+   A blur over the smooth mesh is invisible but costs a GPU pass per element
+   per scroll frame of <main> (docs/UI_KIT.md › perf). Twin of the student
+   `.s-panel`. (2026-11-01) */
+.t-glass-card {
+  background: color-mix(in oklab, var(--m3-surface-container-lowest) 62%, transparent);
+  border: 1px solid color-mix(in oklab, #fff 65%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 55%, transparent), 0 6px 20px -10px color-mix(in oklab, var(--m3-primary) 28%, transparent);
+}
+:root[data-t-mode="dark"] .t-glass-card {
+  background: color-mix(in oklab, var(--m3-surface-container-high) 70%, transparent);
+  border-color: color-mix(in oklab, #fff 9%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 6%, transparent), 0 6px 20px -10px rgba(0, 0, 0, 0.5);
+}
+
 /* Hover dropdown ("mega menu") panel of the pillbar. */
 .t-mega {
   background: color-mix(in oklab, var(--m3-surface-container-lowest) 94%, transparent);

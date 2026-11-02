@@ -59,6 +59,7 @@ Fed by every auto-graded runner (2026-11-01): **SAT** (Math + English), **Milliy
 | Rasch (teacher paper) | `app/(student)/raschmodel/quiz/page.tsx`, after `saveQuizResult` | `examMistakes` |
 | Rasch (sampled paper) | `app/(student)/raschmodel/exam/page.tsx`, after `saveExamResult` (2026-11-01; `testId` `exam_<endsAt>`) | `examMistakes` |
 | Rasch practice | `app/(student)/raschmodel/practice/page.tsx`, after `savePracticeResult` (2026-11-01; `practice_<startedAt>`) | `practiceMistakes` — legacy `QuestionDoc`, so no "5 similar" set |
+| SAT Learn by topic | `/sat/topics` → `recordTopicSet` (`app/(student)/sat/_components/satTopics.ts`), at the end of a set (2026-11-02; no result doc — testId `satpt_<subtopicKey>`) | `satMistakes` |
 | Class assignment | `app/(student)/classes/[classId]/test/[assignmentId]/page.tsx`, after the attempt transaction commits (2026-11-01) | `classMistakes` — v1-normalized; asks `isAnswerCorrect`/`isPartCorrect`, blocks filed per part `id#partId` |
 
 ⚠️ **Always FIRE-AND-FORGET, always after the result write.** Each call site is `recordMistakes(...).catch(console.error)`. Banking a study aid must never cost a student their score, and the bucket is reconstructible from the next sitting anyway.
@@ -120,7 +121,8 @@ match /student_mistakes/{mistakeId} {
 - **The rules test suite has not been run** (no Java → no emulator). The one real gap in this change.
 - **Class EXAMS (`/student/exam/[examId]`, `attempts.type == 'exam'`) do not feed the bucket — on purpose.** Their results stay hidden until the teacher releases them (and `open_ended` answers are teacher-graded), so banking mistakes at submit would show the student the correct answers early. Wire them at release time if ever needed. Class ASSIGNMENTS do feed it (2026-11-01).
 - `countOpenMistakes()` exists and is cheap (a COUNT query) but **nothing renders a badge with it yet** — the nav entry is a plain link.
-- The bucket is capped at 100 rows per tab (`listMistakes`'s `max`); there is no paging UI.
+- Since 2026-11-01 the bucket loads ALL of a tab's rows (`listMistakes` has no default cap; pass `max` to limit). No paging UI — fine while a student's own pile stays in the hundreds.
+- ⚠️ **2026-11-01: the `student_mistakes` rules + index were found NOT live** on `scanqr-64512` (index confirmed missing; the rules shipped in the same change and the page kept failing after the index fallback, so they are almost certainly missing too). The repo rules compile (dry run). Fix = `npx firebase-tools deploy --only firestore:rules,firestore:indexes` — nothing client-side can work around missing rules.
 - Resolving is manual. Nothing auto-resolves a mistake when the student later answers a similar question correctly.
 
 ## How to verify changes
