@@ -99,7 +99,9 @@ three callers already depending on it).
 | `app/teacher/sat/page.tsx` | The teacher's section hub — `SAT_SECTIONS` cards (icon · name · Ready/Soon only since 2026-10-31; no banner, no import card). The test facts are info pills + the JSON import button on `sat/math` and `sat/english`. |
 | `app/teacher/sat/math/page.tsx` | The teacher's test list: code, status, edit, results, delete. |
 | `app/teacher/sat/math/build/page.tsx` | The builder — three module pickers + settings (`?id=` to edit). |
-| `app/teacher/sat/math/_components/{SatBankPicker,draft}.tsx/.ts` | The one pool (own bank, filtered to `sat-matematika` + `mcq`/`numeric`) and the localStorage stash for the "write a question" round trip. |
+| `app/teacher/sat/math/_components/{SatBankPicker,draft}.tsx/.ts` | The one pool (own bank, filtered to `sat-matematika` + `mcq`/`numeric`), its **AI bilan yaratish** `ai` bank tab (below), and the localStorage stash for the "write a question" round trip. |
+| [app/teacher/sat/math/_components/SatAiGenerator.tsx](../app/teacher/sat/math/_components/SatAiGenerator.tsx) | **AI bilan yaratish** (2026-11-01, below) — domain/difficulty/count → draft `mcq`s → edit text + reassign the correct option → add to the module. |
+| [app/api/teacher/sat/math/generate/route.ts](../app/api/teacher/sat/math/generate/route.ts) + [services/satQuestionGenerator.ts](../services/satQuestionGenerator.ts) | The server route (auth, monthly AI credits, `generateMcqs`) and its client wrapper — same shape as [app/api/teacher/games/questions/route.ts](../app/api/teacher/games/questions/route.ts)/`services/gameQuestionService.ts` (docs/GAMES.md). `lib/ai/questionPrompts.ts::satMathQuestions` is the prompt builder. |
 | `app/teacher/sat/math/results/[testId]/page.tsx` | Who sat it; scaled score, route taken, per-domain breakdown, per-question solve rate (plain %, not cohort-priced). |
 | [services/satEnglishQuizService.ts](../services/satEnglishQuizService.ts) | English's OWN read/write layer — `sat_english_tests`/`sat_english_results`, `reserveSatEnglishCode`/`findSatEnglishTestByCode`. A sibling of `satMathQuizService.ts`, not a shared module. |
 | [scripts/addSATEnglishTopics.mjs](../scripts/addSATEnglishTopics.mjs) | How the `sat-ingliz-tili` taxonomy (4 official College Board R&W domains, ONE subtopic each — the source bank has no finer tag) was appended to `data/question_topics.json`. |
@@ -110,12 +112,16 @@ three callers already depending on it).
 | `app/teacher/sat/english/results/[testId]/page.tsx` | Sibling of Math's results page, `SAT_RW_DOMAINS` breakdown. |
 | `app/(student)/sat/page.tsx` | The student's section hub — glass section cards with the student's **latest score** per section + an **Analysis** card (2026-10-31). |
 | `app/(student)/sat/analysis/page.tsx` | **SAT analysis** (2026-10-31) — the SAT twin of `/raschmodel/diagnosis`. See §Analysis. |
+| `app/(student)/sat/topics/page.tsx` | **Learn by topic** (2026-11-02) — subtopic cards + practice sets; see §Topic practice. |
+| `app/(student)/sat/_components/{satTopics.ts,SatPracticeSet.tsx}` | Subtopic sections, device-local progress, set recording / the one-question-at-a-time runner. |
+| `app/(student)/sat/_components/SatTopicPractice.tsx` | The subject page's link card to `/sat/topics`. |
 | `app/(student)/sat/_components/satAnalysis.ts` | `loadMySatResults(uid)` (both subjects, 60s cache shared by hub + analysis; `clearMySatResults()` on submit) + pure `summarise` / `domainStats` / `filterBySource`. |
 | `app/teacher/sat/_components/StudentMocks.tsx` | **Student mocks** on both teacher test lists — every shared mock, "Copy to my tests". See §Student mocks. |
 | `app/(student)/sat/math/page.tsx` | Code box, intro, the sitting, results, past sittings — Math. |
 | `app/(student)/sat/english/page.tsx` | Code box, intro, the sitting, results, past sittings — English. Sibling of the Math page: own session store, own service, but passes the SAME `SatRunner`. |
 | `app/(student)/sat/_components/SatRunner.tsx` | **The Bluebook-style runner, SHARED by Math and English** — module screens, timer, navigator, cross-out, flag, calculator, reference panel, a draggable two-pane split (question column / workspace column, plots/images in the workspace pane), an A-/A+ text-size control. English-only chrome. Takes `subjectName` (labels the module header) and `onSave` (which collection the result lands in) so it never imports a subject-specific Firestore write itself. |
-| `app/(student)/sat/_components/{SatCalculator,SatReferenceSheet,SatReview}.tsx` | The on-screen calculator (NOT Desmos — see below), the reference-formulas panel, and the per-question review grid. |
+| `app/(student)/sat/_components/{SatCalculator,SatBasicCalculator,SatReferenceSheet,SatReview}.tsx` | The on-screen calculator — `SatCalculator` is the floating window + header mode toggle + the "Graphing" mode (a self-built Desmos-style graphing calculator, no iframe — see below); `SatBasicCalculator` is the "Basic" mode (classic four-function) — `SatReferenceSheet` is the ~55-formula, 12-group reference panel (see below), and `SatReview` the per-question review grid. |
+| [lib/GraphCalc.ts](../lib/GraphCalc.ts) | **Pure** math engine behind `SatCalculator` — tokenizer, recursive-descent parser, tree-walking evaluator, and `buildGraph` (classifies expression-list rows into sliders/functions/explicit or implicit plots/bare values). No DOM, no Firestore; reusable if another runner ever needs a calculator. |
 | [lib/SatEnglishSession.ts](../lib/SatEnglishSession.ts) | English's browser-side sitting store — own localStorage key `sat:english:v1`, a sibling of `lib/SatSession.ts`. |
 
 ## Flows
@@ -476,6 +482,54 @@ leg would need yet another index). SAT English's picker gained `Shared` as a
 third source beside `Platform bank` and `Me`. Shared rows carry the uploader's
 name.
 
+### "AI bilan yaratish" — generate a module straight into the builder (2026-11-01)
+
+`SatBankPicker`'s bank axis gained a THIRD value, `ai`, alongside `My bank` /
+`Shared` — picking it swaps the whole picker area for
+[SatAiGenerator](../app/teacher/sat/math/_components/SatAiGenerator.tsx), not
+a Firestore query. Flow: pick one of the 4 `SAT_MATH_DOMAINS` + a difficulty
+(easy/medium/hard) + a count (3/5/8) → Generate → each draft renders read-only
+(stem, 4 options, the correct one checked) with **Edit**, **Remove** and
+**Add to module** per card, plus an **Add all** button. Pressing Edit swaps
+that ONE card into `TextArea`/`TextField`s for the stem and all 4 options,
+plus a letter button per option that reassigns which one is correct — exactly
+the two things the teacher asked for: change the question, choose the correct
+answer. **Add to module** calls the SAME `onAdd`/`addItem` path a hand-picked
+bank question uses (`checkSatAdd`'s duplicate/unsupported check included) —
+already-added drafts show `Added` via the same `picked` set the picker chips
+use.
+
+⚠️ **`mcq` only** — the exact scope limit the classroom-games AI generator
+already has (docs/GAMES.md's "AI bilan yaratish"); `numeric` (grid-in) items
+stay hand-authored via "Create a new question". The server route
+([app/api/teacher/sat/math/generate/route.ts](../app/api/teacher/sat/math/generate/route.ts))
+is a sibling of
+[app/api/teacher/games/questions/route.ts](../app/api/teacher/games/questions/route.ts):
+verified ID token → `role === 'teacher'` → the shared monthly AI credit gate
+(`checkUserPermission`/`deductMonthlyAiCredits`, docs/AI.md system B) →
+`generateMcqs` with a NEW prompt builder,
+`lib/ai/questionPrompts.ts::satMathQuestions` (one domain at a time, English
+only, "calculator-neutral", reuses `SOLUTION_RULE` and `checkMcqItems`'s
+solution-vs-answer verification — the SAME correctness check every other AI
+question generator in the repo gets, not a bespoke one). ⚠️ `toLocalized(str)`
+([lib/questionSchema.ts](../lib/questionSchema.ts)) files a bare name under
+`.uz`, not `.en` — the route reads `domain.name.uz` to get `SAT_MATH_DOMAINS`'
+English text, the same gotcha `SatAiGenerator`'s own domain chips and
+`satQuizItem()` already route around; don't "fix" it into `.en` (empty).
+
+**Nothing is saved server-side and no bank write happens** — same reasoning
+`checkSatAdd`'s "Building — one document, three item arrays, no refs" already
+established: a `SatQuizItem` is an embedded snapshot, so `SatAiGenerator`
+builds one directly from an approved draft (`draftToItem`, stem/options stored
+`{en: text, uz: '', ru: '' }` — the runner only ever reads `.en`, so the other
+two keys are honestly left blank rather than duplicated) and hands it straight
+to `onAdd`. It never goes through `toQuestionV1`/`TopicAssignModal`/
+`teacher_questions` — there is no "save to my bank" option here; regenerate or
+hand-author via the normal creator if the question should outlive this one
+test. `creatorId`/`creatorName` are still set from the signed-in teacher
+(`useAuth()`), so "who made it" still shows correctly mid-exam/in review
+(docs/QUESTIONS.md).
+
 ### The SAT practice bank → generated practice tests (2026-10-31)
 
 The import page has **two tabs** (`kind`): **Savollar (bazaga)** — the bank
@@ -577,6 +631,31 @@ screen-reader table). Teacher bank tab: `ModuleMixChart`, one stacked domain bar
 per difficulty. Domain colours are fixed slots (`satDomainSlot` → `--s-viz-N` /
 `--t-viz-N`), the same on both sides — see STUDENT_UI.md / UI_KIT.md.
 
+### Topic practice — **Learn by topic**, `/sat/topics?s=math|english` (2026-11-02)
+
+Its own page; the **subtopic is the unit** (Linear Equations, Quadratics,
+Circles… — 25 for Math; R&W's taxonomy has one per domain, so 4), not the
+domain. Reached from the `/sat` hub and from a link card
+(`SatTopicPractice`, "N topics · M questions") on each subject page.
+- **Cards** = `buildTopicSections` (`_components/satTopics.ts`): every
+  subtopic of `data/question_topics.json` for the subject, grouped under small
+  domain headings, each with its pool items. Untagged items → the domain's
+  only subtopic (R&W) or a per-domain **Mixed** card; unknown subtopic ids get
+  their own card. Subtopics with 0 questions stay, greyed ("No questions yet").
+- **Pool** = the mock pool (`loadSatMockSourcesCached` / `peekSatMockSources`,
+  5-min cache + in-flight dedupe shared with the mock card).
+- **Pick** = `pickFromPool` (`lib/SatPractice.ts`, pure): unseen first (past
+  results' `items` keys + ids practised this browser session), shuffled, then
+  easy → hard; 10 or 20 per set. (`pickTopicPractice` = domain/subtopic filter
+  + `pickFromPool`.)
+- **Sitting** = `SatPracticeSet`: one question at a time, Check → right/wrong +
+  answer + explanation, Skip allowed, summary + "New set". No modules, timer
+  or score curve; **no result doc**.
+- **Writes**: `recordTopicSet` — My Mistakes (`satMistakes`, testId
+  `satpt_<subtopicKey>`, skipped = `blank`, fire-and-forget) and per-subtopic
+  progress `{right,total,at}` in **localStorage** `edify-sat-topics:<uid>`
+  (key `<slug>|<subtopicKey>`) — device-local by design, no rules/index change.
+
 ### Analysis — `/sat/analysis` (2026-10-31)
 
 The student's own sittings, per subject (Math / Reading and Writing pills) and
@@ -654,19 +733,91 @@ a wholesale fork.
   question (answered/unanswered/flagged) with an explicit confirm dialog. On
   timeout this step is skipped entirely (matches the real test: a module ends
   when the clock does, with no extra step to click through).
-- **Calculator** (`SatCalculator`) — ⚠️ **NOT the real Desmos graphing
-  calculator** the actual digital SAT embeds. Desmos's embeddable API requires
-  an API key registered to this domain under Desmos's own terms
-  (desmos.com/api) — something only the account owner can obtain, so this ships
-  a small self-built four-function calculator (classic value+pending-operator
-  state machine, no `eval`/expression parsing of any kind) as a placeholder.
-  Swap it for the real Desmos embed once a key exists; nothing else about the
-  runner needs to change.
-- **Reference panel** (`SatReferenceSheet`) — ⚠️ **NOT a reproduction of College
-  Board's printed reference sheet** (a copyrighted graphic). It is an
-  originally-written list of the same standard, public, factual geometry/algebra
-  formulas (circle area, Pythagorean theorem, special right triangles, solid
-  volumes…), not an image or a copied layout.
+- **Calculator** (`SatCalculator`, 2026-11-01) — TWO modes behind a header
+  toggle (`Calculator`/`LineChart` icon pair, matches the real Bluebook
+  calculator's own basic/graphing split): **Basic** (`SatBasicCalculator.tsx`,
+  2026-11-01) is a classic four-function calculator — value+pending-operator
+  state machine (the SAME one `SatCalculator` used before it grew a graphing
+  mode), no `eval`/expression parsing of any kind, for a student who just
+  needs quick arithmetic without the graphing UI. **Graphing** (below, the
+  default mode) is a SELF-BUILT Desmos-style graphing calculator, not an
+  embed. The keyboard-icon keypad toggle (below) only shows in Graphing mode
+  — Basic has its own number pad built into its 4-column key grid. Mode is
+  local component state, resets to Graphing on reopen.
+  ⚠️ **Both modes stay MOUNTED, only hidden via `className` (`hidden` vs
+  `flex`), never conditionally rendered** — the graphing canvas's
+  `ResizeObserver` and native `wheel` listener are set up by effects with an
+  EMPTY dependency array (deliberately — they should attach once, not on every
+  render); conditionally rendering the graphing subtree unmounted/remounted
+  the `<canvas>` on every mode switch, and since those two effects never
+  re-ran, the new canvas was never observed/sized/drawn — a blank grid after
+  any round trip through Basic. Hiding instead of unmounting also means pan/
+  zoom position and the Basic calculator's in-progress display both survive a
+  mode switch, for free.
+  ⚠️ Deliberately NOT an
+  `<iframe src="https://www.desmos.com/calculator">` either — the public page
+  has no `X-Frame-Options`/CSP blocking that (so it was tried first), but it
+  lets a student navigate the real desmos.com (sign in, open saved graphs,
+  leave the locked exam surface) and depends on an external network call
+  mid-exam, neither acceptable for a timed test. Instead the whole engine is
+  own code: [lib/GraphCalc.ts](../lib/GraphCalc.ts) is a pure tokenizer →
+  recursive-descent parser → tree-walking evaluator (no `eval`/`Function` on
+  anything resembling user input) that classifies each expression-list row
+  into a slider (`a = 3`), a named function (`f(x) = x^2+1`, callable from
+  other rows as `f(x)`), an explicit function (`y = x^2`, `x = y^2`), an
+  implicit equation (`8x − 7y = 13y + 2`, `x^2+y^2=25`, anything of x/y — not
+  just linear/conic, any F(x,y)=G(x,y)), or a bare numeric value (shown as
+  `= 7`). `SatCalculator.tsx` is the canvas renderer on top: explicit
+  functions are sampled per pixel column/row (with an asymptote-jump
+  heuristic that breaks the path instead of drawing a near-vertical line
+  through a discontinuity like `tan(x)` or `1/x`); implicit equations are
+  traced with marching squares over a coarse pixel grid built from one
+  precomputed corner-value array (not 4 evals per cell). Pan (drag) and zoom
+  (wheel, centered on the cursor; +/− buttons; a Home button that refits to
+  the current panel size) work the same way regardless of plot kind. Floats
+  over the workspace pane, draggable by its header and resizable from the
+  bottom-right corner — a VISIBLE diagonal-line grip (2026-11-01; was an
+  invisible hit target only, easy to miss — see "fixed" below), pointer-capture
+  based, same convention as the pane divider below. A keyboard-icon toggle in
+  the header (2026-11-01) opens a virtual keypad — digits, `+−×÷`, `^`, `√`,
+  `()`, `x`/`y`, `π`/`e`, `sin`/`cos`/`tan`/`log`/`ln`/`abs`, backspace —
+  that inserts at the cursor of whichever expression row was last focused
+  (the trailing blank row if none was), function keys landing the cursor
+  BETWEEN the parens they insert so the next keystroke is the argument; lets
+  a student build an expression by tapping instead of knowing the typed
+  syntax (`sqrt(`, `pi`…). Expressions, slider drag positions, keypad
+  visibility, and the floating window's position/size are ALL local component
+  state, never persisted — reopening or reloading starts from one blank row
+  and the default view.
+  ⚠️ **Multi-letter slider/variable names are not supported on purpose** — a
+  bare multi-letter run with no `(` after it (e.g. `ty`) is always read as
+  implicit multiplication of single-letter variables (`t·y`), matching how
+  Desmos itself reads plain-typed multi-letter runs; only a name immediately
+  followed by `(` (`f(x) = …`) is unambiguous enough to register as a callable
+  multi-letter identifier. A slider is therefore always a single letter.
+- **Reference panel** (`SatReferenceSheet`, expanded 2026-11-02) — ⚠️ **NOT a
+  reproduction of College Board's printed reference sheet, or of any other
+  study site's formula-sheet graphic** (both are copyrighted layouts). It is
+  an originally-written, originally-grouped list of standard, public, factual
+  math formulas — the underlying facts aren't anyone's copyright, only a
+  particular graphic/layout of them is, and this is neither. 12 groups (Lines,
+  Quadratics, Exponents & radicals, Trigonometry, Area/circumference/angles,
+  Special right triangles, Solids, Circles & complex numbers, Sequences &
+  series, Rates/growth/interest, Algebra facts, Statistics & probability), ~55
+  formulas total — well beyond the handful College Board itself prints
+  (circle area, Pythagorean theorem, special right triangles, solid volumes…,
+  still included, now one group among many), since those are the ONLY ones
+  provided on the real exam and everything else (slope forms, the quadratic
+  formula, exponent/radical rules, trig ratios, sequences…) is left for the
+  student to already know. Each item is `{label, latex, note?}` — `note` is a
+  small muted line under the formula for what the variables mean or a case
+  split (e.g. the discriminant's three cases); `LatexRenderer`'s `auto-render`
+  finds `$…$` inside otherwise-plain text, so `note` can mix prose and math
+  freely. Dialog widened to `max-w-2xl` (`SatRunner.tsx`) and the panel itself
+  caps at `max-h-[65vh]` with its own scroll (`s-scroll` — the STUDENT kit's
+  scrollbar class; `custom-scrollbar` is teacher-only, scoped to
+  `:root[data-t-palette]`, and would silently do nothing here) so the title
+  stays fixed while ~55 formulas scroll underneath it.
 - **Two-pane split** (desktop only; mobile stays single-column) — a narrower
   question/options column on the left, a wider workspace column on the right
   that renders the question's `imageUrl` (plots/graphs), separated by a
@@ -896,10 +1047,12 @@ keyed by VALUE, so no new index was needed for the platform `creatorId`).
 - ⚠️ **`SatQuizItem` is not `ExamQuestion`.** Do not thread SAT data through
   `lib/ExamTeacher.ts` — its blueprint/`testType`/block machinery encodes the
   Milliy sertifikat DTM protocol, which has no meaning here.
-- ⚠️ **The calculator and reference panel are deliberate placeholders**, not
-  bugs to "fix" by embedding a real Desmos widget without first obtaining a
-  Desmos API key for this domain, and not by scraping/reproducing College
-  Board's printed reference sheet graphic.
+- ⚠️ **The reference panel is a deliberate placeholder** — an originally-written
+  formula list, not a bug to "fix" by scraping/reproducing College Board's
+  printed reference sheet graphic. The calculator, by contrast, is a genuine
+  full graphing calculator (above) — don't "fix" it into an iframe of
+  desmos.com; that was deliberately rejected (above) for letting a student
+  leave the locked exam surface mid-test.
 - ⚠️ **`SatRunner` is now genuinely shared by Math and English — don't fork it
   for a THIRD subject without first checking whether dependency injection
   (`subjectName`/`onSave`, the pattern English used) still covers the
@@ -943,8 +1096,11 @@ keyed by VALUE, so no new index was needed for the platform `creatorId`).
   a correctness bug — the `correct_answer`/choices are unaffected.
 - **The scaled score is an approximation** (above) — there is no path to the
   real College Board equating without their proprietary data.
-- **The calculator is not Desmos** (above) — a self-built substitute pending an
-  API key.
+- ~~The calculator is a four-function placeholder~~ — **fixed 2026-11-01**: a
+  self-built graphing calculator — explicit functions, implicit equations,
+  sliders, named functions (above). It is still NOT the actual Desmos
+  product (no iframe, deliberately — above); visual parity with Desmos, not
+  code reuse.
 - ~~No sample/starter test~~ — **fixed 2026-09-14**: the "Namunaviy variant"
   button (above) fills all three modules from `data/sat-math-default-paper.json`
   (Math only — see above for why English doesn't need one).
@@ -977,6 +1133,15 @@ keyed by VALUE, so no new index was needed for the platform `creatorId`).
    overwrite prompt.
 4. Set a low routing threshold on a throwaway test to make "easier" easy to
    trigger for testing.
+5. In a module tab's picker, switch the bank chip to **AI bilan yaratish**,
+   pick a domain + difficulty + count, press Generate — drafts appear with a
+   worked solution's answer agreeing with the checked option. Edit one draft's
+   stem and flip its correct option to a different letter, press Done, then
+   **Add to module** — the edited text/answer is what lands on the module
+   (not the original draft). Press **Add all** on the rest and confirm every
+   one appears, in order, with no duplicates if pressed twice. Exhaust the
+   monthly AI limit (or fake `currentLimits.monthlyAiQuestions` low in
+   Firestore) and confirm Generate disables with the limit banner.
 
 As a **student**, in another account:
 
@@ -991,7 +1156,19 @@ As a **student**, in another account:
 6. Exercise the Bluebook UI on a question: hide/show the timer, cross out an
    option (struck through, still selectable, toggle again to un-cross), flag a
    question and see it flagged in the navigator grid, open/close the
-   calculator (basic arithmetic works) and the reference panel, adjust text
+   calculator (type `y=x^2` — a parabola graphs; type `8x-7y=13y+2` — a line
+   graphs via the implicit path; type `a=3` — a slider appears, drag it and
+   confirm a row referencing `a` updates live; pan by dragging the graph,
+   zoom with the wheel and the +/− buttons, Home refits; drag its header to
+   move the whole panel, drag the visible grip in its bottom-right corner to
+   resize it; toggle the keyboard icon and tap `x`, `^`, `2` into a row —
+   confirm the row reads `x^2` and the caret stayed in the input; tap `sin`
+   and confirm the caret lands between the parens; switch the header toggle to
+   Basic — the graphing UI/keypad disappear, a plain `7 × 8 =` works and the
+   keyboard-icon toggle is gone; switch back to Graphing and confirm your
+   expressions are still there) and the reference panel (opens wide, all 12
+   groups render with no KaTeX errors, scrolls inside the dialog while the
+   title stays put), adjust text
    size with A-/A+ (question + option text visibly resizes, persists across a
    reload), drag the
    divider between the question and workspace columns (question column

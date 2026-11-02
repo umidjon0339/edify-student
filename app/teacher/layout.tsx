@@ -54,7 +54,6 @@ const LANG_STORAGE_KEY = 'edify-teacher-lang';
 // ============================================================================
 const LAYOUT_TRANSLATIONS = {
   uz: {
-    brandSubtitle: "O'QITUVCHI PORTALI",
     menu: { overview: "Boshqaruv", library: "Mening kutubxonam", classes: "Sinflar", onlineLibrary: "Onlayn Kitoblar", analytics: "Tahlillar", notifications: "Bildirishnomalar", subscription: "Obuna", profile: "Profil", ielts: "IELTS Moduli", milliy: "Milliy sertifikat", sat: "SAT", center: "Markazim", games: "O'yinlar" },
     menuShort: { library: "Kutubxonam", onlineLibrary: "Kitoblar", notifications: "Xabarlar", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Boshqaruv", create: "Yaratish", classes: "Sinflar", library: "Kutubxona", menu: "Menyu" },
@@ -65,7 +64,6 @@ const LAYOUT_TRANSLATIONS = {
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Chiqish" }
   },
   en: {
-    brandSubtitle: "TEACHER PORTAL",
     menu: { overview: "Dashboard", library: "Library", classes: "Classes", onlineLibrary: "Online Books", analytics: "Analytics", notifications: "Notifications", subscription: "Subscription", profile: "Profile", ielts: "IELTS Module", milliy: "Milliy sertifikat", sat: "SAT", center: "My Center", games: "Games" },
     menuShort: { library: "Library", onlineLibrary: "Books", notifications: "Alerts", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Home", create: "Create", classes: "Classes", library: "Library", menu: "Menu" },
@@ -76,7 +74,6 @@ const LAYOUT_TRANSLATIONS = {
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Sign Out" }
   },
   ru: {
-    brandSubtitle: "ПОРТАЛ УЧИТЕЛЯ",
     menu: { overview: "Обзор", library: "Библиотека", classes: "Классы", onlineLibrary: "Онлайн Книги", analytics: "Аналитика", notifications: "Уведомления", subscription: "Подписка", profile: "Профиль", ielts: "Модуль IELTS", milliy: "Milliy sertifikat", sat: "SAT", center: "Мой центр", games: "Игры" },
     menuShort: { library: "Библиотека", onlineLibrary: "Книги", notifications: "Инбокс", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Обзор", create: "Создать", classes: "Классы", library: "Книги", menu: "Меню" },
@@ -500,9 +497,6 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       <div className={cn("flex items-center gap-2.5 px-3.5 pt-4 pb-2 shrink-0 min-h-[64px]", collapsed && "flex-col gap-2 px-0 justify-center")}>
         <div className="flex items-center gap-2.5 overflow-hidden cursor-pointer min-w-0" onClick={() => router.push('/teacher/dashboard')}>
           <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="h-8 w-auto shrink-0" />
-          {!collapsed && (
-            <p className={cn("min-w-0 truncate text-[9.5px] font-semibold uppercase tracking-[0.14em]", STYLE.brandSub)}>{t.brandSubtitle}</p>
-          )}
         </div>
         {isMobile ? (
           <button onClick={() => setMobileMenuOpen(false)} aria-label="Yopish" className={cn("m3-interactive ml-auto p-2 rounded-full", STYLE.email)}>
@@ -741,7 +735,6 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
   const brandBlock = (
     <div className="flex items-center gap-2.5 cursor-pointer min-w-0 shrink-0" onClick={() => router.push('/teacher/dashboard')}>
       <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="h-7 w-auto shrink-0" />
-      <span className="hidden lg:block truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">{t.brandSubtitle}</span>
     </div>
   );
 
@@ -1016,7 +1009,13 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       onPointerDownCapture={(e) => { lastNavPointer.current = e.pointerType; }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpenNavGroup(null); }}
       className={cn(
-        "hidden md:grid grid-cols-[1fr_auto_1fr] items-center gap-4 absolute top-0 inset-x-0 z-40 h-[76px] px-4 lg:px-8",
+        // Below `xl` (covers iPad/tablet widths, where the centred grid below
+        // squeezes the right cluster into an overflowing sliver) this is a
+        // plain left-to-right flex row: brand + nav hug the left, the right
+        // cluster is pushed to the edge with ml-auto. Only `xl`+ (reliably
+        // wide enough) switches to the grid that centres the nav capsule on
+        // the page regardless of brand/right-cluster width.
+        "hidden md:flex xl:grid xl:grid-cols-[1fr_auto_1fr] items-center gap-4 absolute top-0 inset-x-0 z-40 h-[76px] px-4 lg:px-8",
         // No band: only the pills float; the page scrolls (visibly) behind
         // them. The empty strip lets clicks fall through to the page.
         "pointer-events-none [&>*]:pointer-events-auto",
@@ -1024,11 +1023,10 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       )}
     >
       {/* Brand */}
-      <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center gap-2.5 h-11 px-5 min-w-0 justify-self-start rounded-full">
+      <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center h-11 px-5 min-w-0 shrink-0 justify-self-start rounded-full">
         {/* Brand mark = the Edify logo alone (public/brand, cropped from the
             "Edify Math" artwork without "Math"). */}
-        <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[30px] w-auto shrink-0" />
-        <span className="hidden sm:block truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">{t.brandSubtitle}</span>
+        <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[30px] w-auto" />
       </Link>
 
       {/* Centre: the glass pill */}
@@ -1077,7 +1075,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       </nav>
 
       {/* Right cluster: language · light/dark · profile */}
-      <div className="flex items-center gap-2 justify-self-end">
+      <div className="flex items-center gap-2 ml-auto xl:ml-0 shrink-0 justify-self-end">
         {pillDropdown(
           'lang',
           <button
@@ -1295,9 +1293,8 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
                   <Menu size={20} />
                 </button>
               )}
-              <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center gap-2 h-10 px-4 rounded-full">
-                <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[24px] w-auto shrink-0" />
-                <span className="hidden sm:block truncate text-[9px] font-semibold uppercase tracking-[0.12em] text-on-surface-variant">{t.brandSubtitle}</span>
+              <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center h-10 px-4 rounded-full">
+                <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[24px] w-auto" />
               </Link>
             </div>
 

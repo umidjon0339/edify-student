@@ -599,7 +599,7 @@ export default function SatRunner({ uid, studentName, subjectName, snapshot, onC
         </div>
       </Dialog>
 
-      <Dialog open={showRef} onClose={() => setShowRef(false)} title={t.reference}>
+      <Dialog open={showRef} onClose={() => setShowRef(false)} title={t.reference} className="max-w-2xl">
         <SatReferenceSheet />
       </Dialog>
     </div>

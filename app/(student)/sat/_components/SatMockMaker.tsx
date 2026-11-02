@@ -7,7 +7,7 @@ import {
   SAT_MODULE_PLAN, generateSatPractice, satPracticeMinimum, type SatPracticeSubject,
 } from "@/lib/SatPractice";
 import { formatScoreBand } from "@/lib/SATscore";
-import { loadSatMockSources, type SatMockSources } from "@/services/satMockSourceService";
+import { loadSatMockSourcesCached, peekSatMockSources, type SatMockSources } from "@/services/satMockSourceService";
 import { Banner, Button, Card, Chip, Skeleton } from "@/components/student-ui";
 import type { SatMathResult, SatMathTest, SatMathTestDraft } from "@/types/SatQuiz";
 import { DomainMixBar, SatArt, ScoreHistoryChart, type SatVizSubject, type ScorePoint } from "./SatViz";
@@ -30,8 +30,8 @@ import { DomainMixBar, SatArt, ScoreHistoryChart, type SatVizSubject, type Score
  */
 
 /** Module-level caches per subject (student pages use 60s+ caches; mutations patch them). */
-const sourceCache = new Map<string, { at: number; data: SatMockSources }>();
-const SOURCE_TTL = 5 * 60_000;
+// The question pool's cache lives in satMockSourceService (shared with
+// "Practice by topic" on the same page — one set of reads).
 const mineCache = new Map<string, { at: number; tests: SatMathTest[] }>();
 const MINE_TTL = 60_000;
 const sharedCache = new Map<string, { at: number; tests: SatMathTest[] }>();
@@ -86,10 +86,7 @@ export default function SatMockMaker({
   const prefix = slug === "sat-matematika" ? "satp_" : "satep_";
   const mineKey = `${slug}:${uid}`;
 
-  const [sources, setSources] = useState<SatMockSources | null>(() => {
-    const hit = sourceCache.get(slug);
-    return hit && Date.now() - hit.at < SOURCE_TTL ? hit.data : null;
-  });
+  const [sources, setSources] = useState<SatMockSources | null>(() => peekSatMockSources(slug));
   const [mine, setMine] = useState<SatMathTest[] | null>(() => {
     const hit = mineCache.get(mineKey);
     return hit && Date.now() - hit.at < MINE_TTL ? hit.tests : null;
@@ -102,12 +99,10 @@ export default function SatMockMaker({
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const hit = sourceCache.get(slug);
-    if (hit && Date.now() - hit.at < SOURCE_TTL) return;
+    if (peekSatMockSources(slug)) return;
     let cancelled = false;
-    loadSatMockSources(slug)
+    loadSatMockSourcesCached(slug)
       .then((data) => {
-        sourceCache.set(slug, { at: Date.now(), data });
         if (!cancelled) setSources(data);
       })
       .catch((err) => {

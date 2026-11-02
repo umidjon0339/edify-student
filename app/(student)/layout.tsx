@@ -28,7 +28,7 @@ import { fetchMyCenters } from '@/services/studentCenterService';
 import '@/components/student-ui/theme.css';
 import {
   StudentThemeProvider, Shell, MobileDrawer, ConfirmDialog, ThemeWaveToggle,
-  Avatar, Flag, cn, MOTION_ON, DESIGN,
+  Avatar, Flag, cn, MOTION_ON,
   type NavItem,
 } from '@/components/student-ui';
 
@@ -59,7 +59,6 @@ const LAYOUT_TRANSLATIONS: any = {
     groups: { main: "Asosiy", exams: "Imtihonlar", resources: "Resurslar" },
     mobileMenu: "Menyu",
     topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til", notifications: "Bildirishnomalar", light: "Yorug'", dark: "Tun" },
-    brandSubtitle: "O'QUVCHI PORTALI",
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
   },
@@ -68,7 +67,6 @@ const LAYOUT_TRANSLATIONS: any = {
     groups: { main: "Main", exams: "Exams", resources: "Resources" },
     mobileMenu: "Menu",
     topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language", notifications: "Notifications", light: "Light", dark: "Dark" },
-    brandSubtitle: "STUDENT PORTAL",
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
   },
@@ -77,7 +75,6 @@ const LAYOUT_TRANSLATIONS: any = {
     groups: { main: "Главное", exams: "Экзамены", resources: "Ресурсы" },
     mobileMenu: "Меню",
     topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык", notifications: "Уведомления", light: "Светлая", dark: "Тёмная" },
-    brandSubtitle: "ПОРТАЛ УЧЕНИКА",
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
   }
@@ -275,12 +272,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   // Edify logo (public/brand). The pillbar shell wraps it in a glass pill;
   // the drawer/rail shells show it as-is.
   const brand = (
-    <Link href="/dashboard" aria-label="Edify" className="flex min-w-0 items-center gap-2">
-      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="s-brand-logo h-[26px] w-auto shrink-0" />
-      {/* `rail` is an icon-only strip (docs/STUDENT_UI.md § Shell variants) — no wordmark there. */}
-      {DESIGN.App_shell_navigation !== 'rail' && (
-        <span className="hidden sm:block truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">{t.brandSubtitle}</span>
-      )}
+    <Link href="/dashboard" aria-label="Edify" className="flex min-w-0 items-center">
+      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="s-brand-logo h-[26px] w-auto" />
     </Link>
   );
 
@@ -305,8 +298,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         <span className="s-num text-[13.5px] font-black">{stats.streak}</span>
       </Link>
 
-      {/* Language */}
-      <div className="relative hidden md:block">
+      {/* Language — a standalone pill only from `xl` up; on iPad/tablet
+          widths (and phones) it lives inside the profile menu instead, so
+          the pillbar's right cluster stays narrow enough not to get
+          squeezed (see the Shell.tsx header's md:flex xl:grid). */}
+      <div className="relative hidden xl:block">
         <button
           type="button"
           onClick={() => { setIsLangMenuOpen((o) => !o); setIsProfileMenuOpen(false); }}
@@ -373,10 +369,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               </div>
             </div>
 
-            {/* Language lives in this menu on phones (no room in the top bar).
-                A segmented flag control, not a native <select> — emoji flags
-                and OS pickers looked broken and off-brand. */}
-            <div className="px-1.5 py-2 md:hidden" role="radiogroup" aria-label={t.topbar.language}>
+            {/* Language lives in this menu below `xl` (phones + iPad/tablet —
+                no room in the top bar there). A segmented flag control, not
+                a native <select> — emoji flags and OS pickers looked broken
+                and off-brand. */}
+            <div className="px-1.5 py-2 xl:hidden" role="radiogroup" aria-label={t.topbar.language}>
               <p className="mb-2 px-1.5 text-[11px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.topbar.language}</p>
               <div className="grid grid-cols-3 gap-1 rounded-full bg-state-hover p-1">
                 {LANGUAGE_OPTIONS.map(l => (

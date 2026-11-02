@@ -279,11 +279,11 @@ export default function MaterialsTab({ classId }: { classId: string }) {
     <div className="space-y-4 md:space-y-6">
       
       {/* ACTIVE / ARCHIVED TOGGLE */}
-      <div className="flex p-1.5 bg-surface-container-high rounded-m3-lg shadow-inner max-w-xs mx-auto md:mx-0">
-        <button onClick={() => setShowArchived(false)} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-m3-md transition-all ${!showArchived ? 'bg-surface-container-lowest shadow-elev-1 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}>
+      <div className="t-glass-card flex p-1 rounded-full max-w-xs mx-auto md:mx-0">
+        <button onClick={() => setShowArchived(false)} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-full transition-all ${!showArchived ? 't-icon-chip' : 'text-on-surface-variant hover:text-on-surface'}`}>
           {t.tabs.active}
         </button>
-        <button onClick={() => setShowArchived(true)} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-m3-md transition-all ${showArchived ? 'bg-surface-container-lowest shadow-elev-1 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}>
+        <button onClick={() => setShowArchived(true)} className={`flex-1 py-2 text-[11px] md:text-[12px] font-bold rounded-full transition-all ${showArchived ? 't-icon-chip' : 'text-on-surface-variant hover:text-on-surface'}`}>
           {t.tabs.archived}
         </button>
       </div>
@@ -292,7 +292,7 @@ export default function MaterialsTab({ classId }: { classId: string }) {
       {loadingInitial ? (
         <div className="py-12 flex justify-center"><Spinner size={28}/></div>
       ) : materials.length === 0 ? (
-        <div className="bg-surface-container rounded-m3-lg md:rounded-m3-xl border border-dashed border-outline-variant">
+        <div className="t-glass-card rounded-m3-xl">
           <EmptyState
             icon={showArchived ? <Archive /> : <FileText />}
             title={showArchived ? t.empty.archiveTitle : t.empty.activeTitle}
@@ -311,30 +311,30 @@ export default function MaterialsTab({ classId }: { classId: string }) {
               <div 
                 key={mat.id} 
                 ref={isLastElement ? lastElementRef : null}
-                className={`bg-surface-container-low p-4 md:p-5 rounded-m3-lg border transition-all duration-300 shadow-elev-1 group flex flex-col justify-between ${
-                  !mat.isVisible ? 'border-dashed border-outline opacity-60 hover:opacity-100' : `border-outline-variant hover:shadow-elev-2 ${style.hover} hover:-translate-y-0.5 active:scale-[0.98] md:active:scale-100`
+                className={`t-glass-card p-4 md:p-5 rounded-m3-lg transition-all duration-300 group flex flex-col justify-between ${
+                  !mat.isVisible ? 'opacity-60 hover:opacity-100' : `hover:shadow-elev-2 hover:-translate-y-0.5 active:scale-[0.98] md:active:scale-100`
                 }`}
               >
                 <div className="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
-                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-m3-md border flex items-center justify-center shrink-0 shadow-inner ${style.bg} ${style.color} ${style.border}`}>
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shrink-0 ${style.bg} ${style.color}`}>
                     <IconComp size={20} strokeWidth={2.5} className="md:w-6 md:h-6 md:stroke-2" />
                   </div>
 
                   <div className="flex-1 min-w-0 pt-0.5">
                     <div className="flex flex-wrap items-center gap-1.5 mb-1 md:mb-1.5">
                       {mat.topicId && (
-                        <span className="bg-surface-container-highest text-on-surface-variant text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-m3-xs flex items-center gap-1 border border-outline-variant shadow-elev-1">
+                        <span className="t-icon-chip-soft text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1">
                           <Folder size={10}/> {mat.topicId}
                         </span>
                       )}
                       {!mat.isVisible && (
-                        <span className="bg-surface-container-highest text-on-surface-variant text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-m3-xs flex items-center gap-1 border border-outline-variant shadow-elev-1">
+                        <span className="t-icon-chip-soft text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1">
                           <EyeOff size={10}/> {t.labels.hidden}
                         </span>
                       )}
                     </div>
                     <h3 className="font-black text-[14px] md:text-[15px] text-on-surface truncate leading-snug">{mat.title}</h3>
-                    <p className="text-[11px] md:text-[12px] font-medium text-on-surface-variant truncate mt-0.5 md:mt-1">{mat.description || '...'}</p>
+                    {mat.description && <p className="text-[11px] md:text-[12px] font-medium text-on-surface-variant truncate mt-0.5 md:mt-1">{mat.description}</p>}
 
                     <div className="flex items-center gap-2 md:gap-3 mt-1.5 md:mt-2 text-[9px] md:text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
                       {mat.isExternal ? (
@@ -348,25 +348,25 @@ export default function MaterialsTab({ classId }: { classId: string }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 md:pt-4 border-t border-outline-variant">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
                   <a
                     href={mat.fileUrl} target="_blank" rel="noopener noreferrer"
-                    className={`px-4 py-2.5 md:py-2 rounded-m3-md text-[11px] md:text-[12px] font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${style.bg} ${style.color} hover:brightness-95 border ${style.border} text-center w-full sm:w-auto`}
+                    className="t-icon-chip px-4 py-2.5 md:py-2 rounded-full text-[11px] md:text-[12px] font-bold flex items-center justify-center gap-2 transition-all active:scale-95 hover:brightness-105 text-center w-full sm:w-auto"
                   >
                     {mat.isExternal ? <><ExternalLink size={14}/> {t.labels.view}</> : <><Download size={14}/> {t.labels.download}</>}
                   </a>
 
                   <div className="flex gap-1.5 justify-end w-full sm:w-auto">
-                    <button onClick={() => setConfirmDialog({ type: 'visibility', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-m3-md sm:rounded-m3-sm bg-surface-container text-on-surface-variant border border-outline-variant hover:bg-surface-container-high hover:text-on-surface flex items-center justify-center transition-colors active:scale-95" title={mat.isVisible ? t.tooltips.hide : t.tooltips.show}>
+                    <button onClick={() => setConfirmDialog({ type: 'visibility', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-full bg-[color-mix(in_oklab,var(--m3-on-surface)_6%,transparent)] text-on-surface-variant hover:text-on-surface hover:text-on-surface flex items-center justify-center transition-colors active:scale-95" title={mat.isVisible ? t.tooltips.hide : t.tooltips.show}>
                       {mat.isVisible ? <EyeOff size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/> : <Eye size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>}
                     </button>
-                    <button onClick={() => openEditModal(mat)} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-m3-md sm:rounded-m3-sm bg-primary-container text-on-primary-container border border-transparent hover:brightness-95 flex items-center justify-center transition-colors active:scale-95" title={t.tooltips.edit}>
+                    <button onClick={() => openEditModal(mat)} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-full bg-primary-container text-on-primary-container border border-transparent hover:brightness-95 flex items-center justify-center transition-colors active:scale-95" title={t.tooltips.edit}>
                       <Edit size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>
                     </button>
-                    <button onClick={() => setConfirmDialog({ type: 'archive', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-m3-md sm:rounded-m3-sm bg-warning-container text-on-warning-container border border-transparent hover:brightness-95 flex items-center justify-center transition-colors active:scale-95" title={mat.isArchived ? t.tooltips.unarchive : t.tooltips.archive}>
+                    <button onClick={() => setConfirmDialog({ type: 'archive', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-full bg-warning-container text-on-warning-container border border-transparent hover:brightness-95 flex items-center justify-center transition-colors active:scale-95" title={mat.isArchived ? t.tooltips.unarchive : t.tooltips.archive}>
                       {mat.isArchived ? <ArchiveRestore size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/> : <Archive size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>}
                     </button>
-                    <button onClick={() => setConfirmDialog({ type: 'delete', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-m3-md sm:rounded-m3-sm bg-error-container text-on-error-container border border-transparent hover:brightness-95 flex items-center justify-center transition-colors active:scale-95" title={t.tooltips.delete}>
+                    <button onClick={() => setConfirmDialog({ type: 'delete', mat })} className="flex-1 sm:flex-none w-auto sm:w-8 h-9 sm:h-8 rounded-full bg-error-container text-on-error-container border border-transparent hover:brightness-95 flex items-center justify-center transition-colors active:scale-95" title={t.tooltips.delete}>
                       <Trash2 size={16} className="sm:w-3.5 sm:h-3.5" strokeWidth={2.5}/>
                     </button>
                   </div>

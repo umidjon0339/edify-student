@@ -18,6 +18,7 @@ import {
 } from "@/services/satMathQuizService";
 import SatRunner from "../_components/SatRunner";
 import SatMockMaker from "../_components/SatMockMaker";
+import SatTopicPractice from "../_components/SatTopicPractice";
 import { clearMySatResults } from "../_components/satAnalysis";
 import SatReview from "../_components/SatReview";
 import SatScoreSummary from "../_components/SatScoreSummary";
@@ -315,6 +316,12 @@ export default function SatMathPage() {
               countMine={countMySatPracticeTests}
               save={saveSatMathTest}
               onReady={setPendingTest}
+            />
+
+            {/* Door to /sat/topics — learn subtopic by subtopic, not a mock. */}
+            <SatTopicPractice
+              subject="math"
+              slug="sat-matematika"
             />
 
             <Card className="flex flex-col gap-4 p-5">

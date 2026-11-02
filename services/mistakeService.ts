@@ -94,14 +94,21 @@ export async function listMistakes(
   studentId: string,
   opts: { resolved?: boolean; max?: number } = {},
 ): Promise<MistakeDoc[]> {
-  const max = opts.max ?? 100;
+  // No cap by default (2026-11-01): the page shows ALL of the tab's mistakes.
+  // A student's own rows only, so the read is bounded by what they missed.
+  const max = opts.max ?? Infinity;
   const base = [
     where("studentId", "==", studentId),
     where("resolved", "==", opts.resolved ?? false),
   ];
   try {
     const snap = await getDocs(
-      query(collection(db, COLLECTION), ...base, orderBy("lastMissedAt", "desc"), fbLimit(max)),
+      query(
+        collection(db, COLLECTION),
+        ...base,
+        orderBy("lastMissedAt", "desc"),
+        ...(Number.isFinite(max) ? [fbLimit(max)] : []),
+      ),
     );
     return snap.docs.map((d) => d.data() as MistakeDoc);
   } catch (err) {
@@ -110,6 +117,9 @@ export async function listMistakes(
     // load failed with failed-precondition and the page showed "Could not
     // load". Equality-only on two fields needs no composite index — read the
     // student's rows and sort here, so the bucket works either way.
+    // ⚠️ permission-denied here means the `student_mistakes` RULES are not
+    // live either (they shipped with the index) — no client fix for that:
+    // deploy firestore:rules.
     if ((err as { code?: string }).code !== "failed-precondition") throw err;
     const snap = await getDocs(query(collection(db, COLLECTION), ...base));
     return snap.docs

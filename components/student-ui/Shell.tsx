@@ -99,14 +99,19 @@ export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNa
         {pill ? (
           /* Edify style: only the pills are pinned — the page (and its canvas)
              scrolls behind them; no band, no border. */
-          <header className="sticky top-0 z-40 grid h-[68px] shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-3 sm:px-4">
-            {/* Equal 1fr side columns put the capsule on the page's centre line,
-                however wide the brand and the right-hand pills are. */}
-            <div className="s-glass flex h-11 items-center justify-self-start rounded-full px-4">{brand}</div>
+          <header className="sticky top-0 z-40 flex xl:grid h-[68px] shrink-0 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-3 sm:px-4">
+            {/* Equal 1fr side columns put the capsule on the page's centre line
+                — but only from `xl` up. Below that (iPad/tablet widths) the
+                minmax(0,1fr) side columns would shrink past their content's
+                size and squeeze the right cluster into an overflowing mess,
+                so it's a plain left-to-right flex row instead: brand + nav
+                hug the left, the right cluster is pushed to the edge with
+                ml-auto. */}
+            <div className="s-glass flex h-11 shrink-0 items-center justify-self-start rounded-full px-4">{brand}</div>
             <PillTabs items={items} isActive={isActive} groups={groups} />
             {/* col-start-3: on phones the capsule is display:none and would
                 otherwise let these slide into the middle column. */}
-            <div className="col-start-3 justify-self-end">{topbar}</div>
+            <div className="ml-auto shrink-0 xl:ml-0 xl:col-start-3 xl:justify-self-end">{topbar}</div>
           </header>
         ) : (
         <header
@@ -143,10 +148,12 @@ export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNa
           className={cn(
             'relative flex-1',
             // Clears the phone bar so content is never trapped underneath it.
-            isBar && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+16px)] md:pb-8',
-            mobile === 'floating' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+28px)] md:pb-8',
+            // The dock's own hide point is min-[950px] (pillbar iPad fix,
+            // 2026-11-01) — this has to match or content gets a dead gap.
+            isBar && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+16px)] min-[950px]:pb-8',
+            mobile === 'floating' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+28px)] min-[950px]:pb-8',
             // The iconic bar is ~8px shorter than the dock.
-            mobile === 'iconic' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+4px)] md:pb-8',
+            mobile === 'iconic' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+4px)] min-[950px]:pb-8',
           )}
         >
           {children}
@@ -402,7 +409,7 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
       aria-label="Main"
       onPointerDownCapture={(e) => { lastPointer.current = e.pointerType; }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpen(null); }}
-      className="s-glass hidden min-w-0 items-center gap-0.5 justify-self-center rounded-full p-1.5 md:flex"
+      className="s-glass hidden min-w-0 items-center gap-0.5 justify-self-center rounded-full p-1.5 min-[950px]:flex"
     >
       {direct.map(pillLink)}
       {grouped.map((g) => {
@@ -525,7 +532,7 @@ function MobileDock({
       <nav
         aria-label="Main"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around md:hidden',
+          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around min-[950px]:hidden',
           'border-t border-outline-variant bg-surface-blur px-2 pb-[var(--s-safe-b)] pt-1 backdrop-blur-xl',
         )}
       >
@@ -563,7 +570,7 @@ function MobileDock({
       <nav
         aria-label="Main"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around md:hidden',
+          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around min-[950px]:hidden',
           'border-t border-outline-variant bg-surface-blur px-2 pb-[var(--s-safe-b)] backdrop-blur-xl',
         )}
       >
@@ -609,7 +616,7 @@ function MobileDock({
     <nav
       aria-label="Main"
       className={cn(
-        'fixed z-40 flex items-stretch justify-around md:hidden',
+        'fixed z-40 flex items-stretch justify-around min-[950px]:hidden',
         floating
           ? 's-glass s-dock inset-x-4 bottom-[calc(var(--s-safe-b)+12px)] rounded-full px-2 py-1.5'
           : cn(
@@ -738,7 +745,7 @@ export function MobileDrawer({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[100] bg-scrim-bg backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-[100] bg-scrim-bg backdrop-blur-sm min-[950px]:hidden"
           />
           <motion.nav
             aria-label="Main"
@@ -746,7 +753,7 @@ export function MobileDrawer({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={MOTION_ON ? { duration: 0.24, ease: [0.2, 0, 0, 1] } : { duration: 0 }}
-            className="fixed inset-y-0 left-0 z-[101] flex w-[300px] max-w-[85vw] flex-col bg-surface-container-lowest shadow-elev-3 md:hidden"
+            className="fixed inset-y-0 left-0 z-[101] flex w-[300px] max-w-[85vw] flex-col bg-surface-container-lowest shadow-elev-3 min-[950px]:hidden"
           >
             <div className="flex h-16 shrink-0 items-center justify-between gap-2 px-4 pt-[var(--s-safe-t,0px)]">
               {brand}

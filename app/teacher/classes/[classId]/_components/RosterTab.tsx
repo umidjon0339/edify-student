@@ -246,7 +246,7 @@ export default function RosterTab({ classId, studentIds, readOnly = false, readO
 
   if (students.length === 0) {
     return (
-      <div className="bg-surface-container rounded-m3-lg border border-dashed border-outline-variant">
+      <div className="t-glass-card rounded-m3-xl">
         <EmptyState icon={<Users />} title={t.empty} className="py-14 md:py-16" />
       </div>
     );
@@ -286,7 +286,7 @@ export default function RosterTab({ classId, studentIds, readOnly = false, readO
 
       <div className="space-y-2">
         {readOnly && readOnlyHint && (
-          <div className="flex items-center gap-2.5 p-3 bg-tertiary-container/40 border border-outline-variant rounded-m3-lg">
+          <div className="t-glass-card flex items-center gap-2.5 p-3 rounded-m3-lg">
             <Users size={16} className="text-on-surface-variant shrink-0" />
             <p className="text-[12px] font-semibold text-on-surface-variant leading-snug">{readOnlyHint}</p>
           </div>
@@ -303,23 +303,25 @@ export default function RosterTab({ classId, studentIds, readOnly = false, readO
               tabIndex={!student.isDeleted ? 0 : undefined}
               onClick={() => handleShowDetails(student)}
               onKeyDown={(e) => { if (!student.isDeleted && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); handleShowDetails(student); } }}
-              className={`group flex items-center gap-3 p-3 md:p-4 rounded-m3-lg border bg-surface-container-low transition-all ${
+              className={`t-glass-card group flex items-center gap-3 p-3 md:p-4 rounded-m3-lg transition-all ${
                 student.isDeleted
-                  ? 'border-outline-variant opacity-70'
-                  : 'border-outline-variant cursor-pointer hover:border-outline hover:shadow-elev-2 hover:-translate-y-0.5 active:scale-[0.99] outline-none focus-visible:ring-2 focus-visible:ring-primary'
+                  ? 'opacity-70'
+                  : 'cursor-pointer hover:shadow-elev-2 hover:-translate-y-0.5 active:scale-[0.99] outline-none focus-visible:ring-2 focus-visible:ring-primary'
               }`}
             >
               {/* Number */}
               <span className="text-[12px] font-semibold text-on-surface-variant tabular-nums w-5 text-center shrink-0">{index + 1}</span>
 
               {/* Avatar */}
-              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[13px] bg-surface-container-highest text-on-surface-variant">
+              <div className="t-icon-chip-soft relative w-10 h-10 md:w-11 md:h-11 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[13px]">
                 {student.isDeleted ? (
                   <UserX size={18} className="text-on-surface-variant" />
-                ) : photo ? (
-                  <img src={photo} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  getInitials(student.displayName)
+                  <>
+                    {getInitials(student.displayName)}
+                    {/* Initials sit underneath; a dead photo URL hides itself instead of a broken-image icon. */}
+                    {photo && <img src={photo} alt="" onError={(e) => { e.currentTarget.style.display = 'none'; }} className="absolute inset-0 w-full h-full object-cover" />}
+                  </>
                 )}
               </div>
 
@@ -342,7 +344,7 @@ export default function RosterTab({ classId, studentIds, readOnly = false, readO
                   <button
                     onClick={(e) => handleRemoveClick(e, student)}
                     title={t.removeBtn}
-                    className="w-9 h-9 flex items-center justify-center rounded-m3-sm text-on-surface-variant hover:bg-error-container hover:text-error transition-colors active:scale-95"
+                    className="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-error-container hover:text-error transition-colors active:scale-95"
                   >
                     <Trash2 size={16} strokeWidth={2.25} />
                   </button>

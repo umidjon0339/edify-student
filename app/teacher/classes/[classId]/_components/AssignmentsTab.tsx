@@ -188,7 +188,7 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
     <>
       <div className="space-y-3 md:space-y-4">
         {assignments.length === 0 && (
-          <div className="py-8 bg-surface-container rounded-m3-lg border border-dashed border-outline-variant">
+          <div className="py-8 t-glass-card rounded-m3-xl">
             <EmptyState
               icon={<Clock />}
               title={t.emptyTitle}
@@ -227,10 +227,10 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                 key={a.id}
                 ref={isLastElement ? lastElementRef : null}
                 onClick={() => setSubmissionsData({ assignment: a, targetRequired, submittedCount, percent })}
-                className="bg-surface-container-low rounded-m3-lg border border-outline-variant p-4 hover:border-outline hover:shadow-elev-1 transition-all duration-200 cursor-pointer group flex flex-col md:flex-row md:items-center gap-4 active:scale-[0.98] md:active:scale-100"
+                className="t-glass-card rounded-m3-lg p-4 hover:shadow-elev-2 transition-all duration-200 cursor-pointer group flex flex-col md:flex-row md:items-center gap-4 active:scale-[0.98] md:active:scale-100"
               >
                 <div className="flex items-start gap-3 md:gap-4 flex-1 min-w-0">
-                  <div className={`w-10 h-10 rounded-m3-md flex items-center justify-center shrink-0 ${statusUI[status].bg} ${statusUI[status].text}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${statusUI[status].bg} ${statusUI[status].text}`}>
                     {statusUI[status].icon}
                   </div>
 
@@ -258,13 +258,13 @@ export default function AssignmentsTab({ classId, roster = [], totalRosterSize, 
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-outline-variant pl-14 md:pl-0">
+                <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6 w-full md:w-auto pt-1 md:pt-0 pl-14 md:pl-0">
                    <div className="flex flex-col w-32 shrink-0">
                      <div className="flex justify-between items-end mb-1.5">
                         <span className="text-[10px] md:text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">{submittedCount}/{targetRequired} {t.progress.submitted}</span>
                         <span className={`text-[10px] md:text-[11px] font-black ${percent === 100 ? 'text-success' : 'text-on-surface'}`}>{Math.round(percent)}%</span>
                      </div>
-                     <div className="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                     <div className="w-full h-1.5 bg-[color-mix(in_oklab,var(--m3-on-surface)_8%,transparent)] rounded-full overflow-hidden">
                         <div className={`h-full rounded-full transition-all duration-500 ${percent === 100 ? 'bg-success' : 'bg-primary'}`} style={{ width: `${percent}%` }}></div>
                      </div>
                    </div>

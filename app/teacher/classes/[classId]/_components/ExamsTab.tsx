@@ -110,7 +110,7 @@ export default function ExamsTab({ classId, roster, onAdd, onEdit }: any) {
 
   if (exams.length === 0) {
     return (
-      <div className="py-6 md:py-8 bg-surface-container-low rounded-m3-xl border-2 border-dashed border-outline-variant shadow-elev-1 mx-2 md:mx-0">
+      <div className="py-6 md:py-8 t-glass-card rounded-m3-xl mx-2 md:mx-0">
         <EmptyState
           icon={<FileBadge strokeWidth={2.5} />}
           title={t.empty.title}
@@ -145,13 +145,13 @@ export default function ExamsTab({ classId, roster, onAdd, onEdit }: any) {
               key={exam.id} 
               ref={isLastElement ? lastExamElementRef : null} 
               onClick={() => setViewingSubmissions({ exam, status })} 
-              className="bg-surface-container-low rounded-m3-lg border border-outline-variant p-4 md:p-5 shadow-elev-1 flex flex-col sm:flex-row justify-between gap-4 group hover:border-primary transition-all cursor-pointer active:scale-[0.98] sm:active:scale-100"
+              className="t-glass-card rounded-m3-lg p-4 md:p-5 flex flex-col sm:flex-row justify-between gap-4 group hover:shadow-elev-2 hover:-translate-y-0.5 transition-all cursor-pointer active:scale-[0.98] sm:active:scale-100"
             >
 
               <div className="flex items-start md:items-center gap-3 md:gap-4 min-w-0">
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-m3-sm md:rounded-m3-md flex items-center justify-center shrink-0 border transition-colors ${
-                  status === 'active' ? 'bg-primary text-on-primary shadow-elev-2 border-primary animate-pulse' :
-                  status === 'scheduled' ? 'bg-primary-container text-on-primary-container border-transparent' : 'bg-surface-container-highest text-on-surface-variant border-outline-variant'
+                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                  status === 'active' ? 't-icon-chip animate-pulse' :
+                  status === 'scheduled' ? 't-icon-chip-soft' : 'bg-surface-container-highest text-on-surface-variant'
                 }`}>
                   {status === 'active' ? <Play size={18} className="ml-0.5 md:w-5 md:h-5" fill="currentColor"/> : status === 'scheduled' ? <Clock size={18} className="md:w-5 md:h-5" strokeWidth={2.5}/> : <Lock size={18} className="md:w-5 md:h-5" strokeWidth={2.5}/>}
                 </div>
@@ -159,7 +159,7 @@ export default function ExamsTab({ classId, roster, onAdd, onEdit }: any) {
                 <div className="min-w-0 pr-2">
                   <h3 className="font-black text-[14px] md:text-[16px] text-on-surface group-hover:text-primary transition-colors truncate leading-snug">{exam.title}</h3>
                   <div className="flex flex-wrap items-center gap-x-2 md:gap-3 gap-y-1 mt-1 md:mt-1.5 text-[10px] md:text-[12px] font-bold text-on-surface-variant">
-                    <span className="uppercase tracking-widest text-on-primary-container bg-primary-container px-1.5 py-0.5 rounded-m3-xs">{exam.assessmentType}</span>
+                    <span className="t-icon-chip-soft uppercase tracking-widest px-2 py-0.5 rounded-full">{exam.assessmentType}</span>
                     <span className="hidden sm:inline">•</span>
                     <span>{examDate.toLocaleDateString()} {examDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                     <span>•</span>
@@ -168,9 +168,9 @@ export default function ExamsTab({ classId, roster, onAdd, onEdit }: any) {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 border-t border-outline-variant sm:border-0 pt-3 sm:pt-0 w-full sm:w-auto shrink-0">
-                 <div className="flex items-center gap-1.5 text-[11px] md:text-[12px] font-black text-on-surface-variant uppercase tracking-widest bg-surface-container px-3 py-1.5 rounded-m3-sm border border-outline-variant">
-                    <Users size={14} className="text-primary"/>
+              <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 pt-1 sm:pt-0 w-full sm:w-auto shrink-0">
+                 <div className="t-icon-chip-soft flex items-center gap-1.5 text-[11px] md:text-[12px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full">
+                    <Users size={14}/>
                     {exam.submittedStudentIds?.length || 0} / {roster.length}
                  </div>
 
@@ -180,10 +180,10 @@ export default function ExamsTab({ classId, roster, onAdd, onEdit }: any) {
                    {/* QUICK TOGGLE VISIBILITY */}
                    <button
                      onClick={(e) => toggleVisibility(e, exam)}
-                     className={`w-8 h-8 md:w-10 md:h-10 rounded-m3-sm md:rounded-m3-md flex items-center justify-center transition-all border active:scale-95 ${
+                     className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all active:scale-95 ${
                        isHidden
-                         ? 'bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border-outline-variant'
-                         : 'bg-success-container text-on-success-container border-success shadow-elev-1'
+                         ? 'text-on-surface-variant hover:text-on-surface hover:bg-[color-mix(in_oklab,var(--m3-on-surface)_8%,transparent)]'
+                         : 'bg-success-container text-on-success-container'
                      }`}
                      title={isHidden ? t.hiddenTitle : t.visibleTitle}
                    >
@@ -193,14 +193,14 @@ export default function ExamsTab({ classId, roster, onAdd, onEdit }: any) {
                    {/* EDIT EXAM */}
                    <button
                      onClick={(e) => { e.stopPropagation(); onEdit(exam); }}
-                     className="w-8 h-8 md:w-10 md:h-10 bg-surface-container rounded-m3-sm md:rounded-m3-md flex items-center justify-center text-on-surface-variant hover:text-on-primary-container hover:bg-primary-container transition-colors border border-outline-variant active:scale-95"
+                     className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-primary-container hover:bg-primary-container transition-colors active:scale-95"
                      title={t.edit}
                    >
                      <Edit2 size={16} className="md:w-[18px] md:h-[18px]" strokeWidth={2.5}/>
                    </button>
 
                    {/* ENTER SUBMISSIONS */}
-                   <div className="w-8 h-8 md:w-10 md:h-10 bg-surface-container rounded-m3-sm md:rounded-m3-md flex items-center justify-center text-on-surface-variant group-hover:text-on-primary-container group-hover:bg-primary-container transition-colors border border-outline-variant">
+                   <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-on-surface-variant group-hover:bg-primary group-hover:text-on-primary transition-colors">
                      <ChevronRight size={18} className="md:w-5 md:h-5" strokeWidth={3}/>
                    </div>
 

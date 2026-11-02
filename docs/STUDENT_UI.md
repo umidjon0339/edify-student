@@ -95,8 +95,8 @@ The student app wears the same look as the teacher panel ("Edify style"):
   current page wears the gliding `.s-chip` pill. Hover opens (160 ms close
   delay, `pt-3` bridge), click toggles, Escape closes. Other shells ignore
   `group`. The window scrolls; content passes behind the pills.
-- **Phones** — `Mobile_navigation: 'floating'` = `.s-glass .s-dock` pill with the
-  accent pill on the active tab.
+- **Phones (and iPad/tablet, below `min-[950px]`)** — `Mobile_navigation:
+  'floating'` = `.s-glass .s-dock` pill with the accent pill on the active tab.
   **The 5th tab is "Menu"** (2026-11-01, teacher parity): when the layout
   passes `onOpenMobileNav`, dock/floating bars show 4 destinations + a ☰ Menu
   tab (`menuLabel`, localized) that opens `MobileDrawer`. IELTS left the dock
@@ -104,14 +104,26 @@ The student app wears the same look as the teacher panel ("Edify style"):
   the `pillCta` item (My Mistakes) as a full-width `.s-chip` button, Main /
   Exams (tinted box + aqua dot) / Resources sections (ungrouped items join the
   first), and a `footer` user row → /profile. `hideInPillbar` items are left
-  out of the sections (Profile is the footer).
+  out of the sections (Profile is the footer). ⚠️ The dock's hide point (and
+  `MobileDrawer`'s, and the nav capsule's reveal point, and `<main>`'s dock
+  bottom-padding) is `min-[950px]`, not `md` (2026-11-01) — on iPad/tablet
+  widths the dock stays the primary nav instead of the pillbar's centre
+  capsule competing for space; the brand logo + language/theme/avatar cluster
+  still shows at every width (that row was never gated by a breakpoint).
 - **`--s-topbar-h` is 68px under `pillbar`** (set inline on the Shell root) —
   pages' sticky bars use `top-[var(--s-topbar-h)]`, so they clear the pills.
   `Button_style` default is `pill` (was `game`).
-- **The capsule is centred on the PAGE** (2026-11-01): the header grid is
-  `minmax(0,1fr) auto minmax(0,1fr)` — equal side columns — so it sits on the
-  centre line however wide the brand and the right-hand pills are (the old
-  `auto 1fr auto` centred it only between them, i.e. off-centre).
+- **The capsule is centred on the PAGE, but only from `xl` (1280px) up**
+  (2026-11-01, tweaked 2026-11-01): the header grid is `minmax(0,1fr) auto
+  minmax(0,1fr)` — equal side columns — so it sits on the centre line however
+  wide the brand and the right-hand pills are (the old `auto 1fr auto`
+  centred it only between them, i.e. off-centre). ⚠️ Below `xl` (iPad/tablet
+  widths) the `minmax(0,1fr)` columns can shrink past their content's size,
+  squeezing the right cluster into an overflowing mess — so under `xl` the
+  header is a plain left-to-right flex row instead (brand + nav hug the left,
+  the right cluster sits at the edge via `ml-auto`). Same fix mirrored in the
+  teacher pillbar (`app/teacher/layout.tsx` `desktopPillbar`, plain `1fr`
+  columns there, switches `md:flex xl:grid`).
 - Page pieces in the style: the library header is a floating `.s-glass` bar
   and its level filter a pill capsule (`.s-chip` on the selection); the
   dashboard announcements are an **endless marquee of compact cards**
