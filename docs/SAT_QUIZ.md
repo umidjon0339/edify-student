@@ -72,8 +72,9 @@ What IS reused, deliberately: the whole v1 question-authoring pipeline
 (`toQuestionV1`/`normalizeQuestion`, `/teacher/create/question`, the
 `?back=`/`?add=`/`?subject=` round trip via
 [returnTo.ts](../app/teacher/create/_components/returnTo.ts)), the topic
-taxonomy mechanism, `useExamLockdown` (full-screen + interruption detection,
-unchanged), and the `createSessionStore` PATTERN (`lib/SatSession.ts` is a
+taxonomy mechanism, `useExamLockdown` (full-screen + interruption detection;
+gained one SAT-triggered exception, below — every other caller unaffected),
+and the `createSessionStore` PATTERN (`lib/SatSession.ts` is a
 sibling implementation of the same factory in
 [lib/Examsession.ts](../lib/Examsession.ts), not a shared instantiation — SAT's
 snapshot shape is different enough, and its own localStorage key, that
@@ -120,8 +121,7 @@ three callers already depending on it).
 | `app/(student)/sat/math/page.tsx` | Code box, intro, the sitting, results, past sittings — Math. |
 | `app/(student)/sat/english/page.tsx` | Code box, intro, the sitting, results, past sittings — English. Sibling of the Math page: own session store, own service, but passes the SAME `SatRunner`. |
 | `app/(student)/sat/_components/SatRunner.tsx` | **The Bluebook-style runner, SHARED by Math and English** — module screens, timer, navigator, cross-out, flag, calculator, reference panel, a draggable two-pane split (question column / workspace column, plots/images in the workspace pane), an A-/A+ text-size control. English-only chrome. Takes `subjectName` (labels the module header) and `onSave` (which collection the result lands in) so it never imports a subject-specific Firestore write itself. |
-| `app/(student)/sat/_components/{SatCalculator,SatBasicCalculator,SatReferenceSheet,SatReview}.tsx` | The on-screen calculator — `SatCalculator` is the floating window + header mode toggle + the "Graphing" mode (a self-built Desmos-style graphing calculator, no iframe — see below); `SatBasicCalculator` is the "Basic" mode (classic four-function) — `SatReferenceSheet` is the ~55-formula, 12-group reference panel (see below), and `SatReview` the per-question review grid. |
-| [lib/GraphCalc.ts](../lib/GraphCalc.ts) | **Pure** math engine behind `SatCalculator` — tokenizer, recursive-descent parser, tree-walking evaluator, and `buildGraph` (classifies expression-list rows into sliders/functions/explicit or implicit plots/bare values). No DOM, no Firestore; reusable if another runner ever needs a calculator. |
+| `app/(student)/sat/_components/{SatCalculator,SatReferenceSheet,SatReview}.tsx` | `SatCalculator` is the floating window (draggable/resizable) + header mode toggle between three REAL Desmos products, each iframed — Basic/Scientific/Graphing (see below); `SatReferenceSheet` is the ~55-formula, 12-group reference panel (see below); `SatReview` is the per-question review grid. |
 | [lib/SatEnglishSession.ts](../lib/SatEnglishSession.ts) | English's browser-side sitting store — own localStorage key `sat:english:v1`, a sibling of `lib/SatSession.ts`. |
 
 ## Flows
@@ -704,7 +704,14 @@ that Module 1 is complete.
 
 `SatRunner` is a `fixed inset-0 z-[100]` overlay, the same convention
 `ExamRunner` established (callers must not wrap it in a `<Page>`), and reuses
-`useExamLockdown` unchanged for full-screen + interruption detection. Its own
+`useExamLockdown` for full-screen + interruption detection — the hook gained
+ONE exception FOR SAT (2026-11-03, docs/STUDENT.md): clicking into the
+calculator's Desmos iframe used to fire `window.blur` and count as "leaving
+the test" (false positive — SAT is the only runner with an iframe anywhere
+in it); `onBlur` now skips `leave()` when `document.activeElement` is an
+`IFRAME`, while `visibilitychange` (a real tab/app switch) is untouched.
+Every other caller of the hook is unaffected — none of them render an
+iframe. Its own
 state machine (`SatRunnerPhase`): `module1 → module1-review → transition →
 module2 → module2-review → submitted`. Bluebook-format additions `ExamRunner`
 has no equivalent of:
@@ -733,68 +740,53 @@ a wholesale fork.
   question (answered/unanswered/flagged) with an explicit confirm dialog. On
   timeout this step is skipped entirely (matches the real test: a module ends
   when the clock does, with no extra step to click through).
-- **Calculator** (`SatCalculator`, 2026-11-01) — TWO modes behind a header
-  toggle (`Calculator`/`LineChart` icon pair, matches the real Bluebook
-  calculator's own basic/graphing split): **Basic** (`SatBasicCalculator.tsx`,
-  2026-11-01) is a classic four-function calculator — value+pending-operator
-  state machine (the SAME one `SatCalculator` used before it grew a graphing
-  mode), no `eval`/expression parsing of any kind, for a student who just
-  needs quick arithmetic without the graphing UI. **Graphing** (below, the
-  default mode) is a SELF-BUILT Desmos-style graphing calculator, not an
-  embed. The keyboard-icon keypad toggle (below) only shows in Graphing mode
-  — Basic has its own number pad built into its 4-column key grid. Mode is
-  local component state, resets to Graphing on reopen.
-  ⚠️ **Both modes stay MOUNTED, only hidden via `className` (`hidden` vs
-  `flex`), never conditionally rendered** — the graphing canvas's
-  `ResizeObserver` and native `wheel` listener are set up by effects with an
-  EMPTY dependency array (deliberately — they should attach once, not on every
-  render); conditionally rendering the graphing subtree unmounted/remounted
-  the `<canvas>` on every mode switch, and since those two effects never
-  re-ran, the new canvas was never observed/sized/drawn — a blank grid after
-  any round trip through Basic. Hiding instead of unmounting also means pan/
-  zoom position and the Basic calculator's in-progress display both survive a
-  mode switch, for free.
-  ⚠️ Deliberately NOT an
-  `<iframe src="https://www.desmos.com/calculator">` either — the public page
-  has no `X-Frame-Options`/CSP blocking that (so it was tried first), but it
-  lets a student navigate the real desmos.com (sign in, open saved graphs,
-  leave the locked exam surface) and depends on an external network call
-  mid-exam, neither acceptable for a timed test. Instead the whole engine is
-  own code: [lib/GraphCalc.ts](../lib/GraphCalc.ts) is a pure tokenizer →
-  recursive-descent parser → tree-walking evaluator (no `eval`/`Function` on
-  anything resembling user input) that classifies each expression-list row
-  into a slider (`a = 3`), a named function (`f(x) = x^2+1`, callable from
-  other rows as `f(x)`), an explicit function (`y = x^2`, `x = y^2`), an
-  implicit equation (`8x − 7y = 13y + 2`, `x^2+y^2=25`, anything of x/y — not
-  just linear/conic, any F(x,y)=G(x,y)), or a bare numeric value (shown as
-  `= 7`). `SatCalculator.tsx` is the canvas renderer on top: explicit
-  functions are sampled per pixel column/row (with an asymptote-jump
-  heuristic that breaks the path instead of drawing a near-vertical line
-  through a discontinuity like `tan(x)` or `1/x`); implicit equations are
-  traced with marching squares over a coarse pixel grid built from one
-  precomputed corner-value array (not 4 evals per cell). Pan (drag) and zoom
-  (wheel, centered on the cursor; +/− buttons; a Home button that refits to
-  the current panel size) work the same way regardless of plot kind. Floats
-  over the workspace pane, draggable by its header and resizable from the
-  bottom-right corner — a VISIBLE diagonal-line grip (2026-11-01; was an
-  invisible hit target only, easy to miss — see "fixed" below), pointer-capture
-  based, same convention as the pane divider below. A keyboard-icon toggle in
-  the header (2026-11-01) opens a virtual keypad — digits, `+−×÷`, `^`, `√`,
-  `()`, `x`/`y`, `π`/`e`, `sin`/`cos`/`tan`/`log`/`ln`/`abs`, backspace —
-  that inserts at the cursor of whichever expression row was last focused
-  (the trailing blank row if none was), function keys landing the cursor
-  BETWEEN the parens they insert so the next keystroke is the argument; lets
-  a student build an expression by tapping instead of knowing the typed
-  syntax (`sqrt(`, `pi`…). Expressions, slider drag positions, keypad
-  visibility, and the floating window's position/size are ALL local component
-  state, never persisted — reopening or reloading starts from one blank row
-  and the default view.
-  ⚠️ **Multi-letter slider/variable names are not supported on purpose** — a
-  bare multi-letter run with no `(` after it (e.g. `ty`) is always read as
-  implicit multiplication of single-letter variables (`t·y`), matching how
-  Desmos itself reads plain-typed multi-letter runs; only a name immediately
-  followed by `(` (`f(x) = …`) is unambiguous enough to register as a callable
-  multi-letter identifier. A slider is therefore always a single letter.
+- **Calculator** (`SatCalculator`, rewritten 2026-11-03) — THREE modes behind
+  a header toggle (`Calculator`/`Sigma`/`LineChart` icon triplet): **Basic**
+  (`desmos.com/fourfunction`), **Scientific** (`desmos.com/scientific`), and
+  **Graphing** (`desmos.com/calculator`, the default mode) — each the REAL
+  official Desmos product, iframed. ⚠️ **2026-11-03 reversed the prior
+  decision to self-build these** (a hand-rolled four-function calculator, and
+  separately a whole Desmos-style graphing engine — tokenizer/parser/
+  evaluator/canvas renderer, since deleted along with `lib/GraphCalc.ts` and
+  `SatBasicCalculator.tsx`). That earlier choice was deliberate (see the
+  "Known issues" entry below for the trade-off it was avoiding): an iframe
+  lets a student navigate the real desmos.com from inside it — sign in, open
+  a saved graph, use whichever of the three calculators they want without a
+  mode toggle at all — and needs network mid-exam, neither true of a
+  self-built substitute. The explicit instruction to switch to the real
+  products overrode that concern; **anyone revisiting this should know BOTH
+  directions were tried and are real, working, kept-in-history options** —
+  check git log before re-litigating either way. The public desmos.com pages
+  (all three) set no `X-Frame-Options`/CSP `frame-ancestors`, so a bare
+  iframe works with no API key (`desmos.com/api`, which needs one registered
+  to this domain, is still not used anywhere).
+  Each mode's iframe is **lazily mounted** — only once the student first
+  switches to it — but then **stays mounted, hidden via `className` (`hidden`
+  vs `flex`), never unmounted** for the rest of the session: unmounting would
+  reload Desmos from the network and lose whatever the student had typed into
+  it, the same class of bug the self-built graphing canvas hit when its mode
+  was conditionally rendered instead of hidden (see git history/"Known
+  issues"). Draggable (header) and resizable (a visible diagonal-line grip in
+  the bottom-right corner, 24×24 hit area), pointer-capture based, same
+  convention as the pane divider below. Mode, position and size are local
+  component state only, never persisted — reopening or reloading starts from
+  Graphing mode and the default geometry.
+  ⚠️ **Position is explicit pixels (`position: fixed`, `pos.{left,top}`), not
+  a `transform: translate` offset layered on the caller's CSS-anchored wrapper
+  — fixed 2026-11-03.** `SatRunner` mounts this inside a `right-3`-positioned
+  wrapper; an element with `right` set and no explicit `width` shrink-wraps to
+  its content and recomputes its LEFT edge whenever that width changes, so
+  resizing `size.w` silently moved the box's left edge while the resize
+  handle (pinned to the box's own right edge, which the wrapper keeps fixed
+  on screen) never visually moved — reported as "resizing left makes it go
+  right," i.e. the drag didn't track the cursor horizontally at all. Fix:
+  `pos` is lazily captured via `getBoundingClientRect()` the first time the
+  student drags OR resizes, at which point the component switches itself to
+  `position: fixed` and owns its screen position outright; from then on
+  resize only changes `size.{w,h}` with the top-left corner pinned (so the
+  handle tracks the cursor correctly both ways), and drag only changes
+  `pos.{left,top}`. Before the first interaction the wrapper's CSS anchoring
+  still places it, unchanged.
 - **Reference panel** (`SatReferenceSheet`, expanded 2026-11-02) — ⚠️ **NOT a
   reproduction of College Board's printed reference sheet, or of any other
   study site's formula-sheet graphic** (both are copyrighted layouts). It is
@@ -1049,10 +1041,12 @@ keyed by VALUE, so no new index was needed for the platform `creatorId`).
   Milliy sertifikat DTM protocol, which has no meaning here.
 - ⚠️ **The reference panel is a deliberate placeholder** — an originally-written
   formula list, not a bug to "fix" by scraping/reproducing College Board's
-  printed reference sheet graphic. The calculator, by contrast, is a genuine
-  full graphing calculator (above) — don't "fix" it into an iframe of
-  desmos.com; that was deliberately rejected (above) for letting a student
-  leave the locked exam surface mid-test.
+  printed reference sheet graphic. The calculator, by contrast, IS iframed
+  desmos.com now (above, 2026-11-03) — a prior version of this doc warned
+  against that specific "fix"; it was deliberately reversed on explicit
+  instruction. Don't flip it back to a self-built substitute without the
+  same instruction — check git log/this doc's dates before assuming either
+  direction is the mistake.
 - ⚠️ **`SatRunner` is now genuinely shared by Math and English — don't fork it
   for a THIRD subject without first checking whether dependency injection
   (`subjectName`/`onSave`, the pattern English used) still covers the
@@ -1096,11 +1090,14 @@ keyed by VALUE, so no new index was needed for the platform `creatorId`).
   a correctness bug — the `correct_answer`/choices are unaffected.
 - **The scaled score is an approximation** (above) — there is no path to the
   real College Board equating without their proprietary data.
-- ~~The calculator is a four-function placeholder~~ — **fixed 2026-11-01**: a
-  self-built graphing calculator — explicit functions, implicit equations,
-  sliders, named functions (above). It is still NOT the actual Desmos
-  product (no iframe, deliberately — above); visual parity with Desmos, not
-  code reuse.
+- ~~The calculator is a four-function placeholder~~ — went through TWO fixes:
+  **2026-11-01**, a self-built Desmos-style graphing engine (explicit/implicit
+  functions, sliders, named functions — deliberately NOT an iframe, to keep a
+  student inside the locked exam surface); **2026-11-03**, reversed to the
+  REAL Desmos products (Basic/Scientific/Graphing, iframed — above), on
+  explicit instruction, accepting the trade-off the first fix was avoiding.
+  The self-built engine (`lib/GraphCalc.ts`, `SatBasicCalculator.tsx`) is
+  deleted, not dead code kept around — don't resurrect it by habit.
 - ~~No sample/starter test~~ — **fixed 2026-09-14**: the "Namunaviy variant"
   button (above) fills all three modules from `data/sat-math-default-paper.json`
   (Math only — see above for why English doesn't need one).
@@ -1156,17 +1153,17 @@ As a **student**, in another account:
 6. Exercise the Bluebook UI on a question: hide/show the timer, cross out an
    option (struck through, still selectable, toggle again to un-cross), flag a
    question and see it flagged in the navigator grid, open/close the
-   calculator (type `y=x^2` — a parabola graphs; type `8x-7y=13y+2` — a line
-   graphs via the implicit path; type `a=3` — a slider appears, drag it and
-   confirm a row referencing `a` updates live; pan by dragging the graph,
-   zoom with the wheel and the +/− buttons, Home refits; drag its header to
-   move the whole panel, drag the visible grip in its bottom-right corner to
-   resize it; toggle the keyboard icon and tap `x`, `^`, `2` into a row —
-   confirm the row reads `x^2` and the caret stayed in the input; tap `sin`
-   and confirm the caret lands between the parens; switch the header toggle to
-   Basic — the graphing UI/keypad disappear, a plain `7 × 8 =` works and the
-   keyboard-icon toggle is gone; switch back to Graphing and confirm your
-   expressions are still there) and the reference panel (opens wide, all 12
+   calculator (the real Desmos graphing calculator loads at `desmos.com/calculator`
+   inside the panel — type `y=x^2`, confirm it graphs; drag its header to
+   move the whole panel; drag the visible grip in its bottom-right corner
+   RIGHT to grow it, then LEFT to shrink it — confirm it tracks the cursor
+   both ways and the panel's TOP-LEFT corner stays put while only the
+   bottom-right moves (the thing that was broken: shrinking used to look like
+   it was growing the other way); switch the header toggle to Scientific — `desmos.com/scientific`
+   loads; switch to Basic — `desmos.com/fourfunction` loads; switch back to
+   Graphing and confirm your typed expression is STILL there, i.e. it didn't
+   reload — each mode mounts once and then just hides/shows) and the
+   reference panel (opens wide, all 12
    groups render with no KaTeX errors, scrolls inside the dialog while the
    title stays put), adjust text
    size with A-/A+ (question + option text visibly resizes, persists across a
@@ -1177,7 +1174,10 @@ As a **student**, in another account:
    inline under the question on mobile, reload
    mid-module and confirm it resumes with no extra reads, drop out of full
    screen and confirm the interruption overlay fires with a live count
-   (`useExamLockdown`, unchanged behavior from the other exams).
+   (`useExamLockdown`, unchanged behavior from the other exams); open the
+   calculator and click into the Desmos iframe — confirm NO interruption
+   fires and the count does not increase, then actually switch browser tabs
+   while the calculator has focus and confirm it DOES fire.
 7. Review the just-submitted result inline (per-module green/red grid, tap a
    cell) and again from "Tests I've taken" on the code screen.
 

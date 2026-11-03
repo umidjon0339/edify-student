@@ -25,6 +25,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from '
  * | Reload, close, typing a URL | `beforeunload` → the browser's own "leave site?" prompt |
  * | Right-click → "open in new tab" | context menu suppressed |
  * | The app's own nav | not reachable — the runner is a `fixed inset-0` overlay above the shell |
+ * | Clicking into an in-page `<iframe>` (SAT's Desmos calculator) | NOT counted — `blur` fires for this too, but `document.activeElement` is the iframe, not another tab; `visibilitychange` still catches a real switch from there |
  *
  * So the honest description is **detect and deter**, not prevent. The count is the
  * deterrent: it is shown live while the paper is being sat.
@@ -145,7 +146,20 @@ export function useExamLockdown({ active, onInterruption }: ExamLockdownOptions)
     const back = () => { away.current = false; };
 
     const onVisibility = () => { if (document.hidden) leave(); else back(); };
-    const onBlur = () => leave();
+    /**
+     * ⚠️ `window.blur` ALSO fires when focus moves into an in-page `<iframe>`
+     * (the SAT runner's calculator, Desmos — the one iframe anywhere in the
+     * student app) — that is not leaving the test, just clicking into an
+     * embedded tool, so it must not count or trigger the overlay. A genuine
+     * tab switch / app switch / minimize still fires `visibilitychange`
+     * (`document.hidden`) independent of which element had focus, so that
+     * detector is untouched and still catches the real thing even if the
+     * student had the calculator focused when they switched away.
+     */
+    const onBlur = () => {
+      if (document.activeElement?.tagName === 'IFRAME') return;
+      leave();
+    };
     const onFocus = () => back();
     // ⚠️ `isFullscreen` itself is NOT tracked here — useSyncExternalStore above
     // owns that. This listener exists only to COUNT a drop out of full screen as
