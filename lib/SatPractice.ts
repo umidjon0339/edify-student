@@ -216,3 +216,44 @@ export function generateSatPractice(
 
 /** Questions a test needs from the bank to be generated at all (both modules). */
 export const satPracticeMinimum = (subject: SatPracticeSubject) => SAT_MODULE_PLAN[subject].perModule * 2;
+
+// ─── topic practice (2026-11-02) ─────────────────────────────────────────────
+
+/**
+ * A short practice set for ONE domain (optionally one subtopic) — the student
+ * page's "Practice by topic", not a mock: no modules, no routing, no timer.
+ *
+ * Unseen questions first (`seen` = ids from past results + this session's
+ * earlier sets), each group shuffled, then ordered easy → hard so a set ramps
+ * up. Pure: the caller owns `random` for tests.
+ */
+export function pickTopicPractice(
+  items: SatQuizItem[],
+  opts: { domain: string; subtopic?: string | null; count: number; seen?: Set<string>; random?: () => number },
+): SatQuizItem[] {
+  const pool = items.filter((q) => q.domain === opts.domain && (!opts.subtopic || q.subtopic === opts.subtopic));
+  return pickFromPool(pool, opts);
+}
+
+/** The picking half of `pickTopicPractice`, for a caller that already holds
+ *  the pool (e.g. one subtopic's items on /sat/topics). */
+export function pickFromPool(
+  pool: SatQuizItem[],
+  opts: { count: number; seen?: Set<string>; random?: () => number },
+): SatQuizItem[] {
+  const rnd = opts.random ?? Math.random;
+  const shuffle = <T,>(a: T[]) => {
+    const out = [...a];
+    for (let i = out.length - 1; i > 0; i--) {
+      const j = Math.floor(rnd() * (i + 1));
+      [out[i], out[j]] = [out[j], out[i]];
+    }
+    return out;
+  };
+  const seen = opts.seen ?? new Set<string>();
+  const fresh = shuffle(pool.filter((q) => !seen.has(q.id)));
+  const old = shuffle(pool.filter((q) => seen.has(q.id)));
+  return [...fresh, ...old]
+    .slice(0, opts.count)
+    .sort((a, b) => (a.difficultyId ?? 2) - (b.difficultyId ?? 2));
+}

@@ -24,7 +24,7 @@ import NotificationBell from '@/components/NotificationBell';
 import {
   LayoutDashboard, Users, FilePlus, FolderOpen, Library,
   Sparkles, Settings, LogOut, Menu, X, Bell,
-  Zap, BookOpen, UserIcon, CreditCard, PanelLeft, MoreVertical,
+  Zap, UserIcon, CreditCard, PanelLeft, MoreVertical,
   MoreHorizontal, Plus, Sun, Moon, Monitor, Globe, BadgeCheck, Building2, GraduationCap, Gamepad2, ChevronDown, ArrowRight,
 } from 'lucide-react';
 import { useTeacherCenter } from '@/hooks/useTeacherCenter';
@@ -54,7 +54,6 @@ const LANG_STORAGE_KEY = 'edify-teacher-lang';
 // ============================================================================
 const LAYOUT_TRANSLATIONS = {
   uz: {
-    brandSubtitle: "O'QITUVCHI PORTALI",
     menu: { overview: "Boshqaruv", library: "Mening kutubxonam", classes: "Sinflar", onlineLibrary: "Onlayn Kitoblar", analytics: "Tahlillar", notifications: "Bildirishnomalar", subscription: "Obuna", profile: "Profil", ielts: "IELTS Moduli", milliy: "Milliy sertifikat", sat: "SAT", center: "Markazim", games: "O'yinlar" },
     menuShort: { library: "Kutubxonam", onlineLibrary: "Kitoblar", notifications: "Xabarlar", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Boshqaruv", create: "Yaratish", classes: "Sinflar", library: "Kutubxona", menu: "Menyu" },
@@ -65,7 +64,6 @@ const LAYOUT_TRANSLATIONS = {
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Chiqish" }
   },
   en: {
-    brandSubtitle: "INSTRUCTOR PORTAL",
     menu: { overview: "Dashboard", library: "Library", classes: "Classes", onlineLibrary: "Online Books", analytics: "Analytics", notifications: "Notifications", subscription: "Subscription", profile: "Profile", ielts: "IELTS Module", milliy: "Milliy sertifikat", sat: "SAT", center: "My Center", games: "Games" },
     menuShort: { library: "Library", onlineLibrary: "Books", notifications: "Alerts", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Home", create: "Create", classes: "Classes", library: "Library", menu: "Menu" },
@@ -76,7 +74,6 @@ const LAYOUT_TRANSLATIONS = {
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Sign Out" }
   },
   ru: {
-    brandSubtitle: "ПОРТАЛ УЧИТЕЛЯ",
     menu: { overview: "Обзор", library: "Библиотека", classes: "Классы", onlineLibrary: "Онлайн Книги", analytics: "Аналитика", notifications: "Уведомления", subscription: "Подписка", profile: "Профиль", ielts: "Модуль IELTS", milliy: "Milliy sertifikat", sat: "SAT", center: "Мой центр", games: "Игры" },
     menuShort: { library: "Библиотека", onlineLibrary: "Книги", notifications: "Инбокс", milliy: "Milliy", sat: "SAT" },
     bottom: { home: "Обзор", create: "Создать", classes: "Классы", library: "Книги", menu: "Меню" },
@@ -499,13 +496,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       {/* Header: brand + rail toggle */}
       <div className={cn("flex items-center gap-2.5 px-3.5 pt-4 pb-2 shrink-0 min-h-[64px]", collapsed && "flex-col gap-2 px-0 justify-center")}>
         <div className="flex items-center gap-2.5 overflow-hidden cursor-pointer min-w-0" onClick={() => router.push('/teacher/dashboard')}>
-          <div className={cn("w-9 h-9 rounded-m3-md flex items-center justify-center shrink-0 shadow-elev-1", LIGHT_PANEL ? "t-icon-chip" : STYLE.brandBox)}><BookOpen size={19} /></div>
-          {!collapsed && (
-            <div className="min-w-0">
-              <h1 className={cn("font-t-display font-bold text-[15px] leading-none tracking-tight truncate", STYLE.brandTitle)}>Edify<span className={STYLE.brandAccent}>Teacher</span></h1>
-              <p className={cn("text-[8.5px] font-semibold uppercase tracking-[0.14em] mt-1 truncate", STYLE.brandSub)}>{t.brandSubtitle}</p>
-            </div>
-          )}
+          <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="h-8 w-auto shrink-0" />
         </div>
         {isMobile ? (
           <button onClick={() => setMobileMenuOpen(false)} aria-label="Yopish" className={cn("m3-interactive ml-auto p-2 rounded-full", STYLE.email)}>
@@ -743,8 +734,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
 
   const brandBlock = (
     <div className="flex items-center gap-2.5 cursor-pointer min-w-0 shrink-0" onClick={() => router.push('/teacher/dashboard')}>
-      <div className="w-9 h-9 bg-primary rounded-m3-md flex items-center justify-center text-on-primary shrink-0 shadow-elev-1"><BookOpen size={19} /></div>
-      <b className="font-t-display text-[15px] text-on-surface tracking-tight truncate hidden lg:block">Edify<span className="text-primary">Teacher</span></b>
+      <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="h-7 w-auto shrink-0" />
     </div>
   );
 
@@ -1019,7 +1009,13 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       onPointerDownCapture={(e) => { lastNavPointer.current = e.pointerType; }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpenNavGroup(null); }}
       className={cn(
-        "hidden md:grid grid-cols-[1fr_auto_1fr] items-center gap-4 absolute top-0 inset-x-0 z-40 h-[76px] px-4 lg:px-8",
+        // Below `xl` (covers iPad/tablet widths, where the centred grid below
+        // squeezes the right cluster into an overflowing sliver) this is a
+        // plain left-to-right flex row: brand + nav hug the left, the right
+        // cluster is pushed to the edge with ml-auto. Only `xl`+ (reliably
+        // wide enough) switches to the grid that centres the nav capsule on
+        // the page regardless of brand/right-cluster width.
+        "hidden md:flex xl:grid xl:grid-cols-[1fr_auto_1fr] items-center gap-4 absolute top-0 inset-x-0 z-40 h-[76px] px-4 lg:px-8",
         // No band: only the pills float; the page scrolls (visibly) behind
         // them. The empty strip lets clicks fall through to the page.
         "pointer-events-none [&>*]:pointer-events-auto",
@@ -1027,7 +1023,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       )}
     >
       {/* Brand */}
-      <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center h-11 px-5 min-w-0 justify-self-start rounded-full">
+      <Link href="/teacher/dashboard" aria-label="Edify Teacher" className="t-glass-pill flex items-center h-11 px-5 min-w-0 shrink-0 justify-self-start rounded-full">
         {/* Brand mark = the Edify logo alone (public/brand, cropped from the
             "Edify Math" artwork without "Math"). */}
         <Image src="/brand/edify-logo.webp" alt="Edify" width={307} height={120} priority unoptimized className="t-brand-logo h-[30px] w-auto" />
@@ -1079,7 +1075,7 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
       </nav>
 
       {/* Right cluster: language · light/dark · profile */}
-      <div className="flex items-center gap-2 justify-self-end">
+      <div className="flex items-center gap-2 ml-auto xl:ml-0 shrink-0 justify-self-end">
         {pillDropdown(
           'lang',
           <button

@@ -17,7 +17,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import {
   LayoutDashboard, BookOpen, User as UserIcon,
   LogOut, Flame, Trophy, ChevronDown, Check, Bell,
-  Settings, BookMarked, Gamepad2, Globe, Building2, BadgeCheck, Target, Brain,
+  Settings, BookMarked, Gamepad2, Globe, Building2, BadgeCheck, Target, Brain, MoreVertical,
 } from 'lucide-react';
 import { fetchMyCenters } from '@/services/studentCenterService';
 
@@ -57,6 +57,7 @@ const LAYOUT_TRANSLATIONS: any = {
   uz: {
     menu: { dashboard: "Boshqaruv", classes: "Sinflarim", explore: "Kurslar", library: "Kutubxona", games: "O'yinlar", leaderboard: "Reyting", ielts: "IELTS", profile: "Profil", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT", center: "Markazim", mistakes: "Xatolarim" },
     groups: { main: "Asosiy", exams: "Imtihonlar", resources: "Resurslar" },
+    mobileMenu: "Menyu",
     topbar: { streak: "Seriya", profile: "Profil", settings: "Sozlamalar", logout: "Chiqish", language: "Til", notifications: "Bildirishnomalar", light: "Yorug'", dark: "Tun" },
     loading: "Yuklanmoqda...",
     logoutConfirm: { title: "Tizimdan chiqish", desc: "Haqiqatan ham hisobingizdan chiqmoqchimisiz?", cancel: "Bekor qilish", confirm: "Ha, chiqish" }
@@ -64,6 +65,7 @@ const LAYOUT_TRANSLATIONS: any = {
   en: {
     menu: { dashboard: "Dashboard", classes: "Classes", explore: "Courses", library: "Library", games: "Games", leaderboard: "Rank", ielts: "IELTS", profile: "Profile", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "My Mistakes", center: "My center" },
     groups: { main: "Main", exams: "Exams", resources: "Resources" },
+    mobileMenu: "Menu",
     topbar: { streak: "Streak", profile: "Profile", settings: "Settings", logout: "Sign Out", language: "Language", notifications: "Notifications", light: "Light", dark: "Dark" },
     loading: "Loading...",
     logoutConfirm: { title: "Sign Out", desc: "Are you sure you want to sign out of your account?", cancel: "Cancel", confirm: "Yes, Sign Out" }
@@ -71,6 +73,7 @@ const LAYOUT_TRANSLATIONS: any = {
   ru: {
     menu: { dashboard: "Главная", classes: "Классы", explore: "Курсы", library: "Библиотека", games: "Игры", leaderboard: "Рейтинг", ielts: "IELTS", profile: "Профиль", raschmodel: "Rasch", milliy: "Milliy sertifikat", sat: "SAT" , mistakes: "Мои ошибки", center: "Мой центр" },
     groups: { main: "Главное", exams: "Экзамены", resources: "Ресурсы" },
+    mobileMenu: "Меню",
     topbar: { streak: "Серия", profile: "Профиль", settings: "Настройки", logout: "Выйти", language: "Язык", notifications: "Уведомления", light: "Светлая", dark: "Тёмная" },
     loading: "Загрузка...",
     logoutConfirm: { title: "Выход", desc: "Вы уверены, что хотите выйти из аккаунта?", cancel: "Отмена", confirm: "Да, выйти" }
@@ -235,7 +238,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
     { href: '/library', label: t.menu.library, icon: BookMarked, hideOnMobile: true, group: 'resources' },
     { href: '/games', label: t.menu.games, icon: Gamepad2, group: 'main' },
     { href: '/leaderboard', label: t.menu.leaderboard, icon: Trophy, hideOnMobile: isCenterStudent, group: 'main' },
-    { href: '/ielts', label: t.menu.ielts, icon: Globe, group: 'exams' },
+    // Phones: off the dock since 2026-11-01 — its slot is the "Menu" tab,
+    // and IELTS sits in the drawer's Exams box with Milliy and SAT.
+    { href: '/ielts', label: t.menu.ielts, icon: Globe, hideOnMobile: true, group: 'exams' },
     // ⚠️ **Milliy sertifikat is the ONLY entry to the exam programme, including
     // maths.** `/raschmodel` used to sit here beside it, which read as two
     // separate products — it is the maths SECTION of this one, so the hub's
@@ -293,8 +298,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         <span className="s-num text-[13.5px] font-black">{stats.streak}</span>
       </Link>
 
-      {/* Language */}
-      <div className="relative hidden md:block">
+      {/* Language — a standalone pill only from `xl` up; on iPad/tablet
+          widths (and phones) it lives inside the profile menu instead, so
+          the pillbar's right cluster stays narrow enough not to get
+          squeezed (see the Shell.tsx header's md:flex xl:grid). */}
+      <div className="relative hidden xl:block">
         <button
           type="button"
           onClick={() => { setIsLangMenuOpen((o) => !o); setIsProfileMenuOpen(false); }}
@@ -361,10 +369,11 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               </div>
             </div>
 
-            {/* Language lives in this menu on phones (no room in the top bar).
-                A segmented flag control, not a native <select> — emoji flags
-                and OS pickers looked broken and off-brand. */}
-            <div className="px-1.5 py-2 md:hidden" role="radiogroup" aria-label={t.topbar.language}>
+            {/* Language lives in this menu below `xl` (phones + iPad/tablet —
+                no room in the top bar there). A segmented flag control, not
+                a native <select> — emoji flags and OS pickers looked broken
+                and off-brand. */}
+            <div className="px-1.5 py-2 xl:hidden" role="radiogroup" aria-label={t.topbar.language}>
               <p className="mb-2 px-1.5 text-[11px] font-black uppercase tracking-[0.1em] text-on-surface-variant">{t.topbar.language}</p>
               <div className="grid grid-cols-3 gap-1 rounded-full bg-state-hover p-1">
                 {LANGUAGE_OPTIONS.map(l => (
@@ -420,6 +429,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           topbar={topbar}
           groups={navGroups}
           onOpenMobileNav={() => setIsMobileNavOpen(true)}
+          menuLabel={t.mobileMenu}
         >
           {children}
         </Shell>
@@ -430,6 +440,21 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           items={menuItems}
           isActive={isActive}
           brand={brand}
+          groups={navGroups}
+          footer={
+            <Link
+              href="/profile"
+              onClick={() => setIsMobileNavOpen(false)}
+              className="flex items-center gap-3 rounded-m3-lg p-1.5 hover:bg-state-hover"
+            >
+              <Avatar src={user?.photoURL || googlePhotoURL(user, 96)} name={user?.displayName ?? 'S'} size="md" />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[14px] font-extrabold text-on-surface">{user?.displayName || t.topbar.profile}</span>
+                <span className="block truncate text-[12px] font-medium text-on-surface-variant">{user?.email}</span>
+              </span>
+              <MoreVertical size={18} className="shrink-0 text-on-surface-variant" />
+            </Link>
+          }
         />
 
         <ConfirmDialog

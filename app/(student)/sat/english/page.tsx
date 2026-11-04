@@ -19,6 +19,7 @@ import {
 } from "@/services/satEnglishQuizService";
 import SatRunner from "../_components/SatRunner";
 import SatMockMaker from "../_components/SatMockMaker";
+import SatTopicPractice from "../_components/SatTopicPractice";
 import { clearMySatResults } from "../_components/satAnalysis";
 import SatReview from "../_components/SatReview";
 import SatScoreSummary from "../_components/SatScoreSummary";
@@ -310,6 +311,12 @@ export default function SatEnglishPage() {
               countMine={countMySatEnglishPracticeTests}
               save={saveSatEnglishTest}
               onReady={setPendingTest}
+            />
+
+            {/* Door to /sat/topics — learn subtopic by subtopic, not a mock. */}
+            <SatTopicPractice
+              subject="english"
+              slug="sat-ingliz-tili"
             />
 
             <Card className="flex flex-col gap-4 p-5">

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { cn } from './cn';
 import { DESIGN, MOTION_ON, springTransition } from './config';
 import { resolveSideStyle, type SideStyle } from './shellStyles';
@@ -41,8 +41,11 @@ export interface ShellProps {
   /** Top bar content (streak, notifications, profile menu). */
   topbar: React.ReactNode;
   children: React.ReactNode;
-  /** Opens the mobile drawer — only used by Mobile_navigation="drawer". */
+  /** Opens the mobile drawer — the ☰ in the drawer shell's header, and (since
+   *  2026-11-01) the last "Menu" tab of the dock/floating phone bars. */
   onOpenMobileNav?: () => void;
+  /** Label of the phone bar's Menu tab (localized by the layout). */
+  menuLabel?: string;
   /** pillbar only: dropdown groups for the capsule (items reference them by key). */
   groups?: readonly NavGroup[];
 }
@@ -59,7 +62,7 @@ export interface ShellProps {
  * variant is the same RecipeDrawer styled purely by its shellStyles.ts recipe
  * — `floating` puts that drawer inside a detached card.
  */
-export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNav, groups }: ShellProps) {
+export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNav, menuLabel, groups }: ShellProps) {
   const desktop = DESIGN.App_shell_navigation;
   const mobile = DESIGN.Mobile_navigation;
   const pill = desktop === 'pillbar';
@@ -96,14 +99,19 @@ export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNa
         {pill ? (
           /* Edify style: only the pills are pinned — the page (and its canvas)
              scrolls behind them; no band, no border. */
-          <header className="sticky top-0 z-40 grid h-[68px] shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-3 sm:px-4">
-            {/* Equal 1fr side columns put the capsule on the page's centre line,
-                however wide the brand and the right-hand pills are. */}
-            <div className="s-glass flex h-11 items-center justify-self-start rounded-full px-4">{brand}</div>
+          <header className="sticky top-0 z-40 flex xl:grid h-[68px] shrink-0 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-3 sm:px-4">
+            {/* Equal 1fr side columns put the capsule on the page's centre line
+                — but only from `xl` up. Below that (iPad/tablet widths) the
+                minmax(0,1fr) side columns would shrink past their content's
+                size and squeeze the right cluster into an overflowing mess,
+                so it's a plain left-to-right flex row instead: brand + nav
+                hug the left, the right cluster is pushed to the edge with
+                ml-auto. */}
+            <div className="s-glass flex h-11 shrink-0 items-center justify-self-start rounded-full px-4">{brand}</div>
             <PillTabs items={items} isActive={isActive} groups={groups} />
             {/* col-start-3: on phones the capsule is display:none and would
                 otherwise let these slide into the middle column. */}
-            <div className="col-start-3 justify-self-end">{topbar}</div>
+            <div className="ml-auto shrink-0 xl:ml-0 xl:col-start-3 xl:justify-self-end">{topbar}</div>
           </header>
         ) : (
         <header
@@ -140,17 +148,19 @@ export function Shell({ items, isActive, brand, topbar, children, onOpenMobileNa
           className={cn(
             'relative flex-1',
             // Clears the phone bar so content is never trapped underneath it.
-            isBar && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+16px)] md:pb-8',
-            mobile === 'floating' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+28px)] md:pb-8',
+            // The dock's own hide point is min-[950px] (pillbar iPad fix,
+            // 2026-11-01) — this has to match or content gets a dead gap.
+            isBar && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+16px)] min-[950px]:pb-8',
+            mobile === 'floating' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+28px)] min-[950px]:pb-8',
             // The iconic bar is ~8px shorter than the dock.
-            mobile === 'iconic' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+4px)] md:pb-8',
+            mobile === 'iconic' && 'pb-[calc(var(--s-dock-h)+var(--s-safe-b)+4px)] min-[950px]:pb-8',
           )}
         >
           {children}
         </main>
       </div>
 
-      {isBar && <MobileDock items={items} isActive={isActive} variant={mobile} />}
+      {isBar && <MobileDock items={items} isActive={isActive} variant={mobile} onMenu={onOpenMobileNav} menuLabel={menuLabel} />}
     </div>
   );
 }
@@ -399,7 +409,7 @@ function PillTabs({ items, isActive, groups }: Pick<ShellProps, 'items' | 'isAct
       aria-label="Main"
       onPointerDownCapture={(e) => { lastPointer.current = e.pointerType; }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpen(null); }}
-      className="s-glass hidden min-w-0 items-center gap-0.5 justify-self-center rounded-full p-1.5 md:flex"
+      className="s-glass hidden min-w-0 items-center gap-0.5 justify-self-center rounded-full p-1.5 min-[950px]:flex"
     >
       {direct.map(pillLink)}
       {grouped.map((g) => {
@@ -507,9 +517,14 @@ function MobileDock({
   items,
   isActive,
   variant,
-}: Pick<ShellProps, 'items' | 'isActive'> & { variant: MobileBarVariant }) {
+  onMenu,
+  menuLabel = 'Menu',
+}: Pick<ShellProps, 'items' | 'isActive'> & { variant: MobileBarVariant; onMenu?: () => void; menuLabel?: string }) {
   // M3 caps a bottom bar at 5 destinations — applies to every bar variant.
-  const visible = items.filter((i) => !i.hideOnMobile);
+  // dock/floating: with a drawer to open, the 5th slot is the "Menu" tab
+  // (2026-11-01, teacher parity) and everything else lives in the drawer.
+  const withMenu = !!onMenu && (variant === 'dock' || variant === 'floating');
+  const visible = items.filter((i) => !i.hideOnMobile).slice(0, withMenu ? 4 : 5);
   const transition = MOTION_ON ? springTransition : { duration: 0 };
 
   if (variant === 'iconic') {
@@ -517,7 +532,7 @@ function MobileDock({
       <nav
         aria-label="Main"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around md:hidden',
+          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around min-[950px]:hidden',
           'border-t border-outline-variant bg-surface-blur px-2 pb-[var(--s-safe-b)] pt-1 backdrop-blur-xl',
         )}
       >
@@ -555,7 +570,7 @@ function MobileDock({
       <nav
         aria-label="Main"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around md:hidden',
+          'fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around min-[950px]:hidden',
           'border-t border-outline-variant bg-surface-blur px-2 pb-[var(--s-safe-b)] backdrop-blur-xl',
         )}
       >
@@ -601,7 +616,7 @@ function MobileDock({
     <nav
       aria-label="Main"
       className={cn(
-        'fixed z-40 flex items-stretch justify-around md:hidden',
+        'fixed z-40 flex items-stretch justify-around min-[950px]:hidden',
         floating
           ? 's-glass s-dock inset-x-4 bottom-[calc(var(--s-safe-b)+12px)] rounded-full px-2 py-1.5'
           : cn(
@@ -646,11 +661,31 @@ function MobileDock({
           </Link>
         );
       })}
+      {withMenu && (
+        <button
+          type="button"
+          onClick={onMenu}
+          aria-label={menuLabel}
+          aria-haspopup="dialog"
+          className="relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-1.5"
+        >
+          <span className="relative grid h-8 w-full max-w-[52px] place-items-center">
+            <Menu size={21} strokeWidth={2.2} className="text-on-surface-variant" />
+          </span>
+          <span className="max-w-full truncate text-[10px] font-black text-on-surface-variant">{menuLabel}</span>
+        </button>
+      )}
     </nav>
   );
 }
 
-/* ── Mobile slide-in drawer (Mobile_navigation="drawer") ─────────────────── */
+/* ── Mobile slide-in drawer ───────────────────────────────────────────────
+   Opened by the drawer shell's ☰ and by the phone bar's "Menu" tab. With
+   `groups` it mirrors the teacher drawer (2026-11-01): the `pillCta` item as a
+   full-width accent button, then the groups as labelled sections — the `dot`
+   group (exams) in a tinted box — and an optional `footer` (the user row).
+   Ungrouped items join the FIRST group's section; `hideInPillbar` items
+   (Profile) are left to the footer. */
 
 export function MobileDrawer({
   open,
@@ -658,13 +693,49 @@ export function MobileDrawer({
   items,
   isActive,
   brand,
+  groups,
+  footer,
 }: {
   open: boolean;
   onClose: () => void;
   items: readonly NavItem[];
   isActive: (href: string) => boolean;
   brand: React.ReactNode;
+  groups?: readonly NavGroup[];
+  /** Pinned at the bottom — e.g. the signed-in user's row. */
+  footer?: React.ReactNode;
 }) {
+  const visible = items.filter((i) => !(groups?.length && i.hideInPillbar));
+  const ctas = groups?.length ? visible.filter((i) => i.pillCta) : [];
+  const known = new Set((groups ?? []).map((g) => g.key));
+  const sections: { key: string; label: string; dot?: boolean; items: NavItem[] }[] = groups?.length
+    ? groups
+        .map((g, idx) => ({
+          ...g,
+          items: visible.filter((i) => !i.pillCta && (i.group === g.key || (idx === 0 && (!i.group || !known.has(i.group))))),
+        }))
+        .filter((g) => g.items.length > 0)
+    : [{ key: 'all', label: '', items: [...visible] }];
+
+  const row = (item: NavItem) => {
+    const on = isActive(item.href);
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        onClick={onClose}
+        aria-current={on ? 'page' : undefined}
+        className={cn(
+          'flex items-center gap-3.5 rounded-m3-lg px-3.5 py-2.5 text-[14.5px] font-bold transition-colors',
+          on ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-state-hover',
+        )}
+      >
+        <item.icon size={20} strokeWidth={on ? 2.5 : 2.1} className={on ? '' : 'text-on-surface-variant'} />
+        {item.label}
+      </Link>
+    );
+  };
+
   return (
     <AnimatePresence>
       {open && (
@@ -674,52 +745,68 @@ export function MobileDrawer({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[100] bg-scrim-bg backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-[100] bg-scrim-bg backdrop-blur-sm min-[950px]:hidden"
           />
           <motion.nav
             aria-label="Main"
             initial={MOTION_ON ? { x: '-100%' } : false}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
-            transition={springTransition}
-            className="fixed inset-y-0 left-0 z-[101] flex w-72 flex-col border-r border-outline-variant bg-surface md:hidden"
+            transition={MOTION_ON ? { duration: 0.24, ease: [0.2, 0, 0, 1] } : { duration: 0 }}
+            className="fixed inset-y-0 left-0 z-[101] flex w-[300px] max-w-[85vw] flex-col bg-surface-container-lowest shadow-elev-3 min-[950px]:hidden"
           >
-            <div className="flex h-[var(--s-topbar-h)] shrink-0 items-center justify-between gap-2 border-b border-outline-variant px-4">
+            <div className="flex h-16 shrink-0 items-center justify-between gap-2 px-4 pt-[var(--s-safe-t,0px)]">
               {brand}
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="grid h-9 w-9 place-items-center rounded-full text-on-surface-variant hover:bg-state-hover"
+                className="grid h-10 w-10 place-items-center rounded-full text-on-surface-variant hover:bg-state-hover"
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.6" aria-hidden>
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                </svg>
+                <X size={20} strokeWidth={2.4} />
               </button>
             </div>
-            <div className="s-scroll flex flex-1 flex-col gap-1 overflow-y-auto p-3">
-              {items.map((item) => {
-                const on = isActive(item.href);
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={onClose}
-                    aria-current={on ? 'page' : undefined}
-                    className={cn(
-                      'flex items-center gap-3.5 rounded-m3-btn px-4 py-3 text-[14.5px] font-extrabold',
-                      on
-                        ? 'bg-primary-container text-on-primary-container'
-                        : 'text-on-surface-variant hover:bg-state-hover',
-                    )}
-                  >
-                    <item.icon size={21} strokeWidth={on ? 2.6 : 2.2} />
-                    {item.label}
-                  </Link>
+
+            <div className="s-scroll flex flex-1 flex-col gap-1 overflow-y-auto px-3 pb-3">
+              {ctas.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  className="s-chip s-press mb-2 flex h-12 shrink-0 items-center justify-center gap-2 rounded-full text-[15px] font-extrabold"
+                >
+                  <item.icon size={19} strokeWidth={2.5} />
+                  {item.label}
+                </Link>
+              ))}
+
+              {sections.map((sec) => {
+                const header = sec.label && (
+                  <p className="flex items-center justify-between px-3.5 pb-1 pt-3 text-[11px] font-black uppercase tracking-[0.1em] text-on-surface-variant">
+                    {sec.label}
+                    {sec.dot && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-tertiary" />}
+                  </p>
+                );
+                return sec.dot ? (
+                  <div key={sec.key} className="mt-2 rounded-m3-lg border border-outline-variant bg-state-hover pb-1.5">
+                    {header}
+                    {sec.items.map(row)}
+                  </div>
+                ) : (
+                  <div key={sec.key}>
+                    {header}
+                    {sec.items.map(row)}
+                  </div>
                 );
               })}
             </div>
+
+            {footer && (
+              <div className="shrink-0 border-t border-outline-variant px-3 py-3 pb-[calc(var(--s-safe-b)+12px)]">
+                {footer}
+              </div>
+            )}
           </motion.nav>
         </>
       )}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BadgeCheck, BarChart3, BookOpenText, ChevronRight, Sigma } from "lucide-react";
+import { BadgeCheck, BarChart3, BookOpenText, ChevronRight, Sigma, Target } from "lucide-react";
 
 import { useAuth } from "@/lib/AuthContext";
 import { SAT_SECTIONS, type SatSection } from "@/lib/SatMathQuiz";
@@ -106,6 +106,15 @@ export default function SatHubPage() {
             );
           })}
         </div>
+
+        {/* ── subtopic-by-subtopic practice (/sat/topics) ── */}
+        <Link href="/sat/topics" className="s-panel s-press flex items-center gap-4 rounded-m3-lg p-4">
+          <span className="grid h-11 w-11 flex-none place-items-center rounded-full bg-primary-container text-on-primary-container">
+            <Target size={20} strokeWidth={2.4} />
+          </span>
+          <span className="min-w-0 flex-1 text-[14.5px] font-bold text-on-surface">Learn by topic</span>
+          <ChevronRight size={18} className="flex-none text-on-surface-variant" />
+        </Link>
 
         {/* ── the student's own mocks, analysed (/sat/analysis) ── */}
         <Link href="/sat/analysis" className="s-panel s-press flex items-center gap-4 rounded-m3-lg p-4">

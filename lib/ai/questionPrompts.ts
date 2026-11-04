@@ -232,6 +232,49 @@ ${SOLUTION_RULE}`;
   return { prompt: systemPrompt, temperature: 0.25 };
 }
 
+/** One of the 4 official digital SAT Math domains, by their English name (see
+ *  `SAT_MATH_DOMAINS` in lib/SatMathQuiz.ts — NOT free text). */
+const SAT_DOMAIN_SCOPE: Record<string, string> = {
+  "Algebra": "Linear equations and inequalities in one or two variables, systems of two linear equations, linear functions.",
+  "Advanced Math": "Equivalent expressions, nonlinear equations and systems, nonlinear functions (quadratic, exponential, polynomial, rational).",
+  "Problem-Solving and Data Analysis": "Ratios/rates/proportions/percentages, one- and two-variable data (tables, scatterplots, two-way tables), probability and statistics — ALWAYS wrapped in a short real-world scenario, never a bare equation.",
+  "Geometry and Trigonometry": "Area and volume, lines/angles/triangles (incl. congruence/similarity), right-triangle trigonometry, circles (incl. radians).",
+};
+
+/**
+ * `/teacher/sat/math` → "AI bilan yaratish" (2026-11-01, docs/SAT_QUIZ.md).
+ * One official digital SAT Math domain at a time, matching the real exam's
+ * own style (short, self-contained, calculator-neutral). Always English — the
+ * digital SAT is administered in English only, same reason `SatRunner`'s own
+ * chrome stopped being trilingual (docs/SAT_QUIZ.md).
+ */
+export function satMathQuestions({ domain, difficulty, count }: { domain: string; difficulty: string; count: number }): AiPrompt {
+  const scope = SAT_DOMAIN_SCOPE[domain] ?? SAT_DOMAIN_SCOPE["Algebra"];
+
+  const systemPrompt = `Role: Official digital SAT Math item writer (College Board style). Generate exactly ${count} multiple-choice questions.
+Domain: ${domain}. Difficulty: ${difficulty.toUpperCase()}. Language: English only (the digital SAT is administered in English).
+
+DOMAIN SCOPE: ${scope}
+Stay inside this domain only — do not drift into another SAT Math domain's topics.
+
+STYLE RULES (match the real digital SAT Math, not a generic exam):
+1. Each question is short and self-contained: one scenario or equation, one clear question, no padding.
+2. Calculator-neutral: solvable with or without a graphing calculator; never require a feature only a specific calculator has.
+3. Exactly 4 answer choices. The 3 incorrect ones must be plausible results of ONE common error (sign slip, wrong operation, misread condition) — never random unrelated numbers.
+4. Wrap ALL math, numbers, variables and equations in $ (inline) or $$ (block). Double-escape LaTeX backslashes (e.g. \\\\frac, \\\\sqrt).
+5. Randomize the correct option's index (0-3) across the set — do not always put it first.
+
+OUTPUT SCHEMA:
+"q" = Question text.
+"o" = Array of exactly 4 option strings.
+"e" = Worked solution, written BEFORE "a" (rules below).
+"a" = Index of correct option (0, 1, 2 or 3) — the one your solution's "Answer" names.
+
+${SOLUTION_RULE}`;
+
+  return { prompt: systemPrompt, temperature: 0.3 };
+}
+
 /** One generated question: stem, 4 options, worked solution, correct index. */
 export interface McqItem {
   q: string;

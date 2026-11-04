@@ -87,6 +87,15 @@ see [STUDENT_UI.md](STUDENT_UI.md)), manager and admin trees are unaffected.
    (`ThemeWaveToggle`, replaced the bell — notifications live under Asosiy) and the profile pill
    (first name + avatar; dropdown = user card, AI meter, theme switch,
    profile/settings/subscription, logout).
+   ⚠️ The header is `md:flex xl:grid` (2026-11-01): the 3-way `grid-cols-[1fr_auto_1fr]`
+   that centres the nav capsule on the page only applies from `xl` (1280px) up,
+   where there's reliably enough room. Below that (iPad/tablet widths) plain `1fr`
+   tracks can't shrink below their content, so the grid itself would overflow and
+   push the right cluster off-screen — under `xl` it's a left-to-right flex row
+   instead (brand + nav hug the left, right cluster at the edge via `ml-auto`).
+   Same fix mirrored in the student pillbar (`components/student-ui/Shell.tsx`,
+   `minmax(0,1fr)` columns there — those *can* shrink past content, so the bug
+   was a squeeze/overlap rather than overflow, same `md:flex xl:grid` fix).
    Only the pills are fixed: the header is `absolute` over `<main>`
    (transparent, `pointer-events-none` except its pills) and `<main>` gets
    `md:pt-[76px]`, so the page and its canvas scroll *behind* the pills; once
@@ -226,6 +235,15 @@ the mesh shows — new pages should simply not paint a page-level background.
   `onPointerDownCapture`; (2) a closed panel wrapper is `pointer-events-none`
   (a fading menu re-fired mouseenter → flicker); (3) menus use a 140 ms tween
   (`menuTween`), not the spring.
+- **`.t-glass-card`** (2026-11-01, `components/ui/theme.css`) = the glass-pill
+  look WITHOUT backdrop-filter — use it for content on the mesh (rows, list
+  cards, empty states, in-page tab bars); twin of the student `.s-panel`.
+  First user: the class page `app/teacher/classes/[classId]` — tabs are a
+  `.t-glass-card` pill capsule with the `.t-icon-chip` gliding under the active
+  tab (layoutId `teacherTabUnderline`), no white canvas card, every tab's rows /
+  empty states are `.t-glass-card`, icon boxes are circles, leaderboard rows are
+  uniform glass (medal on the rank badge, #1 = `ring-primary`), avatars render
+  initials under the photo and hide a dead photo URL (`onError`).
 - ⚠️ **No `backdrop-blur` on elements inside cards** (perf): every
   backdrop-filter re-blurs on each scroll frame of `<main>`. Blur only chrome
   that floats over scrolling content (the pills, page bars, menus).
