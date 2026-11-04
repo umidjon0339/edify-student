@@ -23,7 +23,7 @@ This repo maintains verified per-domain docs in [docs/](docs/) so an agent can l
 | **Dynamic marking** — `lib/RASCHmarks.ts`: guaranteed base per test type + a share of the difficulty budget from the cohort solve rate (`B = Y + σ`, always 100). Shared by every subject | [docs/MILLIY_QUIZ.md](docs/MILLIY_QUIZ.md) |
 | **My Mistakes** — `student_mistakes`, `app/(student)/mistakes/*`, `lib/mistakes.ts`, the capture hook in ANY runner's submit | [docs/MISTAKES.md](docs/MISTAKES.md) |
 | **SAT** — `sat_math_*`/`sat_english_*`, `app/teacher/sat/*`, `app/(student)/sat/*`, `lib/SatMathQuiz.ts`, `lib/SATscore.ts`, `SatRunner` | [docs/SAT_QUIZ.md](docs/SAT_QUIZ.md) |
-| **Classroom games** — `app/teacher/games/*` (Arqon tortish, Savol doskasi, Omad g'ildiragi, Penalti seriyasi), `services/teacherTestService.ts`, the TestCard quick-launch, **AI bilan yaratish** (`/api/teacher/games/questions`, `services/gameQuestionService.ts`) | [docs/GAMES.md](docs/GAMES.md) |
+| **Classroom games** — `app/teacher/games/*` (Arqon tortish, Savol doskasi, Omad g'ildiragi, Penalti seriyasi, Karvon yo'li), `services/teacherTestService.ts`, the TestCard quick-launch, **AI bilan yaratish** (`/api/teacher/games/questions`, `services/gameQuestionService.ts`) | [docs/GAMES.md](docs/GAMES.md) |
 | **"My Mistakes"** — `student_mistakes`, `app/(student)/mistakes/*`, `lib/mistakes.ts`, `services/mistakeService.ts` | [docs/MISTAKES.md](docs/MISTAKES.md) |
 | **Director/buxgalter back-office** — `center_staff`, `app/office/*`, `isCenterOffice()`, `requireCenterOffice()` | [docs/OFFICE.md](docs/OFFICE.md) |
 | `app/teacher/*` — test creation, classes, grading, analytics, subscription | [docs/TEACHER.md](docs/TEACHER.md) |

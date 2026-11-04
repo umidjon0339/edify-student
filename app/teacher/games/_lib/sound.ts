@@ -102,6 +102,16 @@ export const sfx = {
   save: () => { note(120, 0, 0.18, 'sine', 0.3, 60); noise(0.08, 0.9, 0.22, 600, 300); },
   /** Ball over the bar: whoosh + crowd groan. */
   miss: () => { noise(0, 0.4, 0.2, 2400, 500); noise(0.3, 0.8, 0.18, 500, 250); },
+  /** Caravan: a team's bet is chosen. */
+  bet: () => note(660, 0, 0.08, 'triangle', 0.1),
+  /** Caravan: one camel step (soft padded thud). */
+  step: () => { note(150, 0, 0.1, 'sine', 0.16, 90); noise(0, 0.06, 0.05, 900); },
+  /** Caravan lands on an oasis: a rising water bloop. */
+  oasis: () => [523, 784, 1047].forEach((f, i) => note(f, i * 0.07, 0.16, 'sine', 0.12, f * 1.3)),
+  /** Caravan lands on the bazaar: coins. */
+  coins: () => [1568, 2093, 1760, 2349, 2093].forEach((f, i) => note(f, i * 0.06, 0.12, 'triangle', 0.07)),
+  /** Sandstorm pushes a caravan back: wind gust. */
+  storm: () => { noise(0, 1.1, 0.3, 350, 1400); noise(0.45, 0.9, 0.2, 1200, 300); },
   win: () => [523, 659, 784, 659, 784, 1047].forEach((f, i) => note(f, i * 0.12, i === 5 ? 0.6 : 0.16, 'triangle', 0.13)),
 };
 

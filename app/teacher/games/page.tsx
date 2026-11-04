@@ -25,6 +25,7 @@ const TR = {
       board: { title: "Savol doskasi", text: "Jamoalar navbat bilan ball va savol tanlaydi." },
       wheel: { title: "Omad g'ildiragi", text: "Jamoalar g'ildirakni aylantiradi va tushgan ochko uchun javob beradi." },
       penalty: { title: "Penalti seriyasi", text: "Ikki jamoa penalti tepadi: to'g'ri javob — zarba, darvozabonni aldang!" },
+      caravan: { title: "Karvon yo'li", text: "Barcha jamoalar har savolga javob beradi: tavakkal qiling va karvonni Xivaga birinchi yetkazing!" },
     },
   },
   ru: {
@@ -37,6 +38,7 @@ const TR = {
       board: { title: "Доска вопросов", text: "Команды по очереди выбирают баллы и вопрос." },
       wheel: { title: "Колесо удачи", text: "Команды крутят колесо и отвечают за выпавшие очки." },
       penalty: { title: "Серия пенальти", text: "Две команды бьют пенальти: верный ответ — удар, обманите вратаря!" },
+      caravan: { title: "Караванный путь", text: "Все команды отвечают на каждый вопрос: рискните и первыми приведите караван в Хиву!" },
     },
   },
   en: {
@@ -49,6 +51,7 @@ const TR = {
       board: { title: "Question board", text: "Teams take turns picking points and a question." },
       wheel: { title: "Lucky wheel", text: "Teams spin the wheel and answer for the points it lands on." },
       penalty: { title: "Penalty shootout", text: "Two teams take penalties: a correct answer earns a shot — beat the keeper!" },
+      caravan: { title: "Caravan Road", text: "Every team answers every question: take a risk and be the first caravan to reach Khiva!" },
     },
   },
 };
@@ -59,6 +62,7 @@ const GAMES: { key: GameArtKey; href: string | null }[] = [
   { key: "board", href: "/teacher/games/question-board" },
   { key: "wheel", href: "/teacher/games/lucky-wheel" },
   { key: "penalty", href: "/teacher/games/penalty" },
+  { key: "caravan", href: "/teacher/games/caravan" },
 ];
 
 export default function TeacherGamesPage() {

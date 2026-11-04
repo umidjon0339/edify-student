@@ -28,7 +28,7 @@ export interface QuestionCardText {
 }
 
 /** Long questions get a smaller font so they still fit a projector. */
-function questionSize(text: string): string {
+export function questionSize(text: string): string {
   const n = text.length;
   if (n > 260) return 'text-[clamp(15px,2.2vh,24px)]';
   if (n > 140) return 'text-[clamp(17px,2.8vh,30px)]';
@@ -37,7 +37,7 @@ function questionSize(text: string): string {
 }
 
 /** Circular countdown in the card header. */
-function TimerRing({ remainingMs, limitMs, color, animate }: { remainingMs: number; limitMs: number; color: string; animate: boolean }) {
+export function TimerRing({ remainingMs, limitMs, color, animate }: { remainingMs: number; limitMs: number; color: string; animate: boolean }) {
   const secs = Math.ceil(remainingMs / 1000);
   const urgent = secs <= 5;
   const R = 26;

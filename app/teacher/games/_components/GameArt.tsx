@@ -9,15 +9,18 @@ import { KeeperFigure } from "../penalty/_components/Keeper";
 import { Ball } from "../penalty/_components/Stadium";
 import { CROWD_NEUTRALS, PITCH } from "../penalty/_lib/theme";
 import { GAME_TEAMS } from "../_lib/stage";
+import Camel from "../caravan/_components/Camel";
+import { City } from "../caravan/_components/Landmarks";
+import { DESERT } from "../caravan/_lib/theme";
 
 /**
  * Animated card scenes for the games hub (docs/GAMES.md). Each fills its
  * parent box. `on = false` (motion off / reduced motion) renders a still frame.
  * Colors come from M3 tokens so every palette and dark mode work; only the
- * tug and penalty scenes reuse their game's own fixed look (FIELD, PITCH).
+ * tug, penalty and caravan scenes reuse their game's own fixed look (FIELD, PITCH, DESERT).
  */
 
-export type GameArtKey = "tug" | "quiz" | "board" | "wheel" | "penalty";
+export type GameArtKey = "tug" | "quiz" | "board" | "wheel" | "penalty" | "caravan";
 
 const loop = (duration: number, extra: object = {}) => ({ duration, repeat: Infinity, ease: "easeInOut" as const, ...extra });
 
@@ -255,10 +258,43 @@ function PenaltyArt({ on }: { on: boolean }) {
   );
 }
 
+/** Karvon yo'li: three caravans walk the desert road from Samarqand toward Xiva. */
+function CaravanArt({ on }: { on: boolean }) {
+  const road = "M -20 128 C 70 92 120 150 190 124 S 300 96 340 112";
+  return (
+    <div className="h-full w-full" style={{ background: DESERT.sand }}>
+      <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden>
+        <rect width={320} height={70} fill="#fef3c7" />
+        <circle cx={268} cy={30} r={26} fill={DESERT.sun} opacity={0.25} />
+        <circle cx={268} cy={30} r={15} fill={DESERT.sun} />
+        <path d="M0 70 Q 70 50 150 66 T 320 62 V 90 H 0 Z" fill={DESERT.dune} opacity={0.6} />
+        <path d="M0 180 V 160 Q 90 146 180 164 T 320 152 V 180 Z" fill={DESERT.dune} />
+        <path d={road} fill="none" stroke={DESERT.roadEdge} strokeWidth={44} opacity={0.5} strokeLinecap="round" />
+        <path d={road} fill="none" stroke={DESERT.road} strokeWidth={38} strokeLinecap="round" />
+        <g transform="translate(38 104) scale(0.36)"><City kind="registan" /></g>
+        <g transform="translate(282 98) scale(0.36)"><City kind="kalta" /></g>
+        {[0, 1, 2].map((i) => (
+          <motion.g
+            key={i}
+            initial={false}
+            animate={on ? { x: [60 + i * 34, 200 + i * 34], opacity: [0, 1, 1, 0] } : { x: 100 + i * 34, opacity: 1 }}
+            transition={on ? { duration: 6, repeat: Infinity, ease: "linear", delay: 0, opacity: { duration: 6, repeat: Infinity, times: [0, 0.12, 0.85, 1] } } : undefined}
+          >
+            <g transform={`translate(0 ${136 - i * 9}) scale(0.3)`}>
+              <Camel team={GAME_TEAMS[i]} number={i + 1} walking={on} walkSeconds={Infinity} bonus={false} animate={on} />
+            </g>
+          </motion.g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 export default function GameArt({ game, on }: { game: GameArtKey; on: boolean }) {
   if (game === "tug") return <TugArt on={on} />;
   if (game === "quiz") return <QuizArt on={on} />;
   if (game === "board") return <BoardArt on={on} />;
   if (game === "penalty") return <PenaltyArt on={on} />;
+  if (game === "caravan") return <CaravanArt on={on} />;
   return <WheelArt on={on} />;
 }
