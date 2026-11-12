@@ -305,8 +305,8 @@ function validateBlock(
         // unguessable, so this is all but always an authoring mistake.
         iss.warn(`${path}.diagram_url`, 'no diagram image — students see an empty placeholder frame',
           'Upload the image to Firebase Storage (ielts_diagrams/) and paste the download URL.', human());
-      } else if (!/^https?:\/\//i.test(qb.diagram_url)) {
-        iss.err(`${path}.diagram_url`, 'must be an absolute http(s) URL', undefined, human());
+      } else if (!isMediaUrl(qb.diagram_url)) {
+        iss.err(`${path}.diagram_url`, 'must be an absolute http(s) URL or a same-site path starting with "/"', undefined, human());
       }
       if (!nonEmptyStr(qb.diagram_alt_text)) {
         iss.warn(`${path}.diagram_alt_text`, 'no alt text — screen readers get nothing', undefined, human());
@@ -678,6 +678,13 @@ function validateBlockContainer(
 // Normalization — build clean docs (known fields only, never undefined)
 // ---------------------------------------------------------------------------
 
+/** Hosted media: an absolute http(s) URL (Firebase Storage) or a same-site path
+ *  served from the app's `public/` folder (`/ielts/listening/…/part1.mp3`).
+ *  Protocol-relative `//host` is rejected — it would silently point off-site. */
+function isMediaUrl(u: string): boolean {
+  return /^https?:\/\//i.test(u) || /^\/(?!\/)\S+$/.test(u);
+}
+
 function cleanRow(row: Record<string, unknown>): IeltsQuestionRow {
   const out: IeltsQuestionRow = {
     question_number: 0, // renumberTest fills this in
@@ -874,8 +881,8 @@ export function validateIeltsImport(input: unknown, opts?: ValidateOptions): Imp
         if (!nonEmptyStr(p.audio_url)) {
           iss.err(`${pp}.audio_url`, 'audio_url required — a part without audio cannot be taken',
             'Upload the mp3 to Firebase Storage (ielts_audio/{testId}/…) and paste the download URL.', section);
-        } else if (!/^https?:\/\//i.test(p.audio_url)) {
-          iss.err(`${pp}.audio_url`, 'must be an absolute http(s) URL', undefined, section);
+        } else if (!isMediaUrl(p.audio_url)) {
+          iss.err(`${pp}.audio_url`, 'must be an absolute http(s) URL or a same-site path starting with "/"', undefined, section);
         }
         if (p.audio_duration_seconds != null
           && (typeof p.audio_duration_seconds !== 'number' || p.audio_duration_seconds <= 0)) {

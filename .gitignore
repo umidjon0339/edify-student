@@ -44,3 +44,6 @@ next-env.d.ts
 firestore-debug.log
 firebase-debug.log
 ui-debug.log
+
+# scratch source material (copyrighted book scans etc.) — never commit
+data/temp/

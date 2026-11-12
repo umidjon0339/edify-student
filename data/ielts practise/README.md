@@ -48,6 +48,25 @@ their URLs pasted in).
 | `reading/academic-01.json` | Academic Reading | 40 | Full paper — water clocks / hedgerows / expert forecasting |
 | `reading/academic-02.json` | Academic Reading | 40 | Full paper — saffron / mass timber / the psychology of waiting |
 | `reading/_template-all-question-types.json` | Academic Reading | 24 | Fixture exercising **all 13** question types. Import this first when testing the pipeline. |
+| `reading/ielts-reading-c18-test{1-4}.json` | Academic Reading | 40 each | Cambridge IELTS 18, Tests 1–4 |
+| `listening/ielts-listening-c18-test{1-4}.json` | Listening | 40 each | Cambridge IELTS 18, Tests 1–4 — full audioscripts as `transcript`, every answer row has a `passage_reference` into it (review → **Locate**). Audio + map served from `public/ielts/listening/` — see below. Audio checked against the official recordings (every part matches its script; every free-text answer is spoken). |
+
+### Listening media (audio + map images)
+
+The C18 listening media is **served by the app itself** from `public/`, not Firebase Storage:
+
+```
+public/ielts/listening/<test_id>/part1.mp3 … part4.mp3
+public/ielts/listening/<test_id>/part2-diagram.png        (Test 2 map)
+```
+
+The papers point at them with same-site paths — `"audio_url": "/ielts/listening/cambridge_18_listening_test_1/part1.mp3"` —
+which the validator accepts alongside absolute `https://` URLs. The files are committed (≈110 MB)
+so every deploy carries them. Adding another paper the same way: drop the files in
+`public/ielts/listening/<test_id>/`, write the `/ielts/listening/…` paths into the JSON, verify, import.
+
+Prefer Firebase Storage instead? `npm run ielts:media -- <paper.json> [--apply]` uploads
+`listening/media/<test_id>/part{N}.mp3` + `part{N}-diagram.png` and replaces `"TODO"` URLs.
 
 Between the two full papers, twelve of the thirteen types appear in exam-realistic
 proportions; `diagram_completion` appears only in the template, because it needs a hosted
@@ -102,6 +121,12 @@ It catches, among ~60 checks, the things that fail **silently** rather than loud
 ---
 
 ## Importing
+
+**From the CLI** (no pasting): `npm run ielts:import -- "data/ielts practise/listening"` validates
+and shows the plan; add `--apply` to write (Reading/Listening only — same validator and same
+Firestore writes as the admin importer). Re-importing the same `test_id` updates in place.
+
+**From the admin panel:**
 
 1. Sign in as a `super_admin` and open `/admin/ielts` → the module's tab → **Import JSON**.
 2. Paste the whole file, press **Validate** (shows question count, type breakdown, and every

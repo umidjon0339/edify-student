@@ -22,7 +22,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   AlertCircle, Check, Clock, Eye, Headphones, Lock,
-  Pause, Play, ShieldAlert, Volume2, X, Zap,
+  Pause, Play, RotateCcw, RotateCw, ShieldAlert, Volume2, X, Zap,
 } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import { useStudentLanguage } from '@/app/(student)/layout';
@@ -120,8 +120,14 @@ export default function IeltsRunner({
   const [needResume, setNeedResume] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [previewPlaying, setPreviewPlaying] = useState(false);
+  // Practice mode: the audio part is independent of the part on screen, so a
+  // student can read ahead (or look back) without killing playback.
+  const [practiceAudioIdx, setPracticeAudioIdx] = useState(0);
+  const [practicePlaying, setPracticePlaying] = useState(false);
+  const [practiceRate, setPracticeRate] = useState(1);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const practiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const previewRef = useRef<HTMLAudioElement | null>(null);
   const submittedRef = useRef(false);
   const isAwayRef = useRef(false);
@@ -138,9 +144,13 @@ export default function IeltsRunner({
 
   const remainingSec = endTime ? Math.round((endTime - nowTick) / 1000) : 0;
   const overtime = remainingSec < 0;
-  // Auto-submit: simulation always; the listening check window always; and any
-  // assignment when the deadline itself is hit (the server rejects afterwards).
-  const autoSubmits = isSim
+  // Auto-submit: simulation always — except while listening audio is actually
+  // playing (real recordings with their reading pauses can outrun the nominal
+  // time; the paper ends when the audio ends + the 2-min check window, not
+  // mid-Part 4); the listening check window always; and any assignment when the
+  // deadline itself is hit (the server rejects afterwards).
+  const audioStillPlaying = isListening && isSim && audioPhase === 'playing' && !needResume;
+  const autoSubmits = (isSim && !audioStillPlaying)
     || (isListening && audioPhase === 'check')
     || (kind === 'assignment' && !!dueAtMs && endTime === dueAtMs);
 
@@ -169,7 +179,9 @@ export default function IeltsRunner({
       if (saved.audio.phase === 'check') {
         setAudioPhase('check');
       } else {
-        setAudioPart(Math.min(saved.audio.part || 0, Math.max(0, parts.length - 1)));
+        const restoredPart = Math.min(saved.audio.part || 0, Math.max(0, parts.length - 1));
+        setAudioPart(restoredPart);
+        setActiveGroupIdx(restoredPart); // show the questions for the part being heard
         setAudioPos(saved.audio.elapsed || 0);
         setAudioPhase('playing');
         setNeedResume(true); // autoplay needs a fresh user gesture
@@ -377,7 +389,9 @@ export default function IeltsRunner({
 
   const handleAudioEnded = () => {
     if (audioPart < parts.length - 1) {
-      setAudioPart((p) => p + 1);
+      // Like CD-IELTS, the question pane follows the recording into the next part.
+      setActiveGroupIdx(audioPart + 1);
+      setAudioPart(audioPart + 1);
       setAudioPos(0);
     } else {
       // Official protocol: 2 minutes to check answers, then auto-submit.
@@ -402,6 +416,7 @@ export default function IeltsRunner({
       setAudioPhase('playing');
       setAudioPart(0);
       setAudioPos(0);
+      setActiveGroupIdx(0);
     }
     // Fullscreen only where it earns its keep: exam simulation on desktop.
     // In practice mode (or on phones, where it fails/disrupts) stay windowed.
@@ -427,8 +442,22 @@ export default function IeltsRunner({
     setFlags((prev) => (prev.includes(blockKey) ? prev.filter((k) => k !== blockKey) : [...prev, blockKey]));
   };
 
+  /** Switch the visible passage/part. In listening practice an idle player
+   *  follows along; a playing one keeps playing its own part. */
+  const selectGroup = (gi: number) => {
+    setActiveGroupIdx(gi);
+    if (isListening && !isSim && !practicePlaying) setPracticeAudioIdx(gi);
+  };
+
+  const nudgePractice = (deltaSec: number) => {
+    const a = practiceAudioRef.current;
+    if (!a) return;
+    const max = Number.isFinite(a.duration) ? a.duration : Infinity;
+    a.currentTime = Math.max(0, Math.min(max, a.currentTime + deltaSec));
+  };
+
   const jumpTo = (n: PaletteNumber) => {
-    setActiveGroupIdx(n.groupIdx);
+    selectGroup(n.groupIdx);
     setCurrentQn(n.qn);
     if (!isListening) setMobilePane('questions');
     setTimeout(() => {
@@ -456,6 +485,7 @@ export default function IeltsRunner({
       // Only now is the local session safe to discard.
       clearSession(STORAGE_KEY);
       audioRef.current?.pause();
+      practiceAudioRef.current?.pause();
       setResult(res);
       setPhase('submitted');
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
@@ -826,13 +856,73 @@ export default function IeltsRunner({
               ) : null}
             </div>
           ) : (
-            <audio
-              key={activeGroupIdx}
-              controls
-              src={parts[activeGroupIdx]?.audio_url}
-              preload="metadata"
-              className="h-9 w-full"
-            />
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5">
+                <span className="shrink-0 rounded-m3-xs bg-primary-container px-1.5 py-0.5 text-[11px] font-black uppercase tracking-wide text-on-primary-container">
+                  P{parts[practiceAudioIdx]?.part_number || practiceAudioIdx + 1}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => nudgePractice(-5)}
+                  aria-label={t.runner.back5}
+                  title={t.runner.back5}
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-m3-xs text-on-surface-variant hover:bg-state-hover"
+                >
+                  <RotateCcw size={16} />
+                </button>
+                <audio
+                  key={practiceAudioIdx}
+                  ref={practiceAudioRef}
+                  controls
+                  src={parts[practiceAudioIdx]?.audio_url}
+                  preload="metadata"
+                  className="h-9 min-w-0 flex-1"
+                  onLoadedMetadata={(e) => { e.currentTarget.playbackRate = practiceRate; }}
+                  onPlay={() => setPracticePlaying(true)}
+                  onPause={() => setPracticePlaying(false)}
+                  onEnded={() => setPracticePlaying(false)}
+                />
+                <button
+                  type="button"
+                  onClick={() => nudgePractice(5)}
+                  aria-label={t.runner.fwd5}
+                  title={t.runner.fwd5}
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-m3-xs text-on-surface-variant hover:bg-state-hover"
+                >
+                  <RotateCw size={16} />
+                </button>
+                <select
+                  aria-label={t.runner.speed}
+                  title={t.runner.speed}
+                  value={practiceRate}
+                  onChange={(e) => {
+                    const r = Number(e.target.value);
+                    setPracticeRate(r);
+                    if (practiceAudioRef.current) practiceAudioRef.current.playbackRate = r;
+                  }}
+                  className="h-8 shrink-0 rounded-m3-xs border border-outline-variant bg-surface px-1 text-[12px] font-bold text-on-surface"
+                >
+                  {[0.75, 0.9, 1, 1.1, 1.25].map((r) => (
+                    <option key={r} value={r}>{r}×</option>
+                  ))}
+                </select>
+              </div>
+              {practiceAudioIdx !== activeGroupIdx && (
+                <div className="flex flex-wrap items-center gap-2 text-[12px] font-bold text-on-surface-variant">
+                  <span>
+                    {t.runner.nowPlaying}: {t.runner.part} {parts[practiceAudioIdx]?.part_number || practiceAudioIdx + 1}
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="outlined"
+                    icon={<Play size={12} />}
+                    onClick={() => { setPracticePlaying(false); setPracticeAudioIdx(activeGroupIdx); }}
+                  >
+                    {t.runner.playThisPart}
+                  </Button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}
@@ -966,7 +1056,7 @@ export default function IeltsRunner({
               <Fragment key={gi}>
                 <button
                   type="button"
-                  onClick={() => setActiveGroupIdx(gi)}
+                  onClick={() => selectGroup(gi)}
                   className={cn(
                     'grid h-8 shrink-0 place-items-center rounded-m3-xs px-1.5 text-[10px] font-black uppercase tracking-wide',
                     activeGroupIdx === gi ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-state-hover',

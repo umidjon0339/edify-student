@@ -9,7 +9,9 @@
     "lint": "eslint",
     "test:rules": "firebase emulators:exec --only firestore --project demo-edify-rules \"node --test tests/rules/*.test.mjs\"",
     "backfill:rand": "tsx scripts/backfillrandfield.ts",
-    "ielts:verify": "tsx \"data/ielts practise/verify.ts\""
+    "ielts:verify": "tsx \"data/ielts practise/verify.ts\"",
+    "ielts:import": "tsx --env-file-if-exists=.env.local scripts/ieltsImport.ts",
+    "ielts:media":"node --env-file-if-exists=.env.local scripts/ieltsMedia.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

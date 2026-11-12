@@ -43,7 +43,7 @@
 
 | Field | Required | Rules |
 |---|---|---|
-| `audio_url` | ✅ | Absolute `https://` URL of an already-uploaded audio file. **A part without audio cannot be taken** — the import rejects it. |
+| `audio_url` | ✅ | Absolute `https://` URL of an uploaded audio file, or a same-site path (`/ielts/listening/…/part1.mp3`) for a file in `public/`. **A part without audio cannot be taken** — the import rejects it. |
 | `audio_duration_seconds` | optional | Positive number; used for the progress readout. |
 | `transcript` | optional | Full script. Teacher-facing only — students never see it. If present, `passage_reference` rows are checked against it. |
 | `questions` | ✅ | Non-empty array of question blocks. |
@@ -148,7 +148,30 @@ The grader already accepts digit↔word equivalents, so `["14"]` alone would als
 
 ---
 
-## 6. Before importing
+## 6. Notes, forms and maps — the layouts Listening uses most
+
+- **Notes / forms** (most Parts 1 and 4): `summary_completion` with `summary_title` and a
+  `summary_text` written line by line — `\n` between lines, `•` / `–` bullets. Line breaks are
+  preserved in the runner, so it reads like the printed form.
+- **Map / plan labelling** (typical Part 2): `diagram_completion` with a letters-only word
+  bank and a `question_text` per row:
+
+```json
+{
+  "type": "diagram_completion",
+  "instructions": "Questions 15–20\nLabel the map below.\nWrite the correct letter, A–I, next to Questions 15–20.",
+  "diagram_url": "TODO",
+  "diagram_alt_text": "…",
+  "options": [{ "id": "A", "text": "A" }, { "id": "B", "text": "B" }],
+  "questions": [{ "question_number": 15, "question_text": "School", "correct_answer": "B" }]
+}
+```
+
+Media URLs may be absolute `https://` links **or same-site paths** for files in the app's
+`public/` folder (`"/ielts/listening/<test_id>/part1.mp3"`) — see
+[README.md](README.md#listening-media-audio--map-images).
+
+## 7. Before importing
 
 ```bash
 npm run ielts:verify -- "data/ielts practise/listening/my-paper.json"

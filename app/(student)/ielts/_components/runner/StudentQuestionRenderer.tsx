@@ -186,8 +186,16 @@ export default function StudentQuestionRenderer({
     });
   };
 
+  // A letters-only bank ({id:"A", text:"A"} — map/plan labelling, where the
+  // letters live on the image) has nothing to list; the dropdowns are enough.
+  const labelledDiagram = qb.type === 'diagram_completion'
+    && Array.isArray(qb.questions) && qb.questions.some((q: { question_text?: string }) => q?.question_text);
+  const lettersOnlyBank = hasBank && qb.options.every(
+    (o: { id?: unknown; text?: unknown }) => String(o?.text ?? '').trim() === String(o?.id ?? '').trim(),
+  );
+
   const renderWordBank = () =>
-    hasBank ? (
+    hasBank && !lettersOnlyBank ? (
       <div className="rounded-m3-sm border border-outline-variant bg-surface-container-low p-3">
         <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 sm:grid-cols-3">
           {qb.options.map((opt: any, i: number) => (
@@ -479,7 +487,9 @@ export default function StudentQuestionRenderer({
           <div className="space-y-4">
             {renderWordBank()}
             <div className="rounded-m3-sm border border-outline-variant bg-surface-container p-4">
-              <div className="text-justify text-[1em] font-medium leading-[2.4] text-on-surface">
+              {/* pre-wrap: note/form-style summaries (most listening Parts 1 & 4, the
+                  C18 reading notes) are authored as "\n"-separated lines + bullets. */}
+              <div className="whitespace-pre-wrap text-[1em] font-medium leading-[2.4] text-on-surface">
                 {renderGapText(qb.summary_text || '', counter)}
               </div>
             </div>
@@ -557,7 +567,7 @@ export default function StudentQuestionRenderer({
                     return (
                       <tr key={rIdx} className="border-b border-outline-variant last:border-b-0">
                         {cells.map((cell: string, cIdx: number) => (
-                          <td key={cIdx} className="border-r border-outline-variant px-3 py-2.5 align-top leading-[2.4] text-on-surface last:border-r-0">
+                          <td key={cIdx} className="whitespace-pre-wrap border-r border-outline-variant px-3 py-2.5 align-top leading-[2.4] text-on-surface last:border-r-0">
                             {renderGapText(cell, counter)}
                           </td>
                         ))}
@@ -614,7 +624,7 @@ export default function StudentQuestionRenderer({
               <img
                 src={qb.diagram_url}
                 alt={qb.diagram_alt_text || 'Diagram'}
-                className="max-h-[400px] w-auto rounded-m3-sm object-contain"
+                className="max-h-[70vh] w-auto max-w-full rounded-m3-sm object-contain"
               />
             ) : (
               <div className="flex h-40 w-full max-w-md items-center justify-center rounded-m3-sm border-2 border-dashed border-outline text-[0.9em] text-on-surface-variant">
@@ -622,11 +632,19 @@ export default function StudentQuestionRenderer({
               </div>
             )}
           </div>
-          <div className="flex flex-wrap items-start justify-center gap-x-6 gap-y-3 pt-1">
+          {/* Labelled rows (map/plan labelling: "15 School [B]") stack as a list;
+              bare rows (labels printed inside the image) keep the compact wrap. */}
+          <div className={cn(
+            'pt-1',
+            labelledDiagram ? 'space-y-2.5' : 'flex flex-wrap items-start justify-center gap-x-6 gap-y-3',
+          )}>
             {Array.isArray(qb.questions) && qb.questions.map((q: any, i: number) => (
               <div key={i} id={`question-${q?.question_number || i}`}>
                 <div className="flex items-center gap-2.5">
                   <span className={NUM_BADGE}>{q.question_number || '?'}</span>
+                  {labelledDiagram && (
+                    <span className="min-w-[9em] flex-1 font-medium text-on-surface sm:flex-none">{q.question_text || ''}</span>
+                  )}
                   {hasBank ? (
                     <select
                       value={getStr(q.question_number)}
