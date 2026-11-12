@@ -367,6 +367,14 @@ a browser can and cannot enforce.
 - ⚠️ **One interruption fires several events** (a tab switch fires both
   `visibilitychange` and `blur`). An `away` ref latches so it counts once; coming
   back re-arms the latch but never clears the warning.
+- ⚠️ **`blur` ALSO fires when focus moves into an in-page `<iframe>`** (2026-11-03)
+  — clicking into the SAT runner's calculator (`SatCalculator.tsx`'s Desmos
+  embed, the only iframe anywhere in the student app) is not leaving the test,
+  so `onBlur` ignores it when `document.activeElement?.tagName === 'IFRAME'`.
+  `visibilitychange` is untouched and still catches a genuine tab/app switch
+  even while the iframe has focus (it fires on the document, independent of
+  which element inside it was focused) — the fix narrows ONE false-positive
+  source without weakening the real detector.
 - ⚠️ **`requestFullscreen()` needs a live user gesture**, so it is NOT called on
   mount — mounting happens in a re-render after the click and Safari/Firefox
   reject it there. `requestExamFullscreen()` is exported for each page's Start

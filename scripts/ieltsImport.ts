@@ -50,11 +50,12 @@ for (const file of files) {
     for (const e of res.errors) console.log(`    ${e.label ? `${e.label} — ` : ''}${e.path}: ${e.message}`);
     continue;
   }
-  const t = res.test as Paper;
-  if (t.module !== 'reading' && t.module !== 'listening') {
-    console.log(`– ${file}: ${t.module} papers are not handled by this script (use /admin/ielts)`);
+  const mod = (res.test as { module: string }).module;
+  if (mod !== 'reading' && mod !== 'listening') {
+    console.log(`– ${file}: ${mod} papers are not handled by this script (use /admin/ielts)`);
     continue;
   }
+  const t = res.test as Paper;
   console.log(`✓ ${file}\n    ${t.module} · ${t.test_id} · "${t.test_title}" · ${res.summary?.questions ?? t.total_questions} Q`
     + (res.warnings.length ? ` · ${res.warnings.length} warning(s)` : ''));
   ready.push({ file, test: t });
