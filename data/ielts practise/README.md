@@ -49,6 +49,8 @@ their URLs pasted in).
 | `reading/academic-02.json` | Academic Reading | 40 | Full paper — saffron / mass timber / the psychology of waiting |
 | `reading/_template-all-question-types.json` | Academic Reading | 24 | Fixture exercising **all 13** question types. Import this first when testing the pipeline. |
 | `reading/ielts-reading-c18-test{1-4}.json` | Academic Reading | 40 each | Cambridge IELTS 18, Tests 1–4 |
+| `reading/ielts-reading-c19-test{1-4}.json` | Academic Reading | 40 each | Cambridge IELTS 19, Tests 1–4 — every free-text answer located verbatim in its passage (`passage_reference`) |
+| `listening/ielts-listening-c19-test{1-4}.json` | Listening | 40 each | Cambridge IELTS 19, Tests 1–4 — audio + Test 1 map in `public/ielts/listening/cambridge_19_*`; scripts checked against the recordings |
 | `listening/ielts-listening-c18-test{1-4}.json` | Listening | 40 each | Cambridge IELTS 18, Tests 1–4 — full audioscripts as `transcript`, every answer row has a `passage_reference` into it (review → **Locate**). Audio + map served from `public/ielts/listening/` — see below. Audio checked against the official recordings (every part matches its script; every free-text answer is spoken). |
 
 ### Listening media (audio + map images)
@@ -109,8 +111,8 @@ It catches, among ~60 checks, the things that fail **silently** rather than loud
 - per-type `correct_answer` shape (string vs 1-element array vs multi-letter array), and
   every letter answer resolving to a real option id;
 - accepted answers that exceed their own `word_limit` (the grader would reject its own key);
-- free-text `summary_completion` answers of ≤3 letters, which the grader reads as option
-  letters;
+- free-text answers made only of single letters, which the grader reads as option letters
+  (short real words like `["map"]` are fine — the old ≤3-letter warning was a false positive);
 - a two-answer `multiple_choice` (must be `list_selection` — otherwise it renders
   single-select and is unanswerable);
 - `matching_headings` reusing a heading or pointing at a non-existent paragraph label;

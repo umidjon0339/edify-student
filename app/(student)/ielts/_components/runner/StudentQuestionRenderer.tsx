@@ -600,7 +600,7 @@ export default function StudentQuestionRenderer({
                     </div>
                   )}
                   <div className="w-full rounded-m3-sm border border-outline-variant bg-surface-container-lowest p-3">
-                    <div className="text-center text-[1em] font-medium leading-[2.4] text-on-surface">
+                    <div className="whitespace-pre-wrap text-center text-[1em] font-medium leading-[2.4] text-on-surface">
                       {renderGapText(step, counter)}
                     </div>
                   </div>

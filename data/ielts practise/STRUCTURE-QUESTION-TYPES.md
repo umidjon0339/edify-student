@@ -399,9 +399,10 @@ Word bank:
 
 - Rows carry **no visible text** — the summary paragraph is the question. Row order = gap order.
 - `questions.length` must equal the number of gap tokens in `summary_text`.
-- ⚠️ **Free-text answers of three letters or fewer are treated as option LETTERS by the
-  grader** (that is how word-bank mode is detected). Avoid `["ice"]`, `["oil"]`, `["tin"]`
-  here — use a longer accepted form or switch the block to a word bank.
+- ⚠️ **Always write free-text answers as an array** (`["map"]`, `["son"]`). A *plain string*
+  answer of three letters or fewer is read by the grader as an option letter (that is how
+  word-bank mode is detected), and so is an array whose every form is a **single letter**.
+  Short real words in an array — `["map"]`, `["ice"]`, `["gut"]` — grade as text (verified).
 
 ---
 
@@ -492,6 +493,6 @@ One `steps` entry = one box. Steps without gaps are fine and normal.
 - [ ] Gap-token count == answer-row count in every summary / table / flowchart block.
 - [ ] `matching_headings`: more headings than paragraphs, each used once,
       `target_paragraph` matches a real paragraph label.
-- [ ] Free-text answers fit `word_limit`; no ≤3-letter free-text `summary_completion` answers.
+- [ ] Free-text answers fit `word_limit`; free-text answers are arrays, never a lone single letter.
 - [ ] Every `passage_reference` is copied character-for-character from the passage.
 - [ ] Numbers run 1…40 with no gaps or repeats.

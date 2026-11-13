@@ -1,0 +1,610 @@
+{
+  "module": "reading",
+  "test_title": "Cambridge IELTS 19 - Academic Reading Test 3",
+  "test_id": "cambridge_19_reading_test_3",
+  "test_category": "academic",
+  "total_time_minutes": 60,
+  "passages": [
+    {
+      "title": "Archaeologists discover evidence of prehistoric island settlers",
+      "subtitle": "",
+      "instruction": "You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.",
+      "difficulty": "medium",
+      "blocks": [
+        {
+          "label": "",
+          "content": "In early April 2019, Dr Ceri Shipton and his colleagues from Australian National University became the first archaeologists to explore Obi, one of many tropical islands in Indonesia's Maluku Utara province. The research team's discoveries suggest that the prehistoric people who lived on Obi were adept on both land and sea, hunting in the dense rainforest, foraging on the seashore, and possibly even voyaging between islands."
+        },
+        {
+          "label": "",
+          "content": "The excavations were part of a project to learn more about how people first dispersed from mainland Asia, through the Indonesian archipelago and into the prehistoric continent that once connected Australia and New Guinea. The team's earlier research suggested that the northernmost islands in the group, known as the Wallacean islands including Obi, would have offered the easiest migration route. It also seemed likely that these islands were crucial 'stepping stones' on humans' is land-hopping voyages through this region millennia ago. But to support this idea, they needed archaeological evidence for humans living in this remote area in the ancient past. So, they travelled to Obi to look for sites that might reveal evidence of early occupation."
+        },
+        {
+          "label": "",
+          "content": "Just inland from the village of Kelo on Obi's northern coast, Shipton and his colleagues found two caves containing prehistoric rock shelters that were suitable for excavation. With the permission and help of the local people of Kelo, they dug a small test excavation in each shelter. There they found numerous artefacts, including fragments of axes, some dating to about 14,000 years ago. The earliest axes at Kelo were made using clam shells. Axesmadefromclamshellsfromroughlythesametimehadalso previously been found elsewhere in this region, including on the nearby island of Gebe to the northeast. As on Gebe, it is highly likely that Obi's axes were used in the construction of canoes, thus allowing these early peoples to maintain connections between communities on neighbouring islands."
+        },
+        {
+          "label": "",
+          "content": "The oldest cultural layers from the Kelo site provided the team with the earliest record for human occupation on Obi, dating back around 18,000 years. At this time the climate was drier and colder than today, and the island's dense rainforests would likely have been much less impenetrable than they are now. Sea levels were about 120 metres lower, meaning Obi was a much larger island, encompassing what is today the separate island of Bisa, as well as several other small islands nearby."
+        },
+        {
+          "label": "",
+          "content": "Roughly 11,700 years ago, as the most recent ice age ended, the climate became significantly warmer and wetter, no doubt making Obi's jungle much thicker. According to the researchers, it is no coincidence that around this time the first axes crafted from stone rather than sea shells appear, likely in response to their heavy-duty use for clearing and modification of the increasingly dense rainforest. While stone takes about twice as long to grind into an axe compared to shell, the harder material keeps its sharp edge for longer."
+        },
+        {
+          "label": "",
+          "content": "Judging by the bones which the researchers unearthed in the Kelo caves, people living there mainly hunted the Rothschild's cuscus, a possum-like creature that still lives on Obi today. As the forest grew more dense, people probably used axes to clear patches of forest and make hunting easier."
+        },
+        {
+          "label": "",
+          "content": "Shipton's team's excavation of the shelters at the Kelo site unearthed a volcanic glass substance called obsidian, which must have been brought over from another island, as there is no known source on Obi. It also revealed particular types of beads, similar to those previously found on islands in southern Wallacea. These finds again support the idea that Obiislanders routinely travelled to other islands."
+        },
+        {
+          "label": "",
+          "content": "The excavations suggest people successfully lived in the two Kelo shelters for about 10,000 years. But then, about 8,000 years ago, both were abandoned. Did the residents leave Obi completely, or move elsewhere on the island? Perhaps the jungle had grown so thick that axes were no longer a match for the dense undergrowth. Perhaps people simply moved to the coast and turned to fishing rather than hunting as a means of survival."
+        },
+        {
+          "label": "",
+          "content": "Whatever the reason for the departure, there is no evidence for use of the Kelo shelters after this time, until about 1, oo 0 years ago, when they were re-occupied by people who owned pottery as well as items made out of gold and silver. It seems likely, in view of Obi's location, that this final phase of occupation also saw the Kelo shelters used by people involved in the historic trade in spices between the Maluku islands and the rest of the world."
+        }
+      ],
+      "questions": [
+        {
+          "type": "true_false_not_given",
+          "instructions": "Questions 1–7\nDo the following statements agree with the information given in Reading Passage 1?\nIn boxes 1–7 on your answer sheet, write\nTRUE if the statement agrees with the information\nFALSE if the statement contradicts the information\nNOT GIVEN if there is no information on this",
+          "options": [
+            {
+              "label": "TRUE",
+              "description": "if the statement agrees with the information"
+            },
+            {
+              "label": "FALSE",
+              "description": "if the statement contradicts the information"
+            },
+            {
+              "label": "NOT GIVEN",
+              "description": "if there is no information on this"
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 1,
+              "statement": "Archaeological research had taken place on the island of Obi before the arrival of Ceri Shipton and his colleagues.",
+              "correct_answer": "FALSE"
+            },
+            {
+              "question_number": 2,
+              "statement": "At the Kelo sites, the researchers found the first clam shell axes ever to be discovered in the region.",
+              "correct_answer": "FALSE"
+            },
+            {
+              "question_number": 3,
+              "statement": "The size of Obi today is less than it was 18,000 years ago.",
+              "correct_answer": "TRUE"
+            },
+            {
+              "question_number": 4,
+              "statement": "A change in the climate around 11,700 years ago had a greater impact on Obi than on the surrounding islands.",
+              "correct_answer": "NOT GIVEN"
+            },
+            {
+              "question_number": 5,
+              "statement": "The researchers believe there is a connection between warmer, wetter weather and a change in the material used to make axes.",
+              "correct_answer": "TRUE"
+            },
+            {
+              "question_number": 6,
+              "statement": "Shipton's team were surprised to find evidence of the Obi islanders' hunting practices.",
+              "correct_answer": "NOT GIVEN"
+            },
+            {
+              "question_number": 7,
+              "statement": "It is thought that the Kelo shelters were occupied continuously until about 1,000 years ago.",
+              "correct_answer": "FALSE"
+            }
+          ]
+        },
+        {
+          "type": "summary_completion",
+          "instructions": "Questions 8–13\nComplete the notes below.\nChoose ONE WORD ONLY from the passage for each answer.\nWrite your answers in boxes 8–13 on your answer sheet.",
+          "summary_title": "Archaeological findings on Obi",
+          "word_limit": 1,
+          "summary_text": "Excavations of rock shelters inside [8] near the village of Kelo revealed:\n• axes from around 14,000 years ago, probably used to make canoes\n• axes made out of [9], dating from around 11,700 years ago\n• [10] of an animal: evidence of what ancient islanders ate\n• evidence of travel between islands:\n  – obsidian: a material that is not found naturally on Obi\n  – [11] which resembled ones found on other islands.\n\nIt is thought that from 8,000 years ago, Obi islanders:\n• may have switched from hunting to fishing\n• had [12] as well as items made out of metal\n• probably took part in the production and sale of [13].",
+          "options": null,
+          "questions": [
+            {
+              "question_number": 8,
+              "correct_answer": [
+                "caves"
+              ],
+              "passage_reference": "and his colleagues found two caves containing prehistoric rock shelters that"
+            },
+            {
+              "question_number": 9,
+              "correct_answer": [
+                "stone"
+              ],
+              "passage_reference": "the first axes crafted from stone rather than sea shells appear"
+            },
+            {
+              "question_number": 10,
+              "correct_answer": [
+                "bones"
+              ],
+              "passage_reference": "Judging by the bones which the researchers unearthed in"
+            },
+            {
+              "question_number": 11,
+              "correct_answer": [
+                "beads"
+              ],
+              "passage_reference": "also revealed particular types of beads, similar to those previously found"
+            },
+            {
+              "question_number": 12,
+              "correct_answer": [
+                "pottery"
+              ],
+              "passage_reference": "re-occupied by people who owned pottery as well as items made"
+            },
+            {
+              "question_number": 13,
+              "correct_answer": [
+                "spices"
+              ],
+              "passage_reference": "in the historic trade in spices between the Maluku islands and"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "The global importance of wetlands",
+      "subtitle": "",
+      "instruction": "You should spend about 20 minutes on Questions 14–26, which are based on Reading Passage 2 below.",
+      "difficulty": "medium",
+      "blocks": [
+        {
+          "label": "A",
+          "content": "Wetlands are areas where water covers the soil, or is present either at or near the surface of the soil, for all or part of the year. These are complex ecosystems, rich in unique plant and animal life. But according to the World Wide Fund for Nature (WWFN), half of the world's wetlands have disappeared since 1990 – converted or destroyed for commercial development, drainage schemes and the extraction of minerals and peat*. Many of those that remain have been damaged by agricultural pesticides and fertilisers, industrial pollutants, and construction works."
+        },
+        {
+          "label": "B",
+          "content": "Throughout history, humans have gathered around wetlands, and their fertile ecosystems have played an important part in human development. Consequently, they are of considerable religious, historical and archaeological value to many communities around the world. 'Wetlands directly support the livelihoods and well-being of millions of people,' says Dr Matthew McCartney, principal researcher and hydrologist at the International Water Management Institute (IWMI). 'In many developing countries, large numbers of people are dependent on wetland agriculture for their livelihoods.'"
+        },
+        {
+          "label": "C",
+          "content": "They also serve a crucial environmental purpose. 'Wetlands are one of the key tools in mitigating climate change across the planet,' says Pieter van Eijk, head of Climate Adaptation at Wetlands International (WI), pointing to their use as buffers that protect coastal areas from sea-level rise and extreme weather events such as hurricanes and flooding. Wetland coastal forests provide food and water, as well as shelter from storms, and WI and other agencies are working to restore those forests which have been lost. 'It can be as simple as planting a few trees per hectare to create shade and substantially change a microclimate,' he says. 'Implementing climate change projects isn't so much about money.'"
+        },
+        {
+          "label": "D",
+          "content": "The world's wetlands are, unfortunately, rich sources for in-demand commodities, such as palm oil and pulpwood. Peatlands – wetlands with a waterlogged organic soil layer – are particularly targeted. When peatlands are drained for cultivation, they become net carbon emitters instead of active carbon stores, and, according to Marcel Silvius, head of Climate-smart Land-use at WI, this practice causes six per cent of all global carbon emissions. The clearance of peatlands for planting also increases the risk of forest fires, which release huge amounts of CO2. 'We're seeing huge peatland forests with extremely high biodiversity value being lost for a few decades of oil palm revenues,' says Silvius."
+        },
+        {
+          "label": "E",
+          "content": "The damage starts when logging companies arrive to clear the trees. They dig ditches to enter the peat swamps by boat and then float the logs out the same way. These are then used to drain water out of the peatlands to allow for the planting of corn, oil palms or pulpwood trees. Once the water has drained away, bacteria and fungi then break down the carbon in the peat and turn it into CO2 and methane. Meanwhile, the remainder of the solid matter in the peat starts to move downwards, in a process known as subsidence**. Peat comprises 90 per cent water, so this is one of the most alarming consequences of peatland clearances. 'In the tropics, peat subsides at about four centimetres a year, so within half a century, very large landscapes on Sumatra and Borneo will become flooded as the peat drops below water level,' says Silvius. 'It's a huge catastrophe that's in preparation. Some provinces will lose 40 per cent of their landmass.'"
+        },
+        {
+          "label": "F",
+          "content": "And while these industries affect wetlands in ways that can easily be documented, Dr Dave Tickner of the WWFN believes that more subtle impacts can be even more devastating. 'Sediment run-off and fertilisers can be pretty invisible,' says Tickner. 'Over-extraction of water is equally invisible. You do get shock stories about rivers running red, or even catching fire, but there's seldom one big impact that really hurts a wetland.' Tickner does not blame anyone for deliberate damage, however. 'I've worked on wetland issues for 20 years and have never met anybody who wanted to damage a wetland,' he says. 'It isn't something that people generally set out to do. Quite often, the effects simply come from people trying to make a living.'"
+        },
+        {
+          "label": "G",
+          "content": "Silvius also acknowledges the importance of income generation. 'It's not that we just want to restore the biodiversity of wetlands – which we do – but we recognise there's a need to provide an income for local people.' This approach is supported by IWMI. 'The idea is that people in a developing country will only protect wetlands if they value and profit from them, says McCartney. For sustainability, it's essential that local people are involved in wetland planning and decision making and have clear rights to use wetlands.'"
+        },
+        {
+          "label": "H",
+          "content": "The fortunes of wetlands would be improved, Silvius suggests, if more governments recognised their long-term value. 'Different governments have different attitudes,' he says, and goes on to explain that some countries place a high priority on restoring wetlands, while others still deny the issue. McCartney is cautiously optimistic, however. 'Awareness of the importance of wetlands is growing,' he says. 'It's true that wetland degradation still continues at a rapid pace, but my impression is that things are slowly changing.'"
+        },
+        {
+          "label": "",
+          "content": "*peat: a brown deposit formed by the partial decomposition of vegetation in wet acidic conditions, often cut out and dried for use as fuel"
+        },
+        {
+          "label": "",
+          "content": "**subsidence: the sinking of the Earth's surface, most often caused by the removal of resources from the ground"
+        }
+      ],
+      "questions": [
+        {
+          "type": "matching_paragraph_information",
+          "instructions": "Questions 14–17\nReading Passage 2 has eight paragraphs, A–H.\nWhich paragraph contains the following information?\nWrite the correct letter, A–H, in boxes 14–17 on your answer sheet.",
+          "options": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H"
+          ],
+          "questions": [
+            {
+              "question_number": 14,
+              "statement": "reference to the need to ensure that inhabitants of wetland regions continue to benefit from them",
+              "correct_answer": "G"
+            },
+            {
+              "question_number": 15,
+              "statement": "the proportion of wetlands which have already been lost",
+              "correct_answer": "A"
+            },
+            {
+              "question_number": 16,
+              "statement": "reference to the idea that people are beginning to appreciate the value of wetlands",
+              "correct_answer": "H"
+            },
+            {
+              "question_number": 17,
+              "statement": "mention of the cultural significance of wetlands",
+              "correct_answer": "B"
+            }
+          ]
+        },
+        {
+          "type": "sentence_completion",
+          "instructions": "Questions 18–22\nComplete the sentences below.\nChoose ONE WORD ONLY from the passage for each answer.\nWrite your answers in boxes 18–22 on your answer sheet.",
+          "word_limit": 1,
+          "options": null,
+          "questions": [
+            {
+              "question_number": 18,
+              "sentence": "Peatlands which have been drained begin to release [18] instead of storing it.",
+              "correct_answer": [
+                "carbon"
+              ],
+              "passage_reference": "for cultivation, they become net carbon emitters instead of active carbon"
+            },
+            {
+              "question_number": 19,
+              "sentence": "Once peatland areas have been cleared, [19] are more likely to occur.",
+              "correct_answer": [
+                "fires"
+              ],
+              "passage_reference": "increases the risk of forest fires, which release huge amounts of"
+            },
+            {
+              "question_number": 20,
+              "sentence": "Clearing peatland forests to make way for oil palm plantations destroys the [20] of the local environment.",
+              "correct_answer": [
+                "biodiversity"
+              ],
+              "passage_reference": "peatland forests with extremely high biodiversity value being lost for a"
+            },
+            {
+              "question_number": 21,
+              "sentence": "Water is drained out of peatlands through the [21] which are created by logging companies.",
+              "correct_answer": [
+                "ditches"
+              ],
+              "passage_reference": "clear the trees. They dig ditches to enter the peat swamps"
+            },
+            {
+              "question_number": 22,
+              "sentence": "Draining peatlands leads to [22]: a serious problem which can eventually result in coastal flooding and land loss.",
+              "correct_answer": [
+                "subsidence"
+              ],
+              "passage_reference": "in a process known as subsidence**. Peat comprises 90 per cent"
+            }
+          ]
+        },
+        {
+          "type": "matching_features",
+          "instructions": "Questions 23–26\nLook at the following statements (Questions 23–26) and the list of experts below.\nMatch each statement with the correct expert, A–D.\nWrite the correct letter, A–D, in boxes 23–26 on your answer sheet.\n\nList of Experts",
+          "options": [
+            {
+              "id": "A",
+              "text": "Matthew McCartney"
+            },
+            {
+              "id": "B",
+              "text": "Pieter van Eijk"
+            },
+            {
+              "id": "C",
+              "text": "Marcel Silvius"
+            },
+            {
+              "id": "D",
+              "text": "Dave Tickner"
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 23,
+              "statement": "Communities living in wetland regions must be included in discussions about the future of these areas.",
+              "correct_answer": [
+                "A"
+              ]
+            },
+            {
+              "question_number": 24,
+              "statement": "Official policies towards wetlands vary from one nation to the next.",
+              "correct_answer": [
+                "C"
+              ]
+            },
+            {
+              "question_number": 25,
+              "statement": "People cause harm to wetlands without having any intention to do so.",
+              "correct_answer": [
+                "D"
+              ]
+            },
+            {
+              "question_number": 26,
+              "statement": "Initiatives to reverse environmental damage need not be complex.",
+              "correct_answer": [
+                "B"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Is the era of artificial speech translation upon us?",
+      "subtitle": "Once the stuff of science fiction, technology that enables people to talk using different languages is now here. But how effective is it?",
+      "instruction": "You should spend about 20 minutes on Questions 27–40, which are based on Reading Passage 3 below.",
+      "difficulty": "hard",
+      "blocks": [
+        {
+          "label": "",
+          "content": "Noise, Alex Waibel tells me, is one of the major challenges that artificial speech translation has to meet. A device may be able to recognise speech in a laboratory, or a meeting room, but will struggle to cope with the kind of background noise I can hear in my office surrounding Professor Waibel as he speaks to me from Kyoto station in Japan. I'm struggling to follow him in English, on a scratchy line that reminds me we are nearly 10,o 00 kilometres apart – and that distance is still an obstacle to communication even if you're speaking the same language, as we are. We haven't reached the future yet. If we had, Waibel would have been able to speak more comfortably in his native German and I would have been able to hear his words in English."
+        },
+        {
+          "label": "",
+          "content": "At Karlsruhe Institute of Technology, where he is a professor of computer science, Waibel and his colleagues already give lectures in German that their students can follow in English via an electronic translator. The system generates text that students can read on their laptops or phones, so the process is somewhat similar to subtitling. It helps that lecturers speak clearly, don't have to compete with background chatter, and say much the same thing each year."
+        },
+        {
+          "label": "",
+          "content": "The idea of artificial speech translation has been around for a long time. Douglas Adams' science fiction novel, The Hitchhiker's Guide to the Galaxy, published in 1979, featured a life form called the 'Babel fish' which, when placed in the ear, enabled a listener to understand any language in the universe. It came to represent one of those devices that technology enthusiasts dream of long before they become practically realisable, like TVs flat enough to hang on walls: objects that we once could only dream of having but that are now commonplace. Now devices that look like prototype Babel fish have started to appear, riding a wave of advances in artificial translation and voice recognition."
+        },
+        {
+          "label": "",
+          "content": "At this stage, however, they seem to be regarded as eye-catching novelties rather than steps towards what Waibel calls 'making a language-transparent society'. They tend to be domestic devices or applications suitable for hotel check-ins, for example, providing a practical alternative to speaking traveller's English. The efficiency of the translator is less important than the social function. However, 'Professionals are less inclined to be patient in a conversation,' founder and CEO at Waverly Labs, Andrew Ochoa, observes. To redress this, Waverly is now preparing a new model for professional applications, which entails performance improvements in speech recognition, translation accuracy and the time it takes to deliver the translated speech."
+        },
+        {
+          "label": "",
+          "content": "For a conversation, both speakers need to have devices called Pilots (translator earpieces) in their ears. 'We find that there's a barrier with sharing one of the earphones with a stranger,' says Ochoa. That can't have been totally unexpected. The problem would be solved if ear piece translators became sufficiently prevalent that strangers would be likely to already have their own in their ears. Whether that happens, and how quickly, will probably depend not so much on the earpieces themselves, but on the prevalence of voice-controlled devices and artificial translation in general."
+        },
+        {
+          "label": "",
+          "content": "Waibel highlights the significance of certain Asian nations, noting that voice translation has really taken off in countries such as Japan with a range of systems. There is still a long way to go, though. A translation system needs to be simultaneous, like the translator's voice speaking over the foreign politician being interviewed on the TV, rather than in sections that oblige speakers to pause after every few remarks and wait for the translation to be delivered. It needs to work offline, for situations where internet access isn't possible, and to address apprehensions about the amount of private speech data accumulating in the cloud, having been sent to servers for processing."
+        },
+        {
+          "label": "",
+          "content": "Systems not only need to cope with physical challenges such as noise, they will also need to be socially aware by addressing people in the right way. Some cultural traditions demand solemn respect for academic status, for example, and it is only polite to respect this. Etiquette-sensitive artificial translators could relieve people of the need to know these differing cultural norms. At the same time, they might help to preserve local customs, slowing the spread of habits associated with international English, such as its readiness to get on first-name terms."
+        },
+        {
+          "label": "",
+          "content": "Professors and other professionals will not outsource language awareness to software, though. If the technology matures into seamless, ubiquitous artificial speech translation, it will actually add value to language skills. Whether it will help people conduct their family lives or relationships is open to question – though one noteworthy possibility is that it could overcome the language barriers that often arise between generations after migration, leaving children and their grandparents without a shared language."
+        },
+        {
+          "label": "",
+          "content": "Whatever uses it is put to, though, it will never be as good as the real thing. Even if voice-morphing technology simulates the speaker's voice, their lip movements won't match, and they will look like they are in a dubbed movie. The contrast will underline the value of shared languages, and the value of learning them. Sharing a language can promote a sense of belonging and community, as with the international scientists who use English as a lingua franca, where their predecessors used Latin. Though the practical need for a common language will diminish, the social value of sharing one will persist. And software will never be a substitute for the subtle but vital understanding that comes with knowledge of a language."
+        }
+      ],
+      "questions": [
+        {
+          "type": "multiple_choice",
+          "instructions": "Questions 27–30\nChoose the correct letter, A, B, C or D.\nWrite the correct letter in boxes 27–30 on your answer sheet.",
+          "questions": [
+            {
+              "question_number": 27,
+              "question_text": "What does the reader learn about the conversation in the first paragraph?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "The speakers are communicating in different languages."
+                },
+                {
+                  "id": "B",
+                  "text": "Neither of the speakers is familiar with their environment."
+                },
+                {
+                  "id": "C",
+                  "text": "The topic of the conversation is difficult for both speakers."
+                },
+                {
+                  "id": "D",
+                  "text": "Aspects of the conversation are challenging for both speakers."
+                }
+              ],
+              "correct_answer": [
+                "D"
+              ]
+            },
+            {
+              "question_number": 28,
+              "question_text": "What assists the electronic translator during lectures at Karlsruhe Institute of Technology?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "the repeated content of lectures"
+                },
+                {
+                  "id": "B",
+                  "text": "the students' reading skills"
+                },
+                {
+                  "id": "C",
+                  "text": "the languages used"
+                },
+                {
+                  "id": "D",
+                  "text": "the lecturers' technical ability"
+                }
+              ],
+              "correct_answer": [
+                "A"
+              ]
+            },
+            {
+              "question_number": 29,
+              "question_text": "When referring to The Hitchhiker's Guide to the Galaxy, the writer suggests that",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "the Babel fish was considered undesirable at the time."
+                },
+                {
+                  "id": "B",
+                  "text": "this book was not seriously intending to predict the future."
+                },
+                {
+                  "id": "C",
+                  "text": "artificial speech translation was not a surprising development."
+                },
+                {
+                  "id": "D",
+                  "text": "some speech translation techniques are better than others."
+                }
+              ],
+              "correct_answer": [
+                "C"
+              ]
+            },
+            {
+              "question_number": 30,
+              "question_text": "What does the writer say about sharing earpieces?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "It is something people will get used to doing."
+                },
+                {
+                  "id": "B",
+                  "text": "The reluctance to do this is understandable."
+                },
+                {
+                  "id": "C",
+                  "text": "The equipment will be unnecessary in the future."
+                },
+                {
+                  "id": "D",
+                  "text": "It is something few people need to worry about."
+                }
+              ],
+              "correct_answer": [
+                "B"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "matching_sentence_endings",
+          "instructions": "Questions 31–34\nComplete each sentence with the correct ending, A–F, below.\nWrite the correct letter, A–F, in boxes 31–34 on your answer sheet.",
+          "options": [
+            {
+              "id": "A",
+              "text": "but there are concerns about this."
+            },
+            {
+              "id": "B",
+              "text": "as systems do not need to conform to standard practices."
+            },
+            {
+              "id": "C",
+              "text": "but they are far from perfect."
+            },
+            {
+              "id": "D",
+              "text": "despite the noise issues."
+            },
+            {
+              "id": "E",
+              "text": "because translation is immediate."
+            },
+            {
+              "id": "F",
+              "text": "and have an awareness of good manners."
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 31,
+              "sentence_start": "Speech translation methods are developing fast in Japan",
+              "correct_answer": [
+                "C"
+              ]
+            },
+            {
+              "question_number": 32,
+              "sentence_start": "TV interviews that use translation voiceover methods are successful",
+              "correct_answer": [
+                "E"
+              ]
+            },
+            {
+              "question_number": 33,
+              "sentence_start": "Future translation systems should address people appropriately",
+              "correct_answer": [
+                "F"
+              ]
+            },
+            {
+              "question_number": 34,
+              "sentence_start": "Users may be able to maintain their local customs",
+              "correct_answer": [
+                "B"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "true_false_not_given",
+          "instructions": "Questions 35–40\nDo the following statements agree with the views of the writer in Reading Passage 3?\nIn boxes 35–40 on your answer sheet, write\nYES if the statement agrees with the views of the writer\nNO if the statement contradicts the views of the writer\nNOT GIVEN if it is impossible to say what the writer thinks about this",
+          "options": [
+            {
+              "label": "YES",
+              "description": "if the statement agrees with the views of the writer"
+            },
+            {
+              "label": "NO",
+              "description": "if the statement contradicts the views of the writer"
+            },
+            {
+              "label": "NOT GIVEN",
+              "description": "if it is impossible to say what the writer thinks about this"
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 35,
+              "statement": "Language translation systems will be seen as very useful throughout the academic and professional worlds.",
+              "correct_answer": "NO"
+            },
+            {
+              "question_number": 36,
+              "statement": "The overall value of automated translation to family life is yet to be shown.",
+              "correct_answer": "YES"
+            },
+            {
+              "question_number": 37,
+              "statement": "Automated translation could make life more difficult for immigrant families.",
+              "correct_answer": "NO"
+            },
+            {
+              "question_number": 38,
+              "statement": "Visual aspects of language translation are being considered by scientists.",
+              "correct_answer": "NOT GIVEN"
+            },
+            {
+              "question_number": 39,
+              "statement": "International scientists have found English easier to translate into other languages than Latin.",
+              "correct_answer": "NOT GIVEN"
+            },
+            {
+              "question_number": 40,
+              "statement": "As far as language is concerned, there is a difference between people's social and practical needs.",
+              "correct_answer": "YES"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

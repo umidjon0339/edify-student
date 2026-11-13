@@ -1,0 +1,608 @@
+{
+  "test_id": "cambridge_19_listening_test_4",
+  "module": "listening",
+  "test_title": "Cambridge IELTS 19 - Listening Test 4",
+  "total_time_minutes": 40,
+  "parts": [
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_4/part1.mp3",
+      "audio_duration_seconds": 405,
+      "transcript": "KAEDEN: Hello Charlotte. I'm Kaeden, one of the supervisors. Welcome to the team.\nCHARLOTTE: Hi Aiden.\nKAEDEN: It's Kaeden.\nCHARLOTTE: I'm so sorry.\nKAEDEN: Don't worry. People often get my name wrong; they never know how to spell it. It's K-A-E-D-E-N, in case you ever need to write it.\nCHARLOTTE: I'll try and remember.\nKAEDEN: So, there are a few practical things you need to sort out this morning. Then I'll show you what you're going to do today.\nCHARLOTTE: The email I received said to go to the front desk, to show my letter of appointment and pick up my badge.\nKAEDEN: You'll need that for the staffroom and other areas of the supermarket where shoppers aren't allowed. So, after you've finished at the front desk, I'll take you to the staffroom. Put your coat and rucksack in one of the lockers there. Take whichever one is free.\nCHARLOTTE: Will I have a key?\nKAEDEN: Yes. Try not to lose it. At the end of the day, leave it in the door for the next person to use.\nCHARLOTTE: Will do.\nKAEDEN: You also need to go to the HR department to see Tiffany. She's really helpful.\nCHARLOTTE: I was told to bring my passport with me. HR need to take a note of the number in it.\nKAEDEN: That's right. Or you can show your ID card.\nCHARLOTTE: I don't have one of those.\nKAEDEN: OK. Tiffany will give you a uniform. They have lots in different sizes, so you just tell her what you need. I won't come with you to HR – I've got to go and sort something else out. Problem with a bread slicer.\nCHARLOTTE: Is the HR office near the staffroom?\nKAEDEN: The staffroom's on the first floor, and HR are a couple of floors above that, on the third floor. There'sa staircase outside the staffroom.\nCHARLOTTE: OK.\nKAEDEN: When you've finished with HR, come and find me in the bakery section of the shop.\nCHARLOTTE: I'm looking forward to getting started.\nKAEDEN: I'll just give you my phone number, in case you can't find me. Have you got your phone there?\nCHARLOTTE: Yes …OK, ready.\nKAEDEN: It's oh-four-one-two double-six-five nine-oh-three.\nCHARLOTTE: OK, done.\nKAEDEN: So, Charlotte, your tasks today are in the bakery section, on the sushi counter, and on the meat and fish counters. The first job is to check sell-by dates on the bread and cakes. If any of the dates are today's, put a new price label on the packaging.\nCHARLOTTE: What if any of the labels are yesterday's dates, or older? Do I throw those items away?\nKAEDEN: Yes, but that shouldn't happen – we check the stock every day. When something needs a new price label, put a yellow one on the package, next to the original price.\nCHARLOTTE: Ok.\nKAEDEN: After that, you'll go to the sushi takeaway counter.\nCHARLOTTE: Will I be preparing boxes of food?\nKAEDEN: For today, you'll just be helping the staff.\nCHARLOTTE: Yes, of course.\nKAEDEN: You'll see lots of flat cardboard boxes at one end of the counter. Beneaththose is where we keep the plastic boxes – we run out of those really quickly, so you should bring more from the storeroom.\nCHARLOTTE: Is that my only task on the sushi counter?\nKAEDEN: No. You also need to clean the area where they prepare the dishes. There are cloths and bottles of spray by the sink. Oh, and please make sure you clean that too.\nCHARLOTTE: Sure. That's important, isn't it?\nKAEDEN: Absolutely. But you mustn't wash up knives. You have to do some training before you're allowed to touch sharp objects.\nCHARLOTTE: What should I do if there are any?\nKAEDEN: Ask someone to put them in the dishwasher.\nCHARLOTTE: OK, thanks. I don't want to get anything wrong.\nKAEDEN: Don't worry. You'll be fine. And I'll be around to help.\nCHARLOTTE: Right.\nKAEDEN: Finally, the meat and fish counters. You need to clean the area where staff serve customers, including wiping the weighing scales.\nCHARLOTTE: OK. Anything else?\nKAEDEN: The fish is laid on ice, but when that starts to melt, you'll need to get more from the cold-room.\nCHARLOTTE: I know the staff on the food counters wear a hat. Will that be the same for me?\nKAEDEN: You won't be serving customers directly, so no. But make sure you put on thermal gloves when you take anything out of the cold-room. The temperature's low enough in there to get frostbite from touching things.\nCHARLOTTE: Understood.",
+      "questions": [
+        {
+          "type": "summary_completion",
+          "instructions": "Questions 1–6\nComplete the notes below.\nWrite ONE WORD AND/OR A NUMBER for each answer.",
+          "summary_title": "First day at work",
+          "word_limit": 3,
+          "summary_text": "• Name of supervisor: [1]\n• Where to leave coat and bag: use [2] in staffroom\n• See Tiffany in HR: to give [3] number\n    to collect [4]\n• Location of HR office: on [5] floor\n• Supervisor's mobile number: [6]",
+          "options": null,
+          "questions": [
+            {
+              "question_number": 1,
+              "correct_answer": [
+                "Kaeden"
+              ],
+              "passage_reference": "KAEDEN: Hello Charlotte. I'm Kaeden, one"
+            },
+            {
+              "question_number": 2,
+              "correct_answer": [
+                "locker",
+                "lockers"
+              ],
+              "passage_reference": "rucksack in one of the lockers there. Take whichever one is"
+            },
+            {
+              "question_number": 3,
+              "correct_answer": [
+                "passport"
+              ],
+              "passage_reference": "was told to bring my passport with me. HR need to"
+            },
+            {
+              "question_number": 4,
+              "correct_answer": [
+                "uniform"
+              ],
+              "passage_reference": "Tiffany will give you a uniform. They have lots in different"
+            },
+            {
+              "question_number": 5,
+              "correct_answer": [
+                "third",
+                "3rd"
+              ],
+              "passage_reference": "floors above that, on the third floor. There'sa staircase outside the"
+            },
+            {
+              "question_number": 6,
+              "correct_answer": [
+                "0412 665 903",
+                "0412665903"
+              ],
+              "passage_reference": "It's oh-four-one-two double-six-five nine-oh-three."
+            }
+          ]
+        },
+        {
+          "type": "table_completion",
+          "instructions": "Questions 7–10\nComplete the table below.\nWrite ONE WORD ONLY for each answer.",
+          "table_title": "Responsibilities",
+          "word_limit": 1,
+          "options": null,
+          "headers": [
+            "",
+            "Task 1",
+            "Task 2",
+            "Notes"
+          ],
+          "rows": [
+            {
+              "cells": [
+                "Bakery section",
+                "Check sell-by dates",
+                "Change price labels",
+                "Use [7] labels"
+              ]
+            },
+            {
+              "cells": [
+                "Sushi takeaway counter",
+                "Re-stock with [8] boxes if needed",
+                "Wipe preparation area and clean the sink",
+                "Do not clean any knives"
+              ]
+            },
+            {
+              "cells": [
+                "Meat and fish counters",
+                "Clean the serving area, including the weighing scales",
+                "Collect [9] for the fish from the cold-room",
+                "Must wear special [10]"
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 7,
+              "correct_answer": [
+                "yellow"
+              ],
+              "passage_reference": "new price label, put a yellow one on the package, next"
+            },
+            {
+              "question_number": 8,
+              "correct_answer": [
+                "plastic"
+              ],
+              "passage_reference": "is where we keep the plastic boxes – we run out"
+            },
+            {
+              "question_number": 9,
+              "correct_answer": [
+                "ice"
+              ],
+              "passage_reference": "The fish is laid on ice, but when that starts to"
+            },
+            {
+              "question_number": 10,
+              "correct_answer": [
+                "gloves"
+              ],
+              "passage_reference": "sure you put on thermal gloves when you take anything out"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_4/part2.mp3",
+      "audio_duration_seconds": 389,
+      "transcript": "My name's Liz Fuller and I'm a running coach with Compton Park Runners Club.\nWelcome to my podcast. If you're thinking about taking up running – I'm here to help.\nThere are many training programmes available online which aim to help people build up to running 5 kilometres. Some of them are great and thousands of people of all ages are taking part in 5-kilometre races across the country as a result. People like them because they're easy to follow and don't push them too hard. However, they don't work for everyone – especially if you suffer from something like a heart condition or asthma, because they're aimed at people with average fitness and running ability. Another thing is that everyone is different – and if you have any specific questions related to your needs, there's no one to provide any answers. I have a couple of simple tips I always give to new runners. I expect you've been told to run very slowly until your fitness increases – well, I find that can prevent progress. You should run at a speed that feels comfortable, but time yourself and try to run a bit faster each time. Listening to music can be very helpful – it takes your mind off things and helps your body get into a rhythm. I'd say that is better than running with a friend – especially as most people are competitive and that's not what you want when you're just starting. I don't think the time of day is especially important – some people are better in the evening, while others are morning people – but you need to be consistent, so aim to train regularly – twice a week is enough to begin with.\nNew members often say to me that they've been put off running either because they lack confidence, or they don't have time, or they think they dislike running. Ceri, for example, joined the club two years ago at the age of 40. She'd always enjoyed running at school but wasn't sure if she'd be able to do it. She was worried about being left behind and being the slowest runner. But she says she was made to feel so welcome she soon forgot all about that.\nJames had always hated the idea of running but a friend encouraged him to come along for a taster session and he hasn't looked back. He never misses a training session despite having a really demanding job.\nLeo was worried about having to commit himself to training sessions every week and wasn't sure he'd be able to fit training into his busy schedule. But after experiencing a lot of stress at work he came along to us and gave it a go. Now he says he feels much more relaxed and he looks forward to his weekly run.\nMark is quite typical of our new members. He's never considered himself to be a sporty person and it was only when he retired that he decided to take up the challenge of trying to run 5 kilometres. It took him months to find the courage to contact us but felt reassured immediately as there were other people his age who were only just taking up running for the first time.\nMy own journey hasn't been easy. I did my first marathon when I was 37, after having had two kids. My husband had been running marathons for years, but I never dreamed I'd be doing one with him. I managed to complete it in four hours, but I felt like giving up halfway through – it was only the support of the spectators that kept me going.\nI do think signing up for a race of whatever length is motivating – whether it's 5K or\n25K – because it's good to have something to work towards and it gives you a sense of achievement. I did my first 10K after only six months, which was certainly very challenging and not something I'd necessarily recommend. But after you've been training for a few weeks, it's worth putting your name down for a 5K – some people find they only need a few practice runs before taking part in a race, but I'd give yourself a couple of months at least. Well, I hope that's given …",
+      "questions": [
+        {
+          "type": "list_selection",
+          "instructions": "Questions 11 and 12\nChoose TWO letters, A–E.",
+          "questions": [
+            {
+              "question_number": 11,
+              "question_text": "Which TWO problems with some training programmes for new runners does Liz mention?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "There is a risk of serious injury."
+                },
+                {
+                  "id": "B",
+                  "text": "They are unsuitable for certain age groups."
+                },
+                {
+                  "id": "C",
+                  "text": "They are unsuitable for people with health issues."
+                },
+                {
+                  "id": "D",
+                  "text": "It is difficult to stay motivated."
+                },
+                {
+                  "id": "E",
+                  "text": "There is a lack of individual support."
+                }
+              ],
+              "correct_answer": [
+                "C",
+                "E"
+              ],
+              "passage_reference": "to follow and don't push them too hard. However, they don't work for everyone – especially if"
+            }
+          ]
+        },
+        {
+          "type": "list_selection",
+          "instructions": "Questions 13 and 14\nChoose TWO letters, A–E.",
+          "questions": [
+            {
+              "question_number": 13,
+              "question_text": "Which TWO tips does Liz recommend for new runners?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "doing two runs a week"
+                },
+                {
+                  "id": "B",
+                  "text": "running in the evening"
+                },
+                {
+                  "id": "C",
+                  "text": "going on runs with a friend"
+                },
+                {
+                  "id": "D",
+                  "text": "listening to music during runs"
+                },
+                {
+                  "id": "E",
+                  "text": "running very slowly"
+                }
+              ],
+              "correct_answer": [
+                "A",
+                "D"
+              ],
+              "passage_reference": "Listening to music can be very helpful – it takes your mind off things and helps your body get"
+            }
+          ]
+        },
+        {
+          "type": "matching_features",
+          "instructions": "Questions 15–18\nWhat reason prevented each of the following members of the Compton Park Runners Club from joining until recently?\nWrite the correct letter, A, B or C, next to Questions 15–18.\n\nReasons",
+          "options": [
+            {
+              "id": "A",
+              "text": "a lack of confidence"
+            },
+            {
+              "id": "B",
+              "text": "a dislike of running"
+            },
+            {
+              "id": "C",
+              "text": "a lack of time"
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 15,
+              "statement": "Ceri",
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "the club two years ago at the age of 40. She'd always enjoyed running at school but wasn't"
+            },
+            {
+              "question_number": 16,
+              "statement": "James",
+              "correct_answer": [
+                "B"
+              ],
+              "passage_reference": "James had always hated the idea of running but a friend encouraged him to come along for a"
+            },
+            {
+              "question_number": 17,
+              "statement": "Leo",
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "Leo was worried about having to commit himself to training sessions every week and wasn't"
+            },
+            {
+              "question_number": 18,
+              "statement": "Mark",
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "to run 5 kilometres. It took him months to find the courage to contact us but felt reassured"
+            }
+          ]
+        },
+        {
+          "type": "multiple_choice",
+          "instructions": "Questions 19–20\nChoose the correct letter, A, B or C.",
+          "questions": [
+            {
+              "question_number": 19,
+              "question_text": "What does Liz say about running her first marathon?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "It had always been her ambition."
+                },
+                {
+                  "id": "B",
+                  "text": "Her husband persuaded her to do it."
+                },
+                {
+                  "id": "C",
+                  "text": "She nearly gave up before the end."
+                }
+              ],
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "doing one with him. I managed to complete it in four hours, but I felt like giving up halfway"
+            },
+            {
+              "question_number": 20,
+              "question_text": "Liz says new runners should sign up for a race",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "every six months."
+                },
+                {
+                  "id": "B",
+                  "text": "within a few weeks of taking up running."
+                },
+                {
+                  "id": "C",
+                  "text": "after completing several practice runs."
+                }
+              ],
+              "correct_answer": [
+                "B"
+              ],
+              "passage_reference": "and not something I'd necessarily recommend. But after you've been training for a few"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_4/part3.mp3",
+      "audio_duration_seconds": 429,
+      "transcript": "KIERAN: So Jane – you'll be off to Denmark soon to do your work placement.\nJANE: Yes, I'm really looking forward to it and I've just started packing up all my books to put in storage.\nKIERAN: Well, I hope they don't get spoilt.\nJANE: It's OK – my grandfather works in a bookshop and he told me how to pack them.\nKIERAN: Oh, that's helpful.\nJANE: He says you have to support the spine otherwise the paper can come away from the cover.\nKIERAN: Yeah – that's obvious\nJANE: He also told me to pack them flat in the box not on their side – again because they can bend and if you leave them like that for. say. a year. it's quite hard to get them back to their normal shape.\nKIERAN: Well. it's pretty clear that ruins them, but a lot of people just can't be bothered to protect their books.\nJANE: He always says it's such a shame that publishers don't use better-quality paper.\nKIERAN: It's the acid in the paper that causes the problem, isn't it?\nJANE: Yeah – that's why old books go yellow. You know some of the books my grandfather's given me are like that already.\nKIERAN: Oh.\nJANE: I should dump them really if they're going to deteriorate further. but I'd feel bad. They'll always remind me of him. He's quite a collector, you know.\nKIERAN: Well, if they're important to you..\nJANE: Yeah – I'd regret just throwing them away.\nKIERAN: You know, maybe it's because I was taught to treasure books … but I hate seeing students force open the pages – of paperbacks. They press so hard they end up breaking the spine. I know, but unfortunately, paperbacks aren't designed to last a long time and people know that. Hardbacks aren't quite as weak.\nKIERAN: Yeah, they're different, I suppose. But I still don't think people value hardbacks like they used to.\nJANE: Well, they aren't decorative, are they, like other objects. Plus, nowadays, people don't keep them out on shelves as much as they used to.\nKIERAN: That's such a pity. When I visit someone – if they have, say, a colourful book on a table, it's the first thing I'm drawn to. Lagree – and book covers can be a work of art in themselves. Some are really eye-catching.\nKIERAN: I've always been taught to handle books carefully. If you watch someone take a book off a shelf, well, they usually do it wrong.\nJANE: Ah, my grandfather says, you should put your hand right over the top of the book. or if you can't do that, pull the other books on the shelf aside so that you can hold the whole cover.\nKIERAN: When did you learn all this?\nJANE: He watched me pull a heavy book off the shelf when I was small, and it fell on the floor and broke apart.\nKIERAN: Ohdear!\nJANE: I can still remember it!\nKIERAN: You know what I really like?\nJANE: What?\nKIERAN: The smell of new books.\nJANE: Me too.\nKIERAN: My parents used to laugh at me when I was a kid because I loved putting books up to my nose. Almost as much as reading them!\nJANE: New books aren't cheap, though, are they?\nKIERAN: Lguess we're lucky we can buy them. My grandfather stocks second-hand books as well as new ones and they don't smell quite as good.\nKIERAN: I'd love to have a bookshop like your grandfather. What's it like?\nJANE: Well, it's quite big – it's got two floors and an attic, and he stocks all kinds of books really.\nKIERAN: I guess he treasures things like first editions and other rare books.\nJANE: Yeah – you might think he'd keep those in the attic or somewhere.\nKIERAN: … so they'd be hidden?\nJANE: Yeah. But he likes people to know that he has them. So, he puts them out in the shop but makes sure you need a ladder to get them.\nKIERAN: Right. That would prevent any thefts!\nJANE: Uhuh.\nKIERAN: Does he stock books for children?\nJANE: He does. He particularly likes to encourage kids to read; he always says that he used to sit under the stairs as a child with a pile of books and read them all.\nKIERAN: Is that where he keeps them, then?\nJANE: Not exactly – he's got a dedicated area on the ground floor with cushions so that parents can enter with their toddlers, go there and spend some time reading to them.\nKIERAN: Oh cool.\nJANE: And then there's a place for pushchairs by the front door. And a cafe if anyone needs refreshments.\nKIERAN: That's good to know.\nJANE: As I said, it's a big shop and there's a storage area out the back as well.\nKIERAN: Oh, what does he keep there? Books he wants to throw away?\nJANE: He hardly ever throws anything away – he just leaves unwanted books by the front door for customers to take.\nKIERAN: Well, that's very nice.\nJANE: Yeah – and books people or institutions have requested, they all goat the far end.\nKIERAN: Oh.\nJANE: He thinks it's best to keep these out of the main shopping area as they're boxed and new.\nKIERAN: Did you get your course books from him?\nJANE: Naturally. He stocks books for a lot of the colleges. He used to keep these books on the first floor, but now there's a new university in my hometown, he's moved them downstairs to attract the students. They're actually part of the coffee shop. on low shelves all around it.\nKIERAN: Pretty central then. You'll have to take me there some time!",
+      "questions": [
+        {
+          "type": "multiple_choice",
+          "instructions": "Questions 21–25\nChoose the correct letter, A, B or C.",
+          "questions": [
+            {
+              "question_number": 21,
+              "question_text": "Kieran thinks the packing advice given by Jane's grandfather is",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "common sense."
+                },
+                {
+                  "id": "B",
+                  "text": "hard to follow."
+                },
+                {
+                  "id": "C",
+                  "text": "over-protective."
+                }
+              ],
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "He says you have to support the spine otherwise the paper can come away from"
+            },
+            {
+              "question_number": 22,
+              "question_text": "How does Jane feel about the books her grandfather has given her?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "They are not worth keeping."
+                },
+                {
+                  "id": "B",
+                  "text": "They should go to a collector."
+                },
+                {
+                  "id": "C",
+                  "text": "They have sentimental value for her."
+                }
+              ],
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "I should dump them really if they're going to deteriorate further. but I'd feel bad."
+            },
+            {
+              "question_number": 23,
+              "question_text": "Jane and Kieran agree that hardback books should be",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "put out on display."
+                },
+                {
+                  "id": "B",
+                  "text": "given as gifts to visitors."
+                },
+                {
+                  "id": "C",
+                  "text": "more attractively designed."
+                }
+              ],
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "That's such a pity. When I visit someone – if they have, say, a colourful book on"
+            },
+            {
+              "question_number": 24,
+              "question_text": "While talking about taking a book from a shelf, Jane",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "describes the mistakes other people make doing it."
+                },
+                {
+                  "id": "B",
+                  "text": "reflects on a significant childhood experience."
+                },
+                {
+                  "id": "C",
+                  "text": "explains why some books are easier to remove than others."
+                }
+              ],
+              "correct_answer": [
+                "B"
+              ],
+              "passage_reference": "He watched me pull a heavy book off the shelf when I was small, and it fell on the"
+            },
+            {
+              "question_number": 25,
+              "question_text": "What do Jane and Kieran suggest about new books?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "Their parents liked buying them as presents."
+                },
+                {
+                  "id": "B",
+                  "text": "They would like to buy more of them."
+                },
+                {
+                  "id": "C",
+                  "text": "Not everyone can afford them."
+                }
+              ],
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "New books aren't cheap, though, are they?"
+            }
+          ]
+        },
+        {
+          "type": "matching_features",
+          "instructions": "Questions 26–30\nWhere does Jane's grandfather keep each of the following types of books in his shop?\nChoose FIVE answers from the box and write the correct letter, A–G, next to Questions 26–30.\n\nLocation of books",
+          "options": [
+            {
+              "id": "A",
+              "text": "near the entrance"
+            },
+            {
+              "id": "B",
+              "text": "in the attic"
+            },
+            {
+              "id": "C",
+              "text": "at the back of the shop"
+            },
+            {
+              "id": "D",
+              "text": "on a high shelf"
+            },
+            {
+              "id": "E",
+              "text": "near the stairs"
+            },
+            {
+              "id": "F",
+              "text": "in a specially designed space"
+            },
+            {
+              "id": "G",
+              "text": "within the café"
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 26,
+              "statement": "rare books",
+              "correct_answer": [
+                "D"
+              ],
+              "passage_reference": "Yeah. But he likes people to know that he has them. So, he puts them out in the"
+            },
+            {
+              "question_number": 27,
+              "statement": "children's books",
+              "correct_answer": [
+                "F"
+              ],
+              "passage_reference": "Not exactly – he's got a dedicated area on the ground floor with cushions so"
+            },
+            {
+              "question_number": 28,
+              "statement": "unwanted books",
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "He hardly ever throws anything away – he just leaves unwanted books by the"
+            },
+            {
+              "question_number": 29,
+              "statement": "requested books",
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "Yeah – and books people or institutions have requested, they all goat the"
+            },
+            {
+              "question_number": 30,
+              "statement": "course books",
+              "correct_answer": [
+                "G"
+              ],
+              "passage_reference": "on the first floor, but now there's a new university in my hometown, he's moved"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_4/part4.mp3",
+      "audio_duration_seconds": 519,
+      "transcript": "Tree planting now dominates political and popular agendas and is often presented as an easy answer to the climate crisis, as well as a way for business corporations to offset their carbon emissions. But unfortunately, tree planting isn't as straightforward as some people think. When the wrong trees are planted in the wrong place, it can do considerably more damage than good, failing to help either people or the environment.\nReforestation projects are currently being undertaken on a huge scale in many countries and it's crucial that the right trees are selected. A mix of species should always be planted, typical of the local natural forest ecosystem and including rare and endangered species in order to create a rich ecosystem. It's important to avoid non-native species that could become invasive. Invasive species are a significant contributor to the current global biodiversity crisis and are often in competition with native species and may threaten their long-term survival. Restoring biodiversity that will maximise carbon capture is key when reforesting an area, but ideally any reforestation project should have several goals. These could include selecting trees that can contribute to wildlife conservation, improve the availability of food for the local community and maintain the stability of soil systems. Meeting as many of these goals as possible, whilst doing no harm to local communities, native ecosystems and vulnerable species, is the sign of a highly successful tree-planting scheme. To ensure the survival and resilience of a planted forest, it's vital to use tree seeds with appropriate levels of genetic diversity: the amount of genetic variation found within a species essential for their survival. Using seeds with low genetic diversity generally lowers the resilience of restored forests, which can make them vulnerable to disease and unable to adapt to climate change.\nChoosing the right location for reforestation projects is as important as choosing the right trees. Ultimately, the best area for planting trees would be in formerly forested areas that are in poor condition. It's better to avoid non-forested landscapes such as natural grasslands, savannas or wetlands as these ecosystems already contribute greatly to capturing carbon. It would also be advantageous to choose an area where trees could provide other benefits, such as recreational spaces. Reforesting areas which are currently exploited for agriculture should be avoided as this often leads to other areas being deforested.\nLarge-scale reforestation projects require careful planning. Making the right decisions about where to plant trees depends on having the right information. Having detailed and up-to-date maps identifying high-priority areas for intervention is essential. Drone technology is a useful tool in helping to prioritise and monitor areas of degraded forest for restoration. In Brazil, it's being used to identify and quantify how parts of the Amazon are being devastated by human activities such as rearing cattle and illegal logging.\nA good example of where the right trees were picked to achieve a restored forest is in\nLampang Province in Northern Thailand. A previously forested site which had been degraded through mining was reforested by a cement company together with Chiang Mai University. After spreading 60 cm of topsoil, they planted 14 different native tree species which included several species of fig. Figs are a keystone species because of the critical role they play in maintaining wildlife populations. They are central to tropical reforestation projects as they accelerate the speed of the recovery process by attracting animals and birds which act as natural seed dispersers. This helps to promote diversity through the healthy regrowth of a wide range of plant species. Unlike the majority of fruit trees, figs bear fruit all year round, providing a reliable food source for many species. At this site, for example, after only three rainy seasons, monkeys started visiting to eat the fig fruits, naturally dispersing seeds through defecation.\nReforestationprojects should always aim to make sure that local communities are consulted and involved in the decision-making process.\nThe restoration of mangrove forests in Madagascar is an example of a project which has succeeded in creating real benefits for the community. Destruction of the mangrove forests had a terrible impact on plant and animal life, and also badly affected the fishing industry. which was a major source of employment for local people living in coastal areas. The reforestation project involved hiring local people to plant and care for the new mangrove trees. Millions of mangrove trees have now been planted which has resulted in the return of a healthy aquatic ecosystem. The mangroves also act as a defence against the increased threat of flooding caused by climate change. What's more, the local economy is more stable and thousands more Madagascans are now able to send their children to school.\nOne other important point to consider..",
+      "questions": [
+        {
+          "type": "summary_completion",
+          "instructions": "Questions 31–40\nComplete the notes below.\nWrite ONE WORD ONLY for each answer.",
+          "summary_title": "Tree planting",
+          "word_limit": 1,
+          "summary_text": "Reforestation projects should:\n• include a range of tree species\n• not include invasive species because of possible [31] with native species\n• aim to capture carbon, protect the environment and provide sustainable sources of [32] for local people\n• use tree seeds with a high genetic diversity to increase resistance to [33] and climate change\n• plant trees on previously forested land which is in a bad condition, not select land which is being used for [34]\n\nLarge-scale reforestation projects\n• Base planning decisions on information from accurate [35]\n• Drones are useful for identifying areas in Brazil which are endangered by keeping [36] and illegal logging.\n\nLampang Province, Northern Thailand\n• A forest was restored in an area damaged by mining.\n• A variety of native fig trees were planted, which are important for\n  – supporting many wildlife species\n  – increasing the [37] of recovery by attracting animals and birds, e.g., [38] were soon attracted to the area.\n\nInvolving local communities\n• Destruction of mangrove forests in Madagascar made it difficult for people to make a living from [39]\n• The mangrove reforestation project:\n  – provided employment for local people\n  – restored a healthy ecosystem\n  – protects against the higher risk of [40]",
+          "options": null,
+          "questions": [
+            {
+              "question_number": 31,
+              "correct_answer": [
+                "competition"
+              ],
+              "passage_reference": "crisis and are often in competition with native species and may"
+            },
+            {
+              "question_number": 32,
+              "correct_answer": [
+                "food"
+              ],
+              "passage_reference": "conservation, improve the availability of food for the local community and"
+            },
+            {
+              "question_number": 33,
+              "correct_answer": [
+                "disease"
+              ],
+              "passage_reference": "can make them vulnerable to disease and unable to adapt to"
+            },
+            {
+              "question_number": 34,
+              "correct_answer": [
+                "agriculture"
+              ],
+              "passage_reference": "which are currently exploited for agriculture should be avoided as this"
+            },
+            {
+              "question_number": 35,
+              "correct_answer": [
+                "maps"
+              ],
+              "passage_reference": "information. Having detailed and up-to-date maps identifying high-priority areas for intervention"
+            },
+            {
+              "question_number": 36,
+              "correct_answer": [
+                "cattle"
+              ],
+              "passage_reference": "human activities such as rearing cattle and illegal logging."
+            },
+            {
+              "question_number": 37,
+              "correct_answer": [
+                "speed"
+              ],
+              "passage_reference": "projects as they accelerate the speed of the recovery process by"
+            },
+            {
+              "question_number": 38,
+              "correct_answer": [
+                "monkeys"
+              ],
+              "passage_reference": "after only three rainy seasons, monkeys started visiting to eat the"
+            },
+            {
+              "question_number": 39,
+              "correct_answer": [
+                "fishing"
+              ],
+              "passage_reference": "and also badly affected the fishing industry. which was a major"
+            },
+            {
+              "question_number": 40,
+              "correct_answer": [
+                "flooding"
+              ],
+              "passage_reference": "against the increased threat of flooding caused by climate change. What's"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

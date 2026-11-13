@@ -1,0 +1,590 @@
+{
+  "test_id": "cambridge_19_listening_test_3",
+  "module": "listening",
+  "test_title": "Cambridge IELTS 19 - Listening Test 3",
+  "total_time_minutes": 40,
+  "parts": [
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_3/part1.mp3",
+      "audio_duration_seconds": 396,
+      "transcript": "LEON: Hi Shannon – how are you settling into your new flat?\nSHANNON: Really well, thanks.\nLEON: You look like you're going shopping.\nSHANNON: Yes, I am. My cousins are coming to stay for a couple of days, and I have to cook for them.\nLEON: Well, there are plenty of places to buy food in Kite Place – it's the area by the harbour.\nSHANNON: Oh, OK, I'll find that on the map. Thanks.\nLEON: What sort of food do you need to get?\nSHANNON: Well, neither of them eats meat but they both like fish.\nLEON: Well, there's a really good fish market there.\nSHANNON: Ohgreat – where is it exactly?\nLEON: It's at the far end of Kite Place, so you have to go over the bridge and then it's on the right.\nSHANNON: OK – is it open all day?\nLEON: It doesn't close until four, but I'd recommend going earlier than that – it does run out of some things.\nSHANNON: Oh, I don't want that to happen.\nLEON: As long as you get there by 3.30, you should be fine. It's only 11 now, so plenty of time.\nSHANNON: Right.\nLEON: Do you need to buy vegetables too?\nSHANNON: I do, and I want to avoid all the plastic packaging in the supermarket!\nLEON: Well, there's a really nice organic shop there. Now what's it called … it's the name of a flower. I know, it's 'Rose'.\nSHANNON: That's a nice name.\nLEON: Yeah – it sells vegetables and quite a lot of other stuff.\nSHANNON: And where's that?\nLEON: Well, as you reach the market, you'll see a big grey building on your left – I think it used to be a warehouse. Anyway, now it's a restaurant upstairs, but the ground floor has two shops either side of the entrance and it's the one on the left.\nSHANNON: That's easy enough.\nLEON: You can't miss it – there's also a big sign on the pavement so you can look for that.\nSHANNON: Fine! I guess if I need anything else, I'll have to go to the supermarket.\nLEON: Yeah – you should be able to get everything you need, but there's a minibus that goes to the supermarket if you need it. It's purple and the number is 289.\nSHANNON: Thanks, that's great.\nLEON: So what do you need to get at the fish market? The salmon is always very good and the shellfish.\nSHANNON: I'm going to make a curry, I think, and I need about 12 prawns for that.\nLEON: They'll have plenty of those.\nSHANNON: OK.\nLEON: Have you ever tried samphire?\nSHANNON: No – what's that?\nLEON: It's a type of seaweed. I just ask for a handful and you fry it in butter. It's delicious!\nSHANNON: Oh, I might try that – how do you spell it?\nLEON: It's S-A-M-P-H-I-R-E.\nSHANNON: Great – it's always good to try something different.\nLEON: Yeah.\nSHANNON: I'll see what beans they have in the organic shop and I think I'll get something for dessert there.\nLEON: How about a mango?\nSHANNON: I'm not sure – they're not always ripe. I'd prefer a melon – it's bigger too.\nLEON: Good idea. The owner also sells a lot of spices there that you can put in a curry, and things like coconut.\nSHANNON: Oh, that's very helpful. I'll have a look.\nLEON: No problem.\nSHANNON: I know bread doesn't really go with curry but I always like to have some in case.\nLEON: AsI said-all the bread is home-made and there's lots of variety. I like the brown bread myself.\nSHANNON: Mm, sounds good.\nLEON: They sell other things there too.\nSHANNON: Likecakes? I love chocolate cake.\nLEON: Well – not that, but they have a whole range of tarts and the best are the strawberry ones.\nSHANNON: Perfect – hopefully I won't even have to go to the supermarket!",
+      "questions": [
+        {
+          "type": "summary_completion",
+          "instructions": "Questions 1–6\nComplete the notes below.\nWrite ONE WORD AND/OR A NUMBER for each answer.",
+          "summary_title": "Local food shops",
+          "word_limit": 2,
+          "summary_text": "Where to go\n• Kite Place – near the [1]\n\nFish market\n• cross the [2] and turn right\n• best to go before [3] pm, earlier than closing time\n\nOrganic shop\n• called '[4]'\n• below a restaurant in the large, grey building\n• look for the large [5] outside\n\nSupermarket\n• take a [6] minibus, number 289",
+          "options": null,
+          "questions": [
+            {
+              "question_number": 1,
+              "correct_answer": [
+                "harbour",
+                "harbor"
+              ],
+              "passage_reference": "it's the area by the harbour."
+            },
+            {
+              "question_number": 2,
+              "correct_answer": [
+                "bridge"
+              ],
+              "passage_reference": "have to go over the bridge and then it's on the"
+            },
+            {
+              "question_number": 3,
+              "correct_answer": [
+                "3.30",
+                "3:30",
+                "three thirty",
+                "half three",
+                "half 3"
+              ],
+              "passage_reference": "as you get there by 3.30, you should be fine. It's"
+            },
+            {
+              "question_number": 4,
+              "correct_answer": [
+                "Rose"
+              ],
+              "passage_reference": "a flower. I know, it's 'Rose'."
+            },
+            {
+              "question_number": 5,
+              "correct_answer": [
+                "sign"
+              ],
+              "passage_reference": "– there's also a big sign on the pavement so you"
+            },
+            {
+              "question_number": 6,
+              "correct_answer": [
+                "purple"
+              ],
+              "passage_reference": "if you need it. It's purple and the number is 289."
+            }
+          ]
+        },
+        {
+          "type": "table_completion",
+          "instructions": "Questions 7–10\nComplete the table below.\nWrite ONE WORD ONLY for each answer.",
+          "table_title": "Shopping",
+          "word_limit": 1,
+          "options": null,
+          "headers": [
+            "",
+            "To buy",
+            "Other ideas"
+          ],
+          "rows": [
+            {
+              "cells": [
+                "Fish market",
+                "a dozen prawns",
+                "a handful of [7] (type of seaweed)"
+              ]
+            },
+            {
+              "cells": [
+                "Organic shop",
+                "beans and a [8] for dessert",
+                "spices and [9]"
+              ]
+            },
+            {
+              "cells": [
+                "Bakery",
+                "a brown loaf",
+                "a [10] tart"
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 7,
+              "correct_answer": [
+                "samphire"
+              ],
+              "passage_reference": "LEON: Have you ever tried samphire?"
+            },
+            {
+              "question_number": 8,
+              "correct_answer": [
+                "melon"
+              ],
+              "passage_reference": "always ripe. I'd prefer a melon – it's bigger too."
+            },
+            {
+              "question_number": 9,
+              "correct_answer": [
+                "coconut"
+              ],
+              "passage_reference": "a curry, and things like coconut."
+            },
+            {
+              "question_number": 10,
+              "correct_answer": [
+                "strawberry"
+              ],
+              "passage_reference": "and the best are the strawberry ones."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_3/part2.mp3",
+      "audio_duration_seconds": 372,
+      "transcript": "PRESENTER: The children's book festival is coming up again soon and here to tell us all about it is the festival's organiser, Jenny Morgan. So tell us what we can expect this year, Jenny.\nJENNY: Well, as usual we've got five days of action-packed exciting events for children, with writers coming from all over the country getting involved. Just to give you an idea of what's on offer in the workshops, first of all, there's a very special event called Superheroes. This is a chance for deaf children to share their reading experiences with author Madeleine Gordon, who is herself hearing impaired. 'Just do it' is a practical workshop led by the well-known illustrator Mark Keane. He'll take participants on a magical journey to faraway lands with an opportunity for aspiring actors to do some role play. 'Count on me' is an inspiring and entertaining look at the issues of friendship for 13-14-year-olds. It looks at some of the friendships described in popular books and asks participants to compare these with their own experiences. 'Speak up' is part of a series of workshops on the subject of mental health. This is a creative writing workshop encouraging children to describe situations where young people experience loneliness. A recent survey revealed that children can be lonely even when they're at home with their families. 'Jump for joy', as many of you will know, is the heart-warming, best-selling story by Nina Karan about a young girl's trip to visit her relatives in India. It recently received the gold medal at the Waterford Awards. Nina will get children to celebrate the word 'joy' by writing a poem. 'Sticks and stones' is the beautifully illustrated picture book for young readers about a community who organise an African-Caribbean festival to help local children learn about their Jamaican roots. This will be a musical event where children will have the chance to play steel drums. This is bound to be very popular, so please book as soon as possible.\nPRESENTER: Thanks Jenny. That all sounds really interesting. I'm just wondering if you have a favourite book you could recommend for our readers?\nJENNY: It's hard to choose, but Alive and Kicking is definitely worth mentioning. You won't have heard of the writer as it's her first book – which is really impressive. It's basically the teenage diary of a boy from Somalia who comes to live in the UK. It deals with the serious issue of immigration and all the challenges the boy has to face at school and with the language barrier, etc. Usually, books like this are quite sad, but this one actually made me cry with laughter. On each page, there are simple but hilarious black and white stick drawings of the boy with his friends and teachers. At the end of each diary entry, there are new English words the boy learns each day, which may help develop some children's vocabulary.\nPRESENTER: I think my kids would enjoy that. What about any advice for parents on how to encourage their children to read more?\nJENNY: Well, this is something I get asked about a lot. There are so many distractions for kids these days that it can be hard to find time for reading. One thing I'd say is to make time to sit down with your child and share books with them. A lot of parents give up reading aloud to their children as soon as they learn to read independently, but this is a mistake. It's good to read more advanced books to them as it helps to develop their vocabulary. If you don't have time for this, then let them listen to audio books. Often, they'll want to read books they've listened to for themselves. I think it's a good idea to make a mental note of the type of books your child is reading-often they just read the same genre all the time, which can get a bit boring. You can introduce new authors and genres to them. Librarians should be able to help you with this\nPRESENTER: Well Jenny, I think that's really useful …",
+      "questions": [
+        {
+          "type": "matching_features",
+          "instructions": "Questions 11–16\nWhat information is given about each of the following festival workshops?\nChoose SIX answers from the box and write the correct letter, A–H, next to Questions 11–16.\n\nInformation",
+          "options": [
+            {
+              "id": "A",
+              "text": "involves painting and drawing"
+            },
+            {
+              "id": "B",
+              "text": "will be led by a prize-winning author"
+            },
+            {
+              "id": "C",
+              "text": "is aimed at children with a disability"
+            },
+            {
+              "id": "D",
+              "text": "involves a drama activity"
+            },
+            {
+              "id": "E",
+              "text": "focuses on new relationships"
+            },
+            {
+              "id": "F",
+              "text": "is aimed at a specific age group"
+            },
+            {
+              "id": "G",
+              "text": "explores an unhappy feeling"
+            },
+            {
+              "id": "H",
+              "text": "raises awareness of a particular culture"
+            }
+          ],
+          "questions": [
+            {
+              "question_number": 11,
+              "statement": "Superheroes",
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "a very special event called Superheroes. This is a chance for deaf children to"
+            },
+            {
+              "question_number": 12,
+              "statement": "Just do it",
+              "correct_answer": [
+                "D"
+              ],
+              "passage_reference": "He'll take participants on a magical journey to faraway lands with an opportunity"
+            },
+            {
+              "question_number": 13,
+              "statement": "Count on me",
+              "correct_answer": [
+                "F"
+              ],
+              "passage_reference": "for 13-14-year-olds. It looks at some of the friendships described in popular"
+            },
+            {
+              "question_number": 14,
+              "statement": "Speak up",
+              "correct_answer": [
+                "G"
+              ],
+              "passage_reference": "is a creative writing workshop encouraging children to describe situations where"
+            },
+            {
+              "question_number": 15,
+              "statement": "Jump for joy",
+              "correct_answer": [
+                "B"
+              ],
+              "passage_reference": "by Nina Karan about a young girl's trip to visit her relatives in India. It recently"
+            },
+            {
+              "question_number": 16,
+              "statement": "Sticks and stones",
+              "correct_answer": [
+                "H"
+              ],
+              "passage_reference": "about a community who organise an African-Caribbean festival to help local"
+            }
+          ]
+        },
+        {
+          "type": "list_selection",
+          "instructions": "Questions 17 and 18\nChoose TWO letters, A–E.",
+          "questions": [
+            {
+              "question_number": 17,
+              "question_text": "Which TWO reasons does the speaker give for recommending Alive and Kicking?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "It will appeal to both boys and girls."
+                },
+                {
+                  "id": "B",
+                  "text": "The author is well known."
+                },
+                {
+                  "id": "C",
+                  "text": "It has colourful illustrations."
+                },
+                {
+                  "id": "D",
+                  "text": "It is funny."
+                },
+                {
+                  "id": "E",
+                  "text": "It deals with an important topic."
+                }
+              ],
+              "correct_answer": [
+                "D",
+                "E"
+              ],
+              "passage_reference": "It deals with the serious issue of immigration and all the challenges the boy has"
+            }
+          ]
+        },
+        {
+          "type": "list_selection",
+          "instructions": "Questions 19 and 20\nChoose TWO letters, A–E.",
+          "questions": [
+            {
+              "question_number": 19,
+              "question_text": "Which TWO pieces of advice does the speaker give to parents about reading?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "Encourage children to write down new vocabulary."
+                },
+                {
+                  "id": "B",
+                  "text": "Allow children to listen to audio books."
+                },
+                {
+                  "id": "C",
+                  "text": "Get recommendations from librarians."
+                },
+                {
+                  "id": "D",
+                  "text": "Give children a choice about what they read."
+                },
+                {
+                  "id": "E",
+                  "text": "Only read aloud to children until they can read independently."
+                }
+              ],
+              "correct_answer": [
+                "B",
+                "C"
+              ],
+              "passage_reference": "let them listen to audio books. Often, they'll want to read books they've listened"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_3/part3.mp3",
+      "audio_duration_seconds": 422,
+      "transcript": "CLARE: Hi Jake. How are you getting on with the practical teaching?\nJAKE: It's harder than I expected, but I've got some great classes. How about you?\nCLARE: Not brilliant. I'm really struggling with my Year 12 science class.\nJAKE: Are they hard to control?\nCLARE: Well, I don't have discipline problems as such. It's just that they don't seem to think that science has anything to do with their lives. It's depressing. They listen to what I say, and I gave them a test last week and the results weren't too bad, but there's no real engagement.\nJAKE: Right.\nCLARE: And as part of my teaching practice, I have to design an experiment for them to do. I was wondering about something on the children's diets. :.you know, asking them to record what they eat and maybe linking it to their state of health.\nJAKE: Mmm. Let's think. So your methodology would involve the children recording what they eat. OK, but you'd also need to have access to the children's medical records and I don't think people would be happy about that; confidentiality would be an issue. If you could get the right data, the conclusions might be significant, but I suspect it's not going to be easy.\nCLARE: Right.\nJAKE: Have you thought about doing an experiment using animals?\nCLARE: Wouldn't that be upsetting for the children?\nJAKE: Well, the animals don't have to be harmed in any way. It could just be an experiment where they're given a certain diet and the effects are observed.\nCLARE: Would I have to get permission to use animals?\nJAKE: Yes, you'd have to submit an outline of the experiment and fill in a form, but it's quite straightforward.\nCLARE: But if we found out that, say, a particular diet affects the health of animals, the same thing wouldn't necessarily be true for people, would it?\nJAKE: No that's true, but the findings for any experiment are going to be limited. It's inevitable.\nCLARE: I suppose so. So what animals could I use to investigate the effects of diet? Mice?\nJAKE: Yes. You'd need experimental mice – ones that have been specially bred for experiments. OK, so what will your experiment be investigating exactly?\nCLARE: Well, something to do with nutrition. So maybe we could look at food supplements. :. things like extra iron and extra protein, and their impact on health.\nJAKE: Mmm. That might be rather broad. Maybe just look at the effects of one supplement, like sugar, on the health of the mice?\nCLARE: In fact, maybe the focus could be on whether mice can control their own diet.\nJAKE: need?\nCLARE: Exactly. Do they eat it or do they decide to leave it?\nJAKE: Great. Then later on, you could do a follow-up experiment adding another variable. Like, you could give some of the mice the chance to be more active, running on a wheel or something, and the others just sit around and don't do much.\nCLARE: Or I could repeat the experiment but change the type of food I provided …or use mice with a different genetic structure. But I think your idea would be more interesting, I might think about that some more.\nCLARE: So can I talk through a possible procedure for the experiment where mice are given a sugar supplement?\nJAKE: Sure. I did a similar experiment in college actually.\nCLARE: Great. So how many mice would I need?\nJAKE: I'd say about 12. And all young ones, not a mixture of old and young.\nCLARE: OK. And I'd need two groups of equal sizes, so six in each group. And how would I tell them apart? I suppose I could put some sort of tag on one group. :. or just mark them in some way?\nJAKE: You could use food colouring, that wouldn't hurt them.\nCLARE: Perfect. Then each group would go into a separate cage, and one group, let's call them group A, would be the control group. So they'd just have ordinary mouse food. I suppose you can buy that?\nJAKE: Yes, it comes in dry pellets.\nCLARE: And the other group would have the same as the first group, but they'd also have the extra sugar.\nJAKE: Would you just give them straight sugar?\nCLARE: It might be better to give them something like cereal with it.\nJAKE: Mmm. Then you'd need to weigh the mice, I should think once a week. And you'd need an electronic balance.\nCLARE: But we can't hold them on the balance, or it'd affect the reading.\nJAKE: Exactly. So you need something called a weighing chamber to stop the mice from running away. It sounds complicated, but actually you can just use a plastic box with holes in the top.\nCLARE: Ok. So once we've measured the weight gain of each mouse we can work out the average for each group, as well as the standard deviation. And then see where we go from there. That sounds cool, I think the students will enjoy it.\nJAKE: Yes. One thing.",
+      "questions": [
+        {
+          "type": "multiple_choice",
+          "instructions": "Questions 21–25\nChoose the correct letter, A, B or C.",
+          "questions": [
+            {
+              "question_number": 21,
+              "question_text": "How does Clare feel about the students in her Year 12 science class?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "worried that they are not making progress"
+                },
+                {
+                  "id": "B",
+                  "text": "challenged by their poor behaviour in class"
+                },
+                {
+                  "id": "C",
+                  "text": "frustrated at their lack of interest in the subject"
+                }
+              ],
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "Well, I don't have discipline problems as such. It's just that they don't seem to"
+            },
+            {
+              "question_number": 22,
+              "question_text": "How does Jake react to Clare's suggestion about an experiment based on children's diet?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "He is concerned that the results might not be meaningful."
+                },
+                {
+                  "id": "B",
+                  "text": "He feels some of the data might be difficult to obtain."
+                },
+                {
+                  "id": "C",
+                  "text": "He suspects that the conclusions might be upsetting."
+                }
+              ],
+              "correct_answer": [
+                "B"
+              ],
+              "passage_reference": "what they eat. OK, but you'd also need to have access to the children's medical"
+            },
+            {
+              "question_number": 23,
+              "question_text": "What problem do they agree may be involved in an experiment involving animals?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "Any results may not apply to humans."
+                },
+                {
+                  "id": "B",
+                  "text": "It may be complicated to get permission."
+                },
+                {
+                  "id": "C",
+                  "text": "Students may not be happy about animal experiments."
+                }
+              ],
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "the same thing wouldn't necessarily be true for people, would it?"
+            },
+            {
+              "question_number": 24,
+              "question_text": "What question do they decide the experiment should address?",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "Are mice capable of controlling their food intake?"
+                },
+                {
+                  "id": "B",
+                  "text": "Does an increase in sugar lead to health problems?"
+                },
+                {
+                  "id": "C",
+                  "text": "How much do supplements of different kinds affect health?"
+                }
+              ],
+              "correct_answer": [
+                "A"
+              ],
+              "passage_reference": "In fact, maybe the focus could be on whether mice can control their own diet."
+            },
+            {
+              "question_number": 25,
+              "question_text": "Clare might also consider doing another experiment involving",
+              "options": [
+                {
+                  "id": "A",
+                  "text": "other types of food supplement."
+                },
+                {
+                  "id": "B",
+                  "text": "different genetic strains of mice."
+                },
+                {
+                  "id": "C",
+                  "text": "varying amounts of exercise."
+                }
+              ],
+              "correct_answer": [
+                "C"
+              ],
+              "passage_reference": "Like, you could give some of the mice the chance to be more active, running on a"
+            }
+          ]
+        },
+        {
+          "type": "flowchart_completion",
+          "instructions": "Questions 26–30\nComplete the flowchart below.\nChoose FIVE answers from the box and write the correct letter, A–H, next to Questions 26–30.",
+          "flowchart_title": "",
+          "options": [
+            {
+              "id": "A",
+              "text": "size"
+            },
+            {
+              "id": "B",
+              "text": "escape"
+            },
+            {
+              "id": "C",
+              "text": "age"
+            },
+            {
+              "id": "D",
+              "text": "water"
+            },
+            {
+              "id": "E",
+              "text": "cereal"
+            },
+            {
+              "id": "F",
+              "text": "calculations"
+            },
+            {
+              "id": "G",
+              "text": "changes"
+            },
+            {
+              "id": "H",
+              "text": "colour"
+            }
+          ],
+          "steps": [
+            "Choose mice which are all the same [26].",
+            "Divide the mice into two groups, each with a different [27].",
+            "Put each group in a separate cage.\nFeed group A commercial mouse food.\nFeed group B the same, but also sugar contained in [28].",
+            "Take measurements using an electronic scale.\nPlace them in a weighing chamber to prevent [29].",
+            "Do all necessary [30]."
+          ],
+          "questions": [
+            {
+              "question_number": 26,
+              "correct_answer": "C",
+              "passage_reference": "I'd say about 12. And all young ones, not a mixture of old and young."
+            },
+            {
+              "question_number": 27,
+              "correct_answer": "H",
+              "passage_reference": "mark them in some way?"
+            },
+            {
+              "question_number": 28,
+              "correct_answer": "E",
+              "passage_reference": "It might be better to give them something like cereal with it."
+            },
+            {
+              "question_number": 29,
+              "correct_answer": "B",
+              "passage_reference": "Exactly. So you need something called a weighing chamber to stop the mice from"
+            },
+            {
+              "question_number": 30,
+              "correct_answer": "F",
+              "passage_reference": "Ok. So once we've measured the weight gain of each mouse we can work out"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audio_url": "/ielts/listening/cambridge_19_listening_test_3/part4.mp3",
+      "audio_duration_seconds": 410,
+      "transcript": "In today's lecture, I'm going to be talking about microplastics.\nMicroplastics are tiny pieces of plastic smaller than five millimetres in size. Recently there's been a greater awareness that there are large quantities of plastic waste – big and small – – in the environment. The amount of plastic waste in the oceans has received widespread attention, but far less is known about the effects of microplastics in freshwater and particularly in soil. Microplastics can enter the environment via a number of different sources. Threads and microfibres detach from synthetic clothing every time they're put in a washing machine, and these find their way into the water system. Other sources include big pieces of plastic waste that are already in the environment, and these break down into microscopic particles over a period of time. On a larger scale, factory waste is another route, as are tyres which wear down as cars, lorries and so on travel along road surfaces.\nWe already understand some of the impacts of microplastics from studies involving fish and other animals. There is evidence that microplastics harm small creatures in a variety of ways such as by damaging their mouths, or by impairing their ability to feed, for example when microplastics get lodged in their digestive system.\nSurprisingly perhaps, it is likely that humans consume microplastics, as these have been detected in a wide range of food and drink products, including bottled water, as well as in water that comes direct from the tap. What's more, salt and many kinds of seafood have also been found to contain microplastics.\nHowever, it's important to underline that there is not yet conclusive proof that microplastics cause significant harm to people. In many countries, including here in the UK, there is legislation which prevents manufacturers from adding plastic microbeads to shower gels, facial cleansers and toothpaste.\nIt is very difficult to accurately estimate the total amount of micro plastic particles in the soil as they can be hard to detect, but we do know they are carried in the air and deposited in the soil by rain. What's more, many of the fertilisers used by both farmers and gardeners contain microplastics.\nA team from the Anglia Ruskin University in Cambridge has carried out a study of the effects of microplastics on the digestive tracts of earthworms. These worms, which live in topsoil, are an essential component of our agricultural system. By feeding on soil. they mix nutrients into it, thereby making it more fertile.\nThe researchers set out to discover whether the introduction of microplastics into the soil – and the subsequent ingestion of these by earthworms – would impact soil quality and ultimately inhibit plant growth. The short answer was, yes, it did. After placing three different types of micro plastic particles into the soil, they planted perennial rye grass. The particles of micro plastic, which included biodegradable PLA and conventional high-density polyethylene, or HDPE, were then ingested by the earthworms in the soil. The result was that the worms lost weight rapidly. What's more, a lower percentage than normal of the rye grass seeds germinated, and the researchers concluded that this was a direct result of the earthworms being unable to fulfil their normal role in making soil more fertile. The team also discovered that there was an increase in the amount of acid found in the soil, and this was attributed mainly to the micro plastic particles from conventional HDPE plastic.\nThe conclusions of the study make for very interesting reading – I've included the reference in the notes to give you at the end of this session. To summarise, the authors proposed the idea that we need to regard soil as we would regard any other process in nature. This means we should accept the implications of soil being dependent on decaying and dead matter constantly being passed through the bodies of earthworms. That is, when soil becomes impoverished by the presence of microplastics, not only ecosystems but also the whole of society are negatively impacted.",
+      "questions": [
+        {
+          "type": "summary_completion",
+          "instructions": "Questions 31–40\nComplete the notes below.\nWrite ONE WORD ONLY for each answer.",
+          "summary_title": "Microplastics",
+          "word_limit": 1,
+          "summary_text": "Where microplastics come from\n• fibres from some [31] during washing\n• the breakdown of large pieces of plastic\n• waste from industry\n• the action of vehicle tyres on roads\n\nEffects of microplastics\n• They cause injuries to the [32] of wildlife and affect their digestive systems.\n• They enter the food chain, e.g., in bottled and tap water, [33] and seafood.\n• They may not affect human health, but they are already banned in skin cleaning products and [34] in some countries.\n• Microplastics enter the soil through the air, rain and [35].\n\nMicroplastics in the soil – a study by Anglia Ruskin University\n• Earthworms are important because they add [36] to the soil.\n• The study aimed to find whether microplastics in earthworms affect the [37] of plants.\n• The study found that microplastics caused:\n  – [38] loss in earthworms\n  – fewer seeds to germinate\n  – a rise in the level of [39] in the soil.\n\nThe study concluded:\n  – soil should be seen as an important natural process\n  – changes to soil damage both ecosystems and [40]",
+          "options": null,
+          "questions": [
+            {
+              "question_number": 31,
+              "correct_answer": [
+                "clothing"
+              ],
+              "passage_reference": "and microfibres detach from synthetic clothing every time they're put in"
+            },
+            {
+              "question_number": 32,
+              "correct_answer": [
+                "mouths"
+              ],
+              "passage_reference": "such as by damaging their mouths, or by impairing their ability"
+            },
+            {
+              "question_number": 33,
+              "correct_answer": [
+                "salt"
+              ],
+              "passage_reference": "from the tap. What's more, salt and many kinds of seafood"
+            },
+            {
+              "question_number": 34,
+              "correct_answer": [
+                "toothpaste"
+              ],
+              "passage_reference": "shower gels, facial cleansers and toothpaste."
+            },
+            {
+              "question_number": 35,
+              "correct_answer": [
+                "fertilisers",
+                "fertilizers"
+              ],
+              "passage_reference": "What's more, many of the fertilisers used by both farmers and"
+            },
+            {
+              "question_number": 36,
+              "correct_answer": [
+                "nutrients"
+              ],
+              "passage_reference": "feeding on soil. they mix nutrients into it, thereby making it"
+            },
+            {
+              "question_number": 37,
+              "correct_answer": [
+                "growth"
+              ],
+              "passage_reference": "quality and ultimately inhibit plant growth. The short answer was, yes"
+            },
+            {
+              "question_number": 38,
+              "correct_answer": [
+                "weight"
+              ],
+              "passage_reference": "was that the worms lost weight rapidly. What's more, a lower"
+            },
+            {
+              "question_number": 39,
+              "correct_answer": [
+                "acid"
+              ],
+              "passage_reference": "increase in the amount of acid found in the soil, and"
+            },
+            {
+              "question_number": 40,
+              "correct_answer": [
+                "society"
+              ],
+              "passage_reference": "but also the whole of society are negatively impacted."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

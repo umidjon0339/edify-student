@@ -605,9 +605,12 @@ function validateBlock(
               'Either shorten the answer or raise word_limit to match the rubric.', label);
           }
         }
-        if (t === 'summary_completion' && /^[a-z]{1,3}$/i.test(alt.trim())) {
+        // grading.ts only reads an ARRAY key as option letters when every accepted form is a
+        // single letter ("map"/"son"/"gut" in an array grade as text — verified). The ≤3-letter
+        // trap applies to plain-string keys, which this branch never sees.
+        if (arr.every((x) => /^[a-z]$/i.test(String(x).trim()))) {
           iss.warn(`${rp}.correct_answer`,
-            `"${alt}" is ≤3 letters — the grader treats short summary_completion answers as OPTION LETTERS`,
+            `"${alt}" is a single letter — the grader treats single-letter answers as OPTION LETTERS`,
             'Use a longer accepted form, or switch the block to a word bank.', label);
         }
         if (/\[\s*\d*\s*\]/.test(alt)) {

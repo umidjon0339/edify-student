@@ -2,7 +2,7 @@
 
 > **Agent workflow:** read this BEFORE touching anything under `app/(student)/ielts/`, `app/teacher/ielts/`, `app/admin/ielts/`, `app/api/ielts/`, `lib/ielts/`, or `services/ieltsService.ts`. Update this doc in the same change whenever you alter behavior described here. Index: [README.md](README.md). Design/product rationale: [IELTS_UPGRADE_PLAN.md](IELTS_UPGRADE_PLAN.md).
 
-**Last verified:** 2026-11-13 (**listening**: runner follows the audio part / no mid-audio auto-submit / practice player decoupled + speed & skip; renderer keeps `\n` in notes & tables; labelled map rows; C18 listening papers + `ielts:media` uploader). Earlier: 2026-07-31 (**runner marker/font/split fixes**; **platform catalog** — admin order + per-audience visibility, 4-module JSON import validator, structure specs in `data/ielts practise/`; **tabbed student hub** — `?tab=groups|practice|progress`).
+**Last verified:** 2026-11-13 (**C19** reading + listening papers imported (8 tests); flowchart steps keep `\n`; the import validator's short-answer warning now matches the grader — only an all-single-letter array is read as option letters; **listening**: runner follows the audio part / no mid-audio auto-submit / practice player decoupled + speed & skip; renderer keeps `\n` in notes & tables; labelled map rows; C18 listening papers + `ielts:media` uploader). Earlier: 2026-07-31 (**runner marker/font/split fixes**; **platform catalog** — admin order + per-audience visibility, 4-module JSON import validator, structure specs in `data/ielts practise/`; **tabbed student hub** — `?tab=groups|practice|progress`).
 
 ## Architecture in one paragraph
 
@@ -130,7 +130,7 @@ Grading rules implemented in `lib/ielts/grading.ts`: UK/US spelling equivalence,
   part** — clicking another part to read ahead no longer remounts/kills the audio (an idle player
   follows the tab; a playing one shows "Now playing: Part N" + "Play this part's audio"), with
   −5s/+5s and 0.75–1.25× speed. All tab clicks go through `selectGroup`, not `setActiveGroupIdx`.
-- **Line breaks in gap text are content.** `summary_text` and table cells are rendered
+- **Line breaks in gap text are content.** `summary_text`, table cells and flowchart steps are rendered
   `whitespace-pre-wrap` in the student renderer (teacher `TestPreview` already did): note/form
   summaries (all C18 reading notes, listening Parts 1 & 4) are authored as `\n` lines + `•`/`–`
   bullets and used to collapse into one paragraph. Don't re-add `text-justify`/drop pre-wrap.
